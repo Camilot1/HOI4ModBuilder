@@ -1,0 +1,9 @@
+compliance_growth_on_our_occupied_states;0;float
+no_compliance_gain;false;boolean
+required_garrison_factor;0;float
+resistance_activity;0;float
+resistance_damage_to_garrison_on_our_occupied_states;0;float
+resistance_decay_on_our_occupied_states;0;float
+resistance_growth_on_our_occupied_states;0;float
+resistance_target_on_our_occupied_states;0;float
+resistance_target;0;float

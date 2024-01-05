@@ -1,0 +1,7 @@
+dockyard_donations;0;int
+industrial_factory_donations;0;int
+military_factory_donations;0;int
+exile_manpower_factor;0;float
+exiled_government_weekly_manpower;0;int
+legitimacy_daily;0;float
+legitimacy_gain_factor;0;float

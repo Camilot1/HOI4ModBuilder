@@ -1,0 +1,813 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>884, 461</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Sea.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Red.Name" xml:space="preserve">
+    <value>TextBox_Red</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;Button_Remove.Name" xml:space="preserve">
+    <value>Button_Remove</value>
+  </data>
+  <data name="&gt;&gt;Button_ReplaceColor.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Red.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="Button_SetSecondColor.Text" xml:space="preserve">
+    <value>Вторичный</value>
+  </data>
+  <data name="&gt;&gt;Button_SetSecondColor.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="Button_GenerateColor_Lake.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 45</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Id.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;Panel_Color.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;Red.Name" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Pixels.Name" xml:space="preserve">
+    <value>Pixels</value>
+  </data>
+  <data name="Button_SetFirstColor.Text" xml:space="preserve">
+    <value>Основной</value>
+  </data>
+  <data name="&gt;&gt;Panel_Color.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;Red.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Button_GenerateColor_Random.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Lake.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Button_GenerateColor_Random.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 20</value>
+  </data>
+  <data name="&gt;&gt;Button_Find.Name" xml:space="preserve">
+    <value>Button_Find</value>
+  </data>
+  <data name="&gt;&gt;Terrain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TextBox_Green.Location" type="System.Drawing.Point, System.Drawing">
+    <value>769, 64</value>
+  </data>
+  <data name="DataGridView_Provinces.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Lake.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Button_Find.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 20</value>
+  </data>
+  <data name="Terrain.HeaderText" xml:space="preserve">
+    <value>Terrain</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="Button_SetFirstColor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 20</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Random.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Button_SetSecondColor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 20</value>
+  </data>
+  <data name="StateID.Width" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="TextBox_Green.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="Button_ReplaceColor.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;Terrain.Name" xml:space="preserve">
+    <value>Terrain</value>
+  </data>
+  <data name="&gt;&gt;StateID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>ID:</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ProvinceListForm</value>
+  </data>
+  <data name="Button_GenerateColor_Lake.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Blue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Green.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="Button_GenerateColor_Lake.Text" xml:space="preserve">
+    <value>Озёрный</value>
+  </data>
+  <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="Button_GenerateColor_Land.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="Button_GenerateColor_Random.Text" xml:space="preserve">
+    <value>Случайный</value>
+  </data>
+  <data name="Type.Width" type="System.Int32, mscorlib">
+    <value>45</value>
+  </data>
+  <data name="Button_Find.Location" type="System.Drawing.Point, System.Drawing">
+    <value>805, 12</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Button_SetSecondColor.Name" xml:space="preserve">
+    <value>Button_SetSecondColor</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Blue.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="Pixels.HeaderText" xml:space="preserve">
+    <value>Pixels</value>
+  </data>
+  <data name="Green.HeaderText" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="TextBox_Blue.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="Button_SetSecondColor.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="Button_SetSecondColor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 19</value>
+  </data>
+  <data name="&gt;&gt;Button_Remove.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TextBox_Id.Location" type="System.Drawing.Point, System.Drawing">
+    <value>700, 12</value>
+  </data>
+  <data name="&gt;&gt;Continent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Button_Remove.Location" type="System.Drawing.Point, System.Drawing">
+    <value>805, 38</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>675, 15</value>
+  </data>
+  <data name="Button_GenerateColor_Land.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 20</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Id.Name" xml:space="preserve">
+    <value>TextBox_Id</value>
+  </data>
+  <data name="&gt;&gt;Button_ReplaceColor.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>21, 13</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>675, 90</value>
+  </data>
+  <data name="TextBox_Green.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="TextBox_Blue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>825, 64</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;Button_SetSecondColor.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Type.Name" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="TextBox_Red.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Сгенерировать цвет:</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Red.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Pixels.Width" type="System.Int32, mscorlib">
+    <value>45</value>
+  </data>
+  <data name="&gt;&gt;DataGridView_Provinces.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Sea.Name" xml:space="preserve">
+    <value>Button_GenerateColor_Sea</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Список провинций</value>
+  </data>
+  <data name="Terrain.Width" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="&gt;&gt;Panel_Color.Name" xml:space="preserve">
+    <value>Panel_Color</value>
+  </data>
+  <data name="Button_Find.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Lake.Name" xml:space="preserve">
+    <value>Button_GenerateColor_Lake</value>
+  </data>
+  <data name="Continent.Width" type="System.Int32, mscorlib">
+    <value>60</value>
+  </data>
+  <data name="&gt;&gt;Button_ReplaceColor.Name" xml:space="preserve">
+    <value>Button_ReplaceColor</value>
+  </data>
+  <data name="&gt;&gt;Panel_Color.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ID.HeaderText" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Установить в слот цвета:</value>
+  </data>
+  <data name="Button_SetFirstColor.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="DataGridView_Provinces.Size" type="System.Drawing.Size, System.Drawing">
+    <value>658, 437</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Random.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="Borders.Width" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="Button_Remove.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 20</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Green.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Red.Width" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="Button_Remove.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Random.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Red.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="TextBox_Id.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 20</value>
+  </data>
+  <data name="Button_GenerateColor_Random.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 19</value>
+  </data>
+  <data name="TextBox_Red.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
+  <data name="Button_GenerateColor_Sea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 20</value>
+  </data>
+  <data name="&gt;&gt;DataGridView_Provinces.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="Button_ReplaceColor.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="Green.Width" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="Button_SetFirstColor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 19</value>
+  </data>
+  <data name="Borders.HeaderText" xml:space="preserve">
+    <value>Borders</value>
+  </data>
+  <data name="Continent.HeaderText" xml:space="preserve">
+    <value>Continent</value>
+  </data>
+  <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="&gt;&gt;Borders.Name" xml:space="preserve">
+    <value>Borders</value>
+  </data>
+  <data name="Button_GenerateColor_Lake.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 20</value>
+  </data>
+  <data name="RegionID.HeaderText" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Land.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 72</value>
+  </data>
+  <data name="&gt;&gt;Button_Find.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="Button_ReplaceColor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>700, 38</value>
+  </data>
+  <data name="TextBox_Green.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
+  <data name="&gt;&gt;Button_Remove.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="Blue.Width" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="&gt;&gt;Button_SetFirstColor.Name" xml:space="preserve">
+    <value>Button_SetFirstColor</value>
+  </data>
+  <data name="&gt;&gt;IsCoastal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ID.Width" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="Panel_Color.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="Type.HeaderText" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Blue.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 13</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Sea.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Id.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="Button_GenerateColor_Land.Text" xml:space="preserve">
+    <value>Наземный</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Sea.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="&gt;&gt;DataGridView_Provinces.Name" xml:space="preserve">
+    <value>DataGridView_Provinces</value>
+  </data>
+  <data name="Panel_Color.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="StateID.HeaderText" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="TextBox_Id.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Random.Name" xml:space="preserve">
+    <value>Button_GenerateColor_Random</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;Green.Name" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="&gt;&gt;ID.Name" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Button_Find.Text" xml:space="preserve">
+    <value>Найти</value>
+  </data>
+  <data name="&gt;&gt;IsCoastal.Name" xml:space="preserve">
+    <value>IsCoastal</value>
+  </data>
+  <data name="Button_GenerateColor_Land.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 19</value>
+  </data>
+  <data name="&gt;&gt;provinceBindingSource.Type" xml:space="preserve">
+    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_Find.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DataGridView_Provinces.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Lake.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;DataGridView_Provinces.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Button_GenerateColor_Sea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 45</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>675, 142</value>
+  </data>
+  <data name="Button_Remove.Text" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Цвет:</value>
+  </data>
+  <data name="Button_Remove.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Green.Name" xml:space="preserve">
+    <value>TextBox_Green</value>
+  </data>
+  <data name="RegionID.Width" type="System.Int32, mscorlib">
+    <value>45</value>
+  </data>
+  <data name="Blue.HeaderText" xml:space="preserve">
+    <value>Blue</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;Button_ReplaceColor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Green.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;Blue.Name" xml:space="preserve">
+    <value>Blue</value>
+  </data>
+  <data name="DataGridView_Provinces.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Right</value>
+  </data>
+  <data name="&gt;&gt;Green.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_Remove.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="Button_Find.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;Button_SetFirstColor.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TextBox_Blue.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="&gt;&gt;RegionID.Name" xml:space="preserve">
+    <value>RegionID</value>
+  </data>
+  <data name="Button_GenerateColor_Sea.Text" xml:space="preserve">
+    <value>Морской</value>
+  </data>
+  <data name="&gt;&gt;provinceBindingSource.Name" xml:space="preserve">
+    <value>provinceBindingSource</value>
+  </data>
+  <data name="&gt;&gt;ID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="Button_ReplaceColor.Text" xml:space="preserve">
+    <value>Заменить цвет</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Id.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Land.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TextBox_Id.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;Button_SetFirstColor.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;Type.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Continent.Name" xml:space="preserve">
+    <value>Continent</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Land.Name" xml:space="preserve">
+    <value>Button_GenerateColor_Land</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 46</value>
+  </data>
+  <data name="TextBox_Blue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
+  <data name="&gt;&gt;Button_Find.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="IsCoastal.Width" type="System.Int32, mscorlib">
+    <value>60</value>
+  </data>
+  <data name="Button_ReplaceColor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 20</value>
+  </data>
+  <data name="IsCoastal.HeaderText" xml:space="preserve">
+    <value>IsCoastal</value>
+  </data>
+  <data name="&gt;&gt;Blue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_Land.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;Button_SetFirstColor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Red.HeaderText" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="TextBox_Red.Location" type="System.Drawing.Point, System.Drawing">
+    <value>713, 64</value>
+  </data>
+  <data name="&gt;&gt;StateID.Name" xml:space="preserve">
+    <value>StateID</value>
+  </data>
+  <data name="Panel_Color.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="Button_GenerateColor_Sea.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>675, 67</value>
+  </data>
+  <data name="&gt;&gt;Button_SetSecondColor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Pixels.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Panel_Color.Location" type="System.Drawing.Point, System.Drawing">
+    <value>676, 38</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Blue.Name" xml:space="preserve">
+    <value>TextBox_Blue</value>
+  </data>
+  <data name="&gt;&gt;RegionID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TextBox_Red.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;Borders.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <metadata name="ID.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="RegionID.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Borders.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="StateID.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Red.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Type.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Terrain.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="IsCoastal.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="provinceBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="Green.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Continent.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Pixels.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Blue.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+</root>

@@ -1,0 +1,1182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="&gt;&gt;CheckedListBox_SaveSettings_Default.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_NormalMapStrength_Current.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TextBox_WATER_HEIGHT_Default.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Используемые настройки:</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Резкость карты нормалей:</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_Language.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;Button_CreateModSettings.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="Button_Save.Text" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>240, 141</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="TextBox_ModDirectory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>527, 20</value>
+  </data>
+  <data name="TextBox_MAP_SCALE_PIXEL_TO_KM_Current.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;Button_GameTempDirectory.Name" xml:space="preserve">
+    <value>Button_GameTempDirectory</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_Default.Location" type="System.Drawing.Point, System.Drawing">
+    <value>109, 19</value>
+  </data>
+  <data name="Button_ModDirectory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 20</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
+    <value>TabPage_CurrentModSettings</value>
+  </data>
+  <data name="label10.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>155, 92</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>TabPage_DefaultModSettings</value>
+  </data>
+  <data name="Button_Save.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 20</value>
+  </data>
+  <data name="&gt;&gt;CheckedListBox_SaveSettings_Current.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ComboBox_Language.Items" xml:space="preserve">
+    <value>Русский (ru)</value>
+  </data>
+  <data name="TextBox_Textures_Opacity.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 20</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="&gt;&gt;Button_GameTempDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_Current.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="TextBox_NormalMapStrength_Current.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
+  <data name="&gt;&gt;TextBox_GameTempDirectory.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;TextBox_ActionHistorySize.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;Button_Save.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="TextBox_GameTempDirectory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>527, 20</value>
+  </data>
+  <data name="TabPage_CurrentModSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="TextBox_GameTempDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_Language.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="TabPage_CurrentModSettings.Text" xml:space="preserve">
+    <value>Настройки текущего мода</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TextBox_NormalMapStrength_Current.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 18</value>
+  </data>
+  <data name="TextBox_GameDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;TextBox_GameDirectory.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TextBox_MAP_VIEWPORT_HEIGHT.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 13</value>
+  </data>
+  <data name="&gt;&gt;TabPage_CurrentModSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label10.Name" xml:space="preserve">
+    <value>label10</value>
+  </data>
+  <data name="&gt;&gt;Button_CreateModSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_MAP_VIEWPORT_HEIGHT.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Настройки экспорта данных:</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Default.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 42</value>
+  </data>
+  <data name="&gt;&gt;CheckedListBox_SaveSettings_Default.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="TabPage_CurrentModSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>516, 149</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="TextBox_GameDirectory.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;label11.Name" xml:space="preserve">
+    <value>label11</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="ComboBox_Language.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Длина истории действий:</value>
+  </data>
+  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>524, 175</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Current.Name" xml:space="preserve">
+    <value>TextBox_WATER_HEIGHT_Current</value>
+  </data>
+  <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Name" xml:space="preserve">
+    <value>TextBox_MAP_SCALE_PIXEL_TO_KM_Current</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Textures_Opacity.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 13</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_MaxAdditionalTextureSize.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_MaxAdditionalTextureSize.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>684, 395</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ComboBox_UsingSettingsType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 21</value>
+  </data>
+  <data name="&gt;&gt;TextBox_ActionHistorySize.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_NormalMapStrength_Current.Name" xml:space="preserve">
+    <value>TextBox_NormalMapStrength_Current</value>
+  </data>
+  <data name="label10.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label11.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="TabPage_DefaultModSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="CheckedListBox_SaveSettings_Current.Items1" xml:space="preserve">
+    <value>Генерировать карту нормалей</value>
+  </data>
+  <data name="TextBox_ModDirectory.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 64</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="ComboBox_MaxAdditionalTextureSize.Items4" xml:space="preserve">
+    <value>8192</value>
+  </data>
+  <data name="TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Location" type="System.Drawing.Point, System.Drawing">
+    <value>167, 39</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 13</value>
+  </data>
+  <data name="&gt;&gt;TextBox_GameTempDirectory.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Textures_Opacity.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Parent" xml:space="preserve">
+    <value>TabPage_CurrentModSettings</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Current.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>339, 92</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Язык:</value>
+  </data>
+  <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Current.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="TextBox_NormalMapStrength_Current.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 92</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Button_GameTempDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Резкость карты нормалей:</value>
+  </data>
+  <data name="&gt;&gt;CheckedListBox_SaveSettings_Current.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Textures_Opacity.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Location" type="System.Drawing.Point, System.Drawing">
+    <value>167, 39</value>
+  </data>
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 4</value>
+  </data>
+  <data name="CheckedListBox_SaveSettings_Current.Items" xml:space="preserve">
+    <value>Отрисовывать воду на фоне карты рек</value>
+  </data>
+  <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 160</value>
+  </data>
+  <data name="Button_ModDirectory.Location" type="System.Drawing.Point, System.Drawing">
+    <value>545, 63</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_MaxAdditionalTextureSize.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_UsingSettingsType.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>WATER_HEIGHT:</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="label9.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>338, 13</value>
+  </data>
+  <data name="&gt;&gt;TextBox_ModDirectory.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_Language.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_GameDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Default.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 117</value>
+  </data>
+  <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Name" xml:space="preserve">
+    <value>TextBox_MAP_SCALE_PIXEL_TO_KM_Default</value>
+  </data>
+  <data name="Button_Save.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="ComboBox_MaxAdditionalTextureSize.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;TextBox_NormalMapStrength_Default.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>345, 140</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckedListBox_SaveSettings_Default.Name" xml:space="preserve">
+    <value>CheckedListBox_SaveSettings_Default</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Button_GameTempDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="ComboBox_UsingSettingsType.Items" xml:space="preserve">
+    <value>Базовые настройки</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+    <value>TabPage_DefaultModSettings</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;Button_Save.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 13</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;CheckedListBox_SaveSettings_Default.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Button_ModDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPage_DefaultModSettings.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="CheckedListBox_SaveSettings_Default.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Button_GameTempDirectory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 20</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 22</value>
+  </data>
+  <data name="TextBox_GameTempDirectory.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 38</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_NormalMapStrength_Current.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;Button_Save.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 13</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Параметры:</value>
+  </data>
+  <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 42</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>SettingsForm</value>
+  </data>
+  <data name="&gt;&gt;TabPage_DefaultModSettings.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_Save.Name" xml:space="preserve">
+    <value>Button_Save</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Default.Name" xml:space="preserve">
+    <value>TextBox_WATER_HEIGHT_Default</value>
+  </data>
+  <data name="Button_GameDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Button_Save.Location" type="System.Drawing.Point, System.Drawing">
+    <value>545, 367</value>
+  </data>
+  <data name="&gt;&gt;Button_ModDirectory.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="Button_GameTempDirectory.Text" xml:space="preserve">
+    <value>Папка в документах</value>
+  </data>
+  <data name="ComboBox_UsingSettingsType.Items1" xml:space="preserve">
+    <value>Настройки мода</value>
+  </data>
+  <data name="&gt;&gt;TextBox_NormalMapStrength_Default.Name" xml:space="preserve">
+    <value>TextBox_NormalMapStrength_Default</value>
+  </data>
+  <data name="ComboBox_UsingSettingsType.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="ComboBox_MaxAdditionalTextureSize.Items7" xml:space="preserve">
+    <value>65536</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
+  <data name="TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CheckedListBox_SaveSettings_Default.Size" type="System.Drawing.Size, System.Drawing">
+    <value>248, 94</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;Button_CreateModSettings.Name" xml:space="preserve">
+    <value>Button_CreateModSettings</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 4</value>
+  </data>
+  <data name="&gt;&gt;label10.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="CheckedListBox_SaveSettings_Current.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 40</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="TextBox_NormalMapStrength_Default.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TextBox_Textures_Opacity.Location" type="System.Drawing.Point, System.Drawing">
+    <value>492, 90</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_MaxAdditionalTextureSize.Name" xml:space="preserve">
+    <value>ComboBox_MaxAdditionalTextureSize</value>
+  </data>
+  <data name="ComboBox_MaxAdditionalTextureSize.Items1" xml:space="preserve">
+    <value>1024</value>
+  </data>
+  <data name="&gt;&gt;TextBox_ModDirectory.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_Language.Name" xml:space="preserve">
+    <value>ComboBox_Language</value>
+  </data>
+  <data name="CheckedListBox_SaveSettings_Default.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 40</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CheckedListBox_SaveSettings_Current.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Button_GameTempDirectory.Location" type="System.Drawing.Point, System.Drawing">
+    <value>545, 37</value>
+  </data>
+  <data name="&gt;&gt;Button_GameTempDirectory.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CheckedListBox_SaveSettings_Current.Name" xml:space="preserve">
+    <value>CheckedListBox_SaveSettings_Current</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_UsingSettingsType.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="CheckedListBox_SaveSettings_Current.Size" type="System.Drawing.Size, System.Drawing">
+    <value>248, 94</value>
+  </data>
+  <data name="CheckedListBox_SaveSettings_Current.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="TextBox_GameDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;Button_GameDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_Default.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="ComboBox_MaxAdditionalTextureSize.Items3" xml:space="preserve">
+    <value>4096</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>MAP_SCALE_PIXEL_TO_KM:</value>
+  </data>
+  <data name="TextBox_NormalMapStrength_Default.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
+  <data name="&gt;&gt;TextBox_MAP_VIEWPORT_HEIGHT.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="ComboBox_MaxAdditionalTextureSize.Items6" xml:space="preserve">
+    <value>32768</value>
+  </data>
+  <data name="&gt;&gt;TextBox_GameDirectory.Name" xml:space="preserve">
+    <value>TextBox_GameDirectory</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>MAP_VIEWPORT_HEIGHT:</value>
+  </data>
+  <data name="Button_GameDirectory.Text" xml:space="preserve">
+    <value>Папка игры</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="Button_GameDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="&gt;&gt;Button_GameDirectory.Name" xml:space="preserve">
+    <value>Button_GameDirectory</value>
+  </data>
+  <data name="TextBox_Textures_Opacity.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Textures_Opacity.Name" xml:space="preserve">
+    <value>TextBox_Textures_Opacity</value>
+  </data>
+  <data name="TextBox_GameDirectory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>527, 20</value>
+  </data>
+  <data name="ComboBox_MaxAdditionalTextureSize.Location" type="System.Drawing.Point, System.Drawing">
+    <value>359, 113</value>
+  </data>
+  <data name="&gt;&gt;TextBox_GameTempDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPage_DefaultModSettings.Name" xml:space="preserve">
+    <value>TabPage_DefaultModSettings</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="TextBox_ModDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;label10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_UsingSettingsType.Name" xml:space="preserve">
+    <value>ComboBox_UsingSettingsType</value>
+  </data>
+  <data name="&gt;&gt;TextBox_GameDirectory.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 22</value>
+  </data>
+  <data name="&gt;&gt;Button_ModDirectory.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="Button_CreateModSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 23</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>272, 4</value>
+  </data>
+  <data name="TabPage_DefaultModSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="Button_CreateModSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>146, 18</value>
+  </data>
+  <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="TabPage_DefaultModSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>516, 149</value>
+  </data>
+  <data name="&gt;&gt;Button_GameDirectory.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Default.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;TextBox_MAP_VIEWPORT_HEIGHT.Name" xml:space="preserve">
+    <value>TextBox_MAP_VIEWPORT_HEIGHT</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Default.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CheckedListBox_SaveSettings_Default.Items" xml:space="preserve">
+    <value>Отрисовывать воду на фоне карты рек</value>
+  </data>
+  <data name="TabPage_CurrentModSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>240, 141</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Непрозрачность текстур (%):</value>
+  </data>
+  <data name="&gt;&gt;label11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 13</value>
+  </data>
+  <data name="ComboBox_Language.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 21</value>
+  </data>
+  <data name="CheckedListBox_SaveSettings_Default.Items1" xml:space="preserve">
+    <value>Генерировать карту нормалей</value>
+  </data>
+  <data name="ComboBox_MaxAdditionalTextureSize.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 21</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Current.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ComboBox_MaxAdditionalTextureSize.Items2" xml:space="preserve">
+    <value>2048</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Параметры:</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 18</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TextBox_NormalMapStrength_Default.Location" type="System.Drawing.Point, System.Drawing">
+    <value>156, 15</value>
+  </data>
+  <data name="ComboBox_MaxAdditionalTextureSize.Items5" xml:space="preserve">
+    <value>16384</value>
+  </data>
+  <data name="ComboBox_UsingSettingsType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 19</value>
+  </data>
+  <data name="ComboBox_Language.Location" type="System.Drawing.Point, System.Drawing">
+    <value>45, 89</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Настройки экспорта данных:</value>
+  </data>
+  <data name="TextBox_MAP_VIEWPORT_HEIGHT.Location" type="System.Drawing.Point, System.Drawing">
+    <value>489, 137</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>MAP_SCALE_PIXEL_TO_KM:</value>
+  </data>
+  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_Current.Location" type="System.Drawing.Point, System.Drawing">
+    <value>109, 19</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>WATER_HEIGHT:</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;Button_GameTempDirectory.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;TabPage_CurrentModSettings.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Максимальное разрешение сегмента накладываемой текстуры:</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 13</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_UsingSettingsType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TextBox_ActionHistorySize.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
+  <data name="TextBox_ActionHistorySize.Location" type="System.Drawing.Point, System.Drawing">
+    <value>289, 89</value>
+  </data>
+  <data name="Button_Save.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;TextBox_NormalMapStrength_Default.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>700, 39</value>
+  </data>
+  <data name="&gt;&gt;TextBox_ModDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TextBox_ActionHistorySize.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_Current.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="ComboBox_MaxAdditionalTextureSize.Items" xml:space="preserve">
+    <value>512</value>
+  </data>
+  <data name="Button_GameDirectory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 20</value>
+  </data>
+  <data name="Button_CreateModSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="&gt;&gt;TextBox_GameTempDirectory.Name" xml:space="preserve">
+    <value>TextBox_GameTempDirectory</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 13</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 141</value>
+  </data>
+  <data name="TabPage_CurrentModSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="ComboBox_Language.Items1" xml:space="preserve">
+    <value>Английский (en)</value>
+  </data>
+  <data name="TextBox_ActionHistorySize.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 141</value>
+  </data>
+  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;TextBox_ActionHistorySize.Name" xml:space="preserve">
+    <value>TextBox_ActionHistorySize</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="TextBox_GameTempDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Current.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TextBox_MAP_VIEWPORT_HEIGHT.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 13</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>272, 4</value>
+  </data>
+  <data name="TextBox_ModDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;TabPage_DefaultModSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_GameDirectory.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="TextBox_NormalMapStrength_Current.Location" type="System.Drawing.Point, System.Drawing">
+    <value>156, 15</value>
+  </data>
+  <data name="label9.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="TextBox_MAP_SCALE_PIXEL_TO_KM_Default.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;TabPage_CurrentModSettings.Name" xml:space="preserve">
+    <value>TabPage_CurrentModSettings</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TabPage_DefaultModSettings.Text" xml:space="preserve">
+    <value>Базовые настройки</value>
+  </data>
+  <data name="&gt;&gt;Button_ModDirectory.Name" xml:space="preserve">
+    <value>Button_ModDirectory</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TabPage_CurrentModSettings.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;TextBox_ModDirectory.Name" xml:space="preserve">
+    <value>TextBox_ModDirectory</value>
+  </data>
+  <data name="Button_GameDirectory.Location" type="System.Drawing.Point, System.Drawing">
+    <value>545, 11</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="Button_ModDirectory.Text" xml:space="preserve">
+    <value>Папка мода</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 212</value>
+  </data>
+  <data name="&gt;&gt;Button_CreateModSettings.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TextBox_NormalMapStrength_Default.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Button_CreateModSettings.Text" xml:space="preserve">
+    <value>Создать файл настроек мода</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Button_ModDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="TabPage_DefaultModSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>324, 46</value>
+  </data>
+  <data name="Button_ModDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="&gt;&gt;TextBox_MAP_VIEWPORT_HEIGHT.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+</root>

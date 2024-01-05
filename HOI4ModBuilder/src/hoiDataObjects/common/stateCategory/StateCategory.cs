@@ -1,0 +1,57 @@
+﻿using HOI4ModBuilder.src.dataObjects;
+using HOI4ModBuilder.src.dataObjects.argBlocks;
+using HOI4ModBuilder.src.utils;
+using Pdoxcl2Sharp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static HOI4ModBuilder.utils.Structs;
+
+namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
+{
+    class StateCategory : IParadoxRead
+    {
+        public string name;
+        public int color;
+        public uint localBuildingsSlots;
+        public List<DataArgsBlock> modifiers = new List<DataArgsBlock>(0);
+
+        public StateCategory(string name)
+        {
+            this.name = name;
+        }
+
+        public void TokenCallback(ParadoxParser parser, string token)
+        {
+            switch (token)
+            {
+                case "color":
+                    var colorList = parser.ReadIntList();
+                    if (colorList.Count == 3) color = Utils.ArgbToInt(255, (byte)colorList[0], (byte)colorList[1], (byte)colorList[2]);
+                    break;
+                case "local_building_slots":
+                    localBuildingsSlots = parser.ReadUInt32();
+                    break;
+                default:
+                    try
+                    {
+                        DataArgsBlocksManager.ParseDataArgsBlock(parser, null, token, null, modifiers);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(GuiLocManager.GetLoc(
+                            EnumLocKey.EXCEPTION_WHILE_STATE_CATEGORY_LOADING,
+                            new Dictionary<string, string>
+                            {
+                                { "{categoryName}", name },
+                                { "{token}", token }
+                            }
+                        ), ex);
+                    }
+                    break;
+            }
+        }
+    }
+}

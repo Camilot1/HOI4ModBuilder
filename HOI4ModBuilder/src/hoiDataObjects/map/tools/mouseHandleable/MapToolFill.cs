@@ -1,0 +1,84 @@
+﻿using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.managers;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using static HOI4ModBuilder.utils.Enums;
+using static HOI4ModBuilder.utils.Structs;
+using System.Windows.Forms;
+
+namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
+{
+    class MapToolFill : IMouseHandleableMapTool
+    {
+        private static readonly EnumTool enumTool = EnumTool.FILL;
+
+        public MapToolFill(Dictionary<EnumTool, IMouseHandleableMapTool> mapTools)
+        {
+            mapTools[enumTool] = this;
+
+            MainForm.SubscribeTabKeyEvent(
+                MainForm.Instance.TabPage_Map,
+                Keys.F,
+                (sender, e) => MainForm.Instance.SetSelectedTool(enumTool)
+            );
+        }
+
+        public void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        {
+            int prevColor = 0, newColor = 0;
+            if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
+            if (Control.ModifierKeys == Keys.Shift) return;
+            if (bounds.HasSpace() && !bounds.Inbounds(pos)) return;
+
+            if (buttons == MouseButtons.Left) newColor = MainForm.Instance.GetBrushFirstColor().ToArgb();
+            else if (buttons == MouseButtons.Right) newColor = MainForm.Instance.GetBrushSecondColor().ToArgb();
+            else return;
+
+            Action<int, int> action;
+
+            switch (enumEditLayer)
+            {
+                case EnumEditLayer.PROVINCES:
+
+                    if (!ProvinceManager.TryGetProvince(newColor, out Province province))
+                    {
+                        Task.Run(() =>
+                        {
+                            DialogResult result = MessageBox.Show(
+                                "Выполнена попытка залить область карты цветом несуществующей провинции. \n\nВыберите действие:\n" +
+                                "ОК - создать новую провинцию\n" +
+                                "Cancel - отменить заливку"
+                                , "Выберите действие!", MessageBoxButtons.OKCancel, MessageBoxIcon.Question
+                            );
+
+                            if (result == DialogResult.OK)
+                            {
+                                ProvinceManager.CreateNewProvince(newColor);
+                            }
+                        });
+                        return;
+                    }
+
+                    HashSet<Value2US> positions = null;
+
+                    if (bounds.HasSpace()) positions = bounds.ToPositions((ushort)MapManager.MapSize.x, (ushort)MapManager.MapSize.y);
+                    else positions = TextureManager.provinces.NewGetRGBPositions((ushort)pos.x, (ushort)pos.y);
+                    if (positions == null || positions.Count == 0) return;
+
+                    prevColor = TextureManager.provinces.GetColor(pos);
+
+                    action = (p, n) =>
+                    {
+                        if (p == n) return;
+                        TextureManager.provinces.RGBFill(MapManager.ProvincesPixels, positions, n);
+                    };
+
+                    action(prevColor, newColor);
+                    MapManager.actionPairs.Add(new ActionPair(() => action(newColor, prevColor), () => action(prevColor, newColor)));
+                    break;
+            }
+        }
+    }
+}
