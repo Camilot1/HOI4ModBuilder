@@ -11,6 +11,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.supply
 {
     class SupplyNode
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         private byte level;
         private Province province;
 
@@ -59,14 +64,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.supply
             return obj is SupplyNode node &&
                    level == node.level &&
                    EqualityComparer<Province>.Default.Equals(province, node.province);
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = -1939154006;
-            hashCode = hashCode * -1521134295 + level.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<Province>.Default.GetHashCode(province);
-            return hashCode;
         }
     }
 }

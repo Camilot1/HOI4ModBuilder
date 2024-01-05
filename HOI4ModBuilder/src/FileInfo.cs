@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HOI4ModBuilder.src.managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,11 @@ namespace HOI4ModBuilder.src
 {
     class FileInfo
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         public string fileName;
         public string filePath;
         public bool needToSave;
@@ -25,14 +31,6 @@ namespace HOI4ModBuilder.src
             return obj is FileInfo info &&
                    fileName == info.fileName &&
                    filePath == info.filePath;
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = 1864127530;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(fileName);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(filePath);
-            return hashCode;
         }
     }
 }

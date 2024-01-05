@@ -17,6 +17,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ideologies
 {
     class IdeologyGroup : IParadoxRead
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         public string name;
         public IList<Ideology> ideologies = new List<Ideology>(0);
         public IList<string> dynamicFactionNames = new List<string>(0);
@@ -52,9 +57,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ideologies
                     IList<int> colorData = parser.ReadIntList();
                     if (colorData.Count == 3)
                     {
-                        color.red = (byte)colorData[0];
-                        color.green = (byte)colorData[1];
-                        color.blue = (byte)colorData[2];
+                        color = new Color3B(
+                                (byte)colorData[0],
+                                (byte)colorData[1],
+                                (byte)colorData[2]
+                            );
                     }
                     break;
                 case "rules":

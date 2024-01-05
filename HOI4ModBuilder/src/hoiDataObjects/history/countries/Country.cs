@@ -11,6 +11,11 @@ namespace HOI4ModBuilder.hoiDataObjects.history.countries
 {
     class Country
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         //public String countryFlag;
         public string tag;
         public string cosmeticTag;
@@ -51,11 +56,6 @@ namespace HOI4ModBuilder.hoiDataObjects.history.countries
         {
             return obj is Country country &&
                    tag == country.tag;
-        }
-
-        public override int GetHashCode()
-        {
-            return -1573750901 + EqualityComparer<string>.Default.GetHashCode(tag);
         }
     }
 }

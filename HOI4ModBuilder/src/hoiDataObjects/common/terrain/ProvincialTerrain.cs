@@ -10,11 +10,15 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
 {
     class ProvincialTerrain : IParadoxRead
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         public string name;
         public int color;
         public bool isWater;
         public bool isNavalTerrain;
-
 
         public ProvincialTerrain(string name)
         {
@@ -43,14 +47,6 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
             return obj is ProvincialTerrain terrain &&
                    name == terrain.name &&
                    color == terrain.color;
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = 1395206702;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
-            hashCode = hashCode * -1521134295 + color.GetHashCode();
-            return hashCode;
         }
     }
 }

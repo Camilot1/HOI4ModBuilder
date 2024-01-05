@@ -10,6 +10,11 @@ namespace HOI4ModBuilder.hoiDataObjects.common.resources
 {
     class Resource : IParadoxRead
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         public string tag;
         public uint iconFrame;
         public float factoryCostPerUnit;

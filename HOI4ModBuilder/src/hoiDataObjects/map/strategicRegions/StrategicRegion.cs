@@ -12,6 +12,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 {
     class StrategicRegion : IParadoxRead
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         public bool needToSave;
         public ushort Id { get; private set; }
         public string name;
@@ -118,8 +123,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             return obj is StrategicRegion region && Id == region.Id;
         }
-
-        public override int GetHashCode() => Id;
 
         public void InitBorders()
         {

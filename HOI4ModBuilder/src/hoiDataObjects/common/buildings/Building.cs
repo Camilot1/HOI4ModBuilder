@@ -13,6 +13,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 {
     class Building : IParadoxRead
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         public uint iconFrame;
         public string name;
         public EnumBuildingSlotCategory enumBuildingSlotCategory = EnumBuildingSlotCategory.NON_SHARED;
@@ -42,6 +47,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         {
             this.name = name;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Building building &&
+                   name == building.name;
+        }
+
 
         public void TokenCallback(ParadoxParser parser, string token)
         {

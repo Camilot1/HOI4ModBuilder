@@ -12,6 +12,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 {
     class Adjacency
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         public ushort id;
         public bool isNormal;
         private Province _startProvince, _endProvince;
@@ -427,23 +432,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
                    EqualityComparer<AdjacencyRule>.Default.Equals(_adjacencyRule, adjacency._adjacencyRule) &&
                    _comment == adjacency._comment &&
                    EqualityComparer<ProvinceBorder>.Default.Equals(provinceBorder, adjacency.provinceBorder);
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = 289681506;
-            hashCode = hashCode * -1521134295 + id.GetHashCode();
-            hashCode = hashCode * -1521134295 + isNormal.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<Province>.Default.GetHashCode(_startProvince);
-            hashCode = hashCode * -1521134295 + EqualityComparer<Province>.Default.GetHashCode(_endProvince);
-            hashCode = hashCode * -1521134295 + _enumType.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<Province>.Default.GetHashCode(_throughProvince);
-            hashCode = hashCode * -1521134295 + _start.GetHashCode();
-            hashCode = hashCode * -1521134295 + _end.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<AdjacencyRule>.Default.GetHashCode(_adjacencyRule);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_comment);
-            hashCode = hashCode * -1521134295 + EqualityComparer<ProvinceBorder>.Default.GetHashCode(provinceBorder);
-            return hashCode;
         }
 
     }

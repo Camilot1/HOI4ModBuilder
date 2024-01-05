@@ -133,7 +133,7 @@ namespace HOI4ModBuilder.utils
 
         public struct Color3B
         {
-            public byte red, green, blue;
+            public readonly byte red, green, blue;
             public Color3B(byte red, byte green, byte blue)
             {
                 this.red = red;
@@ -161,13 +161,6 @@ namespace HOI4ModBuilder.utils
                        red == b.red &&
                        green == b.green &&
                        blue == b.blue;
-            }
-
-            public void SetColor(int argb)
-            {
-                red = (byte)(argb >> 16);
-                green = (byte)(argb >> 8);
-                blue = (byte)argb;
             }
 
             public override int GetHashCode()

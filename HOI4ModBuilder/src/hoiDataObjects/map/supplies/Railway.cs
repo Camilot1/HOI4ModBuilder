@@ -13,6 +13,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 {
     class Railway
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         public byte Level { get; private set; }
         private List<Province> _provinces;
 
@@ -146,14 +151,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             return obj is Railway railway &&
                    Level == railway.Level &&
                    EqualityComparer<List<Province>>.Default.Equals(_provinces, railway._provinces);
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = -1498193817;
-            hashCode = hashCode * -1521134295 + Level.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<List<Province>>.Default.GetHashCode(_provinces);
-            return hashCode;
         }
     }
 }

@@ -10,6 +10,11 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 {
     class ProvinceBorder
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         public int index;
         public Province provinceA, provinceB;
         public Value2US[] pixels;
@@ -44,15 +49,6 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                    index == border.index &&
                    EqualityComparer<Province>.Default.Equals(provinceA, border.provinceA) &&
                    EqualityComparer<Province>.Default.Equals(provinceB, border.provinceB);
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = 915895052;
-            hashCode = hashCode * -1521134295 + index.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<Province>.Default.GetHashCode(provinceA);
-            hashCode = hashCode * -1521134295 + EqualityComparer<Province>.Default.GetHashCode(provinceB);
-            return hashCode;
         }
     }
 }

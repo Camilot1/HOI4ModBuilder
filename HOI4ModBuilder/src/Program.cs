@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.src.utils;
+﻿using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -7,16 +7,17 @@ using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.AxHost;
-using System.Data;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 {
     class AdjacencyRule : IParadoxRead
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         public string name;
         public RelationRule[] relationRules;
         public Dictionary<Country, Dictionary<string, List<object>>> effectsByCountries = new Dictionary<Country, Dictionary<string, List<object>>>(0);
@@ -167,11 +168,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         {
             return obj is AdjacencyRule rule &&
                    name == rule.name;
-        }
-
-        public override int GetHashCode()
-        {
-            return 363513814 + EqualityComparer<string>.Default.GetHashCode(name);
         }
     }
 

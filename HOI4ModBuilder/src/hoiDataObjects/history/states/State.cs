@@ -18,6 +18,11 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 {
     class State : IParadoxRead
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         public FileInfo fileInfo;
 
         public ushort Id { get; private set; }
@@ -365,8 +370,6 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             return obj is State state && Id == state.Id;
         }
-
-        public override int GetHashCode() => Id;
 
         public void UpdateId(ushort id)
         {

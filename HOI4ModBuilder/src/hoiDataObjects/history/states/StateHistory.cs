@@ -17,6 +17,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 {
     class StateHistory : IParadoxRead
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         public bool isStartHistory;
         public State state;
         public Country owner;
@@ -321,10 +326,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                             }
                         ));
 
-                    if (uint.TryParse(values[1], out uint vpValue))
-                        victoryPoints[province] = vpValue;
+                    if (uint.TryParse(values[1], out uint vpValue)) { }
                     else if (float.TryParse(values[1].Replace('.', ','), out float vpValueFloat) && vpValueFloat > 0)
-                        victoryPoints[province] = (uint)Math.Round(vpValueFloat);
+                        vpValue = (uint)Math.Round(vpValueFloat);
                     else throw new Exception(GuiLocManager.GetLoc(
                              EnumLocKey.ERROR_STATE_HISTORY_VICTORY_POINTS_INCORRECT_POINTS_VALUE,
                              new Dictionary<string, string>
@@ -333,6 +337,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                                  { "{value}", values[1] }
                              }
                          ));
+
+                    if (victoryPoints.TryGetValue(province, out uint oldVP))
+                    {
+                        if (oldVP > 0)
+                            throw new Exception(GuiLocManager.GetLoc(
+                                        EnumLocKey.ERROR_STATE_HISTORY_VICTORY_POINTS_PROVINCE_ALREADY_HAS_VICTORY_POINTS,
+                                        new Dictionary<string, string>
+                                        {
+                                        { "{stateId}", $"{state.Id}" },
+                                        { "{provinceId}", $"{province.Id}" },
+                                        { "{newVictoryPoints}", $"{vpValue}" },
+                                        { "{oldVictoryPoints}", $"{oldVP}" }
+                                        }
+                                    ));
+                    }
+                    else victoryPoints[province] = vpValue;
+
                     break;
 
                 case "buildings":

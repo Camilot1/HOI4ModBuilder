@@ -15,6 +15,11 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 {
     class Province : IComparable<Province>
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
         public ushort Id { get; private set; }
         public int Color { get; private set; }
         public State state;
@@ -42,18 +47,18 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public Province(ushort id, int color)
         {
-            this.Id = id;
-            this.Color = color;
+            Id = id;
+            Color = color;
         }
 
         public Province(ushort id, int color, byte typeId, bool isCoastal, ProvincialTerrain terrain, byte continentId)
         {
-            this.Id = id;
-            this.Color = color;
-            this.IsCoastal = isCoastal;
-            this.TypeId = typeId;
-            this.Terrain = terrain;
-            this.ContinentId = continentId;
+            Id = id;
+            Color = color;
+            IsCoastal = isCoastal;
+            TypeId = typeId;
+            Terrain = terrain;
+            ContinentId = continentId;
         }
 
         public void AddPixel(int x, int y)
@@ -94,7 +99,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 case 0: return "land";
                 case 1: return "sea";
                 case 2: return "lake";
-                default: throw new Exception(GuiLocManager.GetLoc(
+                default:
+                    throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.EXCEPTION_PROVINCE_INCORRECT_TYPE_ID,
                         new Dictionary<string, string>
                         {
@@ -188,7 +194,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                         EnumLocKey.EXCEPTION_PROVINCE_ID_UPDATE_VALUE_IS_USED,
                         new Dictionary<string, string> { { "{id}", $"{id}" } }
                     ));
-            else ProvinceManager.RemoveProvinceById(Id);
+            else ProvinceManager.RemoveProvinceById(Id); //TODO Добавить обработчик внутри менеджена на обновление id провинции и словарей с ВП и постройками
             Id = id;
             ProvinceManager.AddProvince(Id, this);
             state?.Validate();
@@ -204,7 +210,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public void UpdateColor(int color)
         {
             if (Color == color) return;
-            if (ProvinceManager.TryGetProvince(color, out Province p)) 
+            if (ProvinceManager.TryGetProvince(color, out Province p))
                 throw new Exception(GuiLocManager.GetLoc(
                     EnumLocKey.EXCEPTION_PROVINCE_COLOR_UPDATE_VALUE_IS_USED,
                     new Dictionary<string, string>
@@ -250,8 +256,6 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             return obj is Province province && Id == province.Id;
         }
-
-        public override int GetHashCode() => Id;
 
         public int CompareTo(Province other)
         {
