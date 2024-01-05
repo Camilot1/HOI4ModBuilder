@@ -176,13 +176,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 {
                     if (stateBuildings.Count > 0) sb.Append(Constants.NEW_LINE);
 
-                    //TODO Проверить, почему происходит краш из-за построек после merge провинций
                     var provincesKeys = new List<Province>(provincesBuildings.Keys);
                     provincesKeys.Sort((x, y) => x.Id.CompareTo(y.Id));
 
                     foreach (var province in provincesKeys)
                     {
-                        //Краш происходит тут, не находит ключ
                         var provinceBuildinsById = provincesBuildings[province];
                         bool manyBuildings = provinceBuildinsById.Count != 1;
 
