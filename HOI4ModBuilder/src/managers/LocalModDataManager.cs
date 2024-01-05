@@ -45,7 +45,7 @@ namespace HOI4ModBuilder.src.managers
 
         public static void SaveLocalSettings(Settings settings)
         {
-            if (!settings.IsModDirectorySelected()) return;
+            if (!settings.IsModDirectorySelected() || !settings.useModSettings) return;
 
             if (!settings.IsModSettingsDirectoryExists())
             {
