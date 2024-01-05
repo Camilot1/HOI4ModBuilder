@@ -11,7 +11,6 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Structs;
-using static System.Windows.Forms.AxHost;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 {
@@ -202,7 +201,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
         public void TokenCallback(ParadoxParser parser, string token)
         {
-            var regions = new List<StrategicRegion>();
             if (token == "strategic_region")
             {
                 var region = new StrategicRegion();
@@ -211,7 +209,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                     parser.Parse(region);
                     region.needToSave = _currentFile.needToSave;
                     _regionsById[region.Id] = region;
-                    regions.Add(region);
+
+                    if (!_regionsByFilesMap.TryGetValue(_currentFile.fileName, out List<StrategicRegion> list))
+                    {
+                        list = new List<StrategicRegion>(0);
+                        _regionsByFilesMap[_currentFile.fileName] = list;
+                    }
+                    list.Add(region);
                 }
                 catch (Exception ex)
                 {
@@ -227,7 +231,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                     );
                 }
             }
-            _regionsByFilesMap.Add(_currentFile.fileName, regions);
         }
 
         public static void CalculateCenters()

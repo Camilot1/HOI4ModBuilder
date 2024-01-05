@@ -87,6 +87,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             {
                 try
                 {
+                    var trimmedString = data[i].Trim();
+                    if (trimmedString.Length == 0 || trimmedString[0] == '#') continue;
+
                     var adjacency = new Adjacency();
                     adjacency.Load(i, data[i], _adjacencyRules);
                     _adjacencies.Add(adjacency);

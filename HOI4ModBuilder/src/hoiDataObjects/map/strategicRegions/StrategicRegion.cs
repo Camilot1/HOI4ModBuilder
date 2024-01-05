@@ -1,12 +1,10 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using static HOI4ModBuilder.utils.Structs;
 
@@ -146,7 +144,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             if (StrategicRegionManager.ContainsRegionIdKey(id))
                 throw new Exception(GuiLocManager.GetLoc(
                     EnumLocKey.EXCEPTION_REGION_ID_UPDATE_VALUE_IS_USED,
-                    new Dictionary<string, string> { { "{id}", $"{id}"} }
+                    new Dictionary<string, string> { { "{id}", $"{id}" } }
                 ));
             else StrategicRegionManager.RemoveRegion(Id);
             Id = id;
@@ -291,7 +289,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             }
             catch (Exception ex)
             {
-                throw new Exception(GuiLocManager.GetLoc( 
+                throw new Exception(GuiLocManager.GetLoc(
                     EnumLocKey.EXCEPTION_INCORRECT_DATE_PERIOD,
                     new Dictionary<string, string> { { "{token}", token } }
                 ), ex);
