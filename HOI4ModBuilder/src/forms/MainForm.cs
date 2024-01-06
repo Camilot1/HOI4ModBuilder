@@ -55,8 +55,10 @@ namespace HOI4ModBuilder
         // Сохраняем делегат в статическом поле для избежания ошибки "CallbackOnCollectedDelegate"
         private static DebugProc debugProc;
 
-        public static readonly Dictionary<Keys, List<KeyEventHandler>> globaldPressButtonsEvents = new Dictionary<Keys, List<KeyEventHandler>>();
-        public static readonly Dictionary<TabPage, Dictionary<Keys, List<KeyEventHandler>>> tabRelatedPressButtonsEvents = new Dictionary<TabPage, Dictionary<Keys, List<KeyEventHandler>>>();
+        private static readonly Dictionary<Keys, List<KeyEventHandler>> _globaldPressButtonsEvents = new Dictionary<Keys, List<KeyEventHandler>>();
+        private static readonly Dictionary<TabPage, Dictionary<Keys, List<KeyEventHandler>>> _tabRelatedPressButtonsEvents = new Dictionary<TabPage, Dictionary<Keys, List<KeyEventHandler>>>();
+
+        private static readonly List<Action> _guiReinitActions = new List<Action>();
 
         public MainForm()
         {
@@ -68,6 +70,7 @@ namespace HOI4ModBuilder
         {
             Controls.Clear();
             Init();
+            foreach (var action in _guiReinitActions) action();
         }
 
         private void Init()
@@ -795,12 +798,15 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Help_About_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AboutProgramForm.CreateTasked());
 
+
+        public static void SubscribeGuiReinitAction(Action action) => _guiReinitActions.Add(action);
+
         public static void SubscribeTabKeyEvent(TabPage tabPage, Keys key, KeyEventHandler eventHandler)
         {
-            if (!tabRelatedPressButtonsEvents.TryGetValue(tabPage, out var keysEvents))
+            if (!_tabRelatedPressButtonsEvents.TryGetValue(tabPage, out var keysEvents))
             {
                 keysEvents = new Dictionary<Keys, List<KeyEventHandler>>();
-                tabRelatedPressButtonsEvents.Add(tabPage, keysEvents);
+                _tabRelatedPressButtonsEvents.Add(tabPage, keysEvents);
             }
 
             if (!keysEvents.TryGetValue(key, out var eventHandlers))
@@ -814,10 +820,10 @@ namespace HOI4ModBuilder
 
         public static void SubscribeGlobalKeyEvent(Keys key, KeyEventHandler eventHandler)
         {
-            if (!globaldPressButtonsEvents.TryGetValue(key, out var eventHandlers))
+            if (!_globaldPressButtonsEvents.TryGetValue(key, out var eventHandlers))
             {
                 eventHandlers = new List<KeyEventHandler>();
-                globaldPressButtonsEvents.Add(key, eventHandlers);
+                _globaldPressButtonsEvents.Add(key, eventHandlers);
             }
 
             eventHandlers.Add(eventHandler);
@@ -830,14 +836,14 @@ namespace HOI4ModBuilder
             Logger.TryOrLog(() =>
             {
                 if (
-                    tabRelatedPressButtonsEvents.TryGetValue(TabControl_Main.SelectedTab, out var keysEvents) &&
+                    _tabRelatedPressButtonsEvents.TryGetValue(TabControl_Main.SelectedTab, out var keysEvents) &&
                     keysEvents.TryGetValue(e.KeyCode, out var tabRelatedKeyEventHandlers)
                 )
                 {
                     foreach (var handler in tabRelatedKeyEventHandlers) handler.Invoke(this, e);
                 }
 
-                if (globaldPressButtonsEvents.TryGetValue(e.KeyCode, out var globalKeyEventHandlers))
+                if (_globaldPressButtonsEvents.TryGetValue(e.KeyCode, out var globalKeyEventHandlers))
                 {
                     foreach (var handler in globalKeyEventHandlers) handler.Invoke(this, e);
                 }

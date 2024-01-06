@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.hoiDataObjects.map;
+﻿using HOI4ModBuilder.hoiDataObjects.common.terrain;
+using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.utils;
@@ -20,9 +21,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public bool needToSave;
         public ushort Id { get; private set; }
         public string name;
+        public ProvincialTerrain terrain;
+
         public List<Province> provinces = new List<Province>();
         public List<ProvinceBorder> borders = new List<ProvinceBorder>(0);
 
+        public RegionStaticModifiers staticModifiers = new RegionStaticModifiers();
         public RegionWeather weather = new RegionWeather();
 
         public int color;
@@ -73,12 +77,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             sb.Append("strategic_region = {").Append(Constants.NEW_LINE);
             sb.Append(tab).Append("id = ").Append(Id).Append(Constants.NEW_LINE);
             sb.Append(tab).Append("name = \"").Append(name).Append("\"").Append(Constants.NEW_LINE).Append(Constants.NEW_LINE);
+            if (terrain != null) sb.Append(tab).Append("naval_terrain = ").Append(terrain.name).Append(Constants.NEW_LINE);
 
             sb.Append(tab).Append("provinces = {").Append(Constants.NEW_LINE);
             sb.Append(tab).Append(tab);
             foreach (var province in provinces) sb.Append(province.Id).Append(' ');
             sb.Append(Constants.NEW_LINE).Append(tab).Append('}').Append(Constants.NEW_LINE).Append(Constants.NEW_LINE);
 
+            staticModifiers.Save(sb, tab);
             weather.Save(sb, tab);
 
             sb.Append('}').Append(Constants.NEW_LINE);
@@ -101,21 +107,63 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                     );
                     break;
                 case "name": name = parser.ReadString(); break;
+                case "naval_terrain":
+                    string terrainValue = parser.ReadString();
+
+                    if (!TerrainManager.TryGetProvincialTerrain(terrainValue, out terrain))
+                        Logger.LogError(
+                            EnumLocKey.ERROR_REGION_INCORRECT_NAVAL_TERRAIN_VALUE,
+                            new Dictionary<string, string>
+                            {
+                                { "{regionId}", $"{Id}" },
+                                { "{value}", $"{terrainValue}" }
+                            }
+                        );
+                    break;
                 case "provinces":
-                    foreach (ushort provinceId in parser.ReadIntList())
+                    foreach (string provinceIdString in parser.ReadStringList())
                     {
-                        if (ProvinceManager.TryGetProvince(provinceId, out Province province))
-                        {
-                            provinces.Add(province);
-                            province.region = this;
-                        }
+                        if (!ushort.TryParse(provinceIdString, out ushort provinceId))
+                            Logger.LogError(
+                                EnumLocKey.ERROR_REGION_INCORRECT_PROVINCE_ID,
+                                new Dictionary<string, string>
+                                {
+                                    { "{regionId}", $"{Id}" },
+                                    { "{provinceId}", $"{provinceId}" }
+                                }
+                            );
+
+                        if (!ProvinceManager.TryGetProvince(provinceId, out Province province))
+                            Logger.LogError(
+                                EnumLocKey.ERROR_REGION_PROVINCE_NOT_FOUND,
+                                new Dictionary<string, string>
+                                {
+                                    { "{regionId}", $"{Id}" },
+                                    { "{provinceId}", $"{provinceId}" }
+                                }
+                            );
+                        provinces.Add(province);
+                        province.region = this;
                     }
                     provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
+                    break;
+                case "static_modifiers":
+                    parser.Parse(staticModifiers);
                     break;
                 case "weather":
                     weather = new RegionWeather();
                     parser.Parse(weather);
                     break;
+                default:
+                    //TODO Добавить доп параметры
+                    throw new Exception(GuiLocManager.GetLoc(
+                        EnumLocKey.ERROR_REGION_UNKNOWN_TOKEN_IN_PROVINCE,
+                        new Dictionary<string, string>
+                        {
+                            { "{regionId}", $"{Id}" },
+                            { "{token}", token }
+                        }
+                    ));
             }
         }
 
@@ -162,6 +210,27 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             }
 
             if (Utils.RemoveDuplicateProvinces(provinces)) needToSave = true;
+        }
+    }
+
+    class RegionStaticModifiers : IParadoxRead
+    {
+        //TODO Найти список всех существующих статических модификаторов и отревакторить
+        public Dictionary<string, string> modifiers = new Dictionary<string, string>();
+
+        public void Save(StringBuilder sb, string tab)
+        {
+            if (modifiers.Count == 0) return;
+
+            string tab2 = tab + tab;
+            sb.Append(tab).Append("static_modifiers = {").Append(Constants.NEW_LINE);
+            foreach (var pair in modifiers) sb.Append(tab2).Append(pair.Key).Append(" = ").Append(pair.Value).Append(Constants.NEW_LINE);
+            sb.Append(tab).Append("}").Append(Constants.NEW_LINE);
+        }
+
+        public void TokenCallback(ParadoxParser parser, string token)
+        {
+            modifiers[token] = parser.ReadString();
         }
     }
 

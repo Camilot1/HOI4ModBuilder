@@ -12,7 +12,7 @@ namespace HOI4ModBuilder.src.utils
     {
         public static readonly string logDirPath = @"logs\";
         public static readonly string logFilePath = logDirPath + "latest.log";
-        public static readonly string version = "Alpha 0.2.1";
+        public static readonly string version = "Alpha 0.2.2";
 
         private static List<string> _warnings = new List<string>(0);
         private static List<string> _errors = new List<string>(0);
@@ -128,8 +128,8 @@ namespace HOI4ModBuilder.src.utils
         {
             if (_warnings.Count == 0) return;
 
-            string title = GuiLocManager.GetLoc(EnumLocKey.FOUNDED_WARNINGS_FORM_TITLE);
-            string mainText = GuiLocManager.GetLoc(EnumLocKey.FOUNDED_WARNINGS_COUNT, null, "" + _warnings.Count);
+            string title = GuiLocManager.GetLoc(EnumLocKey.FOUND_WARNINGS_FORM_TITLE);
+            string mainText = GuiLocManager.GetLoc(EnumLocKey.FOUND_WARNINGS_COUNT, null, "" + _warnings.Count);
             string richText = string.Join("\n\n", _warnings);
             Task.Run(() => TextBoxMessageForm.CreateTasked(title, mainText, richText, true, textBoxMessageForms));
             _warnings = new List<string>();
@@ -139,8 +139,8 @@ namespace HOI4ModBuilder.src.utils
         {
             if (_errors.Count == 0) return;
 
-            string title = GuiLocManager.GetLoc(EnumLocKey.FOUNDED_ERRORS_FORM_TITLE);
-            string mainText = GuiLocManager.GetLoc(EnumLocKey.FOUNDED_ERRORS_COUNT, null, "" + _errors.Count);
+            string title = GuiLocManager.GetLoc(EnumLocKey.FOUND_ERRORS_FORM_TITLE);
+            string mainText = GuiLocManager.GetLoc(EnumLocKey.FOUND_ERRORS_COUNT, null, "" + _errors.Count);
             string richText = string.Join("\n\n", _errors);
             Task.Run(() => TextBoxMessageForm.CreateTasked(title, mainText, richText, true, textBoxMessageForms));
             _errors = new List<string>();
@@ -150,9 +150,9 @@ namespace HOI4ModBuilder.src.utils
         {
             if (_exceptions.Count == 0) return;
 
-            string title = GuiLocManager.GetLoc(EnumLocKey.FOUNDED_EXCEPTIONS_FORM_TITLE);
+            string title = GuiLocManager.GetLoc(EnumLocKey.FOUND_EXCEPTIONS_FORM_TITLE);
             string mainText = GuiLocManager.GetLoc(
-                    EnumLocKey.FOUNDED_EXCEPTIONS_COUNT,
+                    EnumLocKey.FOUND_EXCEPTIONS_COUNT,
                     new Dictionary<string, string> {
                         { "{exceptionsCount}", $"{_exceptions.Count}" },
                         { "{logFilepath}", $"{logFilePath}" }

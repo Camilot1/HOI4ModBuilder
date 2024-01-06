@@ -15,6 +15,9 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
         public static TerrainManager Instance { get; private set; }
         private static src.FileInfo _currentFile;
         private static Dictionary<string, ProvincialTerrain> _provincialTerraings = new Dictionary<string, ProvincialTerrain>();
+        public static Dictionary<string, ProvincialTerrain>.KeyCollection GetAllTerrainKeys => _provincialTerraings.Keys;
+
+        private static Action _guiReinitAction = null;
 
         public static void Load(Settings settings)
         {
@@ -31,11 +34,17 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
                 ParadoxParser.Parse(fs, Instance);
             }
 
-            MainForm.Instance.InvokeAction(() =>
+            if (_guiReinitAction == null)
             {
-                foreach (string terrain in _provincialTerraings.Keys)
-                    MainForm.Instance.ToolStripComboBox_Map_Province_Terrain.Items.Add(terrain);
-            });
+                _guiReinitAction = () =>
+                {
+                    foreach (var terrainName in GetAllTerrainKeys)
+                        MainForm.Instance.ToolStripComboBox_Map_Province_Terrain.Items.Add(terrainName);
+                };
+                MainForm.SubscribeGuiReinitAction(_guiReinitAction);
+            }
+
+            MainForm.Instance.InvokeAction(() => _guiReinitAction());
         }
 
         public static bool TryGetProvincialTerrain(string tag, out ProvincialTerrain terrain)

@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
+using HOI4ModBuilder.src.utils;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -51,17 +53,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     {
                         Task.Run(() =>
                         {
-                            DialogResult result = MessageBox.Show(
-                                "Выполнена попытка залить область карты цветом несуществующей провинции. \n\nВыберите действие:\n" +
-                                "ОК - создать новую провинцию\n" +
-                                "Cancel - отменить заливку"
-                                , "Выберите действие!", MessageBoxButtons.OKCancel, MessageBoxIcon.Question
+                            var title = GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION);
+                            var text = GuiLocManager.GetLoc(
+                                EnumLocKey.WARNINGS_TRIED_TO_PAINT_WITH_UNKNOWN_PROVINCE_COLOR,
+                                new Dictionary<string, string> { { "{color}", new Color3B(newColor).ToString() } }
                             );
 
-                            if (result == DialogResult.OK)
-                            {
+                            if (MessageBox.Show(text, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                                 ProvinceManager.CreateNewProvince(newColor);
-                            }
                         });
                         return;
                     }

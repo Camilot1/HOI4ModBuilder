@@ -19,7 +19,11 @@ namespace HOI4ModBuilder.hoiDataObjects
         public static ContinentManager Instance { get; private set; }
         private static src.FileInfo _currentFile;
         private static List<string> _continents = new List<string>();
+        public static List<string> GetContinents => _continents;
+
         private static int[] _colors = new int[0];
+
+        private static Action _guiReinitAction = null;
 
         public static void Load(Settings settings)
         {
@@ -36,13 +40,17 @@ namespace HOI4ModBuilder.hoiDataObjects
                 MainForm.Instance.InvokeAction(() => MainForm.Instance.ToolStripComboBox_Map_Province_Continent.Items.Clear());
                 ParadoxParser.Parse(fs, Instance);
 
-                MainForm.Instance.InvokeAction(() =>
+                if (_guiReinitAction == null)
                 {
-                    foreach (string continent in _continents)
+                    _guiReinitAction = () =>
                     {
-                        MainForm.Instance.ToolStripComboBox_Map_Province_Continent.Items.Add(continent);
-                    }
-                });
+                        foreach (var continentName in GetContinents)
+                            MainForm.Instance.ToolStripComboBox_Map_Province_Continent.Items.Add(continentName);
+                    };
+                    MainForm.SubscribeGuiReinitAction(_guiReinitAction);
+                }
+
+                MainForm.Instance.InvokeAction(() => _guiReinitAction());
 
                 _colors = new int[_continents.Count + 1];
 

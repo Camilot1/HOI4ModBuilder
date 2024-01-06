@@ -234,6 +234,36 @@
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Main layer</value>
   </data>
+  <data name="ComboBox_EditLayer.Items" xml:space="preserve">
+    <value>Provinces map</value>
+  </data>
+  <data name="ComboBox_EditLayer.Items1" xml:space="preserve">
+    <value>States</value>
+  </data>
+  <data name="ComboBox_EditLayer.Items2" xml:space="preserve">
+    <value>Regions</value>
+  </data>
+  <data name="ComboBox_EditLayer.Items3" xml:space="preserve">
+    <value>Buildings</value>
+  </data>
+  <data name="ComboBox_EditLayer.Items4" xml:space="preserve">
+    <value>Rivers map</value>
+  </data>
+  <data name="ComboBox_EditLayer.Items5" xml:space="preserve">
+    <value>Terrain map</value>
+  </data>
+  <data name="ComboBox_EditLayer.Items6" xml:space="preserve">
+    <value>Trees map</value>
+  </data>
+  <data name="ComboBox_EditLayer.Items7" xml:space="preserve">
+    <value>Cities map</value>
+  </data>
+  <data name="ComboBox_EditLayer.Items8" xml:space="preserve">
+    <value>Height map</value>
+  </data>
+  <data name="ComboBox_EditLayer.Items9" xml:space="preserve">
+    <value>None</value>
+  </data>
   <data name="groupBox6.Text" xml:space="preserve">
     <value>Edit layer</value>
   </data>
@@ -373,6 +403,21 @@
   <data name="ToolStripMenuItem_Map_Railway_Create.Text" xml:space="preserve">
     <value>Create Railway</value>
   </data>
+  <data name="ToolStripComboBox_Map_Railway_Level.Items" xml:space="preserve">
+    <value>Level 1</value>
+  </data>
+  <data name="ToolStripComboBox_Map_Railway_Level.Items1" xml:space="preserve">
+    <value>Level 2</value>
+  </data>
+  <data name="ToolStripComboBox_Map_Railway_Level.Items2" xml:space="preserve">
+    <value>Level 3</value>
+  </data>
+  <data name="ToolStripComboBox_Map_Railway_Level.Items3" xml:space="preserve">
+    <value>Level 4</value>
+  </data>
+  <data name="ToolStripComboBox_Map_Railway_Level.Items4" xml:space="preserve">
+    <value>Level 5</value>
+  </data>
   <data name="ToolStripMenuItem_Map_Railway_Remove.Text" xml:space="preserve">
     <value>Remove Railway</value>
   </data>
@@ -479,19 +524,19 @@
     <value>Heights</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps.Text" xml:space="preserve">
     <value>Maps</value>
   </data>
   <data name="ToolStripMenuItem_Save_Definition.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Save_Definition.Text" xml:space="preserve">
     <value>Provinces</value>
   </data>
   <data name="ToolStripMenuItem_Save_Adjacencies.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Save_Adjacencies.Text" xml:space="preserve">
     <value>Adjacencies</value>
@@ -518,28 +563,34 @@
     <value>Hubs</value>
   </data>
   <data name="ToolStripMenuItem_Save_Supply.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Save_Supply.Text" xml:space="preserve">
     <value>Supply</value>
   </data>
   <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 6</value>
+    <value>177, 6</value>
   </data>
   <data name="ToolStripMenuItem_Save_States.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
+    <value>180, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_States.Text" xml:space="preserve">
+    <value>States</value>
   </data>
   <data name="ToolStripMenuItem_Save_Regions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
+    <value>180, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Regions.Text" xml:space="preserve">
+    <value>Regions</value>
   </data>
   <data name="ToolStripMenuItem_Save.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Save.Text" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="ToolStripMenuItem_SaveAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_SaveAll.Text" xml:space="preserve">
     <value>Save All</value>
@@ -614,43 +665,43 @@
     <value>Supply</value>
   </data>
   <data name="ToolStripMenuItem_Load.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Load.Text" xml:space="preserve">
     <value>Load</value>
   </data>
   <data name="ToolStripMenuItem_LoadAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_LoadAll.Text" xml:space="preserve">
     <value>Load All</value>
   </data>
   <data name="ToolStripMenuItem_Update.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Update.Text" xml:space="preserve">
     <value>Update</value>
   </data>
   <data name="ToolStripMenuItem_UpdateAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_UpdateAll.Text" xml:space="preserve">
     <value>Update all</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 6</value>
+    <value>177, 6</value>
   </data>
   <data name="ToolStripMenuItem_Settings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Settings.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 6</value>
+    <value>177, 6</value>
   </data>
   <data name="ToolStripMenuItem_Exit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Exit.Text" xml:space="preserve">
     <value>Exit</value>
@@ -742,8 +793,14 @@
   <data name="ToolStripMenuItem_Data.Text" xml:space="preserve">
     <value>Data</value>
   </data>
+  <data name="ToolStripMenuItem_Help_Documentation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
   <data name="ToolStripMenuItem_Help_Documentation.Text" xml:space="preserve">
     <value>Documentation</value>
+  </data>
+  <data name="ToolStripMenuItem_Help_About.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Help_About.Text" xml:space="preserve">
     <value>About Application</value>

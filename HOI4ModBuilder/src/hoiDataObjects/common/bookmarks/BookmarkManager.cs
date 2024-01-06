@@ -16,7 +16,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.bookmarks
         private static FileInfo _currentFile = null;
         private static Dictionary<FileInfo, List<Bookmark>> _bookmarksByFilesMap = new Dictionary<FileInfo, List<Bookmark>>();
         private static Dictionary<string, Bookmark> _allBookmarks = new Dictionary<string, Bookmark>();
+        public static Dictionary<string, Bookmark>.ValueCollection GetAllBookmarks => _allBookmarks.Values;
         private static Dictionary<DateTime, Bookmark> _allBookmarksByDateTimes = new Dictionary<DateTime, Bookmark>();
+
+        private static Action _guiReinitAction = null;
 
         public static void Load(Settings settings)
         {
@@ -36,13 +39,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.bookmarks
                 ParadoxParser.Parse(fs, Instance);
             }
 
-            MainForm.Instance.InvokeAction(() =>
+            if (_guiReinitAction == null)
             {
-                foreach (var bookmark in _allBookmarks.Values)
+                _guiReinitAction = () =>
                 {
-                    MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Add($"[{Utils.DateTimeStampToString(bookmark.dateTimeStamp)}] {bookmark.name}");
-                }
-            });
+                    foreach (var bookmark in GetAllBookmarks)
+                        MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Add($"[{Utils.DateTimeStampToString(bookmark.dateTimeStamp)}] {bookmark.name}");
+                };
+                MainForm.SubscribeGuiReinitAction(_guiReinitAction);
+            }
+
+            MainForm.Instance.InvokeAction(() => _guiReinitAction());
         }
 
         public void TokenCallback(ParadoxParser parser, string token)
