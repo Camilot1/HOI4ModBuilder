@@ -250,6 +250,7 @@ namespace HOI4ModBuilder.src.dataObjects
         private static void Parse(ParadoxParser parser, DataArgsBlock dataBlock, EnumNewArgsBlockValueType[] allowedTypes, EnumDemiliter[] allowedDemiliters)
         {
             string value = parser.ReadString();
+
             if (demilitersDict.TryGetValue(value, out var enumDemiliter))
             {
                 if (allowedDemiliters == null || !allowedDemiliters.Contains(enumDemiliter))
@@ -269,8 +270,14 @@ namespace HOI4ModBuilder.src.dataObjects
 
             bool canAcceptVars = false;
             bool hasParsedValue = false;
+            bool valueIsName = parser.CurrentToken == LexerToken.Quote;
+
             foreach (var allowedType in allowedTypes)
             {
+                //Кавычки у значения могут быть только в случае значения типа "NAME"
+                if (allowedType == EnumNewArgsBlockValueType.NAME && !valueIsName ||
+                    allowedType != EnumNewArgsBlockValueType.NAME && valueIsName) continue;
+
                 switch (allowedType)
                 {
                     case EnumNewArgsBlockValueType.NONE: throw new NotImplementedException(allowedType.ToString());
@@ -287,7 +294,13 @@ namespace HOI4ModBuilder.src.dataObjects
                             hasParsedValue = true;
                         }
                         break;
+                    case EnumNewArgsBlockValueType.NAME:
+                        dataBlock.ValueType = EnumNewArgsBlockValueType.NAME;
+                        dataBlock.Value = value;
+                        hasParsedValue = true;
+                        break;
                     case EnumNewArgsBlockValueType.IDEOLOGY: //TODO Проработать доп. типы данных
+                    case EnumNewArgsBlockValueType.LOC_KEY:
                     case EnumNewArgsBlockValueType.STRING:
                         dataBlock.ValueType = EnumNewArgsBlockValueType.STRING;
                         dataBlock.Value = value;

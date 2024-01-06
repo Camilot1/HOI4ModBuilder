@@ -11,6 +11,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         NONE,
         VAR,
 
+        LOC_KEY,
+        NAME,
         SCOPE,
         COUNTRY,
         IDEOLOGY,

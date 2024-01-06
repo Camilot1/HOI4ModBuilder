@@ -67,9 +67,18 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
         private string GetFormattedValue()
         {
-            if (ValueType == EnumNewArgsBlockValueType.BOOLEAN) return (bool)Value ? "yes" : "no";
-            else if (ValueType == EnumNewArgsBlockValueType.FLOAT || ValueType == EnumNewArgsBlockValueType.DECIMAL) return ("" + Value).Replace(',', '.');
-            else return "" + Value;
+            switch (ValueType)
+            {
+                case EnumNewArgsBlockValueType.BOOLEAN:
+                    return (bool)Value ? "yes" : "no";
+                case EnumNewArgsBlockValueType.FLOAT:
+                case EnumNewArgsBlockValueType.DECIMAL:
+                    return ("" + Value).Replace(',', '.');
+                case EnumNewArgsBlockValueType.NAME:
+                    return "\"" + Value + "\"";
+                default:
+                    return "" + Value;
+            }
         }
 
         public void CheckAfterParsing()

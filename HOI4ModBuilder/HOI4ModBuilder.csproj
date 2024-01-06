@@ -95,9 +95,6 @@
     <Reference Include="OpenTK.GLControl, Version=3.3.3.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.GLControl.3.3.3\lib\net20\OpenTK.GLControl.dll</HintPath>
     </Reference>
-    <Reference Include="Pdoxcl2Sharp, Version=0.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Pdoxcl2Sharp.0.6.1\lib\netstandard2.0\Pdoxcl2Sharp.dll</HintPath>
-    </Reference>
     <Reference Include="QuickFont, Version=4.5.7053.25687, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\QuickFont.Desktop.4.5.7053.25687\lib\net45\QuickFont.dll</HintPath>
     </Reference>
@@ -412,6 +409,20 @@
     <Compile Include="src\openTK\SegmentedTexturedPlane.cs" />
     <Compile Include="src\openTK\Shader.cs" />
     <Compile Include="src\openTK\text\SDFTextBundle.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\ConsecutiveElementsAttribute.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\Deserializer.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\Globals.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\INamingConvention.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\InflectorExtensions.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\IParadoxRead.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\IParadoxWrite.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\ParadoxAliasAttribute.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\ParadoxCompressedSaver.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\ParadoxNamingConvention.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\ParadoxParser.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\ParadoxSaver.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\ParadoxStreamWriter.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\Property.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\managers\SettingsManager.cs" />
@@ -495,6 +506,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="src\Pdoxcl2Sharp\Pdoxcl2Sharp.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

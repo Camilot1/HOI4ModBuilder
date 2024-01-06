@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Product>Pdoxcl2Sharp</Product>
+    <Description>A Paradox Interactive general file parser with an emphasis on speed and efficiency</Description>
+    <Copyright>Nick Babcock</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Authors>Nick Babcock</Authors>
+    <PackageTags>Paradox</PackageTags>
+    <PackageProjectUrl>https://github.com/nickbabcock/Pdoxcl2Sharp</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/nickbabcock/Pdoxcl2Sharp/master/LICENSE.txt</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/nickbabcock/Pdoxcl2Sharp</RepositoryUrl>
+    <Major>0</Major>
+    <Minor>6</Minor>
+    <Revision>1</Revision>
+    <AssemblyVersion>$(Major).$(Minor).$(Revision)</AssemblyVersion>
+    <AssemblyFileVersion>$(Major).$(Minor).$(Revision)</AssemblyFileVersion>
+    <InformationalVersion>$(Major).$(Minor).$(Revision)</InformationalVersion>
+    <Version>$(Major).$(Minor).$(Revision)$(VersionSuffix)</Version>
+    <FileVersion>$(Major).$(Minor).$(Revision)</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.4.0" />
+  </ItemGroup>
+</Project>
