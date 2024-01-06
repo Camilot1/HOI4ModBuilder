@@ -228,6 +228,9 @@
   <data name="&gt;&gt;Button_CopyToClipboard.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="Button_OpenLogsDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
   <data name="Button_OpenLogsDirectory.Location" type="System.Drawing.Point, System.Drawing">
     <value>191, 333</value>
   </data>
