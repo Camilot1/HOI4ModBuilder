@@ -6,7 +6,6 @@ using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Text;
 using static HOI4ModBuilder.utils.Structs;
 
@@ -406,9 +405,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             }
         }
 
-        public override string ToString()
-        {
-            return "" + startDay + '.' + startMonth + ' ' + endDay + '.' + endMonth;
-        }
+        public override string ToString() => "" + startDay + '.' + startMonth + ' ' + endDay + '.' + endMonth;
     }
 }

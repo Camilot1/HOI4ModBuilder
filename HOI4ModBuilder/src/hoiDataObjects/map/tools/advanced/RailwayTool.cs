@@ -1,8 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
-using System;
-using static HOI4ModBuilder.src.hoiDataObjects.map.railways.Railway;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
 {

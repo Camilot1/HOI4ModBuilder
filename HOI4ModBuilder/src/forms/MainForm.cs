@@ -76,6 +76,7 @@ namespace HOI4ModBuilder
         private void Init()
         {
             InitializeComponent();
+            Text = Text + $" [{Logger.version}]";
 
             if (glControl == null)
             {
@@ -123,7 +124,6 @@ namespace HOI4ModBuilder
         private void AfterFirstMainFormInit()
         {
             Instance = this;
-
             Logger.TryOrLog(() =>
             {
                 GuiLocManager.formsReinitEvents.Add(this, () => Reinit());
@@ -144,6 +144,8 @@ namespace HOI4ModBuilder
                     if (e.Modifiers == Keys.Control) UpdateAll();
                 });
             });
+
+
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -153,14 +155,10 @@ namespace HOI4ModBuilder
         }
 
         public void InvokeAction(Action action)
-        {
-            Invoke((MethodInvoker)delegate { action(); });
-        }
+            => Invoke((MethodInvoker)delegate { action(); });
 
         public void TryInvokeActionOrLog(Action tryAction, Action<Exception> catchAction)
-        {
-            Invoke((MethodInvoker)delegate { Logger.TryOrCatch(tryAction, catchAction); });
-        }
+            => Invoke((MethodInvoker)delegate { Logger.TryOrCatch(tryAction, catchAction); });
 
         private void SaveAll()
         {

@@ -18,8 +18,6 @@ using HOI4ModBuilder.src.managers;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.hoiDataObjects;
-using System.Drawing;
-using static System.Windows.Forms.AxHost;
 
 namespace HOI4ModBuilder.managers
 {

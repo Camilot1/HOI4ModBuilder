@@ -1,12 +1,9 @@
-﻿using HOI4ModBuilder.hoiDataObjects.history.countries;
-using HOI4ModBuilder.src;
+﻿using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.managers;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace HOI4ModBuilder.hoiDataObjects.common.terrain
 {
@@ -48,14 +45,10 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
         }
 
         public static bool TryGetProvincialTerrain(string tag, out ProvincialTerrain terrain)
-        {
-            return _provincialTerraings.TryGetValue(tag, out terrain);
-        }
+            => _provincialTerraings.TryGetValue(tag, out terrain);
 
         public static bool HasProvincialTerrain(string tag)
-        {
-            return _provincialTerraings.ContainsKey(tag);
-        }
+            => _provincialTerraings.ContainsKey(tag);
 
         public void TokenCallback(ParadoxParser parser, string token)
         {

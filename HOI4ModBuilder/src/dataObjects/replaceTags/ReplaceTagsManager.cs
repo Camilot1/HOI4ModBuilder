@@ -1,15 +1,10 @@
-﻿using HOI4ModBuilder.src.dataObjects.argBlocks;
-using HOI4ModBuilder.src.managers;
+﻿using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
 using Pdoxcl2Sharp;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.dataObjects.replaceTags
 {

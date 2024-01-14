@@ -55,10 +55,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 HasAnyProvinceBuildings() || dataArgsBlocks.Count > 0;
         }
 
-        public bool HasAnyProvinceBuildings()
-        {
-            return provincesBuildings.Count() > 0;
-        }
+        public bool HasAnyProvinceBuildings() => provincesBuildings.Count() > 0;
 
         public bool SetProvinceBuilding(Province province, Building building, uint newCount)
         {
@@ -122,10 +119,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             else if (count != newCount)
             { //Если в словаре уже есть эта постройка
                 //Меняем число постройки в области
-                if (newCount == 0 && isStartHistory)
-                {
-                    stateBuildings.Remove(building);
-                }
+                if (newCount == 0 && isStartHistory) stateBuildings.Remove(building);
                 else stateBuildings[building] = newCount;
                 return true;
             }

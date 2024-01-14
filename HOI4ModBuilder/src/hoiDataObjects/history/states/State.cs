@@ -2,13 +2,11 @@
 using HOI4ModBuilder.hoiDataObjects.history.countries;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src;
-using HOI4ModBuilder.src.hoiDataObjects.common.bookmarks;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
-using SharpFont;
 using System;
 using System.Collections.Generic;
 using System.Text;

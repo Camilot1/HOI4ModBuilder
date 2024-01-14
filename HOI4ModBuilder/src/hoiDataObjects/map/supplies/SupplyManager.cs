@@ -1,19 +1,12 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.supply;
-using SharpFont;
-using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using static HOI4ModBuilder.utils.Structs;
 using OpenTK.Graphics.OpenGL;
 using System.Windows.Forms;
-using HOI4ModBuilder.Properties;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 
@@ -44,13 +37,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             var fileInfos = FileManager.ReadMultiFileInfos(settings, @"map\");
 
             if (!fileInfos.TryGetValue("railways.txt", out FileInfo railwaysFileInfo))
-            {
                 throw new FileNotFoundException("railways.txt");
-            }
+
             if (!fileInfos.TryGetValue("supply_nodes.txt", out FileInfo supplyNodesFileInfo))
-            {
                 throw new FileNotFoundException("supply_nodes.txt");
-            }
 
             NeedToSaveRailways = railwaysFileInfo.needToSave;
             NeedToSaveSupplyNodes = supplyNodesFileInfo.needToSave;
@@ -245,11 +235,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                 return true;
             }
             return false;
-        }
-
-        public static SupplyNode GetSelectedSupplyNode()
-        {
-            return SelectedSupplyNode;
         }
 
         private static void LoadSupplyNodes(string filePath)
