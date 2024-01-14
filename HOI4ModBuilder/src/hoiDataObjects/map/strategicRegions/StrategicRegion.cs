@@ -6,6 +6,7 @@ using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using static HOI4ModBuilder.utils.Structs;
 
@@ -27,12 +28,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public List<ProvinceBorder> borders = new List<ProvinceBorder>(0);
 
         public RegionStaticModifiers staticModifiers = new RegionStaticModifiers();
-        public RegionWeather weather = new RegionWeather();
+        public RegionWeather weather;
 
         public int color;
         public Point2F center;
         public bool dislayCenter;
         public uint pixelsCount;
+
+        public StrategicRegion()
+        {
+            weather = new RegionWeather(this);
+        }
 
         public void AddProvince(Province province)
         {
@@ -151,13 +157,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                     parser.Parse(staticModifiers);
                     break;
                 case "weather":
-                    weather = new RegionWeather();
                     parser.Parse(weather);
                     break;
                 default:
                     //TODO Добавить доп параметры
                     throw new Exception(GuiLocManager.GetLoc(
-                        EnumLocKey.ERROR_REGION_UNKNOWN_TOKEN_IN_PROVINCE,
+                        EnumLocKey.ERROR_REGION_UNKNOWN_TOKEN,
                         new Dictionary<string, string>
                         {
                             { "{regionId}", $"{Id}" },
@@ -236,7 +241,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
     class RegionWeather : IParadoxRead
     {
+        public StrategicRegion region;
         public List<WeatherPeriod> periods = new List<WeatherPeriod>(0);
+
+        public RegionWeather(StrategicRegion region)
+        {
+            this.region = region;
+        }
 
         public void Save(StringBuilder sb, string tab)
         {
@@ -251,15 +262,25 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             if (token == "period")
             {
-                var period = new WeatherPeriod();
+                var period = new WeatherPeriod(this);
                 parser.Parse(period);
                 periods.Add(period);
             }
+            else throw new Exception(GuiLocManager.GetLoc(
+                        EnumLocKey.ERROR_REGION_WEATHER_UNKNOWN_TOKEN,
+                        new Dictionary<string, string>
+                        {
+                            { "{regionId}", $"{region.Id}" },
+                            { "{token}", token }
+                        }
+                    ));
         }
     }
 
     class WeatherPeriod : IParadoxRead
     {
+        public RegionWeather weather;
+
         public DatePeriod between = new DatePeriod();
         public float[] temperature = new float[2];
         public float noPhenomenon;
@@ -271,6 +292,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public float mud;
         public float sandstorm;
         public float minSnowLevel;
+
+        public WeatherPeriod(RegionWeather weather)
+        {
+            this.weather = weather;
+        }
 
         public void Save(StringBuilder sb, string outTab, string tab)
         {
@@ -287,10 +313,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             sb.Append(outTab).Append(tab).Append("rain_heavy = ").Append(Utils.FloatToString(rainHeavy)).Append(Constants.NEW_LINE);
             sb.Append(outTab).Append(tab).Append("snow = ").Append(Utils.FloatToString(snow)).Append(Constants.NEW_LINE);
             sb.Append(outTab).Append(tab).Append("blizzard = ").Append(Utils.FloatToString(blizzard)).Append(Constants.NEW_LINE);
-            sb.Append(outTab).Append(tab).Append("arcticWater = ").Append(Utils.FloatToString(arcticWater)).Append(Constants.NEW_LINE);
+            sb.Append(outTab).Append(tab).Append("arctic_water = ").Append(Utils.FloatToString(arcticWater)).Append(Constants.NEW_LINE);
             sb.Append(outTab).Append(tab).Append("mud = ").Append(Utils.FloatToString(mud)).Append(Constants.NEW_LINE);
             sb.Append(outTab).Append(tab).Append("sandstorm = ").Append(Utils.FloatToString(sandstorm)).Append(Constants.NEW_LINE);
-            sb.Append(outTab).Append(tab).Append("minSnowLevel = ").Append(Utils.FloatToString(minSnowLevel)).Append(Constants.NEW_LINE);
+            sb.Append(outTab).Append(tab).Append("min_snow_level = ").Append(Utils.FloatToString(minSnowLevel)).Append(Constants.NEW_LINE);
 
             sb.Append(outTab).Append('}').Append(Constants.NEW_LINE);
         }
@@ -325,7 +351,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                 case "blizzard":
                     blizzard = parser.ReadFloat();
                     break;
-                case "arcticWater":
+                case "arcticWater": //TODO Remove after few updates
+                case "arctic_water":
                     arcticWater = parser.ReadFloat();
                     break;
                 case "mud":
@@ -334,9 +361,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                 case "sandstorm":
                     sandstorm = parser.ReadFloat();
                     break;
+                case "minSnowLevel": //TODO Remove after few updates
                 case "min_snow_level":
                     minSnowLevel = parser.ReadFloat();
                     break;
+                default:
+                    throw new Exception(GuiLocManager.GetLoc(
+                        EnumLocKey.ERROR_REGION_WEATHER_PERIOD_UNKNOWN_TOKEN,
+                        new Dictionary<string, string>
+                        {
+                            { "{regionId}", $"{weather.region.Id}" },
+                            { "{period}", between.ToString() },
+                            { "{token}", token }
+                        }
+                    ));
             }
         }
     }
@@ -366,6 +404,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                     new Dictionary<string, string> { { "{token}", token } }
                 ), ex);
             }
+        }
+
+        public override string ToString()
+        {
+            return "" + startDay + '.' + startMonth + ' ' + endDay + '.' + endMonth;
         }
     }
 }
