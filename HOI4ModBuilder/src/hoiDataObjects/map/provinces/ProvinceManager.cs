@@ -26,7 +26,7 @@ namespace HOI4ModBuilder.managers
     {
         public static bool NeedToSave { get; set; }
         private static bool _hasProcessedDefinitionFile;
-        private static ushort nextVacantProvinceId = 0;
+        public static ushort NextVacantProvinceId { get; set; }
         public static Province SelectedProvince { get; set; }
         public static Province RMBProvince { get; set; }
         private static Dictionary<ushort, Province> _provincesById = new Dictionary<ushort, Province>();
@@ -40,7 +40,7 @@ namespace HOI4ModBuilder.managers
 
         public static void Load(Settings settings)
         {
-            nextVacantProvinceId = 1;
+            NextVacantProvinceId = 1;
             LoadProvinces(settings);
         }
 
@@ -122,35 +122,12 @@ namespace HOI4ModBuilder.managers
             return color;
         }
 
-        public static bool ContainsProvinceIdKey(ushort id)
-        {
-            return _provincesById.ContainsKey(id);
-        }
-
-        public static Dictionary<ushort, Province>.KeyCollection GetProvincesIds()
-        {
-            return _provincesById.Keys;
-        }
-
-        public static bool TryGetProvince(ushort id, out Province province)
-        {
-            return _provincesById.TryGetValue(id, out province);
-        }
-
-        public static bool TryGetProvince(int color, out Province province)
-        {
-            return _provincesByColor.TryGetValue(color, out province);
-        }
-
-        public static Dictionary<ushort, Province>.ValueCollection GetProvinces()
-        {
-            return _provincesById.Values;
-        }
-
-        public static int GetProvincesCount()
-        {
-            return _provincesById.Count;
-        }
+        public static bool ContainsProvinceIdKey(ushort id) => _provincesById.ContainsKey(id);
+        public static Dictionary<ushort, Province>.KeyCollection GetProvincesIds() => _provincesById.Keys;
+        public static bool TryGetProvince(ushort id, out Province province) => _provincesById.TryGetValue(id, out province);
+        public static bool TryGetProvince(int color, out Province province) => _provincesByColor.TryGetValue(color, out province);
+        public static Dictionary<ushort, Province>.ValueCollection GetProvinces() => _provincesById.Values;
+        public static int ProvincesCount => _provincesById.Count;
 
         public static void AddProvince(ushort id, Province province)
         {
@@ -199,7 +176,7 @@ namespace HOI4ModBuilder.managers
 
             _provincesById[newId] = p;
             _provincesByColor[color] = p;
-            nextVacantProvinceId = (ushort)(newId + 1);
+            NextVacantProvinceId = (ushort)(newId + 1);
             NeedToSave = true;
             return true;
         }
@@ -376,7 +353,7 @@ namespace HOI4ModBuilder.managers
                         );
                     }
 
-                    if (id != nextVacantProvinceId)
+                    if (id != NextVacantProvinceId)
                     {
                         Logger.LogError(
                             EnumLocKey.ERROR_PROVINCE_INCORRECT_ID_SEQUENCE,
@@ -384,14 +361,14 @@ namespace HOI4ModBuilder.managers
                             {
                                 { "{lineIndex}", $"{i}" },
                                 { "{provinceId}", $"{id}" },
-                                { "{previousProvinceId}", $"{nextVacantProvinceId - 1}" }
+                                { "{previousProvinceId}", $"{NextVacantProvinceId - 1}" }
                             }
                         );
                     }
 
-                    if (id >= nextVacantProvinceId)
+                    if (id >= NextVacantProvinceId)
                     {
-                        nextVacantProvinceId = (ushort)(id + 1);
+                        NextVacantProvinceId = (ushort)(id + 1);
                     }
 
                     int color = -1;
@@ -537,11 +514,11 @@ namespace HOI4ModBuilder.managers
                     if (!_provincesByColor.TryGetValue(color, out province))
                     {
                         //Создаём новую провинцию и добавляем её в словарь провинций
-                        province = new Province(nextVacantProvinceId, color);
-                        _provincesById.Add(nextVacantProvinceId, province);
+                        province = new Province(NextVacantProvinceId, color);
+                        _provincesById.Add(NextVacantProvinceId, province);
                         _provincesByColor.Add(color, province);
-                        nextVacantProvinceId++;
-                        while (_provincesById.ContainsKey(nextVacantProvinceId)) nextVacantProvinceId++;
+                        NextVacantProvinceId++;
+                        while (_provincesById.ContainsKey(NextVacantProvinceId)) NextVacantProvinceId++;
 
                         Logger.LogSingleMessage(
                             EnumLocKey.SINGLE_MESSAGE_NEW_PROVINCE_WITH_COLOR_WAS_CREATED,
@@ -693,17 +670,13 @@ namespace HOI4ModBuilder.managers
         public static void AutoToolIsCoastal()
         {
             foreach (var p in _provincesById.Values)
-            {
                 p.UpdateIsCoastal(p.CheckCoastalType());
-            }
         }
 
         public static void AutoToolRemoveSeaAndLakesContinents()
         {
             foreach (var p in _provincesById.Values)
-            {
                 if (p.TypeId != 0) p.UpdateContinentId(0);
-            }
         }
 
         public static void GetMinMaxVictoryPoints(out uint min, out uint max)
@@ -723,132 +696,6 @@ namespace HOI4ModBuilder.managers
                 if (province.victoryPoints > max) max = province.victoryPoints;
                 else if (province.victoryPoints < min) min = province.victoryPoints;
             }
-        }
-
-        public static void MergeProvinces(Province main, Province second)
-        {
-            //Проверки на ошибки
-            if (main == null || second == null || main.Id == second.Id)
-                throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_PROVINCE_MERGE_NULL_PROVINCES_OR_SAME_PROVINCES_IDS));
-
-            if (second.buildings.Count > 0)
-                throw new Exception(GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_PROVINCE_MERGE_SECOND_PROVINCE_HAS_BUILDINGS,
-                        new Dictionary<string, string> { { "{id}", $"{second.Id}" } }
-                    ));
-
-            if (second.railways.Count > 0)
-                throw new Exception(GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_PROVINCE_MERGE_SECOND_PROVINCE_HAS_RAILWAYS,
-                        new Dictionary<string, string> { { "{id}", $"{second.Id}" } }
-                    ));
-
-            if (second.adjacencies.Count > 0)
-                throw new Exception(GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_PROVINCE_MERGE_SECOND_PROVINCE_HAS_ADJACENCIES,
-                        new Dictionary<string, string> { { "{id}", $"{second.Id}" } }
-                    ));
-
-            if (second.supplyNode != null)
-                throw new Exception(GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_PROVINCE_MERGE_SECOND_PROVINCE_HAS_SUPPLY_HUB,
-                        new Dictionary<string, string> { { "{id}", $"{second.Id}" } }
-                    ));
-
-            //Ищем подходящую провинцию с наибольшим id и без викторипоинтов
-            if (_provincesById.Count < 2)
-                throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_PROVINCE_MERGE_NO_PROVINCE_FOR_VACANT_ID));
-            if (nextVacantProvinceId == 0)
-                throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_PROVINCE_MERGE_NEXT_VACANT_PROVINCE_ID_IS_ZERO));
-
-            ushort provinceIdToReplace = (ushort)(nextVacantProvinceId - 1);
-
-            if (!_provincesById.TryGetValue(provinceIdToReplace, out Province provinceToReplace))
-                throw new Exception(GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_PROVINCE_MERGE_PROVINCE_TO_REPLACE_NOT_FOUND,
-                        new Dictionary<string, string> { { "{provinceIdToReplace}", $"{provinceIdToReplace}" } }
-                    ));
-
-            //Проверки на викторипоинты у провинций
-            if (provinceToReplace.victoryPoints != 0 && second.victoryPoints != 0 && MessageBox.Show(
-                    $"Провинции с ID = {second.Id} и наибольшим ID = {provinceIdToReplace} имеют очки победы в размере {second.victoryPoints} и {provinceToReplace.victoryPoints} единиц соответственно. \n\nВы уверены, что хотите заменить ID провинции {provinceIdToReplace} на {second.Id} без замены локализации очков победы для обоих провинций?",
-                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION), MessageBoxButtons.OKCancel) != DialogResult.OK)
-                return;
-            else if (second.victoryPoints != 0 && MessageBox.Show(
-                    $"Провинция с ID = {second.Id} имеет очки победы в размере {second.victoryPoints} единиц. \n\nВы уверены, что хотите передать её ID = {second.Id} другой провинции с ID = {provinceIdToReplace} без замены локализации очков победы для провинции ID = {second.Id}?",
-                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION), MessageBoxButtons.OKCancel) != DialogResult.OK)
-                return;
-            else if (provinceToReplace.victoryPoints != 0 && MessageBox.Show(
-                    $"Провинция с наибольшим ID = {provinceIdToReplace} имеет очки победы в размере {provinceToReplace.victoryPoints} единиц. \n\nВы уверены, что хотите заменить ID провинции {provinceIdToReplace} на {second.Id} без замены локализации очков победы для провинции ID = {provinceIdToReplace}?",
-                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION), MessageBoxButtons.OKCancel) != DialogResult.OK)
-                return;
-
-            //Замена цветов на карте
-            int firstColor = main.Color;
-            byte[] firstColorBrg = Utils.ArgbToBrg(new int[] { firstColor });
-
-            int secondColor = second.Color;
-            var provincesBitmap = provinces.GetBitmap();
-
-            byte[] bytes = Utils.BitmapToArray(provincesBitmap, ImageLockMode.ReadOnly, _24bppRgb);
-            bool needToSave = false;
-
-            for (int i = 0; i < MapManager.ProvincesPixels.Length; i++)
-            {
-                if (MapManager.ProvincesPixels[i] == secondColor)
-                {
-                    int byteIndex = i * 3;
-                    bytes[byteIndex] = firstColorBrg[0];
-                    bytes[byteIndex + 1] = firstColorBrg[1];
-                    bytes[byteIndex + 2] = firstColorBrg[2];
-
-                    MapManager.ProvincesPixels[i] = firstColor;
-                    needToSave = true;
-                }
-            }
-
-            if (needToSave)
-            {
-                Utils.ArrayToBitmap(bytes, provincesBitmap, ImageLockMode.WriteOnly, provincesBitmap.Width, provincesBitmap.Height, _24bppRgb);
-                provinces.texture.Update(_24bppRgb, 0, 0, MapManager.MapSize.x, MapManager.MapSize.y, bytes);
-                provinces.needToSave = true;
-            }
-
-            //Замена центров на общий
-            float centerX = main.center.x * main.pixelsCount + second.center.x * second.pixelsCount;
-            float centerY = main.center.y * main.pixelsCount + second.center.y * second.pixelsCount;
-            main.pixelsCount += second.pixelsCount;
-
-            if (main.pixelsCount != 0)
-            {
-                main.center.x = centerX / main.pixelsCount;
-                main.center.y = centerY / main.pixelsCount;
-            }
-
-            int centerIndex = (int)main.center.x + (int)main.center.y * MapManager.MapSize.x;
-            if (centerIndex < MapManager.ProvincesPixels.Length && MapManager.ProvincesPixels[centerIndex] == main.Color)
-            {
-                main.dislayCenter = true;
-            }
-            else main.dislayCenter = false;
-
-            //Удаление из областей и регионов
-            second.state?.RemoveProvince(second);
-            second.region?.RemoveProvince(second);
-
-            //Заменяем связи со смежностями
-            foreach (Adjacency adj in second.adjacencies)
-            {
-                adj.ReplaceProvince(second, provinceToReplace);
-            }
-
-            //Удаляем из словарей
-            RemoveProvinceById(second.Id);
-            RemoveProvinceByColor(second.Color);
-
-            //Заменяем id самой старшей провинции
-            provinceToReplace.UpdateId(second.Id);
-            nextVacantProvinceId--;
         }
 
         private static void HandleDelete()

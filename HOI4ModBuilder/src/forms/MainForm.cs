@@ -1288,7 +1288,7 @@ namespace HOI4ModBuilder
             Logger.TryOrLog(() =>
             {
                 if (enumMainLayer == EnumMainLayer.PROVINCES_MAP)
-                    ProvinceManager.MergeProvinces(ProvinceManager.SelectedProvince, ProvinceManager.RMBProvince);
+                    MergeProvincesTool.MergeProvinces(ProvinceManager.SelectedProvince, ProvinceManager.RMBProvince);
             });
         }
 

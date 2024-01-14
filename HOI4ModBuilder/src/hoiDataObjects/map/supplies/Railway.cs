@@ -236,7 +236,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                                     }
                                 ),
                                 GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION),
-                                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
                             );
 
                         if (dialogResult != DialogResult.Yes) return false;

@@ -363,6 +363,7 @@
     <Compile Include="src\hoiDataObjects\map\adjacencies\AdjacencyRule.cs" />
     <Compile Include="src\hoiDataObjects\map\MapPositionsManager.cs" />
     <Compile Include="src\hoiDataObjects\map\continents\ContinentManager.cs" />
+    <Compile Include="src\hoiDataObjects\map\tools\advanced\MergeProvincesTool.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\advanced\RailwayTool.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolBrush.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolBuildings.cs" />

@@ -30,7 +30,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
 
         private static void InitPixels()
         {
-            _pixelsByProvincesIds = new Dictionary<int, Info>(ProvinceManager.GetProvincesCount());
+            _pixelsByProvincesIds = new Dictionary<int, Info>(ProvinceManager.ProvincesCount);
 
             foreach (var p in ProvinceManager.GetProvinces())
             {
