@@ -343,20 +343,44 @@
     <value>Color palette:</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="ToolStripMenuItem_Map_Search_Position.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Search_Position.Text" xml:space="preserve">
+    <value>Find Position</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Search_Province.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Search_Province.Text" xml:space="preserve">
+    <value>Find Province</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Search_State.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Search_State.Text" xml:space="preserve">
+    <value>Find State</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Search_Region.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Search_Region.Text" xml:space="preserve">
+    <value>Find Region</value>
+  </data>
   <data name="ToolStripMenuItem_Map_Search.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search.Text" xml:space="preserve">
     <value>Search</value>
   </data>
   <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 6</value>
+    <value>177, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province_IsCoastal.Text" xml:space="preserve">
     <value>IsCoastal</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province.Text" xml:space="preserve">
     <value>Province</value>
@@ -395,7 +419,7 @@
     <value>Remove required province</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency.Text" xml:space="preserve">
     <value>Adjacency</value>
@@ -418,11 +442,17 @@
   <data name="ToolStripComboBox_Map_Railway_Level.Items4" xml:space="preserve">
     <value>Level 5</value>
   </data>
+  <data name="ToolStripMenuItem_Map_Railway_Join.Text" xml:space="preserve">
+    <value>Join Railways</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Railway_Split.Text" xml:space="preserve">
+    <value>Split Railway</value>
+  </data>
   <data name="ToolStripMenuItem_Map_Railway_Remove.Text" xml:space="preserve">
     <value>Remove Railway</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway.Text" xml:space="preserve">
     <value>Railway</value>
@@ -440,13 +470,13 @@
     <value>Remove Hub</value>
   </data>
   <data name="ToolStripMenuItem_Map_SupplyHub.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_SupplyHub.Text" xml:space="preserve">
     <value>Supply hub</value>
   </data>
   <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 6</value>
+    <value>177, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions_Merge.Size" type="System.Drawing.Size, System.Drawing">
     <value>231, 22</value>
@@ -455,13 +485,13 @@
     <value>Merge provinces with id swap</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions.Text" xml:space="preserve">
     <value>Additional actions</value>
   </data>
   <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 148</value>
+    <value>181, 170</value>
   </data>
   <data name="TabPage_Map.Text" xml:space="preserve">
     <value>Map</value>

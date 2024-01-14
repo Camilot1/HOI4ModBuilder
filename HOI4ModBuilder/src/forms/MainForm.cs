@@ -915,13 +915,7 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Map_Railway_Remove_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                var railway = SupplyManager.GetSelectedRailway();
-                RailwayTool.RemoveRailway(railway);
-            });
-        }
+            => Logger.TryOrLog(() => RailwayTool.RemoveRailway(SupplyManager.SelectedRailway));
 
         private void ToolStripComboBox_Map_Railway_Level_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1084,6 +1078,10 @@ namespace HOI4ModBuilder
                 if (SupplyManager.SelectedRailway != null)
                 {
                     ToolStripComboBox_Map_Railway_Level.SelectedIndex = SupplyManager.SelectedRailway.Level - 1;
+
+                    ToolStripMenuItem_Map_Railway_Split.Enabled = SupplyManager.SelectedRailway.CanSplitAtProvince(ProvinceManager.RMBProvince, out _);
+                    ToolStripMenuItem_Map_Railway_Join.Enabled = SupplyManager.SelectedRailway.CanJoin(SupplyManager.RMBRailway, out _, out _, out _);
+
                     ToolStripMenuItem_Map_Railway_Remove.Enabled = true;
                 }
                 else ToolStripMenuItem_Map_Railway_Remove.Enabled = false;
@@ -1451,6 +1449,12 @@ namespace HOI4ModBuilder
             {
                 using (Process.Start(AboutProgramForm.DiscordServerURL)) { }
             });
+
+        private void ToolStripMenuItem_Map_Railway_Split_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => RailwayTool.SplitRailwayAtProvince(SupplyManager.SelectedRailway == null ? SupplyManager.RMBRailway : SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
+
+        private void ToolStripMenuItem_Map_Railway_Join_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => RailwayTool.JoinRailways(SupplyManager.SelectedRailway, SupplyManager.RMBRailway));
 
         public void SetAdjacencyRules(Dictionary<string, AdjacencyRule>.KeyCollection rules)
         {

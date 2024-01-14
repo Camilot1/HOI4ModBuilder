@@ -26,7 +26,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         public static List<SupplyNode> SupplyNodes { get; private set; }
 
         public static bool NeedToSaveRailways { get; set; }
-        public static Railway SelectedRailway = null;
+        public static Railway SelectedRailway { get; set; }
+        public static Railway RMBRailway { get; set; }
+
         public static List<Railway> Railways { get; private set; }
 
         public static void Init()
@@ -37,8 +39,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public static void Load(Settings settings)
         {
-            SelectedSupplyNode = null;
-            SelectedRailway = null;
+            HandleEscape();
 
             var fileInfos = FileManager.ReadMultiFileInfos(settings, @"map\");
 
@@ -105,14 +106,30 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             if (SelectedRailway != null)
             {
                 GL.Color4(1f, 0f, 0f, 1f);
-                GL.LineWidth(5f + SelectedRailway.Level);
+                GL.LineWidth(10f);
                 GL.Begin(PrimitiveType.LineStrip);
                 SelectedRailway.Draw();
                 GL.End();
+
                 GL.Color4(0f, 0f, 1f, 1f);
-                GL.LineWidth(2f + SelectedRailway.Level);
+                GL.LineWidth(4f);
                 GL.Begin(PrimitiveType.LineStrip);
                 SelectedRailway.Draw();
+                GL.End();
+            }
+
+            if (RMBRailway != null)
+            {
+                GL.Color4(0f, 0f, 1f, 1f);
+                GL.LineWidth(7f);
+                GL.Begin(PrimitiveType.LineStrip);
+                RMBRailway.Draw();
+                GL.End();
+
+                GL.Color4(1f, 0.42f, 0f, 1f);
+                GL.LineWidth(3f);
+                GL.Begin(PrimitiveType.LineStrip);
+                RMBRailway.Draw();
                 GL.End();
             }
 
@@ -146,17 +163,36 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             }
         }
 
-        public static bool SelectRailway(Point2D point)
+        public static Railway SelectRailway(Point2D point)
         {
-            if (ProvinceManager.SelectedProvince == null) return false;
+            if (ProvinceManager.SelectedProvince == null) SelectedRailway = null;
 
             foreach (var railway in ProvinceManager.SelectedProvince.railways)
             {
-                if (railway.IsOnRailway(point)) return true;
+                if (railway.IsOnRailway(point))
+                {
+                    SelectedRailway = railway;
+                    return SelectedRailway;
+                }
             }
 
-            SelectedRailway = null;
-            return false;
+            return SelectedRailway;
+        }
+
+        public static Railway SelectRMBRailway(Point2D point)
+        {
+            if (ProvinceManager.RMBProvince == null) RMBRailway = null;
+
+            foreach (var railway in ProvinceManager.RMBProvince.railways)
+            {
+                if (railway.IsOnRailway(point))
+                {
+                    RMBRailway = railway;
+                    return RMBRailway;
+                }
+            }
+
+            return RMBRailway;
         }
 
         public static bool SelectSupplyNode(Point2D point)
@@ -245,11 +281,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             NeedToSaveSupplyNodes = tempNeedToSave;
         }
 
-        public static Railway GetSelectedRailway()
-        {
-            return SelectedRailway;
-        }
-
         private static void LoadRailways(string filePath)
         {
             bool tempNeedToSave = NeedToSaveRailways;
@@ -313,6 +344,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                     if (SelectSupplyNode(pos)) SelectedRailway = null;
                 }
             }
+            else if (button == MouseButtons.Right) SelectRMBRailway(pos);
         }
 
         private static void HandleDelete()
@@ -326,6 +358,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         {
             SelectedRailway = null;
             SelectedSupplyNode = null;
+            RMBRailway = null;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.utils;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -7,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
@@ -40,9 +42,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         public void Draw()
         {
             foreach (Province province in _provinces)
-            {
                 GL.Vertex2(province.center.x, province.center.y);
-            }
         }
 
         public void UpdateLevel(byte level)
@@ -73,18 +73,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             for (int i = 0; i < _provinces.Count - 1; i++)
             {
                 if (point.IsOnLine(_provinces[i].center, _provinces[i + 1].center, 1.01f))
-                {
-                    SupplyManager.SelectedRailway = this;
                     return true;
-                }
             }
             return false;
         }
 
         public bool HasProvince(Province p) => _provinces.Contains(p);
         public Province GetProvince(int index) => _provinces[index];
-        public Province GetFirstProvince() => _provinces.Count > 0 ? _provinces[0] : null;
-        public Province GetLastProvince() => _provinces.Count > 1 ? _provinces[_provinces.Count - 1] : null;
+        public Province FirstProvince => _provinces.Count > 0 ? _provinces[0] : null;
+        public Province LastProvince => _provinces.Count > 1 ? _provinces[_provinces.Count - 1] : null;
 
         public bool CanAddProvince(Province p)
         {
@@ -137,6 +134,162 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                 return true;
             }
             return false;
+        }
+
+        public bool CanSplitAtProvince(Province province, out int provinceIndex)
+        {
+            provinceIndex = 0;
+            if (province == null) return false;
+
+            for (int i = 0; i < _provinces.Count; i++)
+                if (_provinces[i].Id == province.Id)
+                {
+                    if (i == 0 || i == _provinces.Count - 1) return false;
+
+                    provinceIndex = i;
+                    return true;
+                }
+
+            return false;
+        }
+
+        public bool TrySplitAtProvince(Province province, Railway[] railwayContainer)
+        {
+            if (railwayContainer == null || railwayContainer.Length != 1) return false;
+
+            if (CanSplitAtProvince(province, out int index))
+            {
+                RemoveFromProvinces();
+                var newRailway = new Railway(Level, _provinces.GetRange(index, ProvincesCount - index));
+                _provinces.RemoveRange(index + 1, ProvincesCount - index - 1);
+
+                AddToProvinces();
+
+                RailwayTool.SilentAddRailway(newRailway);
+                railwayContainer[0] = newRailway;
+                return true;
+            }
+            else return false;
+        }
+
+        public bool CanJoin(Railway otherRailway, out EnumCanJoinRailwaysResult canJoinResult, out Province joinProvince, out Province otherJoinProvince)
+        {
+            joinProvince = null;
+            otherJoinProvince = null;
+            canJoinResult = EnumCanJoinRailwaysResult.CANT_JOIN;
+
+            if (otherRailway == null || this == otherRailway)
+            {
+                canJoinResult = EnumCanJoinRailwaysResult.CANT_JOIN;
+                return false;
+            }
+
+            if (ProvincesCount < 2 || otherRailway.ProvincesCount < 2)
+            {
+                canJoinResult = EnumCanJoinRailwaysResult.CANT_JOIN_RAILWAY_DOESNT_HAVE_PROVINCES;
+                return false;
+            }
+
+            if (
+                Check(FirstProvince, otherRailway.FirstProvince, ref canJoinResult, ref joinProvince, ref otherJoinProvince) ||
+                Check(FirstProvince, otherRailway.LastProvince, ref canJoinResult, ref joinProvince, ref otherJoinProvince) ||
+                Check(LastProvince, otherRailway.FirstProvince, ref canJoinResult, ref joinProvince, ref otherJoinProvince) ||
+                Check(LastProvince, otherRailway.LastProvince, ref canJoinResult, ref joinProvince, ref otherJoinProvince)
+            ) return true;
+            else
+            {
+                canJoinResult = EnumCanJoinRailwaysResult.CANT_JOIN_RAILWAYS_ENDS_DO_NOT_HAS_BORDERS;
+                return false;
+            }
+
+            bool Check(Province firstProvince, Province secondProvince, ref EnumCanJoinRailwaysResult innerCanJoinResult, ref Province innerJoinProvince, ref Province innerOtherJoinProvince)
+            {
+                if (firstProvince == secondProvince || (firstProvince.HasBorderWith(secondProvince) || firstProvince.HasSeaConnectionWith(secondProvince)) && !_provinces.Contains(secondProvince) && !otherRailway._provinces.Contains(firstProvince))
+                {
+                    innerJoinProvince = firstProvince;
+                    innerOtherJoinProvince = secondProvince;
+                    if (Level != otherRailway.Level) innerCanJoinResult = EnumCanJoinRailwaysResult.CAN_JOIN_BUT_RAILWAYS_HAS_DIFFERENT_LEVELS;
+                    else innerCanJoinResult = EnumCanJoinRailwaysResult.CAN_JOIN;
+
+                    return true;
+                }
+                else return false;
+            }
+
+        }
+        public bool TryJoinWithRailway(Railway[] otherRailwayContainer)
+        {
+            if (ProvincesCount < 2 || otherRailwayContainer == null || otherRailwayContainer.Length != 1 || otherRailwayContainer[0] == null || otherRailwayContainer[0].ProvincesCount < 2) return false;
+
+            var otherRailway = otherRailwayContainer[0];
+
+            if (CanJoin(otherRailway, out EnumCanJoinRailwaysResult canJoinRailway, out Province joinProvince, out Province otherJoinProvince))
+            {
+                switch (canJoinRailway)
+                {
+                    case EnumCanJoinRailwaysResult.CAN_JOIN: break;
+                    case EnumCanJoinRailwaysResult.CAN_JOIN_BUT_RAILWAYS_HAS_DIFFERENT_LEVELS:
+                        var dialogResult = MessageBox.Show(
+                                GuiLocManager.GetLoc(
+                                    EnumLocKey.TOOL_CAN_JOIN_RAILWAYS_BUT_THEY_HAS_DIFFERENT_LEVELS_SHOULD_I_COUNTINUE,
+                                    new Dictionary<string, string> {
+                                        { "{firstRailwayLevel}", $"{Level}" },
+                                        { "{secondRailwayLevel}", $"{otherRailway.Level}" },
+                                        { "{newRailwayLevel}", $"{Level}" }
+                                    }
+                                ),
+                                GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION),
+                                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
+                            );
+
+                        if (dialogResult != DialogResult.Yes) return false;
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+
+                RemoveFromProvinces();
+                otherRailway.RemoveFromProvinces();
+
+                if (FirstProvince == joinProvince && otherRailway.FirstProvince == otherJoinProvince)
+                {
+                    if (joinProvince == otherJoinProvince) otherRailway._provinces.RemoveAt(0);
+                    otherRailway._provinces.Reverse();
+                    _provinces.InsertRange(0, otherRailway._provinces);
+                }
+                else if (FirstProvince == joinProvince && otherRailway.LastProvince == otherJoinProvince)
+                {
+                    if (joinProvince == otherJoinProvince) _provinces.RemoveAt(0);
+                    _provinces.InsertRange(0, otherRailway._provinces);
+                }
+                else if (LastProvince == joinProvince && otherRailway.FirstProvince == otherJoinProvince)
+                {
+                    if (joinProvince == otherJoinProvince) otherRailway._provinces.RemoveAt(0);
+                    _provinces.AddRange(otherRailway._provinces);
+                }
+                else if (LastProvince == joinProvince && otherRailway.LastProvince == otherJoinProvince)
+                {
+                    if (joinProvince == otherJoinProvince) otherRailway._provinces.RemoveAt(otherRailway.ProvincesCount - 1);
+                    otherRailway._provinces.Reverse();
+                    _provinces.AddRange(otherRailway._provinces);
+                }
+                else return false;
+
+                AddToProvinces();
+                RailwayTool.SilentRemoveRailway(otherRailway);
+                otherRailwayContainer[0] = null;
+                return true;
+            }
+            else return false;
+        }
+
+        public enum EnumCanJoinRailwaysResult
+        {
+            CANT_JOIN,
+            CANT_JOIN_RAILWAY_DOESNT_HAVE_PROVINCES,
+            CANT_JOIN_RAILWAYS_ENDS_DO_NOT_HAS_BORDERS,
+            CAN_JOIN_BUT_RAILWAYS_HAS_DIFFERENT_LEVELS,
+            CAN_JOIN
         }
 
         public void Save(StringBuilder sb)

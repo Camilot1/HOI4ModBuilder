@@ -40,10 +40,15 @@ namespace HOI4ModBuilder.src.managers
 
         public void Add(Action undoAction, Action redoAction)
         {
-            Add(new ActionPair(undoAction, redoAction));
+            Add(new ActionPair(undoAction, redoAction), false);
         }
 
-        public void Add(ActionPair pair)
+        public void SilentAdd(Action undoAction, Action redoAction)
+        {
+            Add(new ActionPair(undoAction, redoAction), true);
+        }
+
+        public void Add(ActionPair pair, bool isSilent)
         {
             Logger.TryOrLog(() =>
             {
@@ -54,7 +59,7 @@ namespace HOI4ModBuilder.src.managers
                 }
 
                 _history.Add(pair);
-                pair.redo();
+                if (!isSilent) pair.redo();
 
                 if (_history.Count > SettingsManager.settings.actionHistorySize) _history.RemoveAt(0);
                 else _currentPair++;

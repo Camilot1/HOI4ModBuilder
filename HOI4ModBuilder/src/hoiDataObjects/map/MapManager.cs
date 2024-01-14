@@ -934,7 +934,7 @@ namespace HOI4ModBuilder.managers
                         new Dictionary<string, string> { { "{filePath}", filePath } }
                     ),
                     GuiLocManager.GetLoc(EnumLocKey.AUTOTOOLS_FIND_MAP_CHANGES_PNG_SAVED_TITLE),
-                    MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification)
                 );
 
 
