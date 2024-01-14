@@ -144,7 +144,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             if (owner != null)
                 sb.Append(outTab).Append(tab).Append("owner = ").Append(owner.tag).Append(Constants.NEW_LINE);
             if (controller != null)
-                sb.Append(outTab).Append(tab).Append("owner = ").Append(controller.tag).Append(Constants.NEW_LINE);
+                sb.Append(outTab).Append(tab).Append("controller = ").Append(controller.tag).Append(Constants.NEW_LINE);
 
             if ((owner != null || controller != null) &&
                 (victoryPoints.Count > 0 || stateBuildings.Count > 0 || provincesBuildings.Count > 0 ||
