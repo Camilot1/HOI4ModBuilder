@@ -51,7 +51,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             foreach (var fileInfo in fileInfos.Values)
             {
                 _currentFile = fileInfo;
-                ParadoxParser.Parse(new FileStream(fileInfo.filePath, FileMode.Open), Instance);
+                using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
+                    ParadoxParser.Parse(fs, Instance);
             }
             Logger.Log("Loading of States finished");
         }

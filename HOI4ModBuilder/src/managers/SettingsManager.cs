@@ -175,8 +175,8 @@ namespace HOI4ModBuilder.src
 
         public ModDescriptor Load(string descriptorPath)
         {
-            var fs = new FileStream(descriptorPath, FileMode.Open);
-            ParadoxParser.Parse(fs, this);
+            using (var fs = new FileStream(descriptorPath, FileMode.Open))
+                ParadoxParser.Parse(fs, this);
             return this;
         }
 

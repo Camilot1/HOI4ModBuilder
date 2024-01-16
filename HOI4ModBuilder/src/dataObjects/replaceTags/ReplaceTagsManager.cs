@@ -181,9 +181,7 @@ namespace HOI4ModBuilder.src.dataObjects.replaceTags
             foreach (var fileInfo in fileInfos.Values)
             {
                 using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
-                {
                     ParadoxParser.Parse(fs, new ReplaceTagDummyFile(FoundedTokens, fileInfo, rtInfo.replaceTag, rtInfo.groupTokenInFile, rtInfo.tokenInFileStartsWith, list));
-                }
             }
 
             if (list.Count > 0) _replaceTagsListsMap[rtInfo.replaceTag] = list;

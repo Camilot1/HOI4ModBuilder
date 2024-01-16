@@ -67,9 +67,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             if (!fileInfos.TryGetValue("adjacency_rules.txt", out FileInfo rulesFileInfo)) throw new FileNotFoundException("adjacency_rules.txt");
             NeedToSaveAdjacencyRules = rulesFileInfo.needToSave;
 
-            var fs = new FileStream(rulesFileInfo.filePath, FileMode.Open);
             var adjRules = new AdjacencyRuleList(_adjacencyRules);
-            ParadoxParser.Parse(fs, adjRules);
+            using (var fs = new FileStream(rulesFileInfo.filePath, FileMode.Open))
+                ParadoxParser.Parse(fs, adjRules);
 
             MainForm.Instance.SetAdjacencyRules(_adjacencyRules.Keys);
 

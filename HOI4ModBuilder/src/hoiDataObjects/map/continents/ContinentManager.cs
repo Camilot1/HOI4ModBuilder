@@ -33,12 +33,11 @@ namespace HOI4ModBuilder.hoiDataObjects
             if (fileInfos.ContainsKey("continent.txt"))
             {
                 _currentFile = fileInfos["continent.txt"];
-                var fs = new FileStream(_currentFile.filePath, FileMode.Open);
-                _continents = new List<string>();
-                _continents.Add("");
+                _continents = new List<string> { "" };
 
                 MainForm.Instance.InvokeAction(() => MainForm.Instance.ToolStripComboBox_Map_Province_Continent.Items.Clear());
-                ParadoxParser.Parse(fs, Instance);
+                using (var fs = new FileStream(_currentFile.filePath, FileMode.Open))
+                    ParadoxParser.Parse(fs, Instance);
 
                 if (_guiReinitAction == null)
                 {

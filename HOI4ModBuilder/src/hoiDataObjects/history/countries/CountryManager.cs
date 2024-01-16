@@ -34,20 +34,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
 
             var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"common\countries\");
 
-            FileStream fs;
             if (fileInfos.TryGetValue("colors.txt", out FileInfo colorsFileInfo))
             {
                 Logger.Log($"Loading CountryGraphics \"colors.txt\"");
-                fs = new FileStream(colorsFileInfo.filePath, FileMode.Open);
-                ParadoxParser.Parse(fs, new CountryColorsList(colorsFileInfo.filePath, _countryColors));
+                using (var fs = new FileStream(colorsFileInfo.filePath, FileMode.Open))
+                    ParadoxParser.Parse(fs, new CountryColorsList(colorsFileInfo.filePath, _countryColors));
             }
             //else throw new Exception(@"Отсутствует файл common\countries\colors.txt");
 
             if (fileInfos.TryGetValue("cosmetic.txt", out FileInfo cosmeticFileInfo))
             {
                 Logger.Log($"Loading CountryGraphics \"cosmetic.txt\"");
-                fs = new FileStream(cosmeticFileInfo.filePath, FileMode.Open);
-                ParadoxParser.Parse(fs, new CountryColorsList(cosmeticFileInfo.filePath, _cosmeticCountryColors));
+                using (var fs = new FileStream(cosmeticFileInfo.filePath, FileMode.Open))
+                    ParadoxParser.Parse(fs, new CountryColorsList(cosmeticFileInfo.filePath, _cosmeticCountryColors));
             }
             //else throw new Exception(@"Отсутствует файл common\countries\cosmetic.txt");
 

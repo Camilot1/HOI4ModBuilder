@@ -45,8 +45,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             foreach (FileInfo fileInfo in fileInfos.Values)
             {
                 _currentFile = fileInfo;
-                var fs = new FileStream(fileInfo.filePath, FileMode.Open);
-                ParadoxParser.Parse(fs, Instance);
+                using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
+                    ParadoxParser.Parse(fs, Instance);
             }
         }
 

@@ -27,8 +27,8 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
             foreach (var fileInfo in fileInfos.Values)
             {
                 _currentFile = fileInfo;
-                var fs = new FileStream(fileInfo.filePath, FileMode.Open);
-                ParadoxParser.Parse(fs, Instance);
+                using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
+                    ParadoxParser.Parse(fs, Instance);
             }
 
             if (_guiReinitAction == null)

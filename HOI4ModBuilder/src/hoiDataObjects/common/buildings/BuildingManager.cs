@@ -27,8 +27,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             foreach (var fileInfo in fileInfos.Values)
             {
                 _currentFile = fileInfo;
-                var fs = new System.IO.FileStream(fileInfo.filePath, System.IO.FileMode.Open);
-                ParadoxParser.Parse(fs, Instance);
+                using (var fs = new System.IO.FileStream(fileInfo.filePath, System.IO.FileMode.Open))
+                    ParadoxParser.Parse(fs, Instance);
             }
         }
 

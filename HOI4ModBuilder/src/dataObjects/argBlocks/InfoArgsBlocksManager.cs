@@ -141,8 +141,9 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             {
                 var list = new List<DefinedModifierInfo>();
                 var file = new DefinedModifierFile(list);
-                var fs = new FileStream(fileInfo.Value.filePath, FileMode.Open);
-                ParadoxParser.Parse(fs, file);
+
+                using (var fs = new FileStream(fileInfo.Value.filePath, FileMode.Open))
+                    ParadoxParser.Parse(fs, file);
 
                 foreach (DefinedModifierInfo info in list)
                 {
