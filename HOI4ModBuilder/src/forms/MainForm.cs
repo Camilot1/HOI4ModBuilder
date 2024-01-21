@@ -1064,12 +1064,23 @@ namespace HOI4ModBuilder
                 {
                     ToolStripComboBox_Map_Railway_Level.SelectedIndex = SupplyManager.SelectedRailway.Level - 1;
 
+                    ToolStripMenuItem_Map_Railway_AddProvince.Enabled = SupplyManager.SelectedRailway.CanAddProvince(ProvinceManager.RMBProvince);
+                    ToolStripMenuItem_Map_Railway_RemoveProvince.Enabled = SupplyManager.SelectedRailway.CanRemoveProvince(ProvinceManager.RMBProvince);
+
                     ToolStripMenuItem_Map_Railway_Split.Enabled = SupplyManager.SelectedRailway.CanSplitAtProvince(ProvinceManager.RMBProvince, out _);
                     ToolStripMenuItem_Map_Railway_Join.Enabled = SupplyManager.SelectedRailway.CanJoin(SupplyManager.RMBRailway, out _, out _, out _);
 
                     ToolStripMenuItem_Map_Railway_Remove.Enabled = true;
                 }
-                else ToolStripMenuItem_Map_Railway_Remove.Enabled = false;
+                else
+                {
+                    ToolStripMenuItem_Map_Railway_AddProvince.Enabled = false;
+                    ToolStripMenuItem_Map_Railway_RemoveProvince.Enabled = false;
+                    ToolStripMenuItem_Map_Railway_Split.Enabled = false;
+                    ToolStripMenuItem_Map_Railway_Join.Enabled = false;
+
+                    ToolStripMenuItem_Map_Railway_Remove.Enabled = false;
+                }
             });
         }
 
@@ -1443,6 +1454,12 @@ namespace HOI4ModBuilder
 
         private void ToolStripMenuItem_Data_Recovery_Regions_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => Task.Run(() => new StrategicRegionsDataRecoveryForm().ShowDialog()));
+
+        private void ToolStripMenuItem_Map_Railway_AddProvince_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => RailwayTool.AddProvinceToRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
+
+        private void ToolStripMenuItem_Map_Railway_RemoveProvince_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => RailwayTool.RemoveProvinceFromRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
 
         public void SetAdjacencyRules(Dictionary<string, AdjacencyRule>.KeyCollection rules)
         {

@@ -81,12 +81,12 @@
             this.ToolStripMenuItem_Map_Search_Province = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Search_State = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Search_Region = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Map_Province = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripComboBox_Map_Province_Type = new System.Windows.Forms.ToolStripComboBox();
             this.ToolStripMenuItem_Map_Province_IsCoastal = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripComboBox_Map_Province_Terrain = new System.Windows.Forms.ToolStripComboBox();
             this.ToolStripComboBox_Map_Province_Continent = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Map_Adjacency = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Adjacency_Create = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripComboBox_Map_Adjacency_Type = new System.Windows.Forms.ToolStripComboBox();
@@ -116,8 +116,13 @@
             this.ToolStripMenuItem_Map_Railway = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Railway_Create = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripComboBox_Map_Railway_Level = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripMenuItem_Map_Railway_AddProvince = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Map_Railway_RemoveProvince = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Map_Railway_Join = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Railway_Split = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Map_Railway_Remove = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_SupplyHub = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_SupplyHub_Create = new System.Windows.Forms.ToolStripMenuItem();
@@ -626,8 +631,8 @@
             resources.ApplyResources(this.ContextMenuStrip_Map, "ContextMenuStrip_Map");
             this.ContextMenuStrip_Map.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_Map_Search,
-            this.toolStripSeparator7,
             this.ToolStripMenuItem_Map_Province,
+            this.toolStripSeparator7,
             this.ToolStripMenuItem_Map_Adjacency,
             this.ToolStripMenuItem_Map_Railway,
             this.ToolStripMenuItem_Map_SupplyHub,
@@ -676,11 +681,6 @@
             this.ToolStripMenuItem_Map_Search_Region.Name = "ToolStripMenuItem_Map_Search_Region";
             this.ToolStripMenuItem_Map_Search_Region.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Search_Region_Click);
             // 
-            // toolStripSeparator7
-            // 
-            resources.ApplyResources(this.toolStripSeparator7, "toolStripSeparator7");
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            // 
             // ToolStripMenuItem_Map_Province
             // 
             resources.ApplyResources(this.ToolStripMenuItem_Map_Province, "ToolStripMenuItem_Map_Province");
@@ -727,6 +727,11 @@
             this.ToolStripComboBox_Map_Province_Continent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ToolStripComboBox_Map_Province_Continent.Name = "ToolStripComboBox_Map_Province_Continent";
             this.ToolStripComboBox_Map_Province_Continent.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBox_Map_Province_Continent_SelectedIndexChanged);
+            // 
+            // toolStripSeparator7
+            // 
+            resources.ApplyResources(this.toolStripSeparator7, "toolStripSeparator7");
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
             // 
             // ToolStripMenuItem_Map_Adjacency
             // 
@@ -924,8 +929,13 @@
             this.ToolStripMenuItem_Map_Railway.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_Map_Railway_Create,
             this.ToolStripComboBox_Map_Railway_Level,
+            this.toolStripSeparator22,
+            this.ToolStripMenuItem_Map_Railway_AddProvince,
+            this.ToolStripMenuItem_Map_Railway_RemoveProvince,
+            this.toolStripSeparator23,
             this.ToolStripMenuItem_Map_Railway_Join,
             this.ToolStripMenuItem_Map_Railway_Split,
+            this.toolStripSeparator21,
             this.ToolStripMenuItem_Map_Railway_Remove});
             this.ToolStripMenuItem_Map_Railway.Name = "ToolStripMenuItem_Map_Railway";
             this.ToolStripMenuItem_Map_Railway.DropDownOpened += new System.EventHandler(this.ToolStripMenuItem_Map_Railway_DropDownOpened);
@@ -956,6 +966,28 @@
             this.ToolStripComboBox_Map_Railway_Level.Name = "ToolStripComboBox_Map_Railway_Level";
             this.ToolStripComboBox_Map_Railway_Level.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBox_Map_Railway_Level_SelectedIndexChanged);
             // 
+            // toolStripSeparator22
+            // 
+            resources.ApplyResources(this.toolStripSeparator22, "toolStripSeparator22");
+            this.toolStripSeparator22.Name = "toolStripSeparator22";
+            // 
+            // ToolStripMenuItem_Map_Railway_AddProvince
+            // 
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Railway_AddProvince, "ToolStripMenuItem_Map_Railway_AddProvince");
+            this.ToolStripMenuItem_Map_Railway_AddProvince.Name = "ToolStripMenuItem_Map_Railway_AddProvince";
+            this.ToolStripMenuItem_Map_Railway_AddProvince.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Railway_AddProvince_Click);
+            // 
+            // ToolStripMenuItem_Map_Railway_RemoveProvince
+            // 
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Railway_RemoveProvince, "ToolStripMenuItem_Map_Railway_RemoveProvince");
+            this.ToolStripMenuItem_Map_Railway_RemoveProvince.Name = "ToolStripMenuItem_Map_Railway_RemoveProvince";
+            this.ToolStripMenuItem_Map_Railway_RemoveProvince.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Railway_RemoveProvince_Click);
+            // 
+            // toolStripSeparator23
+            // 
+            resources.ApplyResources(this.toolStripSeparator23, "toolStripSeparator23");
+            this.toolStripSeparator23.Name = "toolStripSeparator23";
+            // 
             // ToolStripMenuItem_Map_Railway_Join
             // 
             resources.ApplyResources(this.ToolStripMenuItem_Map_Railway_Join, "ToolStripMenuItem_Map_Railway_Join");
@@ -967,6 +999,11 @@
             resources.ApplyResources(this.ToolStripMenuItem_Map_Railway_Split, "ToolStripMenuItem_Map_Railway_Split");
             this.ToolStripMenuItem_Map_Railway_Split.Name = "ToolStripMenuItem_Map_Railway_Split";
             this.ToolStripMenuItem_Map_Railway_Split.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Railway_Split_Click);
+            // 
+            // toolStripSeparator21
+            // 
+            resources.ApplyResources(this.toolStripSeparator21, "toolStripSeparator21");
+            this.toolStripSeparator21.Name = "toolStripSeparator21";
             // 
             // ToolStripMenuItem_Map_Railway_Remove
             // 
@@ -1763,6 +1800,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Data_Recovery;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Data_Recovery_Regions;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Railway_AddProvince;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Railway_RemoveProvince;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
     }
 }
 

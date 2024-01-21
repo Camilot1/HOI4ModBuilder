@@ -373,9 +373,6 @@
   <data name="ToolStripMenuItem_Map_Search.Text" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 6</value>
-  </data>
   <data name="ToolStripMenuItem_Map_Province_IsCoastal.Text" xml:space="preserve">
     <value>IsCoastal</value>
   </data>
@@ -384,6 +381,9 @@
   </data>
   <data name="ToolStripMenuItem_Map_Province.Text" xml:space="preserve">
     <value>Province</value>
+  </data>
+  <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_Create.Text" xml:space="preserve">
     <value>Create Adjacency</value>
@@ -424,6 +424,9 @@
   <data name="ToolStripMenuItem_Map_Adjacency.Text" xml:space="preserve">
     <value>Adjacency</value>
   </data>
+  <data name="ToolStripMenuItem_Map_Railway_Create.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
   <data name="ToolStripMenuItem_Map_Railway_Create.Text" xml:space="preserve">
     <value>Create Railway</value>
   </data>
@@ -442,11 +445,41 @@
   <data name="ToolStripComboBox_Map_Railway_Level.Items4" xml:space="preserve">
     <value>Level 5</value>
   </data>
+  <data name="toolStripSeparator22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Railway_AddProvince.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Railway_AddProvince.Text" xml:space="preserve">
+    <value>Add Province</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Railway_RemoveProvince.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Railway_RemoveProvince.Text" xml:space="preserve">
+    <value>Remove Province</value>
+  </data>
+  <data name="toolStripSeparator23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Railway_Join.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
   <data name="ToolStripMenuItem_Map_Railway_Join.Text" xml:space="preserve">
     <value>Join Railways</value>
   </data>
+  <data name="ToolStripMenuItem_Map_Railway_Split.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
   <data name="ToolStripMenuItem_Map_Railway_Split.Text" xml:space="preserve">
     <value>Split Railway</value>
+  </data>
+  <data name="toolStripSeparator21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Railway_Remove.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Remove.Text" xml:space="preserve">
     <value>Remove Railway</value>
@@ -818,7 +851,7 @@
     <value>States</value>
   </data>
   <data name="ToolStripMenuItem_Data_Recovery_Regions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>165, 22</value>
   </data>
   <data name="ToolStripMenuItem_Data_Recovery_Regions.Text" xml:space="preserve">
     <value>Strategic Regions</value>

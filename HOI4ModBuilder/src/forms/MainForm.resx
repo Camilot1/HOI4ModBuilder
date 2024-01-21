@@ -155,6 +155,9 @@
   <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Railway_AddProvince.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;Button_TexturesLoad.Name" xml:space="preserve">
     <value>Button_TexturesLoad</value>
   </data>
@@ -211,6 +214,9 @@
   </data>
   <data name="&gt;&gt;Button_OpenSearchErrorsSettings.Parent" xml:space="preserve">
     <value>groupBox4</value>
+  </data>
+  <data name="toolStripSeparator21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 6</value>
   </data>
   <data name="ComboBox_EditLayer.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 21</value>
@@ -322,6 +328,9 @@
   </data>
   <data name="ToolStripMenuItem_Save.Text" xml:space="preserve">
     <value>Сохранить</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RegionsValidation.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Edit_AutoTools_RegionsValidation</value>
   </data>
   <data name="textBox_HOI4PixelPos.Size" type="System.Drawing.Size, System.Drawing">
     <value>115, 20</value>
@@ -479,11 +488,14 @@
   <data name="Panel_SecondColor.Size" type="System.Drawing.Size, System.Drawing">
     <value>21, 21</value>
   </data>
-  <data name="ComboBox_GenerateColor_Type.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="ToolStripMenuItem_Map_Railway_RemoveProvince.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 22</value>
   </data>
   <data name="&gt;&gt;GroupBox_Tool_Parameter.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>283, 22</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="GroupBox_Progress.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -512,6 +524,9 @@
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 6</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Railway_RemoveProvince.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripTextBox_Map_Adjacency_Comment.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -611,6 +626,9 @@
   </data>
   <data name="ToolStripMenuItem_Load_Adjacencies.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 22</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator23.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="toolStripSeparator16.Size" type="System.Drawing.Size, System.Drawing">
     <value>257, 6</value>
@@ -772,7 +790,7 @@
     <value>ToolStripMenuItem_Load_Adjacencies</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Join.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
+    <value>194, 22</value>
   </data>
   <data name="Button_OpenSearchErrorsSettings.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -951,6 +969,9 @@
   <data name="Button_TextureAdd.Size" type="System.Drawing.Size, System.Drawing">
     <value>26, 23</value>
   </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Railway_RemoveProvince.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Railway_RemoveProvince</value>
+  </data>
   <data name="&gt;&gt;ToolStripMenuItem_Settings.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -998,9 +1019,6 @@
   </data>
   <data name="CheckedListBox_MapAdditionalLayers.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left</value>
-  </data>
-  <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 6</value>
   </data>
   <data name="TabPage_Buildings.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -1056,6 +1074,9 @@
   <data name="ComboBox_BordersType.Items1" xml:space="preserve">
     <value>Провинции (б)</value>
   </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Railway_AddProvince.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Railway_AddProvince</value>
+  </data>
   <data name="&gt;&gt;toolStripSeparator5.Name" xml:space="preserve">
     <value>toolStripSeparator5</value>
   </data>
@@ -1067,6 +1088,9 @@
   </data>
   <data name="&gt;&gt;TabPage_Resources.Parent" xml:space="preserve">
     <value>TabControl_Main</value>
+  </data>
+  <data name="toolStripSeparator23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 6</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Load_Supply_All.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1089,8 +1113,8 @@
   <data name="&gt;&gt;ComboBox_GenerateColor_Type.Parent" xml:space="preserve">
     <value>GroupBox_GenerateColor</value>
   </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_IsCoastal.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="toolStripSeparator22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 6</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator14.Name" xml:space="preserve">
     <value>toolStripSeparator14</value>
@@ -1341,8 +1365,8 @@
   <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
     <value>groupBox3</value>
   </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Data_Recovery.Name" xml:space="preserve">
-    <value>ToolStripMenuItem_Data_Recovery</value>
+  <data name="&gt;&gt;toolStripSeparator22.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Save_Maps_Cities.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1359,8 +1383,8 @@
   <data name="&gt;&gt;ToolStripMenuItem_Load_Maps_Cities.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ToolStripMenuItem_Edit_Undo.Text" xml:space="preserve">
-    <value>Отмена</value>
+  <data name="TabPage_Buildings.Text" xml:space="preserve">
+    <value>Постройки</value>
   </data>
   <data name="ToolStripTextBox_Map_Adjacency_SecondProvinceId.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
@@ -1440,8 +1464,8 @@
   <data name="groupBox8.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 175</value>
   </data>
-  <data name="ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>283, 22</value>
+  <data name="ToolStripMenuItem_Map_Railway_AddProvince.Text" xml:space="preserve">
+    <value>Добавить провинцию</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Redo.Size" type="System.Drawing.Size, System.Drawing">
     <value>226, 22</value>
@@ -1529,6 +1553,9 @@
   </data>
   <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
     <value>FlowLayoutPanel_ToolBar</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator23.Name" xml:space="preserve">
+    <value>toolStripSeparator23</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Save_Maps_Terrain.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1917,8 +1944,14 @@
   <data name="&gt;&gt;ToolStripMenuItem_Save_Maps_All.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Data_Recovery.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Data_Recovery</value>
+  </data>
   <data name="flowLayoutPanel2.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
     <value>TopDown</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Undo.Text" xml:space="preserve">
+    <value>Отмена</value>
   </data>
   <data name="textBox_SelectedObjectId.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -2017,7 +2050,7 @@
     <value>Валидация областей</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Create.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
+    <value>194, 22</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Load_Supply_Hubs.Name" xml:space="preserve">
     <value>ToolStripMenuItem_Load_Supply_Hubs</value>
@@ -2086,7 +2119,7 @@
     <value>ComboBox_Tool_Parameter</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Split.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
+    <value>194, 22</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator11.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2203,7 +2236,7 @@
     <value>154, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Remove.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
+    <value>194, 22</value>
   </data>
   <data name="&gt;&gt;groupBox9.Name" xml:space="preserve">
     <value>groupBox9</value>
@@ -2367,6 +2400,9 @@
   <data name="ToolStripTextBox_Map_Adjacency_FirstProvinceId.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
   </data>
+  <data name="ComboBox_GenerateColor_Type.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
   <data name="&gt;&gt;ToolStripMenuItem_Map_Actions.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -2487,6 +2523,12 @@
   <data name="textBox_PixelPos.Location" type="System.Drawing.Point, System.Drawing">
     <value>32, 45</value>
   </data>
+  <data name="&gt;&gt;toolStripSeparator22.Name" xml:space="preserve">
+    <value>toolStripSeparator22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Railway_AddProvince.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 22</value>
+  </data>
   <data name="&gt;&gt;ToolStripTextBox_Map_Adjacency_SecondProvinceId.Name" xml:space="preserve">
     <value>ToolStripTextBox_Map_Adjacency_SecondProvinceId</value>
   </data>
@@ -2556,8 +2598,11 @@
   <data name="ToolStripTextBox_Map_Adjacency_Comment.Size" type="System.Drawing.Size, System.Drawing">
     <value>200, 23</value>
   </data>
-  <data name="ToolStripMenuItem_Edit_Undo.ShortcutKeyDisplayString" xml:space="preserve">
-    <value>Ctrl+Z</value>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_IsCoastal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 6</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Map_Adjacency_Rule_AddRequiredProvince.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2654,6 +2699,9 @@
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>18, 13</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator21.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;flowLayoutPanel1.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -2778,8 +2826,8 @@
   <data name="&gt;&gt;ToolStripTextBox_Map_Adjacency_SecondPointPos.Name" xml:space="preserve">
     <value>ToolStripTextBox_Map_Adjacency_SecondPointPos</value>
   </data>
-  <data name="TabPage_Buildings.Text" xml:space="preserve">
-    <value>Постройки</value>
+  <data name="ToolStripMenuItem_Edit_Undo.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>Ctrl+Z</value>
   </data>
   <data name="ToolStripMenuItem_Language.Size" type="System.Drawing.Size, System.Drawing">
     <value>106, 20</value>
@@ -2820,8 +2868,8 @@
   <data name="ToolStripMenuItem_Map_SupplyHub_Create.Text" xml:space="preserve">
     <value>Создать узел</value>
   </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RegionsValidation.Name" xml:space="preserve">
-    <value>ToolStripMenuItem_Edit_AutoTools_RegionsValidation</value>
+  <data name="&gt;&gt;toolStripSeparator21.Name" xml:space="preserve">
+    <value>toolStripSeparator21</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Load.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -3011,6 +3059,9 @@
   </data>
   <data name="ToolStripMenuItem_Map_Search_Position.Size" type="System.Drawing.Size, System.Drawing">
     <value>176, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Railway_RemoveProvince.Text" xml:space="preserve">
+    <value>Убрать провинцию</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Load_Supply_Railways.Name" xml:space="preserve">
     <value>ToolStripMenuItem_Load_Supply_Railways</value>
