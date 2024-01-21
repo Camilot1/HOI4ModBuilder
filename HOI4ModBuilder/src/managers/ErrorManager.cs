@@ -2,6 +2,7 @@
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.utils;
@@ -319,14 +320,14 @@ namespace HOI4ModBuilder.src.managers
         {
             if (!CheckFilter(EnumMapErrorCode.PROVINCE_MULTI_REGIONS)) return;
 
-            foreach (var r in StrategicRegionManager.GetRegions())
+            Action<StrategicRegion, Province> action = (r, p) =>
             {
-                foreach (var p in r.provinces)
-                {
-                    if (p.region != null && p.region.Id != r.Id)
-                        AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_MULTI_REGIONS);
-                }
-            }
+                if (p.region != null && p.region.Id != r.Id)
+                    AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_MULTI_REGIONS);
+            };
+
+            foreach (var r in StrategicRegionManager.GetRegions())
+                r.ForEachProvince(action);
         }
 
         private static void CheckProvincesMultiVictoryPoints()

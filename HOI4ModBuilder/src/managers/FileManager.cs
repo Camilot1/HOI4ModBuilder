@@ -17,6 +17,34 @@ namespace HOI4ModBuilder.src.managers
         }
 
         private static readonly string[] TXT_FORMAT = { ".txt" };
+
+        public static Dictionary<string, FileInfo> ReadMultiTXTFileInfos(string directoryPath) => ReadMultiFileInfos(directoryPath, TXT_FORMAT);
+
+        public static Dictionary<string, FileInfo> ReadMultiFileInfos(string directoryPath, string[] fileFormats)
+        {
+            var fileInfos = ReadSingleFileInfos(directoryPath);
+            if (fileFormats == null || fileFormats.Length == 0) return fileInfos;
+
+            var newFileInfos = new Dictionary<string, FileInfo>();
+
+            //Идём по именам найденных файлов
+            foreach (var fileName in fileInfos.Keys)
+            {
+                //Идём по разрешённым форматам
+                foreach (var format in fileFormats)
+                {
+                    //Проверяем формат файла
+                    if (fileName.Length > format.Length && fileName.EndsWith(format))
+                    {
+                        newFileInfos[fileName] = fileInfos[fileName];
+                        break;
+                    }
+                }
+            }
+
+            return newFileInfos;
+        }
+
         public static Dictionary<string, FileInfo> ReadMultiTXTFileInfos(Settings settings, string subDirectoryPath) => ReadMultiFileInfos(settings, subDirectoryPath, TXT_FORMAT);
 
         public static Dictionary<string, FileInfo> ReadMultiFileInfos(Settings settings, string subDirectory, string[] fileFormats)
@@ -42,6 +70,26 @@ namespace HOI4ModBuilder.src.managers
             }
 
             return newFileInfos;
+        }
+
+        private static Dictionary<string, FileInfo> ReadSingleFileInfos(string directoryPath)
+        {
+            string fileName;
+            var fileInfos = new Dictionary<string, FileInfo>();
+
+            if (!directoryPath.EndsWith("\\")) directoryPath = directoryPath + "\\";
+
+            foreach (string filePath in Directory.GetFiles(directoryPath))
+            {
+                string[] filePathPart = filePath.Split('\\');
+                fileName = filePathPart[filePathPart.Length - 1];
+
+                if (fileInfos.ContainsKey(fileName)) fileInfos.Remove(fileName);
+
+                fileInfos.Add(fileName, new FileInfo(fileName, filePath, false));
+            }
+
+            return fileInfos;
         }
 
         private static void ReadSingleFileInfos(Settings settings, Dictionary<string, FileInfo> fileInfos, string directoryPath, string subDirectoryPath, bool needToSave)

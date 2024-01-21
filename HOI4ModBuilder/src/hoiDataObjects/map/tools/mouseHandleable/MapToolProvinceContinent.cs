@@ -50,14 +50,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         }
                         break;
                     case EnumEditLayer.STRATEGIC_REGIONS:
-                        if (province.region != null)
+                        province.region?.ForEachProvince((r, p) =>
                         {
-                            foreach (var p in province.region.provinces)
-                            {
-                                if (p.ContinentId != newContinentId)
-                                    tuples.Add(new Tuple<byte, byte, Province>(p.ContinentId, newContinentId, p));
-                            }
-                        }
+                            if (p.ContinentId != newContinentId)
+                                tuples.Add(new Tuple<byte, byte, Province>(p.ContinentId, newContinentId, p));
+                        });
                         break;
                 }
 

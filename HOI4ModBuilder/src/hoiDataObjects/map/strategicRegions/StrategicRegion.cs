@@ -19,37 +19,92 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public override int GetHashCode() => _hashCode;
 
         public bool needToSave;
+        public string fileName;
+
+        private bool _silentLoad;
+
         public ushort Id { get; private set; }
-        public string name;
-        public ProvincialTerrain terrain;
 
-        public List<Province> provinces = new List<Province>();
-        public List<ProvinceBorder> borders = new List<ProvinceBorder>(0);
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (_name != value) needToSave = true;
+                _name = value;
+            }
+        }
 
-        public RegionStaticModifiers staticModifiers = new RegionStaticModifiers();
-        public RegionWeather weather;
+        private ProvincialTerrain _terrain;
+        public ProvincialTerrain Terrain
+        {
+            get { return _terrain; }
+            set
+            {
+                if (_terrain != value) needToSave = true;
+                _terrain = value;
+            }
+        }
+
+        private List<Province> _provinces = new List<Province>();
+        private List<ProvinceBorder> _borders = new List<ProvinceBorder>(0);
+        public List<ProvinceBorder> Borders
+        {
+            get { return _borders; }
+        }
+
+
+        private RegionStaticModifiers _staticModifiers = new RegionStaticModifiers();
+        public RegionStaticModifiers StaticModifiers
+        {
+            get { return _staticModifiers; }
+            set
+            {
+                if (_staticModifiers != value) needToSave = true;
+                _staticModifiers = value;
+            }
+        }
+
+        private RegionWeather _weather;
+        public RegionWeather Weather
+        {
+            get { return _weather; }
+            set
+            {
+                if (_weather != value) needToSave = true;
+                _weather = value;
+                _weather.region = this;
+            }
+        }
 
         public int color;
         public Point2F center;
         public bool dislayCenter;
         public uint pixelsCount;
 
-        public StrategicRegion()
+        public StrategicRegion(string fileName)
         {
-            weather = new RegionWeather(this);
+            this.fileName = fileName;
+            _weather = new RegionWeather(this);
+        }
+
+        public StrategicRegion(string fileName, bool silentLoad) : this(fileName)
+        {
+            _silentLoad = silentLoad;
         }
 
         public void AddProvince(Province province)
         {
-            provinces.Add(province);
-            provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
+            _provinces.Add(province);
+            _provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
             province.region = this;
             needToSave = true;
         }
 
         public bool RemoveProvince(Province province)
         {
-            if (provinces.Remove(province))
+            if (_provinces.Remove(province))
             {
                 province.region = null;
                 needToSave = true;
@@ -62,7 +117,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             double sumX = 0, sumY = 0;
             double pixelsCount = 0;
-            foreach (var province in provinces)
+            foreach (var province in _provinces)
             {
                 sumX += province.center.x * province.pixelsCount;
                 sumY += province.center.y * province.pixelsCount;
@@ -76,21 +131,51 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             this.pixelsCount = (uint)pixelsCount;
         }
 
+        public void SetSilent(bool value)
+        {
+            if (value)
+            {
+                foreach (var p in _provinces) p.region = null;
+            }
+            else
+            {
+                foreach (var p in _provinces) p.region = this;
+                InitBorders();
+                CalculateCenter();
+                CalculateColor();
+            }
+        }
+
+        public void TransferProvincesFrom(StrategicRegion otherRegion)
+        {
+
+            foreach (var p in _provinces) p.region = null;
+
+            _provinces = otherRegion._provinces;
+            otherRegion._provinces = new List<Province>();
+
+            foreach (var p in _provinces) p.region = this;
+            InitBorders();
+            CalculateCenter();
+
+            needToSave = true;
+        }
+
         public void Save(StringBuilder sb)
         {
             string tab = "\t";
             sb.Append("strategic_region = {").Append(Constants.NEW_LINE);
             sb.Append(tab).Append("id = ").Append(Id).Append(Constants.NEW_LINE);
-            sb.Append(tab).Append("name = \"").Append(name).Append("\"").Append(Constants.NEW_LINE).Append(Constants.NEW_LINE);
-            if (terrain != null) sb.Append(tab).Append("naval_terrain = ").Append(terrain.name).Append(Constants.NEW_LINE);
+            sb.Append(tab).Append("name = \"").Append(_name).Append("\"").Append(Constants.NEW_LINE).Append(Constants.NEW_LINE);
+            if (_terrain != null) sb.Append(tab).Append("naval_terrain = ").Append(_terrain.name).Append(Constants.NEW_LINE);
 
             sb.Append(tab).Append("provinces = {").Append(Constants.NEW_LINE);
             sb.Append(tab).Append(tab);
-            foreach (var province in provinces) sb.Append(province.Id).Append(' ');
+            foreach (var province in _provinces) sb.Append(province.Id).Append(' ');
             sb.Append(Constants.NEW_LINE).Append(tab).Append('}').Append(Constants.NEW_LINE).Append(Constants.NEW_LINE);
 
-            staticModifiers.Save(sb, tab);
-            weather.Save(sb, tab);
+            _staticModifiers.Save(sb, tab);
+            _weather.Save(sb, tab);
 
             sb.Append('}').Append(Constants.NEW_LINE);
         }
@@ -102,20 +187,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             {
                 case "id":
                     Id = parser.ReadUInt16();
-
-                    var random = new Random(Id);
-                    color = Utils.ArgbToInt(
-                        255,
-                        (byte)random.Next(0, 256),
-                        (byte)random.Next(0, 256),
-                        (byte)random.Next(0, 256)
-                    );
+                    CalculateColor();
                     break;
-                case "name": name = parser.ReadString(); break;
+                case "name": _name = parser.ReadString(); break;
                 case "naval_terrain":
                     string terrainValue = parser.ReadString();
 
-                    if (!TerrainManager.TryGetProvincialTerrain(terrainValue, out terrain))
+                    if (!TerrainManager.TryGetProvincialTerrain(terrainValue, out _terrain))
                         Logger.LogError(
                             EnumLocKey.ERROR_REGION_INCORRECT_NAVAL_TERRAIN_VALUE,
                             new Dictionary<string, string>
@@ -147,16 +225,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                                     { "{provinceId}", $"{provinceId}" }
                                 }
                             );
-                        provinces.Add(province);
-                        province.region = this;
+                        _provinces.Add(province);
+                        if (!_silentLoad) province.region = this;
                     }
-                    provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
+                    _provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
                     break;
                 case "static_modifiers":
-                    parser.Parse(staticModifiers);
+                    parser.Parse(_staticModifiers);
                     break;
                 case "weather":
-                    parser.Parse(weather);
+                    parser.Parse(_weather);
                     break;
                 default:
                     //TODO Добавить доп параметры
@@ -178,19 +256,30 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
         public void InitBorders()
         {
-            borders.Clear();
+            _borders.Clear();
 
-            foreach (var p in provinces)
+            foreach (var p in _provinces)
             {
                 foreach (var b in p.borders)
                 {
                     if (b.provinceA == null || b.provinceB == null || b.provinceA.region == null || b.provinceB.region == null || !b.provinceA.region.Equals(b.provinceB.region))
                     {
-                        borders.Add(b);
+                        _borders.Add(b);
                         StrategicRegionManager.AddRegionsBorder(b);
                     }
                 }
             }
+        }
+
+        public void CalculateColor()
+        {
+            Random random = new Random(Id);
+            color = Utils.ArgbToInt(
+                        255,
+                        (byte)random.Next(0, 256),
+                        (byte)random.Next(0, 256),
+                        (byte)random.Next(0, 256)
+                    );
         }
 
         public void UpdateId(ushort id)
@@ -202,18 +291,29 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                     new Dictionary<string, string> { { "{id}", $"{id}" } }
                 ));
             else StrategicRegionManager.RemoveRegion(Id);
+
             Id = id;
+            CalculateColor();
+
             StrategicRegionManager.AddRegion(Id, this);
         }
+
+        public void ForEachProvince(Action<StrategicRegion, Province> action)
+        {
+            if (action == null) return;
+
+            foreach (var p in _provinces) action(this, p);
+        }
+
         public void Validate()
         {
-            if (!Utils.IsProvincesListSorted(provinces))
+            if (!Utils.IsProvincesListSorted(_provinces))
             {
-                provinces.Sort();
+                _provinces.Sort();
                 needToSave = true;
             }
 
-            if (Utils.RemoveDuplicateProvinces(provinces)) needToSave = true;
+            if (Utils.RemoveDuplicateProvinces(_provinces)) needToSave = true;
         }
     }
 
@@ -406,5 +506,62 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         }
 
         public override string ToString() => "" + startDay + '.' + startMonth + ' ' + endDay + '.' + endMonth;
+    }
+
+    class StrategicRegionFile : IParadoxRead
+    {
+        private readonly bool _isSilentLoad;
+        private readonly FileInfo _currentFile;
+        private readonly Dictionary<ushort, StrategicRegion> _regions;
+        private StrategicRegion _region;
+
+        public StrategicRegionFile(bool isSilentLoad, FileInfo currentFile, Dictionary<ushort, StrategicRegion> regions)
+        {
+            _isSilentLoad = isSilentLoad;
+            _currentFile = currentFile;
+            _regions = regions;
+        }
+
+        public void TokenCallback(ParadoxParser parser, string token)
+        {
+            if (token == "strategic_region")
+            {
+                try
+                {
+                    if (_region != null)
+                        throw new Exception(GuiLocManager.GetLoc(EnumLocKey.ERROR_MULTI_REGIONS_IN_FILE));
+
+                    _region = new StrategicRegion(_currentFile.fileName, _isSilentLoad);
+
+                    parser.Parse(_region);
+                    _region.needToSave = _currentFile.needToSave;
+
+                    if (_regions.ContainsKey(_region.Id))
+                        throw new Exception(GuiLocManager.GetLoc(
+                            EnumLocKey.ERROR_REGION_DUPLICATE_ID,
+                            new Dictionary<string, string>
+                            {
+                                { "{reginId}", $"{_region.Id}" },
+                                { "{firstFilePath}", _currentFile.filePath }
+                            }
+                        ));
+
+                    _regions[_region.Id] = _region;
+                }
+                catch (Exception ex)
+                {
+                    string idString = _region.Id == 0 ? GuiLocManager.GetLoc(EnumLocKey.ERROR_REGION_UNSUCCESSFUL_REGION_ID_PARSE_RESULT) : $"{_region.Id}";
+                    Logger.LogExceptionAsError(
+                        EnumLocKey.ERROR_WHILE_REGION_LOADING,
+                        new Dictionary<string, string>
+                        {
+                            { "{regionId}", idString },
+                            { "{filePath}", _currentFile.filePath }
+                        },
+                        ex
+                    );
+                }
+            }
+        }
     }
 }

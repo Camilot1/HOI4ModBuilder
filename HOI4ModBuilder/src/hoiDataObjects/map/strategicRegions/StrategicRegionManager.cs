@@ -14,13 +14,11 @@ using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 {
-    class StrategicRegionManager : IParadoxRead
+    class StrategicRegionManager
     {
         public static StrategicRegionManager Instance { get; private set; }
 
-        private static FileInfo _currentFile = null;
-        private static Dictionary<string, List<StrategicRegion>> _regionsByFilesMap = new Dictionary<string, List<StrategicRegion>>();
-        private static Dictionary<ushort, StrategicRegion> _regionsById = new Dictionary<ushort, StrategicRegion>();
+        private static Dictionary<ushort, StrategicRegion> _regions = new Dictionary<ushort, StrategicRegion>();
         private static HashSet<ProvinceBorder> _regionsBorders = new HashSet<ProvinceBorder>();
 
         public static StrategicRegion SelectedRegion { get; set; }
@@ -36,47 +34,41 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
         {
             Instance = new StrategicRegionManager();
 
-            _regionsByFilesMap = new Dictionary<string, List<StrategicRegion>>(0);
-            _regionsById = new Dictionary<ushort, StrategicRegion>(0);
-            _regionsBorders = new HashSet<ProvinceBorder>(0);
+            _regions = new Dictionary<ushort, StrategicRegion>();
+            _regionsBorders = new HashSet<ProvinceBorder>();
 
             var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"map\strategicregions\");
 
             foreach (FileInfo fileInfo in fileInfos.Values)
             {
-                _currentFile = fileInfo;
                 using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
-                    ParadoxParser.Parse(fs, Instance);
+                    ParadoxParser.Parse(fs, new StrategicRegionFile(false, fileInfo, _regions));
             }
         }
 
         public static void Save(Settings settings)
         {
             var sb = new StringBuilder();
-            bool needToSave = false;
-            foreach (string fileName in _regionsByFilesMap.Keys)
+            foreach (var region in _regions.Values)
             {
-                foreach (var region in _regionsByFilesMap[fileName])
+                try
                 {
-                    try
-                    {
-                        if (needToSave || region.needToSave)
-                        {
-                            needToSave = true;
-                            region.Save(sb);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception(GuiLocManager.GetLoc(
-                            EnumLocKey.EXCEPTION_WHILE_REGION_SAVING,
-                            new Dictionary<string, string> { { "{regionId}", $"{region.Id}" } }
-                        ), ex);
-                    }
-                }
+                    if (!region.needToSave) continue;
 
-                if (needToSave) File.WriteAllText(settings.modDirectory + @"map\strategicregions\" + fileName, sb.ToString());
-                sb.Length = 0;
+                    if (string.IsNullOrEmpty(region.fileName))
+                        throw new Exception(GuiLocManager.GetLoc(EnumLocKey.ERROR_REGION_HAS_NO_FILE));
+
+                    region.Save(sb);
+                    File.WriteAllText(settings.modDirectory + @"map\strategicregions\" + region.fileName, sb.ToString());
+                    sb.Length = 0;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(GuiLocManager.GetLoc(
+                        EnumLocKey.EXCEPTION_WHILE_REGION_SAVING,
+                        new Dictionary<string, string> { { "{regionId}", $"{region.Id}" } }
+                    ), ex);
+                }
             }
         }
 
@@ -88,7 +80,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 GL.PointSize(5f);
                 GL.Begin(PrimitiveType.Points);
 
-                foreach (var region in _regionsById.Values)
+                foreach (var region in _regions.Values)
                 {
                     if (region.dislayCenter) GL.Vertex2(region.center.x, region.center.y);
                 }
@@ -101,14 +93,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 GL.Color4(1f, 0f, 0f, 1f);
                 GL.LineWidth(5f);
 
-                foreach (var border in SelectedRegion.borders)
+                foreach (var border in SelectedRegion.Borders)
                 {
                     if (border.pixels.Length == 1) continue;
                     GL.Begin(PrimitiveType.LineStrip);
                     foreach (Value2US vertex in border.pixels)
-                    {
                         GL.Vertex2(vertex.x, vertex.y);
-                    }
                     GL.End();
                 }
             }
@@ -118,23 +108,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 GL.Color4(1f, 0.42f, 0f, 1f);
                 GL.LineWidth(2.5f);
 
-                foreach (var border in RMBRegion.borders)
+                foreach (var border in RMBRegion.Borders)
                 {
                     if (border.pixels.Length == 1) continue;
                     GL.Begin(PrimitiveType.LineStrip);
                     foreach (Value2US vertex in border.pixels)
-                    {
                         GL.Vertex2(vertex.x, vertex.y);
-                    }
                     GL.End();
                 }
             }
         }
 
-        public static void AddRegionsBorder(ProvinceBorder border)
-        {
-            _regionsBorders.Add(border);
-        }
+        public static void AddRegionsBorder(ProvinceBorder border) => _regionsBorders.Add(border);
 
         public static bool TransferProvince(Province province, StrategicRegion src, StrategicRegion dest)
         {
@@ -151,101 +136,49 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             return true;
         }
 
-        public static void AddState(StrategicRegion region, out bool canAddById)
+        public static bool TryAddRegion(StrategicRegion region)
         {
-            ushort id = region.Id;
-            canAddById = _regionsById.ContainsKey(id);
-
-            if (canAddById)
+            if (!_regions.ContainsKey(region.Id))
             {
-                _regionsById[id] = region;
+                _regions[region.Id] = region;
                 region.needToSave = true;
+                return true;
             }
+            else return false;
         }
 
-        public static bool ContainsRegionIdKey(ushort id)
-        {
-            return _regionsById.ContainsKey(id);
-        }
-
-        public static Dictionary<ushort, StrategicRegion>.KeyCollection GetRegionsIds()
-        {
-            return _regionsById.Keys;
-        }
-
-        public static Dictionary<ushort, StrategicRegion>.ValueCollection GetRegions()
-        {
-            return _regionsById.Values;
-        }
-
+        public static bool ContainsRegionIdKey(ushort id) => _regions.ContainsKey(id);
+        public static Dictionary<ushort, StrategicRegion>.KeyCollection GetRegionsIds() => _regions.Keys;
+        public static Dictionary<ushort, StrategicRegion>.ValueCollection GetRegions() => _regions.Values;
         public static bool GetRegion(ushort id, out StrategicRegion region)
-        {
-            return _regionsById.TryGetValue(id, out region);
-        }
+            => _regions.TryGetValue(id, out region);
 
         public static void AddRegion(ushort id, StrategicRegion region)
         {
-            _regionsById[id] = region;
+            _regions[id] = region;
             region.needToSave = true;
         }
 
         public static void RemoveRegion(ushort id)
         {
-            var region = _regionsById[id];
+            var region = _regions[id];
             if (region != null)
             {
-                _regionsById.Remove(id);
+                _regions.Remove(id);
                 region.needToSave = true;
-            }
-        }
-
-        public void TokenCallback(ParadoxParser parser, string token)
-        {
-            if (token == "strategic_region")
-            {
-                var region = new StrategicRegion();
-                try
-                {
-                    parser.Parse(region);
-                    region.needToSave = _currentFile.needToSave;
-                    _regionsById[region.Id] = region;
-
-                    if (!_regionsByFilesMap.TryGetValue(_currentFile.fileName, out List<StrategicRegion> list))
-                    {
-                        list = new List<StrategicRegion>(0);
-                        _regionsByFilesMap[_currentFile.fileName] = list;
-                    }
-                    list.Add(region);
-                }
-                catch (Exception ex)
-                {
-                    string idString = region.Id == 0 ? GuiLocManager.GetLoc(EnumLocKey.ERROR_REGION_UNSUCCESSFUL_REGION_ID_PARSE_RESULT) : $"{region.Id}";
-                    Logger.LogExceptionAsError(
-                        EnumLocKey.ERROR_WHILE_REGION_LOADING,
-                        new Dictionary<string, string>
-                        {
-                            { "{stateId}", idString },
-                            { "{filePath}", _currentFile.filePath }
-                        },
-                        ex
-                    );
-                }
             }
         }
 
         public static void CalculateCenters()
         {
-            foreach (var region in _regionsById.Values) region.CalculateCenter();
+            foreach (var region in _regions.Values) region.CalculateCenter();
         }
 
 
         public static void InitRegionsBorders()
         {
-            _regionsBorders = new HashSet<ProvinceBorder>(0);
-            foreach (var region in _regionsById.Values)
-            {
-                region.InitBorders();
-            }
+            _regionsBorders = new HashSet<ProvinceBorder>();
+            foreach (var region in _regions.Values) region.InitBorders();
             TextureManager.InitRegionsBordersMap(_regionsBorders);
         }
         public static StrategicRegion SelectRegion(int color)
@@ -274,10 +207,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
         public static void ValidateAllRegions()
         {
-            foreach (StrategicRegion region in _regionsById.Values)
-            {
-                region.Validate();
-            }
+            foreach (StrategicRegion region in _regions.Values) region.Validate();
         }
 
         private static void HandleDelete()

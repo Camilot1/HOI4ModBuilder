@@ -290,6 +290,12 @@
     <Compile Include="src\forms\messageForms\AboutProgramForm.Designer.cs">
       <DependentUpon>AboutProgramForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\forms\recoveryForms\StrategicRegionsDataRecoveryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\forms\recoveryForms\StrategicRegionsDataRecoveryForm.Designer.cs">
+      <DependentUpon>StrategicRegionsDataRecoveryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\forms\SearchErrorsSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -365,6 +371,7 @@
     <Compile Include="src\hoiDataObjects\map\continents\ContinentManager.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\advanced\MergeProvincesTool.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\advanced\RailwayTool.cs" />
+    <Compile Include="src\hoiDataObjects\map\tools\dataRecovery\StrategicRegionsDataRecoveryTool.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolBrush.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolBuildings.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolCursor.cs" />
@@ -456,6 +463,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\forms\messageForms\AboutProgramForm.resx">
       <DependentUpon>AboutProgramForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\forms\recoveryForms\StrategicRegionsDataRecoveryForm.en.resx">
+      <DependentUpon>StrategicRegionsDataRecoveryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\forms\recoveryForms\StrategicRegionsDataRecoveryForm.resx">
+      <DependentUpon>StrategicRegionsDataRecoveryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\forms\SearchErrorsSettingsForm.en.resx">
       <DependentUpon>SearchErrorsSettingsForm.cs</DependentUpon>

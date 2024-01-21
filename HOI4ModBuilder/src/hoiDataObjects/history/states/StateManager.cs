@@ -225,16 +225,21 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
         }
 
-        public static void AddState(State state, out bool canAddById)
+        public static bool TryAddState(string fileName, State state)
         {
-            ushort id = state.Id;
-            canAddById = _statesById.ContainsKey(id);
-
-            if (canAddById)
+            if (!_statesById.ContainsKey(state.Id))
             {
-                _statesById[id] = state;
+                _statesById[state.Id] = state;
+
+                if (!_statesByFilesMap.TryGetValue(fileName, out List<State> list))
+                    _statesByFilesMap[fileName] = list = new List<State>(1);
+
+                list.Add(state);
+
                 state.fileInfo.needToSave = true;
+                return true;
             }
+            else return false;
         }
 
         public static bool ContainsStateIdKey(ushort id) => _statesById.ContainsKey(id);

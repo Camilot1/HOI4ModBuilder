@@ -13,9 +13,10 @@ namespace HOI4ModBuilder.src.utils
         public static readonly string logFilePath = logDirPath + "latest.log";
         public static readonly string version = "Alpha 0.2.2";
 
-        private static List<string> _warnings = new List<string>(0);
-        private static List<string> _errors = new List<string>(0);
-        private static List<string> _exceptions = new List<string>(0);
+        private static List<string> _warnings = new List<string>();
+        private static List<string> _errors = new List<string>();
+        private static List<string> _exceptions = new List<string>();
+        private static List<string> _additionalExceptions = new List<string>();
 
         private static List<TextBoxMessageForm> textBoxMessageForms = new List<TextBoxMessageForm>();
 
@@ -113,6 +114,21 @@ namespace HOI4ModBuilder.src.utils
             Log($"EXCEPTION: {ex}\n");
         }
 
+        public static void LogAdditionalException(Exception ex)
+        {
+            string message = ex.Message;
+            var tempEx = ex.InnerException;
+
+            while (tempEx != null)
+            {
+                message += " " + tempEx.Message;
+                tempEx = tempEx.InnerException;
+            }
+
+            _additionalExceptions.Add(message);
+            Log($"ADDITIONAL EXCEPTION: {ex}\n");
+        }
+
         public static void LogException(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues, Exception ex)
         {
             _exceptions.Add(GuiLocManager.GetLoc(enumLocKey, replaceValues));
@@ -160,6 +176,23 @@ namespace HOI4ModBuilder.src.utils
             string richText = string.Join("\n\n", _exceptions);
             Task.Run(() => TextBoxMessageForm.CreateTasked(title, mainText, richText, true, textBoxMessageForms));
             _exceptions = new List<string>();
+        }
+
+        public static void DisplayAdditionalExceptions()
+        {
+            if (_additionalExceptions.Count == 0) return;
+
+            string title = GuiLocManager.GetLoc(EnumLocKey.FOUND_ADDITIONAL_EXCEPTIONS_FORM_TITLE);
+            string mainText = GuiLocManager.GetLoc(
+                    EnumLocKey.FOUND_ADDITIONAL_EXCEPTIONS_COUNT,
+                    new Dictionary<string, string> {
+                        { "{exceptionsCount}", $"{_additionalExceptions.Count}" },
+                        { "{logFilepath}", $"{logFilePath}" }
+                    }
+                );
+            string richText = string.Join("\n\n", _additionalExceptions);
+            Task.Run(() => TextBoxMessageForm.CreateTasked(title, mainText, richText, true, textBoxMessageForms));
+            _additionalExceptions = new List<string>();
         }
 
         public static void CloseAllTextBoxMessageForms()

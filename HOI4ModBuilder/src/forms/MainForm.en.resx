@@ -817,6 +817,15 @@
   <data name="ToolStripMenuItem_Data_States.Text" xml:space="preserve">
     <value>States</value>
   </data>
+  <data name="ToolStripMenuItem_Data_Recovery_Regions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Data_Recovery_Regions.Text" xml:space="preserve">
+    <value>Strategic Regions</value>
+  </data>
+  <data name="ToolStripMenuItem_Data_Recovery.Text" xml:space="preserve">
+    <value>Old Data Recovery</value>
+  </data>
   <data name="ToolStripMenuItem_Data.Size" type="System.Drawing.Size, System.Drawing">
     <value>43, 20</value>
   </data>

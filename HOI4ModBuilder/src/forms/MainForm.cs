@@ -13,6 +13,7 @@ using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.forms;
 using HOI4ModBuilder.src.forms.messageForms;
+using HOI4ModBuilder.src.forms.recoveryForms;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
@@ -202,7 +203,7 @@ namespace HOI4ModBuilder
                 StrategicRegionManager.Save(settings);
                 DisplayProgress(EnumLocKey.PROGRESSBAR_SAVED, 0);
 
-                CleanUpMemory();
+                Utils.CleanUpMemory();
                 isLoadingOrSaving[0] = false;
             },
             () =>
@@ -244,7 +245,7 @@ namespace HOI4ModBuilder
                 Logger.DisplayWarnings();
                 Logger.DisplayErrors();
                 Logger.DisplayExceptions();
-                CleanUpMemory();
+                Utils.CleanUpMemory();
                 isLoadingOrSaving[0] = false;
             });
 
@@ -338,7 +339,7 @@ namespace HOI4ModBuilder
                             Logger.DisplayWarnings();
                             Logger.DisplayErrors();
                             Logger.DisplayExceptions();
-                            CleanUpMemory();
+                            Utils.CleanUpMemory();
                             isLoadingOrSaving[0] = false;
                         },
                         (ex) =>
@@ -351,7 +352,7 @@ namespace HOI4ModBuilder
                             Logger.DisplayWarnings();
                             Logger.DisplayErrors();
                             Logger.DisplayExceptions();
-                            CleanUpMemory();
+                            Utils.CleanUpMemory();
                             isLoadingOrSaving[0] = false;
                         }
                     )
@@ -391,20 +392,6 @@ namespace HOI4ModBuilder
             ErrorManager.Init(settings);
 
             isMapMainLayerChangeEnabled = true;
-        }
-
-        public static void CleanUpMemory()
-        {
-            long memoryBeforeCleaning = GC.GetTotalMemory(false);
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            long memoryAfterCleaning = GC.GetTotalMemory(false);
-
-            Logger.Log(
-                $"{memoryBeforeCleaning / 1024f / 1024f} MB -> " +
-                $"{memoryAfterCleaning / 1024f / 1024f} MB " +
-                $"({(memoryAfterCleaning - memoryBeforeCleaning) / 1024f / 1024f} MB)"
-            );
         }
 
         public static void ExecuteActions(Tuple<EnumLocKey, Action>[] actions)
@@ -1453,6 +1440,9 @@ namespace HOI4ModBuilder
 
         private void ToolStripMenuItem_Map_Railway_Join_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => RailwayTool.JoinRailways(SupplyManager.SelectedRailway, SupplyManager.RMBRailway));
+
+        private void ToolStripMenuItem_Data_Recovery_Regions_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => Task.Run(() => new StrategicRegionsDataRecoveryForm().ShowDialog()));
 
         public void SetAdjacencyRules(Dictionary<string, AdjacencyRule>.KeyCollection rules)
         {

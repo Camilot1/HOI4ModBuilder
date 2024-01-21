@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -70,7 +71,7 @@ namespace HOI4ModBuilder
 
         public static Stream ToStream(string text)
         {
-            return new MemoryStream(System.Text.Encoding.UTF8.GetBytes(text));
+            return new MemoryStream(Encoding.UTF8.GetBytes(text));
         }
 
         public static string DictionaryToString(Dictionary<string, string> dict)
@@ -209,6 +210,15 @@ namespace HOI4ModBuilder
             else throw new InvalidDataException("Неподдерживаемый ключ размерности \"" + entry[0] + "\"");
         }
 
+        public static FolderBrowserDialog PrepareFolderDialog(string dirPath)
+        {
+            if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
+            return new FolderBrowserDialog
+            {
+                SelectedPath = dirPath
+            };
+        }
+
         public static void PrepareFileDialog(FileDialog fd, string dirPath, string filter)
         {
             if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
@@ -284,10 +294,7 @@ namespace HOI4ModBuilder
             {
                 for (int i = 1; i < provinces.Count; i++)
                 {
-                    if (provinces[i].Id == provinces[i - 1].Id)
-                    {
-                        indexes.Add(i);
-                    }
+                    if (provinces[i].Id == provinces[i - 1].Id) indexes.Add(i);
                 }
 
                 if (indexes.Count > 0)
@@ -296,10 +303,7 @@ namespace HOI4ModBuilder
                     indexes.Reverse();
                 }
 
-                foreach (int index in indexes)
-                {
-                    provinces.RemoveAt(index);
-                }
+                foreach (int index in indexes) provinces.RemoveAt(index);
             }
             return hasRemovedAny;
         }
@@ -422,6 +426,20 @@ namespace HOI4ModBuilder
             if (i < min) return min;
             if (i > max) return max;
             return i;
+        }
+
+        public static void CleanUpMemory()
+        {
+            long memoryBeforeCleaning = GC.GetTotalMemory(false);
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            long memoryAfterCleaning = GC.GetTotalMemory(false);
+
+            Logger.Log(
+                $"{memoryBeforeCleaning / 1024f / 1024f} MB -> " +
+                $"{memoryAfterCleaning / 1024f / 1024f} MB " +
+                $"({(memoryAfterCleaning - memoryBeforeCleaning) / 1024f / 1024f} MB)"
+            );
         }
 
     }

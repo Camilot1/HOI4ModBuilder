@@ -671,7 +671,7 @@ namespace HOI4ModBuilder.managers
                                 UpdateDisplayBorders();
                                 MainForm.DisplayProgress(EnumLocKey.PROGRESSBAR_UPDATED, 0);
                                 MainForm.ResumeGLControl();
-                                MainForm.CleanUpMemory();
+                                Utils.CleanUpMemory();
                             });
                         });
                     }
@@ -938,7 +938,7 @@ namespace HOI4ModBuilder.managers
                 );
 
 
-                MainForm.CleanUpMemory();
+                Utils.CleanUpMemory();
             }
         }
 
