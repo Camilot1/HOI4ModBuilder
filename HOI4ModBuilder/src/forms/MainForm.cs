@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HOI4ModBuilder.hoiDataObjects;
@@ -29,6 +30,7 @@ using Newtonsoft.Json;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using SharpFont;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 
@@ -941,6 +943,10 @@ namespace HOI4ModBuilder
                     ToolStripComboBox_Map_Province_Continent.Text = ContinentManager.GetContinentById(p.ContinentId);
                 }
 
+                ToolStripMenuItem_Map_Province_OpenStateFile.Enabled = p != null && p.State != null;
+                //TODO
+                //ToolStripMenuItem_Map_Province_OpenRegionFile.Enabled = p != null && p.Region != null;
+
                 isMapMainLayerChangeEnabled = true;
             });
         }
@@ -1136,7 +1142,7 @@ namespace HOI4ModBuilder
                 string value = ToolStripTextBox_Map_Search_Input.Text;
                 if (value != "" && ushort.TryParse(value, out ushort id))
                 {
-                    StrategicRegionManager.GetRegion(id, out StrategicRegion region);
+                    StrategicRegionManager.TryGetRegion(id, out StrategicRegion region);
                     if (region != null)
                     {
                         MapManager.FocusOn(region.center);
@@ -1460,6 +1466,25 @@ namespace HOI4ModBuilder
 
         private void ToolStripMenuItem_Map_Railway_RemoveProvince_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => RailwayTool.RemoveProvinceFromRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
+
+        private void ToolStripMenuItem_Map_Province_OpenStateFile_Click(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.State == null) return;
+
+                StateListForm stateListForm;
+                if (StateListForm.instance == null)
+                {
+                    stateListForm = new StateListForm();
+                    stateListForm.Show();
+                }
+                else stateListForm = StateListForm.instance;
+
+                stateListForm.Focus();
+                stateListForm.FindState(ProvinceManager.RMBProvince.State.Id);
+            });
+        }
 
         public void SetAdjacencyRules(Dictionary<string, AdjacencyRule>.KeyCollection rules)
         {

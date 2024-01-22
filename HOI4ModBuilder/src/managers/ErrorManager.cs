@@ -286,7 +286,7 @@ namespace HOI4ModBuilder.src.managers
 
             foreach (var p in ProvinceManager.GetProvinces())
             {
-                if (p.TypeId == 0 && p.state == null)
+                if (p.TypeId == 0 && p.State == null)
                     AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_LAND_WITH_NO_STATE);
             }
         }
@@ -297,7 +297,7 @@ namespace HOI4ModBuilder.src.managers
 
             foreach (var p in ProvinceManager.GetProvinces())
             {
-                if (p.region == null)
+                if (p.Region == null)
                     AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_WITH_NO_REGION);
             }
         }
@@ -310,7 +310,7 @@ namespace HOI4ModBuilder.src.managers
             {
                 foreach (var p in s.provinces)
                 {
-                    if (p.state.Id != s.Id)
+                    if (p.State.Id != s.Id)
                         AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_MULTI_STATES);
                 }
             }
@@ -322,7 +322,7 @@ namespace HOI4ModBuilder.src.managers
 
             Action<StrategicRegion, Province> action = (r, p) =>
             {
-                if (p.region != null && p.region.Id != r.Id)
+                if (p.Region != null && p.Region.Id != r.Id)
                     AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_MULTI_REGIONS);
             };
 
@@ -354,13 +354,13 @@ namespace HOI4ModBuilder.src.managers
                 int regionId = -1;
                 foreach (var p in s.provinces)
                 {
-                    if (p.region == null) continue;
+                    if (p.Region == null) continue;
                     if (regionId == -1)
                     {
-                        regionId = p.region.Id;
+                        regionId = p.Region.Id;
                         continue;
                     }
-                    if (p.region.Id != regionId)
+                    if (p.Region.Id != regionId)
                     {
                         AddErrorInfo(s.center, EnumMapErrorCode.STATE_MULTI_REGIONS);
                         break;

@@ -392,15 +392,15 @@ namespace HOI4ModBuilder.managers
                 case EnumMainLayer.STATES:
                     func = (p) =>
                     {
-                        if (p.state == null) return Utils.ArgbToInt(255, 0, 0, 0);
-                        else return p.state.color;
+                        if (p.State == null) return Utils.ArgbToInt(255, 0, 0, 0);
+                        else return p.State.color;
                     };
                     break;
                 case EnumMainLayer.STRATEGIC_REGIONS:
                     func = (p) =>
                     {
-                        if (p.region == null) return Utils.ArgbToInt(255, 0, 0, 0);
-                        else return p.region.color;
+                        if (p.Region == null) return Utils.ArgbToInt(255, 0, 0, 0);
+                        else return p.Region.color;
                     };
                     break;
                 case EnumMainLayer.COUNTRIES:
@@ -410,13 +410,13 @@ namespace HOI4ModBuilder.managers
                         //Проверка на sea провинции
                         if (typeId == 1)
                         {
-                            if (p.state == null) return Utils.ArgbToInt(255, 0, 0, 255);
+                            if (p.State == null) return Utils.ArgbToInt(255, 0, 0, 255);
                             else return Utils.ArgbToInt(255, 0, 0, 0);
                         }
                         else if (typeId == 2) return Utils.ArgbToInt(255, 0, 255, 255);
-                        else if (p.state == null || (p.state.owner == null && p.state.controller == null)) return Utils.ArgbToInt(255, 0, 0, 0);
-                        else if (p.state.controller != null) return p.state.controller.color;
-                        else return p.state.owner.color;
+                        else if (p.State == null || (p.State.owner == null && p.State.controller == null)) return Utils.ArgbToInt(255, 0, 0, 0);
+                        else if (p.State.controller != null) return p.State.controller.color;
+                        else return p.State.owner.color;
                     };
                     break;
                 case EnumMainLayer.PROVINCE_TYPES:
@@ -459,14 +459,14 @@ namespace HOI4ModBuilder.managers
                         //Проверка на sea провинции
                         if (typeId == 1)
                         {
-                            if (p.state == null) return Utils.ArgbToInt(255, 0, 0, 255);
+                            if (p.State == null) return Utils.ArgbToInt(255, 0, 0, 255);
                             else return Utils.ArgbToInt(255, 255, 0, 255);
                         }
                         else if (typeId == 2) return Utils.ArgbToInt(255, 127, 255, 255);
-                        else if (p.state == null) return Utils.ArgbToInt(255, 255, 0, 0);
-                        else if (p.state.manpower < 1) return Utils.ArgbToInt(255, 255, 106, 0);
+                        else if (p.State == null) return Utils.ArgbToInt(255, 255, 0, 0);
+                        else if (p.State.manpower < 1) return Utils.ArgbToInt(255, 255, 106, 0);
 
-                        byte value = (byte)(255 * p.state.manpower / maxManpower);
+                        byte value = (byte)(255 * p.State.manpower / maxManpower);
                         return Utils.ArgbToInt(255, value, value, value);
                     };
                     break;
@@ -480,7 +480,7 @@ namespace HOI4ModBuilder.managers
                         //Проверка на sea провинции
                         if (typeId == 1)
                         {
-                            if (p.state == null) Utils.ArgbToInt(255, 0, 0, 255);
+                            if (p.State == null) Utils.ArgbToInt(255, 0, 0, 255);
                             else return Utils.ArgbToInt(255, 255, 0, 255);
                         }
 
@@ -491,9 +491,9 @@ namespace HOI4ModBuilder.managers
                 case EnumMainLayer.STATE_CATEGORIES:
                     func = (p) =>
                     {
-                        if (p.state == null) return Utils.ArgbToInt(255, 0, 0, 0);
-                        else if (p.state.startStateCategory == null) return Utils.ArgbToInt(255, 255, 0, 0);
-                        else return p.state.startStateCategory.color;
+                        if (p.State == null) return Utils.ArgbToInt(255, 0, 0, 0);
+                        else if (p.State.startStateCategory == null) return Utils.ArgbToInt(255, 255, 0, 0);
+                        else return p.State.startStateCategory.color;
                     };
                     break;
                 case EnumMainLayer.BUILDINGS:
@@ -536,10 +536,10 @@ namespace HOI4ModBuilder.managers
                                 byte typeId = p.TypeId;
                                 if (typeId == 1) return Utils.ArgbToInt(255, 0, 0, 127);
                                 else if (typeId == 2) return Utils.ArgbToInt(255, 127, 255, 255);
-                                else if (p.state == null) return Utils.ArgbToInt(255, 0, 0, 0);
+                                else if (p.State == null) return Utils.ArgbToInt(255, 0, 0, 0);
                                 else
                                 {
-                                    p.state.stateBuildings.TryGetValue(building, out count);
+                                    p.State.stateBuildings.TryGetValue(building, out count);
 
                                     float factor = count / (float)maxCount;
                                     if (factor > 1) return Utils.ArgbToInt(255, 255, 0, 0);
@@ -558,10 +558,10 @@ namespace HOI4ModBuilder.managers
                                 byte typeId = p.TypeId;
                                 if (typeId == 1) return Utils.ArgbToInt(255, 0, 0, 127);
                                 else if (typeId == 2) return Utils.ArgbToInt(255, 127, 255, 255);
-                                else if (p.state == null) return Utils.ArgbToInt(255, 0, 0, 0);
+                                else if (p.State == null) return Utils.ArgbToInt(255, 0, 0, 0);
                                 else
                                 {
-                                    p.state.stateBuildings.TryGetValue(building, out count);
+                                    p.State.stateBuildings.TryGetValue(building, out count);
 
                                     float factor = count / (float)building.maxLevel;
                                     if (factor > 1) return Utils.ArgbToInt(255, 255, 0, 0);

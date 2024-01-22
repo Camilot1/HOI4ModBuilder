@@ -144,8 +144,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             else main.dislayCenter = false;
 
             //Удаление из областей и регионов
-            second.state?.RemoveProvince(second);
-            second.region?.RemoveProvince(second);
+            second.State?.RemoveProvince(second);
+            second.Region?.RemoveProvince(second);
 
             //Заменяем связи со смежностями
             foreach (Adjacency adj in second.adjacencies)

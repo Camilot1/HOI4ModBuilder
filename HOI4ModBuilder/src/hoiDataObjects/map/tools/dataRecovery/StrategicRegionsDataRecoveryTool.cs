@@ -7,7 +7,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.dataRecovery
     {
         public static bool TransferRegionInfo(TransferInfo transferInfo, StrategicRegion oldRegion)
         {
-            if (!StrategicRegionManager.GetRegion(oldRegion.Id, out StrategicRegion currentRegion))
+            if (!StrategicRegionManager.TryGetRegion(oldRegion.Id, out StrategicRegion currentRegion))
             {
                 if (!transferInfo.TransferFilesIfRegionIdNotFound) return false;
 

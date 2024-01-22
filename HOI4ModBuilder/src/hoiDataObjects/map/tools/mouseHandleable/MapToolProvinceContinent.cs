@@ -40,9 +40,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                             tuples.Add(new Tuple<byte, byte, Province>(prevContinentId, newContinentId, province));
                         break;
                     case EnumEditLayer.STATES:
-                        if (province.state != null)
+                        if (province.State != null)
                         {
-                            foreach (var p in province.state.provinces)
+                            foreach (var p in province.State.provinces)
                             {
                                 if (p.ContinentId != newContinentId)
                                     tuples.Add(new Tuple<byte, byte, Province>(p.ContinentId, newContinentId, p));
@@ -50,7 +50,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         }
                         break;
                     case EnumEditLayer.STRATEGIC_REGIONS:
-                        province.region?.ForEachProvince((r, p) =>
+                        province.Region?.ForEachProvince((r, p) =>
                         {
                             if (p.ContinentId != newContinentId)
                                 tuples.Add(new Tuple<byte, byte, Province>(p.ContinentId, newContinentId, p));

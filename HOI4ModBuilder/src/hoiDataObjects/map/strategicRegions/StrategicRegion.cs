@@ -98,7 +98,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             _provinces.Add(province);
             _provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
-            province.region = this;
+            province.Region = this;
             needToSave = true;
         }
 
@@ -106,7 +106,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             if (_provinces.Remove(province))
             {
-                province.region = null;
+                province.Region = null;
                 needToSave = true;
                 return true;
             }
@@ -135,11 +135,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             if (value)
             {
-                foreach (var p in _provinces) p.region = null;
+                foreach (var p in _provinces) p.Region = null;
             }
             else
             {
-                foreach (var p in _provinces) p.region = this;
+                foreach (var p in _provinces) p.Region = this;
                 InitBorders();
                 CalculateCenter();
                 CalculateColor();
@@ -149,12 +149,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public void TransferProvincesFrom(StrategicRegion otherRegion)
         {
 
-            foreach (var p in _provinces) p.region = null;
+            foreach (var p in _provinces) p.Region = null;
 
             _provinces = otherRegion._provinces;
             otherRegion._provinces = new List<Province>();
 
-            foreach (var p in _provinces) p.region = this;
+            foreach (var p in _provinces) p.Region = this;
             InitBorders();
             CalculateCenter();
 
@@ -226,7 +226,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                                 }
                             );
                         _provinces.Add(province);
-                        if (!_silentLoad) province.region = this;
+                        if (!_silentLoad) province.Region = this;
                     }
                     _provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
                     break;
@@ -262,7 +262,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             {
                 foreach (var b in p.borders)
                 {
-                    if (b.provinceA == null || b.provinceB == null || b.provinceA.region == null || b.provinceB.region == null || !b.provinceA.region.Equals(b.provinceB.region))
+                    if (b.provinceA == null || b.provinceB == null || b.provinceA.Region == null || b.provinceB.Region == null || !b.provinceA.Region.Equals(b.provinceB.Region))
                     {
                         _borders.Add(b);
                         StrategicRegionManager.AddRegionsBorder(b);

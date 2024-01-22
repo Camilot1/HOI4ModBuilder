@@ -28,7 +28,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (buttons == MouseButtons.Left && province != null)
             {
-                var prevState = province.state;
+                var prevState = province.State;
                 StateManager.TryGetState(ushort.Parse(parameter), out State newState);
 
                 Action<State, State> action = (src, dest) =>
@@ -40,9 +40,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 action(prevState, newState);
                 MapManager.actionPairs.Add(new ActionPair(() => action(newState, prevState), () => action(prevState, newState)));
             }
-            else if (buttons == MouseButtons.Right && province != null && province.state != null)
+            else if (buttons == MouseButtons.Right && province != null && province.State != null)
             {
-                MainForm.Instance.ComboBox_Tool_Parameter.Text = "" + province.state.Id;
+                MainForm.Instance.ComboBox_Tool_Parameter.Text = "" + province.State.Id;
                 MainForm.Instance.ComboBox_Tool_Parameter.Refresh();
             }
         }

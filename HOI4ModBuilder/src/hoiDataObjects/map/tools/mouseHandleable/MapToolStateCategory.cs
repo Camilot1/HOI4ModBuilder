@@ -33,8 +33,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (buttons == MouseButtons.Left)
             {
-                if (province.state == null) return;
-                StateCategory prevCategory = province.state.startStateCategory;
+                if (province.State == null) return;
+                StateCategory prevCategory = province.State.startStateCategory;
 
                 //TODO Добавить поддержку корректного изменения категории с учётом текущей букмарки
 
@@ -46,13 +46,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                 };
 
-                action(province.state, newCategory);
-                MapManager.actionPairs.Add(new ActionPair(() => action(province.state, prevCategory), () => action(province.state, newCategory)));
+                action(province.State, newCategory);
+                MapManager.actionPairs.Add(new ActionPair(() => action(province.State, prevCategory), () => action(province.State, newCategory)));
             }
             else if (buttons == MouseButtons.Right)
             {
                 string newParameter = "";
-                if (province.state != null && province.state.startStateCategory != null) newParameter = province.state.startStateCategory.name;
+                if (province.State != null && province.State.startStateCategory != null) newParameter = province.State.startStateCategory.name;
 
                 MainForm.Instance.ComboBox_Tool_Parameter.Text = newParameter;
                 MainForm.Instance.ComboBox_Tool_Parameter.Refresh();

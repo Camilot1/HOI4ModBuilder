@@ -28,8 +28,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (buttons == MouseButtons.Left)
             {
-                var prevRegion = province.region;
-                StrategicRegionManager.GetRegion(ushort.Parse(parameter), out StrategicRegion newRegion);
+                var prevRegion = province.Region;
+                StrategicRegionManager.TryGetRegion(ushort.Parse(parameter), out StrategicRegion newRegion);
 
                 Action<StrategicRegion, StrategicRegion> action = (src, dest) =>
                 {
@@ -40,9 +40,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 action(prevRegion, newRegion);
                 MapManager.actionPairs.Add(new ActionPair(() => action(newRegion, prevRegion), () => action(prevRegion, newRegion)));
             }
-            else if (buttons == MouseButtons.Right && province.region != null)
+            else if (buttons == MouseButtons.Right && province.Region != null)
             {
-                MainForm.Instance.ComboBox_Tool_Parameter.Text = "" + province.region.Id;
+                MainForm.Instance.ComboBox_Tool_Parameter.Text = "" + province.Region.Id;
                 MainForm.Instance.ComboBox_Tool_Parameter.Refresh();
             }
         }

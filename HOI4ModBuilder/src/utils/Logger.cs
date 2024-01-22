@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.src.forms;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -203,6 +204,15 @@ namespace HOI4ModBuilder.src.utils
                     if (!form.IsClosed) form.InvokeAction(() => form.Close());
                 });
             textBoxMessageForms.Clear();
+        }
+
+        public static void LogTime(string title, Action action)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            action();
+            stopwatch.Stop();
+            Log($"{title}: {stopwatch.ElapsedMilliseconds} ms");
         }
 
         public static void TryOrLog(Action action)

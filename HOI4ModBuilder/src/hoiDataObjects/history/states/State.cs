@@ -58,7 +58,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             provinces.Add(province);
             provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
-            province.state = this;
+            province.State = this;
             fileInfo.needToSave = true;
         }
 
@@ -66,7 +66,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             if (provinces.Remove(province))
             {
-                province.state = null;
+                province.State = null;
                 fileInfo.needToSave = true;
                 return true;
             }
@@ -355,7 +355,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             {
                 foreach (var b in p.borders)
                 {
-                    if (b.provinceA == null || b.provinceB == null || b.provinceA.state == null || b.provinceB.state == null || !b.provinceA.state.Equals(b.provinceB.state))
+                    if (b.provinceA == null || b.provinceB == null || b.provinceA.State == null || b.provinceB.State == null || !b.provinceA.State.Equals(b.provinceB.State))
                     {
                         borders.Add(b);
                         StateManager.AddStatesBorder(b);

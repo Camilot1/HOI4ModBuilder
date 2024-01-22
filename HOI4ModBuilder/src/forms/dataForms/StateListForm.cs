@@ -5,16 +5,11 @@ using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static HOI4ModBuilder.utils.Enums;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.forms
 {
@@ -103,7 +98,14 @@ namespace HOI4ModBuilder.src.forms
             Logger.TryOrLog(() =>
             {
                 ushort id = ushort.Parse(TextBox_Id.Text.Trim());
+                FindState(id);
+            });
+        }
 
+        public void FindState(ushort id)
+        {
+            Logger.TryOrLog(() =>
+            {
                 if (StateManager.TryGetState(id, out State state))
                 {
                     currentState = state;
@@ -155,11 +157,11 @@ namespace HOI4ModBuilder.src.forms
                 var s = state;
                 currentState.ClearData();
 
-                foreach (var p in currentState.provinces) p.state = null;
+                foreach (var p in currentState.provinces) p.State = null;
 
                 currentState = state;
 
-                foreach (var p in state.provinces) p.state = state;
+                foreach (var p in state.provinces) p.State = state;
 
                 StateManager.RemoveStateFromFile(currentState);
                 StateManager.AddStateToFile(state);

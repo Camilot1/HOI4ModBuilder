@@ -623,7 +623,7 @@ namespace HOI4ModBuilder.managers
                 }
 
                 var province = _provincesByColor[values[i]];
-                if (province != null && province.state != null && province.state.Equals(state)) state.dislayCenter = true;
+                if (province != null && province.State != null && province.State.Equals(state)) state.dislayCenter = true;
             }
         }
 
@@ -660,7 +660,7 @@ namespace HOI4ModBuilder.managers
                 }
 
                 Province province = _provincesByColor[values[i]];
-                if (province != null && province.region != null && province.region.Equals(region))
+                if (province != null && province.Region != null && province.Region.Equals(region))
                 {
                     region.dislayCenter = true;
                 }

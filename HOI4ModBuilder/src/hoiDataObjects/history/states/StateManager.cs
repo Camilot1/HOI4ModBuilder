@@ -145,7 +145,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         {
             if (province == null || src == null && dest == null) return false;
             if (src != null && dest != null && src.Equals(dest)) return false;
-            if (province != null && dest != null && province.state == dest) return false;
+            if (province != null && dest != null && province.State == dest) return false;
 
             src?.RemoveProvince(province);
             dest?.AddProvince(province);
@@ -286,7 +286,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 {
                     parser.Parse(state);
 
-                    foreach (var p in state.provinces) p.state = state;
+                    foreach (var p in state.provinces) p.State = state;
 
                     if (!_statesById.ContainsKey(state.Id)) _statesById[state.Id] = state;
                     else Logger.LogError(
@@ -336,7 +336,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public static State SelectState(int color)
         {
-            if (ProvinceManager.TryGetProvince(color, out Province province) && province.state != null) SelectedState = province.state;
+            if (ProvinceManager.TryGetProvince(color, out Province province) && province.State != null) SelectedState = province.State;
             else SelectedState = null;
 
             ProvinceManager.SelectedProvince = null;
@@ -346,7 +346,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public static State SelectRMBState(int color)
         {
-            if (ProvinceManager.TryGetProvince(color, out Province province) && province.state != null) RMBState = province.state;
+            if (ProvinceManager.TryGetProvince(color, out Province province) && province.State != null) RMBState = province.State;
             else RMBState = null;
 
             ProvinceManager.RMBProvince = null;

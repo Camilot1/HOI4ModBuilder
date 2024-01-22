@@ -22,8 +22,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public ushort Id { get; private set; }
         public int Color { get; private set; }
-        public State state;
-        public StrategicRegion region;
+        public State State { get; set; }
+        public StrategicRegion Region { get; set; }
         public byte TypeId { get; private set; }
         public bool IsCoastal { get; private set; }
         public ProvincialTerrain Terrain { get; private set; }
@@ -197,8 +197,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             else ProvinceManager.RemoveProvinceById(Id); //TODO Добавить обработчик внутри менеджена на обновление id провинции и словарей с ВП и постройками
             Id = id;
             ProvinceManager.AddProvince(Id, this);
-            state?.Validate();
-            region?.Validate();
+            State?.Validate();
+            Region?.Validate();
 
             if (adjacencies.Count > 0) AdjacenciesManager.NeedToSaveAdjacencies = true;
             foreach (var adj in adjacencies)

@@ -80,8 +80,8 @@ namespace HOI4ModBuilder.src.forms
                             p.IsCoastal,
                             p.Terrain == null ? "unknown" : p.Terrain.name,
                             p.ContinentId,
-                            p.state == null ? -1 : p.state.Id,
-                            p.region == null ? -1 : p.region.Id,
+                            p.State == null ? -1 : p.State.Id,
+                            p.Region == null ? -1 : p.Region.Id,
                             p.pixelsCount,
                             p.borders.Count
                         });

@@ -128,7 +128,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             //Если оба региона являются одним и тем же регионом
             if (src != null && dest != null && src.Equals(dest)) return false;
             //Если провинция уже в новом регионе
-            if (province != null && dest != null && province.region == dest) return false;
+            if (province != null && dest != null && province.Region == dest) return false;
 
             if (src != null) src.RemoveProvince(province);
             if (dest != null) dest.AddProvince(province);
@@ -150,7 +150,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
         public static bool ContainsRegionIdKey(ushort id) => _regions.ContainsKey(id);
         public static Dictionary<ushort, StrategicRegion>.KeyCollection GetRegionsIds() => _regions.Keys;
         public static Dictionary<ushort, StrategicRegion>.ValueCollection GetRegions() => _regions.Values;
-        public static bool GetRegion(ushort id, out StrategicRegion region)
+        public static bool TryGetRegion(ushort id, out StrategicRegion region)
             => _regions.TryGetValue(id, out region);
 
         public static void AddRegion(ushort id, StrategicRegion region)
@@ -183,9 +183,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
         }
         public static StrategicRegion SelectRegion(int color)
         {
-            if (ProvinceManager.TryGetProvince(color, out Province province) && province.region != null)
+            if (ProvinceManager.TryGetProvince(color, out Province province) && province.Region != null)
             {
-                SelectedRegion = province.region;
+                SelectedRegion = province.Region;
             }
             else SelectedRegion = null;
             ProvinceManager.SelectedProvince = null;
@@ -195,9 +195,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
         public static StrategicRegion SelectRMBRegion(int color)
         {
-            if (ProvinceManager.TryGetProvince(color, out Province province) && province.region != null)
+            if (ProvinceManager.TryGetProvince(color, out Province province) && province.Region != null)
             {
-                RMBRegion = province.region;
+                RMBRegion = province.Region;
             }
             else RMBRegion = null;
             ProvinceManager.RMBProvince = null;

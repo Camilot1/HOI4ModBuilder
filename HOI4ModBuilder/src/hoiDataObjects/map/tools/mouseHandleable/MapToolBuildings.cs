@@ -32,9 +32,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (!BuildingManager.TryGetBuilding(parameter, out Building building)) return;
 
-            if (buttons == MouseButtons.Left && province != null && province.state != null)
+            if (buttons == MouseButtons.Left && province != null && province.State != null)
                 changeCount = 1;
-            else if (buttons == MouseButtons.Right && province != null && province.state != null)
+            else if (buttons == MouseButtons.Right && province != null && province.State != null)
                 changeCount = -1;
 
             if (changeCount != 0)
@@ -56,18 +56,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 }
                 else if (building.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.SHARED)
                 {
-                    foreach (var b in province.state.stateBuildings.Keys)
+                    foreach (var b in province.State.stateBuildings.Keys)
                     {
                         if (b.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.SHARED)
-                            currentCount += province.state.stateBuildings[b];
+                            currentCount += province.State.stateBuildings[b];
                     }
-                    maxCount = (uint)Math.Round(province.state.stateCategory.localBuildingsSlots * province.state.buildingsMaxLevelFactor);
+                    maxCount = (uint)Math.Round(province.State.stateCategory.localBuildingsSlots * province.State.buildingsMaxLevelFactor);
                     freeSlots = maxCount - currentCount;
-                    province.state.stateBuildings.TryGetValue(building, out prevCount);
+                    province.State.stateBuildings.TryGetValue(building, out prevCount);
                 }
                 else //NOT_SHARED 
                 {
-                    province.state.stateBuildings.TryGetValue(building, out currentCount);
+                    province.State.stateBuildings.TryGetValue(building, out currentCount);
                     maxCount = building.maxLevel;
                     freeSlots = building.maxLevel - currentCount;
                     prevCount = currentCount;
@@ -86,7 +86,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 {
                     action = (c) =>
                     {
-                        province.state.SetProvinceBuilding(province, building, c);
+                        province.State.SetProvinceBuilding(province, building, c);
                         MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
                     };
                 }
@@ -94,7 +94,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 {
                     action = (c) =>
                     {
-                        province.state.SetStateBuilding(building, c);
+                        province.State.SetStateBuilding(building, c);
                         MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
                     };
                 }
