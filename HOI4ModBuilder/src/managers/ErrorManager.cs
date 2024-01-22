@@ -43,6 +43,7 @@ namespace HOI4ModBuilder.src.managers
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckProvincesMultiVictoryPoints()),
 
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckStatesMultiRegions()),
+                new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckRegionWithNotNavalTerrain()),
 
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckRailways()),
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckSupplyHubsMismatches()),
@@ -366,6 +367,17 @@ namespace HOI4ModBuilder.src.managers
                         break;
                     }
                 }
+            }
+        }
+
+        private static void CheckRegionWithNotNavalTerrain()
+        {
+            if (!CheckFilter(EnumMapErrorCode.REGION_USES_NOT_NAVAL_TERRAIN)) return;
+
+            foreach (var r in StrategicRegionManager.GetRegions())
+            {
+                if (r.Terrain == null) continue;
+                if (!r.Terrain.isNavalTerrain) AddErrorInfo(r.center, EnumMapErrorCode.REGION_USES_NOT_NAVAL_TERRAIN);
             }
         }
 
@@ -703,6 +715,8 @@ namespace HOI4ModBuilder.src.managers
         PROVINCE_MULTI_VICTORY_POINTS, //Провинция имеет несколько разных викторипоинтов
 
         STATE_MULTI_REGIONS, //Область находится в нескольких страт. регионах
+
+        REGION_USES_NOT_NAVAL_TERRAIN, //У региона установлена неморская местность
 
         HEIGHTMAP_MISMATCH, //Некорректная высота точки провинции
         RIVER_CROSSING, //Некорректная точка пересечения речных участков
