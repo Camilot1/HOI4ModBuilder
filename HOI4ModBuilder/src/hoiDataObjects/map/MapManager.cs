@@ -438,12 +438,18 @@ namespace HOI4ModBuilder.managers
                         else return Utils.ArgbToInt(255, 0, 0, 0);
                     };
                     break;
-                case EnumMainLayer.TERRAIN:
+                case EnumMainLayer.PROVINCES_TERRAIN:
                     func = (p) =>
                     {
-                        ProvincialTerrain terrain = p.Terrain;
-                        if (terrain == null) return Utils.ArgbToInt(255, 0, 0, 0);
+                        if (p.Terrain == null) return Utils.ArgbToInt(255, 0, 0, 0);
                         else return p.Terrain.color;
+                    };
+                    break;
+                case EnumMainLayer.REGIONS_TERRAIN:
+                    func = (p) =>
+                    {
+                        if (p.Region == null || p.Region.Terrain == null) return Utils.ArgbToInt(255, 0, 0, 0);
+                        else return p.Region.Terrain.color;
                     };
                     break;
                 case EnumMainLayer.CONTINENTS:

@@ -21,7 +21,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             new MapToolPipette(_mapTools);
             new MapToolProvinceType(_mapTools);
             new MapToolProvinceCoastal(_mapTools);
-            new MapToolProvinceTerrain(_mapTools);
+            new MapToolTerrain(_mapTools);
             new MapToolProvinceContinent(_mapTools);
             new MapToolProvinceState(_mapTools);
             new MapToolProvinceRegion(_mapTools);

@@ -392,7 +392,7 @@
     <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolProvinceContinent.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolProvinceRegion.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolProvinceState.cs" />
-    <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolProvinceTerrain.cs" />
+    <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolTerrain.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolProvinceType.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolRectangle.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolStateCategory.cs" />

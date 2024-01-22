@@ -196,40 +196,46 @@
     <value>Provinces type</value>
   </data>
   <data name="СomboBox_MapMainLayer.Items5" xml:space="preserve">
-    <value>Terrain</value>
+    <value>Provinces Terrain</value>
   </data>
   <data name="СomboBox_MapMainLayer.Items6" xml:space="preserve">
-    <value>Continents</value>
+    <value>Regions Terrain</value>
   </data>
   <data name="СomboBox_MapMainLayer.Items7" xml:space="preserve">
-    <value>Manpower</value>
+    <value>Continents</value>
   </data>
   <data name="СomboBox_MapMainLayer.Items8" xml:space="preserve">
-    <value>Victory points</value>
+    <value>Manpower</value>
   </data>
   <data name="СomboBox_MapMainLayer.Items9" xml:space="preserve">
-    <value>State categories</value>
+    <value>Victory points</value>
   </data>
   <data name="СomboBox_MapMainLayer.Items10" xml:space="preserve">
-    <value>Buildings</value>
+    <value>State categories</value>
   </data>
   <data name="СomboBox_MapMainLayer.Items11" xml:space="preserve">
-    <value>Terrain map</value>
+    <value>Buildings</value>
   </data>
   <data name="СomboBox_MapMainLayer.Items12" xml:space="preserve">
-    <value>Trees map</value>
+    <value>Terrain map</value>
   </data>
   <data name="СomboBox_MapMainLayer.Items13" xml:space="preserve">
-    <value>Cities map</value>
+    <value>Trees map</value>
   </data>
   <data name="СomboBox_MapMainLayer.Items14" xml:space="preserve">
-    <value>Height map</value>
+    <value>Cities map</value>
   </data>
   <data name="СomboBox_MapMainLayer.Items15" xml:space="preserve">
-    <value>World normal map</value>
+    <value>Height map</value>
   </data>
   <data name="СomboBox_MapMainLayer.Items16" xml:space="preserve">
+    <value>World normal map</value>
+  </data>
+  <data name="СomboBox_MapMainLayer.Items17" xml:space="preserve">
     <value>None</value>
+  </data>
+  <data name="СomboBox_MapMainLayer.Items18" xml:space="preserve">
+    <value>Нет</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Main layer</value>
@@ -373,8 +379,26 @@
   <data name="ToolStripMenuItem_Map_Search.Text" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="ToolStripMenuItem_Map_Province_IsCoastal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
   <data name="ToolStripMenuItem_Map_Province_IsCoastal.Text" xml:space="preserve">
     <value>IsCoastal</value>
+  </data>
+  <data name="toolStripSeparator24.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_OpenStateFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_OpenStateFile.Text" xml:space="preserve">
+    <value>Open State File</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_OpenRegionFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_OpenRegionFile.Text" xml:space="preserve">
+    <value>Open Region File</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 22</value>
@@ -529,14 +553,26 @@
   <data name="TabPage_Map.Text" xml:space="preserve">
     <value>Map</value>
   </data>
+  <data name="TabPage_Buildings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1376, 951</value>
+  </data>
   <data name="TabPage_Buildings.Text" xml:space="preserve">
     <value>Buildings</value>
+  </data>
+  <data name="TabPage_Resources.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1376, 951</value>
   </data>
   <data name="TabPage_Resources.Text" xml:space="preserve">
     <value>Resources</value>
   </data>
+  <data name="TabPage_Localization.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1376, 951</value>
+  </data>
   <data name="TabPage_Localization.Text" xml:space="preserve">
     <value>Localization</value>
+  </data>
+  <data name="TabPage_Home.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1376, 951</value>
   </data>
   <data name="TabPage_Home.Text" xml:space="preserve">
     <value>Home</value>

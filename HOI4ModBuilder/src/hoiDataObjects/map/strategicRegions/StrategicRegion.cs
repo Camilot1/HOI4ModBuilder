@@ -146,6 +146,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             }
         }
 
+        public void UpdateTerrain(ProvincialTerrain terrain)
+        {
+            if (Terrain == terrain || !terrain.isNavalTerrain) return;
+            Terrain = terrain;
+            needToSave = true;
+        }
+
         public void TransferProvincesFrom(StrategicRegion otherRegion)
         {
 

@@ -702,7 +702,7 @@ namespace HOI4ModBuilder
                     case EnumTool.PROVINCE_TYPE:
                         UpdateToolParameterComboBox(ToolStripComboBox_Map_Province_Type.Items.GetEnumerator());
                         break;
-                    case EnumTool.PROVINCE_TERRAIN:
+                    case EnumTool.TERRAIN:
                         UpdateToolParameterComboBox(ToolStripComboBox_Map_Province_Terrain.Items.GetEnumerator());
                         break;
                     case EnumTool.PROVINCE_CONTINENT:
