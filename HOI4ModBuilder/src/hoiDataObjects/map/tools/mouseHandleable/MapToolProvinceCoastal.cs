@@ -43,7 +43,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             {
                 Action<bool> action = (b) =>
                 {
-                    province.UpdateIsCoastal(b);
+                    province.IsCoastal = b;
                     MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                 };
 

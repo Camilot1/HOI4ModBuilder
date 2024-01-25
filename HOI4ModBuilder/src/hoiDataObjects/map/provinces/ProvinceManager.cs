@@ -670,13 +670,13 @@ namespace HOI4ModBuilder.managers
         public static void AutoToolIsCoastal()
         {
             foreach (var p in _provincesById.Values)
-                p.UpdateIsCoastal(p.CheckCoastalType());
+                p.IsCoastal = p.CheckCoastalType();
         }
 
         public static void AutoToolRemoveSeaAndLakesContinents()
         {
             foreach (var p in _provincesById.Values)
-                if (p.TypeId != 0) p.UpdateContinentId(0);
+                if (p.TypeId != 0) p.ContinentId = 0;
         }
 
         public static void GetMinMaxVictoryPoints(out uint min, out uint max)

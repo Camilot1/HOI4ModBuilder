@@ -158,7 +158,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             ProvinceManager.RemoveProvinceByColor(second.Color);
 
             //Заменяем id самой старшей провинции
-            provinceToReplace.UpdateId(second.Id);
+            provinceToReplace.Id = second.Id;
             ProvinceManager.NextVacantProvinceId--;
         }
     }

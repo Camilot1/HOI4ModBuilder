@@ -42,7 +42,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         action = (t) =>
                         {
                             bool newToHandleMapChange = prevTerrain == null || !province.Terrain.Equals(t);
-                            province.UpdateTerrain(t);
+                            province.Terrain = t;
                             if (newToHandleMapChange) MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                         };
                     }

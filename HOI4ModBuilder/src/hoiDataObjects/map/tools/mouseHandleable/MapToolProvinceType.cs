@@ -38,7 +38,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             {
                 Action<byte> action = (t) =>
                 {
-                    province.UpdateTypeId(t);
+                    province.TypeId = t;
                     MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                 };
 

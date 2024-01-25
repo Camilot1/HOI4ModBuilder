@@ -20,15 +20,120 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
         public override int GetHashCode() => _hashCode;
 
-        public ushort Id { get; private set; }
-        public int Color { get; private set; }
+        public bool HasChangedId { get; private set; }
+
+        private ushort _id;
+        public ushort Id
+        {
+            get => _id;
+            set
+            {
+                if (_id == value) return;
+
+                if (ProvinceManager.ContainsProvinceIdKey(value))
+                    throw new Exception(GuiLocManager.GetLoc(
+                            EnumLocKey.EXCEPTION_PROVINCE_ID_UPDATE_VALUE_IS_USED,
+                            new Dictionary<string, string> { { "{id}", $"{value}" } }
+                        ));
+                else ProvinceManager.RemoveProvinceById(Id); //TODO Добавить обработчик внутри менеджена на обновление id провинции и словарей с ВП и постройками
+
+                _id = value;
+                HasChangedId = true;
+
+                ProvinceManager.AddProvince(Id, this);
+                State?.Validate();
+                Region?.Validate();
+
+                //TODO Переделать, вынеся проверки в сами Adjacency
+                if (adjacencies.Count > 0) AdjacenciesManager.NeedToSaveAdjacencies = true;
+                foreach (var adj in adjacencies)
+                {
+                    if (adj.HasRuleRequiredProvince(this)) AdjacenciesManager.NeedToSaveAdjacencyRules = true;
+                }
+            }
+        }
+
+        private int _color;
+        public int Color
+        {
+            get => _color;
+            set
+            {
+                if (_color == value) return;
+
+                if (ProvinceManager.TryGetProvince(value, out Province p))
+                    throw new Exception(GuiLocManager.GetLoc(
+                        EnumLocKey.EXCEPTION_PROVINCE_COLOR_UPDATE_VALUE_IS_USED,
+                        new Dictionary<string, string>
+                        {
+                        { "{color}", new Color3B(value).ToString() },
+                        { "{otherProvinceId}", $"{p.Id}" }
+                        }
+                    ));
+                else ProvinceManager.RemoveProvinceByColor(Color);
+
+                _color = value;
+
+                ProvinceManager.AddProvince(Color, this);
+            }
+        }
+
+        private byte _typeId;
+        public byte TypeId
+        {
+            get => _typeId;
+            set
+            {
+                if (_typeId == value) return;
+
+                _typeId = value;
+                ProvinceManager.NeedToSave = true;
+            }
+        }
+        private bool _isCoastal;
+        public bool IsCoastal
+        {
+            get => _isCoastal;
+            set
+            {
+                if (_isCoastal == value) return;
+
+                _isCoastal = value;
+                ProvinceManager.NeedToSave = true;
+            }
+        }
+
+        private ProvincialTerrain _terrain;
+        public ProvincialTerrain Terrain
+        {
+            get => _terrain;
+            set
+            {
+                if (_terrain == value) return;
+
+                _terrain = value;
+                ProvinceManager.NeedToSave = true;
+            }
+        }
+
+        private byte _continentId;
+        public byte ContinentId
+        {
+            get => _continentId;
+            set
+            {
+                if (_continentId == value) return;
+
+                _continentId = value;
+                ProvinceManager.NeedToSave = true;
+            }
+        }
+
+        public uint victoryPoints;
+
         public State State { get; set; }
         public StrategicRegion Region { get; set; }
-        public byte TypeId { get; private set; }
-        public bool IsCoastal { get; private set; }
-        public ProvincialTerrain Terrain { get; private set; }
-        public byte ContinentId { get; private set; }
-        public uint victoryPoints;
+
         public SupplyNode supplyNode;
         public List<Railway> railways = new List<Railway>(0);
         public List<Adjacency> adjacencies = new List<Adjacency>(0);
@@ -47,18 +152,18 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public Province(ushort id, int color)
         {
-            Id = id;
-            Color = color;
+            _id = id;
+            _color = color;
         }
 
         public Province(ushort id, int color, byte typeId, bool isCoastal, ProvincialTerrain terrain, byte continentId)
         {
-            Id = id;
-            Color = color;
-            IsCoastal = isCoastal;
-            TypeId = typeId;
-            Terrain = terrain;
-            ContinentId = continentId;
+            _id = id;
+            _color = color;
+            _isCoastal = isCoastal;
+            _typeId = typeId;
+            _terrain = terrain;
+            _continentId = continentId;
         }
 
         public void AddPixel(int x, int y)
@@ -68,15 +173,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             center.y += (y - center.y) / pixelsCount;
         }
 
-        public void AddBorder(ProvinceBorder border)
-        {
-            borders.Add(border);
-        }
-
-        public void ClearBorders()
-        {
-            borders.Clear();
-        }
+        public void AddBorder(ProvinceBorder border) => borders.Add(border);
+        public void ClearBorders() => borders.Clear();
 
         public void Save(StringBuilder sb)
         {
@@ -184,72 +282,6 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 if (adj.HasConnectionWithProvince(province)) return true;
             }
             return false;
-        }
-
-        public void UpdateId(ushort id)
-        {
-            if (Id == id) return;
-            if (ProvinceManager.ContainsProvinceIdKey(id))
-                throw new Exception(GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_PROVINCE_ID_UPDATE_VALUE_IS_USED,
-                        new Dictionary<string, string> { { "{id}", $"{id}" } }
-                    ));
-            else ProvinceManager.RemoveProvinceById(Id); //TODO Добавить обработчик внутри менеджена на обновление id провинции и словарей с ВП и постройками
-            Id = id;
-            ProvinceManager.AddProvince(Id, this);
-            State?.Validate();
-            Region?.Validate();
-
-            if (adjacencies.Count > 0) AdjacenciesManager.NeedToSaveAdjacencies = true;
-            foreach (var adj in adjacencies)
-            {
-                if (adj.HasRuleRequiredProvince(this)) AdjacenciesManager.NeedToSaveAdjacencyRules = true;
-            }
-        }
-
-        public void UpdateColor(int color)
-        {
-            if (Color == color) return;
-            if (ProvinceManager.TryGetProvince(color, out Province p))
-                throw new Exception(GuiLocManager.GetLoc(
-                    EnumLocKey.EXCEPTION_PROVINCE_COLOR_UPDATE_VALUE_IS_USED,
-                    new Dictionary<string, string>
-                    {
-                        { "{color}", new Color3B(color).ToString() },
-                        { "{otherProvinceId}", $"{p.Id}" }
-                    }
-                ));
-            else ProvinceManager.RemoveProvinceByColor(Color);
-            Color = color;
-            ProvinceManager.AddProvince(Color, this);
-        }
-
-        public void UpdateTypeId(byte typeId)
-        {
-            if (TypeId == typeId) return;
-            TypeId = typeId;
-            ProvinceManager.NeedToSave = true;
-        }
-
-        public void UpdateIsCoastal(bool isCoastal)
-        {
-            if (IsCoastal == isCoastal) return;
-            IsCoastal = isCoastal;
-            ProvinceManager.NeedToSave = true;
-        }
-
-        public void UpdateTerrain(ProvincialTerrain terrain)
-        {
-            if (Terrain == terrain) return;
-            Terrain = terrain;
-            ProvinceManager.NeedToSave = true;
-        }
-
-        public void UpdateContinentId(byte continentId)
-        {
-            if (ContinentId == continentId) return;
-            ContinentId = continentId;
-            ProvinceManager.NeedToSave = true;
         }
 
         public override bool Equals(object obj)

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HOI4ModBuilder.hoiDataObjects.units.land
+namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 {
-    internal class LandUnitManager
+    class OOB
     {
-
     }
 }

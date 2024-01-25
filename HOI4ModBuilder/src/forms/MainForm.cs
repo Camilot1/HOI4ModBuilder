@@ -967,7 +967,7 @@ namespace HOI4ModBuilder
 
                 void action(byte typeId)
                 {
-                    ProvinceManager.RMBProvince.UpdateTypeId(typeId);
+                    ProvinceManager.RMBProvince.TypeId = typeId;
                     MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
                 }
 
@@ -985,7 +985,7 @@ namespace HOI4ModBuilder
                 void action(bool isCoastal)
                 {
                     ToolStripMenuItem_Map_Province_IsCoastal.Checked = isCoastal;
-                    ProvinceManager.RMBProvince.UpdateIsCoastal(isCoastal);
+                    ProvinceManager.RMBProvince.IsCoastal = isCoastal;
                     MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
                 }
 
@@ -1002,7 +1002,7 @@ namespace HOI4ModBuilder
 
                 void action(ProvincialTerrain terrain)
                 {
-                    ProvinceManager.RMBProvince.UpdateTerrain(terrain);
+                    ProvinceManager.RMBProvince.Terrain = terrain;
                     MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
                 }
 
@@ -1019,7 +1019,7 @@ namespace HOI4ModBuilder
 
                 void action(byte continentId)
                 {
-                    ProvinceManager.RMBProvince.UpdateContinentId(continentId);
+                    ProvinceManager.RMBProvince.ContinentId = continentId;
                     MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
                 }
 

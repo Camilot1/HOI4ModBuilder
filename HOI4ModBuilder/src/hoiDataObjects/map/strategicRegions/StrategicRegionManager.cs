@@ -16,8 +16,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 {
     class StrategicRegionManager
     {
-        public static StrategicRegionManager Instance { get; private set; }
-
         private static Dictionary<ushort, StrategicRegion> _regions = new Dictionary<ushort, StrategicRegion>();
         private static HashSet<ProvinceBorder> _regionsBorders = new HashSet<ProvinceBorder>();
 
@@ -32,8 +30,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
         public static void Load(Settings settings)
         {
-            Instance = new StrategicRegionManager();
-
             _regions = new Dictionary<ushort, StrategicRegion>();
             _regionsBorders = new HashSet<ProvinceBorder>();
 
@@ -55,11 +51,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 {
                     if (!region.needToSave) continue;
 
-                    if (string.IsNullOrEmpty(region.fileName))
+                    if (string.IsNullOrEmpty(region.FileInfo.fileName))
                         throw new Exception(GuiLocManager.GetLoc(EnumLocKey.ERROR_REGION_HAS_NO_FILE));
 
                     region.Save(sb);
-                    File.WriteAllText(settings.modDirectory + @"map\strategicregions\" + region.fileName, sb.ToString());
+                    File.WriteAllText(settings.modDirectory + @"map\strategicregions\" + region.FileInfo.fileName, sb.ToString());
                     sb.Length = 0;
                 }
                 catch (Exception ex)

@@ -268,6 +268,7 @@
     <Compile Include="src\dataObjects\argBlocks\InfoArgsBlock.cs" />
     <Compile Include="src\dataObjects\argBlocks\scripted\ConditionalArgsBlock.cs" />
     <Compile Include="src\dataObjects\argBlocks\scripted\LogicArgsBlock.cs" />
+    <Compile Include="src\dataObjects\XYUshortCoordinates.cs" />
     <Compile Include="src\dataObjects\ParserDummyBlock.cs" />
     <Compile Include="src\dataObjects\replaceTags\ReplaceTagsManager.cs" />
     <Compile Include="src\dataObjects\replaceTags\ReplaceTagDummyFile.cs" />
@@ -350,6 +351,10 @@
     <Compile Include="src\hoiDataObjects\common\terrain\GraphicalTerrain.cs" />
     <Compile Include="src\hoiDataObjects\common\terrain\ProvincialTerrain.cs" />
     <Compile Include="src\hoiDataObjects\common\terrain\TerrainManager.cs" />
+    <Compile Include="src\hoiDataObjects\common\units\divisionsNames\DivisionNamesGroup.cs" />
+    <Compile Include="src\hoiDataObjects\common\units\divisionsNames\DivisionNamesGroupManager.cs" />
+    <Compile Include="src\hoiDataObjects\common\units\SubUnit.cs" />
+    <Compile Include="src\hoiDataObjects\common\units\SubUnitManager.cs" />
     <Compile Include="src\hoiDataObjects\Faction.cs" />
     <Compile Include="src\hoiDataObjects\gfx\sprites\CorneredTileSprite.cs" />
     <Compile Include="src\hoiDataObjects\gfx\sprites\FrameAnimatedSprite.cs" />
@@ -361,6 +366,9 @@
     <Compile Include="src\hoiDataObjects\history\countries\CountryManager.cs" />
     <Compile Include="src\hoiDataObjects\history\states\StateHistory.cs" />
     <Compile Include="src\hoiDataObjects\history\states\StateManager.cs" />
+    <Compile Include="src\hoiDataObjects\history\units\oobs\Division.cs" />
+    <Compile Include="src\hoiDataObjects\history\units\oobs\DivisionTemplate.cs" />
+    <Compile Include="src\hoiDataObjects\history\units\oobs\OOB.cs" />
     <Compile Include="src\hoiDataObjects\Idea.cs" />
     <Compile Include="src\hoiDataObjects\localisation\LanguageData.cs" />
     <Compile Include="src\hoiDataObjects\localisation\LocalizationManager.cs" />

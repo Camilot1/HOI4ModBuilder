@@ -19,7 +19,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public override int GetHashCode() => _hashCode;
 
         public bool needToSave;
-        public string fileName;
+        public FileInfo FileInfo { get; set; }
 
         private bool _silentLoad;
 
@@ -83,13 +83,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public bool dislayCenter;
         public uint pixelsCount;
 
-        public StrategicRegion(string fileName)
+        public StrategicRegion(FileInfo fileInfo)
         {
-            this.fileName = fileName;
+            this.FileInfo = fileInfo;
             _weather = new RegionWeather(this);
         }
 
-        public StrategicRegion(string fileName, bool silentLoad) : this(fileName)
+        public StrategicRegion(FileInfo fileInfo, bool silentLoad) : this(fileInfo)
         {
             _silentLoad = silentLoad;
         }
@@ -244,7 +244,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                     parser.Parse(_weather);
                     break;
                 default:
-                    //TODO Добавить доп параметры
                     throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.ERROR_REGION_UNKNOWN_TOKEN,
                         new Dictionary<string, string>
@@ -538,7 +537,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                     if (_region != null)
                         throw new Exception(GuiLocManager.GetLoc(EnumLocKey.ERROR_MULTI_REGIONS_IN_FILE));
 
-                    _region = new StrategicRegion(_currentFile.fileName, _isSilentLoad);
+                    _region = new StrategicRegion(_currentFile, _isSilentLoad);
 
                     parser.Parse(_region);
                     _region.needToSave = _currentFile.needToSave;
@@ -549,7 +548,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                             new Dictionary<string, string>
                             {
                                 { "{reginId}", $"{_region.Id}" },
-                                { "{firstFilePath}", _currentFile.filePath }
+                                { "{firstFilePath}", _regions[_region.Id].FileInfo.filePath }
                             }
                         ));
 
