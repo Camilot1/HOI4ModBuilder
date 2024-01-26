@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HOI4ModBuilder.src.Pdoxcl2Sharp;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -205,6 +206,13 @@ namespace Pdoxcl2Sharp
         public static T Parse<T>(Stream data, T entity) where T : IParadoxRead
         {
             Parse(data, entity.TokenCallback);
+            return entity;
+        }
+
+        public static T ParseAndValidate<T>(Stream data, T entity) where T : IParadoxReadAndValidate
+        {
+            Parse(data, entity.TokenCallback);
+            entity.Validate();
             return entity;
         }
 

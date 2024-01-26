@@ -8,5 +8,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 {
     class OOB
     {
+
+        public FileInfo FileInfo { get; set; }
     }
 }

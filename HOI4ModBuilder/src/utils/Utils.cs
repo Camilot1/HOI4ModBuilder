@@ -147,6 +147,49 @@ namespace HOI4ModBuilder
             return values;
         }
 
+        public static bool ClampIfNeeded(float? value, float min, float max, out float? newValue)
+        {
+            if (value == null)
+            {
+                newValue = value;
+                return false;
+            }
+            if (value < min)
+            {
+                newValue = min;
+                return true;
+            }
+            else if (value > max)
+            {
+                newValue = max;
+                return true;
+            }
+            else
+            {
+                newValue = value;
+                return false;
+            }
+        }
+
+        public static bool ClampIfNeeded(float value, float min, float max, out float newValue)
+        {
+            if (value < min)
+            {
+                newValue = min;
+                return true;
+            }
+            else if (value > max)
+            {
+                newValue = max;
+                return true;
+            }
+            else
+            {
+                newValue = value;
+                return false;
+            }
+        }
+
         public static void GetFileNameAndFormat(in string path, out string fileName, out string fileFormat)
         {
             string[] pathParts = path.Split('\\');

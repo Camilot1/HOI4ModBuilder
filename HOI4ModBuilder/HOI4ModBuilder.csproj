@@ -431,6 +431,7 @@
     <Compile Include="src\Pdoxcl2Sharp\INamingConvention.cs" />
     <Compile Include="src\Pdoxcl2Sharp\InflectorExtensions.cs" />
     <Compile Include="src\Pdoxcl2Sharp\IParadoxRead.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\IParadoxReadAndValidate.cs" />
     <Compile Include="src\Pdoxcl2Sharp\IParadoxWrite.cs" />
     <Compile Include="src\Pdoxcl2Sharp\ParadoxAliasAttribute.cs" />
     <Compile Include="src\Pdoxcl2Sharp\ParadoxCompressedSaver.cs" />
