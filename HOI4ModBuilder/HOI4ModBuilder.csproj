@@ -368,6 +368,7 @@
     <Compile Include="src\hoiDataObjects\history\states\StateManager.cs" />
     <Compile Include="src\hoiDataObjects\history\units\oobs\Division.cs" />
     <Compile Include="src\hoiDataObjects\history\units\oobs\DivisionTemplate.cs" />
+    <Compile Include="src\hoiDataObjects\history\units\oobs\Fleet.cs" />
     <Compile Include="src\hoiDataObjects\history\units\oobs\OOB.cs" />
     <Compile Include="src\hoiDataObjects\Idea.cs" />
     <Compile Include="src\hoiDataObjects\localisation\LanguageData.cs" />
@@ -431,7 +432,7 @@
     <Compile Include="src\Pdoxcl2Sharp\INamingConvention.cs" />
     <Compile Include="src\Pdoxcl2Sharp\InflectorExtensions.cs" />
     <Compile Include="src\Pdoxcl2Sharp\IParadoxRead.cs" />
-    <Compile Include="src\Pdoxcl2Sharp\IParadoxReadAndValidate.cs" />
+    <Compile Include="src\Pdoxcl2Sharp\IParadoxObject.cs" />
     <Compile Include="src\Pdoxcl2Sharp\IParadoxWrite.cs" />
     <Compile Include="src\Pdoxcl2Sharp\ParadoxAliasAttribute.cs" />
     <Compile Include="src\Pdoxcl2Sharp\ParadoxCompressedSaver.cs" />
@@ -449,6 +450,11 @@
     <Compile Include="src\openTK\TextureTypes.cs" />
     <Compile Include="src\utils\Constants.cs" />
     <Compile Include="src\utils\Enums.cs" />
+    <Compile Include="src\utils\exceptions\CountryNotFoundException.cs" />
+    <Compile Include="src\utils\exceptions\DivisionNamesGroupNotFoundException.cs" />
+    <Compile Include="src\utils\exceptions\IncorrectValueException.cs" />
+    <Compile Include="src\utils\exceptions\ProvinceNotFoundException.cs" />
+    <Compile Include="src\utils\exceptions\UnknownTokenException.cs" />
     <Compile Include="src\utils\json\EnumArrayToStringConverter.cs" />
     <Compile Include="src\utils\GuiLocManager.cs" />
     <Compile Include="src\utils\Logger.cs" />
@@ -516,7 +522,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="data\effects.json" />
+    <None Include="data\modifiers.json" />
+    <None Include="data\replace_tags.json" />
+    <None Include="data\triggers.json" />
     <None Include="HOI4ModBuilder_TemporaryKey.pfx" />
+    <None Include="localization\en.yml" />
+    <None Include="localization\ru.yml" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />

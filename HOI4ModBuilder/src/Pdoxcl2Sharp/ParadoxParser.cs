@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.Pdoxcl2Sharp;
+using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -196,6 +197,26 @@ namespace Pdoxcl2Sharp
             }
         }
 
+        public static void AdvancedParse(Stream data, LinkedLayer prevLayer, Action<ParadoxParser, LinkedLayer, string> parseStrategy)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            using (var reader = new StreamReader(data, Globals.ParadoxEncoding, false, MaxByteBuffer))
+            {
+                ParadoxParser parser = new ParadoxParser(reader);
+                while (!parser.EndOfStream)
+                {
+                    string val = parser.ReadString();
+
+                    // if val is the null string then nothing of importance
+                    // was found between the last token and the end of the stream 
+                    if (val != "\0")
+                        parseStrategy(parser, prevLayer, val);
+                }
+            }
+        }
+
         /// <summary>
         /// Parses a given stream with a defined structure
         /// </summary>
@@ -209,10 +230,10 @@ namespace Pdoxcl2Sharp
             return entity;
         }
 
-        public static T ParseAndValidate<T>(Stream data, T entity) where T : IParadoxReadAndValidate
+        public static T AdvancedParse<T>(Stream data, LinkedLayer prevLayer, T entity, out bool result) where T : IParadoxObject
         {
-            Parse(data, entity.TokenCallback);
-            entity.Validate();
+            AdvancedParse(data, prevLayer, entity.TokenCallback);
+            result = entity.Validate(prevLayer);
             return entity;
         }
 
@@ -228,6 +249,11 @@ namespace Pdoxcl2Sharp
             Parse(innerStructure.TokenCallback);
             return innerStructure;
         }
+        public T AdvancedParse<T>(LinkedLayer prevLayer, T innerStructure) where T : class, IParadoxObject
+        {
+            AdvancedParse(prevLayer, innerStructure.TokenCallback);
+            return innerStructure;
+        }
 
         /// <summary>
         /// Reads everything between same level brackets and applies the action to each token
@@ -236,6 +262,11 @@ namespace Pdoxcl2Sharp
         public void Parse(Action<ParadoxParser, string> action)
         {
             DoWhileBracket(() => { if (ReadString() != null) action(this, currentString); });
+        }
+
+        public void AdvancedParse(LinkedLayer prevLayer, Action<ParadoxParser, LinkedLayer, string> action)
+        {
+            DoWhileBracket(() => { if (ReadString() != null) action(this, prevLayer, currentString); });
         }
 
         /// <summary>

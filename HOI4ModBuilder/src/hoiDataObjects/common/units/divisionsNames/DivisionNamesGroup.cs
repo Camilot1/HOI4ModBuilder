@@ -10,6 +10,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames
 {
     class DivisionNamesGroup : IParadoxRead
     {
+        public static readonly string BLOCK_NAME = "division_names_group";
+
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
         private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;

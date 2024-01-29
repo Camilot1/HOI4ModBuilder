@@ -74,6 +74,14 @@ namespace HOI4ModBuilder
             return new MemoryStream(Encoding.UTF8.GetBytes(text));
         }
 
+        public static void Setter<T>(ref T parameter, ref T value, ref bool needToSave)
+        {
+            if (parameter != null && parameter.Equals(value) || parameter == null && value == null) return;
+
+            parameter = value;
+            needToSave = true;
+        }
+
         public static string DictionaryToString(Dictionary<string, string> dict)
         {
             StringBuilder sb = new StringBuilder();
