@@ -37,7 +37,7 @@ namespace HOI4ModBuilder.src.utils
         {
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
             Logger.TryOrLog(() => LoadLocalizationFile(SettingsManager.settings.language));
-            foreach (var actionPair in formsReinitEvents) actionPair.Value();
+            foreach (var actionPair in new Dictionary<Form, Action>(formsReinitEvents)) actionPair.Value();
         }
 
         public static string GetLoc(EnumLocKey key)
@@ -56,7 +56,7 @@ namespace HOI4ModBuilder.src.utils
 
                 return value;
             }
-            else return $"{key}: {replaceValues}";
+            else return $"{key}: {Utils.DictionaryToString(replaceValues)}";
         }
 
         public static string GetLoc(EnumLocKey key, Dictionary<string, string> replaceValues)
@@ -67,22 +67,41 @@ namespace HOI4ModBuilder.src.utils
         private static void LoadLocalizationFile(string language)
         {
             string filePath = $"localization\\{language}.yml";
-            if (!File.Exists(filePath)) throw new Exception($"LOC_FILE_NOT_FOUND_ERROR: {filePath}");
+            if (!File.Exists(filePath))
+                throw new Exception($"LOC_FILE_NOT_FOUND_ERROR: {filePath}");
 
             try
             {
                 var tempDictionary = yamlDeserializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(filePath));
 
                 var transferDictionary = new Dictionary<string, EnumLocKey>();
+
+                //Подготавливаем таблицу соотношения ("Имя ключа" : EnumLocKey)
                 foreach (EnumLocKey enumLocKey in Enum.GetValues(typeof(EnumLocKey)))
                     transferDictionary[enumLocKey.ToString()] = enumLocKey;
 
+                //Переносим ключи и их локализацию из файла в словарь локализации
                 _loc = new Dictionary<EnumLocKey, string>();
                 foreach (var pair in tempDictionary)
                 {
                     if (transferDictionary.TryGetValue(pair.Key, out var enumKey))
                         _loc[enumKey] = pair.Value;
                 }
+
+                //Проверяем, каких ключек локализации не было в файле
+                foreach (var locKey in transferDictionary.Keys)
+                {
+                    if (!tempDictionary.TryGetValue(locKey, out _))
+                        Logger.LogWarning(
+                            EnumLocKey.WARNING_LOCALIZATION_KEY_NOT_FOUND,
+                            new Dictionary<string, string> {
+                                { "{filePath}", filePath },
+                                { "{locKey}", locKey }
+                            }
+                        );
+                }
+                //Выводим отсутствующие ключи локализации
+                Logger.DisplayWarnings();
             }
             catch (Exception ex)
             {
@@ -93,6 +112,8 @@ namespace HOI4ModBuilder.src.utils
 
     public enum EnumLocKey
     {
+        WARNING_LOCALIZATION_KEY_NOT_FOUND,
+
         PROGRESSBAR_LOADED,
         PROGRESSBAR_LOADING_FAILED,
         PROGRESSBAR_SAVED,

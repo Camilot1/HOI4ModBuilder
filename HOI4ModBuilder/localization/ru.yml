@@ -1,4 +1,6 @@
-﻿PROGRESSBAR_LOADED: "Загрузка завершена. [П: {warningsCount}; О: {errorsCount}; К: {exceptionsCount}]"
+﻿WARNING_LOCALIZATION_KEY_NOT_FOUND: "В файле {filePath} не найден ключ локализации \"{locKey}\"."
+
+PROGRESSBAR_LOADED: "Загрузка завершена. [П: {warningsCount}; О: {errorsCount}; К: {exceptionsCount}]"
 PROGRESSBAR_LOADING_FAILED: "Загрузка прервана. [П: {warningsCount}; О: {errorsCount}; К: {exceptionsCount}]"
 PROGRESSBAR_SAVED: "Сохранение завершено."
 PROGRESSBAR_SAVING_FAILED: "Сохранение прервано. [П: {warningsCount}; О: {errorsCount}; К: {exceptionsCount}]"

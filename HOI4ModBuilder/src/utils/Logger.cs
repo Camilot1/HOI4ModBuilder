@@ -28,7 +28,8 @@ namespace HOI4ModBuilder.src.utils
         {
             try
             {
-                if (!Directory.Exists(logDirPath)) Directory.CreateDirectory(logDirPath);
+                if (!Directory.Exists(logDirPath))
+                    Directory.CreateDirectory(logDirPath);
 
                 File.Delete(logFilePath);
                 Log($"Program version: {version}");

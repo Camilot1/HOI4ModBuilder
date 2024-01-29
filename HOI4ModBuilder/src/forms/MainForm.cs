@@ -104,9 +104,8 @@ namespace HOI4ModBuilder
             ComboBox_GenerateColor_Type.SelectedIndex = 0;
 
             foreach (var type in Enum.GetValues(typeof(EnumAdjaciencyType)))
-            {
                 ToolStripComboBox_Map_Adjacency_Type.Items.Add(type.ToString());
-            }
+
             ToolStripComboBox_Map_Adjacency_Type.SelectedIndex = 0;
 
             switch (GuiLocManager.GetCurrentParentLanguageName)
