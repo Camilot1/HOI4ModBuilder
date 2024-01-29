@@ -121,5 +121,21 @@ namespace HOI4ModBuilder.src.managers
                 fileInfos.Add(fileName, new FileInfo(fileName, filePath, needToSave));
             }
         }
+
+        public static void CopyFilesFromBetweenDirectories(string srcPath, string destPath)
+        {
+            if (!Directory.Exists(srcPath))
+                throw new DirectoryNotFoundException(srcPath);
+
+            if (!Directory.Exists(destPath))
+                Directory.CreateDirectory(destPath);
+
+            foreach (var file in Directory.GetFiles(srcPath))
+            {
+                string destFilePath = destPath + Path.GetFileName(file);
+                if (File.Exists(destFilePath)) File.Delete(destFilePath);
+                File.Copy(file, destFilePath);
+            }
+        }
     }
 }
