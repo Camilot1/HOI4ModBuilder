@@ -31,8 +31,6 @@ namespace HOI4ModBuilder.src.utils
 
         public static string GetCurrentParentLanguageName => Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
 
-        public static string ERROR_ADJACENCY_RULE_DUPLICATE_NAME { get; internal set; }
-
         public static void SetCurrentUICulture(string language)
         {
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
