@@ -42,6 +42,9 @@ namespace HOI4ModBuilder
             string[] debugPathParts = debugPath.Split('\\');
             string baseDirectoryPath = "";
 
+            if (debugPathParts.Length < 2 || debugPathParts[debugPathParts.Length - 2] != "bin")
+                throw new AccessViolationException(debugPath);
+
             for (int i = 0; i < debugPathParts.Length - 2; i++)
                 baseDirectoryPath += debugPathParts[i] + "\\";
 
