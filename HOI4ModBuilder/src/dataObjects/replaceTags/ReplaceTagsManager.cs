@@ -11,7 +11,7 @@ namespace HOI4ModBuilder.src.dataObjects.replaceTags
     class ReplaceTagsManager
     {
         private static string _replaceTagsFilePath = @"data\replace_tags.json";
-        private static string _customReplaceTagsFilePath = @"data\custom_replace_tags.json";
+        private static string _customReplaceTagsFilePath = @"data\custom\replace_tags.json";
         private static HashSet<string> _registeredReplaceTags = new HashSet<string>();
         private static Dictionary<string, List<string>> _replaceTagsListsMap = new Dictionary<string, List<string>>(0);
 

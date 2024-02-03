@@ -41,12 +41,12 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                 triggersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
 
                 LoadInfoArgsBlocks(@"data\effects.json", effectsInfoArgsBlocks);
-                LoadInfoArgsBlocks(@"data\custom_effects.json", effectsInfoArgsBlocks);
+                LoadInfoArgsBlocks(@"data\custom\effects.json", effectsInfoArgsBlocks);
                 LoadInfoArgsBlocks(@"data\modifiers.json", effectsInfoArgsBlocks);
-                LoadInfoArgsBlocks(@"data\custom_modifiers.json", effectsInfoArgsBlocks);
+                LoadInfoArgsBlocks(@"data\custom\modifiers.json", effectsInfoArgsBlocks);
                 definedModifiersArgsBlocks = LoadDefinedModifier(settings);
                 LoadInfoArgsBlocks(@"data\triggers.json", triggersInfoArgsBlocks);
-                LoadInfoArgsBlocks(@"data\custom_triggers.json", triggersInfoArgsBlocks);
+                LoadInfoArgsBlocks(@"data\custom\triggers.json", triggersInfoArgsBlocks);
 
                 currentLoadingFilePath = null;
             }
