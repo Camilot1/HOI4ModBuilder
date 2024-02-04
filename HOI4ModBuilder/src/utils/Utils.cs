@@ -155,6 +155,12 @@ namespace HOI4ModBuilder
             return values;
         }
 
+        public static float? ClampIfNeeded(float? value, float? min, float? max)
+        {
+            if (ClampIfNeeded(value, (float)min, (float)max, out float? newValue)) return newValue;
+            else return null;
+        }
+
         public static bool ClampIfNeeded(float? value, float min, float max, out float? newValue)
         {
             if (value == null)

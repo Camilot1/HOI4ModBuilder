@@ -257,6 +257,8 @@ EXCEPTION_PROVINCE_COLOR_UPDATE_VALUE_IS_USED: "Провинция с цвето
 EXCEPTION_STATE_ID_UPDATE_VALUE_IS_USED: "Область с id = {id} уже существует."
 EXCEPTION_REGION_ID_UPDATE_VALUE_IS_USED: "Регион с id = {id} уже существует."
 
+EXCEPTION_COUNTRY_TAG_UPDATE_VALUE_IS_USED: "Страна с тегом = \"{tag}\" уже существует."
+
 EXCEPTION_WHILE_STATE_SAVING: "Произошла ошибка при сохранении области с id = {stateId}."
 EXCEPTION_WHILE_REGION_SAVING: "Произошла ошибка при сохранении региона с id = {regionId}."
 
@@ -273,7 +275,6 @@ ERROR_DIVISION_NAMES_GROUP_DUPLICATE_NAME: "Название division_names_grou
 ERROR_DIVISION_NAMES_GROUP_NOT_FOUND: "Группа division_names_group с названием \"{name}\" не найдена."
 
 ERROR_DIVISION_TEMPLATE_UNKNOWN_TOKEN: "В блоке division_template указан неизвестный токен \"{token}\"."
-ERROR_SUB_UNIT_NOT_FOUND: "Юнит sub_unit с названием \"{name}\" не найден."
 ERROR_DIVISION_TEMPLATE_INCORRECT_SUB_UNIT_COORDINATES: "Для sub_unit с названием \"{subUnitName}\" указаны некорректные координаты."
 ERROR_DIVISION_TEMPLATE_SUB_UNITS_COORDINATES_OVERLAPPING: "Для sub_unit с названием \"{subUnitName}\" указаны уже занятые другим sub_unit \"{otherSubUnitName}\" координаты \"{X}; {Y}\"."
 
@@ -296,7 +297,16 @@ EXCEPTION_PROVINCE_NOT_FOUND: "Провинция с Id = {provinceId} не на
 EXCEPTION_COUNTRY_NOT_FOUND: "Страна с тегом \"{countryTag}\" не найдена."
 EXCEPTION_DIVISION_NAMES_GROUP_NOT_FOUND: "Группа с названием дивизий \"{divisionNamesGroup\" не найдена."
 
-WARNING_BLOCK_HAS_NO_MANDATORY_INNER_PARAMETER_IN_FILE: "В файле {filePath} у блока \"{blockName}\" отсутствует обязательный параметр \"{parameterName}\"."
+ERROR_LAYERED_PREFIX: "В файле \"{filePath\"} в блоке по пути \"{blockLayeredPath} обнаружена ошибка: "
+WARNING_LAYERED_PREFIX: "В файле \"{filePath\"} в блоке по пути \"{blockLayeredPath} обнаружено предупреждение: "
 
-WARNING_LAYERED_LEVELS_PARAMETER_VALUE_OVERRIDDEN_IN_FILE: "В файле {filePath} в блоке по пути \"{blockLayeredPath}\" повторно указано значение для параметра \"{parameterName}\". Старое значение \"{oldParameterValue}\" будет перезаписано новым значением \"{newParameterValue}\"."
-WARNING_LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN_IN_FILE: "В файле {filePath} повторно указан блок по пути \"{blockLayeredPath}\". Старое значение блока будет перезаписано новым значением."
+SUB_UNIT_NOT_FOUND: "Саб-юнит с названием \"{name}\" не найден."
+SUB_UNITS_COORDINATES_OVERLAPPING: "У саб-юнитов \"{firstSubUnitName}\" и \"{secondSubUnitName}\" указаны совпадающие координаты \"{XY}\"."
+BLOCK_DOESNT_HAVE_MANDATORY_INNER_PARAMETER: "В блоке отсутствует обязательный параметр \"{parameterName}\"."
+BLOCK_HAS_SEVERAL_MUTUALLY_EXCLUSIVE_MANDATORY_INNER_PARAMETERS: "В блоке указано несколько взаимоисключающих обязательных параметров \"{parametersNames}\""
+BLOCK_DOESNT_HAVE_ANY_OF_SEVERAL_MUTUALLY_EXCLUSIVE_MANDATORY_INNER_PARAMETERS: "В блоке не указан ни один из нескольких взаимоисключающих обязательных параметров \"{parametersNames}\""
+BLOCK_MUST_HAS_AT_LEAST_ONE_MANDATORY_PARAMETER: "Блок должен иметь хотя бы один из нескольких обязательных параметров: {parametersNames}"
+
+LAYERED_LEVELS_PARAMETER_VALUE_OVERRIDDEN: "В блоке повторно указано значение для параметра \"{parameterName}\". Старое значение \"{oldParameterValue}\" будет перезаписано новым значением \"{newParameterValue}\"."
+LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN: "Значение блока указано два раза. Старое значение блока будет перезаписано новым значением."
+PARAMETER_VALUE_IS_OUT_OF_RANGE: "Указанное значение параметра \"{parameterName}\" = {parameterValue} выходит за пределы допустимых значений: {allowedRange}. Параметру \"{parameterName}\" присвоено значение {newParameterValue}."

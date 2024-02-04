@@ -201,7 +201,7 @@ namespace HOI4ModBuilder.src.dataObjects
                 if (CountryManager.TryGetCountry(token, out var country))
                 {
                     //TODO Разобраться с использованием косметических тегов стран
-                    var dataBlock = new DataArgsBlock { SpecialName = country.tag, CurrentLevelDataBlocks = innerLevelDataBlocks };
+                    var dataBlock = new DataArgsBlock { SpecialName = country.Tag, CurrentLevelDataBlocks = innerLevelDataBlocks };
                     parser.Parse(dataBlock);
                     dataBlock.CheckAfterParsing();
                     innerLevelDataBlocks.Add(dataBlock);

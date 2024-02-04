@@ -1,11 +1,9 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects;
+using HOI4ModBuilder.src.hoiDataObjects.history.countries;
+using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.hoiDataObjects.history.countries
 {
@@ -17,7 +15,31 @@ namespace HOI4ModBuilder.hoiDataObjects.history.countries
         public override int GetHashCode() => _hashCode;
 
         //public String countryFlag;
-        public string tag;
+
+        public bool HasChangedTag { get; private set; }
+
+        private string _tag;
+        public string Tag
+        {
+            get => _tag;
+            set
+            {
+                if (_tag == value) return;
+
+                if (CountryManager.ContainsCountryTag(value))
+                    throw new Exception(GuiLocManager.GetLoc(
+                            EnumLocKey.EXCEPTION_COUNTRY_TAG_UPDATE_VALUE_IS_USED,
+                            new Dictionary<string, string> { { "{tag}", $"{value}" } }
+                        ));
+                else CountryManager.RemoveCountryByTag(_tag); //TODO Добавить обработчик внутри менеджена на обновление id провинции и словарей с ВП и постройками
+
+                _tag = value;
+                HasChangedTag = true;
+
+                CountryManager.AddCountryByTag(_tag, this);
+            }
+        }
+
         public string cosmeticTag;
         public string graphicalCulture;
         public string graphicalCulture2d;
@@ -41,7 +63,7 @@ namespace HOI4ModBuilder.hoiDataObjects.history.countries
 
         public Country(string tag)
         {
-            this.tag = tag;
+            this._tag = tag;
         }
 
         public void ClearStates()
@@ -55,7 +77,7 @@ namespace HOI4ModBuilder.hoiDataObjects.history.countries
         public override bool Equals(object obj)
         {
             return obj is Country country &&
-                   tag == country.tag;
+                   _tag == country._tag;
         }
     }
 }

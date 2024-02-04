@@ -16,6 +16,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units
         private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
         public override int GetHashCode() => _hashCode;
 
+        private bool _needToSave; //TODO Implement changes
+        public bool NeedToSave { get => _needToSave; }
+
         public FileInfo FileInfo { get; set; }
         public string Name { get; private set; }
 

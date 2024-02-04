@@ -25,32 +25,35 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         {
             get => _needToSave ||
                 _divisionName != null && _divisionName.NeedToSave ||
-                _province != null && _province.HasChangedId;
+                _location != null && _location.HasChangedId;
         }
 
-        private OOB _currentOOB;
-        public OOB CurrentOOB { get => _currentOOB; set => Utils.Setter(ref _currentOOB, ref value, ref _needToSave); }
-
+        private static readonly string TOKEN_NAME = "name";
         private string _name;
         public string Name { get => _name; set => Utils.Setter(ref _name, ref value, ref _needToSave); }
 
         private DivisionName _divisionName;
         public DivisionName DivisionName { get => _divisionName; set => Utils.Setter(ref _divisionName, ref value, ref _needToSave); }
 
-        private Province _province;
-        public Province Province { get => _province; set => Utils.Setter(ref _province, ref value, ref _needToSave); }
+        private static readonly string TOKEN_LOCATION = "location";
+        private Province _location;
+        public Province Location { get => _location; set => Utils.Setter(ref _location, ref value, ref _needToSave); }
 
+        private static readonly string TOKEN_DIVISION_TEMPLATE = "division_template";
         private string _divisionTemplate; //TODO Implement DivisionTemplateManager
         public string DivisionTemplate { get => _divisionTemplate; set => Utils.Setter(ref _divisionTemplate, ref value, ref _needToSave); }
 
-        private static readonly float _defaultStartExperienceFactor = 0;
+        private static readonly string TOKEN_START_EXPERIENCE_FACTOR = "start_experience_factor";
+        private static readonly float DEFAULT_START_EXPERIENCE_FACTOR = 0;
         private float? _startExperienceFactor;
         public float? StartExperienceFactor { get => _startExperienceFactor; set => Utils.Setter(ref _startExperienceFactor, ref value, ref _needToSave); }
 
-        private static readonly float _defaultStartEquipmentFactor = 1f;
+        private static readonly string TOKEN_START_EQUIPMENT_FACTOR = "start_equipment_factor";
+        private static readonly float DEFAULT_START_EQUIPMENT_FACTOR = 1f;
         private float? _startEquipmentFactor;
         public float? StartEquipmentFactor { get => _startEquipmentFactor; set => Utils.Setter(ref _startEquipmentFactor, ref value, ref _needToSave); }
 
+        private static readonly string TOKEN_START_MANPOWER_FACTOR = "start_manpower_factor";
         private float? _startManpowerFactor;
         public float? StartManpowerFactor { get => _startManpowerFactor; set => Utils.Setter(ref _startManpowerFactor, ref value, ref _needToSave); }
 
@@ -60,35 +63,26 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         private DivisionOfficer _divisionOfficer;
         public DivisionOfficer DivisionOfficer { get => _divisionOfficer; set => Utils.Setter(ref _divisionOfficer, ref value, ref _needToSave); }
 
-        public void Save(StringBuilder sb, string outTab, string tab)
+        public bool Save(StringBuilder sb, string outTab, string tab)
         {
             var newOutTab = outTab + tab;
-            sb.Append(outTab).Append(BLOCK_NAME).Append(" = {").Append(Constants.NEW_LINE);
 
-            if (_name != null)
-                sb.Append(newOutTab).Append("name = \"").Append(_name).Append('\"').Append(Constants.NEW_LINE);
+            ParadoxUtils.StartBlock(sb, outTab, BLOCK_NAME);
 
+            ParadoxUtils.SaveQuoted(sb, newOutTab, TOKEN_NAME, _name);
             _divisionName?.Save(sb, newOutTab, tab);
-
-            if (_province != null)
-                sb.Append(newOutTab).Append("location = ").Append(_province.Id).Append(Constants.NEW_LINE);
-
-            if (_divisionTemplate != null)
-                sb.Append(newOutTab).Append("division_template = \"").Append(_divisionTemplate).Append('\"').Append(Constants.NEW_LINE);
-
-            if (_startExperienceFactor != _defaultStartExperienceFactor)
-                sb.Append(newOutTab).Append("start_experience_factor = ").Append(_startExperienceFactor).Append(Constants.NEW_LINE);
-
-            if (_startEquipmentFactor != _defaultStartEquipmentFactor)
-                sb.Append(newOutTab).Append("start_equipment_factor = ").Append(_startEquipmentFactor).Append(Constants.NEW_LINE);
-
-            if (_startManpowerFactor != null)
-                sb.Append(newOutTab).Append("start_manpower_factor = ").Append(_startManpowerFactor).Append(Constants.NEW_LINE);
+            ParadoxUtils.Save(sb, newOutTab, TOKEN_LOCATION, _location?.Id);
+            ParadoxUtils.SaveQuoted(sb, newOutTab, TOKEN_DIVISION_TEMPLATE, _divisionTemplate);
+            ParadoxUtils.Save(sb, newOutTab, TOKEN_START_EXPERIENCE_FACTOR, _startExperienceFactor, DEFAULT_START_EXPERIENCE_FACTOR);
+            ParadoxUtils.Save(sb, newOutTab, TOKEN_START_EQUIPMENT_FACTOR, _startEquipmentFactor, DEFAULT_START_EQUIPMENT_FACTOR);
+            ParadoxUtils.Save(sb, newOutTab, TOKEN_START_MANPOWER_FACTOR, _startManpowerFactor);
 
             _forcedEquipmentVariants?.Save(sb, newOutTab, tab);
             _divisionOfficer?.Save(sb, newOutTab, tab);
 
-            sb.Append(outTab).Append('}').Append(Constants.NEW_LINE);
+            ParadoxUtils.EndBlock(sb, outTab);
+
+            return true;
         }
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
@@ -96,26 +90,26 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             Logger.WrapTokenCallbackExceptions(BLOCK_NAME, () =>
             {
                 //Mandatory params
-                if (token == "name")
+                if (token == TOKEN_NAME)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _name, parser.ReadString());
                 else if (token == DivisionName.BLOCK_NAME)
                     Logger.ParseLayeredValueAndCheckOverride(prevLayer, token, ref _divisionName, parser, new DivisionName());
-                else if (token == "location")
+                else if (token == TOKEN_LOCATION)
                 {
                     var provinceId = parser.ReadUInt16();
                     if (!ProvinceManager.TryGetProvince(provinceId, out Province newProvince))
                         Logger.WrapException(token, new ProvinceNotFoundException(provinceId));
-                    Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _province, newProvince);
+                    Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _location, newProvince);
                 }
-                else if (token == "division_template")
+                else if (token == TOKEN_DIVISION_TEMPLATE)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _divisionTemplate, parser.ReadString());
 
                 //Optional params
-                else if (token == "start_experience_factor")
+                else if (token == TOKEN_START_EXPERIENCE_FACTOR)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _startExperienceFactor, parser.ReadFloat());
-                else if (token == "start_equipment_factor")
+                else if (token == TOKEN_START_EQUIPMENT_FACTOR)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _startEquipmentFactor, parser.ReadFloat());
-                else if (token == "start_manpower_factor")
+                else if (token == TOKEN_START_MANPOWER_FACTOR)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _startManpowerFactor, parser.ReadFloat());
                 else if (token == ForcedEquipmentVariants.BLOCK_NAME)
                     Logger.ParseLayeredValueAndCheckOverride(prevLayer, token, ref _forcedEquipmentVariants, parser, new ForcedEquipmentVariants());
@@ -130,114 +124,29 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         {
             bool result = true;
 
-            if (_name == null || _divisionName == null)
-            {
-                Logger.LogError(
-                    EnumLocKey.ERROR_WHILE_DIVISION_VALIDATION_DIVISION_HAS_NO_NAME_NOR_DIVISION_NAME,
-                    new Dictionary<string, string>
-                    {
-                        { "{filePath}", _currentOOB?.FileInfo?.filePath },
-                        { "{divisionName}", _name }
-                    }
+            CheckAndLogUnit.WARNINGS
+                .HasOnlyOneMutuallyExclusiveMandatory(
+                    ref result, prevLayer, BLOCK_NAME,
+                    new string[] { TOKEN_NAME, DivisionName.BLOCK_NAME },
+                    new bool[] { _name != null, _divisionName != null }
+                )
+                .HasMandatory(ref result, prevLayer, TOKEN_LOCATION, ref _location)
+                .HasMandatory(ref result, prevLayer, TOKEN_DIVISION_TEMPLATE, ref _divisionTemplate)
+                .CheckRangeAndClamp(
+                    ref result, prevLayer, BLOCK_NAME,
+                    (old, min, max) => Utils.ClampIfNeeded(old, min, max),
+                    ref _startExperienceFactor, 0, 1
+                )
+                .CheckRangeAndClamp(
+                    ref result, prevLayer, BLOCK_NAME,
+                    (old, min, max) => Utils.ClampIfNeeded(old, min, max),
+                    ref _startEquipmentFactor, 0, 1
+                )
+                .CheckRangeAndClamp(
+                    ref result, prevLayer, BLOCK_NAME,
+                    (old, min, max) => Utils.ClampIfNeeded(old, min, max),
+                    ref _startManpowerFactor, 0, 1
                 );
-                result = false;
-            }
-
-            if (_name != null && _divisionName != null)
-            {
-                Logger.LogError(
-                    EnumLocKey.ERROR_WHILE_DIVISION_VALIDATION_DIVISION_HAS_NAME_AND_DIVISION_NAME,
-                    new Dictionary<string, string>
-                    {
-                        { "{filePath}", _currentOOB?.FileInfo?.filePath },
-                        { "{divisionName}", _name }
-                    }
-                );
-                result = false;
-            }
-
-            if (_province == null)
-            {
-                Logger.LogError(
-                    EnumLocKey.ERROR_WHILE_DIVISION_VALIDATION_DIVISION_HAS_NO_LOCATION,
-                    new Dictionary<string, string>
-                    {
-                        { "{filePath}", _currentOOB?.FileInfo?.filePath },
-                        { "{divisionName}", _name }
-                    }
-                );
-                result = false;
-            }
-
-            if (_divisionTemplate == null)
-            {
-                Logger.LogError(
-                    EnumLocKey.ERROR_WHILE_DIVISION_VALIDATION_DIVISION_HAS_NO_DIVISION_TEMPLATE,
-                    new Dictionary<string, string>
-                    {
-                        { "{filePath}", _currentOOB?.FileInfo?.filePath },
-                        { "{divisionName}", _name }
-                    }
-                );
-                result = false;
-            }
-
-            if (Utils.ClampIfNeeded(_startExperienceFactor, 0, 1, out float? newExperienceFactor))
-            {
-                Logger.LogWarning(
-                    EnumLocKey.WARNING_WHILE_DIVISION_VALIDATION_PARAMETER_VALUE_IS_OUT_OF_RANGE_IN_FILE,
-                    new Dictionary<string, string>
-                    {
-                        { "{filePath}", _currentOOB?.FileInfo?.filePath },
-                        { "{divisionName}", _name },
-                        { "{parameterName}", "start_experience_factor" },
-                        { "{parameterValue}", $"{_startExperienceFactor}" },
-                        { "{allowedRange}", "[0; 1]" },
-                        { "{newParameterValue}", $"{newExperienceFactor}" }
-
-                    }
-                );
-                _startExperienceFactor = newExperienceFactor;
-                result = false;
-            }
-
-            if (Utils.ClampIfNeeded(_startEquipmentFactor, 0, 1, out float? newEquipmentFactor))
-            {
-                Logger.LogWarning(
-                    EnumLocKey.WARNING_WHILE_DIVISION_VALIDATION_PARAMETER_VALUE_IS_OUT_OF_RANGE_IN_FILE,
-                    new Dictionary<string, string>
-                    {
-                        { "{filePath}", _currentOOB?.FileInfo?.filePath },
-                        { "{divisionName}", _name },
-                        { "{parameterName}", "start_equipment_factor" },
-                        { "{parameterValue}", $"{_startEquipmentFactor}" },
-                        { "{allowedRange}", "[0; 1]" },
-                        { "{newParameterValue}", $"{newEquipmentFactor}" }
-
-                    }
-                );
-                _startEquipmentFactor = newEquipmentFactor;
-                result = false;
-            }
-
-            if (Utils.ClampIfNeeded(_startManpowerFactor, 0, 1, out float? newManpowerFactor))
-            {
-                Logger.LogWarning(
-                    EnumLocKey.WARNING_WHILE_DIVISION_VALIDATION_PARAMETER_VALUE_IS_OUT_OF_RANGE_IN_FILE,
-                    new Dictionary<string, string>
-                    {
-                        { "{filePath}", _currentOOB?.FileInfo?.filePath },
-                        { "{divisionName}", _name },
-                        { "{parameterName}", "start_manpower_factor" },
-                        { "{parameterValue}", $"{_startManpowerFactor}" },
-                        { "{allowedRange}", "[0; 1]" },
-                        { "{newParameterValue}", $"{newManpowerFactor}" }
-
-                    }
-                );
-                _startManpowerFactor = newManpowerFactor;
-                result = false;
-            }
 
             return result;
         }
@@ -250,41 +159,50 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         public bool _needToSave;
         public bool NeedToSave { get => _needToSave; }
 
+        private static readonly string TOKEN_IS_NAME_ORDERED = "is_name_ordered";
         public bool? _isNameOrdered;
         public bool? IsNameOrdered { get => _isNameOrdered; set => Utils.Setter(ref _isNameOrdered, ref value, ref _needToSave); }
 
+        private static readonly string TOKEN_NAME_ORDER = "name_order";
         public int? _nameOrder;
         public int? NameOrder { get => _nameOrder; set => Utils.Setter(ref _nameOrder, ref value, ref _needToSave); }
 
-        public void Save(StringBuilder sb, string outTab, string tab)
+        public bool Save(StringBuilder sb, string outTab, string tab)
         {
             string newOutTab = outTab + tab;
-            sb.Append(outTab).Append(BLOCK_NAME).Append(" = {").Append(Constants.NEW_LINE);
 
-            sb.Append(newOutTab).Append("is_name_ordered = ").Append(_isNameOrdered == true ? "yes" : "no").Append(Constants.NEW_LINE);
+            ParadoxUtils.StartBlock(sb, outTab, BLOCK_NAME);
 
-            if (_nameOrder != null)
-                sb.Append(newOutTab).Append("name_order = ").Append(_nameOrder).Append(Constants.NEW_LINE);
+            ParadoxUtils.Save(sb, newOutTab, TOKEN_IS_NAME_ORDERED, _isNameOrdered);
+            ParadoxUtils.Save(sb, newOutTab, TOKEN_NAME_ORDER, _nameOrder);
 
-            sb.Append(outTab).Append('}').Append(Constants.NEW_LINE);
+            ParadoxUtils.EndBlock(sb, outTab);
+
+            return true;
         }
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
         {
             Logger.WrapTokenCallbackExceptions(BLOCK_NAME, () =>
             {
-                if (token == "is_name_ordered")
+                if (token == TOKEN_IS_NAME_ORDERED)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _isNameOrdered, parser.ReadBool());
-                else if (token == "name_order")
+                else if (token == TOKEN_NAME_ORDER)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _nameOrder, parser.ReadInt32());
                 else
                     throw new UnknownTokenException(token);
             });
         }
 
-        public bool Validate(LinkedLayer prevLayer) //TODO Remake
+        public bool Validate(LinkedLayer prevLayer)
         {
-            return _isNameOrdered != null;
+            bool result = true;
+
+            CheckAndLogUnit.WARNINGS
+                .HasMandatory(ref result, prevLayer, TOKEN_IS_NAME_ORDERED, ref _isNameOrdered)
+                .HasMandatory(ref result, prevLayer, TOKEN_NAME_ORDER, ref _nameOrder);
+
+            return result;
         }
     }
 
@@ -308,36 +226,39 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
         public bool HasAnyInnerInfo()
         {
-            foreach (var variant in _variants) if (variant.HasAnyInnerInfo) return true;
+            foreach (var variant in _variants)
+                if (variant.HasAnyInnerInfo) return true;
             return false;
         }
 
         private List<ForcedEquipmentVariant> _variants = new List<ForcedEquipmentVariant>();
         public List<ForcedEquipmentVariant> Variants { get; }
 
-        public void Save(StringBuilder sb, string outTab, string tab)
+        public bool Save(StringBuilder sb, string outTab, string tab)
         {
-            if (!HasAnyInnerInfo()) return;
-
+            if (!HasAnyInnerInfo()) return false;
 
             if (_variants.Count == 1)
             {
-                sb.Append(outTab).Append(BLOCK_NAME).Append(" = { ");
-                _variants[0].Save(sb, "", "");
-                sb.Append(" }").Append(Constants.NEW_LINE);
+                ParadoxUtils.StartInlineBlock(sb, outTab, BLOCK_NAME);
+                _variants[0].Save(sb, " ", " ");
+                ParadoxUtils.EndBlock(sb, outTab);
             }
             else
             {
                 string newOutTab = outTab + tab;
-                sb.Append(outTab).Append(BLOCK_NAME).Append(" = { ").Append(Constants.NEW_LINE);
+                ParadoxUtils.StartBlock(sb, outTab, BLOCK_NAME);
+
                 foreach (var variant in _variants)
                 {
-                    sb.Append(newOutTab);
-                    variant.Save(sb, "", "");
+                    variant.Save(sb, newOutTab, " ");
                     sb.Append(Constants.NEW_LINE);
                 }
-                sb.Append(outTab).Append(" }").Append(Constants.NEW_LINE);
+
+                ParadoxUtils.EndBlock(sb, outTab);
             }
+
+            return true;
         }
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
@@ -362,15 +283,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         private string _archetype; //TODO Implement archetypes
         public string Archetype { get => _archetype; set => Utils.Setter(ref _archetype, ref value, ref _needToSave); }
 
+        private static readonly string TOKEN_OWNER = "owner";
         private Country _owner;
         public Country Owner { get => _owner; set => Utils.Setter(ref _owner, ref value, ref _needToSave); }
 
+        private static readonly string TOKEN_CREATOR = "creator";
         private Country _creator;
         public Country Creator { get => _creator; set => Utils.Setter(ref _creator, ref value, ref _needToSave); }
 
+        private static readonly string TOKEN_AMOUNT = "amount";
         private uint? _amount;
         public uint? Amount { get => _amount; set => Utils.Setter(ref _amount, ref value, ref _needToSave); }
 
+        private static readonly string TOKEN_VERSION_NAME = "version_name";
         private string _versionName;
         public string VersionName { get => _versionName; set => Utils.Setter(ref _versionName, ref value, ref _needToSave); }
 
@@ -379,53 +304,55 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             _archetype = archetype;
         }
 
-        public void Save(StringBuilder sb, string outTab, string tab)
+        public bool Save(StringBuilder sb, string outTab, string tab)
         {
-            if (!HasAnyInnerInfo) return;
+            if (!HasAnyInnerInfo) return false;
 
-            sb.Append(_archetype).Append(" = {");
-            if (_owner != null) sb.Append(" owner = \"").Append(_owner.tag).Append('\"');
-            if (_creator != null) sb.Append(" creator = \"").Append(_creator.tag).Append('\"');
-            if (_amount != null) sb.Append(" amount = ").Append(_amount);
-            if (_versionName != null) sb.Append(" version_name = \"").Append(_amount).Append('\"');
-            sb.Append(" }");
+            ParadoxUtils.StartInlineBlock(sb, outTab, _archetype);
+
+            ParadoxUtils.SaveQuotedInline(sb, tab, TOKEN_OWNER, _owner?.Tag);
+            ParadoxUtils.SaveQuotedInline(sb, tab, TOKEN_CREATOR, _creator?.Tag);
+            ParadoxUtils.SaveInline(sb, tab, TOKEN_AMOUNT, _amount);
+            ParadoxUtils.SaveQuotedInline(sb, tab, TOKEN_VERSION_NAME, _versionName);
+
+            ParadoxUtils.EndInlineBlock(sb, tab);
+
+            return true;
         }
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
         {
             Logger.WrapTokenCallbackExceptions(_archetype, () =>
             {
-                string value;
-
-                if (token == "owner")
+                if (token == TOKEN_OWNER)
                 {
-                    value = parser.ReadString();
+                    var value = parser.ReadString();
                     if (!CountryManager.TryGetCountry(value, out Country newOwner))
                         Logger.WrapException(token, new CountryNotFoundException(value));
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _owner, newOwner);
                 }
-                else if (token == "creator")
+                else if (token == TOKEN_CREATOR)
                 {
-                    value = parser.ReadString();
+                    var value = parser.ReadString();
                     if (!CountryManager.TryGetCountry(value, out Country newCreator))
                         Logger.WrapException(token, new CountryNotFoundException(value));
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _creator, newCreator);
                 }
-                else if (token == "amount")
+                else if (token == TOKEN_AMOUNT)
                 {
-                    value = parser.ReadString();
+                    var value = parser.ReadString();
                     if (!uint.TryParse(value, out uint newAmount))
                         Logger.WrapException(token, new IncorrectValueException(value));
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _amount, newAmount);
                 }
-                else if (token == "version_name")
+                else if (token == TOKEN_VERSION_NAME)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _versionName, parser.ReadString());
                 else
                     throw new UnknownTokenException(token);
             });
         }
 
-        public bool Validate(LinkedLayer prevLayer) => true;
+        public bool Validate(LinkedLayer prevLayer) => true; //TODO implement later
     }
 
     class DivisionOfficer : IParadoxObject
@@ -442,29 +369,34 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             _name != null ||
             _portraits != null && _portraits.HasAnyInnerInfo;
 
+        private static readonly string TOKEN_NAME = "name";
         private string _name;
         public string Name { get => _name; set => Utils.Setter(ref _name, ref value, ref _needToSave); }
 
         private DivisionOfficerPortraits _portraits;
         public DivisionOfficerPortraits Portraits { get => _portraits; set => Utils.Setter(ref _portraits, ref value, ref _needToSave); }
 
-        public void Save(StringBuilder sb, string outTab, string tab)
+        public bool Save(StringBuilder sb, string outTab, string tab)
         {
-            if (!HasAnyInnerInfo) return;
+            if (!HasAnyInnerInfo) return false;
 
             string newOutTab = outTab + tab;
 
-            sb.Append(outTab).Append(BLOCK_NAME).Append(" = {").Append(Constants.NEW_LINE);
-            sb.Append(outTab).Append(tab).Append("name = ").Append(_name);
+            ParadoxUtils.StartBlock(sb, outTab, BLOCK_NAME);
+
+            ParadoxUtils.Save(sb, newOutTab, BLOCK_NAME, _name);
             _portraits?.Save(sb, newOutTab, tab);
-            sb.Append(outTab).Append('}').Append(Constants.NEW_LINE);
+
+            ParadoxUtils.EndBlock(sb, outTab);
+
+            return true;
         }
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
         {
             Logger.WrapTokenCallbackExceptions(BLOCK_NAME, () =>
             {
-                if (token == "name")
+                if (token == TOKEN_NAME)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _name, parser.ReadString());
                 if (token == BLOCK_NAME)
                     Logger.ParseLayeredValueAndCheckOverride(prevLayer, token, ref _portraits, parser, new DivisionOfficerPortraits());
@@ -492,12 +424,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         private DivisionOfficerPortraitsGroup _armyGroup;
         public DivisionOfficerPortraitsGroup ArmyGroup { get => _armyGroup; set => Utils.Setter(ref _armyGroup, ref value, ref _needToSave); }
 
-        public void Save(StringBuilder sb, string outTab, string tab)
+        public bool Save(StringBuilder sb, string outTab, string tab)
         {
-            if (!HasAnyInnerInfo) return;
+            if (!HasAnyInnerInfo) return false;
 
             string newOutTab = outTab + tab;
-            if (_armyGroup != null) _armyGroup.Save(sb, newOutTab, tab);
+            _armyGroup?.Save(sb, newOutTab, tab);
+
+            return true;
         }
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
@@ -526,9 +460,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         private string _categoryName;
         public string CategoryName { get => _categoryName; set => Utils.Setter(ref _categoryName, ref value, ref _needToSave); }
 
+        private static readonly string TOKEN_LARGE_PORTRAIT = "large";
         private string _largePortrait;
         public string LargePortrait { get => _largePortrait; set => Utils.Setter(ref _largePortrait, ref value, ref _needToSave); }
 
+        private static readonly string TOKEN_SMALL_PORTRAIT = "small";
         private string _smallPortrait;
         public string SmallPortrait { get => _smallPortrait; set => Utils.Setter(ref _smallPortrait, ref value, ref _needToSave); }
 
@@ -537,23 +473,29 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             _categoryName = categoryName;
         }
 
-        public void Save(StringBuilder sb, string outTab, string tab)
+        public bool Save(StringBuilder sb, string outTab, string tab)
         {
-            if (!HasAnyInnerInfo) return;
+            if (!HasAnyInnerInfo) return false;
 
-            sb.Append(outTab).Append(_categoryName).Append(" = {").Append(Constants.NEW_LINE);
-            if (_largePortrait != null) sb.Append(outTab).Append(tab).Append("large = ").Append(_largePortrait).Append(Constants.NEW_LINE);
-            if (_smallPortrait != null) sb.Append(outTab).Append(tab).Append("small = ").Append(_smallPortrait).Append(Constants.NEW_LINE);
-            sb.Append(outTab).Append('}').Append(Constants.NEW_LINE);
+            string newOutTab = outTab + tab;
+
+            ParadoxUtils.StartBlock(sb, outTab, _categoryName);
+
+            ParadoxUtils.SaveQuoted(sb, newOutTab, TOKEN_LARGE_PORTRAIT, _largePortrait);
+            ParadoxUtils.SaveQuoted(sb, newOutTab, TOKEN_SMALL_PORTRAIT, _smallPortrait);
+
+            ParadoxUtils.EndBlock(sb, outTab);
+
+            return true;
         }
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
         {
             Logger.WrapTokenCallbackExceptions(_categoryName, () =>
             {
-                if (token == "large")
+                if (token == TOKEN_LARGE_PORTRAIT)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _largePortrait, parser.ReadString());
-                else if (token == "small")
+                else if (token == TOKEN_SMALL_PORTRAIT)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _smallPortrait, parser.ReadString());
                 else
                     throw new UnknownTokenException(token);

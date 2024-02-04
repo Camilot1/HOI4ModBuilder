@@ -10,7 +10,7 @@ namespace HOI4ModBuilder.src.Pdoxcl2Sharp
 {
     public interface IParadoxObject
     {
-        void Save(StringBuilder sb, string outTab, string tab);
+        bool Save(StringBuilder sb, string outTab, string tab);
         void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token);
         bool Validate(LinkedLayer prevLayer);
     }

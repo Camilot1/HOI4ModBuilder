@@ -74,7 +74,7 @@ namespace HOI4ModBuilder.src.forms
                             s.name,
                             s.manpower,
                             s.stateCategory?.name,
-                            s.owner?.tag,
+                            s.owner?.Tag,
                             s.provinces.Count,
                             s.pixelsCount
                         });

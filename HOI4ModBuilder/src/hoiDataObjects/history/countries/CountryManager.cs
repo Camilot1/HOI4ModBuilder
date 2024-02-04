@@ -87,7 +87,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
         }
 
         public static bool TryGetCountry(string tag, out Country country) => _contriesByTag.TryGetValue(tag, out country);
-        public static bool HasCountryTag(string tag) => _contriesByTag.ContainsKey(tag);
+        public static bool ContainsCountryTag(string tag) => _contriesByTag.ContainsKey(tag);
 
         public static void UpdateByDateTimeStamp(DateTime dateTime)
         {
@@ -95,6 +95,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
             { //TODO Доделать
                 country.ClearStates();
             }
+        }
+
+        internal static void RemoveCountryByTag(string tag)
+        {
+            //TODO
+            throw new NotImplementedException();
+        }
+
+        internal static void AddCountryByTag(string tag, Country country)
+        { //TODO
+            throw new NotImplementedException();
         }
     }
 
@@ -151,7 +162,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
                         EnumLocKey.WARNING_COUNTRY_TAGS_PARSING_INLINE_FILEPATH_FILE_DOESNT_EXISTS,
                         new Dictionary<string, string> {
                             { "{inlineFilePath}", inlineFilePath },
-                            { "{countryTag}", country.tag },
+                            { "{countryTag}", country.Tag },
                             { "{filePath}", filePath }
                         }
                     );

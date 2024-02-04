@@ -73,8 +73,8 @@ namespace HOI4ModBuilder.src.utils
         public static void CheckLayeredValueOverrideAndSet<T>(LinkedLayer prevLayer, string parameterName, ref T oldValue, T newValue)
         {
             if (oldValue != null)
-                WrapWarning(
-                    prevLayer, parameterName, EnumLocKey.WARNING_LAYERED_LEVELS_PARAMETER_VALUE_OVERRIDDEN_IN_FILE,
+                LogLayeredWarning(
+                    prevLayer, parameterName, EnumLocKey.LAYERED_LEVELS_PARAMETER_VALUE_OVERRIDDEN,
                     new Dictionary<string, string>
                     {
                         { "{oldParameterValue}", oldValue?.ToString() },
@@ -93,7 +93,7 @@ namespace HOI4ModBuilder.src.utils
             WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject));
 
             if (oldValue != null)
-                WrapWarning(newLayer, EnumLocKey.WARNING_LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN_IN_FILE);
+                LogLayeredWarning(newLayer, EnumLocKey.LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN);
 
             oldValue = parsedValue;
         }
@@ -171,6 +171,56 @@ namespace HOI4ModBuilder.src.utils
         {
             _exceptions.Add(GuiLocManager.GetLoc(enumLocKey, replaceValues));
             Log($"EXCEPTION: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}, Exception: {ex}\n");
+        }
+
+        private static string AssembleLayeredPrefix(EnumLocKey enumLocKey, LinkedLayer currentLayer, out Dictionary<string, string> replaceValues)
+        {
+            string filePath = null;
+            string blockLayeredPath = null;
+
+            currentLayer?.AssembleLayeredPath(ref filePath, ref blockLayeredPath);
+
+            replaceValues = new Dictionary<string, string> {
+                { "{filePath}", filePath },
+                { "{blockLayeredPath}", blockLayeredPath }
+            };
+
+            return GuiLocManager.GetLoc(enumLocKey, replaceValues);
+        }
+
+        public static void LogLayeredWarning(LinkedLayer currentLayer, EnumLocKey enumLocKey)
+        {
+            LogLayeredWarning(currentLayer, enumLocKey, null);
+        }
+
+        public static void LogLayeredWarning(LinkedLayer prevLayer, string currentLayer, EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
+        {
+            LogLayeredWarning(new LinkedLayer(prevLayer, currentLayer), enumLocKey, replaceValues);
+        }
+
+        public static void LogLayeredWarning(LinkedLayer currentLayer, EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
+        {
+            string prefix = AssembleLayeredPrefix(EnumLocKey.WARNING_LAYERED_PREFIX, currentLayer, out Dictionary<string, string> prefixReplaceValues);
+            string message = GuiLocManager.GetLoc(enumLocKey, replaceValues);
+            _warnings.Add(prefix + message);
+            Log($"WARNING: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}; Prefix values: {Utils.DictionaryToString(prefixReplaceValues)}");
+        }
+        public static void LogLayeredError(LinkedLayer currentLayer, EnumLocKey enumLocKey)
+        {
+            LogLayeredError(currentLayer, enumLocKey, null);
+        }
+
+        public static void LogLayeredError(LinkedLayer prevLayer, string currentLayer, EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
+        {
+            LogLayeredError(new LinkedLayer(prevLayer, currentLayer), enumLocKey, replaceValues);
+        }
+
+        public static void LogLayeredError(LinkedLayer currentLayer, EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
+        {
+            string prefix = AssembleLayeredPrefix(EnumLocKey.WARNING_LAYERED_PREFIX, currentLayer, out Dictionary<string, string> prefixReplaceValues);
+            string message = GuiLocManager.GetLoc(enumLocKey, replaceValues);
+            _errors.Add(prefix + message);
+            Log($"WARNING: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}; Prefix values: {Utils.DictionaryToString(prefixReplaceValues)}");
         }
 
         public static int WarningsCount => _warnings.Count;
@@ -308,32 +358,6 @@ namespace HOI4ModBuilder.src.utils
         {
             throw new Exception("//TODO" + layerName, ex);
         }
-
-        public static void WrapWarning(LinkedLayer currentLayer, EnumLocKey enumLocKey)
-        {
-            WrapWarning(currentLayer, enumLocKey, null);
-        }
-
-        public static void WrapWarning(LinkedLayer prevLayer, string parameterName, EnumLocKey enumLocKey, Dictionary<string, string> values)
-        {
-            values["{parameterName}"] = parameterName;
-            WrapWarning(prevLayer, enumLocKey, values);
-        }
-
-        public static void WrapWarning(LinkedLayer currentLayer, EnumLocKey enumLocKey, Dictionary<string, string> values)
-        {
-            string filePath = null;
-            string blockLayeredPath = null;
-
-            currentLayer?.AssembleLayeredPath(ref filePath, ref blockLayeredPath);
-
-            if (values == null) values = new Dictionary<string, string>();
-
-            values["{filePath}"] = filePath;
-            values["{blockLayeredPath}"] = blockLayeredPath;
-
-            LogWarning(enumLocKey, values);
-        }
     }
 
     public class LinkedLayer
@@ -352,7 +376,7 @@ namespace HOI4ModBuilder.src.utils
         {
             Prev = prev;
             Name = name;
-            IsFilePath = IsFilePath;
+            IsFilePath = isFilePath;
         }
 
         public void AssembleLayeredPath(ref string filePath, ref string layeredPath)
