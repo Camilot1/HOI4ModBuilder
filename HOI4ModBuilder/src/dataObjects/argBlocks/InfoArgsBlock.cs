@@ -44,8 +44,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
         public bool TryGetMandatoryBlock(string name, ref InfoArgsBlock mandatoryBlock)
             => MandatoryInnerArgsBlocks != null && MandatoryInnerArgsBlocks.TryGetValue(name, out mandatoryBlock);
-        public bool TryGetAllowedBlock(string name, ref InfoArgsBlock mandatoryBlock)
-            => MandatoryInnerArgsBlocks != null && MandatoryInnerArgsBlocks.TryGetValue(name, out mandatoryBlock);
+        public bool TryGetAllowedBlock(string name, ref InfoArgsBlock allowedBlock)
+            => AllowedInnerArgsBlocks != null && AllowedInnerArgsBlocks.TryGetValue(name, out allowedBlock);
 
 
         public InfoArgsBlock() { }
