@@ -4,6 +4,15 @@ namespace HOI4ModBuilder.src.utils
 {
     class ParadoxUtils
     {
+        public static void NewLineIfNeeded(StringBuilder sb, string indent, ref bool flag)
+        {
+            if (flag)
+            {
+                sb.Append(indent).Append(Constants.NEW_LINE);
+                flag = false;
+            }
+        }
+
         public static void StartBlock(StringBuilder sb, string indent, string blockName)
         {
             sb.Append(indent).Append(blockName).Append(" = {").Append(Constants.NEW_LINE);

@@ -116,7 +116,7 @@ namespace HOI4ModBuilder.src.forms
                     TextBox_FileInfo.Text = state.fileInfo.fileName;
                 }
                 else Logger.LogSingleMessage(
-                        EnumLocKey.SINGLE_MESSAGE_STATE_NOT_FOUND_BY_ID,
+                        EnumLocKey.STATE_NOT_FOUND_BY_ID,
                         new Dictionary<string, string> { { "{stateId}", $"{id}" } }
                     );
             });

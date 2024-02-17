@@ -87,8 +87,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
         {
-            Logger.WrapTokenCallbackExceptions(BLOCK_NAME, () =>
+            Logger.WrapTokenCallbackExceptions($"{BLOCK_NAME} ({TOKEN_NAME} = \"{_name}\")", () =>
             {
+                Logger.Log(token);
                 //Mandatory params
                 if (token == TOKEN_NAME)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _name, parser.ReadString());
@@ -97,9 +98,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 else if (token == TOKEN_LOCATION)
                 {
                     var provinceId = parser.ReadUInt16();
-                    if (!ProvinceManager.TryGetProvince(provinceId, out Province newProvince))
-                        Logger.WrapException(token, new ProvinceNotFoundException(provinceId));
-                    Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _location, newProvince);
+                    if (ProvinceManager.TryGetProvince(provinceId, out Province newProvince))
+                        Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _location, newProvince);
+                    else
+                        Logger.LogLayeredError(
+                            prevLayer, token, EnumLocKey.PROVINCE_NOT_FOUND,
+                            new Dictionary<string, string> { { "{provinceId}", "" + provinceId } }
+                        );
                 }
                 else if (token == TOKEN_DIVISION_TEMPLATE)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _divisionTemplate, parser.ReadString());
@@ -112,7 +117,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 else if (token == TOKEN_START_MANPOWER_FACTOR)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _startManpowerFactor, parser.ReadFloat());
                 else if (token == ForcedEquipmentVariants.BLOCK_NAME)
-                    Logger.ParseLayeredValueAndCheckOverride(prevLayer, token, ref _forcedEquipmentVariants, parser, new ForcedEquipmentVariants());
+                    Logger.ParseNewLayeredValueOrContinueOld(prevLayer, token, ref _forcedEquipmentVariants, parser, new ForcedEquipmentVariants());
                 else if (token == DivisionOfficer.BLOCK_NAME)
                     Logger.ParseLayeredValueAndCheckOverride(prevLayer, token, ref _divisionOfficer, parser, new DivisionOfficer());
                 else
@@ -124,26 +129,35 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         {
             bool result = true;
 
+            var currentLayer = new LinkedLayer(prevLayer, $"({TOKEN_NAME} = \"{_name}\")");
+
             CheckAndLogUnit.WARNINGS
+                .HasAtLeastOneMandatory(
+                    ref result, prevLayer, BLOCK_NAME,
+                    new string[] { TOKEN_NAME, DivisionName.BLOCK_NAME },
+                    _name != null || _divisionName != null
+                )
+                /*
                 .HasOnlyOneMutuallyExclusiveMandatory(
                     ref result, prevLayer, BLOCK_NAME,
                     new string[] { TOKEN_NAME, DivisionName.BLOCK_NAME },
                     new bool[] { _name != null, _divisionName != null }
                 )
-                .HasMandatory(ref result, prevLayer, TOKEN_LOCATION, ref _location)
-                .HasMandatory(ref result, prevLayer, TOKEN_DIVISION_TEMPLATE, ref _divisionTemplate)
+                */
+                .HasMandatory(ref result, currentLayer, TOKEN_LOCATION, ref _location)
+                .HasMandatory(ref result, currentLayer, TOKEN_DIVISION_TEMPLATE, ref _divisionTemplate)
                 .CheckRangeAndClamp(
-                    ref result, prevLayer, BLOCK_NAME,
+                    ref result, currentLayer, BLOCK_NAME,
                     (old, min, max) => Utils.ClampIfNeeded(old, min, max),
                     ref _startExperienceFactor, 0, 1
                 )
                 .CheckRangeAndClamp(
-                    ref result, prevLayer, BLOCK_NAME,
+                    ref result, currentLayer, BLOCK_NAME,
                     (old, min, max) => Utils.ClampIfNeeded(old, min, max),
                     ref _startEquipmentFactor, 0, 1
                 )
                 .CheckRangeAndClamp(
-                    ref result, prevLayer, BLOCK_NAME,
+                    ref result, currentLayer, BLOCK_NAME,
                     (old, min, max) => Utils.ClampIfNeeded(old, min, max),
                     ref _startManpowerFactor, 0, 1
                 );
@@ -266,7 +280,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             Logger.WrapTokenCallbackExceptions(BLOCK_NAME, () =>
             {
                 //TODO Implement Archetype use
-                Logger.ParseLayeredListedValue(prevLayer, token, _variants, parser, new ForcedEquipmentVariant(token));
+                Logger.ParseLayeredListedValue(prevLayer, token, ref _variants, parser, new ForcedEquipmentVariant(token));
             });
         }
 
@@ -327,23 +341,35 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 if (token == TOKEN_OWNER)
                 {
                     var value = parser.ReadString();
-                    if (!CountryManager.TryGetCountry(value, out Country newOwner))
-                        Logger.WrapException(token, new CountryNotFoundException(value));
-                    Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _owner, newOwner);
+                    if (CountryManager.TryGetCountry(value, out Country newOwner))
+                        Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _owner, newOwner);
+                    else
+                        Logger.LogLayeredError(
+                            prevLayer, token, EnumLocKey.COUNTRY_NOT_FOUND,
+                            new Dictionary<string, string> { { "{countryTag}", value } }
+                        );
                 }
                 else if (token == TOKEN_CREATOR)
                 {
                     var value = parser.ReadString();
-                    if (!CountryManager.TryGetCountry(value, out Country newCreator))
-                        Logger.WrapException(token, new CountryNotFoundException(value));
-                    Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _creator, newCreator);
+                    if (CountryManager.TryGetCountry(value, out Country newCreator))
+                        Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _creator, newCreator);
+                    else
+                        Logger.LogLayeredError(
+                            prevLayer, token, EnumLocKey.COUNTRY_NOT_FOUND,
+                            new Dictionary<string, string> { { "{countryTag}", value } }
+                        );
                 }
                 else if (token == TOKEN_AMOUNT)
                 {
                     var value = parser.ReadString();
-                    if (!uint.TryParse(value, out uint newAmount))
-                        Logger.WrapException(token, new IncorrectValueException(value));
-                    Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _amount, newAmount);
+                    if (uint.TryParse(value, out uint newAmount))
+                        Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _amount, newAmount);
+                    else
+                        Logger.LogLayeredError(
+                            prevLayer, token, EnumLocKey.INCORRECT_VALUE,
+                            new Dictionary<string, string> { { "{value}", value } }
+                        );
                 }
                 else if (token == TOKEN_VERSION_NAME)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _versionName, parser.ReadString());
@@ -394,7 +420,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
         {
-            Logger.WrapTokenCallbackExceptions(BLOCK_NAME, () =>
+            Logger.WrapTokenCallbackExceptions($"{BLOCK_NAME} ({TOKEN_NAME} = \"{_name}\")", () =>
             {
                 if (token == TOKEN_NAME)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _name, parser.ReadString());

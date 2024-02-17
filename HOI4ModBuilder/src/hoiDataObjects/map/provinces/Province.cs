@@ -8,6 +8,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.supply;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using static HOI4ModBuilder.utils.Structs;
 
@@ -35,20 +36,23 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                             EnumLocKey.EXCEPTION_PROVINCE_ID_UPDATE_VALUE_IS_USED,
                             new Dictionary<string, string> { { "{id}", $"{value}" } }
                         ));
-                else ProvinceManager.RemoveProvinceById(Id); //TODO Добавить обработчик внутри менеджена на обновление id провинции и словарей с ВП и постройками
+                else ProvinceManager.RemoveProvinceById(_id); //TODO Добавить обработчик внутри менеджена на обновление id провинции и словарей с ВП и постройками
 
                 _id = value;
                 HasChangedId = true;
 
-                ProvinceManager.AddProvince(Id, this);
+                ProvinceManager.AddProvince(_id, this);
                 State?.Validate();
                 Region?.Validate();
 
                 //TODO Переделать, вынеся проверки в сами Adjacency
-                if (adjacencies.Count > 0) AdjacenciesManager.NeedToSaveAdjacencies = true;
-                foreach (var adj in adjacencies)
+                if (_adjacencies != null)
                 {
-                    if (adj.HasRuleRequiredProvince(this)) AdjacenciesManager.NeedToSaveAdjacencyRules = true;
+                    if (_adjacencies.Count > 0) AdjacenciesManager.NeedToSaveAdjacencies = true;
+                    foreach (var adj in _adjacencies)
+                    {
+                        if (adj.HasRuleRequiredProvince(this)) AdjacenciesManager.NeedToSaveAdjacencyRules = true;
+                    }
                 }
             }
         }
@@ -134,12 +138,146 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public State State { get; set; }
         public StrategicRegion Region { get; set; }
 
-        public SupplyNode supplyNode;
-        public List<Railway> railways = new List<Railway>(0);
-        public List<Adjacency> adjacencies = new List<Adjacency>(0);
-        public List<ProvinceBorder> borders = new List<ProvinceBorder>(3);
+        public SupplyNode SupplyNode { get; set; }
 
-        public Dictionary<Building, uint> buildings = new Dictionary<Building, uint>(0);
+        private List<Railway> _railways;
+
+        public int GetRailwaysCount()
+        {
+            if (_railways == null) return 0;
+            return _railways.Count;
+        }
+
+        public bool AddRailway(Railway railway)
+        {
+            if (_railways == null)
+            {
+                _railways = new List<Railway>() { railway };
+                return true;
+            }
+            else if (!_railways.Contains(railway))
+            {
+                _railways.Add(railway);
+                return true;
+            }
+            else return false;
+        }
+
+        public bool RemoveRailway(Railway railway)
+        {
+            if (_railways == null) return false;
+            return _railways.Remove(railway);
+        }
+
+        public bool ContainsRailway(Railway railway)
+        {
+            if (_railways == null) return false;
+            return _railways.Contains(railway);
+        }
+
+        public void ForEachRailway(Action<Railway> action)
+        {
+            if (_railways == null) return;
+            foreach (var railway in _railways) action(railway);
+        }
+
+        public T ForEachRailway<T>(Func<Railway, T> func) where T : class
+        {
+            if (_railways == null) return null;
+
+            foreach (var railway in _railways)
+            {
+                T product = func(railway);
+                if (product != null) return product;
+            }
+
+            return null;
+        }
+
+        private List<Adjacency> _adjacencies;
+        public int GetAdjacenciesCount()
+        {
+            if (_adjacencies == null) return 0;
+            return _adjacencies.Count;
+        }
+
+        public bool AddAdjacency(Adjacency adjacency)
+        {
+            if (_adjacencies == null)
+            {
+                _adjacencies = new List<Adjacency>() { adjacency };
+                return true;
+            }
+            else if (!_adjacencies.Contains(adjacency))
+            {
+                _adjacencies.Add(adjacency);
+                return true;
+            }
+            else return false;
+        }
+
+        public bool RemoveAdjacency(Adjacency adjacency)
+        {
+            if (_adjacencies == null) return false;
+            return _adjacencies.Remove(adjacency);
+        }
+
+        public bool ContainsAdjacency(Adjacency adjacency)
+        {
+            if (_adjacencies == null) return false;
+            return _adjacencies.Contains(adjacency);
+        }
+
+        public void ForEachAdjacency(Action<Adjacency> action)
+        {
+            if (_adjacencies == null) return;
+            foreach (var adjacency in _adjacencies) action(adjacency);
+        }
+
+        public T ForEachAdjacency<T>(Func<Adjacency, T> func) where T : class
+        {
+            if (_adjacencies == null) return null;
+
+            foreach (var adjacency in _adjacencies)
+            {
+                T product = func(adjacency);
+                if (product != null) return product;
+            }
+
+            return null;
+        }
+
+        public List<ProvinceBorder> borders = new List<ProvinceBorder>(4);
+
+        private Dictionary<Building, uint> _buildings;
+
+        public int GetBuildingsCount()
+        {
+            if (_buildings == null) return 0;
+            return _buildings.Count;
+        }
+        public void SetBuilding(Building building, uint count)
+        {
+            if (_buildings == null) _buildings = new Dictionary<Building, uint>() { { building, count } };
+            else _buildings[building] = count;
+        }
+
+        public bool RemoveBuilding(Building building)
+        {
+            if (_buildings == null) return false;
+            return _buildings.Remove(building);
+        }
+
+        public bool TryGetBuildingCount(Building building, out uint count)
+        {
+            count = 0;
+            if (_buildings == null) return false;
+            return _buildings.TryGetValue(building, out count);
+        }
+
+        public void SetBuildings(Dictionary<Building, uint> buildings) => _buildings = buildings;
+        public void ClearBuildings() => _buildings = null;
+
 
         public uint pixelsCount;
         public bool dislayCenter;
@@ -178,21 +316,21 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public void Save(StringBuilder sb)
         {
-            sb.Append(Id).Append(';').
-                Append((byte)(Color >> 16)).Append(';').
-                Append((byte)(Color >> 8)).Append(';').
-                Append((byte)Color).Append(';').
+            sb.Append(_id).Append(';').
+                Append((byte)(_color >> 16)).Append(';').
+                Append((byte)(_color >> 8)).Append(';').
+                Append((byte)_color).Append(';').
                 Append(GetTypeString()).Append(';');
-            if (IsCoastal) sb.Append("true;");
+            if (_isCoastal) sb.Append("true;");
             else sb.Append("false;");
-            if (Terrain == null) sb.Append("unknown;");
-            else sb.Append(Terrain.name).Append(';');
-            sb.Append(ContinentId).Append(Constants.NEW_LINE);
+            if (_terrain == null) sb.Append("unknown;");
+            else sb.Append(_terrain.name).Append(';');
+            sb.Append(_continentId).Append(Constants.NEW_LINE);
         }
 
         public string GetTypeString()
         {
-            switch (TypeId)
+            switch (_typeId)
             {
                 case 0: return "land";
                 case 1: return "sea";
@@ -202,8 +340,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                         EnumLocKey.EXCEPTION_PROVINCE_INCORRECT_TYPE_ID,
                         new Dictionary<string, string>
                         {
-                            { "{provinceId}", $"{Id}" },
-                            { "{typeId}", $"{TypeId}" }
+                            { "{provinceId}", $"{_id}" },
+                            { "{typeId}", $"{_typeId}" }
                         }
                     ));
             }
@@ -212,7 +350,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public bool CheckCoastalType()
         {
             //sea (id = 1)
-            if (TypeId == 1) return HasBorderWithOtherThanThisTypeId(1);
+            if (_typeId == 1) return HasBorderWithOtherThanThisTypeId(1);
             //land or lakes (id = 0 or id = 2)
             else return HasBorderWithTypeId(1);
         }
@@ -221,8 +359,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             foreach (var b in borders)
             {
-                if (Id != b.provinceA.Id && b.provinceA.TypeId != otherTypeId ||
-                    Id != b.provinceB.Id && b.provinceB.TypeId != otherTypeId)
+                if (_id != b.provinceA._id && b.provinceA.TypeId != otherTypeId ||
+                    _id != b.provinceB._id && b.provinceB.TypeId != otherTypeId)
                 {
                     return true;
                 }
@@ -234,8 +372,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             foreach (var b in borders)
             {
-                if (Id != b.provinceA.Id && b.provinceA.TypeId == otherTypeId ||
-                    Id != b.provinceB.Id && b.provinceB.TypeId == otherTypeId)
+                if (_id != b.provinceA._id && b.provinceA.TypeId == otherTypeId ||
+                    _id != b.provinceB._id && b.provinceB.TypeId == otherTypeId)
                 {
                     return true;
                 }
@@ -245,20 +383,20 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public bool HasBorderWith(Province province)
         {
-            if (Id == province.Id) return false;
+            if (_id == province._id) return false;
             foreach (var border in borders)
             {
-                if (border.provinceA.Id == province.Id || border.provinceB.Id == province.Id) return true;
+                if (border.provinceA._id == province._id || border.provinceB._id == province._id) return true;
             }
             return false;
         }
 
         public ProvinceBorder GetBorderWith(Province province)
         {
-            if (Id == province.Id) return null;
+            if (_id == province._id) return null;
             foreach (var border in borders)
             {
-                if (border.provinceA.Id == province.Id || border.provinceB.Id == province.Id) return border;
+                if (border.provinceA._id == province._id || border.provinceB._id == province._id) return border;
             }
             return null;
         }
@@ -268,16 +406,17 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             var borderProvinces = new List<Province>();
             foreach (var b in borders)
             {
-                if (b.provinceA.Id == Id) borderProvinces.Add(b.provinceB);
-                else if (b.provinceB.Id == Id) borderProvinces.Add(b.provinceA);
+                if (b.provinceA._id == _id) borderProvinces.Add(b.provinceB);
+                else if (b.provinceB._id == _id) borderProvinces.Add(b.provinceA);
             }
             return borderProvinces;
         }
 
         public bool HasSeaConnectionWith(Province province)
         {
-            if (Id == province.Id) return false;
-            foreach (var adj in adjacencies)
+            if (_id == province._id) return false;
+            if (_adjacencies == null) return false;
+            foreach (var adj in _adjacencies)
             {
                 if (adj.HasConnectionWithProvince(province)) return true;
             }
@@ -286,13 +425,13 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public override bool Equals(object obj)
         {
-            return obj is Province province && Id == province.Id;
+            return obj is Province province && _id == province._id;
         }
 
         public int CompareTo(Province other)
         {
             if (other == null) return 1;
-            return Id - other.Id;
+            return _id - other._id;
         }
 
     }

@@ -54,6 +54,9 @@ MAP_TAB_PROGRESSBAR_LOADING_IDEOLOGIES: "Загрузка идеологий: "
 MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_DEFINITION: "Загрузка файла провинций: "
 MAP_TAB_PROGRESSBAR_LOADING_STATES: "Загрузка областей: "
 MAP_TAB_PROGRESSBAR_LOADING_REGIONS: "Загрузка страт. регионов: "
+MAP_TAB_PROGRESSBAR_LOADING_UNITS: "Загрузка юнитов: "
+MAP_TAB_PROGRESSBAR_LOADING_DIVISION_NAMES_GROUPS: "Загрузка групп названий дивизий: "
+MAP_TAB_PROGRESSBAR_LOADING_OOBS: "Загрузка OOBs: "
 MAP_TAB_PROGRESSBAR_LOADING_TEXTURE_MAPS: "Загрузка текстурных карт: "
 MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_BORDERS_TEXTURE_MAP: "Загрузка границ провинций: "
 MAP_TAB_PROGRESSBAR_LOADING_ADDITIONAL_MAP_LAYERS: "Загрузка доп. слоёв: "
@@ -93,7 +96,7 @@ MERGE_PROVINCES_TOOL_LAST_PROVINCE_HAS_VICTORY_POINTS: "Провинция с н
 
 TOOL_CAN_JOIN_RAILWAYS_BUT_THEY_HAS_DIFFERENT_LEVELS_SHOULD_I_COUNTINUE: "Вы пытаетесь объединить две дороги разных уровней ({firstRailwayLevel} и {secondRailwayLevel}). \n\nВы уверены, что хотите продолжить и установить для итоговой дороги уровень {newRailwayLevel}?"
 
-SINGLE_MESSAGE_STATE_NOT_FOUND_BY_ID: "Область с id = {stateId} не найдена."
+STATE_NOT_FOUND_BY_ID: "Область с id = {stateId} не найдена."
 SINGLE_MESSAGE_NEW_PROVINCE_WITH_COLOR_WAS_CREATED: "Создана новая провинция с id = {provinceId} и цветом {color}"
 SINGLE_MESSAGE_SEARCH_POSITION_INCORRECT_SEPARATOR: "Некорректно указаны координаты искомой точки. Между координатами X и Y должен присутствовать один из разрешённых символов-разделителей: {allowedSeparators}"
 SINGLE_MESSAGE_SEARCH_POSITION_INCORRECT_COORDS: "Некорректно указаны координаты искомой точки. Проверьте формат записи координат X и Y."
@@ -291,22 +294,31 @@ EXCEPTION_COORDINATES_UNKNOWN_TOKEN: "В блоке координат XY ука
 
 EXCEPTION_WHILE_BLOCK_LOADING: "Произошла ошибка при загрузке блока \"{name}\"."
 
-EXCEPTION_UNKNOWN_TOKEN: "Указан неизвестный токен \"{token}\"."
-EXCEPTION_INCORRECT_VALUE: "Некорректное значение \"{value}\"."
-EXCEPTION_PROVINCE_NOT_FOUND: "Провинция с Id = {provinceId} не найдена."
-EXCEPTION_COUNTRY_NOT_FOUND: "Страна с тегом \"{countryTag}\" не найдена."
-EXCEPTION_DIVISION_NAMES_GROUP_NOT_FOUND: "Группа с названием дивизий \"{divisionNamesGroup\" не найдена."
+UNKNOWN_TOKEN: "Указан неизвестный токен \"{token}\"."
+INCORRECT_VALUE: "Некорректное значение \"{value}\"."
+PROVINCE_NOT_FOUND: "Провинция с Id = {provinceId} не найдена."
+COUNTRY_NOT_FOUND: "Страна с тегом \"{countryTag}\" не найдена."
+DIVISION_NAMES_GROUP_NOT_FOUND: "Группа с названием дивизий \"{divisionNamesGroup}\" не найдена."
 
-ERROR_LAYERED_PREFIX: "В файле \"{filePath\"} в блоке по пути \"{blockLayeredPath} обнаружена ошибка: "
-WARNING_LAYERED_PREFIX: "В файле \"{filePath\"} в блоке по пути \"{blockLayeredPath} обнаружено предупреждение: "
+ERROR_LAYERED_PREFIX: "В файле \"{filePath}\"} в блоке по пути \"{blockLayeredPath} обнаружена ошибка: "
+WARNING_LAYERED_PREFIX: "В файле \"{filePath}\" в блоке по пути \"{blockLayeredPath} обнаружено предупреждение: "
 
 SUB_UNIT_NOT_FOUND: "Саб-юнит с названием \"{name}\" не найден."
 SUB_UNITS_COORDINATES_OVERLAPPING: "У саб-юнитов \"{firstSubUnitName}\" и \"{secondSubUnitName}\" указаны совпадающие координаты \"{XY}\"."
+
+SUB_UNIT_DUPLICATE_DEFINITION: "Саб-юнит с названием \"{name}\" уже был объявлен ранее в файле {filePath}"
+SUB_UNIT_DUPLICATE_DEFINITION_IN_CURRENT_FILE: "Саб-юнит с названием \"{name}\" уже был объявлен ранее в текущем файле."
+
 BLOCK_DOESNT_HAVE_MANDATORY_INNER_PARAMETER: "В блоке отсутствует обязательный параметр \"{parameterName}\"."
 BLOCK_HAS_SEVERAL_MUTUALLY_EXCLUSIVE_MANDATORY_INNER_PARAMETERS: "В блоке указано несколько взаимоисключающих обязательных параметров \"{parametersNames}\""
 BLOCK_DOESNT_HAVE_ANY_OF_SEVERAL_MUTUALLY_EXCLUSIVE_MANDATORY_INNER_PARAMETERS: "В блоке не указан ни один из нескольких взаимоисключающих обязательных параметров \"{parametersNames}\""
-BLOCK_MUST_HAS_AT_LEAST_ONE_MANDATORY_PARAMETER: "Блок должен иметь хотя бы один из нескольких обязательных параметров: {parametersNames}"
+BLOCK_MUST_HAVE_AT_LEAST_ONE_MANDATORY_PARAMETER: "Блок должен иметь хотя бы один из нескольких обязательных параметров: {parametersNames}"
 
 LAYERED_LEVELS_PARAMETER_VALUE_OVERRIDDEN: "В блоке повторно указано значение для параметра \"{parameterName}\". Старое значение \"{oldParameterValue}\" будет перезаписано новым значением \"{newParameterValue}\"."
 LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN: "Значение блока указано два раза. Старое значение блока будет перезаписано новым значением."
 PARAMETER_VALUE_IS_OUT_OF_RANGE: "Указанное значение параметра \"{parameterName}\" = {parameterValue} выходит за пределы допустимых значений: {allowedRange}. Параметру \"{parameterName}\" присвоено значение {newParameterValue}."
+
+DIVISION_TEMPLATE_MUST_HAVE_AT_LEAST_ONE_REGIMENT_OR_SUPPORT_SUB_UNIT: "Шаблон дивизии должен иметь хотя бы один саб-юнит в \"regiments\" или в \"support\"."
+FLEET_MUST_HAVE_AT_LEAST_ONE_TASK_FORCE: "Флот должен иметь хотя бы одно ударное соединение."
+TASK_FORCE_MUST_HAVE_AT_LEAST_ONE_SHIP: "Ударное соединение должно иметь хотя бы один корабль."
+TASK_FORCE_SHIP_NOT_FOUND: "Корябль ударного соединения с названием \"{name}\" не найден."

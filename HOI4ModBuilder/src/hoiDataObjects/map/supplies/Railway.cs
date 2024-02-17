@@ -54,14 +54,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         public bool AddToProvinces()
         {
             if (_provinces == null || _provinces.Count == 0) return false;
-            foreach (var p in _provinces) p.railways.Add(this);
+            foreach (var p in _provinces) p.AddRailway(this);
             return true;
         }
 
         public bool RemoveFromProvinces()
         {
             if (_provinces == null || _provinces.Count == 0) return false;
-            foreach (var p in _provinces) p.railways.Remove(this);
+            foreach (var p in _provinces) p.RemoveRailway(this);
             return true;
         }
 
@@ -83,8 +83,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         public bool CanAddProvince(Province p)
         {
             if (p == null || p.TypeId != 0 || _provinces.Count < 2) return false;
-            else if ((_provinces[0].HasBorderWith(p) || _provinces[0].HasSeaConnectionWith(p)) && !p.railways.Contains(this)) return true;
-            else if ((_provinces[_provinces.Count - 1].HasBorderWith(p) || _provinces[_provinces.Count - 1].HasSeaConnectionWith(p)) && !p.railways.Contains(this)) return true;
+            else if ((_provinces[0].HasBorderWith(p) || _provinces[0].HasSeaConnectionWith(p)) && !p.ContainsRailway(this)) return true;
+            else if ((_provinces[_provinces.Count - 1].HasBorderWith(p) || _provinces[_provinces.Count - 1].HasSeaConnectionWith(p)) && !p.ContainsRailway(this)) return true;
             else return false;
         }
 
@@ -100,16 +100,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         {
             if (_provinces.Count < 2 || p.TypeId != 0) return false;
 
-            if ((_provinces[0].HasBorderWith(p) || _provinces[0].HasSeaConnectionWith(p)) && !p.railways.Contains(this))
+            if ((_provinces[0].HasBorderWith(p) || _provinces[0].HasSeaConnectionWith(p)) && !p.ContainsRailway(this))
             {
                 _provinces.Insert(0, p);
-                p.railways.Add(this);
+                p.AddRailway(this);
                 return true;
             }
-            else if ((_provinces[_provinces.Count - 1].HasBorderWith(p) || _provinces[_provinces.Count - 1].HasSeaConnectionWith(p)) && !p.railways.Contains(this))
+            else if ((_provinces[_provinces.Count - 1].HasBorderWith(p) || _provinces[_provinces.Count - 1].HasSeaConnectionWith(p)) && !p.ContainsRailway(this))
             {
                 _provinces.Add(p);
-                p.railways.Add(this);
+                p.AddRailway(this);
                 return true;
             }
             return false;
@@ -121,13 +121,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             if (_provinces[0].Id == p.Id)
             {
                 _provinces.RemoveAt(0);
-                p.railways.Remove(this);
+                p.RemoveRailway(this);
                 return true;
             }
             else if (_provinces[_provinces.Count - 1].Id == p.Id)
             {
                 _provinces.RemoveAt(_provinces.Count - 1);
-                p.railways.Remove(this);
+                p.RemoveRailway(this);
                 return true;
             }
             return false;

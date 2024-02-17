@@ -239,36 +239,28 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         }
 
 
-        public static bool SelectSeaCross(Point2D point)
+        public static Adjacency SelectSeaCross(Point2D point)
         {
-            if (ProvinceManager.SelectedProvince == null) return false;
+            if (ProvinceManager.SelectedProvince == null) return null;
 
-            foreach (var seaCross in ProvinceManager.SelectedProvince.adjacencies)
+            Func<Adjacency, Adjacency> func = (seaCross) =>
             {
-                if (!seaCross.GetLine(out Point2F f, out Point2F s)) continue;
-                if (point.IsOnLine(f, s, 1.02f))
-                {
-                    _selectedSeaCross = seaCross;
-                    return true;
-                }
-            }
+                if (seaCross.GetLine(out Point2F f, out Point2F s) && point.IsOnLine(f, s, 1.02f))
+                    return seaCross;
+                else return null;
+            };
+
+            _selectedSeaCross = ProvinceManager.SelectedProvince.ForEachAdjacency(func);
+            if (_selectedSeaCross != null) return _selectedSeaCross;
 
             foreach (var borderProvince in ProvinceManager.SelectedProvince.GetBorderProvinces())
             {
-                foreach (var seaCross in borderProvince.adjacencies)
-                {
-                    if (!seaCross.GetLine(out Point2F f, out Point2F s)) continue;
-
-                    if (point.IsOnLine(f, s, 1.02f))
-                    {
-                        _selectedSeaCross = seaCross;
-                        return true;
-                    }
-                }
+                _selectedSeaCross = borderProvince.ForEachAdjacency(func);
+                if (_selectedSeaCross != null) return _selectedSeaCross;
             }
 
             _selectedSeaCross = null;
-            return false;
+            return _selectedSeaCross;
         }
 
         public static void CreateAdjacency(Province start, Province end, EnumAdjaciencyType type)

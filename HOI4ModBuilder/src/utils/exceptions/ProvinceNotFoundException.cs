@@ -7,7 +7,7 @@ namespace HOI4ModBuilder.src.utils.exceptions
     {
         public ProvinceNotFoundException(ushort provinceId) : base(
             GuiLocManager.GetLoc(
-                EnumLocKey.EXCEPTION_COUNTRY_NOT_FOUND,
+                EnumLocKey.PROVINCE_NOT_FOUND,
                 new Dictionary<string, string> { { "{provinceId}", "" + provinceId } }
             )
         )

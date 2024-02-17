@@ -50,14 +50,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames
                 var group = parser.Parse(new DivisionNamesGroup(_currentFile, token));
 
                 if (_groups.ContainsKey(group.Name))
-                    throw new Exception(GuiLocManager.GetLoc(
-                            EnumLocKey.ERROR_DIVISION_NAMES_GROUP_DUPLICATE_NAME,
-                            new Dictionary<string, string>
-                            {
-                                { "{name}", $"{group.Name}" },
-                                { "{firstFilePath}", _groups[group.Name].FileInfo.filePath }
-                            }
-                        ));
+                    Logger.LogWarning(
+                        EnumLocKey.ERROR_DIVISION_NAMES_GROUP_DUPLICATE_NAME,
+                        new Dictionary<string, string>
+                        {
+                            { "{name}", $"{group.Name}" },
+                            { "{firstFilePath}", _groups[group.Name].FileInfo.filePath }
+                        }
+                    );
 
                 _groups[group.Name] = group;
             }

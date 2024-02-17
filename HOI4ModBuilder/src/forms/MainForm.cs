@@ -754,7 +754,8 @@ namespace HOI4ModBuilder
             ComboBox_Tool_Parameter.Refresh();
         }
 
-        private void ComboBox_EditLayer_SelectedIndexChanged(object sender, EventArgs e) => enumEditLayer = (EnumEditLayer)ComboBox_EditLayer.SelectedIndex;
+        private void ComboBox_EditLayer_SelectedIndexChanged(object sender, EventArgs e)
+            => enumEditLayer = (EnumEditLayer)ComboBox_EditLayer.SelectedIndex;
         private void Panel1_MouseDown(object sender, MouseEventArgs e)
             => Logger.TryOrLog(() => MapManager.HandleMouseDown(e, viewportInfo, enumEditLayer, enumTool, ComboBox_Tool_Parameter.Text));
         private void Panel1_MouseUp(object sender, MouseEventArgs e)
@@ -869,7 +870,7 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                var node = ProvinceManager.RMBProvince.supplyNode;
+                var node = ProvinceManager.RMBProvince.SupplyNode;
                 if (node == null) return;
 
                 bool isSelected = false;
@@ -1156,8 +1157,8 @@ namespace HOI4ModBuilder
             {
                 if (ProvinceManager.RMBProvince != null)
                 {
-                    ToolStripMenuItem_Map_SupplyHub_Create.Enabled = ProvinceManager.RMBProvince.supplyNode == null && ProvinceManager.RMBProvince.TypeId == 0;
-                    ToolStripMenuItem_Map_SupplyHub_Remove.Enabled = ProvinceManager.RMBProvince.supplyNode != null;
+                    ToolStripMenuItem_Map_SupplyHub_Create.Enabled = ProvinceManager.RMBProvince.SupplyNode == null && ProvinceManager.RMBProvince.TypeId == 0;
+                    ToolStripMenuItem_Map_SupplyHub_Remove.Enabled = ProvinceManager.RMBProvince.SupplyNode != null;
                 }
             });
 

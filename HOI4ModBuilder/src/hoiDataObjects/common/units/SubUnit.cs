@@ -1,4 +1,6 @@
-﻿using HOI4ModBuilder.src.utils;
+﻿using HOI4ModBuilder.src.Pdoxcl2Sharp;
+using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.exceptions;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.units
 {
-    class SubUnit : IParadoxRead
+    class SubUnit : IParadoxObject
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
@@ -28,78 +30,88 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units
             Name = name;
         }
 
-        public void TokenCallback(ParadoxParser parser, string token)
+        public bool Save(StringBuilder sb, string outTab, string tab)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
         {
             //TODO Implementation
         }
+
+        public bool Validate(LinkedLayer prevLayer) => true;
     }
 
-    class SubUnits : IParadoxRead
+    class SubUnitsFile : IParadoxObject
     {
         private readonly FileInfo _currentFile;
+        private static readonly string TOKEN_SUB_UNITS = "sub_units";
+        private readonly Dictionary<string, SubUnit> _allSubUnits;
         private readonly Dictionary<string, SubUnit> _subUnits;
 
-        public SubUnits(FileInfo currentFile, Dictionary<string, SubUnit> subUnits)
+        public bool HasAnyInnerInfo => _subUnits != null && _subUnits.Count > 0;
+
+        public SubUnitsFile(FileInfo currentFile, Dictionary<string, SubUnit> allSubUnits)
         {
             _currentFile = currentFile;
-            _subUnits = subUnits;
+            _allSubUnits = allSubUnits;
+            _subUnits = new Dictionary<string, SubUnit>();
         }
 
-        public void TokenCallback(ParadoxParser parser, string token)
+        public bool Save(StringBuilder sb, string outTab, string tab)
         {
-            try
+            if (!HasAnyInnerInfo) return false;
+
+            ParadoxUtils.StartBlock(sb, outTab, TOKEN_SUB_UNITS);
+
+            foreach (var subUnit in _subUnits.Values)
+                subUnit.Save(sb, outTab + tab, tab);
+
+            ParadoxUtils.EndBlock(sb, outTab);
+            return true;
+        }
+
+        public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
+        {
+            Logger.WrapTokenCallbackExceptions(null, () =>
             {
-                var subUnit = parser.Parse(new SubUnit(_currentFile, token));
+                if (token == TOKEN_SUB_UNITS)
+                    parser.AdvancedParse(prevLayer, InnerTokenCallback);
+                else
+                    throw new UnknownTokenException(token);
+            });
+        }
 
-                if (_subUnits.ContainsKey(subUnit.Name))
-                    throw new Exception(GuiLocManager.GetLoc(
-                            EnumLocKey.ERROR_UNIT_DUPLICATE_NAME,
-                            new Dictionary<string, string>
-                            {
-                                { "{name}", $"{subUnit.Name}" },
-                                { "{firstFilePath}", _subUnits[subUnit.Name].FileInfo.filePath }
-                            }
-                        ));
+        public void InnerTokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
+        {
+            Logger.WrapTokenCallbackExceptions(TOKEN_SUB_UNITS, () =>
+            {
+                if (_allSubUnits.ContainsKey(token))
+                    Logger.LogLayeredWarning(
+                        prevLayer, TOKEN_SUB_UNITS,
+                        EnumLocKey.SUB_UNIT_DUPLICATE_DEFINITION,
+                        new Dictionary<string, string> {
+                            { "{name}", token },
+                            { "{filePath}", _allSubUnits[token].FileInfo?.filePath }
+                        }
+                    );
 
+                if (_subUnits.ContainsKey(token))
+                    Logger.LogLayeredWarning( //TODO Change to Error after SubUnit.Save() implementation
+                        prevLayer, TOKEN_SUB_UNITS,
+                        EnumLocKey.SUB_UNIT_DUPLICATE_DEFINITION_IN_CURRENT_FILE,
+                        new Dictionary<string, string> { { "{name}", token } }
+                    ); ;
+
+                SubUnit subUnit = new SubUnit(_currentFile, token);
+                Logger.ParseLayeredValue(prevLayer, token, ref subUnit, parser, subUnit);
+
+                _allSubUnits[subUnit.Name] = subUnit;
                 _subUnits[subUnit.Name] = subUnit;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GuiLocManager.GetLoc(
-                    EnumLocKey.ERROR_WHILE_SUB_UNIT_LOADING,
-                    new Dictionary<string, string> { { "{token}", token } }
-                ), ex);
-            }
-        }
-    }
-
-    class SubUnitsFile : IParadoxRead
-    {
-        private readonly FileInfo _currentFile;
-        private readonly Dictionary<string, SubUnit> _subUnits;
-
-        public SubUnitsFile(FileInfo currentFile, Dictionary<string, SubUnit> units)
-        {
-            _currentFile = currentFile;
-            _subUnits = units;
+            });
         }
 
-        public void TokenCallback(ParadoxParser parser, string token)
-        {
-            if (token != "sub_units") return;
-
-            try
-            {
-                parser.Parse(new SubUnits(_currentFile, _subUnits));
-            }
-            catch (Exception ex)
-            {
-                Logger.LogExceptionAsError(
-                    EnumLocKey.ERROR_WHILE_SUB_UNITS_LOADING,
-                    new Dictionary<string, string> { { "{filePath}", _currentFile.filePath } },
-                    ex
-                );
-            }
-        }
+        public bool Validate(LinkedLayer prevLayer) => true;
     }
 }

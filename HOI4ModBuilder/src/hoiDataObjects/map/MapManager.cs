@@ -25,6 +25,7 @@ using HOI4ModBuilder.hoiDataObjects.common.terrain;
 using HOI4ModBuilder.src.openTK.text;
 using System.Drawing.Imaging;
 using System.Drawing;
+using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.managers
 {
@@ -515,7 +516,8 @@ namespace HOI4ModBuilder.managers
                                 if (typeId == 1) Utils.ArgbToInt(255, 0, 0, 127);
                                 else if (typeId == 2) Utils.ArgbToInt(255, 127, 255, 255);
 
-                                p.buildings.TryGetValue(building, out count);
+                                if (!p.TryGetBuildingCount(building, out count))
+                                    return Utils.ArgbToInt(255, 0, 0, 0);
 
                                 float factor = count / (float)building.maxLevel;
                                 if (factor > 1) return Utils.ArgbToInt(255, 255, 0, 0);
@@ -775,7 +777,7 @@ namespace HOI4ModBuilder.managers
             _mouseState = EnumMouseState.NONE;
         }
 
-        public static int GetColor(Point2D pos) => ProvincesPixels[(int)pos.x + (int)pos.y * MapSize.x];
+        public static int GetColor(Point2D point) => ProvincesPixels[(int)point.x + (int)point.y * MapSize.x];
 
         public static void ClearAdditionalMapTextures()
         {
@@ -826,6 +828,8 @@ namespace HOI4ModBuilder.managers
         public static void RemoveAdditionalMapTexture(int index)
         {
             if (index < 0 || index >= additionalMapTextures.Count) return;
+
+            additionalMapTextures[index].plane.Dispose();
             additionalMapTextures.RemoveAt(index);
         }
 
@@ -965,11 +969,11 @@ namespace HOI4ModBuilder.managers
                 {
                     if (info.plane.Equals(selectedTexturedPlane))
                     {
+                        info.plane.Dispose();
                         additionalMapTextures.Remove(info);
                         break;
                     }
                 }
-                selectedTexturedPlane.Dispose();
                 selectedTexturedPlane = null;
                 MainForm.Instance.SetMapTextures(additionalMapTextures);
                 return;

@@ -82,11 +82,22 @@ namespace HOI4ModBuilder
             needToSave = true;
         }
 
+        public static void Setter<T>(ref T parameter, ref T value, ref bool needToSave, ref bool hasChanged)
+        {
+            if (parameter != null && parameter.Equals(value) || parameter == null && value == null) return;
+
+            parameter = value;
+            needToSave = true;
+            hasChanged = true;
+        }
+
         public static string DictionaryToString(Dictionary<string, string> dict)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("dictionary = { ");
-            foreach (var pair in dict) sb.Append("{\"").Append(pair.Key).Append("\" = \"").Append(pair.Value).Append("\", ");
+            if (dict == null) sb.Append("NULL ");
+            else foreach (var pair in dict)
+                    sb.Append("{\"").Append(pair.Key).Append("\" = \"").Append(pair.Value).Append("\", ");
             sb.Append('}');
             return sb.ToString();
         }

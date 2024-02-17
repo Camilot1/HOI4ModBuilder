@@ -20,25 +20,25 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             if (main == null || second == null || main.Id == second.Id)
                 throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_PROVINCE_MERGE_NULL_PROVINCES_OR_SAME_PROVINCES_IDS));
 
-            if (second.buildings.Count > 0)
+            if (second.GetBuildingsCount() > 0)
                 throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.EXCEPTION_PROVINCE_MERGE_SECOND_PROVINCE_HAS_BUILDINGS,
                         new Dictionary<string, string> { { "{id}", $"{second.Id}" } }
                     ));
 
-            if (second.railways.Count > 0)
+            if (second.GetRailwaysCount() > 0)
                 throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.EXCEPTION_PROVINCE_MERGE_SECOND_PROVINCE_HAS_RAILWAYS,
                         new Dictionary<string, string> { { "{id}", $"{second.Id}" } }
                     ));
 
-            if (second.adjacencies.Count > 0)
+            if (second.GetAdjacenciesCount() > 0)
                 throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.EXCEPTION_PROVINCE_MERGE_SECOND_PROVINCE_HAS_ADJACENCIES,
                         new Dictionary<string, string> { { "{id}", $"{second.Id}" } }
                     ));
 
-            if (second.supplyNode != null)
+            if (second.SupplyNode != null)
                 throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.EXCEPTION_PROVINCE_MERGE_SECOND_PROVINCE_HAS_SUPPLY_HUB,
                         new Dictionary<string, string> { { "{id}", $"{second.Id}" } }
@@ -148,10 +148,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             second.Region?.RemoveProvince(second);
 
             //Заменяем связи со смежностями
-            foreach (Adjacency adj in second.adjacencies)
-            {
-                adj.ReplaceProvince(second, provinceToReplace);
-            }
+            second.ForEachAdjacency((adj) => adj.ReplaceProvince(second, provinceToReplace));
 
             //Удаляем из словарей
             ProvinceManager.RemoveProvinceById(second.Id);

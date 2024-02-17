@@ -7,7 +7,7 @@ namespace HOI4ModBuilder.src.utils.exceptions
     {
         public IncorrectValueException(string value) : base(
             GuiLocManager.GetLoc(
-                EnumLocKey.EXCEPTION_INCORRECT_VALUE,
+                EnumLocKey.INCORRECT_VALUE,
                 new Dictionary<string, string> { { "{value}", value } }
             )
         )

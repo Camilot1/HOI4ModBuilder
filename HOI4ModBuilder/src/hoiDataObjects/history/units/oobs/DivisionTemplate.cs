@@ -87,7 +87,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
         {
-            Logger.WrapTokenCallbackExceptions($"{BLOCK_NAME} (name = {_name})", () =>
+            Logger.WrapTokenCallbackExceptions($"{BLOCK_NAME} ({TOKEN_NAME} = \"{_name}\")", () =>
             {
                 string value;
 
@@ -97,7 +97,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates
                 {
                     value = parser.ReadString();
                     if (!DivisionNamesGroupManager.TryGetNamesGroup(value, out _namesGroup))
-                        throw new DivisionNamesGroupNotFoundException(value);
+                        Logger.LogLayeredError(
+                            prevLayer, token, EnumLocKey.DIVISION_NAMES_GROUP_NOT_FOUND,
+                            new Dictionary<string, string> { { "{divisionNamesGroup}", value } }
+                        );
                 }
                 else if (token == TOKEN_IS_LOCKED)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _isLocked, parser.ReadBool());
@@ -106,23 +109,35 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates
                 else if (token == TOKEN_DIVISION_CAP)
                 {
                     value = parser.ReadString();
-                    if (!int.TryParse(value, out int newDivisionCap))
-                        Logger.WrapException(token, new IncorrectValueException(value));
-                    Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _divisionCap, newDivisionCap);
+                    if (int.TryParse(value, out int newDivisionCap))
+                        Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _divisionCap, newDivisionCap);
+                    else
+                        Logger.LogLayeredError(
+                            prevLayer, token, EnumLocKey.INCORRECT_VALUE,
+                            new Dictionary<string, string> { { "{value}", value } }
+                        );
                 }
                 else if (token == TOKEN_PRIORITY)
                 {
                     value = parser.ReadString();
-                    if (!byte.TryParse(value, out byte newPriority))
-                        Logger.WrapException(token, new IncorrectValueException(value));
-                    Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _priority, newPriority);
+                    if (byte.TryParse(value, out byte newPriority))
+                        Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _priority, newPriority);
+                    else
+                        Logger.LogLayeredError(
+                            prevLayer, token, EnumLocKey.INCORRECT_VALUE,
+                            new Dictionary<string, string> { { "{value}", value } }
+                        );
                 }
                 else if (token == TOKEN_TEMPLATE_COUNTRER)
                 {
                     value = parser.ReadString();
-                    if (!int.TryParse(value, out int newTemplateCounter))
-                        Logger.WrapException(token, new IncorrectValueException(value));
-                    Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _templateCounter, newTemplateCounter);
+                    if (int.TryParse(value, out int newTemplateCounter))
+                        Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _templateCounter, newTemplateCounter);
+                    else
+                        Logger.LogLayeredError(
+                            prevLayer, token, EnumLocKey.INCORRECT_VALUE,
+                            new Dictionary<string, string> { { "{value}", value } }
+                        );
                 }
                 else if (token == TOKEN_OVERRIDE_MODEL)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _overrideModel, parser.ReadString());
@@ -139,12 +154,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates
         {
             bool result = true;
 
+            var currentLayer = new LinkedLayer(prevLayer, $"({TOKEN_NAME} = \"{_name}\")");
+
             CheckAndLogUnit.WARNINGS
                 .HasMandatory(ref result, prevLayer, TOKEN_NAME, ref _name)
                 .HasAtLeastOneMandatory(
-                    ref result, prevLayer, BLOCK_NAME,
+                    ref result, currentLayer, BLOCK_NAME,
                     new string[] { TOKEN_REGIMENTS, TOKEN_SUPPORT },
                     _regimentsSubUnits != null || _supportSubUnits != null
+                )
+                .Check(
+                    ref result, currentLayer,
+                    _regimentsSubUnits != null && _regimentsSubUnits.Count > 0 || _supportSubUnits != null && _supportSubUnits.Count > 0,
+                    EnumLocKey.DIVISION_TEMPLATE_MUST_HAVE_AT_LEAST_ONE_REGIMENT_OR_SUPPORT_SUB_UNIT
                 );
 
             return result;
@@ -154,6 +176,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates
         {
             private readonly string _name;
             private readonly List<SubUnitInfo> _subUnits;
+
+            public int Count => _subUnits.Count;
 
             public SubUnitsBlock(string name)
             {
@@ -187,7 +211,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates
                 Logger.WrapTokenCallbackExceptions(_name, () =>
                 {
                     if (!SubUnitManager.TryGetSubUnit(token, out SubUnit subUnit))
-                        Logger.LogLayeredWarning(
+                        Logger.LogLayeredError(
                             prevLayer, token, EnumLocKey.SUB_UNIT_NOT_FOUND,
                             new Dictionary<string, string> { { "{name}", token } }
                         );

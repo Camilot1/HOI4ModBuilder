@@ -49,7 +49,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
                 if (building.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.PROVINCIAL)
                 {
-                    province.buildings.TryGetValue(building, out currentCount);
+                    province.TryGetBuildingCount(building, out currentCount);
                     maxCount = building.maxLevel;
                     freeSlots = building.maxLevel - currentCount;
                     prevCount = currentCount;

@@ -7,7 +7,7 @@ namespace HOI4ModBuilder.src.utils.exceptions
     {
         public UnknownTokenException(string token) : base(
             GuiLocManager.GetLoc(
-                EnumLocKey.EXCEPTION_UNKNOWN_TOKEN,
+                EnumLocKey.UNKNOWN_TOKEN,
                 new Dictionary<string, string> { { "{token}", token } }
             )
         )

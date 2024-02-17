@@ -29,8 +29,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.supply
         {
             if (province != null)
             {
-                if (province.supplyNode != null) return false;
-                province.supplyNode = this;
+                if (province.SupplyNode != null) return false;
+                province.SupplyNode = this;
                 SupplyManager.NeedToSaveSupplyNodes = true;
                 return true;
             }
@@ -41,8 +41,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.supply
         {
             if (province != null)
             {
-                if (province.supplyNode == null) return false;
-                province.supplyNode = null;
+                if (province.SupplyNode == null) return false;
+                province.SupplyNode = null;
                 SupplyManager.NeedToSaveSupplyNodes = true;
                 return true;
             }

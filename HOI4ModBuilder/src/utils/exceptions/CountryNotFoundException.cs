@@ -7,7 +7,7 @@ namespace HOI4ModBuilder.src.utils.exceptions
     {
         public CountryNotFoundException(string countryTag) : base(
             GuiLocManager.GetLoc(
-                EnumLocKey.EXCEPTION_COUNTRY_NOT_FOUND,
+                EnumLocKey.COUNTRY_NOT_FOUND,
                 new Dictionary<string, string> { { "{countryTag}", countryTag } }
             )
         )

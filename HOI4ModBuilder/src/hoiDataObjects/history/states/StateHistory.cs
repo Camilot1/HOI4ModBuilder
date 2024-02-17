@@ -69,7 +69,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
                     //Обновляем количество постройки в словаре
                     buildings[building] = newCount;
-                    province.buildings[building] = newCount;
+                    province.SetBuilding(building, newCount);
                     return true;
                 }
                 else return false;
@@ -80,7 +80,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 { //И число новой постройки не равно 0
                     //Добавляем постройку в словари
                     buildings[building] = newCount;
-                    province.buildings[building] = newCount;
+                    province.SetBuilding(building, newCount);
                     return true;
                 }
                 else return false;
@@ -96,9 +96,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 else buildings[building] = newCount;
 
                 //Если в провинции 0 построек этого типа, то удаляем постройку из списка построек провинций
-                if (newCount == 0) province.buildings.Remove(building);
+                if (newCount == 0) province.RemoveBuilding(building);
                 //Иначе меняем число постройки в провинции на 0
-                else province.buildings[building] = newCount;
+                else province.SetBuilding(building, newCount);
                 return true;
             }
             else return false;

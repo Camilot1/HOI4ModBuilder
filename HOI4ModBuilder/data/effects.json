@@ -779,6 +779,170 @@
 
 
   {
+    "name": "set_equipment_fraction",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "add_equipment_to_stockpile",
+    "specificScopes": [ "COUNTRY" ],
+    "mandatoryInnerBlocks": {
+      "type": {
+        "name": "type",
+        "allowedValueTypes": [ "STRING" ]
+      },
+	  "amount": {
+        "name": "amount",
+        "allowedValueTypes": [ "VAR", "INT" ]
+      }
+    },
+	"allowedInnerBlocks": {
+      "producer": {
+        "name": "producer",
+        "allowedValueTypes": [ "VAR", "STRING" ]
+      },
+	  "variant_name": {
+        "name": "variant_name",
+        "allowedValueTypes": [ "NAME" ]
+      }
+	}
+  },
+  {
+    "name": "create_equipment_variant",
+    "specificScopes": [ "COUNTRY" ],
+	"mandatoryInnerBlocks": {
+      "name": {
+        "name": "name",
+        "allowedValueTypes": [ "NAME" ]
+      },
+	  "type": {
+        "name": "type",
+        "allowedValueTypes": [ "STRING" ]
+      }
+    },
+	"allowedInnerBlocks": {
+      "parent_version": {
+        "name": "parent_version",
+        "allowedValueTypes": [ "INT" ],
+        "defaultValueType": "INT",
+        "defaultValue": 0
+      },
+	  "obsolete": {
+        "name": "obsolete",
+        "allowedValueTypes": [ "BOOLEAN" ],
+        "defaultValueType": "BOOLEAN",
+        "defaultValue": false
+      },
+	  "mark_older_equipment_obsolete": {
+        "name": "mark_older_equipment_obsolete",
+        "allowedValueTypes": [ "BOOLEAN" ],
+        "defaultValueType": "BOOLEAN",
+        "defaultValue": false
+      },
+	  "name_group": {
+        "name": "name_group",
+        "allowedValueTypes": [ "STRING" ],
+        "defaultValueType": "STRING",
+        "defaultValue": null
+      },
+	  "role_icon_index": {
+        "name": "role_icon_index",
+        "allowedValueTypes": [ "INT", "STRING" ],
+        "defaultValueType": "STRING",
+        "defaultValue": null
+      },
+	  "model": {
+        "name": "model",
+        "allowedValueTypes": [ "STRING" ],
+        "defaultValueType": "STRING",
+        "defaultValue": null
+      },
+	  "icon": {
+        "name": "icon",
+        "allowedValueTypes": [ "NAME" ],
+        "defaultValueType": "NAME",
+        "defaultValue": null
+      },
+	  "design_team": {
+        "name": "design_team",
+        "allowedValueTypes": [ "STRING" ],
+        "defaultValueType": "STRING",
+        "defaultValue": null
+      },
+	  "allow_without_tech": {
+        "name": "allow_without_tech",
+        "allowedValueTypes": [ "BOOLEAN" ],
+        "defaultValueType": "BOOLEAN",
+        "defaultValue": false
+      },
+	  "upgrades": {
+        "name": "upgrades",
+		"allowedUniversalParamsInfo": {
+		  "allowedValueTypes": [ "INT" ]
+		}
+      },
+	  "modules": {
+        "name": "modules",
+		"allowedUniversalParamsInfo": {
+		  "allowedValueTypes": [ "INT" ]
+		}
+      }
+	}
+  },
+  {
+    "name": "add_equipment_production",
+    "specificScopes": [ "COUNTRY" ],
+    "mandatoryInnerBlocks": {
+      "equipment": {
+        "name": "equipment",
+		"mandatoryInnerBlocks": {
+          "type": {
+            "name": "type",
+		    "allowedValueTypes": [ "STRING" ]
+		  }
+		},
+		"allowedInnerBlocks": {
+          "creator": {
+            "name": "creator",
+		    "allowedValueTypes": [ "NAME" ]
+		  },
+		  "version_name": {
+            "name": "version_name",
+		    "allowedValueTypes": [ "NAME" ]
+		  }
+		}
+      }
+    },
+    "allowedInnerBlocks": {
+      "amount": {
+        "name": "amount",
+        "allowedValueTypes": [ "INT" ]
+      },
+	  "requested_factories": {
+        "name": "requested_factories",
+        "allowedValueTypes": [ "INT" ]
+      },
+	  "progress": {
+        "name": "progress",
+        "allowedValueTypes": [ "FLOAT" ]
+      },
+	  "efficiency": {
+        "name": "efficiency",
+        "allowedValueTypes": [ "FLOAT" ]
+      },
+	  "name": {
+        "name": "name",
+        "allowedValueTypes": [ "NAME" ]
+      },
+	  "industrial_manufacturer": {
+        "name": "industrial_manufacturer",
+        "allowedValueTypes": [ "STRING" ]
+      }
+	}
+  },
+  
+  
+  {
     "name": "state_event",
     "specificScopes": [ "STATE" ],
     "mandatoryInnerBlocks": {

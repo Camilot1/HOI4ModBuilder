@@ -76,35 +76,22 @@ namespace Pdoxcl2Sharp
         /// Gets how many indents the current parser is at.  For instance if the parser read
         /// read two '{' but zero '}', the <see cref="CurrentIndent"/> would be two.
         /// </summary>
-        public int CurrentIndent
-        {
-            get { return currentIndent; }
-        }
+        public int CurrentIndent { get => currentIndent; }
 
-        public LexerToken CurrentToken
-        {
-            get { return currentToken; }
-        }
-        public Queue<char> NextChars
-        {
-            get { return nextChars; }
-        }
+        public LexerToken CurrentToken { get => currentToken; }
+        public Queue<char> NextChars { get => nextChars; }
+
+        public bool CurrentValueIsName { get => currentToken == LexerToken.Quote; }
 
         /// <summary>
         /// Gets the last string read by the parser
         /// </summary>
-        public string CurrentString
-        {
-            get { return currentString; }
-        }
+        public string CurrentString { get => currentString; }
 
         /// <summary>
         /// Gets a value indicating whether the parser is at the end of the stream
         /// </summary>
-        public bool EndOfStream
-        {
-            get { return eof; }
-        }
+        public bool EndOfStream { get => eof; }
 
         /// <summary>
         /// Converts the specified string representation of a date and time from
@@ -164,7 +151,7 @@ namespace Pdoxcl2Sharp
             if (data == null)
                 throw new ArgumentNullException("data");
 
-            using (var reader = new StreamReader(data, Globals.ParadoxEncoding, false, MaxByteBuffer))
+            using (var reader = new StreamReader(data, Encoding.UTF8, false, MaxByteBuffer))
             {
                 FnPtr ptr = Deserializer.Parse(typeof(T));
                 ParadoxParser parser = new ParadoxParser(reader);
@@ -182,7 +169,7 @@ namespace Pdoxcl2Sharp
             if (data == null)
                 throw new ArgumentNullException("data");
 
-            using (var reader = new StreamReader(data, Globals.ParadoxEncoding, false, MaxByteBuffer))
+            using (var reader = new StreamReader(data, Encoding.UTF8, false, MaxByteBuffer))
             {
                 ParadoxParser parser = new ParadoxParser(reader);
                 while (!parser.EndOfStream)
@@ -202,7 +189,7 @@ namespace Pdoxcl2Sharp
             if (data == null)
                 throw new ArgumentNullException("data");
 
-            using (var reader = new StreamReader(data, Globals.ParadoxEncoding, false, MaxByteBuffer))
+            using (var reader = new StreamReader(data, Encoding.UTF8, false, MaxByteBuffer))
             {
                 ParadoxParser parser = new ParadoxParser(reader);
                 while (!parser.EndOfStream)

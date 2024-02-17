@@ -235,20 +235,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
         public void AddToProvinces()
         {
-            _startProvince?.adjacencies.Add(this);
-            _endProvince?.adjacencies.Add(this);
+            _startProvince?.AddAdjacency(this);
+            _endProvince?.AddAdjacency(this);
             if (_enumType == EnumAdjaciencyType.IMPASSABLE && _startProvince != null && _endProvince != null)
             {
                 provinceBorder = _startProvince.GetBorderWith(_endProvince);
             }
-            else _throughProvince?.adjacencies.Add(this);
+            else _throughProvince?.AddAdjacency(this);
         }
 
         public void RemoveFromProvinces()
         {
-            _startProvince?.adjacencies.Remove(this);
-            _throughProvince?.adjacencies.Remove(this);
-            _endProvince?.adjacencies.Remove(this);
+            _startProvince?.RemoveAdjacency(this);
+            _throughProvince?.RemoveAdjacency(this);
+            _endProvince?.RemoveAdjacency(this);
             provinceBorder = null;
         }
 
@@ -258,24 +258,24 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
             if (_startProvince != null && _startProvince.Id == oldProvince.Id)
             {
-                oldProvince.adjacencies.Remove(this);
-                newProvince.adjacencies.Add(this);
+                oldProvince.RemoveAdjacency(this);
+                newProvince.AddAdjacency(this);
                 _startProvince = newProvince;
                 AdjacenciesManager.NeedToSaveAdjacencies = true;
             }
 
             if (_endProvince != null && _endProvince.Id == oldProvince.Id)
             {
-                oldProvince.adjacencies.Remove(this);
-                newProvince.adjacencies.Add(this);
+                oldProvince.RemoveAdjacency(this);
+                newProvince.AddAdjacency(this);
                 _endProvince = newProvince;
                 AdjacenciesManager.NeedToSaveAdjacencies = true;
             }
 
             if (_throughProvince != null && _throughProvince.Id == oldProvince.Id)
             {
-                oldProvince.adjacencies.Remove(this);
-                newProvince.adjacencies.Add(this);
+                oldProvince.RemoveAdjacency(this);
+                newProvince.AddAdjacency(this);
                 _throughProvince = newProvince;
                 AdjacenciesManager.NeedToSaveAdjacencies = true;
             }
@@ -351,9 +351,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         {
             if (province == null || _endProvince == province || _throughProvince == province) return;
 
-            _startProvince?.adjacencies.Remove(this);
+            _startProvince?.RemoveAdjacency(this);
             _startProvince = province;
-            _startProvince.adjacencies.Add(this);
+            _startProvince.AddAdjacency(this);
             AdjacenciesManager.NeedToSaveAdjacencies = true;
         }
 
@@ -361,9 +361,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         {
             if (province == null || _startProvince == province || _throughProvince == province) return;
 
-            _endProvince?.adjacencies.Remove(this);
+            _endProvince?.RemoveAdjacency(this);
             _endProvince = province;
-            _endProvince.adjacencies.Add(this);
+            _endProvince.AddAdjacency(this);
             AdjacenciesManager.NeedToSaveAdjacencies = true;
         }
 
@@ -371,9 +371,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         {
             if (province == null || _startProvince == province || _endProvince == province) return;
 
-            _throughProvince?.adjacencies.Remove(this);
+            _throughProvince?.RemoveAdjacency(this);
             _throughProvince = province;
-            _throughProvince.adjacencies.Add(this);
+            _throughProvince.AddAdjacency(this);
             AdjacenciesManager.NeedToSaveAdjacencies = true;
         }
 

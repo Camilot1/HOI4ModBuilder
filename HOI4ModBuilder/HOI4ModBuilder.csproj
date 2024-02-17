@@ -341,7 +341,6 @@
     <Compile Include="src\hoiDataObjects\common\characters\traits\CountryLeaderTrait.cs" />
     <Compile Include="src\hoiDataObjects\common\characters\traits\TraitManager.cs" />
     <Compile Include="src\hoiDataObjects\common\characters\traits\UnitLeaderTrait.cs" />
-    <Compile Include="src\hoiDataObjects\common\equipment\EquipmentManager.cs" />
     <Compile Include="src\hoiDataObjects\common\ideologies\Ideology.cs" />
     <Compile Include="src\hoiDataObjects\common\ideologies\IdeologyGroup.cs" />
     <Compile Include="src\hoiDataObjects\common\ideologies\IdeologyManager.cs" />
@@ -367,10 +366,12 @@
     <Compile Include="src\hoiDataObjects\history\countries\CountryManager.cs" />
     <Compile Include="src\hoiDataObjects\history\states\StateHistory.cs" />
     <Compile Include="src\hoiDataObjects\history\states\StateManager.cs" />
+    <Compile Include="src\hoiDataObjects\history\units\oobs\AirWing.cs" />
     <Compile Include="src\hoiDataObjects\history\units\oobs\Division.cs" />
     <Compile Include="src\hoiDataObjects\history\units\oobs\DivisionTemplate.cs" />
     <Compile Include="src\hoiDataObjects\history\units\oobs\Fleet.cs" />
     <Compile Include="src\hoiDataObjects\history\units\oobs\OOB.cs" />
+    <Compile Include="src\hoiDataObjects\history\units\oobs\OOBManager.cs" />
     <Compile Include="src\hoiDataObjects\Idea.cs" />
     <Compile Include="src\hoiDataObjects\localisation\LanguageData.cs" />
     <Compile Include="src\hoiDataObjects\localisation\LocalizationManager.cs" />
@@ -407,10 +408,6 @@
     <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolRectangle.cs" />
     <Compile Include="src\hoiDataObjects\map\tools\mouseHandleable\MapToolStateCategory.cs" />
     <Compile Include="src\hoiDataObjects\Technology.cs" />
-    <Compile Include="src\hoiDataObjects\units\land\Division.cs" />
-    <Compile Include="src\hoiDataObjects\units\land\DivisionTemplate.cs" />
-    <Compile Include="src\hoiDataObjects\units\land\LandUnit.cs" />
-    <Compile Include="src\hoiDataObjects\units\land\LandUnitManager.cs" />
     <Compile Include="src\hoiDataObjects\units\UnitModifiers.cs" />
     <Compile Include="src\hoiDataObjects\map\MapManager.cs" />
     <Compile Include="src\hoiDataObjects\map\provinces\ProvinceManager.cs" />
@@ -552,8 +549,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\hoiDataObjects\units\air\" />
-    <Folder Include="src\hoiDataObjects\units\naval\" />
+    <Folder Include="src\hoiDataObjects\common\equipment\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">

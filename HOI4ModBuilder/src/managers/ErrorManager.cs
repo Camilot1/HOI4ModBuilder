@@ -693,7 +693,7 @@ namespace HOI4ModBuilder.src.managers
             foreach (var node in SupplyManager.SupplyNodes)
             {
                 var p = node.GetProvince();
-                if (p.railways.Count == 0) AddErrorInfo(p.center.x, p.center.y, EnumMapErrorCode.SUPPLY_HUB_NO_CONNECTION);
+                if (p.GetRailwaysCount() == 0) AddErrorInfo(p.center.x, p.center.y, EnumMapErrorCode.SUPPLY_HUB_NO_CONNECTION);
             }
         }
 

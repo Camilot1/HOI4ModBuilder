@@ -126,6 +126,7 @@ namespace HOI4ModBuilder.managers
         public static Dictionary<ushort, Province>.KeyCollection GetProvincesIds() => _provincesById.Keys;
         public static bool TryGetProvince(ushort id, out Province province) => _provincesById.TryGetValue(id, out province);
         public static bool TryGetProvince(int color, out Province province) => _provincesByColor.TryGetValue(color, out province);
+        public static bool TryGetProvince(Point2D point, out Province province) => TryGetProvince(MapManager.GetColor(point), out province);
         public static Dictionary<ushort, Province>.ValueCollection GetProvinces() => _provincesById.Values;
         public static int ProvincesCount => _provincesById.Count;
 

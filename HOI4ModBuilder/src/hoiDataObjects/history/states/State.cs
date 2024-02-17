@@ -5,10 +5,12 @@ using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using static HOI4ModBuilder.utils.Structs;
 
@@ -23,7 +25,28 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public FileInfo fileInfo;
 
-        public ushort Id { get; private set; }
+        public bool HasChangedId { get; private set; }
+
+        private ushort _id;
+        public ushort Id
+        {
+            get => _id;
+            set
+            {
+                if (_id == value) return;
+
+                if (StateManager.ContainsStateIdKey(value))
+                    throw new Exception(GuiLocManager.GetLoc(
+                        EnumLocKey.EXCEPTION_STATE_ID_UPDATE_VALUE_IS_USED,
+                        new Dictionary<string, string> { { "{id}", $"{value}" } }
+                    ));
+                else StateManager.RemoveState(_id);
+                _id = value;
+                HasChangedId = true;
+                StateManager.AddState(_id, this);
+            }
+        }
+
         public string startName, name;
         public int startManpower, manpower;
         public StateCategory startStateCategory, stateCategory;
@@ -115,7 +138,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             string tab2 = tab + tab;
 
             sb.Append("state = {").Append(Constants.NEW_LINE);
-            sb.Append(tab).Append("id = ").Append(Id).Append(Constants.NEW_LINE);
+            sb.Append(tab).Append("id = ").Append(_id).Append(Constants.NEW_LINE);
             sb.Append(tab).Append("name = \"").Append(startName).Append("\"").Append(Constants.NEW_LINE);
             sb.Append(tab).Append("manpower = ").Append(startManpower).Append(Constants.NEW_LINE).Append(Constants.NEW_LINE);
 
@@ -190,14 +213,14 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             foreach (var province in victoryPoints.Keys) province.victoryPoints = 0;
             victoryPoints = new Dictionary<Province, uint>(0);
             stateBuildings = new Dictionary<Building, uint>(0);
-            foreach (var province in provincesBuildings.Keys) province.buildings = new Dictionary<Building, uint>(0);
+            foreach (var province in provincesBuildings.Keys) province.ClearBuildings();
             provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
         }
 
         public void AddData()
         {
             foreach (var province in victoryPoints.Keys) province.victoryPoints = victoryPoints[province];
-            foreach (var province in provincesBuildings.Keys) province.buildings = provincesBuildings[province];
+            foreach (var province in provincesBuildings.Keys) province.SetBuildings(provincesBuildings[province]);
             owner?.ownStates.Add(this);
             controller?.controlsStates.Add(this);
             foreach (var country in coresOf) country.hasCoresAtStates.Add(this);
@@ -212,7 +235,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             {
                 case "id":
                     temp = parser.ReadString();
-                    if (!ushort.TryParse(temp, out ushort tempId))
+                    if (!ushort.TryParse(temp, out _id))
                         Logger.LogError(
                             EnumLocKey.ERROR_STATE_INCORRECT_ID_VALUE,
                             new Dictionary<string, string>
@@ -222,8 +245,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                             }
                         );
 
-                    Id = tempId;
-                    Random random = new Random(Id);
+                    Random random = new Random(_id);
                     color = Utils.ArgbToInt(
                         255,
                         (byte)random.Next(0, 256),
@@ -242,7 +264,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                             EnumLocKey.ERROR_STATE_INCORRECT_MANPOWER,
                             new Dictionary<string, string>
                             {
-                                { "{stateId}", $"{Id}" },
+                                { "{stateId}", $"{_id}" },
                                 { "{otherFilePath}", temp }
                             }
                         );
@@ -260,7 +282,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                                 EnumLocKey.ERROR_STATE_INCORRECT_PROVINCE_ID,
                                 new Dictionary<string, string>
                                 {
-                                    { "{stateId}", $"{Id}" },
+                                    { "{stateId}", $"{_id}" },
                                     { "{provinceId}", $"{provinceId}" }
                                 }
                             );
@@ -270,7 +292,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                                 EnumLocKey.ERROR_STATE_PROVINCE_NOT_FOUND,
                                 new Dictionary<string, string>
                                 {
-                                    { "{stateId}", $"{Id}" },
+                                    { "{stateId}", $"{_id}" },
                                     { "{provinceId}", $"{provinceId}" }
                                 }
                             );
@@ -287,7 +309,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                                 EnumLocKey.ERROR_STATE_INCORRECT_BUILDINGS_MAX_LEVEL_FACTOR_VALUE,
                                 new Dictionary<string, string>
                                 {
-                                    { "{stateId}", $"{Id}" },
+                                    { "{stateId}", $"{_id}" },
                                     { "{value}", $"{temp}" }
                                 }
                             );
@@ -296,7 +318,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                                 EnumLocKey.ERROR_STATE_INCORRECT_BUILDINGS_MAX_LEVEL_FACTOR_VALUE,
                                 new Dictionary<string, string>
                                 {
-                                    { "{stateId}", $"{Id}" },
+                                    { "{stateId}", $"{_id}" },
                                     { "{value}", $"{temp}" }
                                 }
                             );
@@ -308,7 +330,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                             EnumLocKey.ERROR_STATE_STATE_CATEGORY_NOT_FOUND,
                             new Dictionary<string, string>
                             {
-                                { "{stateId}", $"{Id}" },
+                                { "{stateId}", $"{_id}" },
                                 { "{stateCategory}", $"{temp}" }
                             }
                         );
@@ -330,7 +352,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                                 EnumLocKey.ERROR_STATE_INCORRECT_LOCAL_SUPPLIES_VALUE,
                                 new Dictionary<string, string>
                                 {
-                                    { "{stateId}", $"{Id}" },
+                                    { "{stateId}", $"{_id}" },
                                     { "{value}", $"{temp}" }
                                 }
                             );
@@ -339,7 +361,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                                 EnumLocKey.ERROR_STATE_INCORRECT_LOCAL_SUPPLIES_VALUE,
                                 new Dictionary<string, string>
                                 {
-                                    { "{stateId}", $"{Id}" },
+                                    { "{stateId}", $"{_id}" },
                                     { "{value}", $"{temp}" }
                                 }
                             );
@@ -366,21 +388,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public override bool Equals(object obj)
         {
-            return obj is State state && Id == state.Id;
-        }
-
-        public void UpdateId(ushort id)
-        {
-            if (Id == id) return;
-            if (StateManager.ContainsStateIdKey(id))
-                throw new Exception(GuiLocManager.GetLoc(
-                    EnumLocKey.EXCEPTION_STATE_ID_UPDATE_VALUE_IS_USED,
-                    new Dictionary<string, string> { { "{id}", $"{id}" } }
-                ));
-
-            StateManager.RemoveState(Id);
-            Id = id;
-            StateManager.AddState(Id, this);
+            return obj is State state && _id == state._id;
         }
 
         public void Validate()

@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.src.utils
 {
@@ -98,9 +99,38 @@ namespace HOI4ModBuilder.src.utils
             oldValue = parsedValue;
         }
 
-        public static void ParseLayeredListedValue<T>(LinkedLayer prevLayer, string newLayerName, List<T> list, ParadoxParser parser, T newParseObject) where T : class, IParadoxObject
+        public static void ParseLayeredValue<T>(LinkedLayer prevLayer, string newLayerName, ref T value, ParadoxParser parser, T newParseObject) where T : class, IParadoxObject
         {
-            //TODO
+            var newLayer = new LinkedLayer(prevLayer, newLayerName);
+            T parsedValue = null;
+            WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject));
+            value = parsedValue;
+        }
+
+        public static void ParseLayeredValue<T>(LinkedLayer prevLayer, string newLayerName, ParadoxParser parser, T newParseObject) where T : class, IParadoxObject
+        {
+            var newLayer = new LinkedLayer(prevLayer, newLayerName);
+            WrapTokenCallbackExceptions(newLayerName, () => parser.AdvancedParse(newLayer, newParseObject));
+        }
+
+        public static void ParseNewLayeredValueOrContinueOld<T>(LinkedLayer prevLayer, string newLayerName, ref T value, ParadoxParser parser, T newParseObject) where T : class, IParadoxObject
+        {
+            var newLayer = new LinkedLayer(prevLayer, newLayerName);
+            if (value != null) newParseObject = value;
+            T parsedValue = null;
+            WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject));
+            value = parsedValue;
+        }
+
+        public static void ParseLayeredListedValue<T>(LinkedLayer prevLayer, string newLayerName, ref List<T> list, ParadoxParser parser, T newParseObject) where T : class, IParadoxObject
+        {
+            if (list == null) list = new List<T>();
+
+            var newLayer = new LinkedLayer(prevLayer, newLayerName);
+            T parsedValue = null;
+            WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject));
+            list.Add(parsedValue);
+
         }
 
         public static void LogWarning(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
@@ -192,6 +222,10 @@ namespace HOI4ModBuilder.src.utils
         {
             LogLayeredWarning(currentLayer, enumLocKey, null);
         }
+        public static void LogLayeredWarning(LinkedLayer prevLayer, string currentLayer, EnumLocKey enumLocKey)
+        {
+            LogLayeredWarning(new LinkedLayer(prevLayer, currentLayer), enumLocKey, null);
+        }
 
         public static void LogLayeredWarning(LinkedLayer prevLayer, string currentLayer, EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
         {
@@ -208,6 +242,10 @@ namespace HOI4ModBuilder.src.utils
         public static void LogLayeredError(LinkedLayer currentLayer, EnumLocKey enumLocKey)
         {
             LogLayeredError(currentLayer, enumLocKey, null);
+        }
+        public static void LogLayeredError(LinkedLayer prevLayer, string currentLayer, EnumLocKey enumLocKey)
+        {
+            LogLayeredError(new LinkedLayer(prevLayer, currentLayer), enumLocKey, null);
         }
 
         public static void LogLayeredError(LinkedLayer prevLayer, string currentLayer, EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
@@ -350,7 +388,7 @@ namespace HOI4ModBuilder.src.utils
             }
             catch (Exception ex)
             {
-                throw new Exception("//TODO Прописать что-то по типу 'Произошла ошибка на уровне N'", ex);
+                throw new Exception($"//TODO 'Произошла ошибка на уровне {layerName}'", ex);
             }
         }
 

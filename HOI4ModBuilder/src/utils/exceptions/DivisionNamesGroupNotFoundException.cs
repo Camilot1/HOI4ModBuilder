@@ -7,7 +7,7 @@ namespace HOI4ModBuilder.src.utils.exceptions
     {
         public DivisionNamesGroupNotFoundException(string divisionNamesGroup) : base(
             GuiLocManager.GetLoc(
-                EnumLocKey.EXCEPTION_DIVISION_NAMES_GROUP_NOT_FOUND,
+                EnumLocKey.DIVISION_NAMES_GROUP_NOT_FOUND,
                 new Dictionary<string, string> { { "{divisionNamesGroup}", divisionNamesGroup } }
             )
         )

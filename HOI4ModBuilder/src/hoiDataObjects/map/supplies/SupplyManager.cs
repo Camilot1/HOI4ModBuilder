@@ -155,51 +155,56 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public static Railway SelectRailway(Point2D point)
         {
-            if (ProvinceManager.SelectedProvince == null) SelectedRailway = null;
+            if (!ProvinceManager.TryGetProvince(point, out Province p))
+            {
+                SelectedRailway = null;
+                return null;
+            }
 
-            foreach (var railway in ProvinceManager.SelectedProvince.railways)
+            var product = p.ForEachRailway((railway) =>
             {
                 if (railway.IsOnRailway(point))
                 {
                     SelectedRailway = railway;
-                    return SelectedRailway;
+                    return railway;
                 }
-            }
+                return null;
+            });
 
-            return SelectedRailway;
+            return product;
         }
 
         public static Railway SelectRMBRailway(Point2D point)
         {
-            if (ProvinceManager.RMBProvince == null) RMBRailway = null;
+            if (!ProvinceManager.TryGetProvince(point, out Province p))
+            {
+                RMBRailway = null;
+                return null;
+            }
 
-            foreach (var railway in ProvinceManager.RMBProvince.railways)
+            var result = p.ForEachRailway((railway) =>
             {
                 if (railway.IsOnRailway(point))
                 {
                     RMBRailway = railway;
-                    return RMBRailway;
+                    return railway;
                 }
-            }
+                return null;
+            });
 
-            return RMBRailway;
+            return result;
         }
 
         public static bool SelectSupplyNode(Point2D point)
         {
-            if (
-                ProvinceManager.SelectedProvince == null ||
-                ProvinceManager.SelectedProvince.supplyNode == null
-                )
-            {
+            if (ProvinceManager.SelectedProvince == null || ProvinceManager.SelectedProvince.SupplyNode == null)
                 return false;
-            }
 
             double distance = ProvinceManager.SelectedProvince.center.GetDistanceTo(point);
 
             if (distance <= 18f / MapManager.zoomFactor / 1000f)
             {
-                SelectedSupplyNode = ProvinceManager.SelectedProvince.supplyNode;
+                SelectedSupplyNode = ProvinceManager.SelectedProvince.SupplyNode;
                 return true;
             }
 
@@ -210,7 +215,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         public static SupplyNode CreateSupplyNode(byte level, Province province)
         {
             if (province == null) return null;
-            if (province.supplyNode != null) return null;
+            if (province.SupplyNode != null) return null;
             if (province.TypeId != 0) return null;
             return new SupplyNode(level, province);
         }
@@ -258,7 +263,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
                 level = byte.Parse(data[0]);
                 ProvinceManager.TryGetProvince(ushort.Parse(data[1]), out Province province);
-                if (province != null && province.supplyNode == null)
+                if (province != null && province.SupplyNode == null)
                 {
                     AddSupplyNode(new SupplyNode(level, province));
                 }

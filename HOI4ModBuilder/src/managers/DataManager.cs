@@ -8,8 +8,11 @@ using HOI4ModBuilder.src.hoiDataObjects.common.bookmarks;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.ideologies;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
+using HOI4ModBuilder.src.hoiDataObjects.common.units;
+using HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.history.units.oobs;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.utils;
 using System;
@@ -44,6 +47,9 @@ namespace HOI4ModBuilder.managers
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_DEFINITION, () => ProvinceManager.Load(settings)),
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_STATES, () => StateManager.Load(settings)),
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_REGIONS, () => StrategicRegionManager.Load(settings)),
+                //new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_UNITS, () => SubUnitManager.Load(settings)),
+                //new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_DIVISION_NAMES_GROUPS, () => DivisionNamesGroupManager.Load(settings)),
+                //new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_OOBS, () => OOBManager.Load(settings)),
             };
 
             MainForm.ExecuteActions(actions);

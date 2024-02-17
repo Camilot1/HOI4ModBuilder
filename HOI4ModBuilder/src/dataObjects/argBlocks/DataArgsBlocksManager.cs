@@ -270,7 +270,7 @@ namespace HOI4ModBuilder.src.dataObjects
 
             bool canAcceptVars = false;
             bool hasParsedValue = false;
-            bool valueIsName = parser.CurrentToken == LexerToken.Quote;
+            bool valueIsName = parser.CurrentValueIsName;
 
             foreach (var allowedType in allowedTypes)
             {

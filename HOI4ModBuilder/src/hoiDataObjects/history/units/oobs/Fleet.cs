@@ -43,7 +43,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         private Province _navalBase;
         public Province NavalBase { get => _navalBase; set => Utils.Setter(ref _navalBase, ref value, ref _needToSave); }
 
-        private List<FleetTaskForce> _taskForces = new List<FleetTaskForce>();
+        private List<FleetTaskForce> _taskForces;
 
         public bool Save(StringBuilder sb, string outTab, string tab)
         {
@@ -59,7 +59,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
         {
-            Logger.WrapTokenCallbackExceptions(BLOCK_NAME, () =>
+            Logger.WrapTokenCallbackExceptions($"{BLOCK_NAME} ({TOKEN_NAME} = \"{_name}\")", () =>
             {
                 if (token == TOKEN_NAME)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _name, parser.ReadString());
@@ -71,7 +71,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _navalBase, newProvince);
                 }
                 else if (token == FleetTaskForce.BLOCK_NAME)
-                    Logger.ParseLayeredListedValue(prevLayer, token, _taskForces, parser, new FleetTaskForce());
+                    Logger.ParseLayeredListedValue(prevLayer, token, ref _taskForces, parser, new FleetTaskForce());
                 else throw new UnknownTokenException(token);
             });
         }
@@ -80,10 +80,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         {
             bool result = true;
 
+            var currentLayer = new LinkedLayer(prevLayer, $"({TOKEN_NAME} = \"{_name}\")");
+
             CheckAndLogUnit.WARNINGS
                 .HasMandatory(ref result, prevLayer, TOKEN_NAME, ref _name)
-                .HasMandatory(ref result, prevLayer, TOKEN_NAVAL_BASE, ref _navalBase);
-            //TODO add check for _taskForce.Count == 0
+                .HasMandatory(ref result, currentLayer, TOKEN_NAVAL_BASE, ref _navalBase)
+                .Check(
+                    ref result, currentLayer,
+                    _taskForces != null && _taskForces.Count > 0,
+                    EnumLocKey.FLEET_MUST_HAVE_AT_LEAST_ONE_TASK_FORCE
+                );
 
             return result;
         }
@@ -92,6 +98,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
     class FleetTaskForce : IParadoxObject
     {
         public static readonly string BLOCK_NAME = "task_force";
+
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
 
         public bool _needToSave;
         public bool NeedToSave
@@ -132,12 +143,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 else if (token == TOKEN_LOCATION)
                 {
                     var provinceId = parser.ReadUInt16();
-                    if (!ProvinceManager.TryGetProvince(provinceId, out Province newProvince))
-                        Logger.WrapException(token, new ProvinceNotFoundException(provinceId));
-                    Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _location, newProvince);
+                    if (ProvinceManager.TryGetProvince(provinceId, out Province newProvince))
+                        Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _location, newProvince);
+                    else
+                        Logger.LogLayeredError(
+                            prevLayer, token, EnumLocKey.PROVINCE_NOT_FOUND,
+                            new Dictionary<string, string> { { "{provinceId}", "" + provinceId } }
+                        );
                 }
                 else if (token == TaskForceShip.BLOCK_NAME)
-                    Logger.ParseLayeredListedValue(prevLayer, token, _ships, parser, new TaskForceShip());
+                    Logger.ParseLayeredListedValue(prevLayer, token, ref _ships, parser, new TaskForceShip());
                 else throw new UnknownTokenException(token);
             });
         }
@@ -146,25 +161,59 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         {
             bool result = true;
 
+            var currentLayer = new LinkedLayer(prevLayer, $"({TOKEN_NAME} = \"{_name}\")");
+
             CheckAndLogUnit.WARNINGS
                 .HasMandatory(ref result, prevLayer, TOKEN_NAME, ref _name)
-                .HasMandatory(ref result, prevLayer, TOKEN_LOCATION, ref _location);
-            //TODO add check for _ships.Count == 0
+                .HasMandatory(ref result, prevLayer, TOKEN_LOCATION, ref _location)
+                .Check(
+                    ref result, currentLayer,
+                    _ships != null && _ships.Count > 0,
+                    EnumLocKey.TASK_FORCE_MUST_HAVE_AT_LEAST_ONE_SHIP
+                );
 
             return result;
         }
+    }
+
+
+    class TaskForceShipBase
+    {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
+        private bool _needToSave;
+        public bool NeedToSave => _needToSave;
+
+        private bool _hasChangedName;
+        public bool HasChangedName { get => _hasChangedName; }
+        private string _name;
+        public string Name { get => _name; set => Utils.Setter(ref _name, ref value, ref _needToSave, ref _hasChangedName); }
+
+        private List<TaskForceShip> _taskForceShips = new List<TaskForceShip>();
     }
 
     class TaskForceShip : IParadoxObject
     {
         public static readonly string BLOCK_NAME = "ship";
 
-        public bool _needToSave;
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
+        private bool _needToSave;
         public bool NeedToSave => _needToSave || _equipmentVariant != null && _equipmentVariant.NeedToSave;
 
+        private TaskForceShipBase _taskForceShipBase;
+
         private static readonly string TOKEN_NAME = "name";
+        private bool _hasChangedName;
+        public bool HasChangedName { get => _hasChangedName; }
         private string _name;
-        public string Name { get => _name; set => Utils.Setter(ref _name, ref value, ref _needToSave); }
+        public string Name { get => _name; set => Utils.Setter(ref _name, ref value, ref _needToSave, ref _hasChangedName); }
 
         private static readonly string TOKEN_DEFINITION = "definition";
         private string _definition; //TODO implement naval subunit using
@@ -234,7 +283,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             get
             {
                 if (_needToSave) return true;
-
+                if (_owner != null && _owner.HasChangedTag) return true;
                 return false;
             }
         }
@@ -296,9 +345,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             else if (token == TOKEN_OWNER)
             {
                 var value = parser.ReadString();
-                if (!CountryManager.TryGetCountry(value, out Country country))
-                    Logger.WrapException(token, new CountryNotFoundException(value));
-                Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _owner, country);
+                if (CountryManager.TryGetCountry(value, out Country country))
+                    Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _owner, country);
+                else
+                    Logger.LogLayeredError(
+                        prevLayer, token, EnumLocKey.COUNTRY_NOT_FOUND,
+                        new Dictionary<string, string> { { "{countryTag}", value } }
+                    );
             }
             else if (token == TOKEN_VERSION_NAME)
                 Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _versionName, parser.ReadString());
