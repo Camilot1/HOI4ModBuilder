@@ -32,6 +32,8 @@ namespace HOI4ModBuilder.src.managers
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckProvincesXCrosses()),
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckDividedProvinces()),
 
+                new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckProvincesBordersLimit()),
+
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckProvincesTerrains()),
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckProvincesContinents()),
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckProvincesCoastalMismatches()),
@@ -232,6 +234,20 @@ namespace HOI4ModBuilder.src.managers
                 //sea, lake
                 else if (p.Type != EnumProvinceType.LAND && (sum > 339 || max > 127))
                     AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_WRONG_COLOR);
+            }
+        }
+
+        private static void CheckProvincesBordersLimit()
+        {
+            if (!CheckFilter(EnumMapErrorCode.PROVINCE_HAS_MORE_THAN_8_BORDERS)) return;
+
+            foreach (var p in ProvinceManager.GetProvinces())
+            {
+                if (p.borders.Count > 8)
+                {
+                    AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_HAS_MORE_THAN_8_BORDERS);
+                    Logger.Log($"province {p.Id} has {p.borders.Count} borders");
+                }
             }
         }
 
@@ -716,6 +732,7 @@ namespace HOI4ModBuilder.src.managers
         PROVINCE_WRONG_COLOR, //Слишком тёмный цвет наземной или слишком яркий цвет водной провинции
         PROVINCE_X_CROSS, //4 граничащих пикселя имеют разные цвета
         PROVINCE_DIVIDED, //Провинция разделена на несколько отдельных областей
+        PROVINCE_HAS_MORE_THAN_8_BORDERS, //У провинции слишком много границ с другими провинциями
         PROVINCE_CONTINENT_ID_NOT_EXISTS, //
         PROVINCE_WITH_NO_TERRAIN, //
         PROVINCE_COASTAL_MISMATCH, //Некорректная прибрежность провинции
