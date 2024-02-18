@@ -498,6 +498,10 @@ namespace HOI4ModBuilder.managers
 
             for (int i = 0; i < pixelCount; i++)
             {
+                //Вычисляем координаты пикселя
+                x = i % width;
+                y = i / width;
+
                 color = values[i];
                 //Если совпадает ли цвет пикселя с цветом предыдущего
                 if (color != prevColor)
@@ -515,8 +519,9 @@ namespace HOI4ModBuilder.managers
                         Logger.LogSingleMessage(
                             EnumLocKey.SINGLE_MESSAGE_NEW_PROVINCE_WITH_COLOR_WAS_CREATED,
                             new Dictionary<string, string> {
-                                { "provinceId", $"{province.Id}" },
-                                { "{color}", new Color3B(color).ToString() }
+                                { "{provinceId}", $"{province.Id}" },
+                                { "{color}", new Color3B(color).ToString() },
+                                { "{position}", $"{x}; {y}" },
                             }
                         );
                     }
@@ -524,10 +529,6 @@ namespace HOI4ModBuilder.managers
                     //Устанавливаем предыдущий цвет
                     prevColor = color;
                 }
-
-                //Вычисляем координаты пикселя
-                x = i % width;
-                y = i / width;
                 //Добавляем пиксель в учёт центральной координаты провинции
 
                 province?.AddPixel(x, y);

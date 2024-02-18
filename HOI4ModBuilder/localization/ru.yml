@@ -97,7 +97,7 @@ MERGE_PROVINCES_TOOL_LAST_PROVINCE_HAS_VICTORY_POINTS: "Провинция с н
 TOOL_CAN_JOIN_RAILWAYS_BUT_THEY_HAS_DIFFERENT_LEVELS_SHOULD_I_COUNTINUE: "Вы пытаетесь объединить две дороги разных уровней ({firstRailwayLevel} и {secondRailwayLevel}). \n\nВы уверены, что хотите продолжить и установить для итоговой дороги уровень {newRailwayLevel}?"
 
 STATE_NOT_FOUND_BY_ID: "Область с id = {stateId} не найдена."
-SINGLE_MESSAGE_NEW_PROVINCE_WITH_COLOR_WAS_CREATED: "Создана новая провинция с id = {provinceId} и цветом {color}"
+SINGLE_MESSAGE_NEW_PROVINCE_WITH_COLOR_WAS_CREATED: "Создана новая провинция с id = {provinceId} и цветом {color} у пикселя ({position})"
 SINGLE_MESSAGE_SEARCH_POSITION_INCORRECT_SEPARATOR: "Некорректно указаны координаты искомой точки. Между координатами X и Y должен присутствовать один из разрешённых символов-разделителей: {allowedSeparators}"
 SINGLE_MESSAGE_SEARCH_POSITION_INCORRECT_COORDS: "Некорректно указаны координаты искомой точки. Проверьте формат записи координат X и Y."
 

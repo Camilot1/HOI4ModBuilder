@@ -92,7 +92,7 @@ MERGE_PROVINCES_TOOL_LAST_PROVINCE_HAS_VICTORY_POINTS: "The province with the hi
 TOOL_CAN_JOIN_RAILWAYS_BUT_THEY_HAS_DIFFERENT_LEVELS_SHOULD_I_COUNTINUE: "You have tried to join 2 railways with different levels ({firstRailwayLevel} and {secondRailwayLevel}). \n\nAre you sure you want to continue and set the result railway's level to {newRailwayLevel}?"
 
 SINGLE_MESSAGE_STATE_NOT_FOUND_BY_ID: "The state with id = {stateId} not found."
-SINGLE_MESSAGE_NEW_PROVINCE_WITH_COLOR_WAS_CREATED: "The new province with id = {provinceId} and {color} was created"
+SINGLE_MESSAGE_NEW_PROVINCE_WITH_COLOR_WAS_CREATED: "The new province with id = {provinceId} and {color} at the pixel ({position}) was created"
 SINGLE_MESSAGE_SEARCH_POSITION_INCORRECT_SEPARATOR: "The coordinates of the point are incorrect. One of the allowed delimiter characters must be present between X and Y coordinates: {allowedSeparators}"
 SINGLE_MESSAGE_SEARCH_POSITION_INCORRECT_COORDS: "The coordinates of the point are incorrect. Check the format of X and Y values."
 
