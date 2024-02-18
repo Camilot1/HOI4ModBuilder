@@ -234,9 +234,6 @@
   <data name="СomboBox_MapMainLayer.Items17" xml:space="preserve">
     <value>None</value>
   </data>
-  <data name="СomboBox_MapMainLayer.Items18" xml:space="preserve">
-    <value>Нет</value>
-  </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Main layer</value>
   </data>
@@ -553,26 +550,14 @@
   <data name="TabPage_Map.Text" xml:space="preserve">
     <value>Map</value>
   </data>
-  <data name="TabPage_Buildings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1376, 951</value>
-  </data>
   <data name="TabPage_Buildings.Text" xml:space="preserve">
     <value>Buildings</value>
-  </data>
-  <data name="TabPage_Resources.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1376, 951</value>
   </data>
   <data name="TabPage_Resources.Text" xml:space="preserve">
     <value>Resources</value>
   </data>
-  <data name="TabPage_Localization.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1376, 951</value>
-  </data>
   <data name="TabPage_Localization.Text" xml:space="preserve">
     <value>Localization</value>
-  </data>
-  <data name="TabPage_Home.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1376, 951</value>
   </data>
   <data name="TabPage_Home.Text" xml:space="preserve">
     <value>Home</value>
@@ -837,6 +822,12 @@
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents.Text" xml:space="preserve">
     <value>Remove continents from lakes and seas</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates.Size" type="System.Drawing.Size, System.Drawing">
+    <value>282, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates.Text" xml:space="preserve">
+    <value>Remove sea provinces from states</value>
   </data>
   <data name="toolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
     <value>279, 6</value>

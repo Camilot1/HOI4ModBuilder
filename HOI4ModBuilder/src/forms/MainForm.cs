@@ -1492,6 +1492,15 @@ namespace HOI4ModBuilder
             });
         }
 
+        private void ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates_Click(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                ProvinceManager.AutoToolRemoveSeaProvincesFromStates();
+                MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
+            });
+        }
+
         public void SetAdjacencyRules(Dictionary<string, AdjacencyRule>.KeyCollection rules)
         {
             Logger.TryOrLog(() =>
