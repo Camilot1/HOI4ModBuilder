@@ -566,7 +566,7 @@ namespace HOI4ModBuilder
 
                     if (_riverColorsMap.ContainsKey(color))
                         outputValues[i / _32bppArgb.bytesPerPixel] = _riverColorsMap[color];
-                    else if (ProvinceManager.TryGetProvince(provinceColor, out Province province) && province.TypeId != 0)
+                    else if (ProvinceManager.TryGetProvince(provinceColor, out Province province) && province.Type != EnumProvinceType.LAND)
                         outputValues[i / _32bppArgb.bytesPerPixel] = 254;
                     else
                         outputValues[i / _32bppArgb.bytesPerPixel] = 255;

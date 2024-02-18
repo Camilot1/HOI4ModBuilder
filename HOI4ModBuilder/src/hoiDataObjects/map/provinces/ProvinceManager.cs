@@ -408,25 +408,16 @@ namespace HOI4ModBuilder.managers
                         );
                     }
 
-                    byte typeId = 0;
-                    switch (values[4])
-                    {
-                        case "land": typeId = 0; break;
-                        case "sea": typeId = 1; break;
-                        case "lake": typeId = 2; break;
-                        default:
-                            Logger.LogError(
-                                EnumLocKey.ERROR_PROVINCE_INCORRECT_TYPE_VALUE,
-                                new Dictionary<string, string>
-                                {
+                    if (!Enum.TryParse(values[4].ToUpper(), out EnumProvinceType type))
+                        Logger.LogError(
+                            EnumLocKey.ERROR_PROVINCE_INCORRECT_TYPE_VALUE,
+                            new Dictionary<string, string>
+                            {
                                     { "{lineIndex}", $"{i}" },
                                     { "{provinceId}", $"{id}" },
                                     { "{provinceType}", $"{values[4]}" }
-                                }
-                            );
-                            typeId = 0;
-                            break;
-                    }
+                            }
+                        );
 
                     if (!bool.TryParse(values[5], out bool isCoastal))
                     {
@@ -468,7 +459,7 @@ namespace HOI4ModBuilder.managers
                             );
                     }
 
-                    var province = new Province(id, color, typeId, isCoastal, terrain, continentId);
+                    var province = new Province(id, color, type, isCoastal, terrain, continentId);
                     _provincesById.Add(id, province);
                     _provincesByColor.Add(color, province);
                 }
@@ -677,7 +668,7 @@ namespace HOI4ModBuilder.managers
         public static void AutoToolRemoveSeaAndLakesContinents()
         {
             foreach (var p in _provincesById.Values)
-                if (p.TypeId != 0) p.ContinentId = 0;
+                if (p.Type != EnumProvinceType.LAND) p.ContinentId = 0;
         }
 
         public static void GetMinMaxVictoryPoints(out uint min, out uint max)

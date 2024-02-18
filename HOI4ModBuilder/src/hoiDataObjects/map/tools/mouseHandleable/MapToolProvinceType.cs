@@ -22,41 +22,35 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         {
             if (enumEditLayer != EnumEditLayer.PROVINCES) return;
 
-            byte newTypeId = 0;
-            switch (parameter)
-            {
-                case "land": newTypeId = 0; break;
-                case "sea": newTypeId = 1; break;
-                case "lake": newTypeId = 2; break;
-            }
+            Enum.TryParse(parameter.ToUpper(), out EnumProvinceType newType);
 
             if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
             ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province);
-            byte prevTypeId = province.TypeId;
+            var prevType = province.Type;
 
-            if (buttons == MouseButtons.Left && newTypeId != prevTypeId && province != null)
+            if (buttons == MouseButtons.Left && newType != prevType && province != null)
             {
-                Action<byte> action = (t) =>
+                void action(EnumProvinceType type)
                 {
-                    province.TypeId = t;
+                    province.Type = type;
                     MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
-                };
+                }
 
-                action(newTypeId);
-                MapManager.actionPairs.Add(new ActionPair(() => action(prevTypeId), () => action(newTypeId)));
+                action(newType);
+                MapManager.actionPairs.Add(new ActionPair(() => action(prevType), () => action(newType)));
             }
             else if (buttons == MouseButtons.Right && province != null)
             {
                 int prevSelectedIndex = MainForm.Instance.ComboBox_Tool_Parameter.SelectedIndex;
-                int newSelectedIndex = province.TypeId;
+                int newSelectedIndex = (int)province.Type;
 
                 if (prevSelectedIndex == newSelectedIndex) return;
 
-                Action<int> action = (i) =>
+                void action(int i)
                 {
                     MainForm.Instance.ComboBox_Tool_Parameter.SelectedIndex = i;
                     MainForm.Instance.ComboBox_Tool_Parameter.Refresh();
-                };
+                }
                 action(newSelectedIndex);
                 MapManager.actionPairs.Add(new ActionPair(() => action(prevSelectedIndex), () => action(newSelectedIndex)));
             }

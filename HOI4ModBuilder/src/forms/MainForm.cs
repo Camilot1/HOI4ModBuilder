@@ -959,23 +959,16 @@ namespace HOI4ModBuilder
         {
             if (ProvinceManager.RMBProvince != null && isMapMainLayerChangeEnabled)
             {
-                byte prevTypeId = ProvinceManager.RMBProvince.TypeId;
-                byte newTypeId = 0;
+                var prevType = ProvinceManager.RMBProvince.Type;
+                Enum.TryParse(ToolStripComboBox_Map_Province_Type.Text.ToUpper(), out EnumProvinceType newType);
 
-                switch (ToolStripComboBox_Map_Province_Type.Text)
+                void action(EnumProvinceType type)
                 {
-                    case "land": newTypeId = 0; break;
-                    case "sea": newTypeId = 1; break;
-                    case "lake": newTypeId = 2; break;
-                }
-
-                void action(byte typeId)
-                {
-                    ProvinceManager.RMBProvince.TypeId = typeId;
+                    ProvinceManager.RMBProvince.Type = type;
                     MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
                 }
 
-                MapManager.ActionHistory.Add(() => action(prevTypeId), () => action(newTypeId));
+                MapManager.ActionHistory.Add(() => action(prevType), () => action(newType));
             }
         }
 
@@ -1064,11 +1057,18 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                if (ProvinceManager.SelectedProvince == null || ProvinceManager.RMBProvince == null || ProvinceManager.SelectedProvince.TypeId != 0 || ProvinceManager.RMBProvince.TypeId != 0)
+                if (
+                    ProvinceManager.SelectedProvince == null || ProvinceManager.RMBProvince == null ||
+                    ProvinceManager.SelectedProvince.Type != EnumProvinceType.LAND || ProvinceManager.RMBProvince.Type != EnumProvinceType.LAND
+                    )
                     ToolStripMenuItem_Map_Railway_Create.Enabled = false;
-                else if (ProvinceManager.SelectedProvince.HasBorderWith(ProvinceManager.RMBProvince) || ProvinceManager.SelectedProvince.HasSeaConnectionWith(ProvinceManager.RMBProvince))
+                else if (
+                    ProvinceManager.SelectedProvince.HasBorderWith(ProvinceManager.RMBProvince) ||
+                    ProvinceManager.SelectedProvince.HasSeaConnectionWith(ProvinceManager.RMBProvince)
+                    )
                     ToolStripMenuItem_Map_Railway_Create.Enabled = true;
-                else ToolStripMenuItem_Map_Railway_Create.Enabled = false;
+                else
+                    ToolStripMenuItem_Map_Railway_Create.Enabled = false;
 
                 if (SupplyManager.SelectedRailway != null)
                 {
@@ -1161,7 +1161,7 @@ namespace HOI4ModBuilder
             {
                 if (ProvinceManager.RMBProvince != null)
                 {
-                    ToolStripMenuItem_Map_SupplyHub_Create.Enabled = ProvinceManager.RMBProvince.SupplyNode == null && ProvinceManager.RMBProvince.TypeId == 0;
+                    ToolStripMenuItem_Map_SupplyHub_Create.Enabled = ProvinceManager.RMBProvince.SupplyNode == null && ProvinceManager.RMBProvince.Type == EnumProvinceType.LAND;
                     ToolStripMenuItem_Map_SupplyHub_Remove.Enabled = ProvinceManager.RMBProvince.SupplyNode != null;
                 }
             });

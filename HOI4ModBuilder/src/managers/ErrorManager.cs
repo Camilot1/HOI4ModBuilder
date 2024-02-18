@@ -226,10 +226,10 @@ namespace HOI4ModBuilder.src.managers
 
                 //TODO Переделать: добавить поддержку кастомных условий
                 //land
-                if (p.TypeId == 0 && sum < 340)
+                if (p.Type == EnumProvinceType.LAND && sum < 340)
                     AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_WRONG_COLOR);
                 //sea, lake
-                else if (p.TypeId != 0 && (sum > 339 || max > 127))
+                else if (p.Type != EnumProvinceType.LAND && (sum > 339 || max > 127))
                     AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_WRONG_COLOR);
             }
         }
@@ -276,7 +276,7 @@ namespace HOI4ModBuilder.src.managers
 
             foreach (var p in ProvinceManager.GetProvinces())
             {
-                if (p.TypeId == 2 && p.HasBorderWithTypeId(1))
+                if (p.Type == EnumProvinceType.LAKE && p.HasBorderWithTypeId(EnumProvinceType.SEA))
                     AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_BORDERS_MISMATCH);
             }
         }
@@ -287,7 +287,7 @@ namespace HOI4ModBuilder.src.managers
 
             foreach (var p in ProvinceManager.GetProvinces())
             {
-                if (p.TypeId == 0 && p.State == null)
+                if (p.Type == EnumProvinceType.LAND && p.State == null)
                     AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_LAND_WITH_NO_STATE);
             }
         }
@@ -391,7 +391,7 @@ namespace HOI4ModBuilder.src.managers
             foreach (var p in ProvinceManager.GetProvinces())
             {
                 //Пропускаем не наземные провинции
-                if (p.TypeId != 0) continue;
+                if (p.Type != EnumProvinceType.LAND) continue;
 
                 foreach (var b in p.borders)
                 {
@@ -399,7 +399,7 @@ namespace HOI4ModBuilder.src.managers
                     if (b.provinceA.Id == p.Id)
                     {
                         //Если соседняя провинция не land, то переходим к следующей границе
-                        if (b.provinceB.TypeId != 0) continue;
+                        if (b.provinceB.Type != EnumProvinceType.LAND) continue;
 
                         //Получаем id соседней провинции
                         borderProvinceId = b.provinceB.Id;
@@ -414,7 +414,7 @@ namespace HOI4ModBuilder.src.managers
                     else //Иначе текущая провинция является провинцией B в границе
                     {
                         //Если соседняя провинция не land, то переходим к следующей границе
-                        if (b.provinceA.TypeId != 0) continue;
+                        if (b.provinceA.Type != EnumProvinceType.LAND) continue;
 
                         //Получаем id соседней провинции
                         borderProvinceId = b.provinceA.Id;
@@ -454,11 +454,11 @@ namespace HOI4ModBuilder.src.managers
                 byte height = heightPixels[i];
                 if (p != null)
                 {
-                    byte typeId = p.TypeId;
+                    var type = p.Type;
                     float x = i % width + 0.5f;
                     float y = i / width + 0.5f;
 
-                    if (typeId == 0 && height <= waterLevel || typeId != 0 && height >= waterLevel)
+                    if (type == EnumProvinceType.LAND && height <= waterLevel || type != EnumProvinceType.LAND && height >= waterLevel)
                         AddErrorInfo(x, y, EnumMapErrorCode.HEIGHTMAP_MISMATCH);
                 }
             }
@@ -709,6 +709,7 @@ namespace HOI4ModBuilder.src.managers
         PROVINCE_COASTAL_MISMATCH, //Некорректная прибрежность провинции
         PROVINCE_BORDERS_MISMATCH, //Некорректный тип соседних провинций
         PROVINCE_LAND_WITH_NO_STATE, //Наземная провинция без области
+        PROVINCE_SEA_WITH_STATE, //Морская провинция в области
         PROVINCE_WITH_NO_REGION, //Провинция без страт. региона
         PROVINCE_MULTI_STATES, //Провинция находится в нескольких областях
         PROVINCE_MULTI_REGIONS, //Провинция находится в нескольких страт. регионах

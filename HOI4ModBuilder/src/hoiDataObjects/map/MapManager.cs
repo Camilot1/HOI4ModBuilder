@@ -407,50 +407,65 @@ namespace HOI4ModBuilder.managers
                 case EnumMainLayer.COUNTRIES:
                     func = (p) =>
                     {
-                        byte typeId = p.TypeId;
+                        var type = p.Type;
                         //Проверка на sea провинции
-                        if (typeId == 1)
+                        if (type == EnumProvinceType.SEA)
                         {
-                            if (p.State == null) return Utils.ArgbToInt(255, 0, 0, 255);
-                            else return Utils.ArgbToInt(255, 0, 0, 0);
+                            if (p.State == null)
+                                return Utils.ArgbToInt(255, 0, 0, 255);
+                            else
+                                return Utils.ArgbToInt(255, 0, 0, 0);
                         }
-                        else if (typeId == 2) return Utils.ArgbToInt(255, 0, 255, 255);
-                        else if (p.State == null || (p.State.owner == null && p.State.controller == null)) return Utils.ArgbToInt(255, 0, 0, 0);
-                        else if (p.State.controller != null) return p.State.controller.color;
+                        else if (type == EnumProvinceType.LAKE)
+                            return Utils.ArgbToInt(255, 0, 255, 255);
+                        else if (p.State == null || (p.State.owner == null && p.State.controller == null))
+                            return Utils.ArgbToInt(255, 0, 0, 0);
+                        else if (p.State.controller != null)
+                            return p.State.controller.color;
                         else return p.State.owner.color;
                     };
                     break;
                 case EnumMainLayer.PROVINCE_TYPES:
                     func = (p) =>
                     {
-                        byte typeId = p.TypeId;
+                        var type = p.Type;
                         bool isCoastal = p.IsCoastal;
-                        if (typeId == 0)
+                        if (type == EnumProvinceType.LAND)
                         {
-                            if (isCoastal) return Utils.ArgbToInt(255, 127, 127, 0);
-                            else return Utils.ArgbToInt(255, 0, 127, 0);
+                            if (isCoastal)
+                                return Utils.ArgbToInt(255, 127, 127, 0);
+                            else
+                                return Utils.ArgbToInt(255, 0, 127, 0);
                         }
-                        else if (typeId == 1)
+                        else if (type == EnumProvinceType.SEA)
                         {
-                            if (isCoastal) return Utils.ArgbToInt(255, 127, 0, 127);
-                            else return Utils.ArgbToInt(255, 0, 0, 127);
+                            if (isCoastal)
+                                return Utils.ArgbToInt(255, 127, 0, 127);
+                            else
+                                return Utils.ArgbToInt(255, 0, 0, 127);
                         }
-                        else if (typeId == 2) return Utils.ArgbToInt(255, 127, 255, 255);
-                        else return Utils.ArgbToInt(255, 0, 0, 0);
+                        else if (type == EnumProvinceType.LAKE)
+                            return Utils.ArgbToInt(255, 127, 255, 255);
+                        else
+                            return Utils.ArgbToInt(255, 0, 0, 0);
                     };
                     break;
                 case EnumMainLayer.PROVINCES_TERRAIN:
                     func = (p) =>
                     {
-                        if (p.Terrain == null) return Utils.ArgbToInt(255, 0, 0, 0);
-                        else return p.Terrain.color;
+                        if (p.Terrain == null)
+                            return Utils.ArgbToInt(255, 0, 0, 0);
+                        else
+                            return p.Terrain.color;
                     };
                     break;
                 case EnumMainLayer.REGIONS_TERRAIN:
                     func = (p) =>
                     {
-                        if (p.Region == null || p.Region.Terrain == null) return Utils.ArgbToInt(255, 0, 0, 0);
-                        else return p.Region.Terrain.color;
+                        if (p.Region == null || p.Region.Terrain == null)
+                            return Utils.ArgbToInt(255, 0, 0, 0);
+                        else
+                            return p.Region.Terrain.color;
                     };
                     break;
                 case EnumMainLayer.CONTINENTS:
@@ -462,16 +477,21 @@ namespace HOI4ModBuilder.managers
 
                     func = (p) =>
                     {
-                        byte typeId = p.TypeId;
+                        var type = p.Type;
                         //Проверка на sea провинции
-                        if (typeId == 1)
+                        if (type == EnumProvinceType.SEA)
                         {
-                            if (p.State == null) return Utils.ArgbToInt(255, 0, 0, 255);
-                            else return Utils.ArgbToInt(255, 255, 0, 255);
+                            if (p.State == null)
+                                return Utils.ArgbToInt(255, 0, 0, 255);
+                            else
+                                return Utils.ArgbToInt(255, 255, 0, 255);
                         }
-                        else if (typeId == 2) return Utils.ArgbToInt(255, 127, 255, 255);
-                        else if (p.State == null) return Utils.ArgbToInt(255, 255, 0, 0);
-                        else if (p.State.manpower < 1) return Utils.ArgbToInt(255, 255, 106, 0);
+                        else if (type == EnumProvinceType.LAKE)
+                            return Utils.ArgbToInt(255, 127, 255, 255);
+                        else if (p.State == null)
+                            return Utils.ArgbToInt(255, 255, 0, 0);
+                        else if (p.State.manpower < 1)
+                            return Utils.ArgbToInt(255, 255, 106, 0);
 
                         byte value = (byte)(255 * p.State.manpower / maxManpower);
                         return Utils.ArgbToInt(255, value, value, value);
@@ -483,12 +503,14 @@ namespace HOI4ModBuilder.managers
 
                     func = (p) =>
                     {
-                        byte typeId = p.TypeId;
+                        var type = p.Type;
                         //Проверка на sea провинции
-                        if (typeId == 1)
+                        if (type == EnumProvinceType.SEA)
                         {
-                            if (p.State == null) Utils.ArgbToInt(255, 0, 0, 255);
-                            else return Utils.ArgbToInt(255, 255, 0, 255);
+                            if (p.State == null)
+                                return Utils.ArgbToInt(255, 0, 0, 255);
+                            else
+                                return Utils.ArgbToInt(255, 255, 0, 255);
                         }
 
                         byte value = (byte)(255 * p.victoryPoints / maxVictoryPoints);
@@ -498,9 +520,12 @@ namespace HOI4ModBuilder.managers
                 case EnumMainLayer.STATE_CATEGORIES:
                     func = (p) =>
                     {
-                        if (p.State == null) return Utils.ArgbToInt(255, 0, 0, 0);
-                        else if (p.State.startStateCategory == null) return Utils.ArgbToInt(255, 255, 0, 0);
-                        else return p.State.startStateCategory.color;
+                        if (p.State == null)
+                            return Utils.ArgbToInt(255, 0, 0, 0);
+                        else if (p.State.startStateCategory == null)
+                            return Utils.ArgbToInt(255, 255, 0, 0);
+                        else
+                            return p.State.startStateCategory.color;
                     };
                     break;
                 case EnumMainLayer.BUILDINGS:
@@ -512,15 +537,18 @@ namespace HOI4ModBuilder.managers
                         {
                             func = (p) =>
                             {
-                                byte typeId = p.TypeId;
-                                if (typeId == 1) Utils.ArgbToInt(255, 0, 0, 127);
-                                else if (typeId == 2) Utils.ArgbToInt(255, 127, 255, 255);
+                                var type = p.Type;
+                                if (type == EnumProvinceType.SEA)
+                                    return Utils.ArgbToInt(255, 0, 0, 127);
+                                else if (type == EnumProvinceType.LAKE)
+                                    return Utils.ArgbToInt(255, 127, 255, 255);
 
                                 if (!p.TryGetBuildingCount(building, out count))
                                     return Utils.ArgbToInt(255, 0, 0, 0);
 
                                 float factor = count / (float)building.maxLevel;
-                                if (factor > 1) return Utils.ArgbToInt(255, 255, 0, 0);
+                                if (factor > 1)
+                                    return Utils.ArgbToInt(255, 255, 0, 0);
                                 else
                                 {
                                     byte value = (byte)(255 * factor);
@@ -534,23 +562,25 @@ namespace HOI4ModBuilder.managers
                             foreach (State state in StateManager.GetStates())
                             {
                                 if (state.stateBuildings.TryGetValue(building, out uint max))
-                                {
                                     if (max > maxCount) maxCount = max;
-                                }
                             }
 
                             func = (p) =>
                             {
-                                byte typeId = p.TypeId;
-                                if (typeId == 1) return Utils.ArgbToInt(255, 0, 0, 127);
-                                else if (typeId == 2) return Utils.ArgbToInt(255, 127, 255, 255);
-                                else if (p.State == null) return Utils.ArgbToInt(255, 0, 0, 0);
+                                var type = p.Type;
+                                if (type == EnumProvinceType.SEA)
+                                    return Utils.ArgbToInt(255, 0, 0, 127);
+                                else if (type == EnumProvinceType.LAKE)
+                                    return Utils.ArgbToInt(255, 127, 255, 255);
+                                else if (p.State == null)
+                                    return Utils.ArgbToInt(255, 0, 0, 0);
                                 else
                                 {
                                     p.State.stateBuildings.TryGetValue(building, out count);
 
                                     float factor = count / (float)maxCount;
-                                    if (factor > 1) return Utils.ArgbToInt(255, 255, 0, 0);
+                                    if (factor > 1)
+                                        return Utils.ArgbToInt(255, 255, 0, 0);
                                     else
                                     {
                                         byte value = (byte)(255 * factor);
@@ -563,16 +593,20 @@ namespace HOI4ModBuilder.managers
                         {
                             func = (p) =>
                             {
-                                byte typeId = p.TypeId;
-                                if (typeId == 1) return Utils.ArgbToInt(255, 0, 0, 127);
-                                else if (typeId == 2) return Utils.ArgbToInt(255, 127, 255, 255);
-                                else if (p.State == null) return Utils.ArgbToInt(255, 0, 0, 0);
+                                var type = p.Type;
+                                if (type == EnumProvinceType.SEA)
+                                    return Utils.ArgbToInt(255, 0, 0, 127);
+                                else if (type == EnumProvinceType.LAKE)
+                                    return Utils.ArgbToInt(255, 127, 255, 255);
+                                else if (p.State == null)
+                                    return Utils.ArgbToInt(255, 0, 0, 0);
                                 else
                                 {
                                     p.State.stateBuildings.TryGetValue(building, out count);
 
                                     float factor = count / (float)building.maxLevel;
-                                    if (factor > 1) return Utils.ArgbToInt(255, 255, 0, 0);
+                                    if (factor > 1)
+                                        return Utils.ArgbToInt(255, 255, 0, 0);
                                     else
                                     {
                                         byte value = (byte)(255 * factor);
@@ -584,10 +618,13 @@ namespace HOI4ModBuilder.managers
                     }
                     else func = (p) =>
                     {
-                        byte typeId = p.TypeId;
-                        if (typeId == 1) return Utils.ArgbToInt(255, 0, 0, 127);
-                        else if (typeId == 2) return Utils.ArgbToInt(255, 127, 255, 255);
-                        else return Utils.ArgbToInt(255, 0, 0, 0);
+                        var type = p.Type;
+                        if (type == EnumProvinceType.SEA)
+                            return Utils.ArgbToInt(255, 0, 0, 127);
+                        else if (type == EnumProvinceType.LAKE)
+                            return Utils.ArgbToInt(255, 127, 255, 255);
+                        else
+                            return Utils.ArgbToInt(255, 0, 0, 0);
                     };
                     break;
 

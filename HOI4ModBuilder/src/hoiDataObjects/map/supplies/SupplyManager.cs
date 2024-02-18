@@ -216,7 +216,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         {
             if (province == null) return null;
             if (province.SupplyNode != null) return null;
-            if (province.TypeId != 0) return null;
+            if (province.Type != EnumProvinceType.LAND) return null;
             return new SupplyNode(level, province);
         }
 

@@ -8,12 +8,18 @@ using HOI4ModBuilder.src.hoiDataObjects.map.supply;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
 {
+    enum EnumProvinceType
+    {
+        LAND,
+        SEA,
+        LAKE
+    }
+
     class Province : IComparable<Province>
     {
         private readonly int _hashCode = NextHashCode;
@@ -82,18 +88,20 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             }
         }
 
-        private byte _typeId;
-        public byte TypeId
+        private EnumProvinceType _type;
+        public EnumProvinceType Type
         {
-            get => _typeId;
+            get => _type;
             set
             {
-                if (_typeId == value) return;
+                if (_type == value) return;
 
-                _typeId = value;
+                _type = value;
                 ProvinceManager.NeedToSave = true;
             }
         }
+        public string GetTypeString() => _type.ToString().ToLower();
+
         private bool _isCoastal;
         public bool IsCoastal
         {
@@ -294,12 +302,12 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             _color = color;
         }
 
-        public Province(ushort id, int color, byte typeId, bool isCoastal, ProvincialTerrain terrain, byte continentId)
+        public Province(ushort id, int color, EnumProvinceType type, bool isCoastal, ProvincialTerrain terrain, byte continentId)
         {
             _id = id;
             _color = color;
             _isCoastal = isCoastal;
-            _typeId = typeId;
+            _type = type;
             _terrain = terrain;
             _continentId = continentId;
         }
@@ -328,39 +336,18 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             sb.Append(_continentId).Append(Constants.NEW_LINE);
         }
 
-        public string GetTypeString()
-        {
-            switch (_typeId)
-            {
-                case 0: return "land";
-                case 1: return "sea";
-                case 2: return "lake";
-                default:
-                    throw new Exception(GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_PROVINCE_INCORRECT_TYPE_ID,
-                        new Dictionary<string, string>
-                        {
-                            { "{provinceId}", $"{_id}" },
-                            { "{typeId}", $"{_typeId}" }
-                        }
-                    ));
-            }
-        }
-
         public bool CheckCoastalType()
         {
-            //sea (id = 1)
-            if (_typeId == 1) return HasBorderWithOtherThanThisTypeId(1);
-            //land or lakes (id = 0 or id = 2)
-            else return HasBorderWithTypeId(1);
+            if (_type == EnumProvinceType.SEA) return HasBorderWithOtherThanThisTypeId(EnumProvinceType.SEA);
+            else return HasBorderWithTypeId(EnumProvinceType.SEA);
         }
 
-        public bool HasBorderWithOtherThanThisTypeId(byte otherTypeId)
+        public bool HasBorderWithOtherThanThisTypeId(EnumProvinceType otherType)
         {
             foreach (var b in borders)
             {
-                if (_id != b.provinceA._id && b.provinceA.TypeId != otherTypeId ||
-                    _id != b.provinceB._id && b.provinceB.TypeId != otherTypeId)
+                if (_id != b.provinceA._id && b.provinceA.Type != otherType ||
+                    _id != b.provinceB._id && b.provinceB.Type != otherType)
                 {
                     return true;
                 }
@@ -368,12 +355,12 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return false;
         }
 
-        public bool HasBorderWithTypeId(byte otherTypeId)
+        public bool HasBorderWithTypeId(EnumProvinceType otherType)
         {
             foreach (var b in borders)
             {
-                if (_id != b.provinceA._id && b.provinceA.TypeId == otherTypeId ||
-                    _id != b.provinceB._id && b.provinceB.TypeId == otherTypeId)
+                if (_id != b.provinceA._id && b.provinceA.Type == otherType ||
+                    _id != b.provinceB._id && b.provinceB.Type == otherType)
                 {
                     return true;
                 }

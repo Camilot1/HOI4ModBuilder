@@ -82,23 +82,32 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public bool CanAddProvince(Province p)
         {
-            if (p == null || p.TypeId != 0 || _provinces.Count < 2) return false;
-            else if ((_provinces[0].HasBorderWith(p) || _provinces[0].HasSeaConnectionWith(p)) && !p.ContainsRailway(this)) return true;
-            else if ((_provinces[_provinces.Count - 1].HasBorderWith(p) || _provinces[_provinces.Count - 1].HasSeaConnectionWith(p)) && !p.ContainsRailway(this)) return true;
-            else return false;
+            if (p == null || p.Type != EnumProvinceType.LAND || _provinces.Count < 2)
+                return false;
+            else if ((_provinces[0].HasBorderWith(p) || _provinces[0].HasSeaConnectionWith(p)) && !p.ContainsRailway(this))
+                return true;
+            else if ((_provinces[_provinces.Count - 1].HasBorderWith(p) || _provinces[_provinces.Count - 1].HasSeaConnectionWith(p)) && !p.ContainsRailway(this))
+                return true;
+            else
+                return false;
         }
 
         public bool CanRemoveProvince(Province p)
         {
-            if (p == null || _provinces.Count < 3) return false;
-            else if (_provinces[0].Id == p.Id) return true;
-            else if (_provinces[_provinces.Count - 1].Id == p.Id) return true;
-            else return false;
+            if (p == null || _provinces.Count < 3)
+                return false;
+            else if (_provinces[0].Id == p.Id)
+                return true;
+            else if (_provinces[_provinces.Count - 1].Id == p.Id)
+                return true;
+            else
+                return false;
         }
 
         public bool TryAddProvince(Province p)
         {
-            if (_provinces.Count < 2 || p.TypeId != 0) return false;
+            if (_provinces.Count < 2 || p.Type != EnumProvinceType.LAND)
+                return false;
 
             if ((_provinces[0].HasBorderWith(p) || _provinces[0].HasSeaConnectionWith(p)) && !p.ContainsRailway(this))
             {

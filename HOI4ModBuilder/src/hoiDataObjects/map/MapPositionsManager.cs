@@ -133,7 +133,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
         private static void CalculateUnitStacks(List<UnitStackLine> list, Province p)
         {
             ushort id = p.Id;
-            byte type = p.TypeId;
+            EnumProvinceType type = p.Type;
             float x = p.center.x;
             float y = p.center.y;
             float radians = 0;
@@ -148,7 +148,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
             var borders = new List<ProvinceBorder>(p.borders);
             borders.OrderBy(o => o.center.y).ThenBy(o => o.center.x);
 
-            if (type != 2)
+            if (type != EnumProvinceType.LAKE)
             {
                 for (int i = 0; i < 8 && i < borders.Count; i++)
                 {
@@ -175,7 +175,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
             x = p.center.x + 0.4f * value;
             list.Add(new UnitStackLine(id, 10, x, GetY(x, y), y, -1.57f, offset));
 
-            if (type == 1) //Если sea
+            if (type == EnumProvinceType.SEA) //Если sea
             {
                 //disembark
                 //ship in port
