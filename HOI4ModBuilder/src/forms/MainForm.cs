@@ -79,7 +79,7 @@ namespace HOI4ModBuilder
         private void Init()
         {
             InitializeComponent();
-            Text = Text + $" [{Logger.version}]";
+            Text += $" [{Logger.version}]";
 
             if (glControl == null)
             {
@@ -331,6 +331,8 @@ namespace HOI4ModBuilder
 
                             ResumeGLControl();
                             if (ToolStripComboBox_Data_Bookmark.Items.Count > 0) ToolStripComboBox_Data_Bookmark.SelectedIndex = 0;
+                            UpdateSelectedTool();
+                            UpdateBordersType();
                             MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
                             //MapManager.LoadSDFThings();
 
@@ -679,7 +681,9 @@ namespace HOI4ModBuilder
             });
         }
 
-        private void ComboBox_Tool_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox_Tool_SelectedIndexChanged(object sender, EventArgs e) => UpdateSelectedTool();
+
+        private void UpdateSelectedTool()
         {
             Logger.TryOrLog(() =>
             {
@@ -1224,7 +1228,9 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Save_Maps_Cities_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => TextureManager.SaveCitiesMap());
 
-        private void ComboBox_BordersType_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox_BordersType_SelectedIndexChanged(object sender, EventArgs e) => UpdateBordersType();
+
+        private void UpdateBordersType()
         {
             Logger.TryOrLog(() =>
             {
