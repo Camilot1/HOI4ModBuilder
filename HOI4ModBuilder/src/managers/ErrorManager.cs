@@ -37,6 +37,7 @@ namespace HOI4ModBuilder.src.managers
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckProvincesCoastalMismatches()),
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckProvincesBordersMismatches()),
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckLandProvincesWithNoStates()),
+                new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckSeaProvincesWithStates()),
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckProvincesWithNoRegion()),
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckProvincesWithMultiStates()),
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckProvincesWithMultiRegions()),
@@ -289,6 +290,17 @@ namespace HOI4ModBuilder.src.managers
             {
                 if (p.Type == EnumProvinceType.LAND && p.State == null)
                     AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_LAND_WITH_NO_STATE);
+            }
+        }
+
+        private static void CheckSeaProvincesWithStates()
+        {
+            if (!CheckFilter(EnumMapErrorCode.PROVINCE_SEA_WITH_STATE)) return;
+
+            foreach (var p in ProvinceManager.GetProvinces())
+            {
+                if (p.Type == EnumProvinceType.SEA && p.State != null)
+                    AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_SEA_WITH_STATE);
             }
         }
 
