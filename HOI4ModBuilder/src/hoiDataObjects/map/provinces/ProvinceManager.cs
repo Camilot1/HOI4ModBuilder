@@ -671,6 +671,12 @@ namespace HOI4ModBuilder.managers
                 if (p.Type != EnumProvinceType.LAND) p.ContinentId = 0;
         }
 
+        public static void AutoToolRemoveSeaProvincesFromStates()
+        {
+            foreach (var p in _provincesById.Values)
+                if (p.Type == EnumProvinceType.SEA && p.State != null) p.State.RemoveProvince(p);
+        }
+
         public static void GetMinMaxVictoryPoints(out uint min, out uint max)
         {
             min = 0;
