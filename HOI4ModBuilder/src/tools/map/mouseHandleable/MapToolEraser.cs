@@ -2,9 +2,6 @@
 using HOI4ModBuilder.src.managers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
@@ -22,7 +19,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             MainForm.SubscribeTabKeyEvent(
                 MainForm.Instance.TabPage_Map,
                 Keys.E,
-                (sender, e) => MainForm.Instance.SetSelectedTool(enumTool)
+                (sender, e) =>
+                {
+                    if (e.Control || e.Shift || e.Alt) return;
+                    MainForm.Instance.SetSelectedTool(enumTool);
+                }
             );
         }
 

@@ -15,11 +15,11 @@ namespace HOI4ModBuilder.src.managers
         {
             MainForm.SubscribeGlobalKeyEvent(Keys.Z, (sender, e) =>
             {
-                if (e.Modifiers == Keys.Control) Undo();
+                if (e.Control && !(e.Shift || e.Alt)) Undo();
             });
             MainForm.SubscribeGlobalKeyEvent(Keys.Y, (sender, e) =>
             {
-                if (e.Modifiers == Keys.Control) Redo();
+                if (e.Control && !(e.Shift || e.Alt)) Redo();
             });
         }
 
@@ -27,11 +27,11 @@ namespace HOI4ModBuilder.src.managers
         {
             MainForm.SubscribeTabKeyEvent(tabPage, Keys.Z, (sender, e) =>
             {
-                if (e.Modifiers == Keys.Control) Undo();
+                if (e.Control && !(e.Shift || e.Alt)) Undo();
             });
             MainForm.SubscribeTabKeyEvent(tabPage, Keys.Y, (sender, e) =>
             {
-                if (e.Modifiers == Keys.Control) Redo();
+                if (e.Control && !(e.Shift || e.Alt)) Redo();
             });
         }
 

@@ -19,6 +19,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 Keys.S,
                 (sender, e) =>
                 {
+                    if (e.Control || e.Shift || e.Alt) return;
                     EnumTool currentTool = MainForm.Instance.SelectedTool;
                     if (e.Modifiers != Keys.Control && currentTool < EnumTool.RECTANGLE || currentTool > EnumTool.MAGIC_WAND)
                         MainForm.Instance.SetSelectedTool(enumTool);

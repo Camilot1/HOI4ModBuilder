@@ -20,7 +20,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             MainForm.SubscribeTabKeyEvent(
                 MainForm.Instance.TabPage_Map,
                 Keys.K,
-                (sender, e) => MainForm.Instance.SetSelectedTool(enumTool)
+                (sender, e) =>
+                {
+                    if (e.Control || e.Shift || e.Alt) return;
+                    MainForm.Instance.SetSelectedTool(enumTool);
+                }
             );
         }
 

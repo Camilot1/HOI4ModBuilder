@@ -215,9 +215,9 @@ namespace HOI4ModBuilder
                         EnumLocKey.PROGRESSBAR_SAVED,
                         new Dictionary<string, string>
                         {
-                                        { "{warningsCount}", $"{Logger.WarningsCount}" },
-                                        { "{errorsCount}", $"{Logger.ErrorsCount}" },
-                                        { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
+                            { "{warningsCount}", $"{Logger.WarningsCount}" },
+                            { "{errorsCount}", $"{Logger.ErrorsCount}" },
+                            { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
                         },
                         0
                     );
@@ -232,9 +232,9 @@ namespace HOI4ModBuilder
                         EnumLocKey.PROGRESSBAR_SAVING_FAILED,
                         new Dictionary<string, string>
                         {
-                                        { "{warningsCount}", $"{Logger.WarningsCount}" },
-                                        { "{errorsCount}", $"{Logger.ErrorsCount}" },
-                                        { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
+                            { "{warningsCount}", $"{Logger.WarningsCount}" },
+                            { "{errorsCount}", $"{Logger.ErrorsCount}" },
+                            { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
                         },
                         0
                     );
