@@ -27,14 +27,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.supply
 
         public bool AddToProvince()
         {
-            if (province != null)
-            {
-                if (province.SupplyNode != null) return false;
-                province.SupplyNode = this;
-                SupplyManager.NeedToSaveSupplyNodes = true;
-                return true;
-            }
-            return false;
+            if (!CanAddToProvince()) return false;
+
+            province.SupplyNode = this;
+            SupplyManager.NeedToSaveSupplyNodes = true;
+            return true;
+        }
+
+        public static bool CanAddToProvince(Province province)
+        {
+            if (province == null || province.Type != EnumProvinceType.LAND || province.SupplyNode != null) return false;
+            return true;
+        }
+
+        public bool CanAddToProvince()
+        {
+            return CanAddToProvince(province);
         }
 
         public bool RemoveFromProvince()

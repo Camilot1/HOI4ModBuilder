@@ -1,5 +1,4 @@
 ﻿using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src.managers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -57,19 +56,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             if (buttons == MouseButtons.Left)
             {
                 prevColor = MainForm.Instance.GetBrushFirstColor().ToArgb();
-
                 action = (c) => MainForm.Instance.SetBrushFirstColor(Color.FromArgb(c));
 
-                action(newColor);
-                MapManager.actionPairs.Add(new ActionPair(() => action(prevColor), () => action(newColor)));
+                MapManager.ActionsBatch.AddWithExecute(
+                    () => action(newColor),
+                    () => action(prevColor)
+                );
             }
             else if (buttons == MouseButtons.Right)
             {
-                prevColor = MainForm.Instance.GetBrushSecondColor().ToArgb(); ;
-
+                prevColor = MainForm.Instance.GetBrushSecondColor().ToArgb();
                 action = (c) => MainForm.Instance.SetBrushSecondColor(Color.FromArgb(c));
-                action(newColor);
-                MapManager.actionPairs.Add(new ActionPair(() => action(prevColor), () => action(newColor)));
+
+                MapManager.ActionsBatch.AddWithExecute(
+                    () => action(newColor),
+                    () => action(prevColor)
+                );
             }
         }
     }

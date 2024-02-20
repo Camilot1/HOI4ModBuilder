@@ -17,7 +17,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
         public override int GetHashCode() => _hashCode;
 
-        public byte Level { get; private set; }
+        private byte _level;
+        public byte Level
+        {
+            get => _level;
+            set
+            {
+                if (_level == value) return;
+
+                _level = value;
+                SupplyManager.NeedToSaveRailways = true;
+            }
+        }
         private List<Province> _provinces;
 
         public Railway(byte level, Province p0, Province p1)
@@ -40,13 +51,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         {
             foreach (Province province in _provinces)
                 GL.Vertex2(province.center.x, province.center.y);
-        }
-
-        public void UpdateLevel(byte level)
-        {
-            if (Level == level) return;
-            Level = level;
-            SupplyManager.NeedToSaveRailways = true;
         }
 
         public int ProvincesCount => _provinces.Count;
@@ -144,18 +148,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public bool CanSplitAtProvince(Province province, out int provinceIndex)
         {
-            provinceIndex = 0;
-            if (province == null) return false;
+            provinceIndex = -1;
+            if (province == null || !TryGetProvinceIndex(province, out provinceIndex)) return false;
+            return (provinceIndex > 0 && provinceIndex < _provinces.Count - 1);
+        }
 
+        public bool TryGetProvinceIndex(Province province, out int provinceIndex)
+        {
             for (int i = 0; i < _provinces.Count; i++)
+            {
                 if (_provinces[i].Id == province.Id)
                 {
-                    if (i == 0 || i == _provinces.Count - 1) return false;
-
                     provinceIndex = i;
                     return true;
                 }
+            }
 
+            provinceIndex = -1;
             return false;
         }
 

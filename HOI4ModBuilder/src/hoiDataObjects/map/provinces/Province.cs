@@ -202,6 +202,36 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return null;
         }
 
+        public bool HasDirectRailwayConnectionWith(Province p)
+        {
+            if (p == null || Id == p.Id) return false;
+            if (GetRailwaysCount() == 0 || p.GetRailwaysCount() == 0) return false;
+
+            foreach (var railway in _railways)
+            {
+                if (!p.ContainsRailway(railway)) continue;
+
+                if (!railway.TryGetProvinceIndex(this, out int thisProvinceIndex)) return false;
+
+                return
+                    thisProvinceIndex > 0 && railway.GetProvince(thisProvinceIndex - 1).Id == p.Id ||
+                    thisProvinceIndex < railway.ProvincesCount - 1 && railway.GetProvince(thisProvinceIndex + 1).Id == p.Id;
+            }
+
+            return false;
+        }
+
+        public bool HasRailwayConnectionWith(Province p)
+        {
+            if (p == null || Id == p.Id) return false;
+            if (GetRailwaysCount() == 0 || p.GetRailwaysCount() == 0) return false;
+
+            foreach (var railway in _railways)
+                if (p.ContainsRailway(railway)) return true;
+
+            return false;
+        }
+
         private List<Adjacency> _adjacencies;
         public int GetAdjacenciesCount()
         {

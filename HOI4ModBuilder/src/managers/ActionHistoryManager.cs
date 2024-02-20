@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.exceptions;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -8,8 +9,8 @@ namespace HOI4ModBuilder.src.managers
     class ActionHistoryManager
     {
         private bool prevRedo;
-        private static int _currentPair = -1;
-        private static List<ActionPair> _history = new List<ActionPair>();
+        private int _currentPair = -1;
+        private List<ActionPair> _history = new List<ActionPair>();
 
         public ActionHistoryManager()
         {
@@ -35,25 +36,18 @@ namespace HOI4ModBuilder.src.managers
             });
         }
 
-        public void Add(Action undoAction, Action redoAction)
-        {
-            Add(new ActionPair(undoAction, redoAction), false);
-        }
+        public void Add(Action redoAction, Action undoAction)
+            => Add(new ActionPair(redoAction, undoAction), false);
 
-        public void SilentAdd(Action undoAction, Action redoAction)
-        {
-            Add(new ActionPair(undoAction, redoAction), true);
-        }
+        public void SilentAdd(Action redoAction, Action undoAction)
+            => Add(new ActionPair(redoAction, undoAction), true);
 
-        public void Add(ActionPair pair, bool isSilent)
+        private void Add(ActionPair pair, bool isSilent)
         {
             Logger.TryOrLog(() =>
             {
-                //TODO FIX После ctrl+z и добавления нового действия ломается очередь
                 if (_currentPair >= 0 && _currentPair < _history.Count)
-                {
                     _history.RemoveRange(_currentPair + 1, _history.Count - _currentPair - 1);
-                }
 
                 _history.Add(pair);
                 if (!isSilent) pair.redo();
@@ -92,16 +86,61 @@ namespace HOI4ModBuilder.src.managers
             _currentPair = -1;
             _history.Clear();
         }
-    }
 
-    class ActionPair
-    {
-        public Action undo, redo;
+        public ActionsBatch CreateNewActionBatch() => new ActionsBatch(this);
 
-        public ActionPair(Action undo, Action redo)
+        public class ActionsBatch
         {
-            this.undo = undo;
-            this.redo = redo;
+            private readonly ActionHistoryManager _manager;
+            private readonly List<ActionPair> _pairs;
+
+            public bool Enabled { get; set; }
+
+            public ActionsBatch(ActionHistoryManager manager)
+            {
+                _manager = manager;
+                _pairs = new List<ActionPair>();
+            }
+
+            public void AddWithExecute(Action redo, Action undo)
+            {
+                if (Enabled)
+                {
+                    redo();
+                    _pairs.Add(new ActionPair(redo, undo));
+                }
+            }
+            public void Add(Action redo, Action undo)
+            {
+                if (Enabled)
+                {
+                    _pairs.Add(new ActionPair(redo, undo));
+                }
+            }
+
+            public void Execute()
+            {
+                if (_pairs.Count == 0) return;
+
+                var list = new List<ActionPair>(_pairs);
+                _manager.Add(
+                    () => list.ForEach(pair => pair.redo()),
+                    () => list.ForEach(pair => pair.undo())
+                );
+                _pairs.Clear();
+                _pairs.Capacity = 0;
+            }
+        }
+
+        class ActionPair
+        {
+            public Action redo, undo;
+
+            public ActionPair(Action redo, Action undo)
+            {
+                this.redo = redo;
+                this.undo = undo;
+            }
         }
     }
 }

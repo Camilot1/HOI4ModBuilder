@@ -21,11 +21,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
-using HOI4ModBuilder.hoiDataObjects.common.terrain;
 using HOI4ModBuilder.src.openTK.text;
 using System.Drawing.Imaging;
 using System.Drawing;
-using YamlDotNet.Core.Tokens;
+using static HOI4ModBuilder.src.managers.ActionHistoryManager;
 
 namespace HOI4ModBuilder.managers
 {
@@ -54,15 +53,15 @@ namespace HOI4ModBuilder.managers
         public static double zoomFactor = 0.0004f;
         public static double mapDifX, mapDifY;
 
-        public static List<ActionPair> actionPairs = null;
-
         public static bool isHandlingMapMainLayerChange = false;
 
         public static ActionHistoryManager ActionHistory { get; private set; }
+        public static ActionsBatch ActionsBatch { get; private set; }
 
         public static void Init()
         {
             ActionHistory = new ActionHistoryManager(MainForm.Instance.TabPage_Map);
+            ActionsBatch = ActionHistory.CreateNewActionBatch();
 
             MapToolsManager.Init();
             SupplyManager.Init();
@@ -758,7 +757,7 @@ namespace HOI4ModBuilder.managers
             _mousePrevPoint = pos;
             _mouseState = EnumMouseState.DOWN;
 
-            if (enumTool != EnumTool.CURSOR) actionPairs = new List<ActionPair>();
+            if (enumTool != EnumTool.CURSOR) ActionsBatch.Enabled = true;
 
             MapToolsManager.HandleTool(buttons, _mouseState, pos, enumEditLayer, enumTool, bounds, toolParameter);
 
@@ -773,15 +772,8 @@ namespace HOI4ModBuilder.managers
             var button = e.Button;
             _mouseState = EnumMouseState.UP;
 
-            if (actionPairs != null && actionPairs.Count > 0)
-            {
-                var list = new List<ActionPair>(actionPairs);
-                ActionHistory.Add(
-                    () => list.ForEach(pair => pair.undo()),
-                    () => list.ForEach(pair => pair.redo())
-                );
-            }
-            actionPairs = null;
+            ActionsBatch.Execute();
+            ActionsBatch.Enabled = false;
 
             if (enumTool == EnumTool.CURSOR) selectedTexturedPlane = null;
             if (button == MouseButtons.Middle) _isMapDragged = false;
@@ -804,7 +796,7 @@ namespace HOI4ModBuilder.managers
                 {
                     selectedTexturedPlane.Move(pos.x - _mousePrevPoint.x, pos.y - _mousePrevPoint.y);
                 }
-                else if (actionPairs != null && ((int)_mousePrevPoint.x != (int)pos.x || (int)_mousePrevPoint.y != (int)pos.y))
+                else if (ActionsBatch.Enabled && ((int)_mousePrevPoint.x != (int)pos.x || (int)_mousePrevPoint.y != (int)pos.y))
                 {
                     if (enumTool != EnumTool.BUILDINGS)
                         MapToolsManager.HandleTool(e.Button, _mouseState, pos, enumEditLayer, enumTool, bounds, toolParameter);

@@ -1,7 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
-using HOI4ModBuilder.src.managers;
 using System;
 using System.Collections.Generic;
 using static HOI4ModBuilder.utils.Enums;
@@ -37,8 +36,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                 };
 
-                action(prevRegion, newRegion);
-                MapManager.actionPairs.Add(new ActionPair(() => action(newRegion, prevRegion), () => action(prevRegion, newRegion)));
+                MapManager.ActionsBatch.AddWithExecute(
+                    () => action(prevRegion, newRegion),
+                    () => action(newRegion, prevRegion)
+                );
             }
             else if (buttons == MouseButtons.Right && province.Region != null)
             {

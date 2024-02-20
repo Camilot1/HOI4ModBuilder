@@ -9,6 +9,7 @@ using OpenTK.Graphics.OpenGL;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
+using HOI4ModBuilder.src.tools.map.advanced;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 {
@@ -26,7 +27,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public static void Init()
         {
-            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.Delete, (sender, e) => HandleDelete());
             MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.Escape, (sender, e) => HandleEscape());
         }
 
@@ -212,36 +212,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             return false;
         }
 
-        public static SupplyNode CreateSupplyNode(byte level, Province province)
-        {
-            if (province == null) return null;
-            if (province.SupplyNode != null) return null;
-            if (province.Type != EnumProvinceType.LAND) return null;
-            return new SupplyNode(level, province);
-        }
-
-        public static bool AddSupplyNode(SupplyNode node)
-        {
-            if (node == null) return false;
-            if (node.AddToProvince())
-            {
-                SupplyNodes.Add(node);
-                return true;
-            }
-            return false;
-        }
-
-        public static bool RemoveSupplyNode(SupplyNode node)
-        {
-            if (node == null) return false;
-            if (node.RemoveFromProvince())
-            {
-                SupplyNodes.Remove(node);
-                return true;
-            }
-            return false;
-        }
-
         private static void LoadSupplyNodes(string filePath)
         {
             string[] supplyNodesData = File.ReadAllLines(filePath);
@@ -263,10 +233,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
                 level = byte.Parse(data[0]);
                 ProvinceManager.TryGetProvince(ushort.Parse(data[1]), out Province province);
-                if (province != null && province.SupplyNode == null)
-                {
-                    AddSupplyNode(new SupplyNode(level, province));
-                }
+                var node = new SupplyNode(1, province);
+                if (node != null && node.AddToProvince()) SupplyNodes.Add(node);
             }
             NeedToSaveSupplyNodes = tempNeedToSave;
         }
@@ -305,7 +273,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                     }
                 }
 
-                RailwayTool.AddRailway(new Railway(level, provinces));
+                var railway = new Railway(level, provinces);
+                railway.AddToProvinces();
+                Railways.Add(railway);
             }
 
             NeedToSaveRailways = tempNeedToSave;
@@ -335,13 +305,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                 }
             }
             else if (button == MouseButtons.Right) SelectRMBRailway(pos);
-        }
-
-        private static void HandleDelete()
-        {
-            RailwayTool.RemoveRailway(SelectedRailway);
-
-            if (RemoveSupplyNode(SelectedSupplyNode)) SelectedSupplyNode = null;
         }
 
         private static void HandleEscape()

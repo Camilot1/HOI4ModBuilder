@@ -1,19 +1,28 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
 {
     class MergeProvincesTool
     {
+        public MergeProvincesTool()
+        {
+            MainForm.SubscribeTabKeyEvent(
+                MainForm.Instance.TabPage_Map,
+                Keys.M,
+                (sender, e) =>
+                {
+                    if (e.Control && !(e.Alt || e.Shift))
+                        MergeProvinces(ProvinceManager.SelectedProvince, ProvinceManager.RMBProvince);
+                }
+            );
+        }
+
         public static void MergeProvinces(Province main, Province second)
         {
             //Проверки на ошибки

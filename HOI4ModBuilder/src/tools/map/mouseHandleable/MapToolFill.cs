@@ -1,6 +1,5 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src.managers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -77,8 +76,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         TextureManager.provinces.RGBFill(MapManager.ProvincesPixels, positions, n);
                     };
 
-                    action(prevColor, newColor);
-                    MapManager.actionPairs.Add(new ActionPair(() => action(newColor, prevColor), () => action(prevColor, newColor)));
+                    MapManager.ActionsBatch.AddWithExecute(
+                        () => action(prevColor, newColor),
+                        () => action(newColor, prevColor)
+                    );
                     break;
             }
         }

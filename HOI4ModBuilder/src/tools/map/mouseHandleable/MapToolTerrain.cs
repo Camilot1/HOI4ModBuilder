@@ -57,8 +57,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     }
                     else return;
 
-                    action(newProvincialTerrain);
-                    MapManager.actionPairs.Add(new ActionPair(() => action(prevTerrain), () => action(newProvincialTerrain)));
+                    MapManager.ActionsBatch.AddWithExecute(
+                        () => action(newProvincialTerrain),
+                        () => action(prevTerrain)
+                    );
                 }
             }
             else if (buttons == MouseButtons.Right && province != null)
@@ -75,13 +77,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
                 if (prevTerrain == newTerrain) return;
 
-                Action<string> action = (t) =>
+                void action(string t)
                 {
                     MainForm.Instance.ComboBox_Tool_Parameter.Text = t;
                     MainForm.Instance.ComboBox_Tool_Parameter.Refresh();
-                };
-                action(newTerrain);
-                MapManager.actionPairs.Add(new ActionPair(() => action(prevTerrain), () => action(newTerrain)));
+                }
+
+                MapManager.ActionsBatch.AddWithExecute(
+                    () => action(newTerrain),
+                    () => action(prevTerrain)
+                );
             }
         }
     }

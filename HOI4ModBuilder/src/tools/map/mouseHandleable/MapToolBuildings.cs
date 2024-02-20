@@ -1,12 +1,8 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
-using HOI4ModBuilder.src.managers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
@@ -99,8 +95,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     };
                 }
 
-                action((uint)newCount);
-                MapManager.actionPairs.Add(new ActionPair(() => action(prevCount), () => action((uint)newCount)));
+                MapManager.ActionsBatch.AddWithExecute(
+                    () => action((uint)newCount),
+                    () => action(prevCount)
+                );
             }
             else return;
         }

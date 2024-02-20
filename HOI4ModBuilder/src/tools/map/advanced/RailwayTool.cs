@@ -1,18 +1,68 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
+using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
 {
     class RailwayTool
     {
+        public RailwayTool()
+        {
+            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.Delete, (sender, e) => RemoveRailway(SupplyManager.SelectedRailway));
+
+            MainForm.SubscribeTabKeyEvent(
+                MainForm.Instance.TabPage_Map,
+                Keys.R,
+                (sender, e) =>
+                {
+                    if (e.Control && !(e.Alt || e.Shift))
+                    {
+                        var railway = CreateRailway(
+                            MainForm.Instance.SelectedRailwayLevel,
+                            ProvinceManager.SelectedProvince,
+                            ProvinceManager.RMBProvince
+                        );
+                        if (railway != null) SupplyManager.SelectedRailway = railway;
+                    }
+                }
+            );
+
+            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.D1, (sender, e) => ChangeRailwayAction(e, 1));
+            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.D2, (sender, e) => ChangeRailwayAction(e, 2));
+            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.D3, (sender, e) => ChangeRailwayAction(e, 3));
+            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.D4, (sender, e) => ChangeRailwayAction(e, 4));
+            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.D5, (sender, e) => ChangeRailwayAction(e, 5));
+
+            void ChangeRailwayAction(KeyEventArgs e, byte value)
+            {
+                if (e.Control && !(e.Alt || e.Shift))
+                    MainForm.Instance.SelectedRailwayLevel = value;
+            }
+        }
+
+        public static Railway CreateRailway(byte level, Province start, Province end)
+        {
+            if (start == null || end == null || start.Id == end.Id ||
+                start.Type != EnumProvinceType.LAND || end.Type != EnumProvinceType.LAND ||
+                !(start.HasBorderWith(end) || start.HasSeaConnectionWith(end)) ||
+                start.HasDirectRailwayConnectionWith(end))
+            {
+                return null;
+            }
+
+            var railway = new Railway(level, start, end);
+            AddRailway(railway);
+            return railway;
+        }
+
         public static void AddRailway(Railway railway)
         {
             if (railway == null) return;
 
             MapManager.ActionHistory.Add(
-                () => RemoveRailwayAction(railway),
-                () => AddRailwayAction(railway)
+                () => AddRailwayAction(railway),
+                () => RemoveRailwayAction(railway)
             );
         }
 
@@ -30,8 +80,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             if (railway == null || !railway.CanAddProvince(province)) return;
 
             MapManager.ActionHistory.Add(
-                () => RemoveProvinceFromRailwayAction(railway, province),
-                () => AddProvinceToRailwayAction(railway, province)
+                () => AddProvinceToRailwayAction(railway, province),
+                () => RemoveProvinceFromRailwayAction(railway, province)
             );
         }
 
@@ -40,8 +90,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             if (railway == null || !railway.CanRemoveProvince(province)) return;
 
             MapManager.ActionHistory.Add(
-                () => AddProvinceToRailwayAction(railway, province),
-                () => RemoveProvinceFromRailwayAction(railway, province)
+                () => RemoveProvinceFromRailwayAction(railway, province),
+                () => AddProvinceToRailwayAction(railway, province)
             );
         }
 
@@ -49,13 +99,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
         {
             if (railway == null || province == null) return;
             railway.TryAddProvince(province);
-
         }
         private static void RemoveProvinceFromRailwayAction(Railway railway, Province province)
         {
             if (railway == null || province == null) return;
             railway.TryRemoveProvince(province);
-
         }
 
         public static void RemoveRailway(Railway railway)
@@ -63,8 +111,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             if (railway == null) return;
 
             MapManager.ActionHistory.Add(
-                () => AddRailwayAction(railway),
-                () => RemoveRailwayAction(railway)
+                () => RemoveRailwayAction(railway),
+                () => AddRailwayAction(railway)
             );
         }
 
@@ -91,8 +139,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             var railwayContainer = new Railway[] { secondRailway };
 
             MapManager.ActionHistory.Add(
-                () => SplitRailwayAction(firstRailway, joinProvince, railwayContainer),
-                () => JoinRailwaysAction(firstRailway, railwayContainer)
+                () => JoinRailwaysAction(firstRailway, railwayContainer),
+                () => SplitRailwayAction(firstRailway, joinProvince, railwayContainer)
             );
         }
         public static void SplitRailwayAtProvince(Railway firstRailway, Province province)
@@ -103,8 +151,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             var railwayContainer = new Railway[] { null };
 
             MapManager.ActionHistory.Add(
-                () => JoinRailwaysAction(firstRailway, railwayContainer),
-                () => SplitRailwayAction(firstRailway, province, railwayContainer)
+                () => SplitRailwayAction(firstRailway, province, railwayContainer),
+                () => JoinRailwaysAction(firstRailway, railwayContainer)
             );
         }
 
@@ -113,5 +161,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
 
         private static void SplitRailwayAction(Railway railway, Province province, Railway[] railwayContainer)
             => railway?.TrySplitAtProvince(province, railwayContainer);
+
+        public static void ChangeRailwayLevel(Railway railway, byte newLevel)
+        {
+            if (railway == null || railway.Level == newLevel) return;
+            byte prevLayer = railway.Level;
+
+            MapManager.ActionHistory.Add(
+                () => railway.Level = newLevel,
+                () => railway.Level = prevLayer
+            );
+        }
     }
 }

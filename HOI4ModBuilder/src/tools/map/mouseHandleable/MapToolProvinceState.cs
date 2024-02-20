@@ -1,7 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
-using HOI4ModBuilder.src.managers;
 using System;
 using System.Collections.Generic;
 using static HOI4ModBuilder.utils.Enums;
@@ -37,8 +36,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                 };
 
-                action(prevState, newState);
-                MapManager.actionPairs.Add(new ActionPair(() => action(newState, prevState), () => action(prevState, newState)));
+                MapManager.ActionsBatch.AddWithExecute(
+                    () => action(prevState, newState),
+                    () => action(newState, prevState)
+                );
             }
             else if (buttons == MouseButtons.Right && province != null && province.State != null)
             {

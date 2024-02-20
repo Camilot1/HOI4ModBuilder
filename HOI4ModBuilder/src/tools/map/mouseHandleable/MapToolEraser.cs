@@ -1,5 +1,4 @@
 ﻿using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src.managers;
 using System;
 using System.Collections.Generic;
 using static HOI4ModBuilder.utils.Enums;
@@ -75,8 +74,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (action != null)
             {
-                action(pos, newColor);
-                MapManager.actionPairs.Add(new ActionPair(() => action(pos, prevColor), () => action(pos, newColor)));
+                MapManager.ActionsBatch.AddWithExecute(
+                    () => action(pos, newColor),
+                    () => action(pos, prevColor)
+                );
             }
         }
     }

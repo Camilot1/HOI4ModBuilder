@@ -1,12 +1,8 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
-using HOI4ModBuilder.src.managers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
@@ -46,8 +42,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                 };
 
-                action(province.State, newCategory);
-                MapManager.actionPairs.Add(new ActionPair(() => action(province.State, prevCategory), () => action(province.State, newCategory)));
+                MapManager.ActionsBatch.AddWithExecute(
+                    () => action(province.State, newCategory),
+                    () => action(province.State, prevCategory)
+                );
             }
             else if (buttons == MouseButtons.Right)
             {

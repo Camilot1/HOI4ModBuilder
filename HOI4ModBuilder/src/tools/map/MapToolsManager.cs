@@ -4,6 +4,8 @@ using static HOI4ModBuilder.utils.Enums;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools;
 using System.Collections.Generic;
+using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
+using HOI4ModBuilder.src.tools.map.advanced;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map
 {
@@ -27,13 +29,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             new MapToolProvinceRegion(_mapTools);
             new MapToolStateCategory(_mapTools);
             new MapToolBuildings(_mapTools);
+
+            new MergeProvincesTool();
+            new RailwayTool();
+            new SupplyNodeTool();
         }
 
         public static void HandleTool(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, EnumTool enumTool, Bounds4US bounds, string toolParameter)
         {
             Logger.TryOrLog(() =>
             {
-                if (_mapTools.TryGetValue(enumTool, out IMouseHandleableMapTool mapTool)) 
+                if (_mapTools.TryGetValue(enumTool, out IMouseHandleableMapTool mapTool))
                     mapTool.Handle(buttons, mouseState, pos, enumEditLayer, bounds, toolParameter);
 
                 switch (enumTool)

@@ -1,6 +1,5 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src.managers;
 using System;
 using System.Collections.Generic;
 using static HOI4ModBuilder.utils.Enums;
@@ -36,8 +35,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                 }
 
-                action(newType);
-                MapManager.actionPairs.Add(new ActionPair(() => action(prevType), () => action(newType)));
+                MapManager.ActionsBatch.AddWithExecute(
+                    () => action(newType),
+                    () => action(prevType)
+                );
             }
             else if (buttons == MouseButtons.Right && province != null)
             {
@@ -51,8 +52,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     MainForm.Instance.ComboBox_Tool_Parameter.SelectedIndex = i;
                     MainForm.Instance.ComboBox_Tool_Parameter.Refresh();
                 }
-                action(newSelectedIndex);
-                MapManager.actionPairs.Add(new ActionPair(() => action(prevSelectedIndex), () => action(newSelectedIndex)));
+
+                MapManager.ActionsBatch.AddWithExecute(
+                    () => action(newSelectedIndex),
+                    () => action(prevSelectedIndex)
+                );
             }
         }
     }

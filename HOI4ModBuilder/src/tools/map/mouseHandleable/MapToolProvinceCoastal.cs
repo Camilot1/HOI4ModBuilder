@@ -1,6 +1,5 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src.managers;
 using System;
 using System.Collections.Generic;
 using static HOI4ModBuilder.utils.Enums;
@@ -47,8 +46,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                 };
 
-                action(newCoastal);
-                MapManager.actionPairs.Add(new ActionPair(() => action(prevCoastal), () => action(newCoastal)));
+                MapManager.ActionsBatch.AddWithExecute(
+                    () => action(newCoastal),
+                    () => action(prevCoastal)
+                );
             }
         }
     }

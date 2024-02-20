@@ -1,16 +1,12 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src.managers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.utils;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -123,8 +119,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (action != null)
             {
-                action(pos, newByte, newColor);
-                MapManager.actionPairs.Add(new ActionPair(() => action(pos, prevByte, prevColor), () => action(pos, newByte, newColor)));
+                MapManager.ActionsBatch.AddWithExecute(
+                    () => action(pos, newByte, newColor),
+                    () => action(pos, prevByte, prevColor)
+                );
             }
         }
     }
