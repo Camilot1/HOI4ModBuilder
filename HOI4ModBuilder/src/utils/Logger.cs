@@ -91,7 +91,7 @@ namespace HOI4ModBuilder.src.utils
             var newLayer = new LinkedLayer(prevLayer, newLayerName);
 
             T parsedValue = null;
-            WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject));
+            WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject, out bool _));
 
             if (oldValue != null)
                 LogLayeredWarning(newLayer, EnumLocKey.LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN);
@@ -103,14 +103,14 @@ namespace HOI4ModBuilder.src.utils
         {
             var newLayer = new LinkedLayer(prevLayer, newLayerName);
             T parsedValue = null;
-            WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject));
+            WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject, out bool _));
             value = parsedValue;
         }
 
         public static void ParseLayeredValue<T>(LinkedLayer prevLayer, string newLayerName, ParadoxParser parser, T newParseObject) where T : class, IParadoxObject
         {
             var newLayer = new LinkedLayer(prevLayer, newLayerName);
-            WrapTokenCallbackExceptions(newLayerName, () => parser.AdvancedParse(newLayer, newParseObject));
+            WrapTokenCallbackExceptions(newLayerName, () => parser.AdvancedParse(newLayer, newParseObject, out bool _));
         }
 
         public static void ParseNewLayeredValueOrContinueOld<T>(LinkedLayer prevLayer, string newLayerName, ref T value, ParadoxParser parser, T newParseObject) where T : class, IParadoxObject
@@ -118,7 +118,7 @@ namespace HOI4ModBuilder.src.utils
             var newLayer = new LinkedLayer(prevLayer, newLayerName);
             if (value != null) newParseObject = value;
             T parsedValue = null;
-            WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject));
+            WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject, out bool _));
             value = parsedValue;
         }
 
@@ -128,7 +128,7 @@ namespace HOI4ModBuilder.src.utils
 
             var newLayer = new LinkedLayer(prevLayer, newLayerName);
             T parsedValue = null;
-            WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject));
+            WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject, out bool _));
             list.Add(parsedValue);
 
         }

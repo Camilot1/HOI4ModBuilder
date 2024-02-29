@@ -177,7 +177,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
     }
 
 
-    class TaskForceShipBase
+    class TaskForceShipInstances
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
@@ -193,6 +193,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         public string Name { get => _name; set => Utils.Setter(ref _name, ref value, ref _needToSave, ref _hasChangedName); }
 
         private List<TaskForceShip> _taskForceShips = new List<TaskForceShip>();
+        public List<TaskForceShip> TaskForceShips { get => _taskForceShips; }
+
+        public List<LinkedLayer> requests = new List<LinkedLayer>();
+
+        public TaskForceShipInstances(string name)
+        {
+            _name = name;
+        }
     }
 
     class TaskForceShip : IParadoxObject
@@ -207,7 +215,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         private bool _needToSave;
         public bool NeedToSave => _needToSave || _equipmentVariant != null && _equipmentVariant.NeedToSave;
 
-        private TaskForceShipBase _taskForceShipBase;
+        private TaskForceShipInstances _taskForceShipInstances;
 
         private static readonly string TOKEN_NAME = "name";
         private bool _hasChangedName;
@@ -263,6 +271,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         public bool Validate(LinkedLayer prevLayer)
         {
             bool result = true;
+
+            _taskForceShipInstances = OOBManager.RequestTaskForceShipInstances(_name, null);
+            _taskForceShipInstances.TaskForceShips.Add(this);
 
             CheckAndLogUnit.WARNINGS
                 .HasMandatory(ref result, prevLayer, TOKEN_NAME, ref _name)

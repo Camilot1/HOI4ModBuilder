@@ -213,8 +213,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             bool result = true;
 
             CheckAndLogUnit.WARNINGS
-                .HasMandatory(ref result, prevLayer, TOKEN_IS_NAME_ORDERED, ref _isNameOrdered)
-                .HasMandatory(ref result, prevLayer, TOKEN_NAME_ORDER, ref _nameOrder);
+                .HasMandatory(ref result, prevLayer, TOKEN_IS_NAME_ORDERED, ref _isNameOrdered);
+                //.HasMandatory(ref result, prevLayer, TOKEN_NAME_ORDER, ref _nameOrder);
 
             return result;
         }

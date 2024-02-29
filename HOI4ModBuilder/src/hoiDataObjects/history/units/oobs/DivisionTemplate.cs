@@ -218,7 +218,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates
 
                     Logger.WrapTokenCallbackExceptions(token, () =>
                     {
-                        var coords = parser.AdvancedParse(prevLayer, new XYUshortCoordinates());
+                        var coords = parser.AdvancedParse(prevLayer, new XYUshortCoordinates(), out bool _);
                         var newInfo = new SubUnitInfo(subUnit, coords);
 
                         foreach (var info in _subUnits)

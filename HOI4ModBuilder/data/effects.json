@@ -1025,7 +1025,7 @@
   {
     "name": "set_state_name",
     "specificScopes": [ "STATE" ],
-    "allowedValueTypes": [ "NAME" ],
+    "allowedValueTypes": [ "LOC_KEY", "NAME" ],
     "defaultValueType": "NAME",
     "defaultValue": null
   },

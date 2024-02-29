@@ -236,9 +236,10 @@ namespace Pdoxcl2Sharp
             Parse(innerStructure.TokenCallback);
             return innerStructure;
         }
-        public T AdvancedParse<T>(LinkedLayer prevLayer, T innerStructure) where T : class, IParadoxObject
+        public T AdvancedParse<T>(LinkedLayer prevLayer, T innerStructure, out bool result) where T : class, IParadoxObject
         {
             AdvancedParse(prevLayer, innerStructure.TokenCallback);
+            result = innerStructure.Validate(prevLayer);
             return innerStructure;
         }
 

@@ -132,7 +132,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         public bool HasAnyInnerInfo => true;
 
         private Dictionary<State, AirWingsGroup> _stateAirWingsGroup = new Dictionary<State, AirWingsGroup>();
-        private Dictionary<TaskForceShip, AirWingsGroup> _carrierAirWingsGroup = new Dictionary<TaskForceShip, AirWingsGroup>();
+        private Dictionary<TaskForceShipInstances, AirWingsGroup> _carrierAirWingsGroup = new Dictionary<TaskForceShipInstances, AirWingsGroup>();
 
 
         public bool Save(StringBuilder sb, string outTab, string tab)
@@ -160,21 +160,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 }
                 else if (parser.CurrentValueIsName)
                 {
-                    /* TODO Implement
-                    if (!OOBManager.TryGetTaskForceShip(token, out TaskForceShip taskForceShip))
-                    {
-                        Logger.LogLayeredError(
-                            prevLayer, token, EnumLocKey.TASK_FORCE_SHIP_NOT_FOUND,
-                            new Dictionary<string, string> { { "{name}", token } }
-                        );
-                    }
-                    else
-                    {
-                        _carrierAirWingsGroup.TryGetValue(taskForceShip, out AirWingsGroup airWingsGroup);
-                        Logger.ParseNewLayeredValueOrContinueOld(prevLayer, token, ref airWingsGroup, parser, new AirWingsGroup(taskForceShip));
-                        _carrierAirWingsGroup[taskForceShip] = airWingsGroup;
-                    }
-                    */
+                    var taskForceShipIntances = OOBManager.RequestTaskForceShipInstances(token, prevLayer);
+                    _carrierAirWingsGroup.TryGetValue(taskForceShipIntances, out AirWingsGroup airWingsGroup);
+                    Logger.ParseNewLayeredValueOrContinueOld(prevLayer, token, ref airWingsGroup, parser, new AirWingsGroup(taskForceShipIntances));
+                    _carrierAirWingsGroup[taskForceShipIntances] = airWingsGroup;
                 }
                 else throw new UnknownTokenException(token);
             });
@@ -207,8 +196,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         private State _state;
         public State State { get => _state; set => Utils.Setter(ref _state, ref value, ref _needToSave); }
 
-        private TaskForceShip _carrier;
-        public TaskForceShip Carrier { get => _carrier; set => Utils.Setter(ref _carrier, ref value, ref _needToSave); }
+        private TaskForceShipInstances _carrier;
+        public TaskForceShipInstances Carrier { get => _carrier; set => Utils.Setter(ref _carrier, ref value, ref _needToSave); }
 
         private List<AirWing> _airWings;
         public List<AirWing> AirWings { get => _airWings; set => Utils.Setter(ref _airWings, ref value, ref _needToSave); }
@@ -220,7 +209,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             _state = state;
         }
 
-        public AirWingsGroup(TaskForceShip carrier)
+        public AirWingsGroup(TaskForceShipInstances carrier)
         {
             _carrier = carrier;
         }

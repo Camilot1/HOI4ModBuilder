@@ -300,8 +300,8 @@ PROVINCE_NOT_FOUND: "Провинция с Id = {provinceId} не найдена
 COUNTRY_NOT_FOUND: "Страна с тегом \"{countryTag}\" не найдена."
 DIVISION_NAMES_GROUP_NOT_FOUND: "Группа с названием дивизий \"{divisionNamesGroup}\" не найдена."
 
-ERROR_LAYERED_PREFIX: "В файле \"{filePath}\"} в блоке по пути \"{blockLayeredPath} обнаружена ошибка: "
-WARNING_LAYERED_PREFIX: "В файле \"{filePath}\" в блоке по пути \"{blockLayeredPath} обнаружено предупреждение: "
+ERROR_LAYERED_PREFIX: "В файле \"{filePath}\"} в блоке по пути \"{blockLayeredPath}\" обнаружена ошибка: "
+WARNING_LAYERED_PREFIX: "В файле \"{filePath}\" в блоке по пути \"{blockLayeredPath}\" обнаружено предупреждение: "
 
 SUB_UNIT_NOT_FOUND: "Саб-юнит с названием \"{name}\" не найден."
 SUB_UNITS_COORDINATES_OVERLAPPING: "У саб-юнитов \"{firstSubUnitName}\" и \"{secondSubUnitName}\" указаны совпадающие координаты \"{XY}\"."
@@ -321,4 +321,5 @@ PARAMETER_VALUE_IS_OUT_OF_RANGE: "Указанное значение парам
 DIVISION_TEMPLATE_MUST_HAVE_AT_LEAST_ONE_REGIMENT_OR_SUPPORT_SUB_UNIT: "Шаблон дивизии должен иметь хотя бы один саб-юнит в \"regiments\" или в \"support\"."
 FLEET_MUST_HAVE_AT_LEAST_ONE_TASK_FORCE: "Флот должен иметь хотя бы одно ударное соединение."
 TASK_FORCE_MUST_HAVE_AT_LEAST_ONE_SHIP: "Ударное соединение должно иметь хотя бы один корабль."
-TASK_FORCE_SHIP_NOT_FOUND: "Корябль ударного соединения с названием \"{name}\" не найден."
+TASK_FORCE_SHIP_NOT_FOUND: "Корабль ударного соединения с названием \"{name}\" не найден."
+TASK_FORCES_USES_SHIP_THAT_DOESNT_DEFINED_ANYWHERE: "Во время загрузки было найдено {requestsCount} запросов на использование корабля с названием \"{taskForceShipName}\", который не был объявлен ни в одном из \"{directoryPath}*.txt\" файлов. Список запросов на данный корабль: {requestsList}."
