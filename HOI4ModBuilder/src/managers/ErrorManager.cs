@@ -3,6 +3,7 @@ using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
+using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.utils;
@@ -52,6 +53,7 @@ namespace HOI4ModBuilder.src.managers
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckSupplyHubsMismatches()),
 
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckFrontlinePossibleErrors()),
+                new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckAdjacencyErrors()),
 
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckHeightMapMismatches(settings)),
                 new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckRiversMismatches(settings))
@@ -461,6 +463,31 @@ namespace HOI4ModBuilder.src.managers
             }
         }
 
+        private static void CheckAdjacencyErrors()
+        {
+            if (!CheckFilter(EnumMapErrorCode.FRONTLINE_POSSIBLE_ERROR)) return;
+
+            foreach (var adj in AdjacenciesManager.GetAdjacencies())
+            {
+                //Пропускаем не наземные провинции
+                if (adj.GetEnumType() == EnumAdjaciencyType.IMPASSABLE) continue;
+
+                if (adj.AdjacencyRule == null && adj.ThroughProvince == null)
+                {
+                    float x = 0, y = 0;
+
+                    if (adj.GetLine(out Point2F s, out Point2F e))
+                    {
+                        x = (s.x + e.x) / 2f;
+                        y = (s.y + e.y) / 2f;
+                    }
+
+                    AddErrorInfo(x, y, EnumMapErrorCode.SEA_CROSS_HAS_NO_RULE_NOR_SEA_PROVINCE);
+                }
+
+            }
+        }
+
         private static void CheckHeightMapMismatches(Settings settings)
         {
             if (!CheckFilter(EnumMapErrorCode.HEIGHTMAP_MISMATCH)) return;
@@ -757,6 +784,8 @@ namespace HOI4ModBuilder.src.managers
         RAILWAY_PROVINCES_CONNECTION, //Железная дорога соединяет несоседствующие провинции
         RAILWAY_OVERLAP_CONNECTION, //Железная дорога проходит по пути, который уже прошла другая дорога 
         SUPPLY_HUB_NO_CONNECTION, //Узел снабжения не соединён с Ж/Д
+
+        SEA_CROSS_HAS_NO_RULE_NOR_SEA_PROVINCE, //Морской переход не имеет ни правила, ни морской провинции
 
         FRONTLINE_POSSIBLE_ERROR //Вероятная ошибка с линией фронта
     }

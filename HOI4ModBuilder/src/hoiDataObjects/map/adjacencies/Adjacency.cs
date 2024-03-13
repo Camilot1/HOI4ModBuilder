@@ -22,8 +22,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         private Province _startProvince, _endProvince;
         private EnumAdjaciencyType _enumType;
         private Province _throughProvince;
+        public Province ThroughProvince { get => _throughProvince; }
         private Value2I _start, _end;
         private AdjacencyRule _adjacencyRule;
+        public AdjacencyRule AdjacencyRule { get => _adjacencyRule; }
         private string _comment;
 
         public ProvinceBorder provinceBorder;

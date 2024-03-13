@@ -8,6 +8,7 @@ using OpenTK.Graphics.OpenGL;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -262,6 +263,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             _selectedSeaCross = null;
             return _selectedSeaCross;
         }
+
+        public static List<Adjacency> GetAdjacencies() => _adjacencies;
 
         public static void CreateAdjacency(Province start, Province end, EnumAdjaciencyType type)
         {
