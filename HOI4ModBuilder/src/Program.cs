@@ -42,10 +42,10 @@ namespace HOI4ModBuilder
             string[] debugPathParts = debugPath.Split('\\');
             string baseDirectoryPath = "";
 
-            if (debugPathParts.Length < 2 || debugPathParts[debugPathParts.Length - 2] != "bin")
+            if (debugPathParts.Length < 2 || debugPathParts[debugPathParts.Length - 2] != "x64" || debugPathParts[debugPathParts.Length - 1] != "Debug")
                 throw new AccessViolationException(debugPath);
 
-            for (int i = 0; i < debugPathParts.Length - 2; i++)
+            for (int i = 0; i < debugPathParts.Length - 3; i++)
                 baseDirectoryPath += debugPathParts[i] + "\\";
 
             FileManager.CopyFilesFromBetweenDirectories(baseDirectoryPath + "data\\", debugPath + "\\data\\");
