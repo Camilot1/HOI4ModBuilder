@@ -346,6 +346,12 @@
     <value>Color palette:</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="ProgressBar1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>255, 19</value>
+  </data>
+  <data name="GroupBox_Progress.Size" type="System.Drawing.Size, System.Drawing">
+    <value>265, 40</value>
+  </data>
   <data name="ToolStripMenuItem_Map_Search_Position.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 22</value>
   </data>
@@ -545,7 +551,7 @@
     <value>Additional actions</value>
   </data>
   <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 148</value>
+    <value>171, 154</value>
   </data>
   <data name="TabPage_Map.Text" xml:space="preserve">
     <value>Map</value>

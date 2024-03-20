@@ -214,6 +214,7 @@
             this.ToolStripMenuItem_Language_RU = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Language_EN = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Discord = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.TabControl_Main.SuspendLayout();
             this.TabPage_Map.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -637,6 +638,7 @@
             resources.ApplyResources(this.ContextMenuStrip_Map, "ContextMenuStrip_Map");
             this.ContextMenuStrip_Map.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_Map_Search,
+            this.toolStripSeparator25,
             this.ToolStripMenuItem_Map_Province,
             this.toolStripSeparator7,
             this.ToolStripMenuItem_Map_Adjacency,
@@ -1617,6 +1619,11 @@
             this.ToolStripMenuItem_Discord.Name = "ToolStripMenuItem_Discord";
             this.ToolStripMenuItem_Discord.Click += new System.EventHandler(this.ToolStripMenuItem_Discord_Click);
             // 
+            // toolStripSeparator25
+            // 
+            resources.ApplyResources(this.toolStripSeparator25, "toolStripSeparator25");
+            this.toolStripSeparator25.Name = "toolStripSeparator25";
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -1841,6 +1848,7 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_OpenStateFile;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_OpenRegionFile;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
     }
 }
 

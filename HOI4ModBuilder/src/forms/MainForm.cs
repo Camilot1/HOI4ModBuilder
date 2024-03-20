@@ -397,16 +397,15 @@ namespace HOI4ModBuilder
             isMapMainLayerChangeEnabled = true;
         }
 
-        public static void ExecuteActions(Tuple<EnumLocKey, Action>[] actions)
+        public static void ExecuteActions(LocalizedAction[] actions)
         {
             for (int i = 0; i < actions.Length; i++)
             {
-                Logger.Log($"Perform action {actions[i].Item1} ({i + 1}/{actions.Length})...");
-                DisplayProgress(actions[i].Item1, null, $"({i + 1}/{actions.Length})", (i + 1) / (float)actions.Length);
-                actions[i].Item2();
+                Logger.Log($"Perform action {actions[i].LocKey} ({i + 1}/{actions.Length})...");
+                DisplayProgress(actions[i].LocKey, null, $"({i + 1}/{actions.Length})", (i + 1) / (float)actions.Length);
+                actions[i].Action();
             }
         }
-
 
         public static void DisplayProgress(EnumLocKey enumLocKey, float progress)
             => DisplayProgress(enumLocKey, null, null, progress);
@@ -1367,22 +1366,16 @@ namespace HOI4ModBuilder
             => AdjacenciesManager.RemoveAdjacency(AdjacenciesManager.GetSelectedSeaCross()));
         private void ToolStripMenuItem_Map_Adjacency_SetFirstProvince_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AdjacenciesManager.GetSelectedSeaCross()?.SetStartProvince(ProvinceManager.RMBProvince));
-
         private void ToolStripMenuItem_Map_Adjacency_SetFirstPoint_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AdjacenciesManager.GetSelectedSeaCross()?.SetStartPos(textBox_HOI4PixelPos.Text));
-
         private void ToolStripMenuItem_Map_Adjacency_SetSecondProvince_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AdjacenciesManager.GetSelectedSeaCross()?.SetEndProvince(ProvinceManager.RMBProvince));
-
         private void ToolStripMenuItem_Map_Adjacency_SetSecondPoint_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AdjacenciesManager.GetSelectedSeaCross()?.SetEndPos(textBox_HOI4PixelPos.Text));
-
         private void ToolStripMenuItem_Map_Adjacency_SetThroughProvince_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AdjacenciesManager.GetSelectedSeaCross()?.SetThroughProvince(ProvinceManager.RMBProvince));
-
         private void ToolStripMenuItem_Map_Adjacency_ResetFirstPoint_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AdjacenciesManager.GetSelectedSeaCross()?.SetStartPos(-1, -1));
-
         private void ToolStripMenuItem_Map_Adjacency_ResetSecondPoint_Click(object sender, EventArgs e) =>
             Logger.TryOrLog(() => AdjacenciesManager.GetSelectedSeaCross()?.SetEndPos(-1, -1));
 
@@ -1394,22 +1387,16 @@ namespace HOI4ModBuilder
 
         private void Button_OpenSearchErrorsSettings_Click(object sender, EventArgs e) =>
             Logger.TryOrLog(() => Task.Run(() => new SearchErrorsSettingsForm().ShowDialog()));
-
         private void ToolStripTextBox_Map_Adjacency_Comment_TextChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() => AdjacenciesManager.GetSelectedSeaCross()?.SetComment(ToolStripTextBox_Map_Adjacency_Comment.Text));
-
         private void ToolStripMenuItem_Map_Adjacency_Rule_AddRequiredProvince_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AdjacenciesManager.GetSelectedSeaCross()?.AddRuleRequiredProvince(ProvinceManager.RMBProvince));
-
         private void ToolStripMenuItem_Map_Adjacency_Rule_RemoveRequiredProvince_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AdjacenciesManager.GetSelectedSeaCross()?.RemoveRuleRequiredProvince(ProvinceManager.RMBProvince));
-
         private void ToolStripMenuItem_Language_RU_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => SettingsManager.ChangeLanguage("ru"));
-
         private void ToolStripMenuItem_Language_EN_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => SettingsManager.ChangeLanguage("en"));
-
         private void ToolStripMenuItem_Edit_AutoTools_FindMapChanges_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => MapManager.FindMapChanges());
 
@@ -1426,17 +1413,13 @@ namespace HOI4ModBuilder
             });
 
         private void ToolStripMenuItem_Map_Railway_Split_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => RailwayTool.SplitRailwayAtProvince(SupplyManager.SelectedRailway == null ? SupplyManager.RMBRailway : SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
-
+            => Logger.TryOrLog(() => RailwayTool.SplitRailwayAtProvince(SupplyManager.SelectedRailway ?? SupplyManager.RMBRailway, ProvinceManager.RMBProvince));
         private void ToolStripMenuItem_Map_Railway_Join_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => RailwayTool.JoinRailways(SupplyManager.SelectedRailway, SupplyManager.RMBRailway));
-
         private void ToolStripMenuItem_Data_Recovery_Regions_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => Task.Run(() => new StrategicRegionsDataRecoveryForm().ShowDialog()));
-
         private void ToolStripMenuItem_Map_Railway_AddProvince_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => RailwayTool.AddProvinceToRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
-
         private void ToolStripMenuItem_Map_Railway_RemoveProvince_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => RailwayTool.RemoveProvinceFromRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
 

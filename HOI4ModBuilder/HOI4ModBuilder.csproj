@@ -481,6 +481,7 @@
     <Compile Include="src\utils\exceptions\UnknownTokenException.cs" />
     <Compile Include="src\utils\json\EnumArrayToStringConverter.cs" />
     <Compile Include="src\managers\GuiLocManager.cs" />
+    <Compile Include="src\utils\LocalizedAction.cs" />
     <Compile Include="src\utils\Logger.cs" />
     <Compile Include="src\utils\ImageUtils.cs" />
     <Compile Include="src\utils\ParadoxUtils.cs" />

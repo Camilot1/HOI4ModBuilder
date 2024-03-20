@@ -27,9 +27,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             Stopwatch stopwatch = new Stopwatch();
             provinceBorderCount = 0;
 
-            Tuple<EnumLocKey, Action>[] actions =
+            LocalizedAction[] actions =
             {
-                new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => {
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => {
                     stopwatch.Start();
                     InitPixels(values, width, height);
                     borderInfoMap = new Dictionary<Value2US, BorderInfo>[] {
@@ -41,8 +41,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     };
                     previouslyDeleted = new HashSet<Value2US>();
                 }),
-                new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => InitBorderInfoMap()),
-                new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => {
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => InitBorderInfoMap()),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => {
                     InitBorders();
 
                     stopwatch.Stop();
@@ -52,8 +52,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     Logger.Log($"BordersInitAndAssemble = {stopwatch.ElapsedMilliseconds} ms");
                     Logger.Log($"ProvinceBorderCount = {provinceBorderCount}");
                 }),
-                new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE, () => StateManager.InitStatesBorders()),
-                new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => StrategicRegionManager.InitRegionsBorders()),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE, () => StateManager.InitStatesBorders()),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => StrategicRegionManager.InitRegionsBorders()),
             };
 
             MainForm.ExecuteActions(actions);

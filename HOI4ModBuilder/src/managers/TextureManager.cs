@@ -236,9 +236,9 @@ namespace HOI4ModBuilder
         private static void LoadMapPairs(Settings settings)
         {
             var fileInfos = FileManager.ReadMultiFileInfos(settings, @"map\");
-            Tuple<EnumLocKey, Action>[] actions =
+            LocalizedAction[] actions =
             {
-                new Tuple<EnumLocKey, Action>(
+                new LocalizedAction(
                      EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXTURE_MAPS,
                     () => {
                         provinces = LoadMapPair(fileInfos, "provinces.bmp", _24bppRgb);
@@ -305,10 +305,10 @@ namespace HOI4ModBuilder
 
         public static void LoadBorders()
         {
-            Tuple<EnumLocKey, Action>[] actions =
+            LocalizedAction[] actions =
             {
-                new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_BORDERS_TEXTURE_MAP, () => provincesBorders = CreateBordersMap(MapManager.ProvincesPixels, provinces.GetBitmap().Width, provinces.GetBitmap().Height)),
-                new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_BORDERS_TEXTURE_MAP, () => ProvinceManager.ProcessProvincesPixels(MapManager.ProvincesPixels, provinces.GetBitmap().Width, provinces.GetBitmap().Height))
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_BORDERS_TEXTURE_MAP, () => provincesBorders = CreateBordersMap(MapManager.ProvincesPixels, provinces.GetBitmap().Width, provinces.GetBitmap().Height)),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_BORDERS_TEXTURE_MAP, () => ProvinceManager.ProcessProvincesPixels(MapManager.ProvincesPixels, provinces.GetBitmap().Width, provinces.GetBitmap().Height))
             };
 
             MainForm.ExecuteActions(actions);
@@ -317,9 +317,9 @@ namespace HOI4ModBuilder
         private static void LoadAdditionalLayers(Settings settings)
         {
             var fileInfos = FileManager.ReadMultiFileInfos(settings, @"map\");
-            Tuple<EnumLocKey, Action>[] actions =
+            LocalizedAction[] actions =
             {
-                new Tuple<EnumLocKey, Action>(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_ADDITIONAL_MAP_LAYERS, () => rivers = CreateRiverMap(fileInfos["rivers.bmp"]))
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_ADDITIONAL_MAP_LAYERS, () => rivers = CreateRiverMap(fileInfos["rivers.bmp"]))
             };
 
             MainForm.ExecuteActions(actions);
