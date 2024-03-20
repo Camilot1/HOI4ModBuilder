@@ -201,7 +201,6 @@ namespace HOI4ModBuilder
                 SupplyManager.SaveAll(settings);
                 StateManager.Save(settings);
                 StrategicRegionManager.Save(settings);
-                DisplayProgress(EnumLocKey.PROGRESSBAR_SAVED, 0);
 
                 Utils.CleanUpMemory();
                 isLoadingOrSaving[0] = false;
@@ -214,6 +213,7 @@ namespace HOI4ModBuilder
                         EnumLocKey.PROGRESSBAR_SAVED,
                         new Dictionary<string, string>
                         {
+                            { "{time}", $"{DateTime.Now.ToLongTimeString()}" },
                             { "{warningsCount}", $"{Logger.WarningsCount}" },
                             { "{errorsCount}", $"{Logger.ErrorsCount}" },
                             { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
@@ -231,6 +231,7 @@ namespace HOI4ModBuilder
                         EnumLocKey.PROGRESSBAR_SAVING_FAILED,
                         new Dictionary<string, string>
                         {
+                            { "{time}", $"{DateTime.Now.ToLongTimeString()}" },
                             { "{warningsCount}", $"{Logger.WarningsCount}" },
                             { "{errorsCount}", $"{Logger.ErrorsCount}" },
                             { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },

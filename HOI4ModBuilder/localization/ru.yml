@@ -2,8 +2,8 @@
 
 PROGRESSBAR_LOADED: "Загрузка завершена. [П: {warningsCount}; О: {errorsCount}; К: {exceptionsCount}]"
 PROGRESSBAR_LOADING_FAILED: "Загрузка прервана. [П: {warningsCount}; О: {errorsCount}; К: {exceptionsCount}]"
-PROGRESSBAR_SAVED: "Сохранение завершено."
-PROGRESSBAR_SAVING_FAILED: "Сохранение прервано. [П: {warningsCount}; О: {errorsCount}; К: {exceptionsCount}]"
+PROGRESSBAR_SAVED: "Сохранение завершено [{time}]."
+PROGRESSBAR_SAVING_FAILED: "Сохранение прервано [{time}]. [П: {warningsCount}; О: {errorsCount}; К: {exceptionsCount}]"
 PROGRESSBAR_UPDATED: "Обновление завершено."
 
 CHOOSE_ACTION: "Выберите действие"
