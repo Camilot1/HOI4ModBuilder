@@ -215,6 +215,7 @@
             this.ToolStripMenuItem_Language_EN = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Discord = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.TabControl_Main.SuspendLayout();
             this.TabPage_Map.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -236,6 +237,7 @@
             this.ContextMenuStrip_Map.SuspendLayout();
             this.TabPage_Resources.SuspendLayout();
             this.MenuStrip1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabControl_Main
@@ -251,9 +253,7 @@
             // 
             // TabPage_Map
             // 
-            this.TabPage_Map.Controls.Add(this.flowLayoutPanel2);
-            this.TabPage_Map.Controls.Add(this.FlowLayoutPanel_ToolBar);
-            this.TabPage_Map.Controls.Add(this.Panel_Map);
+            this.TabPage_Map.Controls.Add(this.tableLayoutPanel1);
             resources.ApplyResources(this.TabPage_Map, "TabPage_Map");
             this.TabPage_Map.Name = "TabPage_Map";
             this.TabPage_Map.UseVisualStyleBackColor = true;
@@ -436,6 +436,7 @@
             // FlowLayoutPanel_ToolBar
             // 
             resources.ApplyResources(this.FlowLayoutPanel_ToolBar, "FlowLayoutPanel_ToolBar");
+            this.tableLayoutPanel1.SetColumnSpan(this.FlowLayoutPanel_ToolBar, 2);
             this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox1);
             this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox6);
             this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox2);
@@ -605,8 +606,8 @@
             // 
             // GroupBox_Palette
             // 
-            this.GroupBox_Palette.Controls.Add(this.FlowLayoutPanel_Color);
             resources.ApplyResources(this.GroupBox_Palette, "GroupBox_Palette");
+            this.GroupBox_Palette.Controls.Add(this.FlowLayoutPanel_Color);
             this.GroupBox_Palette.Name = "GroupBox_Palette";
             this.GroupBox_Palette.TabStop = false;
             // 
@@ -1624,6 +1625,14 @@
             this.toolStripSeparator25.Name = "toolStripSeparator25";
             resources.ApplyResources(this.toolStripSeparator25, "toolStripSeparator25");
             // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.FlowLayoutPanel_ToolBar, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.Panel_Map, 1, 1);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -1636,6 +1645,7 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.TabControl_Main.ResumeLayout(false);
             this.TabPage_Map.ResumeLayout(false);
+            this.TabPage_Map.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
@@ -1646,6 +1656,7 @@
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             this.FlowLayoutPanel_ToolBar.ResumeLayout(false);
+            this.FlowLayoutPanel_ToolBar.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -1653,11 +1664,14 @@
             this.groupBox3.ResumeLayout(false);
             this.GroupBox_GenerateColor.ResumeLayout(false);
             this.GroupBox_Palette.ResumeLayout(false);
+            this.GroupBox_Palette.PerformLayout();
             this.GroupBox_Progress.ResumeLayout(false);
             this.ContextMenuStrip_Map.ResumeLayout(false);
             this.TabPage_Resources.ResumeLayout(false);
             this.MenuStrip1.ResumeLayout(false);
             this.MenuStrip1.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1849,6 +1863,7 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_OpenRegionFile;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }
 

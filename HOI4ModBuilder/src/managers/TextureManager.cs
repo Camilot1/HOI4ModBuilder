@@ -410,7 +410,9 @@ namespace HOI4ModBuilder
                 {
                     BackColor = Color.FromArgb(riverColors[i]),
                     BorderStyle = BorderStyle.FixedSingle,
-                    Size = new Size(21, 21)
+                    Size = new Size(21, 21),
+                    Margin = new Padding(1, 0, 1, 0),
+                    Padding = new Padding(1, 0, 1, 0)
                 };
                 panel.MouseDown += new MouseEventHandler(PalleteColorMouseDown);
                 MainForm.Instance.InvokeAction(() => MainForm.Instance.FlowLayoutPanel_Color.Controls.Add(panel));
