@@ -77,6 +77,12 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             DefaultValueType = other.DefaultValueType;
             DefaultValue = other.DefaultValue;
         }
+        public InfoArgsBlock(string name, EnumScope[] specificScopes, EnumNewArgsBlockValueType[] allowedValueTypes)
+        {
+            Name = name;
+            _specificScopes = specificScopes;
+            AllowedValueTypes = allowedValueTypes;
+        }
 
         public InfoArgsBlock(string name, EnumScope[] specificScopes, EnumNewArgsBlockValueType[] allowedValueTypes, EnumNewArgsBlockValueType defaultValueType, object defaultValue)
         {
