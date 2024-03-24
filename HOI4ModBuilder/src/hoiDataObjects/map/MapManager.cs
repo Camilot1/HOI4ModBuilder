@@ -888,6 +888,8 @@ namespace HOI4ModBuilder.managers
             Dictionary<int, ushort> provincesByColor = new Dictionary<int, ushort>(provinceData.Length);
             foreach (string provinceString in provinceData)
             {
+                if (provinceString.Trim().Length == 0) continue;
+
                 string[] data = provinceString.Split(';');
                 ushort provinceId = ushort.Parse(data[0]);
                 byte r = byte.Parse(data[1]);

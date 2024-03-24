@@ -310,6 +310,7 @@ namespace HOI4ModBuilder.managers
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
+                if (line.Trim().Length == 0) continue;
                 try
                 {
                     string[] values = line.Split(';');
