@@ -1,0 +1,88 @@
+[
+  {
+    "name": "AND",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "OR",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "NOT",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "count_triggers",
+    "specificScopes": [ "ALL" ],
+    "mandatoryInnerBlocks": {
+      "amount": {
+        "name": "amount",
+        "allowedValueTypes": [ "INT" ]
+      }
+    },
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "hidden_trigger",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "custom_trigger_tooltip",
+    "specificScopes": [ "ALL" ],
+    "mandatoryInnerBlocks": {
+      "tooltip": {
+        "name": "tooltip",
+        "allowedValueTypes": [ "LOC_KEY" ]
+      }
+    },
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "hidden_effect",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "hidden_modifier",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "effect_tooltip",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "if",
+    "specificScopes": [ "ALL" ],
+    "mandatoryInnerBlocks": {
+      "limit": {
+        "name": "limit",
+        "allowedValueTypes": [ "LOC_KEY" ],
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "else_if",
+    "specificScopes": [ "ALL" ],
+    "mandatoryInnerBlocks": {
+      "limit": {
+        "name": "limit",
+        "allowedValueTypes": [ "LOC_KEY" ],
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "else",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  }
+]

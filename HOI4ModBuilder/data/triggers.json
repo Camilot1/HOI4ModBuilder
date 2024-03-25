@@ -321,7 +321,7 @@
   {
     "name": "has_dlc",
     "specificScopes": [ "ALL" ],
-    "allowedValueTypes": [ "STRING" ]
+    "allowedValueTypes": [ "NAME" ]
   },
   {
     "name": "has_start_date",
@@ -359,7 +359,7 @@
   {
     "name": "country_exists",
     "specificScopes": [ "ALL" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "is_ironman",
@@ -471,12 +471,12 @@
   {
     "name": "tag",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "original_tag",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "has_collaboration",
@@ -531,12 +531,12 @@
   {
     "name": "is_ally_with",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "is_in_faction_with",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "is_in_faction",
@@ -562,47 +562,47 @@
   {
     "name": "has_non_aggression_pact_with",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "is_guaranteed_by",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "has_guaranteed",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "has_military_access_to",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "gives_military_access_to",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "is_neighbor_of",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "is_owner_neighbor_of",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "is_puppet_of",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "is_subject_of",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "is_puppet",
@@ -617,18 +617,18 @@
   {
     "name": "has_subject",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "num_subjects",
     "isDisabled": true,
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "INT" ]
   },
   {
     "name": "has_autonomy_state",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "SCOPE" ]
+    "allowedValueTypes": [ "STRING" ]
   },
 
 
@@ -641,17 +641,17 @@
   {
     "name": "has_war_with",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "has_offensive_war_with",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
   {
     "name": "has_defensive_war_with",
     "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ]
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
   },
 
 

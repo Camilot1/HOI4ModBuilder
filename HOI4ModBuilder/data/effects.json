@@ -779,6 +779,64 @@
 
 
   {
+    "name": "add_state_core",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "remove_state_core",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "set_capital",
+    "specificScopes": [ "COUNTRY" ],
+    "mandatoryInnerBlocks": {
+      "state": {
+        "name": "state",
+        "allowedValueTypes": [ "VAR", "INT" ]
+      }
+	},
+	"allowedInnerBlocks": {
+      "remember_old_capital": {
+        "name": "remember_old_capital",
+        "allowedValueTypes": [ "BOOLEAN" ]
+      }
+	}
+  },
+  {
+    "name": "add_state_claim",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "remove_state_claim",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "set_state_owner",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "set_state_controller",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "transfer_state",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "set_province_controller",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "INT" ]
+  },
+  
+
+  {
     "name": "set_equipment_fraction",
     "specificScopes": [ "COUNTRY" ],
     "allowedValueTypes": [ "VAR", "INT" ]
@@ -1040,32 +1098,32 @@
     "name": "add_claim_by",
     "specificScopes": [ "STATE" ],
     "functions": [ "EFFECT_STATE_ADD_CLAIM_BY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ],
-    "defaultValueType": "SCOPE",
+    "allowedValueTypes": [ "VAR", "COUNTRY" ],
+    "defaultValueType": "COUNTRY",
     "defaultValue": null
   },
   {
     "name": "remove_claim_by",
     "specificScopes": [ "STATE" ],
     "functions": [ "EFFECT_STATE_REMOVE_CLAIM_BY" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ],
-    "defaultValueType": "SCOPE",
+    "allowedValueTypes": [ "VAR", "COUNTRY" ],
+    "defaultValueType": "COUNTRY",
     "defaultValue": null
   },
   {
     "name": "add_core_of",
     "specificScopes": [ "STATE" ],
     "functions": [ "EFFECT_STATE_ADD_CORE_OF" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ],
-    "defaultValueType": "SCOPE",
+    "allowedValueTypes": [ "VAR", "COUNTRY" ],
+    "defaultValueType": "COUNTRY",
     "defaultValue": null
   },
   {
     "name": "remove_core_of",
     "specificScopes": [ "STATE" ],
     "functions": [ "EFFECT_STATE_REMOVE_CORE_OF" ],
-    "allowedValueTypes": [ "VAR", "SCOPE" ],
-    "defaultValueType": "SCOPE",
+    "allowedValueTypes": [ "VAR", "COUNTRY" ],
+    "defaultValueType": "COUNTRY",
     "defaultValue": null
   },
   {
@@ -1141,32 +1199,19 @@
     }
   },
   {
-    "name": "set_province_controller",
-    "specificScopes": [ "STATE" ],
-    "allowedValueTypes": [ "INT" ],
-    "defaultValueType": "INT",
-    "defaultValue": 0
-  },
-  {
     "name": "transfer_state_to",
     "specificScopes": [ "STATE" ],
-    "allowedValueTypes": [ "STRING" ],
-    "defaultValueType": "STRING",
-    "defaultValue": null
+    "allowedValueTypes": [ "COUNTRY" ]
   },
   {
     "name": "set_state_owner_to",
     "specificScopes": [ "STATE" ],
-    "allowedValueTypes": [ "STRING" ],
-    "defaultValueType": "STRING",
-    "defaultValue": null
+    "allowedValueTypes": [ "COUNTRY" ]
   },
   {
     "name": "set_state_controller_to",
     "specificScopes": [ "STATE" ],
-    "allowedValueTypes": [ "STRING" ],
-    "defaultValueType": "STRING",
-    "defaultValue": null
+    "allowedValueTypes": [ "COUNTRY" ]
   },
 
 
@@ -1253,7 +1298,91 @@
           }
         }
       }
+    }
+  },
+  
+  {
+    "name": "damage_building",
+    "specificScopes": [ "STATE" ],
+    "mandatoryInnerBlocks": {
+      "type": {
+        "name": "type",
+        "allowedValueTypes": [ "STRING" ]
+      },
+      "damage": {
+        "name": "damage",
+        "allowedValueTypes": [ "FLOAT" ]
+      }
     },
-    "allowedValueTypes": [ "STRING" ]
+    "allowedInnerBlocks": {
+      "province": {
+        "name": "province",
+        "allowedValueTypes": [ "INT" ]
+      }
+	}
+  },
+  {
+    "name": "remove_building",
+    "specificScopes": [ "STATE" ],
+    "mandatoryInnerBlocks": {
+      "type": {
+        "name": "type",
+        "allowedValueTypes": [ "STRING" ]
+      },
+      "level": {
+        "name": "level",
+        "allowedValueTypes": [ "VAR", "INT" ]
+      }
+    }
+  },
+  {
+    "name": "add_compliance",
+    "specificScopes": [ "STATE" ],
+	"allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "add_resistance",
+    "specificScopes": [ "STATE" ],
+	"allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "add_resistance_target",
+    "specificScopes": [ "STATE" ],
+	"allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "cancel_resistance",
+    "specificScopes": [ "STATE" ],
+	"allowedValueTypes": [ "BOOLEAN" ]
+  },
+  {
+    "name": "force_disable_resistance",
+    "specificScopes": [ "STATE" ],
+	"allowedValueTypes": [ "COUNTRY" ]
+  },
+  {
+    "name": "force_enable_resistance",
+    "specificScopes": [ "STATE" ],
+	"allowedValueTypes": [ "COUNTRY" ]
+  },
+  {
+    "name": "set_compliance",
+    "specificScopes": [ "STATE" ],
+	"allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "set_resistance",
+    "specificScopes": [ "STATE" ],
+	"allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "start_resistance",
+    "specificScopes": [ "STATE" ],
+	"allowedValueTypes": [ "BOOLEAN", "COUNTRY" ]
+  },
+  {
+    "name": "set_garrison_strength",
+    "specificScopes": [ "STATE" ],
+	"allowedValueTypes": [ "FLOAT" ]
   }
 ]
