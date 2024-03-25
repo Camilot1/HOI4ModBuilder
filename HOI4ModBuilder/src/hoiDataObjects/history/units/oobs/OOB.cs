@@ -297,9 +297,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             });
         }
 
-        public bool Validate(LinkedLayer prevLayer)
-        {
-            throw new NotImplementedException();
-        }
+        public bool Validate(LinkedLayer prevLayer) => true;
     }
 }

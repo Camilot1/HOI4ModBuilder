@@ -402,6 +402,8 @@ namespace HOI4ModBuilder
             _riverColorsSet.Clear();
             _riverColorsMap.Clear();
 
+            MainForm.Instance.InvokeAction(() => MainForm.Instance.FlowLayoutPanel_Color.Controls.Clear());
+
             for (byte i = 0; i < riverColors.Length; i++)
             {
                 _riverColorsSet.Add(riverColors[i]);

@@ -373,9 +373,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         {
             bool result = true;
 
-            CheckAndLogUnit.WARNINGS
-                .HasMandatory(ref result, prevLayer, TOKEN_AMOUNT, ref _amount)
-                .HasMandatory(ref result, prevLayer, TOKEN_OWNER, ref _owner);
+            //CheckAndLogUnit.WARNINGS
+            //    .HasMandatory(ref result, prevLayer, TOKEN_AMOUNT, ref _amount)
+            //    .HasMandatory(ref result, prevLayer, TOKEN_OWNER, ref _owner);
 
             return result;
         }
