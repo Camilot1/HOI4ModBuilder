@@ -513,7 +513,7 @@ namespace HOI4ModBuilder.src.managers
                     float x = i % width + 0.5f;
                     float y = i / width + 0.5f;
 
-                    if (type == EnumProvinceType.LAND && height <= waterLevel || type != EnumProvinceType.LAND && height >= waterLevel)
+                    if (type == EnumProvinceType.LAND && height < waterLevel - 1 || type != EnumProvinceType.LAND && height >= waterLevel)
                         AddErrorInfo(x, y, EnumMapErrorCode.HEIGHTMAP_MISMATCH);
                 }
             }
