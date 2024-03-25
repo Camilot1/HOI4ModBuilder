@@ -288,8 +288,6 @@
     <Compile Include="src\dataObjects\argBlocks\InfoArgsBlocksManager.cs" />
     <Compile Include="src\dataObjects\argBlocks\DataArgsBlock.cs" />
     <Compile Include="src\dataObjects\argBlocks\InfoArgsBlock.cs" />
-    <Compile Include="src\dataObjects\argBlocks\scripted\ConditionalArgsBlock.cs" />
-    <Compile Include="src\dataObjects\argBlocks\scripted\LogicArgsBlock.cs" />
     <Compile Include="src\dataObjects\XYUshortCoordinates.cs" />
     <Compile Include="src\dataObjects\ParserDummyBlock.cs" />
     <Compile Include="src\dataObjects\replaceTags\ReplaceTagsManager.cs" />

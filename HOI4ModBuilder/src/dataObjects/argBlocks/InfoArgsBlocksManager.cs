@@ -11,12 +11,9 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 {
     class InfoArgsBlocksManager
     {
-        public static readonly InfoArgsBlock limitInfoArgsBlock = new InfoArgsBlock("limit", new EnumScope[] { EnumScope.CONDITIONAL });
-        public static readonly InfoArgsBlock ifInfoArgsBlock = new InfoArgsBlock("if", new Dictionary<string, InfoArgsBlock> { { "limit", limitInfoArgsBlock } });
-        public static readonly InfoArgsBlock elseIfInfoArgsBlock = new InfoArgsBlock("else_if", new Dictionary<string, InfoArgsBlock> { { "limit", limitInfoArgsBlock } });
-        public static readonly InfoArgsBlock elseInfoArgsBlock = new InfoArgsBlock("else");
-
         public static Dictionary<string, InfoArgsBlock> allInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+
+        public static Dictionary<string, InfoArgsBlock> scopesInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
         public static Dictionary<string, InfoArgsBlock> effectsInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
         public static Dictionary<string, InfoArgsBlock> modifiersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
         public static Dictionary<string, InfoArgsBlock> triggersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
@@ -36,6 +33,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                 definitionFiles = new Dictionary<string, string>();
 
                 allInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+
+                scopesInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
                 effectsInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
                 modifiersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
                 triggersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
@@ -44,24 +43,26 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                 definedModifiersArgsBlocks = new Dictionary<string, InfoArgsBlock>();
                 scriptedTriggersArgsBlocks = new Dictionary<string, InfoArgsBlock>();
 
+                LoadInfoArgsBlocks(@"data\scopes.json", scopesInfoArgsBlocks);
                 LoadInfoArgsBlocks(@"data\effects.json", effectsInfoArgsBlocks);
-                LoadInfoArgsBlocks(@"data\custom\effects.json", effectsInfoArgsBlocks);
                 LoadInfoArgsBlocks(@"data\modifiers.json", effectsInfoArgsBlocks);
-                LoadInfoArgsBlocks(@"data\custom\modifiers.json", effectsInfoArgsBlocks);
+                LoadInfoArgsBlocks(@"data\triggers.json", triggersInfoArgsBlocks);
 
                 scriptedEffectsInfoArgsBlocks = LoadScriptedEffects(settings);
                 definedModifiersArgsBlocks = LoadDefinedModifiers(settings);
                 scriptedTriggersArgsBlocks = LoadScriptedTriggers(settings);
 
-                LoadInfoArgsBlocks(@"data\triggers.json", triggersInfoArgsBlocks);
+                LoadInfoArgsBlocks(@"data\custom\scopes.json", effectsInfoArgsBlocks);
+                LoadInfoArgsBlocks(@"data\custom\effects.json", effectsInfoArgsBlocks);
+                LoadInfoArgsBlocks(@"data\custom\modifiers.json", effectsInfoArgsBlocks);
                 LoadInfoArgsBlocks(@"data\custom\triggers.json", triggersInfoArgsBlocks);
 
                 currentLoadingFilePath = null;
+                definitionFiles = null;
             }
             catch (Exception e)
             {
-                //Очищаем
-                definitionFiles = new Dictionary<string, string>();
+                definitionFiles = null;
                 throw new Exception($"JSON file: \"{currentLoadingFilePath}\".", e);
             }
 

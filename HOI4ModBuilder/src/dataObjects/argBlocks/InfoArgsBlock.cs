@@ -33,6 +33,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         public EnumNewArgsBlockValueType DefaultValueType { get; private set; }
         [JsonProperty("defaultValue")]
         public object DefaultValue { get; private set; }
+        [JsonProperty("canHaveAnyInnerBlocks")]
+        public bool CanHaveAnyInnerBlocks { get; private set; }
         [JsonProperty("allowedSpecialDemiliters")]
         [JsonConverter(typeof(EnumArrayToStringConverter<EnumDemiliter>))]
         public EnumDemiliter[] AllowedSpecialDemiliters { get; private set; }

@@ -1,16 +1,10 @@
 ﻿using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
-using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YamlDotNet.Core.Tokens;
-using YamlDotNet.Core;
 using Pdoxcl2Sharp;
-using HOI4ModBuilder.src.dataObjects.argBlocks.scripted;
 using static HOI4ModBuilder.src.dataObjects.argBlocks.InfoArgsBlock;
 using HOI4ModBuilder.src.utils;
 
@@ -18,88 +12,10 @@ namespace HOI4ModBuilder.src.dataObjects
 {
     class DataArgsBlocksManager
     {
-        private static readonly string CONDITIONAL_CHAIN_ERROR_MESSAGE = "Перед блоком \"else_if\" должны находиться или блок \"if\", или блок \"else_if\".";
-        private static readonly string CONDITIONAL_IF_HAS_NO_LIMIT_MESSAGE = "В блоке \"if\" отсутствует блок \"limit\".";
-        private static readonly string CONDITIONAL_ELSE_IF_HAS_NO_LIMIT_MESSAGE = "В блоке \"else_if\" отсутствует блок \"limit\".";
-
         private static readonly Dictionary<string, EnumDemiliter> demilitersDict = new Dictionary<string, EnumDemiliter>
         {
             { "<", EnumDemiliter.LESS_THAN },
             { ">", EnumDemiliter.GREATER_THAN }
-        };
-
-        private static readonly Dictionary<string, Action<ParadoxParser, List<DataArgsBlock>>> parseFunctions = new Dictionary<string, Action<ParadoxParser, List<DataArgsBlock>>>
-        {
-            {
-                "AND", (parser, currentLevelDataBlocks) => {
-                    var innerBlock = new LogicArgsBlock { SpecialName = "AND" };
-                    parser.Parse(innerBlock);
-                    currentLevelDataBlocks.Add(innerBlock);
-                }
-            },
-            {
-                "OR", (parser, currentLevelDataBlocks) => {
-                    var innerBlock = new LogicArgsBlock { SpecialName = "OR" };
-                    parser.Parse(innerBlock);
-                    currentLevelDataBlocks.Add(innerBlock);
-                }
-            },
-            {
-                "NOT", (parser, currentLevelDataBlocks) => {
-                    var innerBlock = new LogicArgsBlock { SpecialName = "NOT" };
-                    parser.Parse(innerBlock);
-                    currentLevelDataBlocks.Add(innerBlock);
-                }
-            },
-            {
-                "hidden_modifier", (parser, currentLevelDataBlocks) => {
-                    var innerBlock = new DataArgsBlock { SpecialName = "hidden_modifier" };
-                    parser.Parse(innerBlock);
-                    currentLevelDataBlocks.Add(innerBlock);
-                }
-            },
-
-            {
-                "if", (parser, currentLevelDataBlocks) => {
-                    var innerBlock = new ConditionalArgsBlock { CurrentLevelDataBlocks = currentLevelDataBlocks, InfoArgsBlock = InfoArgsBlocksManager.ifInfoArgsBlock };
-                    parser.Parse(innerBlock);
-                    if (innerBlock.limit == null)
-                        throw new Exception(CONDITIONAL_IF_HAS_NO_LIMIT_MESSAGE);
-
-                    currentLevelDataBlocks.Add(innerBlock);
-                }
-            },
-            {
-                "else_if", (parser, currentLevelDataBlocks) => {
-                    if (currentLevelDataBlocks.Count == 0)
-                        throw new Exception(CONDITIONAL_CHAIN_ERROR_MESSAGE);
-
-                    var prevBlock = currentLevelDataBlocks[currentLevelDataBlocks.Count - 1];
-                    var prevBlockName = prevBlock.GetName();
-                    if (prevBlockName != "if" || prevBlockName != "else_if")
-                        throw new Exception(CONDITIONAL_CHAIN_ERROR_MESSAGE);
-
-                    var innerBlock = new ConditionalArgsBlock { CurrentLevelDataBlocks = currentLevelDataBlocks, InfoArgsBlock = InfoArgsBlocksManager.elseIfInfoArgsBlock };
-                    parser.Parse(innerBlock);
-                    if (innerBlock.limit == null) throw new Exception(CONDITIONAL_ELSE_IF_HAS_NO_LIMIT_MESSAGE);
-                    currentLevelDataBlocks.Add(innerBlock);
-                }
-            },
-            {
-                "else", (parser, currentLevelDataBlocks) => {
-                    if (currentLevelDataBlocks.Count == 0)
-                        throw new Exception(CONDITIONAL_CHAIN_ERROR_MESSAGE);
-
-                    var prevBlock = currentLevelDataBlocks[currentLevelDataBlocks.Count - 1];
-                    var prevBlockName = prevBlock.GetName();
-                    if (prevBlockName != "if" || prevBlockName != "else_if")
-                        throw new Exception(CONDITIONAL_CHAIN_ERROR_MESSAGE);
-
-                    var innerBlock = new ConditionalArgsBlock { CurrentLevelDataBlocks = currentLevelDataBlocks, InfoArgsBlock = InfoArgsBlocksManager.elseInfoArgsBlock };
-                    parser.Parse(innerBlock);
-                    currentLevelDataBlocks.Add(innerBlock);
-                }
-            }
         };
 
         public static void ParseDataArgsBlock(ParadoxParser parser, DataArgsBlock currentDataBlock, string token, List<DataArgsBlock> currentLevelDataBlocks, List<DataArgsBlock> innerLevelDataBlocks)
@@ -108,7 +24,6 @@ namespace HOI4ModBuilder.src.dataObjects
             if (innerLevelDataBlocks == null) innerLevelDataBlocks = new List<DataArgsBlock>(0);
 
             if (TryParseInnerBlocks()) return;
-            else if (TryParseConstantBlocks()) return;
             else if (TryParseOtherJSONBlocks()) return;
             else if (TryParseScopeBlocks()) return;
             else if (TryParseUniversalParams()) return;
@@ -154,7 +69,7 @@ namespace HOI4ModBuilder.src.dataObjects
                     innerLevelDataBlocks.Add(dataBlock);
                     return true;
                 }
-                else if (infoBlock.CanHaveUniversalParams && (!infoBlock.HasAllowedBlocks || infoBlock.AllowedUniversalParamsInfo.IgnoreAllowedInnerBlocksCheck))
+                else if (infoBlock.CanHaveAnyInnerBlocks || infoBlock.CanHaveUniversalParams && (!infoBlock.HasAllowedBlocks || infoBlock.AllowedUniversalParamsInfo.IgnoreAllowedInnerBlocksCheck))
                 {
                     return false;
                 }
@@ -166,17 +81,6 @@ namespace HOI4ModBuilder.src.dataObjects
                             { "{token}", token }
                         }
                     ));
-            }
-
-
-            bool TryParseConstantBlocks() //Попытаться распарсить захардкоженные блоки
-            {
-                if (parseFunctions.TryGetValue(token, out var functions))
-                {
-                    functions(parser, innerLevelDataBlocks);
-                    return true;
-                }
-                else return false;
             }
 
             bool TryParseOtherJSONBlocks() //Попытаться распарсить блоки, прописанные в .json файлах
@@ -223,7 +127,7 @@ namespace HOI4ModBuilder.src.dataObjects
 
             bool TryParseUniversalParams() //Попытаться распарсить внутренние универсальные параметры
             {
-                if (currentDataBlock != null && currentDataBlock.InfoArgsBlock.CanHaveUniversalParams)
+                if (currentDataBlock != null && currentDataBlock.InfoArgsBlock != null && currentDataBlock.InfoArgsBlock.CanHaveUniversalParams)
                 {
                     var universalParamsInfo = currentDataBlock.InfoArgsBlock.AllowedUniversalParamsInfo;
                     if (parser.NextIsBracketed())
@@ -283,13 +187,10 @@ namespace HOI4ModBuilder.src.dataObjects
                     case EnumNewArgsBlockValueType.NONE: throw new NotImplementedException(allowedType.ToString());
                     case EnumNewArgsBlockValueType.VAR: canAcceptVars = true; break;
 
-                    case EnumNewArgsBlockValueType.SCOPE:
-                        if (
-                            int.TryParse(value, out int intValue) ||
-                            CountryManager.TryGetCountry(value, out var country)
-                        )
+                    case EnumNewArgsBlockValueType.COUNTRY:
+                        if (CountryManager.TryGetCountry(value, out var country))
                         {
-                            dataBlock.ValueType = EnumNewArgsBlockValueType.SCOPE;
+                            dataBlock.ValueType = EnumNewArgsBlockValueType.COUNTRY;
                             dataBlock.Value = value;
                             hasParsedValue = true;
                         }
@@ -320,7 +221,7 @@ namespace HOI4ModBuilder.src.dataObjects
                         }
                         break;
                     case EnumNewArgsBlockValueType.INT:
-                        if (int.TryParse(value, out intValue))
+                        if (int.TryParse(value, out int intValue))
                         {
                             dataBlock.ValueType = EnumNewArgsBlockValueType.INT;
                             dataBlock.Value = intValue;
