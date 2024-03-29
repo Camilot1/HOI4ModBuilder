@@ -37,18 +37,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             switch (enumEditLayer)
             {
-                case EnumEditLayer.PROVINCES:
-                    newColor = TextureManager.provinces.GetColor(pos);
-                    break;
-                case EnumEditLayer.RIVERS:
-                    newColor = TextureManager.rivers.GetColor(pos);
-                    break;
-                case EnumEditLayer.TERRAIN_MAP:
-                    newColor = TextureManager.terrain.GetColor(pos);
-                    break;
-                case EnumEditLayer.HEIGHT_MAP:
-                    newColor = TextureManager.height.GetColor(pos);
-                    break;
+                case EnumEditLayer.PROVINCES: newColor = TextureManager.provinces.GetColor(pos); break;
+                case EnumEditLayer.RIVERS: newColor = TextureManager.rivers.GetColor(pos); break;
+                case EnumEditLayer.TERRAIN_MAP: newColor = TextureManager.terrain.GetColor(pos); break;
+                case EnumEditLayer.TREES_MAP: newColor = TextureManager.trees.GetColor(pos); break;
+                case EnumEditLayer.CITIES_MAP: newColor = TextureManager.cities.GetColor(pos); break;
+                case EnumEditLayer.HEIGHT_MAP: newColor = TextureManager.height.GetColor(pos); break;
                 default:
                     return;
             }

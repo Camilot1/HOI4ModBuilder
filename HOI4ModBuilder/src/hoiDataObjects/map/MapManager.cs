@@ -33,6 +33,8 @@ namespace HOI4ModBuilder.managers
         private static bool _isMapDragged = false;
         public static Value2I MapSize { get; private set; }
         private static Point2D _mousePrevPoint;
+        private static Point2D _mapSizeFactor;
+        private static Point2D _pointerSize = new Point2D { x = 1, y = 1 };
         private static EnumMouseState _mouseState = EnumMouseState.NONE;
         public static Bounds4US bounds;
 
@@ -226,15 +228,27 @@ namespace HOI4ModBuilder.managers
 
         private static void DrawPointer()
         {
+            Point2D pos = new Point2D
+            {
+                x = _mousePrevPoint.x / _mapSizeFactor.x,
+                y = _mousePrevPoint.y / _mapSizeFactor.y
+            };
+            pos.x -= pos.x % (1 / _mapSizeFactor.x);
+            pos.y -= pos.y % (1 / _mapSizeFactor.y);
+
+            Point2D size = new Point2D
+            {
+                x = _pointerSize.x / _mapSizeFactor.x,
+                y = _pointerSize.y / _mapSizeFactor.y,
+            };
+
             GL.LineWidth(1f);
             GL.Color3(0f, 0f, 0f);
             GL.Begin(PrimitiveType.LineLoop);
-            int x = (int)_mousePrevPoint.x;
-            int y = (int)_mousePrevPoint.y;
-            GL.Vertex2(x, y);
-            GL.Vertex2(x + 1, y);
-            GL.Vertex2(x + 1, y + 1);
-            GL.Vertex2(x, y + 1);
+            GL.Vertex2(pos.x, pos.y);
+            GL.Vertex2(pos.x + size.x, pos.y);
+            GL.Vertex2(pos.x + size.x, pos.y + size.y);
+            GL.Vertex2(pos.x, pos.y + size.y);
             GL.End();
         }
 
@@ -742,10 +756,18 @@ namespace HOI4ModBuilder.managers
         public static Point2D CalculateMapPos(int eX, int eY, ViewportInfo viewportInfo)
         {
             Point2D point;
-            double mapSizeY = _mapMainLayer == null ? 0 : _mapMainLayer.size.y;
+            Point2D mapSize = new Point2D();
 
-            point.x = ((2 * eX - viewportInfo.width) / (viewportInfo.max * zoomFactor) - mapDifX);
-            point.y = (mapSizeY + (2 * eY - viewportInfo.height) / (viewportInfo.max * zoomFactor) - mapDifY);
+            if (_mapMainLayer != null)
+            {
+                mapSize.y = _mapMainLayer == null ? 0 : _mapMainLayer.size.y;
+                mapSize.x = _mapMainLayer == null ? 0 : _mapMainLayer.size.x;
+                _mapSizeFactor.x = _mapMainLayer.Texture.size.x / mapSize.x;
+                _mapSizeFactor.y = _mapMainLayer.Texture.size.y / mapSize.y;
+            }
+
+            point.x = ((2 * eX - viewportInfo.width) / (viewportInfo.max * zoomFactor) - mapDifX) * _mapSizeFactor.x;
+            point.y = (mapSize.y + (2 * eY - viewportInfo.height) / (viewportInfo.max * zoomFactor) - mapDifY) * _mapSizeFactor.y;
             return point;
         }
 
@@ -787,8 +809,8 @@ namespace HOI4ModBuilder.managers
 
             if (_isMapDragged)
             {
-                mapDifX += pos.x - _mousePrevPoint.x;
-                mapDifY += pos.y - _mousePrevPoint.y;
+                mapDifX += (pos.x - _mousePrevPoint.x) / _mapSizeFactor.x;
+                mapDifY += (pos.y - _mousePrevPoint.y) / _mapSizeFactor.y;
             }
             else
             {

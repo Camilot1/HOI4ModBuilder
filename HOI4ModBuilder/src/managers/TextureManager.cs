@@ -105,16 +105,21 @@ namespace HOI4ModBuilder
                 return bitmap.GetPixel((int)point.x, (int)point.y).ToArgb();
             }
 
-            public short GetIndex(int color)
+            public bool GetIndex(int color, out byte index)
             {
                 //TODO оптимизировать (сделать через словарь-палитру)
                 Color[] entries = bitmap.Palette.Entries;
                 Color c = Color.FromArgb(color);
-                for (short i = 0; i < entries.Length; i++)
+                index = 0;
+                for (byte i = 0; i < entries.Length; i++)
                 {
-                    if (entries[i] == c) return i;
+                    if (entries[i] == c)
+                    {
+                        index = i;
+                        return true;
+                    };
                 }
-                return -1;
+                return false;
             }
 
             public Bitmap GetBitmap()

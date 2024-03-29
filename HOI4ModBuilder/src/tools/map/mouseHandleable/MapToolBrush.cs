@@ -93,15 +93,41 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     prevColor = TextureManager.terrain.GetColor(pos);
                     if (prevColor == newColor) break;
 
-                    short tempNewIndex = TextureManager.terrain.GetIndex(newColor);
-                    if (tempNewIndex < 0 || tempNewIndex > 255) break;
-                    newByte = (byte)tempNewIndex;
+                    if (!TextureManager.terrain.GetIndex(newColor, out newByte)) break;
 
                     action = (p, b, c) =>
                     {
                         TextureManager.terrain.WriteByte(p, b);
                         byte[] data = { (byte)c, (byte)(c >> 8), (byte)(c >> 16) }; //BGR
                         TextureManager.terrain.texture.Update(TextureManager._8bppIndexed, (int)p.x, (int)p.y, 1, 1, data);
+                    };
+                    break;
+                case EnumEditLayer.TREES_MAP:
+                    prevByte = TextureManager.trees.GetByte(pos);
+                    prevColor = TextureManager.trees.GetColor(pos);
+                    if (prevColor == newColor) break;
+
+                    if (!TextureManager.trees.GetIndex(newColor, out newByte)) break;
+
+                    action = (p, b, c) =>
+                    {
+                        TextureManager.trees.WriteByte(p, b);
+                        byte[] data = { (byte)c, (byte)(c >> 8), (byte)(c >> 16) }; //BGR
+                        TextureManager.trees.texture.Update(TextureManager._8bppIndexed, (int)p.x, (int)p.y, 1, 1, data);
+                    };
+                    break;
+                case EnumEditLayer.CITIES_MAP:
+                    prevByte = TextureManager.cities.GetByte(pos);
+                    prevColor = TextureManager.cities.GetColor(pos);
+                    if (prevColor == newColor) break;
+
+                    if (!TextureManager.cities.GetIndex(newColor, out newByte)) break;
+
+                    action = (p, b, c) =>
+                    {
+                        TextureManager.cities.WriteByte(p, b);
+                        byte[] data = { (byte)c, (byte)(c >> 8), (byte)(c >> 16) }; //BGR
+                        TextureManager.cities.texture.Update(TextureManager._8bppIndexed, (int)p.x, (int)p.y, 1, 1, data);
                     };
                     break;
                 case EnumEditLayer.HEIGHT_MAP:
