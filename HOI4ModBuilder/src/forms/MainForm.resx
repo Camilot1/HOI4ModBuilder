@@ -131,63 +131,6 @@
   <data name="FlowLayoutPanel_ToolBar.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
   </data>
-  <data name="СomboBox_MapMainLayer.Items" xml:space="preserve">
-    <value>Карта провинций</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items1" xml:space="preserve">
-    <value>Области</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items2" xml:space="preserve">
-    <value>Регионы</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items3" xml:space="preserve">
-    <value>Страны</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items4" xml:space="preserve">
-    <value>Тип провинций</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items5" xml:space="preserve">
-    <value>Местность провинций</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items6" xml:space="preserve">
-    <value>Местность регионов</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items7" xml:space="preserve">
-    <value>Континенты</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items8" xml:space="preserve">
-    <value>Население</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items9" xml:space="preserve">
-    <value>Очки победы</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items10" xml:space="preserve">
-    <value>Категории обл.</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items11" xml:space="preserve">
-    <value>Постройки</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items12" xml:space="preserve">
-    <value>Карта местности</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items13" xml:space="preserve">
-    <value>Карта деревьев</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items14" xml:space="preserve">
-    <value>Карта городов</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items15" xml:space="preserve">
-    <value>Карта высот</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items16" xml:space="preserve">
-    <value>Карта нормалей</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items17" xml:space="preserve">
-    <value>Нет</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Items18" xml:space="preserve">
-    <value>Нет</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="СomboBox_MapMainLayer.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 15</value>
@@ -240,36 +183,6 @@
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="ComboBox_EditLayer.Items" xml:space="preserve">
-    <value>Провинции</value>
-  </data>
-  <data name="ComboBox_EditLayer.Items1" xml:space="preserve">
-    <value>Области</value>
-  </data>
-  <data name="ComboBox_EditLayer.Items2" xml:space="preserve">
-    <value>Регионы</value>
-  </data>
-  <data name="ComboBox_EditLayer.Items3" xml:space="preserve">
-    <value>Постройки</value>
-  </data>
-  <data name="ComboBox_EditLayer.Items4" xml:space="preserve">
-    <value>Реки</value>
-  </data>
-  <data name="ComboBox_EditLayer.Items5" xml:space="preserve">
-    <value>Местность</value>
-  </data>
-  <data name="ComboBox_EditLayer.Items6" xml:space="preserve">
-    <value>Деревья</value>
-  </data>
-  <data name="ComboBox_EditLayer.Items7" xml:space="preserve">
-    <value>Города</value>
-  </data>
-  <data name="ComboBox_EditLayer.Items8" xml:space="preserve">
-    <value>Высота</value>
-  </data>
-  <data name="ComboBox_EditLayer.Items9" xml:space="preserve">
-    <value>Нет</value>
-  </data>
   <data name="ComboBox_EditLayer.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 15</value>
   </data>
@@ -320,54 +233,6 @@
   </data>
   <data name="&gt;&gt;groupBox6.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="ComboBox_Tool.Items" xml:space="preserve">
-    <value>Курсор [C]</value>
-  </data>
-  <data name="ComboBox_Tool.Items1" xml:space="preserve">
-    <value>Прямоугольник [S]</value>
-  </data>
-  <data name="ComboBox_Tool.Items2" xml:space="preserve">
-    <value>Овал [S]</value>
-  </data>
-  <data name="ComboBox_Tool.Items3" xml:space="preserve">
-    <value>Магич. палочка [S]</value>
-  </data>
-  <data name="ComboBox_Tool.Items4" xml:space="preserve">
-    <value>Кисть [B]</value>
-  </data>
-  <data name="ComboBox_Tool.Items5" xml:space="preserve">
-    <value>Заливка [F]</value>
-  </data>
-  <data name="ComboBox_Tool.Items6" xml:space="preserve">
-    <value>Ластик [E]</value>
-  </data>
-  <data name="ComboBox_Tool.Items7" xml:space="preserve">
-    <value>Пипетка [K]</value>
-  </data>
-  <data name="ComboBox_Tool.Items8" xml:space="preserve">
-    <value>Тип провинции</value>
-  </data>
-  <data name="ComboBox_Tool.Items9" xml:space="preserve">
-    <value>Прибрежность</value>
-  </data>
-  <data name="ComboBox_Tool.Items10" xml:space="preserve">
-    <value>Местность</value>
-  </data>
-  <data name="ComboBox_Tool.Items11" xml:space="preserve">
-    <value>Континент</value>
-  </data>
-  <data name="ComboBox_Tool.Items12" xml:space="preserve">
-    <value>Область</value>
-  </data>
-  <data name="ComboBox_Tool.Items13" xml:space="preserve">
-    <value>Регион</value>
-  </data>
-  <data name="ComboBox_Tool.Items14" xml:space="preserve">
-    <value>Категория области</value>
-  </data>
-  <data name="ComboBox_Tool.Items15" xml:space="preserve">
-    <value>Постройки</value>
   </data>
   <data name="ComboBox_Tool.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 15</value>
@@ -775,13 +640,13 @@
     <value>Fill</value>
   </data>
   <data name="FlowLayoutPanel_ToolBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 12</value>
+    <value>0, 0</value>
   </data>
   <data name="FlowLayoutPanel_ToolBar.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="FlowLayoutPanel_ToolBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1327, 50</value>
+    <value>1370, 37</value>
   </data>
   <data name="FlowLayoutPanel_ToolBar.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -801,38 +666,14 @@
   <data name="flowLayoutPanel2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="CheckedListBox_MapAdditionalLayers.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left</value>
-  </data>
-  <data name="CheckedListBox_MapAdditionalLayers.Items" xml:space="preserve">
-    <value>Центры</value>
-  </data>
-  <data name="CheckedListBox_MapAdditionalLayers.Items1" xml:space="preserve">
-    <value>Границы</value>
-  </data>
-  <data name="CheckedListBox_MapAdditionalLayers.Items2" xml:space="preserve">
-    <value>Реки</value>
-  </data>
-  <data name="CheckedListBox_MapAdditionalLayers.Items3" xml:space="preserve">
-    <value>Железные дороги</value>
-  </data>
-  <data name="CheckedListBox_MapAdditionalLayers.Items4" xml:space="preserve">
-    <value>Узлы снабжения</value>
-  </data>
-  <data name="CheckedListBox_MapAdditionalLayers.Items5" xml:space="preserve">
-    <value>Морские переходы</value>
-  </data>
-  <data name="CheckedListBox_MapAdditionalLayers.Items6" xml:space="preserve">
-    <value>Непроходимые зоны</value>
-  </data>
-  <data name="CheckedListBox_MapAdditionalLayers.Items7" xml:space="preserve">
-    <value>Предупреждения</value>
-  </data>
-  <data name="CheckedListBox_MapAdditionalLayers.Items8" xml:space="preserve">
-    <value>Текстуры карт</value>
+  <data name="groupBox7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="CheckedListBox_MapAdditionalLayers.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 19</value>
+  </data>
+  <data name="CheckedListBox_MapAdditionalLayers.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
   </data>
   <data name="CheckedListBox_MapAdditionalLayers.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 139</value>
@@ -855,8 +696,14 @@
   <data name="groupBox7.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>
+  <data name="groupBox7.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>100, 30</value>
+  </data>
+  <data name="groupBox7.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 0</value>
+  </data>
   <data name="groupBox7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 166</value>
+    <value>130, 171</value>
   </data>
   <data name="groupBox7.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -875,24 +722,6 @@
   </data>
   <data name="&gt;&gt;groupBox7.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="ComboBox_BordersType.Items" xml:space="preserve">
-    <value>Провинции (ч)</value>
-  </data>
-  <data name="ComboBox_BordersType.Items1" xml:space="preserve">
-    <value>Провинции (б)</value>
-  </data>
-  <data name="ComboBox_BordersType.Items2" xml:space="preserve">
-    <value>Области (ч)</value>
-  </data>
-  <data name="ComboBox_BordersType.Items3" xml:space="preserve">
-    <value>Области (б)</value>
-  </data>
-  <data name="ComboBox_BordersType.Items4" xml:space="preserve">
-    <value>Регионы (ч)</value>
-  </data>
-  <data name="ComboBox_BordersType.Items5" xml:space="preserve">
-    <value>Регионы (б)</value>
   </data>
   <data name="ComboBox_BordersType.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 13</value>
@@ -916,7 +745,7 @@
     <value>0</value>
   </data>
   <data name="groupBox8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 175</value>
+    <value>3, 180</value>
   </data>
   <data name="groupBox8.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 40</value>
@@ -967,7 +796,7 @@
     <value>0</value>
   </data>
   <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 221</value>
+    <value>3, 226</value>
   </data>
   <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 51</value>
@@ -1177,7 +1006,7 @@
     <value>6</value>
   </data>
   <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 278</value>
+    <value>3, 283</value>
   </data>
   <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 267</value>
@@ -1222,7 +1051,7 @@
     <value>0</value>
   </data>
   <data name="groupBox11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 551</value>
+    <value>3, 556</value>
   </data>
   <data name="groupBox11.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 41</value>
@@ -1348,7 +1177,7 @@
     <value>3</value>
   </data>
   <data name="groupBox9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 598</value>
+    <value>3, 603</value>
   </data>
   <data name="groupBox9.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 73</value>
@@ -1378,13 +1207,13 @@
     <value>TopDown</value>
   </data>
   <data name="flowLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 74</value>
+    <value>0, 37</value>
   </data>
   <data name="flowLayoutPanel2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="flowLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 889</value>
+    <value>136, 908</value>
   </data>
   <data name="flowLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -1759,13 +1588,13 @@
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Panel_Map.Location" type="System.Drawing.Point, System.Drawing">
-    <value>165, 70</value>
+    <value>136, 40</value>
   </data>
   <data name="Panel_Map.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 3, 0, 0</value>
   </data>
   <data name="Panel_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1222, 889</value>
+    <value>1234, 905</value>
   </data>
   <data name="Panel_Map.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -2513,6 +2342,12 @@
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Map_Search_Region.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator25.Name" xml:space="preserve">
+    <value>toolStripSeparator25</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator25.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Map_Province.Name" xml:space="preserve">
     <value>ToolStripMenuItem_Map_Province</value>
@@ -3275,12 +3110,6 @@
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Discord.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator25.Name" xml:space="preserve">
-    <value>toolStripSeparator25</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator25.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>

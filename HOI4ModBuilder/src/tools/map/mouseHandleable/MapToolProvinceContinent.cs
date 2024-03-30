@@ -9,16 +9,18 @@ using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
-    class MapToolProvinceContinent : IMouseHandleableMapTool
+    class MapToolProvinceContinent : MapTool
     {
         private static readonly EnumTool enumTool = EnumTool.PROVINCE_CONTINENT;
 
-        public MapToolProvinceContinent(Dictionary<EnumTool, IMouseHandleableMapTool> mapTools)
-        {
-            mapTools[enumTool] = this;
-        }
+        public MapToolProvinceContinent(Dictionary<EnumTool, MapTool> mapTools)
+            : base(
+                  mapTools, enumTool, new HotKey { },
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+              )
+        { }
 
-        public void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public new void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
             if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
             ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province);

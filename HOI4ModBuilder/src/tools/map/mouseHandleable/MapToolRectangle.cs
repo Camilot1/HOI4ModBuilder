@@ -6,28 +6,23 @@ using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
-    class MapToolRectangle : IMouseHandleableMapTool
+    class MapToolRectangle : MapTool
     {
         private static readonly EnumTool enumTool = EnumTool.RECTANGLE;
 
-        public MapToolRectangle(Dictionary<EnumTool, IMouseHandleableMapTool> mapTools)
-        {
-            mapTools[enumTool] = this;
+        public MapToolRectangle(Dictionary<EnumTool, MapTool> mapTools)
+            : base(
+                  mapTools, enumTool, new HotKey { key = Keys.S },
+                  (e) =>
+                  {
+                      EnumTool currentTool = MainForm.Instance.SelectedTool;
+                      if (e.Modifiers != Keys.Control && currentTool < EnumTool.RECTANGLE || currentTool > EnumTool.MAGIC_WAND)
+                          MainForm.Instance.SetSelectedTool(enumTool);
+                  }
+              )
+        { }
 
-            MainForm.SubscribeTabKeyEvent(
-                MainForm.Instance.TabPage_Map,
-                Keys.S,
-                (sender, e) =>
-                {
-                    if (e.Control || e.Shift || e.Alt) return;
-                    EnumTool currentTool = MainForm.Instance.SelectedTool;
-                    if (e.Modifiers != Keys.Control && currentTool < EnumTool.RECTANGLE || currentTool > EnumTool.MAGIC_WAND)
-                        MainForm.Instance.SetSelectedTool(enumTool);
-                }
-            );
-        }
-
-        public void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public new void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
             if (buttons != MouseButtons.Left) return;
 

@@ -12,8 +12,10 @@ namespace HOI4ModBuilder.src.utils
 {
     class GuiLocManager
     {
-        private static Dictionary<EnumLocKey, string> _loc = new Dictionary<EnumLocKey, string>();
         private static readonly string[] allowedLanguages = new string[] { "ru", "en" };
+
+        private static Dictionary<EnumLocKey, string> _locKeys = new Dictionary<EnumLocKey, string>();
+        private static Dictionary<string, string> _locStrings = new Dictionary<string, string>();
 
         private static readonly IDeserializer yamlDeserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
@@ -40,13 +42,13 @@ namespace HOI4ModBuilder.src.utils
 
         public static string GetLoc(EnumLocKey key)
         {
-            if (_loc.TryGetValue(key, out var value)) return value;
+            if (_locKeys.TryGetValue(key, out var value)) return value;
             else return key.ToString();
         }
 
         public static string GetLoc(EnumLocKey key, Dictionary<string, string> replaceValues, string additionalText)
         {
-            if (_loc.TryGetValue(key, out var value))
+            if (_locKeys.TryGetValue(key, out var value))
             {
                 if (replaceValues != null)
                     foreach (var valuePair in replaceValues) value = value.Replace(valuePair.Key, valuePair.Value);
@@ -58,6 +60,29 @@ namespace HOI4ModBuilder.src.utils
         }
 
         public static string GetLoc(EnumLocKey key, Dictionary<string, string> replaceValues)
+        {
+            return GetLoc(key, replaceValues, null);
+        }
+        public static string GetLoc(string key)
+        {
+            if (_locStrings.TryGetValue(key, out var value)) return value;
+            else return key.ToString();
+        }
+
+        public static string GetLoc(string key, Dictionary<string, string> replaceValues, string additionalText)
+        {
+            if (_locStrings.TryGetValue(key, out var value))
+            {
+                if (replaceValues != null)
+                    foreach (var valuePair in replaceValues) value = value.Replace(valuePair.Key, valuePair.Value);
+                if (additionalText != null) value += additionalText;
+
+                return value;
+            }
+            else return $"{key}: {Utils.DictionaryToString(replaceValues)}";
+        }
+
+        public static string GetLoc(string key, Dictionary<string, string> replaceValues)
         {
             return GetLoc(key, replaceValues, null);
         }
@@ -79,11 +104,13 @@ namespace HOI4ModBuilder.src.utils
                     transferDictionary[enumLocKey.ToString()] = enumLocKey;
 
                 //Переносим ключи и их локализацию из файла в словарь локализации
-                _loc = new Dictionary<EnumLocKey, string>();
+                _locKeys = new Dictionary<EnumLocKey, string>();
                 foreach (var pair in tempDictionary)
                 {
                     if (transferDictionary.TryGetValue(pair.Key, out var enumKey))
-                        _loc[enumKey] = pair.Value;
+                        _locKeys[enumKey] = pair.Value;
+                    else
+                        _locStrings[pair.Key] = pair.Value;
                 }
 
                 //Проверяем, каких ключек локализации не было в файле

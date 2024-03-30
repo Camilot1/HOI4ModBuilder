@@ -8,16 +8,18 @@ using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
-    class MapToolProvinceCoastal : IMouseHandleableMapTool
+    class MapToolProvinceCoastal : MapTool
     {
         private static readonly EnumTool enumTool = EnumTool.PROVINCE_COASTAL;
 
-        public MapToolProvinceCoastal(Dictionary<EnumTool, IMouseHandleableMapTool> mapTools)
-        {
-            mapTools[enumTool] = this;
-        }
+        public MapToolProvinceCoastal(Dictionary<EnumTool, MapTool> mapTools)
+            : base(
+                  mapTools, enumTool, new HotKey { },
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+              )
+        { }
 
-        public void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public new void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
             if (enumEditLayer != EnumEditLayer.PROVINCES) return;
 

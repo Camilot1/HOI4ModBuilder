@@ -10,26 +10,18 @@ using HOI4ModBuilder.src.utils;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
-    class MapToolFill : IMouseHandleableMapTool
+    class MapToolFill : MapTool
     {
         private static readonly EnumTool enumTool = EnumTool.FILL;
 
-        public MapToolFill(Dictionary<EnumTool, IMouseHandleableMapTool> mapTools)
-        {
-            mapTools[enumTool] = this;
+        public MapToolFill(Dictionary<EnumTool, MapTool> mapTools)
+            : base(
+                  mapTools, enumTool, new HotKey { key = Keys.F },
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+              )
+        { }
 
-            MainForm.SubscribeTabKeyEvent(
-                MainForm.Instance.TabPage_Map,
-                Keys.F,
-                (sender, e) =>
-                {
-                    if (e.Control || e.Shift || e.Alt) return;
-                    MainForm.Instance.SetSelectedTool(enumTool);
-                }
-            );
-        }
-
-        public void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public new void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
             int prevColor = 0, newColor = 0;
             if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;

@@ -32,6 +32,26 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TabControl_Main = new System.Windows.Forms.TabControl();
             this.TabPage_Map = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.FlowLayoutPanel_ToolBar = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.СomboBox_MapMainLayer = new System.Windows.Forms.ComboBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.ComboBox_EditLayer = new System.Windows.Forms.ComboBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ComboBox_Tool = new System.Windows.Forms.ComboBox();
+            this.GroupBox_Tool_Parameter = new System.Windows.Forms.GroupBox();
+            this.ComboBox_Tool_Parameter = new System.Windows.Forms.ComboBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.Panel_SecondColor = new System.Windows.Forms.Panel();
+            this.Panel_FirstColor = new System.Windows.Forms.Panel();
+            this.GroupBox_GenerateColor = new System.Windows.Forms.GroupBox();
+            this.Button_GenerateColor = new System.Windows.Forms.Button();
+            this.ComboBox_GenerateColor_Type = new System.Windows.Forms.ComboBox();
+            this.GroupBox_Palette = new System.Windows.Forms.GroupBox();
+            this.FlowLayoutPanel_Color = new System.Windows.Forms.FlowLayoutPanel();
+            this.GroupBox_Progress = new System.Windows.Forms.GroupBox();
+            this.ProgressBar1 = new System.Windows.Forms.ProgressBar();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.CheckedListBox_MapAdditionalLayers = new System.Windows.Forms.CheckedListBox();
@@ -54,25 +74,6 @@
             this.textBox_PixelPos = new System.Windows.Forms.TextBox();
             this.textBox_SelectedObjectId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.FlowLayoutPanel_ToolBar = new System.Windows.Forms.FlowLayoutPanel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.СomboBox_MapMainLayer = new System.Windows.Forms.ComboBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.ComboBox_EditLayer = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.ComboBox_Tool = new System.Windows.Forms.ComboBox();
-            this.GroupBox_Tool_Parameter = new System.Windows.Forms.GroupBox();
-            this.ComboBox_Tool_Parameter = new System.Windows.Forms.ComboBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.Panel_SecondColor = new System.Windows.Forms.Panel();
-            this.Panel_FirstColor = new System.Windows.Forms.Panel();
-            this.GroupBox_GenerateColor = new System.Windows.Forms.GroupBox();
-            this.Button_GenerateColor = new System.Windows.Forms.Button();
-            this.ComboBox_GenerateColor_Type = new System.Windows.Forms.ComboBox();
-            this.GroupBox_Palette = new System.Windows.Forms.GroupBox();
-            this.FlowLayoutPanel_Color = new System.Windows.Forms.FlowLayoutPanel();
-            this.GroupBox_Progress = new System.Windows.Forms.GroupBox();
-            this.ProgressBar1 = new System.Windows.Forms.ProgressBar();
             this.Panel_Map = new System.Windows.Forms.Panel();
             this.ContextMenuStrip_Map = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItem_Map_Search = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,6 +82,7 @@
             this.ToolStripMenuItem_Map_Search_Province = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Search_State = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Search_Region = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Map_Province = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripComboBox_Map_Province_Type = new System.Windows.Forms.ToolStripComboBox();
             this.ToolStripMenuItem_Map_Province_IsCoastal = new System.Windows.Forms.ToolStripMenuItem();
@@ -214,17 +216,9 @@
             this.ToolStripMenuItem_Language_RU = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Language_EN = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Discord = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.TabControl_Main.SuspendLayout();
             this.TabPage_Map.SuspendLayout();
-            this.flowLayoutPanel2.SuspendLayout();
-            this.groupBox7.SuspendLayout();
-            this.groupBox8.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.groupBox11.SuspendLayout();
-            this.groupBox9.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.FlowLayoutPanel_ToolBar.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -234,10 +228,16 @@
             this.GroupBox_GenerateColor.SuspendLayout();
             this.GroupBox_Palette.SuspendLayout();
             this.GroupBox_Progress.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.ContextMenuStrip_Map.SuspendLayout();
             this.TabPage_Resources.SuspendLayout();
             this.MenuStrip1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabControl_Main
@@ -258,6 +258,161 @@
             this.TabPage_Map.Name = "TabPage_Map";
             this.TabPage_Map.UseVisualStyleBackColor = true;
             // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.FlowLayoutPanel_ToolBar, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.Panel_Map, 1, 1);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // FlowLayoutPanel_ToolBar
+            // 
+            resources.ApplyResources(this.FlowLayoutPanel_ToolBar, "FlowLayoutPanel_ToolBar");
+            this.tableLayoutPanel1.SetColumnSpan(this.FlowLayoutPanel_ToolBar, 2);
+            this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox1);
+            this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox6);
+            this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox2);
+            this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Tool_Parameter);
+            this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox3);
+            this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_GenerateColor);
+            this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Palette);
+            this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Progress);
+            this.FlowLayoutPanel_ToolBar.Name = "FlowLayoutPanel_ToolBar";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.СomboBox_MapMainLayer);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // СomboBox_MapMainLayer
+            // 
+            this.СomboBox_MapMainLayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.СomboBox_MapMainLayer.FormattingEnabled = true;
+            resources.ApplyResources(this.СomboBox_MapMainLayer, "СomboBox_MapMainLayer");
+            this.СomboBox_MapMainLayer.Name = "СomboBox_MapMainLayer";
+            this.СomboBox_MapMainLayer.SelectedIndexChanged += new System.EventHandler(this.СomboBox_MapMainLayer_SelectedIndexChanged);
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.ComboBox_EditLayer);
+            resources.ApplyResources(this.groupBox6, "groupBox6");
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.TabStop = false;
+            // 
+            // ComboBox_EditLayer
+            // 
+            this.ComboBox_EditLayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBox_EditLayer.FormattingEnabled = true;
+            resources.ApplyResources(this.ComboBox_EditLayer, "ComboBox_EditLayer");
+            this.ComboBox_EditLayer.Name = "ComboBox_EditLayer";
+            this.ComboBox_EditLayer.SelectedIndexChanged += new System.EventHandler(this.ComboBox_EditLayer_SelectedIndexChanged);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.ComboBox_Tool);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.TabStop = false;
+            // 
+            // ComboBox_Tool
+            // 
+            this.ComboBox_Tool.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBox_Tool.FormattingEnabled = true;
+            resources.ApplyResources(this.ComboBox_Tool, "ComboBox_Tool");
+            this.ComboBox_Tool.Name = "ComboBox_Tool";
+            this.ComboBox_Tool.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Tool_SelectedIndexChanged);
+            // 
+            // GroupBox_Tool_Parameter
+            // 
+            this.GroupBox_Tool_Parameter.Controls.Add(this.ComboBox_Tool_Parameter);
+            resources.ApplyResources(this.GroupBox_Tool_Parameter, "GroupBox_Tool_Parameter");
+            this.GroupBox_Tool_Parameter.Name = "GroupBox_Tool_Parameter";
+            this.GroupBox_Tool_Parameter.TabStop = false;
+            // 
+            // ComboBox_Tool_Parameter
+            // 
+            this.ComboBox_Tool_Parameter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBox_Tool_Parameter.FormattingEnabled = true;
+            resources.ApplyResources(this.ComboBox_Tool_Parameter, "ComboBox_Tool_Parameter");
+            this.ComboBox_Tool_Parameter.Name = "ComboBox_Tool_Parameter";
+            this.ComboBox_Tool_Parameter.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Tool_Parameter_SelectedIndexChanged);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.Panel_SecondColor);
+            this.groupBox3.Controls.Add(this.Panel_FirstColor);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
+            // Panel_SecondColor
+            // 
+            this.Panel_SecondColor.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_SecondColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.Panel_SecondColor, "Panel_SecondColor");
+            this.Panel_SecondColor.Name = "Panel_SecondColor";
+            // 
+            // Panel_FirstColor
+            // 
+            this.Panel_FirstColor.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_FirstColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.Panel_FirstColor, "Panel_FirstColor");
+            this.Panel_FirstColor.Name = "Panel_FirstColor";
+            // 
+            // GroupBox_GenerateColor
+            // 
+            this.GroupBox_GenerateColor.Controls.Add(this.Button_GenerateColor);
+            this.GroupBox_GenerateColor.Controls.Add(this.ComboBox_GenerateColor_Type);
+            resources.ApplyResources(this.GroupBox_GenerateColor, "GroupBox_GenerateColor");
+            this.GroupBox_GenerateColor.Name = "GroupBox_GenerateColor";
+            this.GroupBox_GenerateColor.TabStop = false;
+            // 
+            // Button_GenerateColor
+            // 
+            resources.ApplyResources(this.Button_GenerateColor, "Button_GenerateColor");
+            this.Button_GenerateColor.Name = "Button_GenerateColor";
+            this.Button_GenerateColor.UseVisualStyleBackColor = true;
+            this.Button_GenerateColor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Button_GenerateColor_MouseDown);
+            // 
+            // ComboBox_GenerateColor_Type
+            // 
+            this.ComboBox_GenerateColor_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBox_GenerateColor_Type.FormattingEnabled = true;
+            this.ComboBox_GenerateColor_Type.Items.AddRange(new object[] {
+            resources.GetString("ComboBox_GenerateColor_Type.Items"),
+            resources.GetString("ComboBox_GenerateColor_Type.Items1"),
+            resources.GetString("ComboBox_GenerateColor_Type.Items2"),
+            resources.GetString("ComboBox_GenerateColor_Type.Items3")});
+            resources.ApplyResources(this.ComboBox_GenerateColor_Type, "ComboBox_GenerateColor_Type");
+            this.ComboBox_GenerateColor_Type.Name = "ComboBox_GenerateColor_Type";
+            // 
+            // GroupBox_Palette
+            // 
+            resources.ApplyResources(this.GroupBox_Palette, "GroupBox_Palette");
+            this.GroupBox_Palette.Controls.Add(this.FlowLayoutPanel_Color);
+            this.GroupBox_Palette.Name = "GroupBox_Palette";
+            this.GroupBox_Palette.TabStop = false;
+            // 
+            // FlowLayoutPanel_Color
+            // 
+            resources.ApplyResources(this.FlowLayoutPanel_Color, "FlowLayoutPanel_Color");
+            this.FlowLayoutPanel_Color.Name = "FlowLayoutPanel_Color";
+            // 
+            // GroupBox_Progress
+            // 
+            resources.ApplyResources(this.GroupBox_Progress, "GroupBox_Progress");
+            this.GroupBox_Progress.Controls.Add(this.ProgressBar1);
+            this.GroupBox_Progress.Name = "GroupBox_Progress";
+            this.GroupBox_Progress.TabStop = false;
+            // 
+            // ProgressBar1
+            // 
+            resources.ApplyResources(this.ProgressBar1, "ProgressBar1");
+            this.ProgressBar1.Name = "ProgressBar1";
+            // 
             // flowLayoutPanel2
             // 
             resources.ApplyResources(this.flowLayoutPanel2, "flowLayoutPanel2");
@@ -271,26 +426,16 @@
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.CheckedListBox_MapAdditionalLayers);
             resources.ApplyResources(this.groupBox7, "groupBox7");
+            this.groupBox7.Controls.Add(this.CheckedListBox_MapAdditionalLayers);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.TabStop = false;
             // 
             // CheckedListBox_MapAdditionalLayers
             // 
-            resources.ApplyResources(this.CheckedListBox_MapAdditionalLayers, "CheckedListBox_MapAdditionalLayers");
             this.CheckedListBox_MapAdditionalLayers.CheckOnClick = true;
             this.CheckedListBox_MapAdditionalLayers.FormattingEnabled = true;
-            this.CheckedListBox_MapAdditionalLayers.Items.AddRange(new object[] {
-            resources.GetString("CheckedListBox_MapAdditionalLayers.Items"),
-            resources.GetString("CheckedListBox_MapAdditionalLayers.Items1"),
-            resources.GetString("CheckedListBox_MapAdditionalLayers.Items2"),
-            resources.GetString("CheckedListBox_MapAdditionalLayers.Items3"),
-            resources.GetString("CheckedListBox_MapAdditionalLayers.Items4"),
-            resources.GetString("CheckedListBox_MapAdditionalLayers.Items5"),
-            resources.GetString("CheckedListBox_MapAdditionalLayers.Items6"),
-            resources.GetString("CheckedListBox_MapAdditionalLayers.Items7"),
-            resources.GetString("CheckedListBox_MapAdditionalLayers.Items8")});
+            resources.ApplyResources(this.CheckedListBox_MapAdditionalLayers, "CheckedListBox_MapAdditionalLayers");
             this.CheckedListBox_MapAdditionalLayers.Name = "CheckedListBox_MapAdditionalLayers";
             this.CheckedListBox_MapAdditionalLayers.MouseUp += new System.Windows.Forms.MouseEventHandler(this.CheckedListBox_MapAdditionalLayers_MouseUp);
             // 
@@ -305,13 +450,6 @@
             // 
             this.ComboBox_BordersType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBox_BordersType.FormattingEnabled = true;
-            this.ComboBox_BordersType.Items.AddRange(new object[] {
-            resources.GetString("ComboBox_BordersType.Items"),
-            resources.GetString("ComboBox_BordersType.Items1"),
-            resources.GetString("ComboBox_BordersType.Items2"),
-            resources.GetString("ComboBox_BordersType.Items3"),
-            resources.GetString("ComboBox_BordersType.Items4"),
-            resources.GetString("ComboBox_BordersType.Items5")});
             resources.ApplyResources(this.ComboBox_BordersType, "ComboBox_BordersType");
             this.ComboBox_BordersType.Name = "ComboBox_BordersType";
             this.ComboBox_BordersType.SelectedIndexChanged += new System.EventHandler(this.ComboBox_BordersType_SelectedIndexChanged);
@@ -433,201 +571,6 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
-            // FlowLayoutPanel_ToolBar
-            // 
-            resources.ApplyResources(this.FlowLayoutPanel_ToolBar, "FlowLayoutPanel_ToolBar");
-            this.tableLayoutPanel1.SetColumnSpan(this.FlowLayoutPanel_ToolBar, 2);
-            this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox1);
-            this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox6);
-            this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox2);
-            this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Tool_Parameter);
-            this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox3);
-            this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_GenerateColor);
-            this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Palette);
-            this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Progress);
-            this.FlowLayoutPanel_ToolBar.Name = "FlowLayoutPanel_ToolBar";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.СomboBox_MapMainLayer);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
-            // 
-            // СomboBox_MapMainLayer
-            // 
-            this.СomboBox_MapMainLayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.СomboBox_MapMainLayer.FormattingEnabled = true;
-            this.СomboBox_MapMainLayer.Items.AddRange(new object[] {
-            resources.GetString("СomboBox_MapMainLayer.Items"),
-            resources.GetString("СomboBox_MapMainLayer.Items1"),
-            resources.GetString("СomboBox_MapMainLayer.Items2"),
-            resources.GetString("СomboBox_MapMainLayer.Items3"),
-            resources.GetString("СomboBox_MapMainLayer.Items4"),
-            resources.GetString("СomboBox_MapMainLayer.Items5"),
-            resources.GetString("СomboBox_MapMainLayer.Items6"),
-            resources.GetString("СomboBox_MapMainLayer.Items7"),
-            resources.GetString("СomboBox_MapMainLayer.Items8"),
-            resources.GetString("СomboBox_MapMainLayer.Items9"),
-            resources.GetString("СomboBox_MapMainLayer.Items10"),
-            resources.GetString("СomboBox_MapMainLayer.Items11"),
-            resources.GetString("СomboBox_MapMainLayer.Items12"),
-            resources.GetString("СomboBox_MapMainLayer.Items13"),
-            resources.GetString("СomboBox_MapMainLayer.Items14"),
-            resources.GetString("СomboBox_MapMainLayer.Items15"),
-            resources.GetString("СomboBox_MapMainLayer.Items16"),
-            resources.GetString("СomboBox_MapMainLayer.Items17"),
-            resources.GetString("СomboBox_MapMainLayer.Items18")});
-            resources.ApplyResources(this.СomboBox_MapMainLayer, "СomboBox_MapMainLayer");
-            this.СomboBox_MapMainLayer.Name = "СomboBox_MapMainLayer";
-            this.СomboBox_MapMainLayer.SelectedIndexChanged += new System.EventHandler(this.СomboBox_MapMainLayer_SelectedIndexChanged);
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.ComboBox_EditLayer);
-            resources.ApplyResources(this.groupBox6, "groupBox6");
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.TabStop = false;
-            // 
-            // ComboBox_EditLayer
-            // 
-            this.ComboBox_EditLayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboBox_EditLayer.FormattingEnabled = true;
-            this.ComboBox_EditLayer.Items.AddRange(new object[] {
-            resources.GetString("ComboBox_EditLayer.Items"),
-            resources.GetString("ComboBox_EditLayer.Items1"),
-            resources.GetString("ComboBox_EditLayer.Items2"),
-            resources.GetString("ComboBox_EditLayer.Items3"),
-            resources.GetString("ComboBox_EditLayer.Items4"),
-            resources.GetString("ComboBox_EditLayer.Items5"),
-            resources.GetString("ComboBox_EditLayer.Items6"),
-            resources.GetString("ComboBox_EditLayer.Items7"),
-            resources.GetString("ComboBox_EditLayer.Items8"),
-            resources.GetString("ComboBox_EditLayer.Items9")});
-            resources.ApplyResources(this.ComboBox_EditLayer, "ComboBox_EditLayer");
-            this.ComboBox_EditLayer.Name = "ComboBox_EditLayer";
-            this.ComboBox_EditLayer.SelectedIndexChanged += new System.EventHandler(this.ComboBox_EditLayer_SelectedIndexChanged);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.ComboBox_Tool);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.TabStop = false;
-            // 
-            // ComboBox_Tool
-            // 
-            this.ComboBox_Tool.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboBox_Tool.FormattingEnabled = true;
-            this.ComboBox_Tool.Items.AddRange(new object[] {
-            resources.GetString("ComboBox_Tool.Items"),
-            resources.GetString("ComboBox_Tool.Items1"),
-            resources.GetString("ComboBox_Tool.Items2"),
-            resources.GetString("ComboBox_Tool.Items3"),
-            resources.GetString("ComboBox_Tool.Items4"),
-            resources.GetString("ComboBox_Tool.Items5"),
-            resources.GetString("ComboBox_Tool.Items6"),
-            resources.GetString("ComboBox_Tool.Items7"),
-            resources.GetString("ComboBox_Tool.Items8"),
-            resources.GetString("ComboBox_Tool.Items9"),
-            resources.GetString("ComboBox_Tool.Items10"),
-            resources.GetString("ComboBox_Tool.Items11"),
-            resources.GetString("ComboBox_Tool.Items12"),
-            resources.GetString("ComboBox_Tool.Items13"),
-            resources.GetString("ComboBox_Tool.Items14"),
-            resources.GetString("ComboBox_Tool.Items15")});
-            resources.ApplyResources(this.ComboBox_Tool, "ComboBox_Tool");
-            this.ComboBox_Tool.Name = "ComboBox_Tool";
-            this.ComboBox_Tool.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Tool_SelectedIndexChanged);
-            // 
-            // GroupBox_Tool_Parameter
-            // 
-            this.GroupBox_Tool_Parameter.Controls.Add(this.ComboBox_Tool_Parameter);
-            resources.ApplyResources(this.GroupBox_Tool_Parameter, "GroupBox_Tool_Parameter");
-            this.GroupBox_Tool_Parameter.Name = "GroupBox_Tool_Parameter";
-            this.GroupBox_Tool_Parameter.TabStop = false;
-            // 
-            // ComboBox_Tool_Parameter
-            // 
-            this.ComboBox_Tool_Parameter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboBox_Tool_Parameter.FormattingEnabled = true;
-            resources.ApplyResources(this.ComboBox_Tool_Parameter, "ComboBox_Tool_Parameter");
-            this.ComboBox_Tool_Parameter.Name = "ComboBox_Tool_Parameter";
-            this.ComboBox_Tool_Parameter.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Tool_Parameter_SelectedIndexChanged);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.Panel_SecondColor);
-            this.groupBox3.Controls.Add(this.Panel_FirstColor);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.TabStop = false;
-            // 
-            // Panel_SecondColor
-            // 
-            this.Panel_SecondColor.BackColor = System.Drawing.Color.Transparent;
-            this.Panel_SecondColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            resources.ApplyResources(this.Panel_SecondColor, "Panel_SecondColor");
-            this.Panel_SecondColor.Name = "Panel_SecondColor";
-            // 
-            // Panel_FirstColor
-            // 
-            this.Panel_FirstColor.BackColor = System.Drawing.Color.Transparent;
-            this.Panel_FirstColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            resources.ApplyResources(this.Panel_FirstColor, "Panel_FirstColor");
-            this.Panel_FirstColor.Name = "Panel_FirstColor";
-            // 
-            // GroupBox_GenerateColor
-            // 
-            this.GroupBox_GenerateColor.Controls.Add(this.Button_GenerateColor);
-            this.GroupBox_GenerateColor.Controls.Add(this.ComboBox_GenerateColor_Type);
-            resources.ApplyResources(this.GroupBox_GenerateColor, "GroupBox_GenerateColor");
-            this.GroupBox_GenerateColor.Name = "GroupBox_GenerateColor";
-            this.GroupBox_GenerateColor.TabStop = false;
-            // 
-            // Button_GenerateColor
-            // 
-            resources.ApplyResources(this.Button_GenerateColor, "Button_GenerateColor");
-            this.Button_GenerateColor.Name = "Button_GenerateColor";
-            this.Button_GenerateColor.UseVisualStyleBackColor = true;
-            this.Button_GenerateColor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Button_GenerateColor_MouseDown);
-            // 
-            // ComboBox_GenerateColor_Type
-            // 
-            this.ComboBox_GenerateColor_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboBox_GenerateColor_Type.FormattingEnabled = true;
-            this.ComboBox_GenerateColor_Type.Items.AddRange(new object[] {
-            resources.GetString("ComboBox_GenerateColor_Type.Items"),
-            resources.GetString("ComboBox_GenerateColor_Type.Items1"),
-            resources.GetString("ComboBox_GenerateColor_Type.Items2"),
-            resources.GetString("ComboBox_GenerateColor_Type.Items3")});
-            resources.ApplyResources(this.ComboBox_GenerateColor_Type, "ComboBox_GenerateColor_Type");
-            this.ComboBox_GenerateColor_Type.Name = "ComboBox_GenerateColor_Type";
-            // 
-            // GroupBox_Palette
-            // 
-            resources.ApplyResources(this.GroupBox_Palette, "GroupBox_Palette");
-            this.GroupBox_Palette.Controls.Add(this.FlowLayoutPanel_Color);
-            this.GroupBox_Palette.Name = "GroupBox_Palette";
-            this.GroupBox_Palette.TabStop = false;
-            // 
-            // FlowLayoutPanel_Color
-            // 
-            resources.ApplyResources(this.FlowLayoutPanel_Color, "FlowLayoutPanel_Color");
-            this.FlowLayoutPanel_Color.Name = "FlowLayoutPanel_Color";
-            // 
-            // GroupBox_Progress
-            // 
-            resources.ApplyResources(this.GroupBox_Progress, "GroupBox_Progress");
-            this.GroupBox_Progress.Controls.Add(this.ProgressBar1);
-            this.GroupBox_Progress.Name = "GroupBox_Progress";
-            this.GroupBox_Progress.TabStop = false;
-            // 
-            // ProgressBar1
-            // 
-            resources.ApplyResources(this.ProgressBar1, "ProgressBar1");
-            this.ProgressBar1.Name = "ProgressBar1";
-            // 
             // Panel_Map
             // 
             resources.ApplyResources(this.Panel_Map, "Panel_Map");
@@ -689,6 +632,11 @@
             this.ToolStripMenuItem_Map_Search_Region.Name = "ToolStripMenuItem_Map_Search_Region";
             resources.ApplyResources(this.ToolStripMenuItem_Map_Search_Region, "ToolStripMenuItem_Map_Search_Region");
             this.ToolStripMenuItem_Map_Search_Region.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Search_Region_Click);
+            // 
+            // toolStripSeparator25
+            // 
+            this.toolStripSeparator25.Name = "toolStripSeparator25";
+            resources.ApplyResources(this.toolStripSeparator25, "toolStripSeparator25");
             // 
             // ToolStripMenuItem_Map_Province
             // 
@@ -1620,19 +1568,6 @@
             resources.ApplyResources(this.ToolStripMenuItem_Discord, "ToolStripMenuItem_Discord");
             this.ToolStripMenuItem_Discord.Click += new System.EventHandler(this.ToolStripMenuItem_Discord_Click);
             // 
-            // toolStripSeparator25
-            // 
-            this.toolStripSeparator25.Name = "toolStripSeparator25";
-            resources.ApplyResources(this.toolStripSeparator25, "toolStripSeparator25");
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.FlowLayoutPanel_ToolBar, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.Panel_Map, 1, 1);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -1646,15 +1581,8 @@
             this.TabControl_Main.ResumeLayout(false);
             this.TabPage_Map.ResumeLayout(false);
             this.TabPage_Map.PerformLayout();
-            this.flowLayoutPanel2.ResumeLayout(false);
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox11.ResumeLayout(false);
-            this.groupBox11.PerformLayout();
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox9.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.FlowLayoutPanel_ToolBar.ResumeLayout(false);
             this.FlowLayoutPanel_ToolBar.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -1666,12 +1594,20 @@
             this.GroupBox_Palette.ResumeLayout(false);
             this.GroupBox_Palette.PerformLayout();
             this.GroupBox_Progress.ResumeLayout(false);
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel2.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.ContextMenuStrip_Map.ResumeLayout(false);
             this.TabPage_Resources.ResumeLayout(false);
             this.MenuStrip1.ResumeLayout(false);
             this.MenuStrip1.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

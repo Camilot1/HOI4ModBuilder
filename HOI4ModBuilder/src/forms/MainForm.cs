@@ -95,13 +95,42 @@ namespace HOI4ModBuilder
             Panel_Map.Controls.Add(glControl);
 
 
+            СomboBox_MapMainLayer.Items.Clear();
+            foreach (var type in Enum.GetValues(typeof(EnumMainLayer)))
+                СomboBox_MapMainLayer.Items.Add(GuiLocManager.GetLoc(type.ToString()));
             СomboBox_MapMainLayer.SelectedIndex = 0;
-            ComboBox_Tool.SelectedIndex = 0;
+
+            ComboBox_EditLayer.Items.Clear();
+            foreach (var type in Enum.GetValues(typeof(EnumEditLayer)))
+                ComboBox_EditLayer.Items.Add(GuiLocManager.GetLoc(type.ToString()));
             ComboBox_EditLayer.SelectedIndex = 0;
+
+            ComboBox_Tool.Items.Clear();
+            foreach (EnumTool type in Enum.GetValues(typeof(EnumTool)))
+            {
+                string hotKey = "";
+                if (MapToolsManager.TryGetMapTool(type, out MapTool mapTool))
+                {
+                    if (mapTool.HotKey != null) hotKey = " " + mapTool.HotKey.ToString();
+                }
+                ComboBox_Tool.Items.Add(GuiLocManager.GetLoc(type.ToString()) + hotKey);
+            }
+            ComboBox_Tool.SelectedIndex = 0;
+
+            ComboBox_BordersType.Items.Clear();
+            foreach (var type in Enum.GetValues(typeof(EnumBordersType)))
+                ComboBox_BordersType.Items.Add(GuiLocManager.GetLoc(type.ToString()));
             ComboBox_BordersType.SelectedIndex = 0;
+
+            CheckedListBox_MapAdditionalLayers.Items.Clear();
+            foreach (var type in Enum.GetValues(typeof(EnumAdditionalLayers)))
+                CheckedListBox_MapAdditionalLayers.Items.Add(GuiLocManager.GetLoc(type.ToString()));
+            CheckedListBox_MapAdditionalLayers.Height = 15 * CheckedListBox_MapAdditionalLayers.Items.Count + 10;
+
             ToolStripComboBox_Map_Railway_Level.SelectedIndex = 0;
             ComboBox_GenerateColor_Type.SelectedIndex = 0;
 
+            ToolStripComboBox_Map_Adjacency_Type.Items.Clear();
             foreach (var type in Enum.GetValues(typeof(EnumAdjaciencyType)))
                 ToolStripComboBox_Map_Adjacency_Type.Items.Add(type.ToString());
 
@@ -132,6 +161,18 @@ namespace HOI4ModBuilder
                 SettingsManager.Init();
                 MapManager.Init();
 
+                ComboBox_Tool.Items.Clear();
+                foreach (EnumTool type in Enum.GetValues(typeof(EnumTool)))
+                {
+                    string hotKey = "";
+                    if (MapToolsManager.TryGetMapTool(type, out MapTool mapTool))
+                    {
+                        if (mapTool.HotKey != null) hotKey = " " + mapTool.HotKey.ToString();
+                    }
+                    ComboBox_Tool.Items.Add(GuiLocManager.GetLoc(type.ToString()) + hotKey);
+                }
+                ComboBox_Tool.SelectedIndex = 0;
+
                 SubscribeGlobalKeyEvent(Keys.S, (sender, e) =>
                 {
                     if (e.Modifiers == Keys.Control) SaveAll();
@@ -145,8 +186,6 @@ namespace HOI4ModBuilder
                     if (e.Modifiers == Keys.Control) UpdateAll();
                 });
             });
-
-
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -507,15 +546,11 @@ namespace HOI4ModBuilder
         private void CheckedListBox_MapAdditionalLayers_MouseUp(object sender, MouseEventArgs e)
         {
             var checkedItems = CheckedListBox_MapAdditionalLayers.CheckedIndices;
-            MapManager.showCenters = checkedItems.Contains(0);
-            MapManager.showBorders = checkedItems.Contains(1);
-            MapManager.showRivers = checkedItems.Contains(2);
-            MapManager.showRailways = checkedItems.Contains(3);
-            MapManager.showSupplyHubs = checkedItems.Contains(4);
-            MapManager.showSeaCrosses = checkedItems.Contains(5);
-            MapManager.showImpassibleZones = checkedItems.Contains(6);
-            MapManager.showErrors = checkedItems.Contains(7);
-            MapManager.showTexturedPlanes = checkedItems.Contains(8);
+
+            for (int i = 0; i < Enum.GetValues(typeof(EnumAdditionalLayers)).Length; i++)
+            {
+                MapManager.displayLayers[i] = checkedItems.Contains(i);
+            }
         }
 
         private void Button_TextureAdd_Click(object sender, EventArgs e)

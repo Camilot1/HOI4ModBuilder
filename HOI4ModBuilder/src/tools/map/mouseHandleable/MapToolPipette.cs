@@ -8,26 +8,18 @@ using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
-    class MapToolPipette : IMouseHandleableMapTool
+    class MapToolPipette : MapTool
     {
         private static readonly EnumTool enumTool = EnumTool.PIPETTE;
 
-        public MapToolPipette(Dictionary<EnumTool, IMouseHandleableMapTool> mapTools)
-        {
-            mapTools[enumTool] = this;
+        public MapToolPipette(Dictionary<EnumTool, MapTool> mapTools)
+            : base(
+                  mapTools, enumTool, new HotKey { key = Keys.K },
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+              )
+        { }
 
-            MainForm.SubscribeTabKeyEvent(
-                MainForm.Instance.TabPage_Map,
-                Keys.K,
-                (sender, e) =>
-                {
-                    if (e.Control || e.Shift || e.Alt) return;
-                    MainForm.Instance.SetSelectedTool(enumTool);
-                }
-            );
-        }
-
-        public void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public new void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
             if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
             if (Control.ModifierKeys == Keys.Shift) return;

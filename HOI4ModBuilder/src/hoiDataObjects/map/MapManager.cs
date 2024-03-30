@@ -48,9 +48,9 @@ namespace HOI4ModBuilder.managers
         public static Shader sdfTextShader;
         public static bool showSelectZone;
         public static bool blackBorders;
-        public static bool showMainLayer, showCenters, showBorders, showRivers, showRailways, showSupplyHubs, showSeaCrosses, showImpassibleZones;
-        public static bool showErrors;
-        public static bool showTexturedPlanes;
+        public static bool showMainLayer;
+
+        public static bool[] displayLayers = new bool[Enum.GetValues(typeof(EnumAdditionalLayers)).Length];
 
         public static double zoomFactor = 0.0004f;
         public static double mapDifX, mapDifY;
@@ -141,7 +141,7 @@ namespace HOI4ModBuilder.managers
 
             if (showMainLayer) _mapMainLayer.Draw();
 
-            if (showBorders)
+            if (displayLayers[(int)EnumAdditionalLayers.BORDERS])
             {
                 GL.Translate(0.5f, -0.5f, 0f);
                 if (blackBorders) GL.Color3(0f, 0f, 0f);
@@ -150,16 +150,17 @@ namespace HOI4ModBuilder.managers
                 GL.Translate(-0.5f, 0.5f, 0f);
             }
 
-            if (showRivers) _riversMapPlane.Draw();
+            if (displayLayers[(int)EnumAdditionalLayers.RIVERS])
+                _riversMapPlane.Draw();
 
             GL.Scale(1f, -1f, 1f);
             GL.Translate(0, -_mapMainLayer.size.y, 0);
 
-            ProvinceManager.Draw(showCenters & (MainForm.Instance.enumMainLayer == EnumMainLayer.PROVINCES_MAP));
-            StateManager.Draw(showCenters & (MainForm.Instance.enumMainLayer == EnumMainLayer.STATES));
-            StrategicRegionManager.Draw(showCenters & (MainForm.Instance.enumMainLayer == EnumMainLayer.STRATEGIC_REGIONS));
-            AdjacenciesManager.Draw(showSeaCrosses, showImpassibleZones);
-            SupplyManager.Draw(showRailways, showSupplyHubs);
+            ProvinceManager.Draw(displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.PROVINCES_MAP));
+            StateManager.Draw(displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.STATES));
+            StrategicRegionManager.Draw(displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.STRATEGIC_REGIONS));
+            AdjacenciesManager.Draw(displayLayers[(int)EnumAdditionalLayers.ADJACENCIES], displayLayers[(int)EnumAdditionalLayers.ADJACENCIES]);
+            SupplyManager.Draw(displayLayers[(int)EnumAdditionalLayers.RAILWAYS], displayLayers[(int)EnumAdditionalLayers.SUPPLY_HUBS]);
 
             DrawPointer();
             if (bounds.HasSpace()) DrawBounds();
@@ -167,7 +168,7 @@ namespace HOI4ModBuilder.managers
             GL.Scale(1f, -1f, 1f);
             GL.Color3(1f, 1f, 1f);
             GL.PointSize(5f);
-            if (showTexturedPlanes)
+            if (displayLayers[(int)EnumAdditionalLayers.OVERLAY_TEXTURES])
             {
                 foreach (TextureInfo info in additionalMapTextures)
                 {
@@ -178,7 +179,7 @@ namespace HOI4ModBuilder.managers
                 }
             }
 
-            if (showErrors)
+            if (displayLayers[(int)EnumAdditionalLayers.ERRORS])
             {
                 GL.Scale(1f, -1f, 1f);
                 ErrorManager.Draw();
@@ -438,7 +439,7 @@ namespace HOI4ModBuilder.managers
                         else return p.State.owner.color;
                     };
                     break;
-                case EnumMainLayer.PROVINCE_TYPES:
+                case EnumMainLayer.PROVINCES_TYPES:
                     func = (p) =>
                     {
                         var type = p.Type;
@@ -463,7 +464,7 @@ namespace HOI4ModBuilder.managers
                             return Utils.ArgbToInt(255, 0, 0, 0);
                     };
                     break;
-                case EnumMainLayer.PROVINCES_TERRAIN:
+                case EnumMainLayer.PROVINCES_TERRAINS:
                     func = (p) =>
                     {
                         if (p.Terrain == null)
@@ -472,7 +473,7 @@ namespace HOI4ModBuilder.managers
                             return p.Terrain.color;
                     };
                     break;
-                case EnumMainLayer.REGIONS_TERRAIN:
+                case EnumMainLayer.REGIONS_TERRAINS:
                     func = (p) =>
                     {
                         if (p.Region == null || p.Region.Terrain == null)
@@ -530,7 +531,7 @@ namespace HOI4ModBuilder.managers
                         return Utils.ArgbToInt(255, value, value, value);
                     };
                     break;
-                case EnumMainLayer.STATE_CATEGORIES:
+                case EnumMainLayer.STATES_CATEGORIES:
                     func = (p) =>
                     {
                         if (p.State == null)

@@ -38,19 +38,33 @@ namespace HOI4ModBuilder.utils
             STATES,
             STRATEGIC_REGIONS,
             COUNTRIES,
-            PROVINCE_TYPES,
-            PROVINCES_TERRAIN,
-            REGIONS_TERRAIN,
+            PROVINCES_TYPES,
+            PROVINCES_TERRAINS,
+            REGIONS_TERRAINS,
             CONTINENTS,
             MANPOWER,
             VICTORY_POINTS,
-            STATE_CATEGORIES,
+            STATES_CATEGORIES,
             BUILDINGS,
             TERRAIN_MAP,
             TREES_MAP,
             CITIES_MAP,
             HEIGHT_MAP,
             NORMAL_MAP,
+            NONE
+        }
+
+        public enum EnumEditLayer
+        {
+            PROVINCES,
+            STATES,
+            STRATEGIC_REGIONS,
+            BUILDINGS,
+            RIVERS,
+            TERRAIN_MAP,
+            TREES_MAP,
+            CITIES_MAP,
+            HEIGHT_MAP,
             NONE
         }
 
@@ -74,20 +88,6 @@ namespace HOI4ModBuilder.utils
             BUILDINGS
         }
 
-        public enum EnumEditLayer
-        {
-            PROVINCES,
-            STATES,
-            STRATEGIC_REGIONS,
-            BUILDINGS,
-            RIVERS,
-            TERRAIN_MAP,
-            TREES_MAP,
-            CITIES_MAP,
-            HEIGHT_MAP,
-            NONE
-        }
-
         public enum EnumMouseState
         {
             NONE,
@@ -104,6 +104,20 @@ namespace HOI4ModBuilder.utils
             STATES_WHITE,
             STRATEGIC_REGIONS_BLACK,
             STRATEGIC_REGIONS_WHITE
+        }
+
+        public enum EnumAdditionalLayers
+        {
+            CENTERS,
+            BORDERS,
+            RIVERS,
+            RAILWAYS,
+            SUPPLY_HUBS,
+            ADJACENCIES,
+            IMPASSIBLE_ZONES,
+            WARNINGS,
+            ERRORS,
+            OVERLAY_TEXTURES
         }
     }
 }

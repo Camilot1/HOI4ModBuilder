@@ -17,32 +17,24 @@ using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
-    class MapToolCursor : IMouseHandleableMapTool
+    class MapToolCursor : MapTool
     {
         private static readonly EnumTool enumTool = EnumTool.CURSOR;
 
-        public MapToolCursor(Dictionary<EnumTool, IMouseHandleableMapTool> mapTools)
-        {
-            mapTools[enumTool] = this;
+        public MapToolCursor(Dictionary<EnumTool, MapTool> mapTools)
+            : base(
+                  mapTools, enumTool, new HotKey { key = Keys.C },
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+              )
+        { }
 
-            MainForm.SubscribeTabKeyEvent(
-                MainForm.Instance.TabPage_Map,
-                Keys.C,
-                (sender, e) =>
-                {
-                    if (e.Control || e.Shift || e.Alt) return;
-                    MainForm.Instance.SetSelectedTool(enumTool);
-                }
-            );
-        }
-
-        public void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public new void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
             Province selectedProvince = null;
             State selectedState = null;
             StrategicRegion selectedRegion = null;
 
-            if (buttons == MouseButtons.Left && Control.ModifierKeys == Keys.Shift && MapManager.showTexturedPlanes)
+            if (buttons == MouseButtons.Left && Control.ModifierKeys == Keys.Shift && MapManager.displayLayers[(int)EnumAdditionalLayers.OVERLAY_TEXTURES])
             {
                 for (int i = MapManager.additionalMapTextures.Count - 1; i >= 0; i--)
                 {
@@ -55,7 +47,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 }
             }
 
-            if (buttons == MouseButtons.Left && MapManager.showErrors)
+            if (buttons == MouseButtons.Left && MapManager.displayLayers[(int)EnumAdditionalLayers.ERRORS])
             {
                 var codes = ErrorManager.GetErrorCodes(pos, 2);
                 if (codes.Count != 0)
@@ -91,8 +83,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 else if (buttons == MouseButtons.Right) selectedRegion = StrategicRegionManager.SelectRMBRegion(color);
             }
 
-            if (MapManager.showSeaCrosses) AdjacenciesManager.HandleCursor(buttons, pos);
-            if (MapManager.showRailways) SupplyManager.HandleCursor(buttons, pos);
+            if (MapManager.displayLayers[(int)EnumAdditionalLayers.ADJACENCIES]) AdjacenciesManager.HandleCursor(buttons, pos);
+            if (MapManager.displayLayers[(int)EnumAdditionalLayers.RAILWAYS]) SupplyManager.HandleCursor(buttons, pos);
 
             if (selectedProvince != null) MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedProvince.Id;
             else if (selectedState != null) MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedState.Id;
