@@ -83,10 +83,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             }
         }
 
-        public void Handle(MouseButtons button, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Handle(MouseButtons button, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter);
     }
 
     public interface IMouseHandleableMapTool

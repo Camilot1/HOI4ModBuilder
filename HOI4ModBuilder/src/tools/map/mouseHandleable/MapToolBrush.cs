@@ -21,7 +21,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public new void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
             byte newByte = 0, prevByte = 0;
             int newColor = 0, prevColor = 0;

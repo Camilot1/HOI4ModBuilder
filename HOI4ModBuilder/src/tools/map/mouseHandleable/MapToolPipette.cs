@@ -19,7 +19,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public new void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
             if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
             if (Control.ModifierKeys == Keys.Shift) return;
