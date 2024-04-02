@@ -1,16 +1,10 @@
-﻿using HOI4ModBuilder.hoiDataObjects.common.terrain;
-using HOI4ModBuilder.src;
+﻿using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.managers;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml.Linq;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.hoiDataObjects
 {

@@ -11,7 +11,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
     class OOBManager
     {
         private static readonly string directoryPath = @"history\units\";
-        private static Dictionary<string, OOB> _oobs = new Dictionary<string, OOB>();
+        private static Dictionary<FileInfo, OOB> _oobsByFiles = new Dictionary<FileInfo, OOB>();
 
         private static Dictionary<string, TaskForceShipInstances> _taskForceShipInstances = new Dictionary<string, TaskForceShipInstances>();
 
@@ -30,7 +30,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
         public static void Load(Settings settings)
         {
-            _oobs = new Dictionary<string, OOB>();
+            _oobsByFiles = new Dictionary<FileInfo, OOB>();
             _taskForceShipInstances = new Dictionary<string, TaskForceShipInstances>();
 
             var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, directoryPath);
@@ -41,7 +41,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                     () =>
                     {
                         using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
-                            ParadoxParser.AdvancedParse(fs, new LinkedLayer(null, fileInfo.filePath, true), new OOB(fileInfo), out bool validationResult);
+                        {
+                            var oob = ParadoxParser.AdvancedParse(fs, new LinkedLayer(null, fileInfo.filePath, true), new OOB(fileInfo), out bool validationResult);
+                            _oobsByFiles[fileInfo] = oob;
+                        }
                     },
                     (ex) => Logger.LogException(ex));
             }

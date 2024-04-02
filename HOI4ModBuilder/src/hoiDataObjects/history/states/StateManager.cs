@@ -24,7 +24,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
     {
         public static StateManager Instance { get; private set; }
         private static FileInfo _currentFile;
-        private static Dictionary<string, List<State>> _statesByFilesMap = new Dictionary<string, List<State>>();
         private static Dictionary<ushort, State> _statesById = new Dictionary<ushort, State>();
 
         public static State SelectedState { get; set; }
@@ -41,7 +40,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         public static void Load(Settings settings)
         {
             Instance = new StateManager();
-            _statesByFilesMap = new Dictionary<string, List<State>>();
             _statesById = new Dictionary<ushort, State>();
             _statesBorders = new HashSet<ProvinceBorder>();
 
@@ -60,32 +58,26 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         public static void Save(Settings settings)
         {
             var sb = new StringBuilder();
-            bool needToSave = false, needToDelete = false;
-            foreach (string fileName in _statesByFilesMap.Keys)
+
+            foreach (var state in _statesById.Values)
             {
-                foreach (var state in _statesByFilesMap[fileName])
+                if (state.fileInfo.needToSave)
                 {
-                    try
-                    {
-                        if (state.fileInfo.needToSave)
-                        {
-                            needToSave = true;
-                            state.Save(sb);
-                        }
-                        if (state.fileInfo.needToDelete) needToDelete = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception(GuiLocManager.GetLoc(
-                            EnumLocKey.EXCEPTION_WHILE_STATE_SAVING,
-                            new Dictionary<string, string> { { "{stateId}", $"{state.Id}" } }
-                        ), ex);
-                    }
+                    Logger.TryOrCatch(
+                        () => state.Save(sb),
+                        (ex) =>
+                            throw new Exception(GuiLocManager.GetLoc(
+                                EnumLocKey.EXCEPTION_WHILE_STATE_SAVING,
+                                new Dictionary<string, string> { { "{stateId}", $"{state.Id}" } }
+                            ), ex)
+                    );
+
+                    File.WriteAllText(settings.modDirectory + @"history\states\" + state.fileInfo.fileName, sb.ToString());
+                    sb.Length = 0;
                 }
 
-                if (needToSave) File.WriteAllText(settings.modDirectory + @"history\states\" + fileName, sb.ToString());
-                if (needToDelete) File.Delete(settings.modDirectory + @"history\states\" + fileName);
-                sb.Length = 0;
+                if (state.fileInfo.needToDelete)
+                    File.Delete(settings.modDirectory + @"history\states\" + state.fileInfo.fileName);
             }
         }
 
@@ -230,12 +222,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             if (!_statesById.ContainsKey(state.Id))
             {
                 _statesById[state.Id] = state;
-
-                if (!_statesByFilesMap.TryGetValue(fileName, out List<State> list))
-                    _statesByFilesMap[fileName] = list = new List<State>(1);
-
-                list.Add(state);
-
                 state.fileInfo.needToSave = true;
                 return true;
             }
@@ -251,18 +237,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         public static void AddState(ushort id, State state)
         {
             _statesById[id] = state;
-            state.fileInfo.needToSave = true;
-        }
-
-        public static void AddStateToFile(State state)
-        {
-            _statesByFilesMap[state.fileInfo.fileName].Add(state);
-            state.fileInfo.needToSave = true;
-        }
-
-        public static void RemoveStateFromFile(State state)
-        {
-            _statesByFilesMap[state.fileInfo.fileName].Remove(state);
             state.fileInfo.needToSave = true;
         }
 
@@ -298,13 +272,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                                 { "{otherFilePath}", _statesById[state.Id].fileInfo?.filePath }
                             }
                         );
-
-                    if (!_statesByFilesMap.TryGetValue(_currentFile.fileName, out List<State> list))
-                    {
-                        list = new List<State>(0);
-                        _statesByFilesMap[_currentFile.fileName] = list;
-                    }
-                    list.Add(state);
                 }
                 catch (Exception ex)
                 {
