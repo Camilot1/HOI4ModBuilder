@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Pdoxcl2Sharp
@@ -24,7 +23,7 @@ namespace Pdoxcl2Sharp
 
     public class ParadoxParser
     {
-        private const int MaxTokenSize = 256;
+        private const int MaxTokenSize = 512;
 
         private const NumberStyles SignedFloatingStyle = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
 
