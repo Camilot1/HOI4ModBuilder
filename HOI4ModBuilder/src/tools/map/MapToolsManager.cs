@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.tools.map.advanced;
 using System;
+using HOI4ModBuilder.src.tools.map.mouseHandleable;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map
 {
@@ -30,6 +31,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             new MapToolProvinceRegion(_mapTools);
             new MapToolStateCategory(_mapTools);
             new MapToolBuildings(_mapTools);
+            new MapToolAiArea(_mapTools);
 
             new MergeProvincesTool();
             new RailwayTool();

@@ -406,6 +406,7 @@
     <Compile Include="src\tools\map\advanced\RailwayTool.cs" />
     <Compile Include="src\tools\dataRecovery\StrategicRegionsDataRecoveryTool.cs" />
     <Compile Include="src\tools\map\advanced\SupplyNodeTool.cs" />
+    <Compile Include="src\tools\map\mouseHandleable\MapToolAiArea.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolBrush.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolBuildings.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolCursor.cs" />

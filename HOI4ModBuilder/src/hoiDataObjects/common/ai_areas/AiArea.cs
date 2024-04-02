@@ -30,13 +30,42 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
 
         private static readonly string TOKEN_CONTINENTS = "continents";
         private List<byte> _continentIds = new List<byte>();
+
         public bool HasContinents => _continentIds.Count > 0;
         public bool HasContinentId(byte continentId) => _continentIds.Contains(continentId);
+        public bool AddContinentId(byte id)
+        {
+            if (_continentIds.Contains(id)) return false;
+
+            _continentIds.Add(id);
+            _needToSave = true;
+            return true;
+        }
+        public bool RemoveContinentId(byte id)
+        {
+            bool result = _continentIds.Remove(id);
+            if (result) _needToSave = true;
+            return result;
+        }
 
         private static readonly string TOKEN_STRATEGIC_REGIONS = "strategic_regions";
         private List<StrategicRegion> _regions = new List<StrategicRegion>();
         public bool HasRegions => _regions.Count > 0;
         public bool HasRegion(StrategicRegion region) => region != null && _regions.Contains(region);
+        public bool AddRegion(StrategicRegion region)
+        {
+            if (region == null || _regions.Contains(region)) return false;
+
+            _regions.Add(region);
+            _needToSave = true;
+            return true;
+        }
+        public bool RemoveRegion(StrategicRegion region)
+        {
+            bool result = _regions.Remove(region);
+            if (result) _needToSave = true;
+            return result;
+        }
 
         public AiArea(string name)
         {
