@@ -347,6 +347,8 @@
     <Compile Include="src\gui\GuiResource.Designer.cs">
       <DependentUpon>GuiResource.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\hoiDataObjects\common\ai_areas\AiArea.cs" />
+    <Compile Include="src\hoiDataObjects\common\ai_areas\AiAreaManager.cs" />
     <Compile Include="src\hoiDataObjects\common\bookmarks\Bookmark.cs" />
     <Compile Include="src\hoiDataObjects\common\bookmarks\BookmarkManager.cs" />
     <Compile Include="src\hoiDataObjects\common\buildings\Building.cs" />

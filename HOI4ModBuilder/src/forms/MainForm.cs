@@ -14,6 +14,7 @@ using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.forms;
 using HOI4ModBuilder.src.forms.messageForms;
 using HOI4ModBuilder.src.forms.recoveryForms;
+using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
@@ -240,6 +241,8 @@ namespace HOI4ModBuilder
                 SupplyManager.SaveAll(settings);
                 StateManager.Save(settings);
                 StrategicRegionManager.Save(settings);
+
+                AiAreaManager.Save(settings);
 
                 Utils.CleanUpMemory();
                 isLoadingOrSaving[0] = false;

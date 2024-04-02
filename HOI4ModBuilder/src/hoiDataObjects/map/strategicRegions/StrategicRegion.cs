@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.common.terrain;
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
@@ -28,7 +29,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         private string _name;
         public string Name
         {
-            get { return _name; }
+            get => _name;
             set
             {
                 if (_name != value) needToSave = true;
@@ -39,7 +40,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         private ProvincialTerrain _terrain;
         public ProvincialTerrain Terrain
         {
-            get { return _terrain; }
+            get => _terrain;
             set
             {
                 if (_terrain != value) needToSave = true;
@@ -51,14 +52,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         private List<ProvinceBorder> _borders = new List<ProvinceBorder>(0);
         public List<ProvinceBorder> Borders
         {
-            get { return _borders; }
+            get => _borders;
         }
 
 
         private RegionStaticModifiers _staticModifiers = new RegionStaticModifiers();
         public RegionStaticModifiers StaticModifiers
         {
-            get { return _staticModifiers; }
+            get => _staticModifiers;
             set
             {
                 if (_staticModifiers != value) needToSave = true;
@@ -69,13 +70,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         private RegionWeather _weather;
         public RegionWeather Weather
         {
-            get { return _weather; }
+            get => _weather;
             set
             {
                 if (_weather != value) needToSave = true;
                 _weather = value;
                 _weather.region = this;
             }
+        }
+
+        private List<AiArea> _aiAreas = new List<AiArea>();
+        public List<AiArea> AiAreas
+        {
+            get => _aiAreas;
         }
 
         public int color;

@@ -4,6 +4,7 @@ using HOI4ModBuilder.hoiDataObjects.common.terrain;
 using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.dataObjects.replaceTags;
+using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.hoiDataObjects.common.bookmarks;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.ideologies;
@@ -47,6 +48,8 @@ namespace HOI4ModBuilder.managers
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_DEFINITION, () => ProvinceManager.Load(settings)),
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_STATES, () => StateManager.Load(settings)),
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_REGIONS, () => StrategicRegionManager.Load(settings)),
+
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_AI_AREAS, () => AiAreaManager.Load(settings)),
                 //new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_UNITS, () => SubUnitManager.Load(settings)),
                 //new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_DIVISION_NAMES_GROUPS, () => DivisionNamesGroupManager.Load(settings)),
                 //new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_OOBS, () => OOBManager.Load(settings)),
