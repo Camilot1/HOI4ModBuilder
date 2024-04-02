@@ -37,6 +37,7 @@ namespace HOI4ModBuilder.utils
             PROVINCES_MAP,
             STATES,
             STRATEGIC_REGIONS,
+            AI_AREAS,
             COUNTRIES,
             PROVINCES_TYPES,
             PROVINCES_TERRAINS,
@@ -59,6 +60,7 @@ namespace HOI4ModBuilder.utils
             PROVINCES,
             STATES,
             STRATEGIC_REGIONS,
+            CONTINENTS,
             BUILDINGS,
             RIVERS,
             TERRAIN_MAP,
@@ -85,7 +87,8 @@ namespace HOI4ModBuilder.utils
             PROVINCE_STATE,
             PROVINCE_REGION,
             STATE_CATEGORY,
-            BUILDINGS
+            BUILDINGS,
+            AI_AREAS
         }
 
         public enum EnumMouseState

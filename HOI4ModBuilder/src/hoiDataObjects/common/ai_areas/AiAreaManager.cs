@@ -10,9 +10,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
 {
     class AiAreaManager
     {
-        public static Dictionary<FileInfo, AiAreasFile> _aiAreasFiles = new Dictionary<FileInfo, AiAreasFile>();
-        public static Dictionary<string, AiArea> _allAiAreas = new Dictionary<string, AiArea>();
-        public static Dictionary<string, FileInfo> _aiAreasDefinition = new Dictionary<string, FileInfo>();
+        private static Dictionary<FileInfo, AiAreasFile> _aiAreasFiles = new Dictionary<FileInfo, AiAreasFile>();
+        private static Dictionary<string, AiArea> _allAiAreas = new Dictionary<string, AiArea>();
+        private static Dictionary<string, FileInfo> _aiAreasDefinition = new Dictionary<string, FileInfo>();
 
         public static void Load(Settings settings)
         {
@@ -82,5 +82,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
                     File.Delete(settings.modDirectory + @"common\ai_areas\" + aiAreasFile.FileInfo.fileName);
             }
         }
+
+        public static bool HasAiArea(string name) => _allAiAreas.ContainsKey(name);
+        public static bool TryGetAiArea(string name, out AiArea aiArea) => _allAiAreas.TryGetValue(name, out aiArea);
+        public static Dictionary<string, AiArea>.KeyCollection GetAiAreas() => _allAiAreas.Keys;
     }
 }

@@ -8,6 +8,7 @@ using HOI4ModBuilder.src.utils.exceptions;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
@@ -22,16 +23,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
         private bool _needToSave;
         public bool NeedToSave => _needToSave;
 
-        public bool HasAnyInnerInfo => _continentIds.Count > 0 || _regions.Count > 0;
+        public bool HasAnyInnerInfo => HasContinents || HasRegions;
 
         private string _name;
         public string Name { get => _name; set => Utils.Setter(ref _name, ref value, ref _needToSave); }
 
         private static readonly string TOKEN_CONTINENTS = "continents";
         private List<byte> _continentIds = new List<byte>();
+        public bool HasContinents => _continentIds.Count > 0;
+        public bool HasContinentId(byte continentId) => _continentIds.Contains(continentId);
 
         private static readonly string TOKEN_STRATEGIC_REGIONS = "strategic_regions";
         private List<StrategicRegion> _regions = new List<StrategicRegion>();
+        public bool HasRegions => _regions.Count > 0;
+        public bool HasRegion(StrategicRegion region) => region != null && _regions.Contains(region);
 
         public AiArea(string name)
         {

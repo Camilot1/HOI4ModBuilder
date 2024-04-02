@@ -714,6 +714,8 @@ namespace HOI4ModBuilder
                 enumMainLayer = (EnumMainLayer)СomboBox_MapMainLayer.SelectedIndex;
                 if (enumMainLayer == EnumMainLayer.BUILDINGS && !BuildingManager.HasBuilding(ComboBox_Tool_Parameter.Text))
                     UpdateToolParameterComboBox(BuildingManager.GetBuildingNames().GetEnumerator());
+                else if (enumMainLayer == EnumMainLayer.AI_AREAS && !AiAreaManager.HasAiArea(ComboBox_Tool_Parameter.Text))
+                    UpdateToolParameterComboBox(AiAreaManager.GetAiAreas().GetEnumerator());
                 MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
             });
         }
@@ -765,6 +767,10 @@ namespace HOI4ModBuilder
                     case EnumTool.BUILDINGS:
                         if (!BuildingManager.HasBuilding(ComboBox_Tool_Parameter.Text))
                             UpdateToolParameterComboBox(BuildingManager.GetBuildingNames().GetEnumerator());
+                        break;
+                    case EnumTool.AI_AREAS:
+                        if (!AiAreaManager.HasAiArea(ComboBox_Tool_Parameter.Text))
+                            UpdateToolParameterComboBox(AiAreaManager.GetAiAreas().GetEnumerator());
                         break;
                 }
 

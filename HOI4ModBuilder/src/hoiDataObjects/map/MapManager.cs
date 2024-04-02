@@ -25,6 +25,7 @@ using HOI4ModBuilder.src.openTK.text;
 using System.Drawing.Imaging;
 using System.Drawing;
 using static HOI4ModBuilder.src.managers.ActionHistoryManager;
+using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 
 namespace HOI4ModBuilder.managers
 {
@@ -418,6 +419,21 @@ namespace HOI4ModBuilder.managers
                         else return p.Region.color;
                     };
                     break;
+                case EnumMainLayer.AI_AREAS:
+                    if (!AiAreaManager.TryGetAiArea(parameter, out AiArea aiArea))
+                    {
+                        func = (p) => Utils.ArgbToInt(255, 0, 0, 0);
+                        break;
+                    }
+
+                    func = (p) =>
+                    {
+                        bool continentFlag = aiArea.HasContinents && aiArea.HasContinentId(p.ContinentId);
+                        bool regionFlag = aiArea.HasRegions && aiArea.HasRegion(p.Region);
+                        return Utils.ArgbToInt(255, 0, continentFlag ? (byte)127 : (byte)0, regionFlag ? (byte)127 : (byte)0);
+                    };
+
+                    break;
                 case EnumMainLayer.COUNTRIES:
                     func = (p) =>
                     {
@@ -543,22 +559,93 @@ namespace HOI4ModBuilder.managers
                     };
                     break;
                 case EnumMainLayer.BUILDINGS:
-                    if (BuildingManager.TryGetBuilding(parameter, out Building building))
+                    if (!BuildingManager.TryGetBuilding(parameter, out Building building))
                     {
-                        uint count = 0;
-
-                        if (building.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.PROVINCIAL)
+                        func = (p) =>
                         {
-                            func = (p) =>
-                            {
-                                var type = p.Type;
-                                if (type == EnumProvinceType.SEA)
-                                    return Utils.ArgbToInt(255, 0, 0, 127);
-                                else if (type == EnumProvinceType.LAKE)
-                                    return Utils.ArgbToInt(255, 127, 255, 255);
+                            var type = p.Type;
+                            if (type == EnumProvinceType.SEA)
+                                return Utils.ArgbToInt(255, 0, 0, 127);
+                            else if (type == EnumProvinceType.LAKE)
+                                return Utils.ArgbToInt(255, 127, 255, 255);
+                            else
+                                return Utils.ArgbToInt(255, 0, 0, 0);
+                        };
+                        break;
+                    }
 
-                                if (!p.TryGetBuildingCount(building, out count))
-                                    return Utils.ArgbToInt(255, 0, 0, 0);
+                    uint count = 0;
+
+                    if (building.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.PROVINCIAL)
+                    {
+                        func = (p) =>
+                        {
+                            var type = p.Type;
+                            if (type == EnumProvinceType.SEA)
+                                return Utils.ArgbToInt(255, 0, 0, 127);
+                            else if (type == EnumProvinceType.LAKE)
+                                return Utils.ArgbToInt(255, 127, 255, 255);
+
+                            if (!p.TryGetBuildingCount(building, out count))
+                                return Utils.ArgbToInt(255, 0, 0, 0);
+
+                            float factor = count / (float)building.maxLevel;
+                            if (factor > 1)
+                                return Utils.ArgbToInt(255, 255, 0, 0);
+                            else
+                            {
+                                byte value = (byte)(255 * factor);
+                                return Utils.ArgbToInt(255, 0, value, 0);
+                            }
+                        };
+                    }
+                    else if (building.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.SHARED)
+                    {
+                        uint maxCount = 0;
+                        foreach (State state in StateManager.GetStates())
+                        {
+                            if (state.stateBuildings.TryGetValue(building, out uint max))
+                                if (max > maxCount) maxCount = max;
+                        }
+
+                        func = (p) =>
+                        {
+                            var type = p.Type;
+                            if (type == EnumProvinceType.SEA)
+                                return Utils.ArgbToInt(255, 0, 0, 127);
+                            else if (type == EnumProvinceType.LAKE)
+                                return Utils.ArgbToInt(255, 127, 255, 255);
+                            else if (p.State == null)
+                                return Utils.ArgbToInt(255, 0, 0, 0);
+                            else
+                            {
+                                p.State.stateBuildings.TryGetValue(building, out count);
+
+                                float factor = count / (float)maxCount;
+                                if (factor > 1)
+                                    return Utils.ArgbToInt(255, 255, 0, 0);
+                                else
+                                {
+                                    byte value = (byte)(255 * factor);
+                                    return Utils.ArgbToInt(255, 0, value, 0);
+                                }
+                            }
+                        };
+                    }
+                    else //NON_SHARED
+                    {
+                        func = (p) =>
+                        {
+                            var type = p.Type;
+                            if (type == EnumProvinceType.SEA)
+                                return Utils.ArgbToInt(255, 0, 0, 127);
+                            else if (type == EnumProvinceType.LAKE)
+                                return Utils.ArgbToInt(255, 127, 255, 255);
+                            else if (p.State == null)
+                                return Utils.ArgbToInt(255, 0, 0, 0);
+                            else
+                            {
+                                p.State.stateBuildings.TryGetValue(building, out count);
 
                                 float factor = count / (float)building.maxLevel;
                                 if (factor > 1)
@@ -568,78 +655,9 @@ namespace HOI4ModBuilder.managers
                                     byte value = (byte)(255 * factor);
                                     return Utils.ArgbToInt(255, 0, value, 0);
                                 }
-                            };
-                        }
-                        else if (building.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.SHARED)
-                        {
-                            uint maxCount = 0;
-                            foreach (State state in StateManager.GetStates())
-                            {
-                                if (state.stateBuildings.TryGetValue(building, out uint max))
-                                    if (max > maxCount) maxCount = max;
                             }
-
-                            func = (p) =>
-                            {
-                                var type = p.Type;
-                                if (type == EnumProvinceType.SEA)
-                                    return Utils.ArgbToInt(255, 0, 0, 127);
-                                else if (type == EnumProvinceType.LAKE)
-                                    return Utils.ArgbToInt(255, 127, 255, 255);
-                                else if (p.State == null)
-                                    return Utils.ArgbToInt(255, 0, 0, 0);
-                                else
-                                {
-                                    p.State.stateBuildings.TryGetValue(building, out count);
-
-                                    float factor = count / (float)maxCount;
-                                    if (factor > 1)
-                                        return Utils.ArgbToInt(255, 255, 0, 0);
-                                    else
-                                    {
-                                        byte value = (byte)(255 * factor);
-                                        return Utils.ArgbToInt(255, 0, value, 0);
-                                    }
-                                }
-                            };
-                        }
-                        else //NON_SHARED
-                        {
-                            func = (p) =>
-                            {
-                                var type = p.Type;
-                                if (type == EnumProvinceType.SEA)
-                                    return Utils.ArgbToInt(255, 0, 0, 127);
-                                else if (type == EnumProvinceType.LAKE)
-                                    return Utils.ArgbToInt(255, 127, 255, 255);
-                                else if (p.State == null)
-                                    return Utils.ArgbToInt(255, 0, 0, 0);
-                                else
-                                {
-                                    p.State.stateBuildings.TryGetValue(building, out count);
-
-                                    float factor = count / (float)building.maxLevel;
-                                    if (factor > 1)
-                                        return Utils.ArgbToInt(255, 255, 0, 0);
-                                    else
-                                    {
-                                        byte value = (byte)(255 * factor);
-                                        return Utils.ArgbToInt(255, 0, value, 0);
-                                    }
-                                }
-                            };
-                        }
+                        };
                     }
-                    else func = (p) =>
-                    {
-                        var type = p.Type;
-                        if (type == EnumProvinceType.SEA)
-                            return Utils.ArgbToInt(255, 0, 0, 127);
-                        else if (type == EnumProvinceType.LAKE)
-                            return Utils.ArgbToInt(255, 127, 255, 255);
-                        else
-                            return Utils.ArgbToInt(255, 0, 0, 0);
-                    };
                     break;
 
             }
