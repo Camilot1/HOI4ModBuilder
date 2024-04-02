@@ -897,11 +897,10 @@ namespace HOI4ModBuilder
             });
         }
 
-        private void ToolStripMenuItem_Settings_Click(object sender, EventArgs e) => Logger.TryOrLog(() => new SettingsForm().ShowDialog());
-
+        private void ToolStripMenuItem_Settings_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => new SettingsForm().ShowDialog());
         private void ToolStripMenuItem_Map_SupplyHub_Create_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => SupplyNodeTool.AddNode(SupplyNodeTool.CreateNode(1, ProvinceManager.RMBProvince)));
-
         private void ToolStripMenuItem_Map_SupplyHub_Remove_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => SupplyNodeTool.RemoveNode(ProvinceManager.RMBProvince?.SupplyNode));
 
@@ -912,30 +911,19 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Map_Railway_Create_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                RailwayTool.CreateRailway(
-                    (byte)(ToolStripComboBox_Map_Railway_Level.SelectedIndex + 1),
-                    ProvinceManager.SelectedProvince,
-                    ProvinceManager.RMBProvince
-                );
-            });
-        }
+            => Logger.TryOrLog(() => RailwayTool.CreateRailway(
+                (byte)(ToolStripComboBox_Map_Railway_Level.SelectedIndex + 1),
+                ProvinceManager.SelectedProvince, ProvinceManager.RMBProvince)
+            );
 
         private void ToolStripMenuItem_Map_Railway_Remove_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => RailwayTool.RemoveRailway(SupplyManager.SelectedRailway));
 
         private void ToolStripComboBox_Map_Railway_Level_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                RailwayTool.ChangeRailwayLevel(
-                    SupplyManager.SelectedRailway,
-                    (byte)(ToolStripComboBox_Map_Railway_Level.SelectedIndex + 1)
-                );
-            });
-        }
+            => Logger.TryOrLog(() => RailwayTool.ChangeRailwayLevel(
+                SupplyManager.SelectedRailway,
+                (byte)(ToolStripComboBox_Map_Railway_Level.SelectedIndex + 1))
+            );
 
         private void ToolStripMenuItem_Map_Province_DropDownOpened(object sender, EventArgs e)
         {
@@ -1038,15 +1026,10 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                string value = ToolStripTextBox_Map_Search_Input.Text;
-                if (ushort.TryParse(value, out ushort id))
+                if (ushort.TryParse(ToolStripTextBox_Map_Search_Input.Text, out ushort id) && ProvinceManager.TryGetProvince(id, out Province p))
                 {
-                    ProvinceManager.TryGetProvince(id, out Province p);
-                    if (p != null)
-                    {
-                        ProvinceManager.SelectedProvince = p;
-                        MapManager.FocusOn(p.center);
-                    }
+                    ProvinceManager.SelectedProvince = p;
+                    MapManager.FocusOn(p.center);
                 }
             });
         }
@@ -1138,14 +1121,8 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                string value = ToolStripTextBox_Map_Search_Input.Text;
-                if (ushort.TryParse(value, out ushort id))
-                {
-                    if (StateManager.TryGetState(id, out State state))
-                    {
-                        MapManager.FocusOn(state.center);
-                    }
-                }
+                if (ushort.TryParse(ToolStripTextBox_Map_Search_Input.Text, out ushort id) && StateManager.TryGetState(id, out State state))
+                    MapManager.FocusOn(state.center);
             });
         }
 
@@ -1153,15 +1130,8 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                string value = ToolStripTextBox_Map_Search_Input.Text;
-                if (ushort.TryParse(value, out ushort id))
-                {
-                    StrategicRegionManager.TryGetRegion(id, out StrategicRegion region);
-                    if (region != null)
-                    {
-                        MapManager.FocusOn(region.center);
-                    }
-                }
+                if (ushort.TryParse(ToolStripTextBox_Map_Search_Input.Text, out ushort id) && StrategicRegionManager.TryGetRegion(id, out StrategicRegion region))
+                    MapManager.FocusOn(region.center);
             });
         }
 
@@ -1398,13 +1368,11 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Map_Adjacency_Create_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() => AdjacenciesManager.CreateAdjacency(
+            => Logger.TryOrLog(() => AdjacenciesManager.CreateAdjacency(
                 ProvinceManager.SelectedProvince,
                 ProvinceManager.RMBProvince,
                 (EnumAdjaciencyType)ToolStripComboBox_Map_Adjacency_Type.SelectedIndex
             ));
-        }
 
         private void ToolStripMenuItem_Map_Adjacency_Remove_Click(object sender, EventArgs e) => Logger.TryOrLog(()
             => AdjacenciesManager.RemoveAdjacency(AdjacenciesManager.GetSelectedSeaCross()));

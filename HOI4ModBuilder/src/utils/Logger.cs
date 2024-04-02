@@ -56,14 +56,10 @@ namespace HOI4ModBuilder.src.utils
         }
 
         public static void LogSingleMessage(EnumLocKey enumLocKey)
-        {
-            LogSingleMessage(GuiLocManager.GetLoc(enumLocKey));
-        }
+            => LogSingleMessage(GuiLocManager.GetLoc(enumLocKey));
 
         public static void LogSingleMessage(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
-        {
-            LogSingleMessage(GuiLocManager.GetLoc(enumLocKey, replaceValues));
-        }
+            => LogSingleMessage(GuiLocManager.GetLoc(enumLocKey, replaceValues));
 
         public static void LogSingleMessage(string message)
         {
@@ -219,18 +215,12 @@ namespace HOI4ModBuilder.src.utils
         }
 
         public static void LogLayeredWarning(LinkedLayer currentLayer, EnumLocKey enumLocKey)
-        {
-            LogLayeredWarning(currentLayer, enumLocKey, null);
-        }
+            => LogLayeredWarning(currentLayer, enumLocKey, null);
         public static void LogLayeredWarning(LinkedLayer prevLayer, string currentLayer, EnumLocKey enumLocKey)
-        {
-            LogLayeredWarning(new LinkedLayer(prevLayer, currentLayer), enumLocKey, null);
-        }
+            => LogLayeredWarning(new LinkedLayer(prevLayer, currentLayer), enumLocKey, null);
 
         public static void LogLayeredWarning(LinkedLayer prevLayer, string currentLayer, EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
-        {
-            LogLayeredWarning(new LinkedLayer(prevLayer, currentLayer), enumLocKey, replaceValues);
-        }
+            => LogLayeredWarning(new LinkedLayer(prevLayer, currentLayer), enumLocKey, replaceValues);
 
         public static void LogLayeredWarning(LinkedLayer currentLayer, EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
         {
@@ -240,18 +230,12 @@ namespace HOI4ModBuilder.src.utils
             Log($"WARNING: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}; Prefix values: {Utils.DictionaryToString(prefixReplaceValues)}");
         }
         public static void LogLayeredError(LinkedLayer currentLayer, EnumLocKey enumLocKey)
-        {
-            LogLayeredError(currentLayer, enumLocKey, null);
-        }
+            => LogLayeredError(currentLayer, enumLocKey, null);
         public static void LogLayeredError(LinkedLayer prevLayer, string currentLayer, EnumLocKey enumLocKey)
-        {
-            LogLayeredError(new LinkedLayer(prevLayer, currentLayer), enumLocKey, null);
-        }
+            => LogLayeredError(new LinkedLayer(prevLayer, currentLayer), enumLocKey, null);
 
         public static void LogLayeredError(LinkedLayer prevLayer, string currentLayer, EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
-        {
-            LogLayeredError(new LinkedLayer(prevLayer, currentLayer), enumLocKey, replaceValues);
-        }
+            => LogLayeredError(new LinkedLayer(prevLayer, currentLayer), enumLocKey, replaceValues);
 
         public static void LogLayeredError(LinkedLayer currentLayer, EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
         {
@@ -393,9 +377,7 @@ namespace HOI4ModBuilder.src.utils
         }
 
         public static void WrapException<T>(string layerName, T ex) where T : Exception
-        {
-            throw new Exception("//TODO" + layerName, ex);
-        }
+            => throw new Exception("//TODO" + layerName, ex);
     }
 
     public class LinkedLayer
