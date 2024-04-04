@@ -122,11 +122,10 @@ namespace HOI4ModBuilder.src.utils
         {
             if (list == null) list = new List<T>();
 
-            var newLayer = new LinkedLayer(prevLayer, newLayerName);
+            var newLayer = new LinkedLayer(prevLayer, newLayerName + $" [№{list.Count + 1}]");
             T parsedValue = null;
             WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject, out bool _));
             list.Add(parsedValue);
-
         }
 
         public static void LogWarning(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)

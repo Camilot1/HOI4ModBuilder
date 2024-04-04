@@ -4,13 +4,10 @@ using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.air;
 using HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval;
-using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.Pdoxcl2Sharp;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.exceptions;
 using Pdoxcl2Sharp;
-using SharpFont;
-using System;
 using System.Collections.Generic;
 using System.Text;
 

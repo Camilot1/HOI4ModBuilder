@@ -47,7 +47,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 }
                 else if (parser.CurrentValueIsName)
                 {
-                    var taskForceShipIntances = OOBManager.RequestTaskForceShipInstances(token, prevLayer);
+                    var taskForceShipIntances = OOBManager.RequestShipInstances(token, prevLayer);
                     _carrierAirWingsGroup.TryGetValue(taskForceShipIntances, out OOBAirWingsGroup airWingsGroup);
                     Logger.ParseNewLayeredValueOrContinueOld(prevLayer, token, ref airWingsGroup, parser, new OOBAirWingsGroup(taskForceShipIntances));
                     _carrierAirWingsGroup[taskForceShipIntances] = airWingsGroup;

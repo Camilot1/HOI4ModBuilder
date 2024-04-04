@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src.utils;
 using System.Collections.Generic;
+using System.Text;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
 {
@@ -19,10 +20,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
         private string _name;
         public string Name { get => _name; set => Utils.Setter(ref _name, ref value, ref _needToSave, ref _hasChangedName); }
 
-        private List<Ship> _taskForceShips = new List<Ship>();
-        public List<Ship> TaskForceShips { get => _taskForceShips; }
+        private List<Ship> _ships = new List<Ship>();
+        public List<Ship> Ships { get => _ships; }
 
-        public List<LinkedLayer> requests = new List<LinkedLayer>();
+        private List<LinkedLayer> _requests = new List<LinkedLayer>();
+        public void AddRequest(LinkedLayer layer) => _requests.Add(layer);
+        public int RequestsCount => _requests.Count;
+        public void AssembleLayeredPathes(StringBuilder sb)
+        {
+            foreach (var layer in _requests)
+            {
+                string filePath = null;
+                string blockLayeredPath = null;
+                layer.AssembleLayeredPath(ref filePath, ref blockLayeredPath);
+                sb.Append("\t\nLayeredPath: \"").Append(blockLayeredPath).Append('\"');
+            }
+        }
 
         public ShipInstances(string name)
         {

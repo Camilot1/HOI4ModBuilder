@@ -263,7 +263,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                             new Dictionary<string, string>
                             {
                                 { "{stateId}", $"{_id}" },
-                                { "{otherFilePath}", temp }
+                                { "{manpower}", temp }
                             }
                         );
 

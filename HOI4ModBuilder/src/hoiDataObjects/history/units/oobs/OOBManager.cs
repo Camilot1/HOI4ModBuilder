@@ -16,7 +16,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
         private static Dictionary<string, ShipInstances> _taskForceShipInstances = new Dictionary<string, ShipInstances>();
 
-        public static ShipInstances RequestTaskForceShipInstances(string name, LinkedLayer layer)
+        public static ShipInstances RequestShipInstances(string name, LinkedLayer layer)
         {
             if (!_taskForceShipInstances.TryGetValue(name, out ShipInstances shipInstances))
             {
@@ -24,7 +24,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 _taskForceShipInstances[name] = shipInstances;
             }
 
-            if (layer != null) shipInstances.requests.Add(layer);
+            if (layer != null) shipInstances.AddRequest(layer);
 
             return shipInstances;
         }
@@ -57,23 +57,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         {
             foreach (var shipInstance in _taskForceShipInstances.Values)
             {
-                if (shipInstance.TaskForceShips.Count == 0)
+                if (shipInstance.Ships.Count == 0)
                 {
                     StringBuilder sb = new StringBuilder();
-                    string filePath = null;
-                    string blockLayeredPath = null;
-
-                    foreach (var layer in shipInstance.requests)
-                    {
-                        layer.AssembleLayeredPath(ref filePath, ref blockLayeredPath);
-                        sb.Append("\t\nLayeredPath: \"").Append(blockLayeredPath).Append('\"');
-                    }
+                    shipInstance.AssembleLayeredPathes(sb);
 
                     Logger.LogWarning(
                         EnumLocKey.TASK_FORCES_USES_SHIP_THAT_DOESNT_DEFINED_ANYWHERE,
                         new Dictionary<string, string>
                         {
-                            { "{requestsCount}", $"{shipInstance.requests.Count}" },
+                            { "{requestsCount}", $"{shipInstance.RequestsCount}" },
                             { "{taskForceShipName}", $"{shipInstance.Name}" },
                             { "{directoryPath}", $"{directoryPath}" },
                             { "{requestsList}", $"{sb}" }
@@ -85,7 +78,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
         public static void Save(Settings settings)
         {
-
+            throw new NotImplementedException();
         }
     }
 }

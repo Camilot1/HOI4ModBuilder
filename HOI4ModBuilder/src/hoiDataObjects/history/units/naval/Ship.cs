@@ -76,8 +76,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
         {
             bool result = true;
 
-            _taskForceShipInstances = OOBManager.RequestTaskForceShipInstances(_name, null);
-            _taskForceShipInstances.TaskForceShips.Add(this);
+            _taskForceShipInstances = OOBManager.RequestShipInstances(_name, null);
+            _taskForceShipInstances.Ships.Add(this);
 
             CheckAndLogUnit.WARNINGS
                 .HasMandatory(ref result, prevLayer, TOKEN_NAME, ref _name)
