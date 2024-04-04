@@ -263,32 +263,32 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 case "owner":
                     string countryTag = parser.ReadString();
                     if (CountryManager.TryGetCountry(countryTag, out Country newOwner)) owner = newOwner;
-                    else throw new Exception(GuiLocManager.GetLoc(
+                    else Logger.LogError(
                             EnumLocKey.ERROR_STATE_HISTORY_OWNER_COUNTRY_NOT_FOUND,
                             new Dictionary<string, string>
                             {
                                 { "{stateId}", $"{state.Id}" },
                                 { "{countryTag}", countryTag }
                             }
-                        ));
+                        );
                     break;
 
                 case "controller":
                     countryTag = parser.ReadString();
                     if (CountryManager.TryGetCountry(countryTag, out Country newController)) controller = newController;
-                    else throw new Exception(GuiLocManager.GetLoc(
+                    else Logger.LogError(
                             EnumLocKey.ERROR_STATE_HISTORY_CONTROLLER_COUNTRY_NOT_FOUND,
                             new Dictionary<string, string>
                             {
                                 { "{stateId}", $"{state.Id}" },
                                 { "{countryTag}", countryTag }
                             }
-                        ));
+                        );
                     break;
                 case "victory_points":
                     IList<string> values = parser.ReadStringList();
                     if (values.Count != 2)
-                        throw new Exception(GuiLocManager.GetLoc(
+                        Logger.LogError(
                             EnumLocKey.ERROR_STATE_HISTORY_VICTORY_POINTS_INCORRECT_PARAMS_COUNT,
                             new Dictionary<string, string>
                             {
@@ -296,53 +296,54 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                                 { "{currentCount}", $"{values.Count}" },
                                 { "{currentCount}", "2" },
                             }
-                        ));
+                        );
 
                     if (!ushort.TryParse(values[0], out ushort provinceId))
-                        throw new Exception(GuiLocManager.GetLoc(
+                        Logger.LogError(
                             EnumLocKey.ERROR_STATE_HISTORY_VICTORY_POINTS_INCORRECT_PROVINCE_ID_VALUE,
                             new Dictionary<string, string>
                             {
                                 { "{stateId}", $"{state.Id}" },
                                 { "{provinceId}", values[0] }
                             }
-                        ));
+                        );
 
                     if (!ProvinceManager.TryGetProvince(provinceId, out Province province))
-                        throw new Exception(GuiLocManager.GetLoc(
+                        Logger.LogError(
                             EnumLocKey.ERROR_STATE_HISTORY_VICTORY_POINTS_INCORRECT_PROVINCE_NOT_FOUND,
                             new Dictionary<string, string>
                             {
                                 { "{stateId}", $"{state.Id}" },
                                 { "{provinceId}", values[0] }
                             }
-                        ));
+                        );
 
                     if (uint.TryParse(values[1], out uint vpValue)) { }
                     else if (float.TryParse(values[1].Replace('.', ','), out float vpValueFloat) && vpValueFloat > 0)
                         vpValue = (uint)Math.Round(vpValueFloat);
-                    else throw new Exception(GuiLocManager.GetLoc(
+                    else
+                        Logger.LogError(
                              EnumLocKey.ERROR_STATE_HISTORY_VICTORY_POINTS_INCORRECT_POINTS_VALUE,
                              new Dictionary<string, string>
                              {
                                  { "{stateId}", $"{state.Id}" },
                                  { "{value}", values[1] }
                              }
-                         ));
+                         );
 
                     if (victoryPoints.TryGetValue(province, out uint oldVP))
                     {
                         if (oldVP > 0)
-                            throw new Exception(GuiLocManager.GetLoc(
-                                        EnumLocKey.ERROR_STATE_HISTORY_VICTORY_POINTS_PROVINCE_ALREADY_HAS_VICTORY_POINTS,
-                                        new Dictionary<string, string>
-                                        {
-                                        { "{stateId}", $"{state.Id}" },
-                                        { "{provinceId}", $"{province.Id}" },
-                                        { "{newVictoryPoints}", $"{vpValue}" },
-                                        { "{oldVictoryPoints}", $"{oldVP}" }
-                                        }
-                                    ));
+                            Logger.LogError(
+                                EnumLocKey.ERROR_STATE_HISTORY_VICTORY_POINTS_PROVINCE_ALREADY_HAS_VICTORY_POINTS,
+                                new Dictionary<string, string>
+                                {
+                                    { "{stateId}", $"{state.Id}" },
+                                    { "{provinceId}", $"{province.Id}" },
+                                    { "{newVictoryPoints}", $"{vpValue}" },
+                                    { "{oldVictoryPoints}", $"{oldVP}" }
+                                }
+                            );
                     }
                     else victoryPoints[province] = vpValue;
 
