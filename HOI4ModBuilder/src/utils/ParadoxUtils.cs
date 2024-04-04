@@ -107,6 +107,7 @@ namespace HOI4ModBuilder.src.utils
 
             if (value is bool boolVal) sb.Append(boolVal ? "yes" : "no");
             else if (value is float) sb.Append(("" + value).Replace(',', '.'));
+            else if (value is string sValue) sb.Append(sValue.Replace("\"", "\\\""));
             else sb.Append(value);
 
             sb.Append('\"');
