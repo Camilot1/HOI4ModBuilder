@@ -276,8 +276,17 @@ namespace Pdoxcl2Sharp
             }
             else if (currentToken == LexerToken.Quote)
             {
-                while ((currentChar = ReadNext()) != '"' && !eof)
+                char prevChar = ' ';
+                // Check for \" cases
+                while (((currentChar = ReadNext()) != '"' || prevChar == '\\') && !eof)
+                {
                     stringBuffer[stringBufferCount++] = currentChar;
+                    prevChar = currentChar;
+                }
+
+                // OLD implementation. Didn't check for \" cases
+                //while ((currentChar = ReadNext()) != '"' && !eof)
+                //  stringBuffer[stringBufferCount++] = currentChar;
 
                 // Check for partially quoted string of the style "name"_group.
                 // If it is, then read string as if untyped.
@@ -632,7 +641,9 @@ namespace Pdoxcl2Sharp
 
             do
             {
-                if (currentToken == LexerToken.RightCurly
+                if (currentToken == LexerToken.Comment)
+                    ; //TODO Временный костыль. Исходный код оригинального парсера ломается на комментариях по типу location = 3010#Comment
+                else if (currentToken == LexerToken.RightCurly
                     || PeekToken() == LexerToken.RightCurly)
                 {
                     if (nextToken == LexerToken.RightCurly)
