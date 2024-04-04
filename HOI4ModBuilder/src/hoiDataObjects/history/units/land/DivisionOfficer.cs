@@ -24,6 +24,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.land
         private string _name;
         public string Name { get => _name; set => Utils.Setter(ref _name, ref value, ref _needToSave); }
 
+        private static readonly string TOKEN_PORTRAITS = "portraits";
         private DivisionOfficerPortraits _portraits;
         public DivisionOfficerPortraits Portraits { get => _portraits; set => Utils.Setter(ref _portraits, ref value, ref _needToSave); }
 
@@ -49,7 +50,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.land
             {
                 if (token == TOKEN_NAME)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _name, parser.ReadString());
-                if (token == BLOCK_NAME)
+                else if (token == TOKEN_PORTRAITS)
                     Logger.ParseLayeredValueAndCheckOverride(prevLayer, token, ref _portraits, parser, new DivisionOfficerPortraits());
                 else
                     throw new UnknownTokenException(token);
