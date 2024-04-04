@@ -275,7 +275,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             {
                 foreach (var b in p.borders)
                 {
-                    if (b.provinceA == null || b.provinceB == null || b.provinceA.Region == null || b.provinceB.Region == null || !b.provinceA.Region.Equals(b.provinceB.Region))
+                    if (b.provinceA == null || b.provinceB == null || b.provinceA.Region == null || b.provinceB.Region == null || b.provinceA.Region.Id != b.provinceB.Region.Id)
                     {
                         _borders.Add(b);
                         StrategicRegionManager.AddRegionsBorder(b);

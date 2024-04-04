@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.src.managers;
+﻿using HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval;
+using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
@@ -13,13 +14,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         private static readonly string directoryPath = @"history\units\";
         private static Dictionary<FileInfo, OOB> _oobsByFiles = new Dictionary<FileInfo, OOB>();
 
-        private static Dictionary<string, TaskForceShipInstances> _taskForceShipInstances = new Dictionary<string, TaskForceShipInstances>();
+        private static Dictionary<string, ShipInstances> _taskForceShipInstances = new Dictionary<string, ShipInstances>();
 
-        public static TaskForceShipInstances RequestTaskForceShipInstances(string name, LinkedLayer layer)
+        public static ShipInstances RequestTaskForceShipInstances(string name, LinkedLayer layer)
         {
-            if (!_taskForceShipInstances.TryGetValue(name, out TaskForceShipInstances shipInstances))
+            if (!_taskForceShipInstances.TryGetValue(name, out ShipInstances shipInstances))
             {
-                shipInstances = new TaskForceShipInstances(name);
+                shipInstances = new ShipInstances(name);
                 _taskForceShipInstances[name] = shipInstances;
             }
 
@@ -31,7 +32,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         public static void Load(Settings settings)
         {
             _oobsByFiles = new Dictionary<FileInfo, OOB>();
-            _taskForceShipInstances = new Dictionary<string, TaskForceShipInstances>();
+            _taskForceShipInstances = new Dictionary<string, ShipInstances>();
 
             var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, directoryPath);
 

@@ -1,14 +1,8 @@
-﻿using HOI4ModBuilder.src.hoiDataObjects.map;
-using HOI4ModBuilder.src.managers;
+﻿using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.units
 {

@@ -27,6 +27,11 @@ namespace HOI4ModBuilder.managers
 
         public static void Load(Settings settings)
         {
+            LoadManagers(settings);
+        }
+
+        private static void LoadManagers(Settings settings)
+        {
             var stopwatch = Stopwatch.StartNew();
             currentDateStamp = null;
 
@@ -50,9 +55,9 @@ namespace HOI4ModBuilder.managers
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_REGIONS, () => StrategicRegionManager.Load(settings)),
 
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_AI_AREAS, () => AiAreaManager.Load(settings)),
-                //new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_UNITS, () => SubUnitManager.Load(settings)),
-                //new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_DIVISION_NAMES_GROUPS, () => DivisionNamesGroupManager.Load(settings)),
-                //new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_OOBS, () => OOBManager.Load(settings)),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_UNITS, () => SubUnitManager.Load(settings)),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_DIVISION_NAMES_GROUPS, () => DivisionNamesGroupManager.Load(settings)),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_OOBS, () => OOBManager.Load(settings)),
             };
 
             MainForm.ExecuteActions(actions);
