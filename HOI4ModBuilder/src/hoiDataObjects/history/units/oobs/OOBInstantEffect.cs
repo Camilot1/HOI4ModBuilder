@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src.dataObjects;
 using HOI4ModBuilder.src.dataObjects.argBlocks;
+using HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates;
 using HOI4ModBuilder.src.Pdoxcl2Sharp;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
@@ -13,9 +14,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
     {
         public static readonly string BLOCK_NAME = "instant_effect";
 
-        public bool HasAnyInnerInfo => _effects != null && _effects.Count > 0;
+        private bool _needToSave;
+        public bool NeedToSave
+        {
+            get
+            {
+                if (_needToSave) return true;
 
-        private List<DataArgsBlock> _effects;
+                foreach (var effect in _effects)
+                    if (effect.NeedToSave) return true;
+
+                return false;
+            }
+        }
+
+        public bool HasAnyInnerInfo => _effects.Count > 0;
+
+        private List<DataArgsBlock> _effects = new List<DataArgsBlock>();
         public List<DataArgsBlock> Effects { get => _effects; }
 
         public bool Save(StringBuilder sb, string outTab, string tab)

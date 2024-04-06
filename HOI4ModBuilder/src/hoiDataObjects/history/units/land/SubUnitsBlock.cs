@@ -12,14 +12,27 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.land
     class SubUnitsBlock : IParadoxObject
     {
         private readonly string _name;
-        private readonly List<SubUnitInfo> _subUnits;
+        private readonly List<SubUnitInfo> _subUnits = new List<SubUnitInfo>();
+
+        public bool _needToSave;
+        public bool NeedToSave
+        {
+            get
+            {
+                if (_needToSave) return true;
+
+                foreach (var subUnit in _subUnits)
+                    if (subUnit.NeedToSave) return true;
+
+                return false;
+            }
+        }
 
         public int Count => _subUnits.Count;
 
         public SubUnitsBlock(string name)
         {
             _name = name;
-            _subUnits = new List<SubUnitInfo>();
         }
 
         public bool Save(StringBuilder sb, string outTab, string tab)

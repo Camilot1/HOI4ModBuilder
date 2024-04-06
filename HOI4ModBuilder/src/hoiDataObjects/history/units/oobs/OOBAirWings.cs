@@ -16,7 +16,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
     {
         public static readonly string BLOCK_NAME = "air_wings";
 
-        public bool HasAnyInnerInfo => true;
+        private bool _needToSave;
+        public bool NeedToSave
+        {
+            get
+            {
+                if (_needToSave) return true;
+
+                foreach (var entry in _stateAirWingsGroup)
+                    if (entry.Key.HasChangedId || entry.Value.NeedToSave) return true;
+                foreach (var entry in _carrierAirWingsGroup)
+                    if (entry.Key.NeedToSave || entry.Value.NeedToSave) return true;
+
+                return false;
+            }
+        }
+
+        public bool HasAnyInnerInfo => _stateAirWingsGroup.Count > 0 || _carrierAirWingsGroup.Count > 0;
 
         private Dictionary<State, OOBAirWingsGroup> _stateAirWingsGroup = new Dictionary<State, OOBAirWingsGroup>();
         private Dictionary<ShipInstances, OOBAirWingsGroup> _carrierAirWingsGroup = new Dictionary<ShipInstances, OOBAirWingsGroup>();

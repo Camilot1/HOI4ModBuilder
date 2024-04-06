@@ -24,7 +24,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         {
             get
             {
-                if (_needToSave) return true;
+                if (_needToSave ||
+                    _navalBase != null && _navalBase.HasChangedId)
+                {
+                    return true;
+                }
 
                 foreach (var fleetTaskForce in _taskForces)
                     if (fleetTaskForce.NeedToSave) return true;
@@ -41,7 +45,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         private Province _navalBase;
         public Province NavalBase { get => _navalBase; set => Utils.Setter(ref _navalBase, ref value, ref _needToSave); }
 
-        private List<TaskForce> _taskForces;
+        private List<TaskForce> _taskForces = new List<TaskForce>();
 
         public bool Save(StringBuilder sb, string outTab, string tab)
         {

@@ -1,15 +1,8 @@
-﻿using HOI4ModBuilder.hoiDataObjects.map;
-using HOI4ModBuilder.src.dataObjects;
-using HOI4ModBuilder.src.dataObjects.argBlocks;
-using HOI4ModBuilder.src.hoiDataObjects.history.states;
-using HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates;
-using HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.air;
-using HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval;
+﻿using HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates;
 using HOI4ModBuilder.src.Pdoxcl2Sharp;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.exceptions;
 using Pdoxcl2Sharp;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,6 +10,31 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 {
     class OOB : IParadoxObject
     {
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
+
+        private bool _needToSave;
+        public bool NeedToSave
+        {
+            get
+            {
+                if (_needToSave ||
+                    _units != null && _units.NeedToSave ||
+                    _airWings != null && _airWings.NeedToSave ||
+                    _instantEffect != null && _instantEffect.NeedToSave)
+                {
+                    return true;
+                }
+
+                foreach (var divisionTemplate in _divisionTemplates)
+                    if (divisionTemplate.NeedToSave) return true;
+
+                return false;
+            }
+        }
+
         public FileInfo FileInfo { get; set; }
 
         private List<DivisionTemplate> _divisionTemplates = new List<DivisionTemplate>();
@@ -55,13 +73,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             if (_airWings != null && _airWings.HasAnyInnerInfo)
             {
                 ParadoxUtils.NewLineIfNeeded(sb, "", ref newParagraphFlag);
-                newParagraphFlag = _units.Save(sb, "", "\t");
+                newParagraphFlag = _airWings.Save(sb, "", "\t");
             }
 
             if (_instantEffect != null && _instantEffect.HasAnyInnerInfo)
             {
                 ParadoxUtils.NewLineIfNeeded(sb, "", ref newParagraphFlag);
-                newParagraphFlag = _units.Save(sb, "", "\t");
+                newParagraphFlag = _instantEffect.Save(sb, "", "\t");
             }
 
             return true;

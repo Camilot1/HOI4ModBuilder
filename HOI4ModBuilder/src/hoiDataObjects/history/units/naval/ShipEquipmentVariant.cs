@@ -16,12 +16,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
         public bool _needToSave;
         public bool NeedToSave
         {
-            get
-            {
-                if (_needToSave) return true;
-                if (_owner != null && _owner.HasChangedTag) return true;
-                return false;
-            }
+            get => _needToSave ||
+                _owner != null && _owner.HasChangedTag;
         }
 
         private string _name; //TODO implement equipment usage

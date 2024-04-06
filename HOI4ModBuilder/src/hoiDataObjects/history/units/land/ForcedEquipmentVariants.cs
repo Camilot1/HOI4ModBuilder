@@ -14,7 +14,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.land
     {
         public static readonly string BLOCK_NAME = "force_equipment_variants";
 
-        public bool _needToSave;
+        private bool _needToSave;
         public bool NeedToSave
         {
             get
@@ -36,7 +36,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.land
         }
 
         private List<ForcedEquipmentVariant> _variants = new List<ForcedEquipmentVariant>();
-        public List<ForcedEquipmentVariant> Variants { get; }
+        public List<ForcedEquipmentVariant> Variants { get => _variants; }
 
         public bool Save(StringBuilder sb, string outTab, string tab)
         {
@@ -80,7 +80,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.land
     class ForcedEquipmentVariant : IParadoxObject
     {
         private bool _needToSave;
-        public bool NeedToSave { get => _needToSave; }
+        public bool NeedToSave
+        {
+            get => _needToSave ||
+                _owner != null && _owner.HasChangedTag ||
+                _creator != null && _creator.HasChangedTag;
+        }
 
         public bool HasAnyInnerInfo => _archetype != null || _owner != null || _creator != null || _amount != null || _versionName != null;
 

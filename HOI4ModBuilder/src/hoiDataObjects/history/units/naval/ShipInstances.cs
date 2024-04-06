@@ -13,7 +13,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
         public override int GetHashCode() => _hashCode;
 
         private bool _needToSave;
-        public bool NeedToSave => _needToSave;
+        public bool NeedToSave
+        {
+            get
+            {
+                if (_needToSave) return true;
+
+                foreach (var ship in _ships)
+                    if (ship.NeedToSave) return true;
+
+                return false;
+            }
+        }
 
         private bool _hasChangedName;
         public bool HasChangedName { get => _hasChangedName; }
@@ -22,6 +33,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
 
         private List<Ship> _ships = new List<Ship>();
         public List<Ship> Ships { get => _ships; }
+
 
         private List<LinkedLayer> _requests = new List<LinkedLayer>();
         public void AddRequest(LinkedLayer layer) => _requests.Add(layer);

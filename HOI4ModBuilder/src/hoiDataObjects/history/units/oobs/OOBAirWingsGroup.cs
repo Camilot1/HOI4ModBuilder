@@ -16,7 +16,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
     class OOBAirWingsGroup : IParadoxObject
     {
-        public bool _needToSave;
+        private bool _needToSave;
         public bool NeedToSave
         {
             get

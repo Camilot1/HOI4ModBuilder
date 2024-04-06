@@ -371,12 +371,12 @@ namespace HOI4ModBuilder.src.utils
             }
             catch (Exception ex)
             {
-                throw new Exception($"//TODO 'Произошла ошибка на уровне {layerName}'", ex);
+                throw new Exception(layerName + " => ", ex);
             }
         }
 
         public static void WrapException<T>(string layerName, T ex) where T : Exception
-            => throw new Exception("//TODO" + layerName, ex);
+            => throw new Exception(layerName + " => ", ex);
     }
 
     public class LinkedLayer

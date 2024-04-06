@@ -26,7 +26,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         {
             get => _needToSave ||
                 _divisionName != null && _divisionName.NeedToSave ||
-                _location != null && _location.HasChangedId;
+                _location != null && _location.HasChangedId ||
+                _forcedEquipmentVariants != null && _forcedEquipmentVariants.NeedToSave ||
+                _divisionOfficer != null && _divisionOfficer.NeedToSave;
         }
 
         private static readonly string TOKEN_NAME = "name";
@@ -90,7 +92,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         {
             Logger.WrapTokenCallbackExceptions($"{BLOCK_NAME} ({TOKEN_NAME} = \"{_name}\")", () =>
             {
-                Logger.Log(token);
                 //Mandatory params
                 if (token == TOKEN_NAME)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _name, parser.ReadString());

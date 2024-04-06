@@ -857,7 +857,7 @@
 	"allowedInnerBlocks": {
       "producer": {
         "name": "producer",
-        "allowedValueTypes": [ "VAR", "STRING" ]
+        "allowedValueTypes": [ "VAR", "COUNTRY" ]
       },
 	  "variant_name": {
         "name": "variant_name",

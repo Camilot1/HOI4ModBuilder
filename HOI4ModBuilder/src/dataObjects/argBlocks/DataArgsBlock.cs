@@ -8,6 +8,12 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 {
     class DataArgsBlock : IParadoxRead
     {
+        private bool _needToSave;
+        public bool NeedToSave
+        {
+            get => _needToSave;
+        }
+
         //Список с блокам на том же уровне, что и этот блок (его соседи, а не данные внутри)
         public List<DataArgsBlock> CurrentLevelDataBlocks { get; set; }
 
@@ -16,9 +22,14 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
         //Список с блоками внутри данного блока
         public List<DataArgsBlock> innerArgsBlocks = new List<DataArgsBlock>(0);
-        public string Demiliter { get; set; }
+
+        private string _demiliter;
+        public string Demiliter { get => _demiliter; set => Utils.Setter(ref _demiliter, ref value, ref _needToSave); }
         public EnumNewArgsBlockValueType ValueType { get; set; }
-        public object Value { get; set; }
+
+        private object _value;
+        public object Value { get => _value; set => Utils.Setter(ref _value, ref value, ref _needToSave); }
+        public void SetSilentValue(object value) => _value = value;
 
         public byte CurrentMandatoryInnerArgsBlocksCount { get; set; }
         public bool IsUniversalParameter { get; set; }

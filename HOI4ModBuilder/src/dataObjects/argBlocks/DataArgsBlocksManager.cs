@@ -191,32 +191,32 @@ namespace HOI4ModBuilder.src.dataObjects
                         if (CountryManager.TryGetCountry(value, out var country))
                         {
                             dataBlock.ValueType = EnumNewArgsBlockValueType.COUNTRY;
-                            dataBlock.Value = value;
+                            dataBlock.SetSilentValue(value);
                             hasParsedValue = true;
                         }
                         break;
                     case EnumNewArgsBlockValueType.NAME:
                         dataBlock.ValueType = EnumNewArgsBlockValueType.NAME;
-                        dataBlock.Value = value;
+                        dataBlock.SetSilentValue(value);
                         hasParsedValue = true;
                         break;
                     case EnumNewArgsBlockValueType.IDEOLOGY: //TODO Проработать доп. типы данных
                     case EnumNewArgsBlockValueType.LOC_KEY:
                     case EnumNewArgsBlockValueType.STRING:
                         dataBlock.ValueType = EnumNewArgsBlockValueType.STRING;
-                        dataBlock.Value = value;
+                        dataBlock.SetSilentValue(value);
                         hasParsedValue = true;
                         break;
                     case EnumNewArgsBlockValueType.BOOLEAN:
                         dataBlock.ValueType = EnumNewArgsBlockValueType.BOOLEAN;
                         if (value == "yes")
                         {
-                            dataBlock.Value = true;
+                            dataBlock.SetSilentValue(true);
                             hasParsedValue = true;
                         }
                         else if (value == "no")
                         {
-                            dataBlock.Value = false;
+                            dataBlock.SetSilentValue(false);
                             hasParsedValue = true;
                         }
                         break;
@@ -224,7 +224,7 @@ namespace HOI4ModBuilder.src.dataObjects
                         if (int.TryParse(value, out int intValue))
                         {
                             dataBlock.ValueType = EnumNewArgsBlockValueType.INT;
-                            dataBlock.Value = intValue;
+                            dataBlock.SetSilentValue(intValue);
                             hasParsedValue = true;
                         }
                         break;
@@ -233,7 +233,7 @@ namespace HOI4ModBuilder.src.dataObjects
                         if (float.TryParse(value.Replace('.', ','), out float floatValue))
                         {
                             dataBlock.ValueType = EnumNewArgsBlockValueType.FLOAT;
-                            dataBlock.Value = floatValue;
+                            dataBlock.SetSilentValue(floatValue);
                             hasParsedValue = true;
                         }
                         break;
@@ -247,7 +247,7 @@ namespace HOI4ModBuilder.src.dataObjects
                 if (value.Length > 0 && char.IsLetter(value[0]))
                 {
                     dataBlock.ValueType = EnumNewArgsBlockValueType.VAR;
-                    dataBlock.Value = value;
+                    dataBlock.SetSilentValue(value);
                     hasParsedValue = true;
                 }
             }

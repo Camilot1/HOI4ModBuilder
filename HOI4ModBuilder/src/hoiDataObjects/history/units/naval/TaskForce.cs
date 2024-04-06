@@ -24,8 +24,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
         {
             get
             {
-                if (_needToSave) return true;
-                if (_location != null && _location.HasChangedId) return true;
+                if (_needToSave ||
+                    _location != null && _location.HasChangedId)
+                {
+                    return true;
+                }
 
                 foreach (var ship in _ships)
                     if (ship.NeedToSave) return true;

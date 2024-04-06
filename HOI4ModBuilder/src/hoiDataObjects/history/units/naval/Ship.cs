@@ -17,7 +17,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
         public override int GetHashCode() => _hashCode;
 
         private bool _needToSave;
-        public bool NeedToSave => _needToSave || _equipmentVariant != null && _equipmentVariant.NeedToSave;
+        public bool NeedToSave
+        {
+            get => _needToSave ||
+                _equipmentVariant != null && _equipmentVariant.NeedToSave;
+        }
 
         private ShipInstances _taskForceShipInstances;
 

@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.src.Pdoxcl2Sharp;
+﻿using HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval;
+using HOI4ModBuilder.src.Pdoxcl2Sharp;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.exceptions;
 using Pdoxcl2Sharp;
@@ -10,6 +11,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
     class OOBUnits : IParadoxObject
     {
         public static readonly string BLOCK_NAME = "units";
+
+        public bool _needToSave;
+        public bool NeedToSave
+        {
+            get
+            {
+                if (_needToSave) return true;
+
+                foreach (var division in _divisions)
+                    if (division.NeedToSave) return true;
+                foreach (var fleet in _fleets)
+                    if (fleet.NeedToSave) return true;
+
+                return false;
+            }
+        }
 
         public bool HasAnyInnerInfo => _divisions.Count != 0 || _fleets.Count != 0;
 

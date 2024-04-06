@@ -19,7 +19,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates
         public override int GetHashCode() => _hashCode;
 
         public bool _needToSave;
-        public bool NeedToSave { get => _needToSave; }
+        public bool NeedToSave
+        {
+            get => _needToSave ||
+                _namesGroup != null && _namesGroup.NeedToSave ||
+                _regimentsSubUnits != null && _regimentsSubUnits.NeedToSave ||
+                _supportSubUnits != null && _supportSubUnits.NeedToSave;
+        }
 
         private static readonly string TOKEN_NAME = "name";
         private string _name;

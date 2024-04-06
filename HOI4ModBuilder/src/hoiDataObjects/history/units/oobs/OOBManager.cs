@@ -14,14 +14,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         private static readonly string directoryPath = @"history\units\";
         private static Dictionary<FileInfo, OOB> _oobsByFiles = new Dictionary<FileInfo, OOB>();
 
-        private static Dictionary<string, ShipInstances> _taskForceShipInstances = new Dictionary<string, ShipInstances>();
+        private static Dictionary<string, ShipInstances> _shipInstances = new Dictionary<string, ShipInstances>();
 
         public static ShipInstances RequestShipInstances(string name, LinkedLayer layer)
         {
-            if (!_taskForceShipInstances.TryGetValue(name, out ShipInstances shipInstances))
+            if (!_shipInstances.TryGetValue(name, out ShipInstances shipInstances))
             {
                 shipInstances = new ShipInstances(name);
-                _taskForceShipInstances[name] = shipInstances;
+                _shipInstances[name] = shipInstances;
             }
 
             if (layer != null) shipInstances.AddRequest(layer);
@@ -32,7 +32,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         public static void Load(Settings settings)
         {
             _oobsByFiles = new Dictionary<FileInfo, OOB>();
-            _taskForceShipInstances = new Dictionary<string, ShipInstances>();
+            _shipInstances = new Dictionary<string, ShipInstances>();
 
             var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, directoryPath);
 
@@ -55,7 +55,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
         public static void CheckTaskForceShipInstances()
         {
-            foreach (var shipInstance in _taskForceShipInstances.Values)
+            foreach (var shipInstance in _shipInstances.Values)
             {
                 if (shipInstance.Ships.Count == 0)
                 {
@@ -78,7 +78,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
         public static void Save(Settings settings)
         {
-            throw new NotImplementedException();
+            foreach (var oob in _oobsByFiles.Values)
+            {
+                if (oob.FileInfo.needToDelete)
+                {
+
+                    continue;
+                }
+
+                if (oob.FileInfo.needToSave)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    oob.Save(sb, "", "\t");
+
+                    File.WriteAllText(settings.modDirectory + @"history\units\" + oob.FileInfo.fileName, sb.ToString());
+                    sb.Length = 0;
+                }
+            }
         }
     }
 }
