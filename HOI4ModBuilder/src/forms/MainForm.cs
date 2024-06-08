@@ -17,8 +17,11 @@ using HOI4ModBuilder.src.forms.recoveryForms;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
+using HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames;
+using HOI4ModBuilder.src.hoiDataObjects.common.units;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.history.units.oobs;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
@@ -242,7 +245,11 @@ namespace HOI4ModBuilder
                 StateManager.Save(settings);
                 StrategicRegionManager.Save(settings);
 
-                AiAreaManager.Save(settings);
+                //AiAreaManager.Save(settings);
+                //TODO Implement
+                //SubUnitManager.Save(settings);
+                //DivisionNamesGroupManager.Save(settings);
+                //OOBManager.Save(settings);
 
                 Utils.CleanUpMemory();
                 isLoadingOrSaving[0] = false;

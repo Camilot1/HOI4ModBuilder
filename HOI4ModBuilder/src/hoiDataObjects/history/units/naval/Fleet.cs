@@ -69,7 +69,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 {
                     var provinceId = parser.ReadUInt16();
                     if (!ProvinceManager.TryGetProvince(provinceId, out Province newProvince))
+                    {
                         Logger.WrapException(token, new ProvinceNotFoundException(provinceId));
+
+                        if (!newProvince.CanBeNavalBaseForShips())
+                            Logger.LogLayeredWarning(
+                                prevLayer, token, EnumLocKey.PROVINCE_CANT_BE_A_NAVAL_BASE_FOR_SHIPS,
+                                new Dictionary<string, string> { { "{provinceId}", "" + provinceId } }
+                            );
+                    }
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _navalBase, newProvince);
                 }
                 else if (token == TaskForce.BLOCK_NAME)

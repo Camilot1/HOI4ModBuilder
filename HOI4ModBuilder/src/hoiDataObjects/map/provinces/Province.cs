@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.common.terrain;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
+using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
@@ -314,8 +315,34 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         }
 
         public void SetBuildings(Dictionary<Building, uint> buildings) => _buildings = buildings;
+        public bool HasPort()
+        {
+            if (_buildings == null || _buildings.Count == 0) return false;
+
+            foreach (var building in _buildings.Keys)
+                if (building.isPort) return true;
+
+            return false;
+        }
+        public bool WillHavePortInHistory()
+        {
+            if (State == null || State.startHistory == null) return false;
+
+            if (State.startHistory.provincesBuildings.TryGetValue(this, out Dictionary<Building, uint> buildings))
+                foreach (var building in buildings.Keys)
+                    if (building.isPort) return true;
+
+            foreach (var stateHistory in State.stateHistories.Values)
+                if (stateHistory.provincesBuildings.TryGetValue(this, out buildings))
+                    foreach (var building in buildings.Keys)
+                        if (building.isPort) return true;
+
+            return false;
+        }
         public void ClearBuildings() => _buildings = null;
 
+        public bool IsSuitableForShips() => _type == EnumProvinceType.SEA || CanBeNavalBaseForShips();
+        public bool CanBeNavalBaseForShips() => _type == EnumProvinceType.LAND && (HasPort() || WillHavePortInHistory());
 
         public uint pixelsCount;
         public bool dislayCenter;

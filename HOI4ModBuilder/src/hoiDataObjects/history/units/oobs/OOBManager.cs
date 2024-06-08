@@ -82,7 +82,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             {
                 if (oob.FileInfo.needToDelete)
                 {
-
+                    File.Delete(settings.modDirectory + directoryPath + oob.FileInfo.fileName);
                     continue;
                 }
 
@@ -91,7 +91,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                     StringBuilder sb = new StringBuilder();
                     oob.Save(sb, "", "\t");
 
-                    File.WriteAllText(settings.modDirectory + @"history\units\" + oob.FileInfo.fileName, sb.ToString());
+                    File.WriteAllText(settings.modDirectory + directoryPath + oob.FileInfo.fileName, sb.ToString());
                     sb.Length = 0;
                 }
             }

@@ -44,9 +44,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.land
 
             ParadoxUtils.StartBlock(sb, outTab, _name);
 
+            string newOutTab = outTab + tab;
+
             foreach (var info in infos)
             {
-                ParadoxUtils.StartInlineBlock(sb, outTab, info.SubUnit.Name);
+                ParadoxUtils.StartInlineBlock(sb, newOutTab, info.SubUnit.Name);
                 info.Coords.Save(sb, " ", "");
                 ParadoxUtils.EndBlock(sb, " ");
             }

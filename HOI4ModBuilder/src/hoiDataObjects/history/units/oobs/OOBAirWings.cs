@@ -40,7 +40,29 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
         public bool Save(StringBuilder sb, string outTab, string tab)
         {
-            throw new NotImplementedException();
+            if (!HasAnyInnerInfo) return false;
+
+            string newOutTab = outTab + tab;
+            bool newParagraphFlag = false;
+            bool result = false;
+
+            List<State> states = new List<State>(_stateAirWingsGroup.Keys);
+            states.Sort((x, y) => x.Id.CompareTo(y.Id));
+            foreach (var state in states)
+            {
+                ParadoxUtils.NewLineIfNeeded(sb, newOutTab, ref newParagraphFlag);
+                newParagraphFlag = _stateAirWingsGroup[state].Save(sb, newOutTab, tab);
+                result |= newParagraphFlag;
+            }
+
+            foreach (var airWingsGroup in _carrierAirWingsGroup.Values)
+            {
+                ParadoxUtils.NewLineIfNeeded(sb, newOutTab, ref newParagraphFlag);
+                newParagraphFlag = airWingsGroup.Save(sb, newOutTab, tab);
+                result |= newParagraphFlag;
+            }
+
+            return result;
         }
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)

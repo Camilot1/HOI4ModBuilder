@@ -225,7 +225,7 @@ namespace HOI4ModBuilder.src.utils
         {
             string prefix = AssembleLayeredPrefix(EnumLocKey.WARNING_LAYERED_PREFIX, currentLayer, out Dictionary<string, string> prefixReplaceValues);
             string message = GuiLocManager.GetLoc(enumLocKey, replaceValues);
-            _warnings.Add(prefix + message);
+            _warnings.Add(message + '\n' + prefix);
             Log($"WARNING: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}; Prefix values: {Utils.DictionaryToString(prefixReplaceValues)}");
         }
         public static void LogLayeredError(LinkedLayer currentLayer, EnumLocKey enumLocKey)
@@ -240,7 +240,7 @@ namespace HOI4ModBuilder.src.utils
         {
             string prefix = AssembleLayeredPrefix(EnumLocKey.WARNING_LAYERED_PREFIX, currentLayer, out Dictionary<string, string> prefixReplaceValues);
             string message = GuiLocManager.GetLoc(enumLocKey, replaceValues);
-            _errors.Add(prefix + message);
+            _errors.Add(message + '\n' + prefix);
             Log($"WARNING: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}; Prefix values: {Utils.DictionaryToString(prefixReplaceValues)}");
         }
 

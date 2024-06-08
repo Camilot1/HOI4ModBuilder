@@ -31,6 +31,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
         private string _name;
         public string Name { get => _name; set => Utils.Setter(ref _name, ref value, ref _needToSave, ref _hasChangedName); }
 
+        private static readonly string TOKEN_ORDERED_NAME = "ordered_name";
+        private int? _orderedName;
+        public int? OrderedName { get => _orderedName; set => Utils.Setter(ref _orderedName, ref value, ref _needToSave); }
+
         private static readonly string TOKEN_DEFINITION = "definition";
         private string _definition; //TODO implement naval subunit using
         public string Definition { get => _definition; set => Utils.Setter(ref _definition, ref value, ref _needToSave); }
@@ -52,6 +56,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
         {
             ParadoxUtils.StartInlineBlock(sb, outTab, BLOCK_NAME);
             ParadoxUtils.SaveQuotedInline(sb, " ", TOKEN_NAME, _name);
+            ParadoxUtils.SaveInline(sb, " ", TOKEN_ORDERED_NAME, _orderedName);
             ParadoxUtils.SaveInline(sb, " ", TOKEN_DEFINITION, _definition);
             ParadoxUtils.SaveInline(sb, " ", TOKEN_IS_PRIDE_OF_THE_FLEET, _isPrideOfTheFleet);
             ParadoxUtils.SaveInline(sb, " ", TOKEN_START_EXPERIENCE_FACTOR, _startExperienceFactor, DEFAULT_START_EXPERIENCE_FACTOR);
@@ -65,6 +70,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
         {
             if (token == TOKEN_NAME)
                 Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _name, parser.ReadString());
+            else if (token == TOKEN_ORDERED_NAME)
+                Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _orderedName, parser.ReadInt32());
             else if (token == TOKEN_DEFINITION)
                 Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _definition, parser.ReadString());
             else if (token == TOKEN_IS_PRIDE_OF_THE_FLEET)
@@ -80,11 +87,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
         {
             bool result = true;
 
-            _taskForceShipInstances = OOBManager.RequestShipInstances(_name, null);
+            string requestName = null; //TODO Reimplement/Remake in future
+            if (_name != null) requestName = _name;
+            else if (_orderedName != null && _definition != null) requestName = _orderedName + " " + _definition;
+
+            _taskForceShipInstances = OOBManager.RequestShipInstances(requestName, null);
             _taskForceShipInstances.Ships.Add(this);
 
             CheckAndLogUnit.WARNINGS
-                .HasMandatory(ref result, prevLayer, TOKEN_NAME, ref _name)
+                //.HasMandatory(ref result, prevLayer, TOKEN_NAME, ref _name)
                 .HasMandatory(ref result, prevLayer, TOKEN_DEFINITION, ref _definition)
                 .HasMandatory(ref result, prevLayer, ShipEquipmentVariant.BLOCK_NAME, ref _equipmentVariant);
 

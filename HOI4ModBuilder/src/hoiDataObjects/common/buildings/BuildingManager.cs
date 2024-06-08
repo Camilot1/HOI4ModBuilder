@@ -59,6 +59,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
                 var buildings = new List<Building>();
                 var list = new BuildingsList(buildings);
                 parser.Parse(list);
+                list.ExecuteAfterParse();
                 _buildingsByFilesMap.Add(_currentFile, buildings);
             }
         }
@@ -77,6 +78,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
                 parser.Parse(building);
                 _buildings.Add(building);
                 _allBuildings[token] = building;
+            }
+
+            public void ExecuteAfterParse()
+            {
+                foreach (var building in _buildings)
+                    building.ExecuteAfterParse();
             }
         }
     }

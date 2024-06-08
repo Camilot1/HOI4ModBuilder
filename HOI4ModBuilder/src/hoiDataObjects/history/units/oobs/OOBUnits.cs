@@ -40,10 +40,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         {
             if (!HasAnyInnerInfo) return false;
 
+            ParadoxUtils.StartBlock(sb, outTab, BLOCK_NAME);
+
             string newOutTab = outTab + tab;
 
             foreach (var division in _divisions) division.Save(sb, newOutTab, tab);
             foreach (var fleet in _fleets) fleet.Save(sb, newOutTab, tab);
+
+            ParadoxUtils.EndBlock(sb, outTab);
 
             return true;
         }

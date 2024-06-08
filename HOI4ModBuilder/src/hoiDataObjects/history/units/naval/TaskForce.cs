@@ -25,6 +25,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
             get
             {
                 if (_needToSave ||
+                    _base != null && _base.HasChangedId ||
                     _location != null && _location.HasChangedId)
                 {
                     return true;
@@ -40,6 +41,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
         private static readonly string TOKEN_NAME = "name";
         private string _name;
         public string Name { get => _name; set => Utils.Setter(ref _name, ref value, ref _needToSave); }
+
+        private static readonly string TOKEN_BASE = "base";
+        private Province _base;
+        public Province Base { get => _base; set => Utils.Setter(ref _base, ref value, ref _needToSave); }
 
         private static readonly string TOKEN_LOCATION = "location";
         private Province _location;
@@ -58,11 +63,38 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
             {
                 if (token == TOKEN_NAME)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _name, parser.ReadString());
+                else if (token == TOKEN_BASE)
+                {
+                    var provinceId = parser.ReadUInt16();
+                    if (ProvinceManager.TryGetProvince(provinceId, out Province newProvince))
+                    {
+                        Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _base, newProvince);
+
+                        if (!newProvince.CanBeNavalBaseForShips())
+                            Logger.LogLayeredWarning(
+                                prevLayer, token, EnumLocKey.PROVINCE_CANT_BE_A_NAVAL_BASE_FOR_SHIPS,
+                                new Dictionary<string, string> { { "{provinceId}", "" + provinceId } }
+                            );
+                    }
+                    else
+                        Logger.LogLayeredError(
+                            prevLayer, token, EnumLocKey.PROVINCE_NOT_FOUND,
+                            new Dictionary<string, string> { { "{provinceId}", "" + provinceId } }
+                        );
+
+                }
                 else if (token == TOKEN_LOCATION)
                 {
                     var provinceId = parser.ReadUInt16();
                     if (ProvinceManager.TryGetProvince(provinceId, out Province newProvince))
+                    {
                         Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _location, newProvince);
+                        if (!newProvince.IsSuitableForShips())
+                            Logger.LogLayeredWarning(
+                                prevLayer, token, EnumLocKey.PROVINCE_IS_NOT_SUITABLE_FOR_SHIPS,
+                                new Dictionary<string, string> { { "{provinceId}", "" + provinceId } }
+                            );
+                    }
                     else
                         Logger.LogLayeredError(
                             prevLayer, token, EnumLocKey.PROVINCE_NOT_FOUND,

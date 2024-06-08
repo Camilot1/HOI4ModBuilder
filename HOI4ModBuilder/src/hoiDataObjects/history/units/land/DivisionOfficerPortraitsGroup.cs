@@ -40,8 +40,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.land
 
             ParadoxUtils.StartBlock(sb, outTab, _categoryName);
 
-            ParadoxUtils.SaveQuoted(sb, newOutTab, TOKEN_LARGE_PORTRAIT, _largePortrait);
-            ParadoxUtils.SaveQuoted(sb, newOutTab, TOKEN_SMALL_PORTRAIT, _smallPortrait);
+            ParadoxUtils.Save(sb, newOutTab, TOKEN_LARGE_PORTRAIT, _largePortrait);
+            ParadoxUtils.Save(sb, newOutTab, TOKEN_SMALL_PORTRAIT, _smallPortrait);
 
             ParadoxUtils.EndBlock(sb, outTab);
 

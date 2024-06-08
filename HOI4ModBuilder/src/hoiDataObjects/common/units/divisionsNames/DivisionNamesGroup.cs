@@ -31,7 +31,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames
 
         public void TokenCallback(ParadoxParser parser, string token)
         {
-            //TODO Implementation
+            //TODO implement
         }
     }
 

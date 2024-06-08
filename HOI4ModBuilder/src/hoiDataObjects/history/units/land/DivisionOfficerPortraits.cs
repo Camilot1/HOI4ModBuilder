@@ -26,8 +26,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.land
         {
             if (!HasAnyInnerInfo) return false;
 
+            ParadoxUtils.StartBlock(sb, outTab, BLOCK_NAME);
+
             string newOutTab = outTab + tab;
             _armyGroup?.Save(sb, newOutTab, tab);
+
+            ParadoxUtils.EndBlock(sb, outTab);
 
             return true;
         }

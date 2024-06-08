@@ -36,7 +36,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.land
 
             ParadoxUtils.StartBlock(sb, outTab, BLOCK_NAME);
 
-            ParadoxUtils.Save(sb, newOutTab, BLOCK_NAME, _name);
+            ParadoxUtils.SaveQuoted(sb, newOutTab, TOKEN_NAME, _name);
             _portraits?.Save(sb, newOutTab, tab);
 
             ParadoxUtils.EndBlock(sb, outTab);

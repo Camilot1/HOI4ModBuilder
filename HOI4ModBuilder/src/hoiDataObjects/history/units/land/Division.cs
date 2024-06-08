@@ -47,12 +47,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         public string DivisionTemplate { get => _divisionTemplate; set => Utils.Setter(ref _divisionTemplate, ref value, ref _needToSave); }
 
         private static readonly string TOKEN_START_EXPERIENCE_FACTOR = "start_experience_factor";
-        private static readonly float DEFAULT_START_EXPERIENCE_FACTOR = 0;
+        //private static readonly float DEFAULT_START_EXPERIENCE_FACTOR = 0;
         private float? _startExperienceFactor;
         public float? StartExperienceFactor { get => _startExperienceFactor; set => Utils.Setter(ref _startExperienceFactor, ref value, ref _needToSave); }
 
         private static readonly string TOKEN_START_EQUIPMENT_FACTOR = "start_equipment_factor";
-        private static readonly float DEFAULT_START_EQUIPMENT_FACTOR = 1f;
+        //private static readonly float DEFAULT_START_EQUIPMENT_FACTOR = 1f;
         private float? _startEquipmentFactor;
         public float? StartEquipmentFactor { get => _startEquipmentFactor; set => Utils.Setter(ref _startEquipmentFactor, ref value, ref _needToSave); }
 
@@ -76,8 +76,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             _divisionName?.Save(sb, newOutTab, tab);
             ParadoxUtils.Save(sb, newOutTab, TOKEN_LOCATION, _location?.Id);
             ParadoxUtils.SaveQuoted(sb, newOutTab, TOKEN_DIVISION_TEMPLATE, _divisionTemplate);
-            ParadoxUtils.Save(sb, newOutTab, TOKEN_START_EXPERIENCE_FACTOR, _startExperienceFactor, DEFAULT_START_EXPERIENCE_FACTOR);
-            ParadoxUtils.Save(sb, newOutTab, TOKEN_START_EQUIPMENT_FACTOR, _startEquipmentFactor, DEFAULT_START_EQUIPMENT_FACTOR);
+            ParadoxUtils.Save(sb, newOutTab, TOKEN_START_EXPERIENCE_FACTOR, _startExperienceFactor); // DEFAULT_START_EXPERIENCE_FACTOR);
+            ParadoxUtils.Save(sb, newOutTab, TOKEN_START_EQUIPMENT_FACTOR, _startEquipmentFactor); // DEFAULT_START_EQUIPMENT_FACTOR);
             ParadoxUtils.Save(sb, newOutTab, TOKEN_START_MANPOWER_FACTOR, _startManpowerFactor);
 
             _forcedEquipmentVariants?.Save(sb, newOutTab, tab);
@@ -122,6 +122,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                     Logger.ParseNewLayeredValueOrContinueOld(prevLayer, token, ref _forcedEquipmentVariants, parser, new ForcedEquipmentVariants());
                 else if (token == DivisionOfficer.BLOCK_NAME)
                     Logger.ParseLayeredValueAndCheckOverride(prevLayer, token, ref _divisionOfficer, parser, new DivisionOfficer());
+                else if (token == "bonus") //Paradox moment :)))
+                    parser.ReadInt32();
                 else
                     throw new UnknownTokenException(token);
             });
@@ -134,11 +136,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             var currentLayer = new LinkedLayer(prevLayer, $"({TOKEN_NAME} = \"{_name}\")");
 
             CheckAndLogUnit.WARNINGS
-                .HasAtLeastOneMandatory(
-                    ref result, prevLayer, BLOCK_NAME,
-                    new string[] { TOKEN_NAME, DivisionName.BLOCK_NAME },
-                    _name != null || _divisionName != null
-                )
+                //.HasAtLeastOneMandatory(
+                //    ref result, prevLayer, BLOCK_NAME,
+                //    new string[] { TOKEN_NAME, DivisionName.BLOCK_NAME },
+                //    _name != null || _divisionName != null
+                //)
                 /*
                 .HasOnlyOneMutuallyExclusiveMandatory(
                     ref result, prevLayer, BLOCK_NAME,

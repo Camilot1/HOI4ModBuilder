@@ -356,11 +356,11 @@ PROVINCE_NOT_FOUND: "Провинция с Id = {provinceId} не найдена
 COUNTRY_NOT_FOUND: "Страна с тегом \"{countryTag}\" не найдена."
 DIVISION_NAMES_GROUP_NOT_FOUND: "Группа с названием дивизий \"{divisionNamesGroup}\" не найдена."
 
-ERROR_LAYERED_PREFIX: "В файле \"{filePath}\"} в блоке по пути \"{blockLayeredPath}\" обнаружена ошибка: "
-WARNING_LAYERED_PREFIX: "В файле \"{filePath}\" в блоке по пути \"{blockLayeredPath}\" обнаружено предупреждение: "
+ERROR_LAYERED_PREFIX: "Путь до ошибки: \"{blockLayeredPath}\" \nФайл: \"{filePath}\""
+WARNING_LAYERED_PREFIX: "Путь до предупреждения: \"{blockLayeredPath}\" \nФайл: \"{filePath}\""
 
 SUB_UNIT_NOT_FOUND: "Саб-юнит с названием \"{name}\" не найден."
-SUB_UNITS_COORDINATES_OVERLAPPING: "У саб-юнитов \"{firstSubUnitName}\" и \"{secondSubUnitName}\" указаны совпадающие координаты \"{XY}\"."
+SUB_UNITS_COORDINATES_OVERLAPPING: "Сабюниты \"{firstSubUnitName}\" и \"{secondSubUnitName}\" имеют совпадающие координаты \"{XY}\"."
 
 SUB_UNIT_DUPLICATE_DEFINITION: "Саб-юнит с названием \"{name}\" уже был объявлен ранее в файле {filePath}"
 SUB_UNIT_DUPLICATE_DEFINITION_IN_CURRENT_FILE: "Саб-юнит с названием \"{name}\" уже был объявлен ранее в текущем файле."

@@ -120,8 +120,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
                         var continentId = ContinentManager.GetContinentId(continent);
                         if (continentId < 0)
                         {
-                            Logger.LogError(
-                                EnumLocKey.CONTINENT_NOT_FOUND_BY_NAME,
+                            Logger.LogLayeredError(
+                                prevLayer, token, EnumLocKey.CONTINENT_NOT_FOUND_BY_NAME,
                                 new Dictionary<string, string> { { "{continentName}", continent } }
                             );
                             continue;
@@ -137,8 +137,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
                     {
                         if (!ushort.TryParse(idString, out var regionId))
                         {
-                            Logger.LogError(
-                                EnumLocKey.AI_AREA_HAS_INCORRECT_STRATEGIC_REGION_ID_VALUE,
+                            Logger.LogLayeredError(
+                                prevLayer, token, EnumLocKey.AI_AREA_HAS_INCORRECT_STRATEGIC_REGION_ID_VALUE,
                                 new Dictionary<string, string> { { "{value}", idString } }
                             );
                             continue;
@@ -146,8 +146,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
 
                         if (!StrategicRegionManager.TryGetRegion(regionId, out var region))
                         {
-                            Logger.LogError(
-                                EnumLocKey.AI_AREA_CONTAINTS_ID_OF_NOT_EXISTING_STRATEGIC_REGION,
+                            Logger.LogLayeredError(
+                                prevLayer, token, EnumLocKey.AI_AREA_CONTAINTS_ID_OF_NOT_EXISTING_STRATEGIC_REGION,
                                 new Dictionary<string, string> { { "{regionId}", $"{regionId}" } }
                             );
                             continue;

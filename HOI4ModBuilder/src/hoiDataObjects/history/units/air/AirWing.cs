@@ -66,6 +66,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         private string _versionName;
         public string VersionName { get => _versionName; set => Utils.Setter(ref _versionName, ref value, ref _needToSave); }
 
+        private static readonly string TOKEN_CREATE_IF_MISSING = "create_if_missing";
+        private bool? _createIfMissing;
+        public bool? CreateIfMissing { get => _createIfMissing; set => Utils.Setter(ref _createIfMissing, ref value, ref _needToSave); }
+
 
         private AirWingAce _ace;
         public AirWingAce Ace { get => _ace; set => Utils.Setter(ref _ace, ref value, ref _needToSave); }
@@ -80,6 +84,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             ParadoxUtils.SaveQuotedInline(sb, " ", TOKEN_CREATOR, _creator?.Tag);
             ParadoxUtils.SaveInline(sb, " ", TOKEN_AMOUNT, _amount);
             ParadoxUtils.SaveQuotedInline(sb, " ", TOKEN_VERSION_NAME, _versionName);
+            ParadoxUtils.SaveInline(sb, " ", TOKEN_CREATE_IF_MISSING, _createIfMissing);
 
             ParadoxUtils.EndInlineBlock(sb, " ");
 
@@ -118,7 +123,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _amount, parser.ReadByte());
                 else if (token == TOKEN_VERSION_NAME)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _versionName, parser.ReadString());
-                else throw new UnknownTokenException(token);
+                else if (token == TOKEN_CREATE_IF_MISSING)
+                    Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _createIfMissing, parser.ReadBool());
+                else
+                    throw new UnknownTokenException(token);
             });
         }
 

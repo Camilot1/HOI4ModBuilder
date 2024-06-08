@@ -641,10 +641,8 @@ namespace Pdoxcl2Sharp
 
             do
             {
-                if (currentToken == LexerToken.Comment)
-                    ; //TODO Временный костыль. Исходный код оригинального парсера ломается на комментариях по типу location = 3010#Comment
-                else if (currentToken == LexerToken.RightCurly
-                    || PeekToken() == LexerToken.RightCurly)
+                if (currentToken == LexerToken.RightCurly
+             || PeekToken() == LexerToken.RightCurly)
                 {
                     if (nextToken == LexerToken.RightCurly)
                         GetNextToken();

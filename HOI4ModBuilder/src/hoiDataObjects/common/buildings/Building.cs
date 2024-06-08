@@ -1,5 +1,7 @@
-﻿using HOI4ModBuilder.src.dataObjects;
+﻿using HOI4ModBuilder.hoiDataObjects.history.countries;
+using HOI4ModBuilder.src.dataObjects;
 using HOI4ModBuilder.src.dataObjects.argBlocks;
+using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
@@ -7,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static HOI4ModBuilder.src.dataObjects.argBlocks.InfoArgsBlock;
 using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
@@ -39,7 +42,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public bool centered;
 
         public bool showModifier;
-        public List<DataArgsBlock> modifiers = new List<DataArgsBlock>(0);
+        public List<DataArgsBlock> modifiers = new List<DataArgsBlock>();
 
         public bool isPort;
 
@@ -53,7 +56,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             return obj is Building building &&
                    name == building.name;
         }
-
 
         public void TokenCallback(ParadoxParser parser, string token)
         {
@@ -135,6 +137,40 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
                         ), ex);
                     }
                     break;
+            }
+        }
+
+        public void ExecuteAfterParse()
+        {
+            ExecuteBlockFunctions();
+        }
+
+        private void ExecuteBlockFunctions()
+        {
+            foreach (var dataBlock in modifiers)
+            {
+                if (dataBlock.InfoArgsBlock == null) continue;
+
+                var function = dataBlock.InfoArgsBlock.GetFunctionByScope(EnumScope.BUILDING);
+                if (function == EnumArgsBlockFunctions.NONE) continue;
+
+                try
+                {
+                    if (function == EnumArgsBlockFunctions.MODIFIER_BUILDING_SET_IS_PORT)
+                        isPort = (bool)dataBlock.Value;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(GuiLocManager.GetLoc(
+                        EnumLocKey.EXCEPTION_CANT_EXECUTE_BLOCK_FUNCTIONS,
+                        new Dictionary<string, string>
+                        {
+                            { "{functionName}", function.ToString() },
+                            { "{blockName}", dataBlock.GetName() },
+                            { "{blockValue}", $"{dataBlock.Value}" }
+                        }
+                    ), ex);
+                }
             }
         }
 

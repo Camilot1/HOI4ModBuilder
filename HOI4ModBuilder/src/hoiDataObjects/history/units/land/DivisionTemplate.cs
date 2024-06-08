@@ -38,6 +38,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates
         private bool? _isLocked;
         public bool? IsLocked { get => _isLocked; set => Utils.Setter(ref _isLocked, ref value, ref _needToSave); }
 
+        private static readonly string TOKEN_IS_OBSOLETE = "obsolete";
+        private bool? _isObsolete;
+        public bool? IsObsolete { get => _isObsolete; set => Utils.Setter(ref _isObsolete, ref value, ref _needToSave); }
+
+
         private static readonly string TOKEN_FORCE_ALLOW_RECRUITING = "force_allow_recruiting";
         private bool? _forceAllowRecruiting;
         public bool? ForceAllowRecruiting { get => _forceAllowRecruiting; set => Utils.Setter(ref _forceAllowRecruiting, ref value, ref _needToSave); }
@@ -72,8 +77,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates
             ParadoxUtils.StartBlock(sb, outTab, BLOCK_NAME);
 
             ParadoxUtils.SaveQuoted(sb, newOutTab, TOKEN_NAME, _name);
-            ParadoxUtils.SaveQuoted(sb, newOutTab, DivisionNamesGroup.BLOCK_NAME, _namesGroup?.Name);
+            ParadoxUtils.Save(sb, newOutTab, DivisionNamesGroup.BLOCK_NAME, _namesGroup?.Name);
             ParadoxUtils.Save(sb, newOutTab, TOKEN_IS_LOCKED, _isLocked);
+            ParadoxUtils.Save(sb, newOutTab, TOKEN_IS_OBSOLETE, _isObsolete);
             ParadoxUtils.Save(sb, newOutTab, TOKEN_FORCE_ALLOW_RECRUITING, _forceAllowRecruiting);
             ParadoxUtils.Save(sb, newOutTab, TOKEN_DIVISION_CAP, _divisionCap);
             ParadoxUtils.Save(sb, newOutTab, TOKEN_PRIORITY, _priority, DEFAULT_PRIORITY);
@@ -107,6 +113,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.divisionTemplates
                 }
                 else if (token == TOKEN_IS_LOCKED)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _isLocked, parser.ReadBool());
+                else if (token == TOKEN_IS_OBSOLETE)
+                    Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _isObsolete, parser.ReadBool());
                 else if (token == TOKEN_FORCE_ALLOW_RECRUITING)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _forceAllowRecruiting, parser.ReadBool());
                 else if (token == TOKEN_DIVISION_CAP)

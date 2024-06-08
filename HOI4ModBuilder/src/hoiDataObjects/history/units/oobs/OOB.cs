@@ -97,6 +97,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                     Logger.ParseNewLayeredValueOrContinueOld(prevLayer, token, ref _airWings, parser, new OOBAirWings());
                 else if (token == OOBInstantEffect.BLOCK_NAME)
                     Logger.ParseNewLayeredValueOrContinueOld(prevLayer, token, ref _instantEffect, parser, new OOBInstantEffect());
+                else if (token == "start_equipment_factor") //Paradox moment :)))
+                    parser.ReadFloat();
                 else
                     throw new UnknownTokenException(token);
             });

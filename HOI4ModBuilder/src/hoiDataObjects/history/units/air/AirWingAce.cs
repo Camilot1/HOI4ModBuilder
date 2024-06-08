@@ -36,6 +36,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.air
         private bool? _isFemale;
         public bool? IsFemale { get => _isFemale; set => Utils.Setter(ref _isFemale, ref value, ref _needToSave); }
 
+        private static readonly string TOKEN_PORTRAIT = "portrait";
+        private string _portrait;
+        public string Portrait { get => _portrait; set => Utils.Setter(ref _portrait, ref value, ref _needToSave); }
+
         public bool Save(StringBuilder sb, string outTab, string tab)
         {
             if (!HasAnyInnerInfo) return false;
@@ -48,7 +52,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.air
             ParadoxUtils.SaveQuoted(sb, newOutTab, TOKEN_NAME, _name);
             ParadoxUtils.SaveQuoted(sb, newOutTab, TOKEN_SURNAME, _surname);
             ParadoxUtils.SaveQuoted(sb, newOutTab, TOKEN_CALLSIGN, _callsign);
-            ParadoxUtils.SaveQuoted(sb, newOutTab, TOKEN_IS_FEMALE, _isFemale);
+            ParadoxUtils.Save(sb, newOutTab, TOKEN_IS_FEMALE, _isFemale);
+            ParadoxUtils.Save(sb, newOutTab, TOKEN_PORTRAIT, _portrait);
 
             ParadoxUtils.EndBlock(sb, outTab);
 
@@ -67,6 +72,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.air
                 Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _callsign, parser.ReadString());
             else if (token == TOKEN_IS_FEMALE)
                 Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _isFemale, parser.ReadBool());
+            else if (token == TOKEN_PORTRAIT)
+                Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _portrait, parser.ReadString());
             else throw new UnknownTokenException(token);
         }
 
@@ -78,8 +85,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.air
                 .HasMandatory(ref result, prevLayer, TOKEN_MODIFIER, ref _modifier)
                 .HasMandatory(ref result, prevLayer, TOKEN_NAME, ref _name)
                 .HasMandatory(ref result, prevLayer, TOKEN_SURNAME, ref _surname)
-                .HasMandatory(ref result, prevLayer, TOKEN_CALLSIGN, ref _callsign)
-                .HasMandatory(ref result, prevLayer, TOKEN_IS_FEMALE, ref _isFemale);
+                .HasMandatory(ref result, prevLayer, TOKEN_CALLSIGN, ref _callsign);
 
             return result;
         }

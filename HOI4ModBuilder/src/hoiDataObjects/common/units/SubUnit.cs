@@ -45,7 +45,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units
 
     class SubUnitsFile : IParadoxObject
     {
-        private readonly FileInfo _currentFile;
+        public FileInfo FileInfo { private set; get; }
         private static readonly string TOKEN_SUB_UNITS = "sub_units";
         private readonly Dictionary<string, SubUnit> _allSubUnits;
         private readonly Dictionary<string, SubUnit> _subUnits;
@@ -54,7 +54,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units
 
         public SubUnitsFile(FileInfo currentFile, Dictionary<string, SubUnit> allSubUnits)
         {
-            _currentFile = currentFile;
+            FileInfo = currentFile;
             _allSubUnits = allSubUnits;
             _subUnits = new Dictionary<string, SubUnit>();
         }
@@ -104,7 +104,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units
                         new Dictionary<string, string> { { "{name}", token } }
                     ); ;
 
-                SubUnit subUnit = new SubUnit(_currentFile, token);
+                SubUnit subUnit = new SubUnit(FileInfo, token);
                 Logger.ParseLayeredValue(prevLayer, token, ref subUnit, parser, subUnit);
 
                 _allSubUnits[subUnit.Name] = subUnit;
