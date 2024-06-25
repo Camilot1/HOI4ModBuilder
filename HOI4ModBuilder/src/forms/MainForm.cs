@@ -62,7 +62,7 @@ namespace HOI4ModBuilder
         private static DebugProc debugProc;
 
         private static readonly Dictionary<Keys, List<KeyEventHandler>> _globaldPressButtonsEvents = new Dictionary<Keys, List<KeyEventHandler>>();
-        private static readonly Dictionary<TabPage, Dictionary<Keys, List<KeyEventHandler>>> _tabRelatedPressButtonsEvents = new Dictionary<TabPage, Dictionary<Keys, List<KeyEventHandler>>>();
+        private static readonly Dictionary<int, Dictionary<Keys, List<KeyEventHandler>>> _tabRelatedPressButtonsEvents = new Dictionary<int, Dictionary<Keys, List<KeyEventHandler>>>();
 
         private static readonly List<Action> _guiReinitActions = new List<Action>();
 
@@ -842,12 +842,12 @@ namespace HOI4ModBuilder
 
         public static void SubscribeGuiReinitAction(Action action) => _guiReinitActions.Add(action);
 
-        public static void SubscribeTabKeyEvent(TabPage tabPage, Keys key, KeyEventHandler eventHandler)
+        public static void SubscribeTabKeyEvent(EnumTabPage tabPage, Keys key, KeyEventHandler eventHandler)
         {
-            if (!_tabRelatedPressButtonsEvents.TryGetValue(tabPage, out var keysEvents))
+            if (!_tabRelatedPressButtonsEvents.TryGetValue((int)tabPage, out var keysEvents))
             {
                 keysEvents = new Dictionary<Keys, List<KeyEventHandler>>();
-                _tabRelatedPressButtonsEvents.Add(tabPage, keysEvents);
+                _tabRelatedPressButtonsEvents.Add((int)tabPage, keysEvents);
             }
 
             if (!keysEvents.TryGetValue(key, out var eventHandlers))
@@ -873,11 +873,10 @@ namespace HOI4ModBuilder
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Handled) return;
-
             Logger.TryOrLog(() =>
             {
                 if (
-                    _tabRelatedPressButtonsEvents.TryGetValue(TabControl_Main.SelectedTab, out var keysEvents) &&
+                    _tabRelatedPressButtonsEvents.TryGetValue(TabControl_Main.SelectedIndex, out var keysEvents) &&
                     keysEvents.TryGetValue(e.KeyCode, out var tabRelatedKeyEventHandlers)
                 )
                 {

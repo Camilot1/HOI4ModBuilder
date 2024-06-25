@@ -8,6 +8,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.tools.map.advanced;
 using System;
 using HOI4ModBuilder.src.tools.map.mouseHandleable;
+using HOI4ModBuilder.managers;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map
 {
@@ -42,6 +43,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             Logger.TryOrLog(() =>
             {
+                if (!MainForm.firstLoad) return;
                 if (_mapTools.TryGetValue(enumTool, out MapTool mapTool))
                     mapTool.Handle(buttons, mouseState, pos, enumEditLayer, bounds, toolParameter);
 
@@ -78,7 +80,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             if (HotKey.key != Keys.None)
             {
                 MainForm.SubscribeTabKeyEvent(
-                    MainForm.Instance.TabPage_Map,
+                    EnumTabPage.MAP,
                     HotKey.key,
                     _hotKeyEvent
                 );

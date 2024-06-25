@@ -63,7 +63,7 @@ namespace HOI4ModBuilder.managers
 
         public static void Init()
         {
-            ActionHistory = new ActionHistoryManager(MainForm.Instance.TabPage_Map);
+            ActionHistory = new ActionHistoryManager(EnumTabPage.MAP);
             ActionsBatch = ActionHistory.CreateNewActionBatch();
 
             MapToolsManager.Init();
@@ -73,8 +73,8 @@ namespace HOI4ModBuilder.managers
             StateManager.Init();
             StrategicRegionManager.Init();
 
-            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.Delete, (sender, e) => HandleDelete());
-            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.Escape, (sender, e) => HandleEscape());
+            MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Delete, (sender, e) => HandleDelete());
+            MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Escape, (sender, e) => HandleEscape());
         }
 
         public static void Load(Settings settings)

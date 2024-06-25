@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
+using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
 {
@@ -13,7 +14,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
         public MergeProvincesTool()
         {
             MainForm.SubscribeTabKeyEvent(
-                MainForm.Instance.TabPage_Map,
+                EnumTabPage.MAP,
                 Keys.M,
                 (sender, e) =>
                 {

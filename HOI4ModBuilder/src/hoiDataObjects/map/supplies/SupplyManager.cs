@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.tools.map.advanced;
+using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 {
@@ -27,7 +28,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public static void Init()
         {
-            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.Escape, (sender, e) => HandleEscape());
+            MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Escape, (sender, e) => HandleEscape());
         }
 
         public static void Load(Settings settings)

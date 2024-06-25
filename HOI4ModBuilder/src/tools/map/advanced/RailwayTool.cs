@@ -2,6 +2,7 @@
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using System.Windows.Forms;
+using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
 {
@@ -9,10 +10,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
     {
         public RailwayTool()
         {
-            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.Delete, (sender, e) => RemoveRailway(SupplyManager.SelectedRailway));
+            MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Delete, (sender, e) => RemoveRailway(SupplyManager.SelectedRailway));
 
             MainForm.SubscribeTabKeyEvent(
-                MainForm.Instance.TabPage_Map,
+                EnumTabPage.MAP,
                 Keys.R,
                 (sender, e) =>
                 {
@@ -28,11 +29,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                 }
             );
 
-            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.D1, (sender, e) => ChangeRailwayAction(e, 1));
-            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.D2, (sender, e) => ChangeRailwayAction(e, 2));
-            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.D3, (sender, e) => ChangeRailwayAction(e, 3));
-            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.D4, (sender, e) => ChangeRailwayAction(e, 4));
-            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.D5, (sender, e) => ChangeRailwayAction(e, 5));
+            MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.D1, (sender, e) => ChangeRailwayAction(e, 1));
+            MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.D2, (sender, e) => ChangeRailwayAction(e, 2));
+            MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.D3, (sender, e) => ChangeRailwayAction(e, 3));
+            MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.D4, (sender, e) => ChangeRailwayAction(e, 4));
+            MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.D5, (sender, e) => ChangeRailwayAction(e, 5));
 
             void ChangeRailwayAction(KeyEventArgs e, byte value)
             {

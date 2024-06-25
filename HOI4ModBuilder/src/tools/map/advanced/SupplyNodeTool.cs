@@ -3,6 +3,7 @@ using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.supply;
 using System.Windows.Forms;
+using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.src.tools.map.advanced
 {
@@ -10,10 +11,10 @@ namespace HOI4ModBuilder.src.tools.map.advanced
     {
         public SupplyNodeTool()
         {
-            MainForm.SubscribeTabKeyEvent(MainForm.Instance.TabPage_Map, Keys.Delete, (sender, e) => RemoveNode(SupplyManager.SelectedSupplyNode));
+            MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Delete, (sender, e) => RemoveNode(SupplyManager.SelectedSupplyNode));
 
             MainForm.SubscribeTabKeyEvent(
-                MainForm.Instance.TabPage_Map,
+                EnumTabPage.MAP,
                 Keys.H,
                 (sender, e) =>
                 {

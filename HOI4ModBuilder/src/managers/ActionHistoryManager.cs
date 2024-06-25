@@ -3,6 +3,7 @@ using HOI4ModBuilder.src.utils.exceptions;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.src.managers
 {
@@ -24,7 +25,7 @@ namespace HOI4ModBuilder.src.managers
             });
         }
 
-        public ActionHistoryManager(TabPage tabPage)
+        public ActionHistoryManager(EnumTabPage tabPage)
         {
             MainForm.SubscribeTabKeyEvent(tabPage, Keys.Z, (sender, e) =>
             {

@@ -31,6 +31,10 @@ namespace HOI4ModBuilder.utils
             HEIGHT,
             ZOOM
         }
+        public enum EnumTabPage
+        {
+            MAP,
+        }
 
         public enum EnumMainLayer
         {
