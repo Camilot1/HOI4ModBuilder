@@ -49,8 +49,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 HasChangedId = true;
 
                 ProvinceManager.AddProvince(_id, this);
-                State?.Validate();
-                Region?.Validate();
+                State?.Validate(out bool _);
+                Region?.Validate(out bool _);
 
                 //TODO Переделать, вынеся проверки в сами Adjacency
                 if (_adjacencies != null)

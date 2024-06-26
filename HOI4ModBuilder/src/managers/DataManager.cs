@@ -14,6 +14,7 @@ using HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.history.units.oobs;
+using HOI4ModBuilder.src.hoiDataObjects.localisation;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.utils;
 using System;
@@ -58,6 +59,7 @@ namespace HOI4ModBuilder.managers
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_UNITS, () => SubUnitManager.Load(settings)),
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_DIVISION_NAMES_GROUPS, () => DivisionNamesGroupManager.Load(settings)),
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_OOBS, () => OOBManager.Load(settings)),
+                new LocalizedAction(EnumLocKey.NONE, () => LocalizationManager.Load(settings)),
             };
 
             MainForm.ExecuteActions(actions);

@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
-using static HOI4ModBuilder.TextureManager;
 using static HOI4ModBuilder.utils.Structs;
 using OpenTK.Graphics.OpenGL;
 using HOI4ModBuilder.hoiDataObjects.common.terrain;
@@ -16,7 +14,6 @@ using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
 using System.Windows.Forms;
-using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.hoiDataObjects;
 using static HOI4ModBuilder.utils.Enums;
 
@@ -32,6 +29,10 @@ namespace HOI4ModBuilder.managers
         public static Province RMBProvince { get; set; }
         private static Dictionary<ushort, Province> _provincesById = new Dictionary<ushort, Province>();
         private static Dictionary<int, Province> _provincesByColor = new Dictionary<int, Province>();
+        public static void ForEachProvince(Action<Province> action)
+        {
+            foreach (var p in _provincesById.Values) action(p);
+        }
 
         public static void Init()
         {
@@ -660,24 +661,6 @@ namespace HOI4ModBuilder.managers
                     region.dislayCenter = true;
                 }
             }
-        }
-
-        public static void AutoToolIsCoastal()
-        {
-            foreach (var p in _provincesById.Values)
-                p.IsCoastal = p.CheckCoastalType();
-        }
-
-        public static void AutoToolRemoveSeaAndLakesContinents()
-        {
-            foreach (var p in _provincesById.Values)
-                if (p.Type != EnumProvinceType.LAND) p.ContinentId = 0;
-        }
-
-        public static void AutoToolRemoveSeaProvincesFromStates()
-        {
-            foreach (var p in _provincesById.Values)
-                if (p.Type == EnumProvinceType.SEA && p.State != null) p.State.RemoveProvince(p);
         }
 
         public static void GetMinMaxVictoryPoints(out uint min, out uint max)

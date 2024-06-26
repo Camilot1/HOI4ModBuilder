@@ -18,12 +18,12 @@ namespace HOI4ModBuilder.src.managers
 {
     class ErrorManager
     {
-        private static Dictionary<Point2F, ulong> _poses = new Dictionary<Point2F, ulong>(0);
+        private static Dictionary<Point2F, ulong> _poses = new Dictionary<Point2F, ulong>(512);
         private static HashSet<EnumMapErrorCode> _enabledErrorCodes = new HashSet<EnumMapErrorCode>();
 
         public static void Init(Settings settings)
         {
-            _poses = new Dictionary<Point2F, ulong>(0);
+            _poses = new Dictionary<Point2F, ulong>(512);
             InitFilters();
 
             LocalizedAction[] actions =
@@ -46,6 +46,7 @@ namespace HOI4ModBuilder.src.managers
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckProvincesWithMultiRegions()),
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckProvincesMultiVictoryPoints()),
 
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckStatesVistoryPointsForForeignProvince()),
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckStatesMultiRegions()),
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING, () => CheckRegionWithNotNavalTerrain()),
 
@@ -365,7 +366,7 @@ namespace HOI4ModBuilder.src.managers
         {
             if (!CheckFilter(EnumMapErrorCode.PROVINCE_MULTI_VICTORY_POINTS)) return;
 
-            var usedIds = new HashSet<ushort>(0);
+            var usedIds = new HashSet<ushort>(512);
             foreach (var s in StateManager.GetStates())
             {
                 foreach (var p in s.victoryPoints.Keys)
@@ -373,6 +374,24 @@ namespace HOI4ModBuilder.src.managers
                     if (usedIds.Contains(p.Id)) AddErrorInfo(p.center, EnumMapErrorCode.PROVINCE_MULTI_VICTORY_POINTS);
                     else usedIds.Add(p.Id);
                 }
+            }
+        }
+
+        private static void CheckStatesVistoryPointsForForeignProvince()
+        {
+            if (!CheckFilter(EnumMapErrorCode.STATE_VICTORY_POINT_FOR_FOREIGN_PROVINCE)) return;
+
+            foreach (var s in StateManager.GetStates())
+            {
+                s.ForEachVictoryPoints((dateTime, stateHistory, province, value) =>
+                {
+                    if (province.State != s)
+                    {
+                        AddErrorInfo(s.center, EnumMapErrorCode.STATE_VICTORY_POINT_FOR_FOREIGN_PROVINCE);
+                        return true;
+                    }
+                    return false;
+                });
             }
         }
 
@@ -771,6 +790,7 @@ namespace HOI4ModBuilder.src.managers
         PROVINCE_MULTI_REGIONS, //Провинция находится в нескольких страт. регионах
         PROVINCE_MULTI_VICTORY_POINTS, //Провинция имеет несколько разных викторипоинтов
 
+        STATE_VICTORY_POINT_FOR_FOREIGN_PROVINCE, //Область определяет викторипоинты для провинции, находящей в другой области
         STATE_MULTI_REGIONS, //Область находится в нескольких страт. регионах
 
         REGION_USES_NOT_NAVAL_TERRAIN, //У региона установлена неморская местность

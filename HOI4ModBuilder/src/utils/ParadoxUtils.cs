@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace HOI4ModBuilder.src.utils
 {
@@ -114,6 +115,5 @@ namespace HOI4ModBuilder.src.utils
 
             return true;
         }
-
     }
 }

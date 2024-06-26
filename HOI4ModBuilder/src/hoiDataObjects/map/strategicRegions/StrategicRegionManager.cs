@@ -18,6 +18,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
     class StrategicRegionManager
     {
         private static Dictionary<ushort, StrategicRegion> _regions = new Dictionary<ushort, StrategicRegion>();
+        public static void ForEachRegion(Action<StrategicRegion> action)
+        {
+            foreach (var r in _regions.Values) action(r);
+        }
         private static HashSet<ProvinceBorder> _regionsBorders = new HashSet<ProvinceBorder>();
 
         public static StrategicRegion SelectedRegion { get; set; }
@@ -200,11 +204,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             ProvinceManager.RMBProvince = null;
             StateManager.RMBState = null;
             return RMBRegion;
-        }
-
-        public static void ValidateAllRegions()
-        {
-            foreach (StrategicRegion region in _regions.Values) region.Validate();
         }
 
         private static void HandleDelete()

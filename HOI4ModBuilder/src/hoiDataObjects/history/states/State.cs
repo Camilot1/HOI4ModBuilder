@@ -59,6 +59,12 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public bool isImpassible;
         public bool isDemilitarized;
         public Dictionary<Province, uint> victoryPoints = new Dictionary<Province, uint>(0);
+        public void ForEachVictoryPoints(Func<DateTime, StateHistory, Province, uint, bool> action)
+        {
+            startHistory?.ForEachVictoryPoints(action);
+            foreach (var sH in stateHistories) sH.Value.ForEachVictoryPoints(action);
+        }
+
         public Dictionary<Building, uint> stateBuildings = new Dictionary<Building, uint>(0);
         public Dictionary<Province, Dictionary<Building, uint>> provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
 
@@ -335,8 +341,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     stateCategory = startStateCategory;
                     break;
                 case "history":
-                    if (startHistory == null) startHistory = new StateHistory(this);
-                    startHistory.isStartHistory = true;
+                    if (startHistory == null) startHistory = new StateHistory(default, this);
                     parser.Parse(startHistory);
                     startHistory.ExecuteAfterParse();
                     break;
@@ -389,17 +394,76 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return obj is State state && _id == state._id;
         }
 
-        public void Validate()
+        public void Validate(out bool hasChanged)
         {
+            hasChanged = false;
+
             if (!Utils.IsProvincesListSorted(provinces))
             {
                 provinces.Sort();
                 fileInfo.needToSave = true;
+                hasChanged = true;
             }
 
             if (Utils.RemoveDuplicateProvinces(provinces))
             {
                 fileInfo.needToSave = true;
+                hasChanged = true;
+            }
+
+            var vpInfoList = new List<VPInfo>();
+            ForEachVictoryPoints((dateTime, stateHistory, province, value) =>
+            {
+                if (province.State != this && province.State != null)
+                {
+                    vpInfoList.Add(new VPInfo(dateTime, stateHistory, province, value));
+                }
+                return false;
+            });
+
+            foreach (var vpInfo in vpInfoList)
+            {
+                if (vpInfo.dateTime == default)
+                {
+                    var newStateHistory = vpInfo.province.State.startHistory;
+                    if (newStateHistory != null)
+                    {
+                        startHistory.victoryPoints.Remove(vpInfo.province);
+                        if (!newStateHistory.victoryPoints.ContainsKey(vpInfo.province))
+                        {
+                            newStateHistory.victoryPoints[vpInfo.province] = vpInfo.value;
+                        }
+                        hasChanged = true;
+                    }
+                }
+                else if (
+                    stateHistories.TryGetValue(vpInfo.dateTime, out StateHistory stateHistory) &&
+                    vpInfo.province.State.stateHistories.TryGetValue(vpInfo.dateTime, out StateHistory newStateHistory)
+                )
+                {
+                    stateHistory.victoryPoints.Remove(vpInfo.province);
+                    if (!newStateHistory.victoryPoints.ContainsKey(vpInfo.province))
+                    {
+                        newStateHistory.victoryPoints[vpInfo.province] = vpInfo.value;
+                    }
+                    hasChanged = true;
+                }
+            }
+        }
+
+        private struct VPInfo
+        {
+            public DateTime dateTime;
+            public StateHistory stateHistory;
+            public Province province;
+            public uint value;
+
+            public VPInfo(DateTime dateTime, StateHistory stateHistory, Province province, uint value)
+            {
+                this.dateTime = dateTime;
+                this.stateHistory = stateHistory;
+                this.province = province;
+                this.value = value;
             }
         }
     }

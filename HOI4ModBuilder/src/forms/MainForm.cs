@@ -36,6 +36,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
+using HOI4ModBuilder.src.tools.auto;
 
 namespace HOI4ModBuilder
 {
@@ -1156,11 +1157,7 @@ namespace HOI4ModBuilder
 
         private void ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal_Click(object sender, EventArgs e)
         {
-            Logger.TryOrLog(() =>
-            {
-                ProvinceManager.AutoToolIsCoastal();
-                MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
-            });
+            Logger.TryOrLog(() => AutoTools.FixProvincesCoastalType());
         }
 
         private void ToolStripComboBox_Data_Bookmark_SelectedIndexChanged(object sender, EventArgs e)
@@ -1228,9 +1225,9 @@ namespace HOI4ModBuilder
         private void ComboBox_Tool_Parameter_SelectedIndexChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() => MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text));
         private void ToolStripMenuItem_Edit_AutoTools_StatesValidation_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => StateManager.ValidateAllStates());
+            => Logger.TryOrLog(() => AutoTools.ValidateAllStates());
         private void ToolStripMenuItem_Edit_AutoTools_RegionsValidation_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => StrategicRegionManager.ValidateAllRegions());
+            => Logger.TryOrLog(() => AutoTools.ValidateAllRegions());
         private void ToolStripMenuItem_Data_Provinces_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => Task.Run(() => new ProvinceListForm().ShowDialog()));
 
@@ -1290,11 +1287,7 @@ namespace HOI4ModBuilder
 
         private void ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents_Click(object sender, EventArgs e)
         {
-            Logger.TryOrLog(() =>
-            {
-                ProvinceManager.AutoToolRemoveSeaAndLakesContinents();
-                MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
-            });
+            Logger.TryOrLog(() => AutoTools.RemoveSeaAndLakesContinents());
         }
 
         private void ToolStripMenuItem_Map_Adjacency_DropDownOpened(object sender, EventArgs e)
@@ -1462,11 +1455,7 @@ namespace HOI4ModBuilder
 
         private void ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates_Click(object sender, EventArgs e)
         {
-            Logger.TryOrLog(() =>
-            {
-                ProvinceManager.AutoToolRemoveSeaProvincesFromStates();
-                MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
-            });
+            Logger.TryOrLog(() => AutoTools.RemoveSeaProvincesFromStates());
         }
 
         public void SetAdjacencyRules(Dictionary<string, AdjacencyRule>.KeyCollection rules)

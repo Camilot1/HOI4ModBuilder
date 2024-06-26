@@ -418,6 +418,7 @@
     <Compile Include="src\hoiDataObjects\map\adjacencies\AdjacencyRule.cs" />
     <Compile Include="src\hoiDataObjects\map\MapPositionsManager.cs" />
     <Compile Include="src\hoiDataObjects\map\continents\ContinentManager.cs" />
+    <Compile Include="src\tools\AutoTools.cs" />
     <Compile Include="src\tools\map\advanced\MergeProvincesTool.cs" />
     <Compile Include="src\tools\map\advanced\RailwayTool.cs" />
     <Compile Include="src\tools\dataRecovery\StrategicRegionsDataRecoveryTool.cs" />

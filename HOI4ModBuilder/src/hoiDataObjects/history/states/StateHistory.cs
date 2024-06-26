@@ -22,7 +22,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
         public override int GetHashCode() => _hashCode;
 
-        public bool isStartHistory;
+        public DateTime dateTime;
         public State state;
         public Country owner;
         public Country controller;
@@ -34,14 +34,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         public int addManpower;
         public bool[] isDemilitarized;
         public Dictionary<Province, uint> victoryPoints = new Dictionary<Province, uint>(0);
+        public void ForEachVictoryPoints(Func<DateTime, StateHistory, Province, uint, bool> action)
+        {
+            foreach (var vp in victoryPoints)
+            {
+                var result = action(dateTime, this, vp.Key, vp.Value);
+                if (result) return;
+            }
+        }
 
         public List<DataArgsBlock> dataArgsBlocks = new List<DataArgsBlock>(0);
 
         public Dictionary<Building, uint> stateBuildings = new Dictionary<Building, uint>(0);
         public Dictionary<Province, Dictionary<Building, uint>> provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
 
-        public StateHistory(State state)
+        public StateHistory(DateTime dateTime, State state)
         {
+            this.dateTime = dateTime;
             this.state = state;
         }
 
@@ -88,7 +97,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             else if (count != newCount)
             { //Если в словаре уже есть эта постройка
                 //Меняем число постройки в области
-                if (newCount == 0 && isStartHistory)
+                if (newCount == 0 && dateTime == default)
                 {
                     buildings.Remove(building);
                     if (buildings.Count == 0) provincesBuildings.Remove(province);
@@ -119,7 +128,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             else if (count != newCount)
             { //Если в словаре уже есть эта постройка
                 //Меняем число постройки в области
-                if (newCount == 0 && isStartHistory) stateBuildings.Remove(building);
+                if (newCount == 0 && dateTime == default) stateBuildings.Remove(building);
                 else stateBuildings[building] = newCount;
                 return true;
             }
@@ -359,7 +368,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     {
                         if (!state.stateHistories.TryGetValue(dateTime, out StateHistory stateHistory))
                         {
-                            stateHistory = new StateHistory(state);
+                            stateHistory = new StateHistory(dateTime, state);
                             state.stateHistories[dateTime] = stateHistory;
                         }
                         parser.Parse(stateHistory);

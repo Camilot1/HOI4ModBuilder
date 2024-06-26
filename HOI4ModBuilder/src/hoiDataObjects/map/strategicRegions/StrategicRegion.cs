@@ -318,15 +318,21 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             foreach (var p in _provinces) action(this, p);
         }
 
-        public void Validate()
+        public void Validate(out bool hasChanged)
         {
+            hasChanged = false;
             if (!Utils.IsProvincesListSorted(_provinces))
             {
                 _provinces.Sort();
                 needToSave = true;
+                hasChanged = true;
             }
 
-            if (Utils.RemoveDuplicateProvinces(_provinces)) needToSave = true;
+            if (Utils.RemoveDuplicateProvinces(_provinces))
+            {
+                needToSave = true;
+                hasChanged = true;
+            }
         }
     }
 

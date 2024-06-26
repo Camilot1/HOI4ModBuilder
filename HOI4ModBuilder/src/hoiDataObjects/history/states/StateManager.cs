@@ -26,6 +26,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         public static StateManager Instance { get; private set; }
         private static FileInfo _currentFile;
         private static Dictionary<ushort, State> _statesById = new Dictionary<ushort, State>();
+        public static void ForEachState(Action<State> action)
+        {
+            foreach (var s in _statesById.Values) action(s);
+        }
 
         public static State SelectedState { get; set; }
         public static State RMBState { get; set; }
@@ -153,7 +157,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 bool tempDestHistory = true;
                 if (!dest.stateHistories.TryGetValue(dateStamp, out StateHistory destHistory))
                 {
-                    destHistory = new StateHistory(dest);
+                    destHistory = new StateHistory(dateStamp, dest);
                     tempDestHistory = true;
                 }
 
@@ -320,11 +324,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             ProvinceManager.RMBProvince = null;
             StrategicRegionManager.RMBRegion = null;
             return RMBState;
-        }
-
-        public static void ValidateAllStates()
-        {
-            foreach (var state in _statesById.Values) state.Validate();
         }
 
         private static void HandleDelete()
