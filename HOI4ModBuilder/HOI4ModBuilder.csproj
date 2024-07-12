@@ -281,13 +281,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\dataObjects\argBlocks\DataArgsBlocksManager.cs" />
-    <Compile Include="src\dataObjects\argBlocks\ArgsBlock.cs" />
-    <Compile Include="src\dataObjects\argBlocks\ArgsBlocksTree.cs" />
-    <Compile Include="src\dataObjects\argBlocks\EnumsArgsBlocks.cs" />
-    <Compile Include="src\dataObjects\argBlocks\InfoArgsBlocksManager.cs" />
-    <Compile Include="src\dataObjects\argBlocks\DataArgsBlock.cs" />
-    <Compile Include="src\dataObjects\argBlocks\InfoArgsBlock.cs" />
+    <Compile Include="src\dataObjects\argBlocks\data\DataArgsBlocksManager.cs" />
+    <Compile Include="src\dataObjects\argBlocks\EnumArgsBlockFunctions.cs" />
+    <Compile Include="src\dataObjects\argBlocks\EnumComparisonOperator.cs" />
+    <Compile Include="src\dataObjects\argBlocks\EnumKeyValueDemiliter.cs" />
+    <Compile Include="src\dataObjects\argBlocks\EnumScope.cs" />
+    <Compile Include="src\dataObjects\argBlocks\EnumsValueType.cs" />
+    <Compile Include="src\dataObjects\argBlocks\info\DefinedModifier.cs" />
+    <Compile Include="src\dataObjects\argBlocks\info\InfoArgsBlocksManager.cs" />
+    <Compile Include="src\dataObjects\argBlocks\data\DataArgsBlock.cs" />
+    <Compile Include="src\dataObjects\argBlocks\info\InfoArgsBlock.cs" />
+    <Compile Include="src\dataObjects\argBlocks\info\ScriptedEffect.cs" />
+    <Compile Include="src\dataObjects\argBlocks\info\ScriptedTrigger.cs" />
     <Compile Include="src\dataObjects\XYUshortCoordinates.cs" />
     <Compile Include="src\dataObjects\ParserDummyBlock.cs" />
     <Compile Include="src\dataObjects\replaceTags\ReplaceTagsManager.cs" />

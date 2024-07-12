@@ -1,0 +1,19 @@
+﻿namespace HOI4ModBuilder.src.dataObjects.argBlocks
+{
+    public enum EnumArgsBlockFunctions
+    {
+        NONE,
+
+        MODIFIER_BUILDING_SET_IS_PORT,
+
+        EFFECT_STATE_ADD_CORE_OF,
+        EFFECT_STATE_REMOVE_CORE_OF,
+        EFFECT_STATE_ADD_CLAIM_BY,
+        EFFECT_STATE_REMOVE_CLAIM_BY,
+        EFFECT_STATE_SET_PROVINCE_CONTROLLER,
+        EFFECT_STATE_ADD_MANPOWER,
+        EFFECT_STATE_SET_DEMILITARIZED_ZONE,
+
+        EFFECT_COUNTRY_ADD_MANPOWER
+    }
+}

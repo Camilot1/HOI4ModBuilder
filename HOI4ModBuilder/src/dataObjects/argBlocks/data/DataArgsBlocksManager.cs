@@ -12,10 +12,10 @@ namespace HOI4ModBuilder.src.dataObjects
 {
     class DataArgsBlocksManager
     {
-        private static readonly Dictionary<string, EnumDemiliter> demilitersDict = new Dictionary<string, EnumDemiliter>
+        private static readonly Dictionary<string, EnumKeyValueDemiliter> demilitersDict = new Dictionary<string, EnumKeyValueDemiliter>
         {
-            { "<", EnumDemiliter.LESS_THAN },
-            { ">", EnumDemiliter.GREATER_THAN }
+            { "<", EnumKeyValueDemiliter.LESS_THAN },
+            { ">", EnumKeyValueDemiliter.GREATER_THAN }
         };
 
         public static void ParseDataArgsBlock(ParadoxParser parser, DataArgsBlock currentDataBlock, string token, List<DataArgsBlock> currentLevelDataBlocks, List<DataArgsBlock> innerLevelDataBlocks)
@@ -151,7 +151,7 @@ namespace HOI4ModBuilder.src.dataObjects
             }
         }
 
-        private static void Parse(ParadoxParser parser, DataArgsBlock dataBlock, EnumNewArgsBlockValueType[] allowedTypes, EnumDemiliter[] allowedDemiliters)
+        private static void Parse(ParadoxParser parser, DataArgsBlock dataBlock, EnumValueType[] allowedTypes, EnumKeyValueDemiliter[] allowedDemiliters)
         {
             string value = parser.ReadString();
 
@@ -179,36 +179,36 @@ namespace HOI4ModBuilder.src.dataObjects
             foreach (var allowedType in allowedTypes)
             {
                 //Кавычки у значения могут быть только в случае значения типа "NAME"
-                if (allowedType == EnumNewArgsBlockValueType.NAME && !valueIsName ||
-                    allowedType != EnumNewArgsBlockValueType.NAME && valueIsName) continue;
+                if (allowedType == EnumValueType.NAME && !valueIsName ||
+                    allowedType != EnumValueType.NAME && valueIsName) continue;
 
                 switch (allowedType)
                 {
-                    case EnumNewArgsBlockValueType.NONE: throw new NotImplementedException(allowedType.ToString());
-                    case EnumNewArgsBlockValueType.VAR: canAcceptVars = true; break;
+                    case EnumValueType.NONE: throw new NotImplementedException(allowedType.ToString());
+                    case EnumValueType.VAR: canAcceptVars = true; break;
 
-                    case EnumNewArgsBlockValueType.COUNTRY:
+                    case EnumValueType.COUNTRY:
                         if (CountryManager.TryGetCountry(value, out var country))
                         {
-                            dataBlock.ValueType = EnumNewArgsBlockValueType.COUNTRY;
+                            dataBlock.ValueType = EnumValueType.COUNTRY;
                             dataBlock.SetSilentValue(value);
                             hasParsedValue = true;
                         }
                         break;
-                    case EnumNewArgsBlockValueType.NAME:
-                        dataBlock.ValueType = EnumNewArgsBlockValueType.NAME;
+                    case EnumValueType.NAME:
+                        dataBlock.ValueType = EnumValueType.NAME;
                         dataBlock.SetSilentValue(value);
                         hasParsedValue = true;
                         break;
-                    case EnumNewArgsBlockValueType.IDEOLOGY: //TODO Проработать доп. типы данных
-                    case EnumNewArgsBlockValueType.LOC_KEY:
-                    case EnumNewArgsBlockValueType.STRING:
-                        dataBlock.ValueType = EnumNewArgsBlockValueType.STRING;
+                    case EnumValueType.IDEOLOGY: //TODO Проработать доп. типы данных
+                    case EnumValueType.LOC_KEY:
+                    case EnumValueType.STRING:
+                        dataBlock.ValueType = EnumValueType.STRING;
                         dataBlock.SetSilentValue(value);
                         hasParsedValue = true;
                         break;
-                    case EnumNewArgsBlockValueType.BOOLEAN:
-                        dataBlock.ValueType = EnumNewArgsBlockValueType.BOOLEAN;
+                    case EnumValueType.BOOLEAN:
+                        dataBlock.ValueType = EnumValueType.BOOLEAN;
                         if (value == "yes")
                         {
                             dataBlock.SetSilentValue(true);
@@ -220,19 +220,19 @@ namespace HOI4ModBuilder.src.dataObjects
                             hasParsedValue = true;
                         }
                         break;
-                    case EnumNewArgsBlockValueType.INT:
+                    case EnumValueType.INT:
                         if (int.TryParse(value, out int intValue))
                         {
-                            dataBlock.ValueType = EnumNewArgsBlockValueType.INT;
+                            dataBlock.ValueType = EnumValueType.INT;
                             dataBlock.SetSilentValue(intValue);
                             hasParsedValue = true;
                         }
                         break;
-                    case EnumNewArgsBlockValueType.DECIMAL:
-                    case EnumNewArgsBlockValueType.FLOAT:
+                    case EnumValueType.DECIMAL:
+                    case EnumValueType.FLOAT:
                         if (float.TryParse(value.Replace('.', ','), out float floatValue))
                         {
-                            dataBlock.ValueType = EnumNewArgsBlockValueType.FLOAT;
+                            dataBlock.ValueType = EnumValueType.FLOAT;
                             dataBlock.SetSilentValue(floatValue);
                             hasParsedValue = true;
                         }
@@ -246,7 +246,7 @@ namespace HOI4ModBuilder.src.dataObjects
             {
                 if (value.Length > 0 && char.IsLetter(value[0]))
                 {
-                    dataBlock.ValueType = EnumNewArgsBlockValueType.VAR;
+                    dataBlock.ValueType = EnumValueType.VAR;
                     dataBlock.SetSilentValue(value);
                     hasParsedValue = true;
                 }

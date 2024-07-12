@@ -45,7 +45,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units
                     StringBuilder sb = new StringBuilder();
                     file.Save(sb, "", "\t");
                     File.WriteAllText(settings.modDirectory + DIRECTORY_PATH + fileInfo.fileName, sb.ToString());
-                    sb.Length = 0;
                 }
             }
         }

@@ -1,16 +1,30 @@
-﻿using HOI4ModBuilder.src.managers;
+﻿using HOI4ModBuilder.src.dataObjects.argBlocks.info;
+using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using static HOI4ModBuilder.src.dataObjects.argBlocks.InfoArgsBlock;
 
 namespace HOI4ModBuilder.src.dataObjects.argBlocks
 {
     class InfoArgsBlocksManager
     {
+        private static readonly string SCOPES_FILE_PATH = FileManager.AssembleFilePath(new[] { "data", "scopes.json" });
+        private static readonly string EFFECTS_FILE_PATH = FileManager.AssembleFilePath(new[] { "data", "effects.json" });
+        private static readonly string MODIFIERS_FILE_PATH = FileManager.AssembleFilePath(new[] { "data", "modifiers.json" });
+        private static readonly string TRIGGERS_FILE_PATH = FileManager.AssembleFilePath(new[] { "data", "triggers.json" });
+
+        private static readonly string CUSTOM_SCOPES_FILE_PATH = FileManager.AssembleFilePath(new[] { "data", "custom", "scopes.json" });
+        private static readonly string CUSTOM_EFFECTS_FILE_PATH = FileManager.AssembleFilePath(new[] { "data", "custom", "effects.json" });
+        private static readonly string CUSTOM_MODIFIERS_FILE_PATH = FileManager.AssembleFilePath(new[] { "data", "custom", "modifiers.json" });
+        private static readonly string CUSTOM_TRIGGERS_FILE_PATH = FileManager.AssembleFilePath(new[] { "data", "custom", "triggers.json" });
+
+        private static readonly string SCRIPTED_EFFECTS_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "scripted_effects" });
+        private static readonly string DEFINED_MODIFIERS_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "modifier_definitions" });
+        private static readonly string SCRIPTED_TRIGGERS_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "scripted_triggers" });
+
         public static Dictionary<string, InfoArgsBlock> allInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
 
         public static Dictionary<string, InfoArgsBlock> scopesInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
@@ -28,44 +42,69 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
         public static void Load(Settings settings)
         {
-            try
+            Logger.TryOrCatch(() =>
             {
-                definitionFiles = new Dictionary<string, string>();
+                ClearDictionaryData();
+                LoadGameInfoArgsBlocks();
+                LoadGameScriptedInfoArgsBlocks(settings);
+                LoadCustomInfoArgsBlocks();
 
-                allInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+            },
+            (e) => throw new Exception($"JSON file: \"{currentLoadingFilePath}\".", e));
 
-                scopesInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
-                effectsInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
-                modifiersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
-                triggersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+            CleanUpAfterLoading();
+        }
 
-                scriptedEffectsInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
-                definedModifiersArgsBlocks = new Dictionary<string, InfoArgsBlock>();
-                scriptedTriggersArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+        /** Метод для получения информационных блоков об эффектах, модификаторах и т.п. */
+        public static bool TryGetInfoArgsBlock(string token, out InfoArgsBlock infoArgsBlock)
+        {
+            if (allInfoArgsBlocks.TryGetValue(token, out infoArgsBlock)) return true;
+            return false;
+        }
 
-                LoadInfoArgsBlocks(@"data\scopes.json", scopesInfoArgsBlocks);
-                LoadInfoArgsBlocks(@"data\effects.json", effectsInfoArgsBlocks);
-                LoadInfoArgsBlocks(@"data\modifiers.json", effectsInfoArgsBlocks);
-                LoadInfoArgsBlocks(@"data\triggers.json", triggersInfoArgsBlocks);
+        private static void ClearDictionaryData()
+        {
+            definitionFiles = new Dictionary<string, string>();
 
-                scriptedEffectsInfoArgsBlocks = LoadScriptedEffects(settings);
-                definedModifiersArgsBlocks = LoadDefinedModifiers(settings);
-                scriptedTriggersArgsBlocks = LoadScriptedTriggers(settings);
+            allInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
 
-                LoadInfoArgsBlocks(@"data\custom\scopes.json", effectsInfoArgsBlocks);
-                LoadInfoArgsBlocks(@"data\custom\effects.json", effectsInfoArgsBlocks);
-                LoadInfoArgsBlocks(@"data\custom\modifiers.json", effectsInfoArgsBlocks);
-                LoadInfoArgsBlocks(@"data\custom\triggers.json", triggersInfoArgsBlocks);
+            scopesInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+            effectsInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+            modifiersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+            triggersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
 
-                currentLoadingFilePath = null;
-                definitionFiles = null;
-            }
-            catch (Exception e)
-            {
-                definitionFiles = null;
-                throw new Exception($"JSON file: \"{currentLoadingFilePath}\".", e);
-            }
+            scriptedEffectsInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+            definedModifiersArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+            scriptedTriggersArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+        }
 
+        private static void LoadGameInfoArgsBlocks()
+        {
+            LoadInfoArgsBlocks(SCOPES_FILE_PATH, scopesInfoArgsBlocks);
+            LoadInfoArgsBlocks(EFFECTS_FILE_PATH, effectsInfoArgsBlocks);
+            LoadInfoArgsBlocks(MODIFIERS_FILE_PATH, modifiersInfoArgsBlocks);
+            LoadInfoArgsBlocks(TRIGGERS_FILE_PATH, triggersInfoArgsBlocks);
+        }
+
+        private static void LoadGameScriptedInfoArgsBlocks(Settings settings)
+        {
+            LoadScriptedEffects(settings, SCRIPTED_EFFECTS_FOLDER_PATH);
+            LoadDefinedModifiers(settings, DEFINED_MODIFIERS_FOLDER_PATH);
+            LoadScriptedTriggers(settings, SCRIPTED_TRIGGERS_FOLDER_PATH);
+        }
+
+        private static void LoadCustomInfoArgsBlocks()
+        {
+            LoadInfoArgsBlocks(CUSTOM_SCOPES_FILE_PATH, scopesInfoArgsBlocks);
+            LoadInfoArgsBlocks(CUSTOM_EFFECTS_FILE_PATH, effectsInfoArgsBlocks);
+            LoadInfoArgsBlocks(CUSTOM_MODIFIERS_FILE_PATH, modifiersInfoArgsBlocks);
+            LoadInfoArgsBlocks(CUSTOM_TRIGGERS_FILE_PATH, triggersInfoArgsBlocks);
+        }
+
+        private static void CleanUpAfterLoading()
+        {
+            currentLoadingFilePath = null;
+            definitionFiles = null;
         }
 
         private static void LoadInfoArgsBlocks(string filePath, Dictionary<string, InfoArgsBlock> dictionary)
@@ -140,11 +179,9 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             }
         }
 
-        private static Dictionary<string, InfoArgsBlock> LoadScriptedEffects(Settings settings)
+        private static void LoadScriptedEffects(Settings settings, string folderPath)
         {
-            Dictionary<string, InfoArgsBlock> dictionary = new Dictionary<string, InfoArgsBlock>();
-
-            foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, @"common\scripted_effects\", FileManager.ANY_FORMAT))
+            foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, folderPath, FileManager.ANY_FORMAT))
             {
                 currentLoadingFilePath = fileInfoPair.Value.filePath;
 
@@ -181,7 +218,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                         var infoArgsBlock = new InfoArgsBlock(
                                     info.name,
                                     new EnumScope[] { EnumScope.ALL },
-                                    new EnumNewArgsBlockValueType[] { EnumNewArgsBlockValueType.BOOLEAN }
+                                    new EnumValueType[] { EnumValueType.BOOLEAN }
                                 );
 
                         allInfoArgsBlocks[info.name] = infoArgsBlock;
@@ -190,19 +227,16 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                     }
                 }
             }
-            return dictionary;
         }
 
 
-        private static Dictionary<string, InfoArgsBlock> LoadDefinedModifiers(Settings settings)
+        private static void LoadDefinedModifiers(Settings settings, string folderPath)
         {
-            Dictionary<string, InfoArgsBlock> dictionary = new Dictionary<string, InfoArgsBlock>();
-
-            foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, @"common\modifier_definitions\", FileManager.TXT_FORMAT))
+            foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, folderPath, FileManager.TXT_FORMAT))
             {
                 currentLoadingFilePath = fileInfoPair.Value.filePath;
 
-                var list = new List<DefinedModifierInfo>();
+                var list = new List<DefinedModifier>();
                 var file = new DefinedModifierFile(list);
 
                 using (var fs = new FileStream(fileInfoPair.Value.filePath, FileMode.Open))
@@ -252,17 +286,17 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                         }
                         if (scopes.Count == 0) scopes.Add(EnumScope.ALL);
 
-                        EnumNewArgsBlockValueType defaultValueType;
+                        EnumValueType defaultValueType;
                         object defaultValue;
 
                         if (info.valueType == "number" || info.valueType == "percentage" || info.valueType == "percentage_in_hundred")
                         {
-                            defaultValueType = EnumNewArgsBlockValueType.FLOAT;
+                            defaultValueType = EnumValueType.FLOAT;
                             defaultValue = 0;
                         }
                         else if (info.valueType == "yes_no")
                         {
-                            defaultValueType = EnumNewArgsBlockValueType.BOOLEAN;
+                            defaultValueType = EnumValueType.BOOLEAN;
                             defaultValue = false;
                         }
                         else throw new Exception(GuiLocManager.GetLoc(
@@ -279,7 +313,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                         var infoArgsBlock = new InfoArgsBlock(
                                     info.name,
                                     scopes.ToArray(),
-                                    new EnumNewArgsBlockValueType[] { defaultValueType },
+                                    new EnumValueType[] { defaultValueType },
                                     defaultValueType,
                                     defaultValue
                                 );
@@ -290,15 +324,11 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                     }
                 }
             }
-
-            return dictionary;
         }
 
-        private static Dictionary<string, InfoArgsBlock> LoadScriptedTriggers(Settings settings)
+        private static void LoadScriptedTriggers(Settings settings, string folderPath)
         {
-            Dictionary<string, InfoArgsBlock> dictionary = new Dictionary<string, InfoArgsBlock>();
-
-            foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, @"common\scripted_triggers\", FileManager.TXT_FORMAT))
+            foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, folderPath, FileManager.TXT_FORMAT))
             {
                 currentLoadingFilePath = fileInfoPair.Value.filePath;
 
@@ -335,7 +365,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                         var infoArgsBlock = new InfoArgsBlock(
                                     info.name,
                                     new EnumScope[] { EnumScope.ALL },
-                                    new EnumNewArgsBlockValueType[] { EnumNewArgsBlockValueType.BOOLEAN }
+                                    new EnumValueType[] { EnumValueType.BOOLEAN }
                                 );
 
                         allInfoArgsBlocks[info.name] = infoArgsBlock;
@@ -344,138 +374,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                     }
                 }
             }
-            return dictionary;
-        }
-
-        /** Метод для получения информационных блоков об эффектах, модификаторах и т.п. */
-        public static bool TryGetInfoArgsBlock(string token, out InfoArgsBlock infoArgsBlock)
-        {
-            if (allInfoArgsBlocks.TryGetValue(token, out infoArgsBlock)) return true;
-            return false;
         }
     }
 
-    class ScriptedEffectsFile : IParadoxRead
-    {
-        private List<ScriptedEffect> _list;
-
-        public ScriptedEffectsFile(List<ScriptedEffect> list)
-        {
-            _list = list;
-        }
-
-        public void TokenCallback(ParadoxParser parser, string token)
-        {
-            if (token.StartsWith("@"))
-            { //TODO Reimplement @CONSTANTs
-                parser.ReadString();
-                return;
-            }
-
-            var info = new ScriptedEffect(token);
-            Logger.Log($"\tLoading ScriptedEffect \"{info.name}\"");
-            parser.Parse(info);
-            _list.Add(info);
-        }
-    }
-
-    class ScriptedEffect : IParadoxRead
-    {
-        public string name;
-
-        public ScriptedEffect(string name)
-        {
-            this.name = name;
-        }
-
-        public void TokenCallback(ParadoxParser parser, string token)
-        {
-            //TODO Implement
-        }
-    }
-
-    class DefinedModifierFile : IParadoxRead
-    {
-        private List<DefinedModifierInfo> _list;
-
-        public DefinedModifierFile(List<DefinedModifierInfo> list)
-        {
-            _list = list;
-        }
-
-        public void TokenCallback(ParadoxParser parser, string token)
-        {
-            if (token.StartsWith("@"))
-            { //TODO Reimplement @CONSTANTs
-                parser.ReadString();
-                return;
-            }
-
-            var info = new DefinedModifierInfo { name = token };
-            Logger.Log($"\tLoading DefinedModifier \"{info.name}\"");
-            parser.Parse(info);
-            _list.Add(info);
-        }
-    }
-
-    class DefinedModifierInfo : IParadoxRead
-    {
-        public string name;
-        public string colorType;
-        public string valueType;
-        public byte precision;
-        public string postfix;
-        public List<string> categories = new List<string>(0);
-
-        public void TokenCallback(ParadoxParser parser, string token)
-        {
-            switch (token)
-            {
-                case "color_type": colorType = parser.ReadString(); break;
-                case "value_type": valueType = parser.ReadString(); break;
-                case "precision": precision = parser.ReadByte(); break;
-                case "postfix": postfix = parser.ReadString(); break;
-                case "category": categories.Add(parser.ReadString()); break;
-            }
-        }
-    }
-
-    class ScriptedTriggerFile : IParadoxRead
-    {
-        private List<ScriptedTrigger> _list;
-
-        public ScriptedTriggerFile(List<ScriptedTrigger> list)
-        {
-            _list = list;
-        }
-
-        public void TokenCallback(ParadoxParser parser, string token)
-        {
-            if (token.StartsWith("@"))
-            { //TODO Reimplement @CONSTANTs
-                parser.ReadString();
-                return;
-            }
-
-            var info = new ScriptedTrigger(token);
-            Logger.Log($"\tLoading ScriptedTrigger \"{info.name}\"");
-            parser.Parse(info);
-            _list.Add(info);
-        }
-    }
-
-    class ScriptedTrigger : IParadoxRead
-    {
-        public string name;
-
-        public ScriptedTrigger(string name)
-        {
-            this.name = name;
-        }
-
-        public void TokenCallback(ParadoxParser parser, string token)
-        {
-            //TODO Implement
-        }
-    }
 }

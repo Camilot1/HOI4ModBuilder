@@ -9,15 +9,14 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
     class DataArgsBlock : IParadoxRead
     {
         private bool _needToSave;
-        public bool NeedToSave
-        {
-            get => _needToSave;
-        }
+        public bool NeedToSave { get => _needToSave; }
 
         //Список с блокам на том же уровне, что и этот блок (его соседи, а не данные внутри)
         public List<DataArgsBlock> CurrentLevelDataBlocks { get; set; }
 
         public string SpecialName { private get; set; }
+        public string GetName() => SpecialName ?? InfoArgsBlock.Name;
+
         public InfoArgsBlock InfoArgsBlock { get; set; }
 
         //Список с блоками внутри данного блока
@@ -25,7 +24,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
         private string _demiliter;
         public string Demiliter { get => _demiliter; set => Utils.Setter(ref _demiliter, ref value, ref _needToSave); }
-        public EnumNewArgsBlockValueType ValueType { get; set; }
+        public EnumValueType ValueType { get; set; }
 
         private object _value;
         public object Value { get => _value; set => Utils.Setter(ref _value, ref value, ref _needToSave); }
@@ -44,51 +43,39 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         public bool TryGetAllowedBlock(string name, ref InfoArgsBlock mandatoryBlock)
             => HasInfoBlock && InfoArgsBlock.TryGetMandatoryBlock(name, ref mandatoryBlock);
 
-
-
         public virtual void Save(StringBuilder sb, string outTab, string tab)
         {
-            if (innerArgsBlocks.Count == 0 && Value != null && (InfoArgsBlock == null || Value != InfoArgsBlock.DefaultValue || InfoArgsBlock.DefaultValueType == EnumNewArgsBlockValueType.NONE))
+            if (innerArgsBlocks.Count == 0 && Value != null && (InfoArgsBlock == null || Value != InfoArgsBlock.DefaultValue || InfoArgsBlock.DefaultValueType == EnumValueType.NONE))
             {
-                if (CurrentLevelDataBlocks.Count == 1) sb.Append(GetName()).Append(' ').Append(Demiliter).Append(' ').Append(GetFormattedValue());
-                else sb.Append(outTab).Append(GetName()).Append(' ').Append(Demiliter).Append(' ').Append(GetFormattedValue()).Append(Constants.NEW_LINE);
+                if (CurrentLevelDataBlocks.Count == 1)
+                    ParadoxUtils.SaveInlineWithDemiliter(sb, "", GetName(), Demiliter, Value);
+                else if (ValueType == EnumValueType.NAME)
+                    ParadoxUtils.SaveQuotedWithDemiliter(sb, outTab, GetName(), Demiliter, Value);
+                else
+                    ParadoxUtils.SaveWithDemiliter(sb, outTab, GetName(), Demiliter, Value);
             }
             else if (innerArgsBlocks.Count == 1)
             {
                 if (innerArgsBlocks[0].innerArgsBlocks.Count > 0)
                 {
-                    sb.Append(outTab).Append(GetName()).Append(" = {").Append(Constants.NEW_LINE);
+                    ParadoxUtils.StartBlock(sb, outTab, GetName());
                     innerArgsBlocks[0].Save(sb, outTab + tab, tab);
-                    sb.Append(outTab).Append('}').Append(Constants.NEW_LINE);
+                    ParadoxUtils.EndBlock(sb, outTab);
                 }
                 else
                 {
-                    sb.Append(outTab).Append(GetName()).Append(" = { ");
+                    ParadoxUtils.StartInlineBlock(sb, outTab, GetName());
+                    sb.Append(' ');
                     innerArgsBlocks[0].Save(sb, outTab + tab, tab);
-                    sb.Append(" }").Append(Constants.NEW_LINE);
+                    ParadoxUtils.EndBlock(sb, " ");
                 }
+
             }
             else if (innerArgsBlocks.Count > 1)
             {
-                sb.Append(outTab).Append(GetName()).Append(" = {").Append(Constants.NEW_LINE);
+                ParadoxUtils.StartBlock(sb, outTab, GetName());
                 foreach (var block in innerArgsBlocks) block.Save(sb, outTab + tab, tab);
-                sb.Append(outTab).Append('}').Append(Constants.NEW_LINE);
-            }
-        }
-
-        private string GetFormattedValue()
-        {
-            switch (ValueType)
-            {
-                case EnumNewArgsBlockValueType.BOOLEAN:
-                    return (bool)Value ? "yes" : "no";
-                case EnumNewArgsBlockValueType.FLOAT:
-                case EnumNewArgsBlockValueType.DECIMAL:
-                    return ("" + Value).Replace(',', '.');
-                case EnumNewArgsBlockValueType.NAME:
-                    return "\"" + Value + "\"";
-                default:
-                    return "" + Value;
+                ParadoxUtils.EndBlock(sb, outTab);
             }
         }
 
@@ -103,42 +90,39 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                     new Dictionary<string, string> { { "{blockName}", GetName() } }
                 ));
 
-            if (InfoArgsBlock.AllowedUniversalParamsInfo != null)
+            if (InfoArgsBlock.AllowedUniversalParamsInfo == null) return;
+
+            var universalParamsInfo = InfoArgsBlock.AllowedUniversalParamsInfo;
+            short universalParametersCount = 0;
+            short commonParametersCount = 0;
+
+            foreach (var innerBlock in innerArgsBlocks)
             {
-                var universalParamsInfo = InfoArgsBlock.AllowedUniversalParamsInfo;
-                short universalParametersCount = 0;
-                short commonParametersCount = 0;
-
-                foreach (var innerBlock in innerArgsBlocks)
-                {
-                    if (innerBlock.IsUniversalParameter) universalParametersCount++;
-                    else commonParametersCount++;
-                }
-
-                if (universalParamsInfo.MaxUniversalParamsCount < universalParametersCount)
-                    throw new Exception(GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_DATA_ARGS_BLOCK_HAS_MORE_UNIVERSAL_PARAMS_THAN_ALLOWED,
-                        new Dictionary<string, string>
-                        {
-                            { "{blockName}", GetName() },
-                            { "{currentCount}", $"{universalParametersCount}" },
-                            { "{maxAllowedCount}", $"{universalParamsInfo.MaxUniversalParamsCount}" }
-                        }
-                    ));
-
-                if (universalParametersCount > 0 && commonParametersCount > 0 && !universalParamsInfo.CanBeMixedWithOutherTypeBlocks)
-                    throw new Exception(GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_DATA_ARGS_BLOCK_HAS_COMMON_AND_UNIVERSAL_PARAMS_BUT_THIS_NOT_ALLOWED,
-                        new Dictionary<string, string>
-                        {
-                            { "{blockName}", GetName() },
-                            { "{cause}", "canBeMixedWithOutherTypeBlocks = false" }
-                        }
-                    ));
+                if (innerBlock.IsUniversalParameter) universalParametersCount++;
+                else commonParametersCount++;
             }
-        }
 
-        public string GetName() => SpecialName ?? InfoArgsBlock.Name;
+            if (universalParamsInfo.MaxUniversalParamsCount < universalParametersCount)
+                throw new Exception(GuiLocManager.GetLoc(
+                    EnumLocKey.EXCEPTION_DATA_ARGS_BLOCK_HAS_MORE_UNIVERSAL_PARAMS_THAN_ALLOWED,
+                    new Dictionary<string, string>
+                    {
+                        { "{blockName}", GetName() },
+                        { "{currentCount}", $"{universalParametersCount}" },
+                        { "{maxAllowedCount}", $"{universalParamsInfo.MaxUniversalParamsCount}" }
+                    }
+                ));
+
+            if (universalParametersCount > 0 && commonParametersCount > 0 && !universalParamsInfo.CanBeMixedWithOutherTypeBlocks)
+                throw new Exception(GuiLocManager.GetLoc(
+                    EnumLocKey.EXCEPTION_DATA_ARGS_BLOCK_HAS_COMMON_AND_UNIVERSAL_PARAMS_BUT_THIS_NOT_ALLOWED,
+                    new Dictionary<string, string>
+                    {
+                        { "{blockName}", GetName() },
+                        { "{cause}", "canBeMixedWithOutherTypeBlocks = false" }
+                    }
+                ));
+        }
 
         public virtual void TokenCallback(ParadoxParser parser, string token)
         {

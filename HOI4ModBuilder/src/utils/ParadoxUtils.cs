@@ -63,10 +63,28 @@ namespace HOI4ModBuilder.src.utils
             }
             else return false;
         }
+        public static bool SaveWithDemiliter<T>(StringBuilder sb, string indent, string parameter, string demiliter, T value)
+        {
+            if (SaveInlineWithDemiliter(sb, indent, parameter, demiliter, value))
+            {
+                sb.Append(Constants.NEW_LINE);
+                return true;
+            }
+            else return false;
+        }
 
         public static bool SaveQuoted<T>(StringBuilder sb, string indent, string parameter, T value)
         {
             if (SaveQuotedInline(sb, indent, parameter, value))
+            {
+                sb.Append(Constants.NEW_LINE);
+                return true;
+            }
+            else return false;
+        }
+        public static bool SaveQuotedWithDemiliter<T>(StringBuilder sb, string indent, string parameter, string demiliter, T value)
+        {
+            if (SaveQuotedInlineWithDemiliter(sb, indent, parameter, demiliter, value))
             {
                 sb.Append(Constants.NEW_LINE);
                 return true;
@@ -87,9 +105,14 @@ namespace HOI4ModBuilder.src.utils
 
         public static bool SaveInline<T>(StringBuilder sb, string indent, string parameter, T value)
         {
+            return SaveInlineWithDemiliter(sb, indent, parameter, "=", value);
+        }
+
+        public static bool SaveInlineWithDemiliter<T>(StringBuilder sb, string indent, string parameter, string demiliter, T value)
+        {
             if (value == null) return false;
 
-            sb.Append(indent).Append(parameter).Append(" = ");
+            sb.Append(indent).Append(parameter).Append(' ').Append(demiliter).Append(' ');
 
             if (value is bool boolVal) sb.Append(boolVal ? "yes" : "no");
             else if (value is float) sb.Append(("" + value).Replace(',', '.'));
@@ -100,9 +123,13 @@ namespace HOI4ModBuilder.src.utils
 
         public static bool SaveQuotedInline<T>(StringBuilder sb, string indent, string parameter, T value)
         {
+            return SaveQuotedInlineWithDemiliter(sb, indent, parameter, "=", value);
+        }
+        public static bool SaveQuotedInlineWithDemiliter<T>(StringBuilder sb, string indent, string parameter, string demiliter, T value)
+        {
             if (value == null) return false;
 
-            sb.Append(indent).Append(parameter).Append(" = ");
+            sb.Append(indent).Append(parameter).Append(' ').Append(demiliter).Append(' ');
 
             sb.Append('\"');
 

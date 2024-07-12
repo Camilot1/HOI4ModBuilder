@@ -7,12 +7,25 @@ namespace HOI4ModBuilder.src.managers
     class FileManager
     {
         public static readonly char PATH_SEPARATOR = Path.DirectorySeparatorChar;
+        public static readonly string PATH_SEPARATOR_STRING = PATH_SEPARATOR.ToString();
         public static readonly string[] ANY_FORMAT = { "" };
         public static readonly string[] TXT_FORMAT = { ".txt" };
         public static readonly string[] YML_FORMAT = { ".yml" };
 
+        public static string AssembleFolderPath(string[] folders)
+        {
+            return string.Join(PATH_SEPARATOR_STRING, folders) + PATH_SEPARATOR_STRING;
+        }
+
+        public static string AssembleFilePath(string[] folders)
+        {
+            return string.Join(PATH_SEPARATOR_STRING, folders);
+        }
+
         public static Dictionary<string, FileInfo> ReadFileInfos(Settings settings, string subPath, string[] formats)
         {
+            if (!subPath.EndsWith(PATH_SEPARATOR_STRING)) subPath += PATH_SEPARATOR;
+
             var fileInfos = new Dictionary<string, FileInfo>(64);
 
             if (ReadFileInfos(settings, settings.modDirectory, subPath, fileInfos, formats, true))
