@@ -166,19 +166,19 @@ namespace HOI4ModBuilder.src.dataObjects.replaceTags
 
         public static void PreloadReplaceTags(Settings settings, ReplaceTagInfo rtInfo)
         {
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, rtInfo.filesDirectory);
+            var fileInfosPairs = FileManager.ReadFileInfos(settings, rtInfo.filesDirectory, FileManager.TXT_FORMAT);
             var list = new List<string>();
 
             if (rtInfo.specificFileName != null)
             {
-                if (fileInfos.TryGetValue(rtInfo.specificFileName, out FileInfo fileInfo))
-                    fileInfos = new Dictionary<string, FileInfo> { { rtInfo.specificFileName, fileInfo } };
-                else fileInfos = new Dictionary<string, FileInfo>();
+                if (fileInfosPairs.TryGetValue(rtInfo.specificFileName, out FileInfo fileInfo))
+                    fileInfosPairs = new Dictionary<string, FileInfo> { { rtInfo.specificFileName, fileInfo } };
+                else fileInfosPairs = new Dictionary<string, FileInfo>();
             }
 
             var FoundedTokens = new Dictionary<string, FileInfo>();
 
-            foreach (var fileInfo in fileInfos.Values)
+            foreach (var fileInfo in fileInfosPairs.Values)
             {
                 using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
                     ParadoxParser.Parse(fs, new ReplaceTagDummyFile(FoundedTokens, fileInfo, rtInfo.replaceTag, rtInfo.groupTokenInFile, rtInfo.tokenInFileStartsWith, list));

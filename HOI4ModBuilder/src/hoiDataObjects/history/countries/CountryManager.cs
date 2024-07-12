@@ -32,9 +32,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
             _countryColors = new Dictionary<string, CountryColors>();
             _cosmeticCountryColors = new Dictionary<string, CountryColors>();
 
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"common\countries\");
+            var fileInfosPairs = FileManager.ReadFileInfos(settings, @"common\countries\", FileManager.TXT_FORMAT);
 
-            if (fileInfos.TryGetValue("colors.txt", out FileInfo colorsFileInfo))
+            if (fileInfosPairs.TryGetValue("colors.txt", out FileInfo colorsFileInfo))
             {
                 Logger.Log($"Loading CountryGraphics \"colors.txt\"");
                 using (var fs = new FileStream(colorsFileInfo.filePath, FileMode.Open))
@@ -42,7 +42,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
             }
             //else throw new Exception(@"Отсутствует файл common\countries\colors.txt");
 
-            if (fileInfos.TryGetValue("cosmetic.txt", out FileInfo cosmeticFileInfo))
+            if (fileInfosPairs.TryGetValue("cosmetic.txt", out FileInfo cosmeticFileInfo))
             {
                 Logger.Log($"Loading CountryGraphics \"cosmetic.txt\"");
                 using (var fs = new FileStream(cosmeticFileInfo.filePath, FileMode.Open))
@@ -50,10 +50,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
             }
             //else throw new Exception(@"Отсутствует файл common\countries\cosmetic.txt");
 
-            fileInfos.Remove("colors.txt");
-            fileInfos.Remove("cosmetic.txt");
+            fileInfosPairs.Remove("colors.txt");
+            fileInfosPairs.Remove("cosmetic.txt");
 
-            foreach (var fileInfo in fileInfos.Values)
+            foreach (var fileInfo in fileInfosPairs.Values)
             {
                 _currentFile = fileInfo;
 
@@ -76,9 +76,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
                 _countryGraphicsDictionary[fileInfo.fileName] = countryGraphics;
             }
 
-            fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"common\country_tags\");
+            fileInfosPairs = FileManager.ReadFileInfos(settings, @"common\country_tags\", FileManager.TXT_FORMAT);
 
-            foreach (var fileInfo in fileInfos.Values)
+            foreach (var fileInfo in fileInfosPairs.Values)
             {
                 _currentFile = fileInfo;
                 var countryTagList = new CountryTagList(_contriesByTag, _countryGraphicsDictionary, _countryColors);

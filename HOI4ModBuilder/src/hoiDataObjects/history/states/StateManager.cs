@@ -48,10 +48,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             _statesById = new Dictionary<ushort, State>();
             _statesBorders = new HashSet<ProvinceBorder>();
 
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"history\states\");
+            var fileInfosPairs = FileManager.ReadFileInfos(settings, @"history\states\", FileManager.TXT_FORMAT);
 
             Logger.Log("Loading of States started");
-            foreach (var fileInfo in fileInfos.Values)
+            foreach (var fileInfo in fileInfosPairs.Values)
             {
                 _currentFile = fileInfo;
                 using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))

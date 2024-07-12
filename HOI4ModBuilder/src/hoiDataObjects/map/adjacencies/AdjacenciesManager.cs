@@ -64,7 +64,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             _seaAdjacencies = new List<Adjacency>();
             _selectedSeaCross = null;
 
-            var fileInfos = FileManager.ReadMultiFileInfos(settings, @"map\");
+            var fileInfos = FileManager.ReadFileInfos(settings, @"map\", FileManager.ANY_FORMAT);
 
             if (!fileInfos.TryGetValue("adjacency_rules.txt", out FileInfo rulesFileInfo)) throw new FileNotFoundException("adjacency_rules.txt");
             NeedToSaveAdjacencyRules = rulesFileInfo.needToSave;

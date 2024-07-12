@@ -20,9 +20,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
             _allAiAreas = new Dictionary<string, AiArea>();
             _aiAreasDefinition = new Dictionary<string, FileInfo>();
 
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"common\ai_areas\");
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"common\ai_areas\", FileManager.TXT_FORMAT);
 
-            foreach (var fileInfo in fileInfos.Values)
+            foreach (var fileInfo in fileInfoPairs.Values)
             {
                 Logger.TryOrCatch(
                     () =>

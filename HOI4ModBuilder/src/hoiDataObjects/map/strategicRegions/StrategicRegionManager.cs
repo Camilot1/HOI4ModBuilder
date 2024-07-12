@@ -38,9 +38,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             _regions = new Dictionary<ushort, StrategicRegion>();
             _regionsBorders = new HashSet<ProvinceBorder>();
 
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"map\strategicregions\");
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\strategicregions\", FileManager.TXT_FORMAT);
 
-            foreach (FileInfo fileInfo in fileInfos.Values)
+            foreach (FileInfo fileInfo in fileInfoPairs.Values)
             {
                 using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
                     ParadoxParser.Parse(fs, new StrategicRegionFile(false, fileInfo, _regions));

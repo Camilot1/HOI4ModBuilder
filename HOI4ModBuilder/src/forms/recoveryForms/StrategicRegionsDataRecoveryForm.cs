@@ -217,8 +217,8 @@ namespace HOI4ModBuilder.src.forms.recoveryForms
 
             _oldRegions = new Dictionary<ushort, StrategicRegion>();
 
-            var filePairs = FileManager.ReadMultiTXTFileInfos(_directoryPath);
-            foreach (var filePair in filePairs)
+            var fileInfoPairs = FileManager.ReadFileInfos(_directoryPath, FileManager.TXT_FORMAT, false);
+            foreach (var filePair in fileInfoPairs)
             { //Проходим в цикле по файлам со старыми данными
                 Logger.TryOrCatch(
                     () =>
@@ -237,7 +237,7 @@ namespace HOI4ModBuilder.src.forms.recoveryForms
                     EnumLocKey.SINGLE_MESSAGE_STRATEGIC_REGION_DATA_RECOVERY_LOAD_RESULT,
                     new Dictionary<string, string> {
                     { "{count}", $"{_oldRegions.Count}" },
-                    { "{allCount}", $"{filePairs.Count}" }
+                    { "{allCount}", $"{fileInfoPairs.Count}" }
                     }
                 ),
                 GuiLocManager.GetLoc(EnumLocKey.INFO_MESSAGE), MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification

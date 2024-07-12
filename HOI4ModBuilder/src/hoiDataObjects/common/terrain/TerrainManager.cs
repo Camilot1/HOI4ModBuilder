@@ -20,11 +20,11 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
         {
             Instance = new TerrainManager();
             _provincialTerraings = new Dictionary<string, ProvincialTerrain>();
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"common\terrain\");
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"common\terrain\", FileManager.TXT_FORMAT);
 
             MainForm.Instance.InvokeAction(() => MainForm.Instance.ToolStripComboBox_Map_Province_Terrain.Items.Clear());
 
-            foreach (var fileInfo in fileInfos.Values)
+            foreach (var fileInfo in fileInfoPairs.Values)
             {
                 _currentFile = fileInfo;
                 using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))

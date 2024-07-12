@@ -143,17 +143,15 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         private static Dictionary<string, InfoArgsBlock> LoadScriptedEffects(Settings settings)
         {
             Dictionary<string, InfoArgsBlock> dictionary = new Dictionary<string, InfoArgsBlock>();
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"common\scripted_effects\");
-            if (fileInfos.Count == 0) return dictionary;
 
-            foreach (var fileInfo in fileInfos)
+            foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, @"common\scripted_effects\", FileManager.ANY_FORMAT))
             {
-                currentLoadingFilePath = fileInfo.Value.filePath;
+                currentLoadingFilePath = fileInfoPair.Value.filePath;
 
                 var list = new List<ScriptedEffect>();
                 var file = new ScriptedEffectsFile(list);
 
-                using (var fs = new FileStream(fileInfo.Value.filePath, FileMode.Open))
+                using (var fs = new FileStream(fileInfoPair.Value.filePath, FileMode.Open))
                     ParadoxParser.Parse(fs, file);
 
                 foreach (var info in list)
@@ -163,7 +161,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                             EnumLocKey.EXCEPTION_SCRIPTED_EFFECT_DUPLICATE_NAME_WITH_OTHER_SCRIPTED_EFFECT_IN_FILE,
                             new Dictionary<string, string>
                             {
-                                { "{filePath}", fileInfo.Value.filePath },
+                                { "{filePath}", fileInfoPair.Value.filePath },
                                 { "{blockName}", info.name },
                                 { "{otherFilePath}", definitionFiles[info.name] }
                             }
@@ -173,7 +171,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                             EnumLocKey.EXCEPTION_SCRIPTED_EFFECT_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE,
                             new Dictionary<string, string>
                             {
-                                { "{filePath}", fileInfo.Value.filePath },
+                                { "{filePath}", fileInfoPair.Value.filePath },
                                 { "{blockName}", info.name },
                                 { "{otherFilePath}", definitionFiles[info.name] }
                             }
@@ -188,7 +186,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
                         allInfoArgsBlocks[info.name] = infoArgsBlock;
                         scriptedEffectsInfoArgsBlocks[info.name] = infoArgsBlock;
-                        definitionFiles[info.name] = fileInfo.Value.filePath;
+                        definitionFiles[info.name] = fileInfoPair.Value.filePath;
                     }
                 }
             }
@@ -199,17 +197,15 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         private static Dictionary<string, InfoArgsBlock> LoadDefinedModifiers(Settings settings)
         {
             Dictionary<string, InfoArgsBlock> dictionary = new Dictionary<string, InfoArgsBlock>();
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"common\modifier_definitions\");
-            if (fileInfos.Count == 0) return dictionary;
 
-            foreach (var fileInfo in fileInfos)
+            foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, @"common\modifier_definitions\", FileManager.TXT_FORMAT))
             {
-                currentLoadingFilePath = fileInfo.Value.filePath;
+                currentLoadingFilePath = fileInfoPair.Value.filePath;
 
                 var list = new List<DefinedModifierInfo>();
                 var file = new DefinedModifierFile(list);
 
-                using (var fs = new FileStream(fileInfo.Value.filePath, FileMode.Open))
+                using (var fs = new FileStream(fileInfoPair.Value.filePath, FileMode.Open))
                     ParadoxParser.Parse(fs, file);
 
                 foreach (var info in list)
@@ -219,7 +215,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                             EnumLocKey.EXCEPTION_DEFINED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_DEFINED_MODIFIER_IN_FILE,
                             new Dictionary<string, string>
                             {
-                                { "{filePath}", fileInfo.Value.filePath },
+                                { "{filePath}", fileInfoPair.Value.filePath },
                                 { "{blockName}", info.name },
                                 { "{otherFilePath}", definitionFiles[info.name] }
                             }
@@ -229,7 +225,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                             EnumLocKey.EXCEPTION_DEFINED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE,
                             new Dictionary<string, string>
                             {
-                                { "{filePath}", fileInfo.Value.filePath },
+                                { "{filePath}", fileInfoPair.Value.filePath },
                                 { "{blockName}", info.name },
                                 { "{otherFilePath}", definitionFiles[info.name] }
                             }
@@ -245,7 +241,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                                     EnumLocKey.EXCEPTION_DEFINED_MODIFIER_HAS_UNSUPPORTED_CATEGORY_IN_FILE,
                                     new Dictionary<string, string>
                                     {
-                                        { "{filePath}", fileInfo.Value.filePath },
+                                        { "{filePath}", fileInfoPair.Value.filePath },
                                         { "{blockName}", info.name },
                                         { "{category}", uppedScope },
                                         { "{allowedCategories}", string.Join(",", Enum.GetValues(typeof(EnumScope))) }
@@ -273,7 +269,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                                     EnumLocKey.EXCEPTION_DEFINED_MODIFIER_HAS_UNSUPPORTED_VALUE_TYPE_IN_FILE,
                                     new Dictionary<string, string>
                                     {
-                                        { "{filePath}", fileInfo.Value.filePath },
+                                        { "{filePath}", fileInfoPair.Value.filePath },
                                         { "{blockName}", info.name },
                                         { "{valueType}", info.valueType },
                                         { "{allowedCategories}", string.Join(",", Enum.GetValues(typeof(EnumScope))) }
@@ -290,7 +286,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
                         allInfoArgsBlocks[info.name] = infoArgsBlock;
                         definedModifiersArgsBlocks[info.name] = infoArgsBlock;
-                        definitionFiles[info.name] = fileInfo.Value.filePath;
+                        definitionFiles[info.name] = fileInfoPair.Value.filePath;
                     }
                 }
             }
@@ -301,17 +297,15 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         private static Dictionary<string, InfoArgsBlock> LoadScriptedTriggers(Settings settings)
         {
             Dictionary<string, InfoArgsBlock> dictionary = new Dictionary<string, InfoArgsBlock>();
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"common\scripted_triggers\");
-            if (fileInfos.Count == 0) return dictionary;
 
-            foreach (var fileInfo in fileInfos)
+            foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, @"common\scripted_triggers\", FileManager.TXT_FORMAT))
             {
-                currentLoadingFilePath = fileInfo.Value.filePath;
+                currentLoadingFilePath = fileInfoPair.Value.filePath;
 
                 var list = new List<ScriptedTrigger>();
                 var file = new ScriptedTriggerFile(list);
 
-                using (var fs = new FileStream(fileInfo.Value.filePath, FileMode.Open))
+                using (var fs = new FileStream(fileInfoPair.Value.filePath, FileMode.Open))
                     ParadoxParser.Parse(fs, file);
 
                 foreach (var info in list)
@@ -321,7 +315,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                             EnumLocKey.EXCEPTION_SCRIPTED_TRIGGER_DUPLICATE_NAME_WITH_OTHER_SCRIPTED_TRIGGER_IN_FILE,
                             new Dictionary<string, string>
                             {
-                                { "{filePath}", fileInfo.Value.filePath },
+                                { "{filePath}", fileInfoPair.Value.filePath },
                                 { "{blockName}", info.name },
                                 { "{otherFilePath}", definitionFiles[info.name] }
                             }
@@ -331,7 +325,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                             EnumLocKey.EXCEPTION_SCRIPTED_TRIGGER_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE,
                             new Dictionary<string, string>
                             {
-                                { "{filePath}", fileInfo.Value.filePath },
+                                { "{filePath}", fileInfoPair.Value.filePath },
                                 { "{blockName}", info.name },
                                 { "{otherFilePath}", definitionFiles[info.name] }
                             }
@@ -346,7 +340,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
                         allInfoArgsBlocks[info.name] = infoArgsBlock;
                         scriptedTriggersArgsBlocks[info.name] = infoArgsBlock;
-                        definitionFiles[info.name] = fileInfo.Value.filePath;
+                        definitionFiles[info.name] = fileInfoPair.Value.filePath;
                     }
                 }
             }

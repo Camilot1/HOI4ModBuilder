@@ -240,20 +240,20 @@ namespace HOI4ModBuilder
 
         private static void LoadMapPairs(Settings settings)
         {
-            var fileInfos = FileManager.ReadMultiFileInfos(settings, @"map\");
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\", FileManager.ANY_FORMAT);
             LocalizedAction[] actions =
             {
                 new LocalizedAction(
                      EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXTURE_MAPS,
                     () => {
-                        provinces = LoadMapPair(fileInfos, "provinces.bmp", _24bppRgb);
+                        provinces = LoadMapPair(fileInfoPairs, "provinces.bmp", _24bppRgb);
                         MapManager.ProvincesPixels = BrgToArgb(Utils.BitmapToArray(provinces.GetBitmap(), ImageLockMode.ReadOnly, _24bppRgb), 255);
-                        terrain = LoadMapPair(fileInfos, "terrain.bmp", _8bppIndexed);
-                        trees = LoadMapPair(fileInfos, "trees.bmp", _8bppIndexed);
-                        cities = LoadMapPair(fileInfos, "cities.bmp", _8bppIndexed);
-                        height = LoadMapPair(fileInfos, "heightmap.bmp", _8bppGrayscale);
+                        terrain = LoadMapPair(fileInfoPairs, "terrain.bmp", _8bppIndexed);
+                        trees = LoadMapPair(fileInfoPairs, "trees.bmp", _8bppIndexed);
+                        cities = LoadMapPair(fileInfoPairs, "cities.bmp", _8bppIndexed);
+                        height = LoadMapPair(fileInfoPairs, "heightmap.bmp", _8bppGrayscale);
                         MapManager.HeightsPixels = Utils.BitmapToArray(height.GetBitmap(), ImageLockMode.ReadOnly, _8bppGrayscale);
-                        normal = LoadMapPair(fileInfos, "world_normal.bmp", _24bppRgb);
+                        normal = LoadMapPair(fileInfoPairs, "world_normal.bmp", _24bppRgb);
 
                         var bitmap = new Bitmap(1, 1, _8bppGrayscale.imagePixelFormat);
                         var texture = new Texture2D(bitmap, _8bppGrayscale, false);
@@ -321,10 +321,10 @@ namespace HOI4ModBuilder
 
         private static void LoadAdditionalLayers(Settings settings)
         {
-            var fileInfos = FileManager.ReadMultiFileInfos(settings, @"map\");
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\", FileManager.ANY_FORMAT);
             LocalizedAction[] actions =
             {
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_ADDITIONAL_MAP_LAYERS, () => rivers = CreateRiverMap(fileInfos["rivers.bmp"]))
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_ADDITIONAL_MAP_LAYERS, () => rivers = CreateRiverMap(fileInfoPairs["rivers.bmp"]))
             };
 
             MainForm.ExecuteActions(actions);

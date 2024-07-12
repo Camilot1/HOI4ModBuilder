@@ -198,9 +198,9 @@ namespace HOI4ModBuilder.managers
             _provincesById = new Dictionary<ushort, Province>();
             _provincesByColor = new Dictionary<int, Province>();
 
-            var fileInfos = FileManager.ReadMultiFileInfos(settings, @"map\");
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\", FileManager.ANY_FORMAT);
 
-            if (!fileInfos.TryGetValue("definition.csv", out src.FileInfo fileInfo))
+            if (!fileInfoPairs.TryGetValue("definition.csv", out src.FileInfo fileInfo))
             {
                 throw new FileNotFoundException("definition.csv");
             }

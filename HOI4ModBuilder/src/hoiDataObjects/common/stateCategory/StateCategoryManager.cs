@@ -24,9 +24,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
             _stateCategoriesByFilesMap = new Dictionary<FileInfo, List<StateCategory>>();
             _allStateCategories = new Dictionary<string, StateCategory>();
 
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"common\state_category\");
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"common\state_category\", FileManager.TXT_FORMAT);
 
-            foreach (var fileInfo in fileInfos.Values)
+            foreach (var fileInfo in fileInfoPairs.Values)
             {
                 _currentFile = fileInfo;
                 using (var fs = new System.IO.FileStream(fileInfo.filePath, System.IO.FileMode.Open))

@@ -34,9 +34,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             _oobsByFiles = new Dictionary<FileInfo, OOB>();
             _shipInstances = new Dictionary<string, ShipInstances>();
 
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, directoryPath);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, directoryPath, FileManager.TXT_FORMAT);
 
-            foreach (FileInfo fileInfo in fileInfos.Values)
+            foreach (FileInfo fileInfo in fileInfoPairs.Values)
             {
                 Logger.TryOrCatch(
                     () =>

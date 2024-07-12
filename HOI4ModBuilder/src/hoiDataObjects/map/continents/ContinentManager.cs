@@ -22,11 +22,11 @@ namespace HOI4ModBuilder.hoiDataObjects
         public static void Load(Settings settings)
         {
             Instance = new ContinentManager();
-            var fileInfos = FileManager.ReadMultiFileInfos(settings, @"map\");
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\", FileManager.TXT_FORMAT);
 
-            if (fileInfos.ContainsKey("continent.txt"))
+            if (fileInfoPairs.ContainsKey("continent.txt"))
             {
-                _currentFile = fileInfos["continent.txt"];
+                _currentFile = fileInfoPairs["continent.txt"];
                 _continents = new List<string> { "" };
 
                 MainForm.Instance.InvokeAction(() => MainForm.Instance.ToolStripComboBox_Map_Province_Continent.Items.Clear());

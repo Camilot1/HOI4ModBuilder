@@ -28,11 +28,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.bookmarks
             _allBookmarks = new Dictionary<string, Bookmark>();
             _allBookmarksByDateTimes = new Dictionary<DateTime, Bookmark>();
 
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"common\bookmarks\");
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"common\bookmarks\", FileManager.TXT_FORMAT);
 
             MainForm.Instance.InvokeAction(() => MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Clear());
 
-            foreach (var fileInfo in fileInfos.Values)
+            foreach (var fileInfo in fileInfoPairs.Values)
             {
                 _currentFile = fileInfo;
                 using (var fs = new System.IO.FileStream(fileInfo.filePath, System.IO.FileMode.Open))

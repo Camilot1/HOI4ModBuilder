@@ -22,9 +22,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             _buildingsByFilesMap = new Dictionary<FileInfo, List<Building>>();
             _allBuildings = new Dictionary<string, Building>();
 
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"common\buildings\");
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"common\buildings\", FileManager.TXT_FORMAT);
 
-            foreach (var fileInfo in fileInfos.Values)
+            foreach (var fileInfo in fileInfoPairs.Values)
             {
                 _currentFile = fileInfo;
                 using (var fs = new System.IO.FileStream(fileInfo.filePath, System.IO.FileMode.Open))

@@ -1,125 +1,136 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace HOI4ModBuilder.src.managers
 {
     class FileManager
     {
-        public static Dictionary<string, FileInfo> ReadMultiFileInfos(Settings settings, string subDirectoryPath)
+        public static readonly char PATH_SEPARATOR = Path.DirectorySeparatorChar;
+        public static readonly string[] ANY_FORMAT = { "" };
+        public static readonly string[] TXT_FORMAT = { ".txt" };
+        public static readonly string[] YML_FORMAT = { ".yml" };
+
+        public static Dictionary<string, FileInfo> ReadFileInfos(Settings settings, string subPath, string[] formats)
         {
-            var fileInfos = new Dictionary<string, FileInfo>();
-            ReadSingleFileInfos(settings, fileInfos, settings.gameDirectory, subDirectoryPath, false);
-            //ReadSingleFileInfos(infos, settings.gameTempDirectory, subDirectoryPath, false);
-            foreach (string path in settings.unchangableModDirectories) ReadSingleFileInfos(settings, fileInfos, path, subDirectoryPath, false);
-            foreach (string path in settings.changableModDirectories) ReadSingleFileInfos(settings, fileInfos, path, subDirectoryPath, true);
-            ReadSingleFileInfos(settings, fileInfos, settings.modDirectory, subDirectoryPath, true);
-            return fileInfos;
-        }
+            var fileInfos = new Dictionary<string, FileInfo>(64);
 
-        private static readonly string[] TXT_FORMAT = { ".txt" };
+            if (ReadFileInfos(settings, settings.modDirectory, subPath, fileInfos, formats, true))
+                return fileInfos;
 
-        public static Dictionary<string, FileInfo> ReadMultiTXTFileInfos(string directoryPath) => ReadMultiFileInfos(directoryPath, TXT_FORMAT);
+            foreach (string path in settings.changableModDirectories)
+                if (ReadFileInfos(settings, path, subPath, fileInfos, formats, true)) return fileInfos;
 
-        public static Dictionary<string, FileInfo> ReadMultiFileInfos(string directoryPath, string[] fileFormats)
-        {
-            var fileInfos = ReadSingleFileInfos(directoryPath);
-            if (fileFormats == null || fileFormats.Length == 0) return fileInfos;
+            foreach (string path in settings.unchangableModDirectories)
+                if (ReadFileInfos(settings, path, subPath, fileInfos, formats, false)) return fileInfos;
 
-            var newFileInfos = new Dictionary<string, FileInfo>();
-
-            //Идём по именам найденных файлов
-            foreach (var fileName in fileInfos.Keys)
-            {
-                //Идём по разрешённым форматам
-                foreach (var format in fileFormats)
-                {
-                    //Проверяем формат файла
-                    if (fileName.Length > format.Length && fileName.EndsWith(format))
-                    {
-                        newFileInfos[fileName] = fileInfos[fileName];
-                        break;
-                    }
-                }
-            }
-
-            return newFileInfos;
-        }
-
-        public static Dictionary<string, FileInfo> ReadMultiTXTFileInfos(Settings settings, string subDirectoryPath) => ReadMultiFileInfos(settings, subDirectoryPath, TXT_FORMAT);
-
-        public static Dictionary<string, FileInfo> ReadMultiFileInfos(Settings settings, string subDirectory, string[] fileFormats)
-        {
-            var fileInfos = ReadMultiFileInfos(settings, subDirectory);
-            if (fileFormats == null || fileFormats.Length == 0) return fileInfos;
-
-            var newFileInfos = new Dictionary<string, FileInfo>();
-
-            //Идём по именам найденных файлов
-            foreach (var fileName in fileInfos.Keys)
-            {
-                //Идём по разрешённым форматам
-                foreach (var format in fileFormats)
-                {
-                    //Проверяем формат файла
-                    if (fileName.Length > format.Length && fileName.EndsWith(format))
-                    {
-                        newFileInfos[fileName] = fileInfos[fileName];
-                        break;
-                    }
-                }
-            }
-
-            return newFileInfos;
-        }
-
-        private static Dictionary<string, FileInfo> ReadSingleFileInfos(string directoryPath)
-        {
-            string fileName;
-            var fileInfos = new Dictionary<string, FileInfo>();
-
-            if (!directoryPath.EndsWith("\\")) directoryPath = directoryPath + "\\";
-
-            foreach (string filePath in Directory.GetFiles(directoryPath))
-            {
-                string[] filePathPart = filePath.Split('\\');
-                fileName = filePathPart[filePathPart.Length - 1];
-
-                if (fileInfos.ContainsKey(fileName)) fileInfos.Remove(fileName);
-
-                fileInfos.Add(fileName, new FileInfo(fileName, filePath, false));
-            }
+            ReadFileInfos(settings, settings.gameDirectory, subPath, fileInfos, formats, false);
 
             return fileInfos;
         }
 
-        private static void ReadSingleFileInfos(Settings settings, Dictionary<string, FileInfo> fileInfos, string directoryPath, string subDirectoryPath, bool needToSave)
+        public static RecursiveFileData ReadRecursiveFileInfos(Settings settings, string subPath, string[] formats)
         {
-            //Если существует дескриптор мода
-            if (settings.modDescriptors.ContainsKey(directoryPath))
+            var data = new RecursiveFileData();
+
+            if (ReadFileInfos(settings, settings.modDirectory, subPath, data, formats, true))
+                return data;
+
+            foreach (string path in settings.changableModDirectories)
+                if (ReadFileInfos(settings, path, subPath, data, formats, true)) return data;
+
+            foreach (string path in settings.unchangableModDirectories)
+                if (ReadFileInfos(settings, path, subPath, data, formats, false)) return data;
+
+            ReadFileInfos(settings, settings.gameDirectory, subPath, data, formats, false);
+
+            return data;
+        }
+
+        public static Dictionary<string, FileInfo> ReadFileInfos(string path, string[] formats, bool needToSave)
+        {
+            var fileInfos = new Dictionary<string, FileInfo>();
+            ReadFileInfos(fileInfos, path, formats, needToSave);
+            return fileInfos;
+        }
+
+        private static bool ReadFileInfos(Dictionary<string, FileInfo> fileInfos, string path, string[] formats, bool needToSave)
+        {
+            if (!Directory.Exists(path)) return false;
+
+            foreach (string filePath in Directory.GetFiles(path))
             {
-                var modDescriptor = settings.modDescriptors[directoryPath];
-                //И он заменяет путь к текущей дериктории
-                if (modDescriptor.replacePathers.Contains(subDirectoryPath))
+                foreach (string format in formats)
                 {
-                    //То очищаем словарь все файлов из предыдущих дерикторий
-                    fileInfos.Clear();
+                    if (filePath.Length < format.Length || !filePath.EndsWith(format)) continue;
+
+                    string[] filePathPart = filePath.Split(PATH_SEPARATOR);
+                    string fileName = filePathPart[filePathPart.Length - 1];
+
+                    if (!fileInfos.ContainsKey(fileName))
+                    {
+                        fileInfos[fileName] = new FileInfo(fileName, filePath, needToSave);
+                    }
+                    break;
                 }
             }
 
-            var dirPath = directoryPath + subDirectoryPath;
-            if (!Directory.Exists(dirPath)) return;
+            return true;
+        }
 
-            string fileName;
+        private static bool ReadFileInfos(RecursiveFileData data, string path, string[] formats, bool needToSave)
+        {
+            if (!Directory.Exists(path)) return false;
 
-            foreach (string filePath in Directory.GetFiles(dirPath))
+            data.fileInfos = new Dictionary<string, FileInfo>();
+            data.innerDirectories = new Dictionary<string, RecursiveFileData>();
+
+            foreach (string filePath in Directory.GetFiles(path))
             {
-                string[] filePathPart = filePath.Split('\\');
-                fileName = filePathPart[filePathPart.Length - 1];
+                foreach (string format in formats)
+                {
+                    if (filePath.Length < format.Length || !filePath.EndsWith(format)) continue;
 
-                if (fileInfos.ContainsKey(fileName)) fileInfos.Remove(fileName);
+                    string[] filePathParts = filePath.Split(PATH_SEPARATOR);
+                    string fileName = filePathParts[filePathParts.Length - 1];
 
-                fileInfos.Add(fileName, new FileInfo(fileName, filePath, needToSave));
+                    if (!data.fileInfos.ContainsKey(fileName))
+                    {
+                        data.fileInfos[fileName] = new FileInfo(fileName, filePath, needToSave);
+                    }
+                    break;
+                }
             }
+
+            foreach (string dirPath in Directory.GetDirectories(path))
+            {
+                string[] dirPathParts = dirPath.Split(PATH_SEPARATOR);
+                string dirName = dirPathParts[dirPathParts.Length - 1];
+
+
+                if (!data.innerDirectories.TryGetValue(dirName, out RecursiveFileData innerData))
+                {
+                    innerData = new RecursiveFileData();
+                    data.innerDirectories[dirName] = innerData;
+                }
+                //TODO Implements replace path check for inner directories
+                ReadFileInfos(innerData, dirPath, formats, needToSave);
+            }
+
+            return true;
+        }
+
+        private static bool ReadFileInfos(Settings settings, string path, string subPath, Dictionary<string, FileInfo> fileInfos, string[] formats, bool needToSave)
+        {
+            var dirPath = path + subPath;
+            ReadFileInfos(fileInfos, dirPath, formats, needToSave);
+            return settings.modDescriptors.TryGetValue(path, out ModDescriptor descriptor) && descriptor.replacePathers.Contains(subPath);
+        }
+        private static bool ReadFileInfos(Settings settings, string path, string subPath, RecursiveFileData data, string[] formats, bool needToSave)
+        {
+            var dirPath = path + subPath;
+            ReadFileInfos(data, dirPath, formats, needToSave);
+            return settings.modDescriptors.TryGetValue(path, out ModDescriptor descriptor) && descriptor.replacePathers.Contains(subPath);
         }
 
         public static void CopyFilesFromBetweenDirectories(string srcPath, string destPath)
@@ -137,5 +148,11 @@ namespace HOI4ModBuilder.src.managers
                 File.Copy(file, destFilePath);
             }
         }
+    }
+
+    public struct RecursiveFileData
+    {
+        public Dictionary<string, FileInfo> fileInfos;
+        public Dictionary<string, RecursiveFileData> innerDirectories;
     }
 }

@@ -542,8 +542,8 @@ namespace HOI4ModBuilder.src.managers
         private static void CheckRiversMismatches(Settings settings)
         {
 
-            var files = FileManager.ReadMultiFileInfos(settings, @"map\");
-            if (!files.TryGetValue("rivers.bmp", out FileInfo fileInfo)) return;
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\", FileManager.ANY_FORMAT);
+            if (!fileInfoPairs.TryGetValue("rivers.bmp", out FileInfo fileInfo)) return;
 
             var riversBitmap = new Bitmap(fileInfo.filePath);
             byte[] riversPixels = Utils.BitmapToArray(riversBitmap, ImageLockMode.ReadOnly, TextureManager._8bppIndexed);

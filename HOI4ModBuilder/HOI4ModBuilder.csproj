@@ -411,7 +411,6 @@
     <Compile Include="src\hoiDataObjects\history\units\oobs\OOBManager.cs" />
     <Compile Include="src\hoiDataObjects\history\units\oobs\OOBUnits.cs" />
     <Compile Include="src\hoiDataObjects\Idea.cs" />
-    <Compile Include="src\hoiDataObjects\localisation\LanguageData.cs" />
     <Compile Include="src\hoiDataObjects\localisation\LocalizationManager.cs" />
     <Compile Include="src\hoiDataObjects\map\adjacencies\Adjacency.cs" />
     <Compile Include="src\hoiDataObjects\map\adjacencies\AdjacenciesManager.cs" />

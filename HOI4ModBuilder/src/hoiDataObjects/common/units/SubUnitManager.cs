@@ -18,9 +18,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units
             _allSubUnits = new Dictionary<string, SubUnit>();
             _subUnitsFiles = new Dictionary<FileInfo, SubUnitsFile>();
 
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, DIRECTORY_PATH);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, DIRECTORY_PATH, FileManager.TXT_FORMAT);
 
-            foreach (FileInfo fileInfo in fileInfos.Values)
+            foreach (FileInfo fileInfo in fileInfoPairs.Values)
             {
                 using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
                 {

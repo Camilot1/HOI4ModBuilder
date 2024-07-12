@@ -23,9 +23,9 @@ namespace HOI4ModBuilder.hoiDataObjects.common.resources
             _resourcesByFilesMap = new Dictionary<FileInfo, Dictionary<string, Resource>>();
             _allResources = new Dictionary<string, Resource>();
 
-            var fileInfos = FileManager.ReadMultiTXTFileInfos(settings, @"common\resources\");
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"common\resources\", FileManager.TXT_FORMAT);
 
-            foreach (FileInfo fileInfo in fileInfos.Values)
+            foreach (FileInfo fileInfo in fileInfoPairs.Values)
             {
                 _currentFile = fileInfo;
                 using (var fs = new System.IO.FileStream(fileInfo.filePath, System.IO.FileMode.Open))

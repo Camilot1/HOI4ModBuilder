@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src
 {
-    class FileInfo
+    public class FileInfo
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;

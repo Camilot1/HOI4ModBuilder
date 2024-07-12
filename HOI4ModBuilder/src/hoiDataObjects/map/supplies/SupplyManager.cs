@@ -35,12 +35,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         {
             HandleEscape();
 
-            var fileInfos = FileManager.ReadMultiFileInfos(settings, @"map\");
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\", FileManager.ANY_FORMAT);
 
-            if (!fileInfos.TryGetValue("railways.txt", out FileInfo railwaysFileInfo))
+            if (!fileInfoPairs.TryGetValue("railways.txt", out FileInfo railwaysFileInfo))
                 throw new FileNotFoundException("railways.txt");
 
-            if (!fileInfos.TryGetValue("supply_nodes.txt", out FileInfo supplyNodesFileInfo))
+            if (!fileInfoPairs.TryGetValue("supply_nodes.txt", out FileInfo supplyNodesFileInfo))
                 throw new FileNotFoundException("supply_nodes.txt");
 
             NeedToSaveRailways = railwaysFileInfo.needToSave;
