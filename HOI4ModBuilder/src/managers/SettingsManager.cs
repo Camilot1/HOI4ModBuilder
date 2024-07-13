@@ -180,6 +180,36 @@ namespace HOI4ModBuilder.src
         public List<string> GetErrorsFilter() => searchErrorsSettings?.errors;
     }
 
+    public class SaveDataSettings
+    {
+        public List<string> saveFlags = new List<string>(0);
+        public List<string> knownSaveFlags = new List<string>(0);
+    }
+
+    public enum EnumSaveFlags
+    {
+        MAP_PROVINCES,
+        MAP_RIVERS,
+        MAP_TERRAIN,
+        MAP_TREES,
+        MAP_CITIES,
+        MAP_HEIGHTS,
+        MAP_NORMALS,
+
+        PROVINCES_DEFINITION,
+        ADJACENCIES,
+        ADJACENCY_RULES,
+        RAILWAYS,
+        SUPPLY_HUBS,
+
+        STATES,
+        STRATEGIC_REGIONS,
+
+        AI_AREAS,
+        SUB_UNITS,
+
+    }
+
     public class SearchErrorsSettings
     {
         public List<string> errors = new List<string>(0);
