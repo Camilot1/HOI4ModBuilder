@@ -63,13 +63,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             //TODO Redo later (just temp checks)
             if (_state == null && _carrier == null)
             {
-                Logger.LogSingleMessage("Airwing has no State nor Carrier base!");
+                Logger.LogSingleErrorMessage("Airwing has no State nor Carrier base!");
                 return false;
             }
 
             if (_state != null && _carrier != null)
             {
-                Logger.LogSingleMessage("Airwing has both State and Carrier base!");
+                Logger.LogSingleErrorMessage("Airwing has both State and Carrier base!");
                 return false;
             }
 

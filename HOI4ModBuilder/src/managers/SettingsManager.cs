@@ -10,7 +10,7 @@ namespace HOI4ModBuilder.src
 {
     public class SettingsManager
     {
-        public static readonly string CONFIGS_DIRECTORY = @"configs\";
+        public static readonly string CONFIGS_DIRECTORY = FileManager.AssembleFolderPath(new[] { "configs" });
         public static readonly string SETTINGS_FILENAME = "settings.json";
         public static readonly string SETTINGS_FILEPATH = CONFIGS_DIRECTORY + SETTINGS_FILENAME;
 
@@ -28,6 +28,10 @@ namespace HOI4ModBuilder.src
                 settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SETTINGS_FILEPATH));
                 GuiLocManager.Init(settings);
                 settings.LoadModDescriptors();
+
+                var needToSave = settings.CheckNewErrorCodes();
+
+                if (needToSave) SaveSettings();
             }
             catch (Exception ex)
             {
@@ -124,6 +128,33 @@ namespace HOI4ModBuilder.src
             else return true;
         }
 
+        public bool CheckNewErrorCodes()
+        {
+            if (searchErrorsSettings == null) searchErrorsSettings = new SearchErrorsSettings();
+            if (searchErrorsSettings.knownErrors == null) searchErrorsSettings.knownErrors = new List<string>();
+
+            var newErrorCodes = new List<string>();
+
+            foreach (var errorCodes in Enum.GetValues(typeof(EnumMapErrorCode)))
+            {
+                var strValue = errorCodes.ToString();
+                if (!searchErrorsSettings.knownErrors.Contains(strValue)) newErrorCodes.Add(strValue);
+            }
+
+            if (newErrorCodes.Count == 0) return false;
+
+            Logger.LogSingleInfoMessage(
+                EnumLocKey.FOUNDED_NEW_ERROR_CODES,
+                new Dictionary<string, string>
+                {
+                    { "{newErrorCodes}", string.Join("\n", newErrorCodes) }
+                }
+            );
+            searchErrorsSettings.knownErrors.AddRange(newErrorCodes);
+
+            return true;
+        }
+
         [JsonIgnore]
         public readonly string ModSettingsDirectory = ".hoi4modbuilder";
         [JsonIgnore]
@@ -152,6 +183,7 @@ namespace HOI4ModBuilder.src
     public class SearchErrorsSettings
     {
         public List<string> errors = new List<string>(0);
+        public List<string> knownErrors = new List<string>(0);
     }
 
     public class ModSettings

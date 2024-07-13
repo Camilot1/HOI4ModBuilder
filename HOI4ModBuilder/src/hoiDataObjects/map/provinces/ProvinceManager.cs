@@ -519,7 +519,7 @@ namespace HOI4ModBuilder.managers
                         NextVacantProvinceId++;
                         while (_provincesById.ContainsKey(NextVacantProvinceId)) NextVacantProvinceId++;
 
-                        Logger.LogSingleMessage(
+                        Logger.LogSingleErrorMessage(
                             EnumLocKey.SINGLE_MESSAGE_NEW_PROVINCE_WITH_COLOR_WAS_CREATED,
                             new Dictionary<string, string> {
                                 { "{provinceId}", $"{province.Id}" },

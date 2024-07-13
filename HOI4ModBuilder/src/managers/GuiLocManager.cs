@@ -130,7 +130,7 @@ namespace HOI4ModBuilder.src.utils
             }
             catch (Exception ex)
             {
-                Logger.LogSingleMessage($"EXCEPTION: Can't load localization file: {filePath}\n\n{ex}");
+                Logger.LogSingleErrorMessage($"EXCEPTION: Can't load localization file: {filePath}\n\n{ex}");
             }
         }
     }
@@ -144,6 +144,8 @@ namespace HOI4ModBuilder.src.utils
         PROGRESSBAR_LOADING_FAILED,
         PROGRESSBAR_SAVED,
         PROGRESSBAR_UPDATED,
+
+        INFORMATION_MESSAGE_TITLE,
 
         ERROR_HAS_OCCURED,
         EXCEPTION_HAS_OCCURED,
@@ -437,6 +439,7 @@ namespace HOI4ModBuilder.src.utils
         EXCEPTION_UML_LINE_CHARACTER_IS_NOT_ALLOWED_AFTER_VALUE,
         EXCEPTION_UML_INCORRECT_LINE_STRUCTURE,
         EXCEPTION_UML_LINE_IS_OUTSIDE_OF_LANGUAGE_SCOPE,
-        ERROR_LOCALIZATION_FILE_CONTAINS_LOC_KEY_FOR_DIFFERENT_LANGUAGE
+        ERROR_LOCALIZATION_FILE_CONTAINS_LOC_KEY_FOR_DIFFERENT_LANGUAGE,
+        FOUNDED_NEW_ERROR_CODES
     }
 }

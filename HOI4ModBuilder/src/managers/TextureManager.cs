@@ -847,7 +847,7 @@ namespace HOI4ModBuilder
             }
             else
             {
-                Logger.LogSingleMessage(
+                Logger.LogSingleErrorMessage(
                     EnumLocKey.EXCEPTION_WHILE_TEXTURE_LOADING_INCORRECT_TEXTURE_PIXEL_FORMAT_WITH_FILEPATH,
                     new Dictionary<string, string>
                     {

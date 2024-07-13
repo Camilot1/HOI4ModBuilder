@@ -213,46 +213,29 @@ namespace HOI4ModBuilder
 
                 if (!firstLoad)
                 {
-                    Logger.LogSingleMessage(EnumLocKey.CANT_SAVE_BECAUSE_NO_DATA_WAS_LOADED);
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_NO_DATA_WAS_LOADED);
                     return;
                 }
                 else if (errorsOrExceptionsDuringLoading)
                 {
-                    Logger.LogSingleMessage(EnumLocKey.CANT_SAVE_BECAUSE_OF_LOADING_ERRORS_OR_EXCEPTIONS);
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_OF_LOADING_ERRORS_OR_EXCEPTIONS);
                     return;
                 }
                 else if (isLoadingOrSaving[0])
                 {
-                    Logger.LogSingleMessage(EnumLocKey.CANT_SAVE_BECAUSE_ALREADY_SAVING_OR_LOADING);
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_ALREADY_SAVING_OR_LOADING);
                     return;
                 }
                 else if (!SettingsManager.settings.IsModDirectorySelected())
                 {
-                    Logger.LogSingleMessage(EnumLocKey.CANT_SAVE_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
                     return;
                 }
 
-                var settings = SettingsManager.settings;
-
                 isLoadingOrSaving[0] = true;
 
-                Logger.Log("Saving...");
+                SaveAllData(SettingsManager.settings);
 
-                LocalModDataManager.SaveLocalSettings(settings);
-                TextureManager.SaveAllMaps(settings);
-                ProvinceManager.SaveProvinces(settings);
-                AdjacenciesManager.Save(settings);
-                SupplyManager.SaveAll(settings);
-                StateManager.Save(settings);
-                StrategicRegionManager.Save(settings);
-
-                //AiAreaManager.Save(settings);
-                //TODO Implement
-                //SubUnitManager.Save(settings);
-                //DivisionNamesGroupManager.Save(settings);
-                //OOBManager.Save(settings);
-
-                Utils.CleanUpMemory();
                 isLoadingOrSaving[0] = false;
             },
             () =>
@@ -306,12 +289,12 @@ namespace HOI4ModBuilder
         {
             if (isLoadingOrSaving[0])
             {
-                Logger.LogSingleMessage(EnumLocKey.CANT_LOAD_BECAUSE_ALREADY_SAVING_OR_LOADING);
+                Logger.LogSingleErrorMessage(EnumLocKey.CANT_LOAD_BECAUSE_ALREADY_SAVING_OR_LOADING);
                 return;
             }
             else if (!SettingsManager.settings.IsModDirectorySelected())
             {
-                Logger.LogSingleMessage(EnumLocKey.CANT_LOAD_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
+                Logger.LogSingleErrorMessage(EnumLocKey.CANT_LOAD_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
                 return;
             }
 
@@ -322,7 +305,7 @@ namespace HOI4ModBuilder
 
             if (glControl.Context == null)
             {
-                Logger.LogSingleMessage("Can't load data. glControl.Context == null");
+                Logger.LogSingleErrorMessage("Can't load data. glControl.Context == null");
                 isLoadingOrSaving[0] = false;
                 return;
             }
@@ -425,6 +408,27 @@ namespace HOI4ModBuilder
             Instance.glControl.Invalidate();
             updateGLControl = true;
             Instance.GLControl_Resize(null, null);
+        }
+
+        private void SaveAllData(Settings settings)
+        {
+            Logger.Log("Saving...");
+
+            LocalModDataManager.SaveLocalSettings(settings);
+            TextureManager.SaveAllMaps(settings);
+            ProvinceManager.SaveProvinces(settings);
+            AdjacenciesManager.Save(settings);
+            SupplyManager.SaveAll(settings);
+            StateManager.Save(settings);
+            StrategicRegionManager.Save(settings);
+
+            //AiAreaManager.Save(settings);
+            //TODO Implement
+            //SubUnitManager.Save(settings);
+            //DivisionNamesGroupManager.Save(settings);
+            //OOBManager.Save(settings);
+
+            Utils.CleanUpMemory();
         }
 
         private void LoadAllData(Settings settings)
@@ -1103,7 +1107,7 @@ namespace HOI4ModBuilder
                 if (values.Length != 2) values = ToolStripTextBox_Map_Search_Input.Text.Split(' ');
                 if (values.Length != 2)
                 {
-                    Logger.LogSingleMessage(
+                    Logger.LogSingleErrorMessage(
                         EnumLocKey.SINGLE_MESSAGE_SEARCH_POSITION_INCORRECT_SEPARATOR,
                         new Dictionary<string, string> { { "{allowedSeparators}", "1) ',' 2) ';' 3) ' '" } }
                     );
@@ -1118,7 +1122,7 @@ namespace HOI4ModBuilder
                 }
                 catch (Exception _)
                 {
-                    Logger.LogSingleMessage(EnumLocKey.SINGLE_MESSAGE_SEARCH_POSITION_INCORRECT_COORDS);
+                    Logger.LogSingleErrorMessage(EnumLocKey.SINGLE_MESSAGE_SEARCH_POSITION_INCORRECT_COORDS);
                     return;
                 }
             });

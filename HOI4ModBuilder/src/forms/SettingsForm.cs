@@ -150,7 +150,7 @@ namespace HOI4ModBuilder.src.forms
 
                     if (!File.Exists(path + "hoi4.exe"))
                     {
-                        Logger.LogSingleMessage(EnumLocKey.SINGLE_MESSAGE_NO_HOI4EXE_FILE_IN_GAME_DIRECTORY, new Dictionary<string, string> { { "{fileName}", "hoi4.exe" } });
+                        Logger.LogSingleErrorMessage(EnumLocKey.SINGLE_MESSAGE_NO_HOI4EXE_FILE_IN_GAME_DIRECTORY, new Dictionary<string, string> { { "{fileName}", "hoi4.exe" } });
                         return;
                     }
                     Invoke(new Action(() => TextBox_GameDirectory.Text = path));
@@ -176,7 +176,7 @@ namespace HOI4ModBuilder.src.forms
 
                     if (!Directory.Exists(path + @"save games"))
                     {
-                        Logger.LogSingleMessage(EnumLocKey.SINGLE_MESSAGE_NO_SAVEGAMES_FOULDER_IN_DIRECTORY_IN_DOCUMENTS, new Dictionary<string, string> { { "{directoryName}", "save games" } });
+                        Logger.LogSingleErrorMessage(EnumLocKey.SINGLE_MESSAGE_NO_SAVEGAMES_FOULDER_IN_DIRECTORY_IN_DOCUMENTS, new Dictionary<string, string> { { "{directoryName}", "save games" } });
                         return;
                     }
                     Invoke(new Action(() => TextBox_GameTempDirectory.Text = path));
@@ -209,7 +209,7 @@ namespace HOI4ModBuilder.src.forms
                         {
                             if (descriptorCount > 0)
                             {
-                                Logger.LogSingleMessage(EnumLocKey.SINGLE_MESSAGE_MULTIPLE_MOD_DESCRIPTOR_IN_DIRECTORY_OF_MOD);
+                                Logger.LogSingleErrorMessage(EnumLocKey.SINGLE_MESSAGE_MULTIPLE_MOD_DESCRIPTOR_IN_DIRECTORY_OF_MOD);
                                 return;
                             }
                             descriptorPath = file;
@@ -219,7 +219,7 @@ namespace HOI4ModBuilder.src.forms
 
                     if (descriptorPath == null)
                     {
-                        Logger.LogSingleMessage(EnumLocKey.SINGLE_MESSAGE_NO_MOD_DESCRIPTOR_IN_DIRECTORY_OF_MOD);
+                        Logger.LogSingleErrorMessage(EnumLocKey.SINGLE_MESSAGE_NO_MOD_DESCRIPTOR_IN_DIRECTORY_OF_MOD);
                         return;
                     }
 

@@ -54,7 +54,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 {
                     var sb = new StringBuilder();
                     foreach (EnumMapErrorCode code in codes) sb.Append(code.ToString()).Append('\n');
-                    Logger.LogSingleMessage(sb.ToString());
+                    Logger.LogSingleErrorMessage(sb.ToString());
                     return;
                 }
             }

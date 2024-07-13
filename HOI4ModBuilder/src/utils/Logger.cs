@@ -55,15 +55,27 @@ namespace HOI4ModBuilder.src.utils
             }
         }
 
-        public static void LogSingleMessage(EnumLocKey enumLocKey)
-            => LogSingleMessage(GuiLocManager.GetLoc(enumLocKey));
+        public static void LogSingleErrorMessage(EnumLocKey enumLocKey)
+            => LogSingleErrorMessage(GuiLocManager.GetLoc(enumLocKey));
 
-        public static void LogSingleMessage(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
-            => LogSingleMessage(GuiLocManager.GetLoc(enumLocKey, replaceValues));
+        public static void LogSingleErrorMessage(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
+            => LogSingleErrorMessage(GuiLocManager.GetLoc(enumLocKey, replaceValues));
 
-        public static void LogSingleMessage(string message)
+        public static void LogSingleErrorMessage(string message)
         {
             Task.Run(() => MessageBox.Show(message, GuiLocManager.GetLoc(EnumLocKey.ERROR_HAS_OCCURED), MessageBoxButtons.OK, MessageBoxIcon.Error));
+            Log(message);
+        }
+
+        public static void LogSingleInfoMessage(EnumLocKey enumLocKey)
+            => LogSingleInfoMessage(GuiLocManager.GetLoc(enumLocKey));
+
+        public static void LogSingleInfoMessage(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
+            => LogSingleInfoMessage(GuiLocManager.GetLoc(enumLocKey, replaceValues));
+
+        public static void LogSingleInfoMessage(string message)
+        {
+            Task.Run(() => MessageBox.Show(message, GuiLocManager.GetLoc(EnumLocKey.INFORMATION_MESSAGE_TITLE), MessageBoxButtons.OK, MessageBoxIcon.Information));
             Log(message);
         }
 
@@ -173,7 +185,7 @@ namespace HOI4ModBuilder.src.utils
             }
 
             if (MainForm.isLoadingOrSaving[0]) _exceptions.Add(message);
-            else LogSingleMessage(ex.ToString());
+            else LogSingleErrorMessage(ex.ToString());
             Log($"EXCEPTION: {ex}\n");
         }
 
