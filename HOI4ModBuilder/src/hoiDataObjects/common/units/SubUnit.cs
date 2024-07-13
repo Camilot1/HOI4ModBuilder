@@ -46,6 +46,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units
     class SubUnitsFile : IParadoxObject
     {
         public FileInfo FileInfo { private set; get; }
+
         private static readonly string TOKEN_SUB_UNITS = "sub_units";
         private readonly Dictionary<string, SubUnit> _allSubUnits;
         private readonly Dictionary<string, SubUnit> _subUnits;
