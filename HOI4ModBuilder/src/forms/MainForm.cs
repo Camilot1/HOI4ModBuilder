@@ -37,6 +37,8 @@ using OpenTK.Graphics.OpenGL;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using HOI4ModBuilder.src.tools.auto;
+using HOI4ModBuilder.src.scripts;
+using HOI4ModBuilder.src.forms.scripts;
 
 namespace HOI4ModBuilder
 {
@@ -1461,6 +1463,9 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() => AutoTools.RemoveSeaProvincesFromStates());
         }
+
+        private void ToolStripMenuItem_Edit_Scripts_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => new ScriptsForm().ShowDialog());
 
         public void SetAdjacencyRules(Dictionary<string, AdjacencyRule>.KeyCollection rules)
         {

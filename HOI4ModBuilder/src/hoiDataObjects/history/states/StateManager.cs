@@ -188,10 +188,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 result = true;
             }
 
-            if (src.provincesBuildings.TryGetValue(province, out Dictionary<Building, uint> dictionary))
+            if (src.TryGetProvinceBuildings(province, out Dictionary<Building, uint> dictionary))
             {
-                dest.provincesBuildings[province] = dictionary;
-                src.provincesBuildings.Remove(province);
+                dest.SetProvinceBuildings(province, dictionary);
+                src.RemoveProvinceBuildings(province);
                 result = true;
             }
             return result;

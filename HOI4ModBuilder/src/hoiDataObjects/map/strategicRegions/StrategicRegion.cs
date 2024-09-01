@@ -12,7 +12,7 @@ using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map
 {
-    class StrategicRegion : IParadoxRead
+    public class StrategicRegion : IParadoxRead
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
@@ -49,6 +49,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         }
 
         private List<Province> _provinces = new List<Province>();
+        public bool HasProvince(Province province) => _provinces.Contains(province);
+
         private List<ProvinceBorder> _borders = new List<ProvinceBorder>(0);
         public List<ProvinceBorder> Borders
         {
@@ -75,8 +77,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             {
                 if (_weather != value) needToSave = true;
                 _weather = value;
-                _weather.region = this;
+                _weather.Region = this;
             }
+        }
+        public int GetWeatherPeriodsCount() => _weather != null ? _weather.GetPeriodsCount() : 0;
+
+        public bool TryGetWeatherPeriod(int index, out WeatherPeriod period)
+        {
+            if (_weather == null)
+            {
+                period = null;
+                return false;
+            }
+            else return _weather.TryGetPeriod(index, out period);
         }
 
         private List<AiArea> _aiAreas = new List<AiArea>();
@@ -336,7 +349,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         }
     }
 
-    class RegionStaticModifiers : IParadoxRead
+    public class RegionStaticModifiers : IParadoxRead
     {
         //TODO Найти список всех существующих статических модификаторов и отревакторить
         public Dictionary<string, string> modifiers = new Dictionary<string, string>();
@@ -357,21 +370,73 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         }
     }
 
-    class RegionWeather : IParadoxRead
+    public class RegionWeather : IParadoxRead
     {
-        public StrategicRegion region;
-        public List<WeatherPeriod> periods = new List<WeatherPeriod>(0);
+
+        public StrategicRegion Region { set; get; }
+
+        private bool _needToSave;
+        public bool NeedToSave
+        {
+            get
+            {
+                if (_needToSave) return true;
+                foreach (var _period in _periods)
+                {
+                    if (_period.NeedToSave) return true;
+                }
+
+                return false;
+            }
+            set => _needToSave = value;
+        }
+
+        private List<WeatherPeriod> _periods;
+        public int GetPeriodsCount() => _periods.Count;
+        public void ForEachPeriod(Action<WeatherPeriod> action) => _periods.ForEach(action);
+        public void AddPeriod(WeatherPeriod period)
+        {
+            period.Weather = this;
+            _periods.Add(period);
+            _needToSave = true;
+        }
+        public void RemovePeriod(int index)
+        {
+            _periods[index].Weather = null;
+            _periods.RemoveAt(index);
+            _needToSave = true;
+        }
+        public WeatherPeriod GetPeriod(int index) => _periods[index];
+        public bool TryGetPeriod(int index, out WeatherPeriod period)
+        {
+            if (index < 0 || index >= _periods.Count)
+            {
+                period = null;
+                return false;
+            }
+            else
+            {
+                period = _periods[index];
+                return true;
+            }
+        }
+        public void ClearPeriods()
+        {
+            _periods.Clear();
+            _needToSave = true;
+        }
 
         public RegionWeather(StrategicRegion region)
         {
-            this.region = region;
+            Region = region;
+            _periods = new List<WeatherPeriod>();
         }
 
         public void Save(StringBuilder sb, string tab)
         {
             string tab2 = tab + tab;
             sb.Append(tab).Append("weather = {").Append(Constants.NEW_LINE);
-            foreach (var period in periods) period.Save(sb, tab2, tab);
+            foreach (var period in _periods) period.Save(sb, tab2, tab);
             sb.Append(tab).Append('}').Append(Constants.NEW_LINE);
         }
 
@@ -382,38 +447,78 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             {
                 var period = new WeatherPeriod(this);
                 parser.Parse(period);
-                periods.Add(period);
+                _periods.Add(period);
             }
             else throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.ERROR_REGION_WEATHER_UNKNOWN_TOKEN,
                         new Dictionary<string, string>
                         {
-                            { "{regionId}", $"{region.Id}" },
+                            { "{regionId}", $"{Region.Id}" },
                             { "{token}", token }
                         }
                     ));
         }
     }
 
-    class WeatherPeriod : IParadoxRead
+    public class WeatherPeriod : IParadoxRead
     {
-        public RegionWeather weather;
+        private RegionWeather _weather;
+        public RegionWeather Weather
+        {
+            get => _weather;
+            set
+            {
+                if (_weather == value) return;
 
-        public DatePeriod between = new DatePeriod();
-        public float[] temperature = new float[2];
-        public float noPhenomenon;
-        public float rainLight;
-        public float rainHeavy;
-        public float snow;
-        public float blizzard;
-        public float arcticWater;
-        public float mud;
-        public float sandstorm;
-        public float minSnowLevel;
+                _needToSave = true;
+                _weather.NeedToSave = true;
+                _weather = value;
+            }
+        }
+
+        private bool _needToSave;
+        public bool NeedToSave
+        {
+            get => _needToSave ||
+                (_between != null && _between.NeedToSave);
+        }
+
+        private DatePeriod _between = new DatePeriod();
+        public DatePeriod Between { get => _between; set => Utils.Setter(ref _between, ref value, ref _needToSave); }
+
+        private float[] _temperature = new float[2];
+        public float[] Temperature { get => _temperature; set => Utils.Setter(ref _temperature, ref value, ref _needToSave); }
+
+        private float _noPhenomenon;
+        public float NoPhenomenon { get => _noPhenomenon; set => Utils.Setter(ref _noPhenomenon, ref value, ref _needToSave); }
+
+        private float _rainLight;
+        public float RainLight { get => _rainLight; set => Utils.Setter(ref _rainLight, ref value, ref _needToSave); }
+
+        private float _rainHeavy;
+        public float RainHeavy { get => _rainHeavy; set => Utils.Setter(ref _rainHeavy, ref value, ref _needToSave); }
+
+        private float _snow;
+        public float Snow { get => _snow; set => Utils.Setter(ref _snow, ref value, ref _needToSave); }
+
+        private float _blizzard;
+        public float Blizzard { get => _blizzard; set => Utils.Setter(ref _blizzard, ref value, ref _needToSave); }
+
+        private float _arcticWater;
+        public float ArcticWater { get => _arcticWater; set => Utils.Setter(ref _arcticWater, ref value, ref _needToSave); }
+
+        private float _mud;
+        public float Mud { get => _mud; set => Utils.Setter(ref _mud, ref value, ref _needToSave); }
+
+        private float _sandstorm;
+        public float Sandstorm { get => _sandstorm; set => Utils.Setter(ref _sandstorm, ref value, ref _needToSave); }
+
+        private float _minSnowLevel;
+        public float MinSnowLevel { get => _minSnowLevel; set => Utils.Setter(ref _minSnowLevel, ref value, ref _needToSave); }
 
         public WeatherPeriod(RegionWeather weather)
         {
-            this.weather = weather;
+            _weather = weather;
         }
 
         public void Save(StringBuilder sb, string outTab, string tab)
@@ -421,20 +526,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             sb.Append(outTab).Append("period = {").Append(Constants.NEW_LINE);
 
             sb.Append(outTab).Append(tab).Append("between = { ")
-                .Append(between.startDay).Append('.').Append(between.startMonth).Append(' ')
-                .Append(between.endDay).Append('.').Append(between.endMonth).Append(" }").Append(Constants.NEW_LINE);
+                .Append(_between.StartDay).Append('.').Append(_between.StartMonth).Append(' ')
+                .Append(_between.EndDay).Append('.').Append(_between.EndMonth).Append(" }").Append(Constants.NEW_LINE);
             sb.Append(outTab).Append(tab).Append("temperature = { ")
-                .Append(Utils.FloatToString(temperature[0])).Append(' ')
-                .Append(Utils.FloatToString(temperature[1])).Append(" }").Append(Constants.NEW_LINE);
-            sb.Append(outTab).Append(tab).Append("no_phenomenon = ").Append(Utils.FloatToString(noPhenomenon)).Append(Constants.NEW_LINE);
-            sb.Append(outTab).Append(tab).Append("rain_light = ").Append(Utils.FloatToString(rainLight)).Append(Constants.NEW_LINE);
-            sb.Append(outTab).Append(tab).Append("rain_heavy = ").Append(Utils.FloatToString(rainHeavy)).Append(Constants.NEW_LINE);
-            sb.Append(outTab).Append(tab).Append("snow = ").Append(Utils.FloatToString(snow)).Append(Constants.NEW_LINE);
-            sb.Append(outTab).Append(tab).Append("blizzard = ").Append(Utils.FloatToString(blizzard)).Append(Constants.NEW_LINE);
-            sb.Append(outTab).Append(tab).Append("arctic_water = ").Append(Utils.FloatToString(arcticWater)).Append(Constants.NEW_LINE);
-            sb.Append(outTab).Append(tab).Append("mud = ").Append(Utils.FloatToString(mud)).Append(Constants.NEW_LINE);
-            sb.Append(outTab).Append(tab).Append("sandstorm = ").Append(Utils.FloatToString(sandstorm)).Append(Constants.NEW_LINE);
-            sb.Append(outTab).Append(tab).Append("min_snow_level = ").Append(Utils.FloatToString(minSnowLevel)).Append(Constants.NEW_LINE);
+                .Append(Utils.FloatToString(_temperature[0])).Append(' ')
+                .Append(Utils.FloatToString(_temperature[1])).Append(" }").Append(Constants.NEW_LINE);
+            sb.Append(outTab).Append(tab).Append("no_phenomenon = ").Append(Utils.FloatToString(_noPhenomenon)).Append(Constants.NEW_LINE);
+            sb.Append(outTab).Append(tab).Append("rain_light = ").Append(Utils.FloatToString(_rainLight)).Append(Constants.NEW_LINE);
+            sb.Append(outTab).Append(tab).Append("rain_heavy = ").Append(Utils.FloatToString(_rainHeavy)).Append(Constants.NEW_LINE);
+            sb.Append(outTab).Append(tab).Append("snow = ").Append(Utils.FloatToString(_snow)).Append(Constants.NEW_LINE);
+            sb.Append(outTab).Append(tab).Append("blizzard = ").Append(Utils.FloatToString(_blizzard)).Append(Constants.NEW_LINE);
+            sb.Append(outTab).Append(tab).Append("arctic_water = ").Append(Utils.FloatToString(_arcticWater)).Append(Constants.NEW_LINE);
+            sb.Append(outTab).Append(tab).Append("mud = ").Append(Utils.FloatToString(_mud)).Append(Constants.NEW_LINE);
+            sb.Append(outTab).Append(tab).Append("sandstorm = ").Append(Utils.FloatToString(_sandstorm)).Append(Constants.NEW_LINE);
+            sb.Append(outTab).Append(tab).Append("min_snow_level = ").Append(Utils.FloatToString(_minSnowLevel)).Append(Constants.NEW_LINE);
 
             sb.Append(outTab).Append('}').Append(Constants.NEW_LINE);
         }
@@ -444,52 +549,50 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             switch (token)
             {
                 case "between":
-                    parser.Parse(between);
+                    parser.Parse(_between);
                     break;
                 case "temperature":
                     IList<double> list = parser.ReadDoubleList();
                     if (list.Count == 2)
                     {
-                        temperature[0] = (float)list[0];
-                        temperature[1] = (float)list[1];
+                        _temperature[0] = (float)list[0];
+                        _temperature[1] = (float)list[1];
                     }
                     break;
                 case "no_phenomenon":
-                    noPhenomenon = parser.ReadFloat();
+                    _noPhenomenon = parser.ReadFloat();
                     break;
                 case "rain_light":
-                    rainLight = parser.ReadFloat();
+                    _rainLight = parser.ReadFloat();
                     break;
                 case "rain_heavy":
-                    rainHeavy = parser.ReadFloat();
+                    _rainHeavy = parser.ReadFloat();
                     break;
                 case "snow":
-                    snow = parser.ReadFloat();
+                    _snow = parser.ReadFloat();
                     break;
                 case "blizzard":
-                    blizzard = parser.ReadFloat();
+                    _blizzard = parser.ReadFloat();
                     break;
-                case "arcticWater": //TODO Remove after few updates
                 case "arctic_water":
-                    arcticWater = parser.ReadFloat();
+                    _arcticWater = parser.ReadFloat();
                     break;
                 case "mud":
-                    mud = parser.ReadFloat();
+                    _mud = parser.ReadFloat();
                     break;
                 case "sandstorm":
-                    sandstorm = parser.ReadFloat();
+                    _sandstorm = parser.ReadFloat();
                     break;
-                case "minSnowLevel": //TODO Remove after few updates
                 case "min_snow_level":
-                    minSnowLevel = parser.ReadFloat();
+                    _minSnowLevel = parser.ReadFloat();
                     break;
                 default:
                     throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.ERROR_REGION_WEATHER_PERIOD_UNKNOWN_TOKEN,
                         new Dictionary<string, string>
                         {
-                            { "{regionId}", $"{weather.region.Id}" },
-                            { "{period}", between.ToString() },
+                            { "{regionId}", $"{_weather.Region.Id}" },
+                            { "{period}", _between.ToString() },
                             { "{token}", token }
                         }
                     ));
@@ -497,23 +600,30 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         }
     }
 
-    class DatePeriod : IParadoxRead
+    public class DatePeriod : IParadoxRead
     {
-        public byte startDay, startMonth;
-        public byte endDay, endMonth;
+        private bool _needToSave;
+        public bool NeedToSave { get => _needToSave; }
+
+        private byte _startDay, _startMonth;
+        private byte _endDay, _endMonth;
+        public byte StartDay { get => _startDay; set => Utils.Setter(ref _startDay, ref value, ref _needToSave); }
+        public byte StartMonth { get => _startMonth; set => Utils.Setter(ref _startMonth, ref value, ref _needToSave); }
+        public byte EndDay { get => _endDay; set => Utils.Setter(ref _endDay, ref value, ref _needToSave); }
+        public byte EndMonth { get => _endMonth; set => Utils.Setter(ref _endMonth, ref value, ref _needToSave); }
 
         public void TokenCallback(ParadoxParser parser, string token)
         {
             try
             {
                 string[] data = token.Split('.');
-                startDay = byte.Parse(data[0]);
-                startMonth = byte.Parse(data[1]);
+                _startDay = byte.Parse(data[0]);
+                _startMonth = byte.Parse(data[1]);
 
                 token = parser.ReadString();
                 data = token.Split('.');
-                endDay = byte.Parse(data[0]);
-                endMonth = byte.Parse(data[1]);
+                _endDay = byte.Parse(data[0]);
+                _endMonth = byte.Parse(data[1]);
             }
             catch (Exception ex)
             {
@@ -524,7 +634,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             }
         }
 
-        public override string ToString() => "" + startDay + '.' + startMonth + ' ' + endDay + '.' + endMonth;
+        public override string ToString() => "" + _startDay + '.' + _startMonth + ' ' + _endDay + '.' + _endMonth;
     }
 
     class StrategicRegionFile : IParadoxRead

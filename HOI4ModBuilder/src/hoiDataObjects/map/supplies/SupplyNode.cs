@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.supply
 {
-    class SupplyNode
+    public class SupplyNode
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;

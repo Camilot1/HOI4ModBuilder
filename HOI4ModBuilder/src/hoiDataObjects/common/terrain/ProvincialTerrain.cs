@@ -8,7 +8,7 @@ using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.hoiDataObjects.common.terrain
 {
-    class ProvincialTerrain : IParadoxRead
+    public class ProvincialTerrain : IParadoxRead
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;

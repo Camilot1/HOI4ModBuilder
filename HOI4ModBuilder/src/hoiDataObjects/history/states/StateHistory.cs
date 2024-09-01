@@ -11,11 +11,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static HOI4ModBuilder.src.dataObjects.argBlocks.InfoArgsBlock;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 {
-    class StateHistory : IParadoxRead
+    public class StateHistory : IParadoxRead
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
@@ -45,8 +44,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public List<DataArgsBlock> dataArgsBlocks = new List<DataArgsBlock>(0);
 
-        public Dictionary<Building, uint> stateBuildings = new Dictionary<Building, uint>(0);
-        public Dictionary<Province, Dictionary<Building, uint>> provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
+        private Dictionary<Building, uint> _stateBuildings = new Dictionary<Building, uint>(0);
+        private Dictionary<Province, Dictionary<Building, uint>> _provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
+        public bool TryGetProvinceBuildings(Province province, out Dictionary<Building, uint> buildings)
+            => _provincesBuildings.TryGetValue(province, out buildings);
+        public void SetProvinceBuildings(Province province, Dictionary<Building, uint> buildings)
+            => _provincesBuildings[province] = buildings;
+        public bool RemoveProvinceBuildings(Province province) => _provincesBuildings.Remove(province);
 
         public StateHistory(DateTime dateTime, State state)
         {
@@ -60,21 +64,21 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 addCoresOf.Count > 0 || removeCoresOf.Count > 0 ||
                 addClaimsBy.Count > 0 || removeClaimsBy.Count > 0 ||
                 addManpower != 0 || isDemilitarized != null ||
-                victoryPoints.Count > 0 || stateBuildings.Count > 0 ||
+                victoryPoints.Count > 0 || _stateBuildings.Count > 0 ||
                 HasAnyProvinceBuildings() || dataArgsBlocks.Count > 0;
         }
 
-        public bool HasAnyProvinceBuildings() => provincesBuildings.Count() > 0;
+        public bool HasAnyProvinceBuildings() => _provincesBuildings.Count() > 0;
 
-        public bool SetProvinceBuilding(Province province, Building building, uint newCount)
+        public bool SetProvinceBuildingLevel(Province province, Building building, uint newCount)
         {
-            if (!provincesBuildings.TryGetValue(province, out Dictionary<Building, uint> buildings))
+            if (!_provincesBuildings.TryGetValue(province, out Dictionary<Building, uint> buildings))
             { //Если для указанной провинции ещё нет построек
                 if (newCount != 0)
                 {
                     //Создаём словарь построек
                     buildings = new Dictionary<Building, uint>(0);
-                    provincesBuildings[province] = buildings;
+                    _provincesBuildings[province] = buildings;
 
                     //Обновляем количество постройки в словаре
                     buildings[building] = newCount;
@@ -100,7 +104,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 if (newCount == 0 && dateTime == default)
                 {
                     buildings.Remove(building);
-                    if (buildings.Count == 0) provincesBuildings.Remove(province);
+                    if (buildings.Count == 0) _provincesBuildings.Remove(province);
                 }
                 else buildings[building] = newCount;
 
@@ -113,14 +117,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             else return false;
         }
 
-        public bool SetStateBuilding(Building building, uint newCount)
+        public bool SetStateBuildingLevel(Building building, uint newCount)
         {
-            if (!stateBuildings.TryGetValue(building, out uint count))
+            if (!_stateBuildings.TryGetValue(building, out uint count))
             { //Если в словаре ещё нет постройки
                 if (newCount != 0)
                 { //И число новой постройки не равно 0
                     //Добавляем постройку в словари
-                    stateBuildings[building] = newCount;
+                    _stateBuildings[building] = newCount;
                     return true;
                 }
                 else return false;
@@ -128,11 +132,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             else if (count != newCount)
             { //Если в словаре уже есть эта постройка
                 //Меняем число постройки в области
-                if (newCount == 0 && dateTime == default) stateBuildings.Remove(building);
-                else stateBuildings[building] = newCount;
+                if (newCount == 0 && dateTime == default) _stateBuildings.Remove(building);
+                else _stateBuildings[building] = newCount;
                 return true;
             }
             else return false;
+        }
+
+        public uint GetStateBuildingLevel(Building building)
+        {
+            _stateBuildings.TryGetValue(building, out uint value);
+            return value;
         }
 
         public void Save(StringBuilder sb, string prefix, string outTab, string tab, Dictionary<DateTime, StateHistory> innerHistories)
@@ -150,7 +160,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 sb.Append(outTab).Append(tab).Append("controller = ").Append(controller.Tag).Append(Constants.NEW_LINE);
 
             if ((owner != null || controller != null) &&
-                (victoryPoints.Count > 0 || stateBuildings.Count > 0 || provincesBuildings.Count > 0 ||
+                (victoryPoints.Count > 0 || _stateBuildings.Count > 0 || _provincesBuildings.Count > 0 ||
                 innerHistories != null && innerHistories.Count > 0 || dataArgsBlocks.Count > 0))
                 sb.Append(outTab).Append(tab).Append(Constants.NEW_LINE);
 
@@ -168,23 +178,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 sb.Append(outTab).Append(tab).Append(Constants.NEW_LINE);
             }
 
-            if (stateBuildings.Count > 0 || provincesBuildings.Count > 0)
+            if (_stateBuildings.Count > 0 || _provincesBuildings.Count > 0)
             {
                 sb.Append(outTab).Append(tab).Append("buildings = {").Append(Constants.NEW_LINE);
 
-                foreach (var building in stateBuildings.Keys)
-                    sb.Append(outTab).Append(tab2).Append(building.name).Append(" = ").Append(stateBuildings[building]).Append(Constants.NEW_LINE);
+                foreach (var building in _stateBuildings.Keys)
+                    sb.Append(outTab).Append(tab2).Append(building.name).Append(" = ").Append(_stateBuildings[building]).Append(Constants.NEW_LINE);
 
-                if (provincesBuildings.Count > 0)
+                if (_provincesBuildings.Count > 0)
                 {
-                    if (stateBuildings.Count > 0) sb.Append(Constants.NEW_LINE);
+                    if (_stateBuildings.Count > 0) sb.Append(Constants.NEW_LINE);
 
-                    var provincesKeys = new List<Province>(provincesBuildings.Keys);
+                    var provincesKeys = new List<Province>(_provincesBuildings.Keys);
                     provincesKeys.Sort((x, y) => x.Id.CompareTo(y.Id));
 
                     foreach (var province in provincesKeys)
                     {
-                        var provinceBuildinsById = provincesBuildings[province];
+                        var provinceBuildinsById = _provincesBuildings[province];
                         bool manyBuildings = provinceBuildinsById.Count != 1;
 
                         sb.Append(outTab).Append(tab2).Append(province.Id).Append(" = { ");
@@ -238,15 +248,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     state.victoryPoints[province] = victoryPoints[province];
             }
 
-            if (stateBuildings.Count > 0)
+            if (_stateBuildings.Count > 0)
             {
-                foreach (var building in stateBuildings.Keys)
-                    state.stateBuildings[building] = stateBuildings[building];
+                foreach (var building in _stateBuildings.Keys)
+                    state.stateBuildings[building] = _stateBuildings[building];
             }
 
-            if (provincesBuildings.Count > 0)
+            if (_provincesBuildings.Count > 0)
             {
-                foreach (var province in provincesBuildings.Keys)
+                foreach (var province in _provincesBuildings.Keys)
                 {
                     if (!state.provincesBuildings.TryGetValue(province, out Dictionary<Building, uint> provinceBuildings))
                     {
@@ -254,7 +264,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                         state.provincesBuildings[province] = provinceBuildings;
                     }
 
-                    var dictionary = provincesBuildings[province];
+                    var dictionary = _provincesBuildings[province];
                     if (dictionary != null && dictionary.Count > 0)
                     {
                         foreach (var building in dictionary.Keys)
@@ -359,7 +369,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     break;
 
                 case "buildings":
-                    parser.Parse(new StateBuildingsDictionary(state, stateBuildings, provincesBuildings));
+                    parser.Parse(new StateBuildingsDictionary(state, _stateBuildings, _provincesBuildings));
                     break;
 
                 default:

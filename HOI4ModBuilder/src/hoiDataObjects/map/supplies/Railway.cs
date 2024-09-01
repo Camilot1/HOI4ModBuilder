@@ -10,7 +10,7 @@ using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 {
-    class Railway
+    public class Railway
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;

@@ -14,7 +14,7 @@ using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
 {
-    class State : IParadoxRead
+    public class State : IParadoxRead
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
@@ -43,6 +43,20 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 HasChangedId = true;
                 StateManager.AddState(_id, this);
             }
+        }
+
+        public bool TryGetRegionId(out ushort regionId)
+        {
+            regionId = 0;
+            foreach (var p in provinces)
+            {
+                if (p.Region != null)
+                {
+                    regionId = p.Region.Id;
+                    return true;
+                }
+            }
+            return false;
         }
 
         public string startName, name;
@@ -118,22 +132,27 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             this.pixelsCount = (uint)pixelsCount;
         }
 
-        public void SetProvinceBuilding(Province province, Building building, uint newCount)
+        public void SetProvinceBuildingLevel(Province province, Building building, uint newCount)
         {
-            if (currentHistory.SetProvinceBuilding(province, building, newCount))
+            if (currentHistory.SetProvinceBuildingLevel(province, building, newCount))
             {
                 fileInfo.needToSave = true;
                 UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
             }
         }
 
-        public void SetStateBuilding(Building building, uint newCount)
+        public void SetStateBuildingLevel(Building building, uint newCount)
         {
-            if (currentHistory.SetStateBuilding(building, newCount))
+            if (currentHistory.SetStateBuildingLevel(building, newCount))
             {
                 fileInfo.needToSave = true;
                 UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
             }
+        }
+
+        public uint GetStateBuildingLevel(Building building)
+        {
+            return currentHistory.GetStateBuildingLevel(building);
         }
 
         public void Save(StringBuilder sb)

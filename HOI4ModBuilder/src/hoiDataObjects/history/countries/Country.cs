@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace HOI4ModBuilder.hoiDataObjects.history.countries
 {
-    class Country
+    public class Country
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;

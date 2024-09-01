@@ -14,14 +14,14 @@ using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
 {
-    enum EnumProvinceType
+    public enum EnumProvinceType
     {
         LAND,
         SEA,
         LAKE
     }
 
-    class Province : IComparable<Province>
+    public class Province : IComparable<Province>
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
@@ -328,12 +328,12 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             if (State == null || State.startHistory == null) return false;
 
-            if (State.startHistory.provincesBuildings.TryGetValue(this, out Dictionary<Building, uint> buildings))
+            if (State.startHistory.TryGetProvinceBuildings(this, out Dictionary<Building, uint> buildings))
                 foreach (var building in buildings.Keys)
                     if (building.isPort) return true;
 
             foreach (var stateHistory in State.stateHistories.Values)
-                if (stateHistory.provincesBuildings.TryGetValue(this, out buildings))
+                if (stateHistory.TryGetProvinceBuildings(this, out buildings))
                     foreach (var building in buildings.Keys)
                         if (building.isPort) return true;
 

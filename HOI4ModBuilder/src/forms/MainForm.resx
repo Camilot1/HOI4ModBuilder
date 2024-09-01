@@ -2181,6 +2181,12 @@
   <data name="ToolStripMenuItem_Edit_AutoTools.Text" xml:space="preserve">
     <value>Инструменты авторассчёта</value>
   </data>
+  <data name="ToolStripMenuItem_Edit_Scripts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Scripts.Text" xml:space="preserve">
+    <value>Скрипты</value>
+  </data>
   <data name="ToolStripMenuItem_Edit.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 20</value>
   </data>
@@ -3019,6 +3025,12 @@
     <value>ToolStripMenuItem_Edit_AutoTools_FindMapChanges</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_FindMapChanges.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_Scripts.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Edit_Scripts</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_Scripts.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Data.Name" xml:space="preserve">

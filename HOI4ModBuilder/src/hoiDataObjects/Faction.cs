@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.hoiDataObjects
 {
-    class Faction
+    public class Faction
     {
         public String tag;
         public Country leader;

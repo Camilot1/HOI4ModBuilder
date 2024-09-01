@@ -3,7 +3,7 @@ using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
 {
-    class ProvinceBorder
+    public class ProvinceBorder
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;

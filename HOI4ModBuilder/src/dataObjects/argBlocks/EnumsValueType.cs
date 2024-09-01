@@ -1,6 +1,6 @@
 ﻿namespace HOI4ModBuilder.src.dataObjects.argBlocks
 {
-    enum EnumValueType
+    public enum EnumValueType
     {
         NONE,
         VAR,

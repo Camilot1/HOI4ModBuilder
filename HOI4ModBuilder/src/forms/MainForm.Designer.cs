@@ -201,6 +201,7 @@
             this.ToolStripMenuItem_Edit_AutoTools_RegionsValidation = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Edit_AutoTools_FindMapChanges = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Edit_Scripts = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Data = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripComboBox_Data_Bookmark = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
@@ -1377,7 +1378,8 @@
             this.ToolStripMenuItem_Edit_Undo,
             this.ToolStripMenuItem_Edit_Redo,
             this.toolStripSeparator8,
-            this.ToolStripMenuItem_Edit_AutoTools});
+            this.ToolStripMenuItem_Edit_AutoTools,
+            this.ToolStripMenuItem_Edit_Scripts});
             this.ToolStripMenuItem_Edit.Name = "ToolStripMenuItem_Edit";
             resources.ApplyResources(this.ToolStripMenuItem_Edit, "ToolStripMenuItem_Edit");
             // 
@@ -1463,6 +1465,12 @@
             this.ToolStripMenuItem_Edit_AutoTools_FindMapChanges.Name = "ToolStripMenuItem_Edit_AutoTools_FindMapChanges";
             resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools_FindMapChanges, "ToolStripMenuItem_Edit_AutoTools_FindMapChanges");
             this.ToolStripMenuItem_Edit_AutoTools_FindMapChanges.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_AutoTools_FindMapChanges_Click);
+            // 
+            // ToolStripMenuItem_Edit_Scripts
+            // 
+            this.ToolStripMenuItem_Edit_Scripts.Name = "ToolStripMenuItem_Edit_Scripts";
+            resources.ApplyResources(this.ToolStripMenuItem_Edit_Scripts, "ToolStripMenuItem_Edit_Scripts");
+            this.ToolStripMenuItem_Edit_Scripts.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_Scripts_Click);
             // 
             // ToolStripMenuItem_Data
             // 
@@ -1800,6 +1808,7 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_Scripts;
     }
 }
 

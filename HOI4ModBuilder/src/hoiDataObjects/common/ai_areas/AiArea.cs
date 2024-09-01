@@ -13,7 +13,7 @@ using System.Text;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
 {
-    class AiArea : IParadoxObject
+    public class AiArea : IParadoxObject
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;

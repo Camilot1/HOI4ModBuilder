@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace HOI4ModBuilder.src.dataObjects.argBlocks
 {
-    class InfoArgsBlock
+    public class InfoArgsBlock
     {
         [JsonProperty("name")] public string Name { get; private set; }
         [JsonProperty("isDisabled")] public bool IsDisabled { get; private set; }
@@ -94,7 +94,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         }
     }
 
-    class UniversalParamsInfo
+    public class UniversalParamsInfo
     {
         [JsonProperty("maxUniversalParamsCount")] public short MaxUniversalParamsCount { get; private set; }
         [JsonProperty("ignoreMandatoryInnerBlocksCheck")] public bool IgnoreMandatoryInnerBlocksCheck { get; private set; }

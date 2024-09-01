@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.hoiDataObjects
 {
-    class Technology
+    public class Technology
     {
     }
 }

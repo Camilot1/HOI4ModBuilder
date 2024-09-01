@@ -11,7 +11,7 @@ using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
 {
-    class StateCategory : IParadoxRead
+    public class StateCategory : IParadoxRead
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;

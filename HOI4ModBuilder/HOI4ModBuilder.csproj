@@ -322,6 +322,12 @@
     <Compile Include="src\forms\recoveryForms\StrategicRegionsDataRecoveryForm.Designer.cs">
       <DependentUpon>StrategicRegionsDataRecoveryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\forms\scripts\ScriptsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\forms\scripts\ScriptsForm.Designer.cs">
+      <DependentUpon>ScriptsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\forms\SearchErrorsSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -422,6 +428,126 @@
     <Compile Include="src\hoiDataObjects\map\adjacencies\AdjacencyRule.cs" />
     <Compile Include="src\hoiDataObjects\map\MapPositionsManager.cs" />
     <Compile Include="src\hoiDataObjects\map\continents\ContinentManager.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\BooleanDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\branch\BranchDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\CharDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\FileDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\cycles\ForDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\StringDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\VarDeclarator.cs" />
+    <Compile Include="src\scripts\commands\functions\files\GetModDirectoryPath.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\GetAllRegionsIdsFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\weather\GetRegionWeatherPeriodArcticWaterFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\weather\GetRegionWeatherPeriodMinSnowLevelFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\weather\GetRegionWeatherPeriodMudFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\weather\GetRegionWeatherPeriodSandstormFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\weather\GetRegionWeatherPeriodSnowFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\weather\GetRegionWeatherPeriodBetweenFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\weather\GetRegionWeatherPeriodBlizzardFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\weather\GetRegionWeatherPeriodRainHeavyFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\weather\GetRegionWeatherPeriodRainLightFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\weather\GetRegionWeatherPeriodNoPhenomenonFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\weather\GetRegionWeatherPeriodsCountFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\weather\GetRegionWeatherPeriodTemperatureFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\regions\weather\IsRegionHasWeatherFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\states\GetAllStatesIdsFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\states\GetStateBuildingLevelFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\states\GetStatePopulationFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\states\GetStateRegionIdFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\states\SetStateBuildingLevelFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\time\GetDaysSinceYearStartFunction.cs" />
+    <Compile Include="src\scripts\commands\functions\time\GetWeeksSinceYearStartFunction.cs" />
+    <Compile Include="src\scripts\commands\keywords\BreakKeyword.cs" />
+    <Compile Include="src\scripts\commands\keywords\ContinueKeyword.cs" />
+    <Compile Include="src\scripts\commands\methods\CeilMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\ClearMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\FloorMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\GetKeysMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\GetSizeMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\GetMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\HasKeyMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\MaxMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\MinMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\PutMethod.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\FloatDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\IntDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\ListDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\MapDeclarator.cs" />
+    <Compile Include="src\scripts\commands\methods\SetSizeMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\WriteMethod.cs" />
+    <Compile Include="src\scripts\commands\operators\AddOperator.cs" />
+    <Compile Include="src\scripts\commands\operators\DivideOperator.cs" />
+    <Compile Include="src\scripts\commands\operators\ModuloOperator.cs" />
+    <Compile Include="src\scripts\commands\operators\MultiplyOperator.cs" />
+    <Compile Include="src\scripts\commands\methods\RoundMethod.cs" />
+    <Compile Include="src\scripts\commands\operators\SetOperator.cs" />
+    <Compile Include="src\scripts\commands\operators\SubtractOperator.cs" />
+    <Compile Include="src\scripts\commands\ScopeScriptCommand.cs" />
+    <Compile Include="src\scripts\commands\ScriptCommand.cs" />
+    <Compile Include="src\scripts\exceptions\ArgumentMustBeMarkedAsOutScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\ArgumentMustNotBeMarkedAsOutScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\IndexOutOfRangeScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\InternalScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\InvalidArgsCountScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\InvalidCommandArgsCountScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\InvalidCommandArgsScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\InvalidKeyTypeScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\InvalidMultilineArgsScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\InvalidOperationScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\InvalidScopeTypeScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\InvalidValueTypeScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\ArgumentMustBeVarDeclarator.cs" />
+    <Compile Include="src\scripts\exceptions\NullPointerScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\ScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\UnknownCommandScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\ValueNotFoundScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\VariableIsAlreadyDeclaredScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\VariableIsNotDeclaredScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\VariableValueIsNotSetScriptException.cs" />
+    <Compile Include="src\scripts\objects\BooleanObject.cs" />
+    <Compile Include="src\scripts\objects\CharObject.cs" />
+    <Compile Include="src\scripts\objects\FloatObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IAddObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IAddRangeObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IAndObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IAppendObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IDivideObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IGetObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IInsertObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IGetSizeObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IModuloObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IMultiplyObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\INotObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IOrObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IPrimitiveObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IPutObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IRemoveAtObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IRemoveObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\ISetSizeObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\ISetObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\ISubtractObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\ITrimObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IWriteObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IXorObject.cs" />
+    <Compile Include="src\scripts\objects\FileObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\ICollectionObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\IFileObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\IListObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\IMapObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\INumberObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\ILogicalObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IClearObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\IRelativeObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\IScriptObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\IStringObject.cs" />
+    <Compile Include="src\scripts\objects\IntObject.cs" />
+    <Compile Include="src\scripts\objects\ListObject.cs" />
+    <Compile Include="src\scripts\objects\MapObject.cs" />
+    <Compile Include="src\scripts\objects\StringObject.cs" />
+    <Compile Include="src\scripts\ScriptExecutor.cs" />
+    <Compile Include="src\scripts\ScriptParser.cs" />
+    <Compile Include="src\scripts\utils\ScriptUtils.cs" />
+    <Compile Include="src\scripts\VarsScope.cs" />
     <Compile Include="src\tools\AutoTools.cs" />
     <Compile Include="src\tools\map\advanced\MergeProvincesTool.cs" />
     <Compile Include="src\tools\map\advanced\RailwayTool.cs" />
@@ -532,6 +658,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\forms\recoveryForms\StrategicRegionsDataRecoveryForm.resx">
       <DependentUpon>StrategicRegionsDataRecoveryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\forms\scripts\ScriptsForm.resx">
+      <DependentUpon>ScriptsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\forms\SearchErrorsSettingsForm.en.resx">
       <DependentUpon>SearchErrorsSettingsForm.cs</DependentUpon>

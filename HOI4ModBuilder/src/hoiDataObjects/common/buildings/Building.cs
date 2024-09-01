@@ -1,20 +1,13 @@
-﻿using HOI4ModBuilder.hoiDataObjects.history.countries;
-using HOI4ModBuilder.src.dataObjects;
+﻿using HOI4ModBuilder.src.dataObjects;
 using HOI4ModBuilder.src.dataObjects.argBlocks;
-using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static HOI4ModBuilder.src.dataObjects.argBlocks.InfoArgsBlock;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 {
-    class Building : IParadoxRead
+    public class Building : IParadoxRead
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;

@@ -11,7 +11,7 @@ using System.Text;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 {
-    class AdjacencyRule : IParadoxRead
+    public class AdjacencyRule : IParadoxRead
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
@@ -171,7 +171,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         }
     }
 
-    class AdjacencyRuleDisableTrigger : IParadoxRead
+    public class AdjacencyRuleDisableTrigger : IParadoxRead
     {
         public AdjacencyRule rule;
         public string tooltip;
@@ -219,7 +219,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         }
     }
 
-    class RelationRule : IParadoxRead
+    public class RelationRule : IParadoxRead
     {
         public AdjacencyRule rule;
         public string relation;
@@ -266,7 +266,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         }
     }
 
-    class RelationRuleDisableTrigger : IParadoxRead
+    public class RelationRuleDisableTrigger : IParadoxRead
     {
         private AdjacencyRule _rule;
         private string _relation;

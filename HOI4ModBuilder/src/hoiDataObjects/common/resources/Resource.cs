@@ -1,14 +1,8 @@
-﻿using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
-using Pdoxcl2Sharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Pdoxcl2Sharp;
 
 namespace HOI4ModBuilder.hoiDataObjects.common.resources
 {
-    class Resource : IParadoxRead
+    public class Resource : IParadoxRead
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace HOI4ModBuilder.src.dataObjects.argBlocks
 {
-    class DataArgsBlock : IParadoxRead
+    public class DataArgsBlock : IParadoxRead
     {
         private bool _needToSave;
         public bool NeedToSave { get => _needToSave; }

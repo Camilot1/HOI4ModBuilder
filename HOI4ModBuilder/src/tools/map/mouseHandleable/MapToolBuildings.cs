@@ -84,7 +84,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 {
                     action = (c) =>
                     {
-                        province.State.SetProvinceBuilding(province, building, c);
+                        province.State.SetProvinceBuildingLevel(province, building, c);
                         MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
                     };
                 }
@@ -92,7 +92,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 {
                     action = (c) =>
                     {
-                        province.State.SetStateBuilding(building, c);
+                        province.State.SetStateBuildingLevel(building, c);
                         MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
                     };
                 }
