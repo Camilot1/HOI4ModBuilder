@@ -29,11 +29,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
         public string Name { get => _name; set => Utils.Setter(ref _name, ref value, ref _needToSave); }
 
         private static readonly string TOKEN_CONTINENTS = "continents";
-        private List<byte> _continentIds = new List<byte>();
+        private List<int> _continentIds = new List<int>();
 
         public bool HasContinents => _continentIds.Count > 0;
-        public bool HasContinentId(byte continentId) => _continentIds.Contains(continentId);
-        public bool AddContinentId(byte id)
+        public bool HasContinentId(int continentId) => _continentIds.Contains(continentId);
+        public bool AddContinentId(int id)
         {
             if (_continentIds.Contains(id)) return false;
 
@@ -41,7 +41,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
             _needToSave = true;
             return true;
         }
-        public bool RemoveContinentId(byte id)
+        public bool RemoveContinentId(int id)
         {
             bool result = _continentIds.Remove(id);
             if (result) _needToSave = true;

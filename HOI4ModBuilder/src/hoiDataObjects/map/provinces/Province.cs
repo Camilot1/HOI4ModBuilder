@@ -129,8 +129,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             }
         }
 
-        private byte _continentId;
-        public byte ContinentId
+        private int _continentId;
+        public int ContinentId
         {
             get => _continentId;
             set

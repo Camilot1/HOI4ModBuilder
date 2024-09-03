@@ -1022,10 +1022,10 @@ namespace HOI4ModBuilder
         {
             if (ProvinceManager.RMBProvince != null && isMapMainLayerChangeEnabled)
             {
-                byte prevContinentId = ProvinceManager.RMBProvince.ContinentId;
-                byte newContinentId = (byte)ContinentManager.GetContinentId(ToolStripComboBox_Map_Province_Continent.Text);
+                int prevContinentId = ProvinceManager.RMBProvince.ContinentId;
+                int newContinentId = ContinentManager.GetContinentId(ToolStripComboBox_Map_Province_Continent.Text);
 
-                void action(byte continentId)
+                void action(int continentId)
                 {
                     ProvinceManager.RMBProvince.ContinentId = continentId;
                     MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);

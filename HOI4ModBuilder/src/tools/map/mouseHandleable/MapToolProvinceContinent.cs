@@ -27,18 +27,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (buttons == MouseButtons.Left && province != null)
             {
-                byte prevContinentId = province.ContinentId;
-                byte newContinentId = (byte)ContinentManager.GetContinentId(parameter);
+                int prevContinentId = province.ContinentId;
+                int newContinentId = ContinentManager.GetContinentId(parameter);
 
-                Action<List<Tuple<byte, byte, Province>>> undoAction = null;
-                Action<List<Tuple<byte, byte, Province>>> redoAction = null;
-                var tuples = new List<Tuple<byte, byte, Province>>(0);
+                Action<List<Tuple<int, int, Province>>> undoAction = null;
+                Action<List<Tuple<int, int, Province>>> redoAction = null;
+                var tuples = new List<Tuple<int, int, Province>>(0);
 
                 switch (enumEditLayer)
                 {
                     case EnumEditLayer.PROVINCES:
                         if (prevContinentId != newContinentId)
-                            tuples.Add(new Tuple<byte, byte, Province>(prevContinentId, newContinentId, province));
+                            tuples.Add(new Tuple<int, int, Province>(prevContinentId, newContinentId, province));
                         break;
                     case EnumEditLayer.STATES:
                         if (province.State != null)
@@ -46,7 +46,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                             foreach (var p in province.State.provinces)
                             {
                                 if (p.ContinentId != newContinentId)
-                                    tuples.Add(new Tuple<byte, byte, Province>(p.ContinentId, newContinentId, p));
+                                    tuples.Add(new Tuple<int, int, Province>(p.ContinentId, newContinentId, p));
                             }
                         }
                         break;
@@ -54,7 +54,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         province.Region?.ForEachProvince((r, p) =>
                         {
                             if (p.ContinentId != newContinentId)
-                                tuples.Add(new Tuple<byte, byte, Province>(p.ContinentId, newContinentId, p));
+                                tuples.Add(new Tuple<int, int, Province>(p.ContinentId, newContinentId, p));
                         });
                         break;
                 }
