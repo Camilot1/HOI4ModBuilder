@@ -36,10 +36,10 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.RichTextBox_Script = new System.Windows.Forms.RichTextBox();
             this.GroupBox_Debug = new System.Windows.Forms.GroupBox();
-            this.Button_Debug_Flip = new System.Windows.Forms.Button();
-            this.Button_Debug_NextStep = new System.Windows.Forms.Button();
-            this.RichTextBox_Debug = new System.Windows.Forms.RichTextBox();
             this.Button_Debug_Terminate = new System.Windows.Forms.Button();
+            this.RichTextBox_Debug = new System.Windows.Forms.RichTextBox();
+            this.Button_Debug_NextStep = new System.Windows.Forms.Button();
+            this.Button_Debug_Flip = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1.SuspendLayout();
             this.GroupBox_Debug.SuspendLayout();
@@ -62,7 +62,7 @@
             // Button_Save
             // 
             this.Button_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Button_Save.Location = new System.Drawing.Point(293, 5);
+            this.Button_Save.Location = new System.Drawing.Point(522, 5);
             this.Button_Save.Name = "Button_Save";
             this.Button_Save.Size = new System.Drawing.Size(90, 23);
             this.Button_Save.TabIndex = 1;
@@ -73,7 +73,7 @@
             // Button_Load
             // 
             this.Button_Load.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Button_Load.Location = new System.Drawing.Point(389, 5);
+            this.Button_Load.Location = new System.Drawing.Point(618, 5);
             this.Button_Load.Name = "Button_Load";
             this.Button_Load.Size = new System.Drawing.Size(90, 23);
             this.Button_Load.TabIndex = 2;
@@ -87,13 +87,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(101, 6);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(186, 20);
+            this.textBox1.Size = new System.Drawing.Size(415, 20);
             this.textBox1.TabIndex = 3;
             // 
             // Button_Execute
             // 
             this.Button_Execute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Button_Execute.Location = new System.Drawing.Point(485, 5);
+            this.Button_Execute.Location = new System.Drawing.Point(714, 5);
             this.Button_Execute.Name = "Button_Execute";
             this.Button_Execute.Size = new System.Drawing.Size(90, 23);
             this.Button_Execute.TabIndex = 4;
@@ -109,7 +109,7 @@
             this.groupBox1.Controls.Add(this.RichTextBox_Script);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(271, 368);
+            this.groupBox1.Size = new System.Drawing.Size(382, 522);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Файл не выбран";
@@ -121,7 +121,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RichTextBox_Script.Location = new System.Drawing.Point(7, 19);
             this.RichTextBox_Script.Name = "RichTextBox_Script";
-            this.RichTextBox_Script.Size = new System.Drawing.Size(258, 343);
+            this.RichTextBox_Script.Size = new System.Drawing.Size(369, 497);
             this.RichTextBox_Script.TabIndex = 0;
             this.RichTextBox_Script.Text = "";
             this.RichTextBox_Script.TextChanged += new System.EventHandler(this.RichTextBox_Script_TextChanged);
@@ -137,20 +137,31 @@
             this.GroupBox_Debug.Controls.Add(this.Button_Debug_Flip);
             this.GroupBox_Debug.Location = new System.Drawing.Point(3, 3);
             this.GroupBox_Debug.Name = "GroupBox_Debug";
-            this.GroupBox_Debug.Size = new System.Drawing.Size(283, 368);
+            this.GroupBox_Debug.Size = new System.Drawing.Size(401, 522);
             this.GroupBox_Debug.TabIndex = 6;
             this.GroupBox_Debug.TabStop = false;
             this.GroupBox_Debug.Text = "Дебаг: ";
             // 
-            // Button_Debug_Flip
+            // Button_Debug_Terminate
             // 
-            this.Button_Debug_Flip.Location = new System.Drawing.Point(0, 19);
-            this.Button_Debug_Flip.Name = "Button_Debug_Flip";
-            this.Button_Debug_Flip.Size = new System.Drawing.Size(90, 23);
-            this.Button_Debug_Flip.TabIndex = 0;
-            this.Button_Debug_Flip.Text = "Переключить";
-            this.Button_Debug_Flip.UseVisualStyleBackColor = true;
-            this.Button_Debug_Flip.Click += new System.EventHandler(this.Button_Debug_Flip_Click);
+            this.Button_Debug_Terminate.Location = new System.Drawing.Point(192, 19);
+            this.Button_Debug_Terminate.Name = "Button_Debug_Terminate";
+            this.Button_Debug_Terminate.Size = new System.Drawing.Size(90, 23);
+            this.Button_Debug_Terminate.TabIndex = 3;
+            this.Button_Debug_Terminate.Text = "Остановить";
+            this.Button_Debug_Terminate.UseVisualStyleBackColor = true;
+            this.Button_Debug_Terminate.Click += new System.EventHandler(this.Button_Debug_Terminate_Click);
+            // 
+            // RichTextBox_Debug
+            // 
+            this.RichTextBox_Debug.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RichTextBox_Debug.Location = new System.Drawing.Point(6, 48);
+            this.RichTextBox_Debug.Name = "RichTextBox_Debug";
+            this.RichTextBox_Debug.Size = new System.Drawing.Size(389, 468);
+            this.RichTextBox_Debug.TabIndex = 2;
+            this.RichTextBox_Debug.Text = "";
             // 
             // Button_Debug_NextStep
             // 
@@ -162,26 +173,15 @@
             this.Button_Debug_NextStep.UseVisualStyleBackColor = true;
             this.Button_Debug_NextStep.Click += new System.EventHandler(this.Button_Debug_NextStep_Click);
             // 
-            // RichTextBox_Debug
+            // Button_Debug_Flip
             // 
-            this.RichTextBox_Debug.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.RichTextBox_Debug.Location = new System.Drawing.Point(6, 48);
-            this.RichTextBox_Debug.Name = "RichTextBox_Debug";
-            this.RichTextBox_Debug.Size = new System.Drawing.Size(271, 314);
-            this.RichTextBox_Debug.TabIndex = 2;
-            this.RichTextBox_Debug.Text = "";
-            // 
-            // Button_Debug_Terminate
-            // 
-            this.Button_Debug_Terminate.Location = new System.Drawing.Point(192, 19);
-            this.Button_Debug_Terminate.Name = "Button_Debug_Terminate";
-            this.Button_Debug_Terminate.Size = new System.Drawing.Size(90, 23);
-            this.Button_Debug_Terminate.TabIndex = 3;
-            this.Button_Debug_Terminate.Text = "Остановить";
-            this.Button_Debug_Terminate.UseVisualStyleBackColor = true;
-            this.Button_Debug_Terminate.Click += new System.EventHandler(this.Button_Debug_Terminate_Click);
+            this.Button_Debug_Flip.Location = new System.Drawing.Point(0, 19);
+            this.Button_Debug_Flip.Name = "Button_Debug_Flip";
+            this.Button_Debug_Flip.Size = new System.Drawing.Size(90, 23);
+            this.Button_Debug_Flip.TabIndex = 0;
+            this.Button_Debug_Flip.Text = "Переключить";
+            this.Button_Debug_Flip.UseVisualStyleBackColor = true;
+            this.Button_Debug_Flip.Click += new System.EventHandler(this.Button_Debug_Flip_Click);
             // 
             // splitContainer1
             // 
@@ -198,15 +198,15 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.GroupBox_Debug);
-            this.splitContainer1.Size = new System.Drawing.Size(570, 374);
-            this.splitContainer1.SplitterDistance = 277;
+            this.splitContainer1.Size = new System.Drawing.Size(799, 528);
+            this.splitContainer1.SplitterDistance = 388;
             this.splitContainer1.TabIndex = 7;
             // 
             // ScriptsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(579, 411);
+            this.ClientSize = new System.Drawing.Size(808, 565);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.Button_Execute);
             this.Controls.Add(this.textBox1);
