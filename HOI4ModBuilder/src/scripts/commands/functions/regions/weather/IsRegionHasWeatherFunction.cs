@@ -50,7 +50,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
                     (o) => o is INumberObject
                 );
 
-                if (!StrategicRegionManager.TryGetRegion((ushort)regionId.GetValue(), out StrategicRegion region))
+                if (!StrategicRegionManager.TryGetRegion(Convert.ToUInt16(regionId.GetValue()), out StrategicRegion region))
                     throw new ValueNotFoundScriptException(lineIndex, args);
 
                 bool result = region.Weather != null && region.Weather.GetPeriodsCount() != 0;

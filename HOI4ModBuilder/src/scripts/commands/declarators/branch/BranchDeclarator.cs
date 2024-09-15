@@ -13,6 +13,17 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
         private static readonly string _else_keyword = "ELSE";
         public static new string GetKeyword() => _if_keyword;
         public static new string GetPath() => "commands.declarators.BRANCH";
+
+        private static readonly Dictionary<string, Func<int, string[], IRelativeObject, IRelativeObject, BooleanObject, bool>> _relationFuncs = new Dictionary<string, Func<int, string[], IRelativeObject, IRelativeObject, BooleanObject, bool>>
+        {
+            { ">", (lineIndex, args, a, b, r) => a.IsGreaterThan(lineIndex, args, b, r) },
+            { ">=", (lineIndex, args, a, b, r) => a.IsGreaterThanOrEquals(lineIndex, args, b, r) },
+            { "<", (lineIndex, args, a, b, r) => a.IsLowerThan(lineIndex, args, b, r) },
+            { "<=", (lineIndex, args, a, b, r) => a.IsLowerThanOrEquals(lineIndex, args, b, r) },
+            { "==", (lineIndex, args, a, b, r) => a.IsEquals(lineIndex, args, b, r) },
+            { "!=", (lineIndex, args, a, b, r) => a.IsNotEquals(lineIndex, args, b, r) }
+        };
+
         public static new string[] GetDocumentation() => documentation;
         public static readonly string[] documentation = new string[]
         {
@@ -33,15 +44,6 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
             $"RELATIVE_OPERATORS: {_relationFuncs.Keys}"
         };
 
-        private static readonly Dictionary<string, Func<int, string[], IRelativeObject, IRelativeObject, BooleanObject, bool>> _relationFuncs = new Dictionary<string, Func<int, string[], IRelativeObject, IRelativeObject, BooleanObject, bool>>
-        {
-            { ">", (lineIndex, args, a, b, r) => a.IsGreaterThan(lineIndex, args, b, r) },
-            { ">=", (lineIndex, args, a, b, r) => a.IsGreaterThanOrEquals(lineIndex, args, b, r) },
-            { "<", (lineIndex, args, a, b, r) => a.IsLowerThan(lineIndex, args, b, r) },
-            { "<=", (lineIndex, args, a, b, r) => a.IsLowerThanOrEquals(lineIndex, args, b, r) },
-            { "==", (lineIndex, args, a, b, r) => a.IsEquals(lineIndex, args, b, r) },
-            { "!=", (lineIndex, args, a, b, r) => a.IsNotEquals(lineIndex, args, b, r) }
-        };
 
         public override ScriptCommand CreateEmptyCopy() => new ForDeclarator();
 

@@ -56,13 +56,11 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
                     (o) => o is INumberObject
                 );
 
-                if (!StrategicRegionManager.TryGetRegion((ushort)regionId.GetValue(), out StrategicRegion region))
+                if (!StrategicRegionManager.TryGetRegion(Convert.ToUInt16(regionId.GetValue()), out StrategicRegion region))
                     throw new ValueNotFoundScriptException(lineIndex, args);
 
-                if (!region.TryGetWeatherPeriod((int)weatherPeriodIndex.GetValue(), out var perion))
+                if (!region.TryGetWeatherPeriod(Convert.ToInt32(weatherPeriodIndex.GetValue()), out var period))
                     throw new IndexOutOfRangeScriptException(lineIndex, args);
-
-                var period = region.Weather.GetPeriod((int)weatherPeriodIndex.GetValue());
 
                 minTemp.Set(lineIndex, args, new FloatObject(period.Temperature[0]));
                 maxTemp.Set(lineIndex, args, new FloatObject(period.Temperature[1]));

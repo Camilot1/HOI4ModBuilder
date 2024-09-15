@@ -47,7 +47,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions
                     (o) => o is INumberObject
                 );
 
-                if (!StrategicRegionManager.TryGetRegion((ushort)regionId.GetValue(), out var region))
+                if (!StrategicRegionManager.TryGetRegion(Convert.ToUInt16(regionId.GetValue()), out var region))
                     throw new ValueNotFoundScriptException(lineIndex, args);
 
                 weatherPeriodsCount.Set(lineIndex, args, new IntObject(region.GetWeatherPeriodsCount()));

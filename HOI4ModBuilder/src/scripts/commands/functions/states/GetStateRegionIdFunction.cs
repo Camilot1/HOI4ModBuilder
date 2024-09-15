@@ -46,7 +46,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.states
                     (o) => o is INumberObject
                 );
 
-                if (!StateManager.TryGetState((ushort)stateId.GetValue(), out State state))
+                if (!StateManager.TryGetState(Convert.ToUInt16(stateId.GetValue()), out State state))
                     throw new ValueNotFoundScriptException(lineIndex, args);
 
                 state.TryGetRegionId(out var regionId);

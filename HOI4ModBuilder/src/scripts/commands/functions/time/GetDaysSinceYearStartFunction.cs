@@ -2,6 +2,7 @@
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.utils;
+using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.functions.time
 {
@@ -50,7 +51,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.time
                 );
 
                 int value = ScriptUtils.GetDaysSinceYearStart(
-                    lineIndex, args, (int)dayIndex.GetValue(), (int)monthIndex.GetValue()
+                    lineIndex, args, Convert.ToInt32(dayIndex.GetValue()), Convert.ToInt32(monthIndex.GetValue())
                 );
                 daysSinceYearStart.Set(lineIndex, args, new IntObject(value));
             };

@@ -7,8 +7,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.src.utils
 {
@@ -16,7 +14,7 @@ namespace HOI4ModBuilder.src.utils
     {
         public static readonly string logDirPath = @"logs\";
         public static readonly string logFilePath = logDirPath + "latest.log";
-        public static readonly string version = "Alpha 0.2.3";
+        public static readonly string version = "Alpha 0.2.4";
 
         private static List<string> _warnings = new List<string>();
         private static List<string> _errors = new List<string>();

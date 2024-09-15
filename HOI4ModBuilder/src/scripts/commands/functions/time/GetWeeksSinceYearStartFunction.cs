@@ -51,7 +51,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.time
                 );
 
                 int value = ScriptUtils.GetWeeksSinceYearStart(
-                    lineIndex, args, (int)dayIndex.GetValue(), (int)monthIndex.GetValue()
+                    lineIndex, args, Convert.ToInt32(dayIndex.GetValue()), Convert.ToInt32(monthIndex.GetValue())
                 );
                 weeksSinceYearStart.Set(lineIndex, args, new IntObject(value));
             };
