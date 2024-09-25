@@ -37,7 +37,12 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
         public void Append(int lineIndex, string[] args, IScriptObject value)
         {
             Logger.TryOrCatch(
-                () => File.AppendAllText(FilePath, value.GetValue().ToString()),
+                () =>
+                {
+                    string text = value.GetValue().ToString();
+                    text = ScriptParser.replaceSpecialChars(text);
+                    File.AppendAllText(FilePath, text);
+                },
                 (ex) => throw new InternalScriptException(lineIndex, args, ex)
             );
         }
@@ -45,7 +50,12 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
         public void AppendRange(int lineIndex, string[] args, IScriptObject value)
         {
             Logger.TryOrCatch(
-                () => File.AppendAllText(FilePath, FormatCollectionToText(lineIndex, args, value)),
+                () =>
+                {
+                    string text = FormatCollectionToText(lineIndex, args, value);
+                    text = ScriptParser.replaceSpecialChars(text);
+                    File.AppendAllText(FilePath, text);
+                },
                 (ex) => throw new InternalScriptException(lineIndex, args, ex)
             );
         }
@@ -53,7 +63,12 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
         public void Write(int lineIndex, string[] args, IScriptObject value)
         {
             Logger.TryOrCatch(
-                () => File.AppendAllText(FilePath, value.GetValue().ToString()),
+                () =>
+                {
+                    string text = value.GetValue().ToString();
+                    text = ScriptParser.replaceSpecialChars(text);
+                    File.WriteAllText(FilePath, text);
+                },
                 (ex) => throw new InternalScriptException(lineIndex, args, ex)
             );
         }
@@ -61,7 +76,12 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
         public void WriteRange(int lineIndex, string[] args, IScriptObject value)
         {
             Logger.TryOrCatch(
-                () => File.WriteAllText(FilePath, FormatCollectionToText(lineIndex, args, value)),
+                () =>
+                {
+                    string text = FormatCollectionToText(lineIndex, args, value);
+                    text = ScriptParser.replaceSpecialChars(text);
+                    File.WriteAllText(FilePath, text);
+                },
                 (ex) => throw new InternalScriptException(lineIndex, args, ex)
             );
         }

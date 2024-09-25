@@ -1,8 +1,4 @@
-﻿using HOI4ModBuilder.src.scripts.commands.declarators;
-using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects;
-using HOI4ModBuilder.src.scripts.objects.interfaces;
-using System;
+﻿using HOI4ModBuilder.src.scripts.objects.interfaces;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {

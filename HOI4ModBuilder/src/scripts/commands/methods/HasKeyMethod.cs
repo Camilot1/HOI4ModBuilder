@@ -1,7 +1,5 @@
-﻿using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects;
+﻿using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
-using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {
@@ -9,6 +7,18 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
     {
         private static readonly string _keyword = "HAS_KEY";
         public static new string GetKeyword() => _keyword;
+        public static new string GetPath() => "commands.declarators.methods." + _keyword;
+        public static new string[] GetDocumentation() => documentation;
+        public static readonly string[] documentation = new string[]
+        {
+            $"{_keyword} <BOOLEAN:to> <IMAP<KEY_TYPE,VALUE_TYPE>:from> <KEY_TYPE:key>",
+            "======== OR ========",
+            $"{_keyword} (",
+            $"\tOUT <BOOLEAN:to>",
+            $"\t<IMAP<KEY_TYPE,VALUE_TYPE>:from>",
+            $"\t<KEY_TYPE:key>",
+            ")"
+        };
         public override ScriptCommand CreateEmptyCopy() => new HasKeyMethod();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
@@ -24,29 +34,24 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             _varsScope = varsScope;
             _action = delegate ()
             {
+                var to = (BooleanObject)ScriptParser.GetValue(
+                    varsScope, args[1], lineIndex, args,
+                    (o) => o is BooleanObject
+                );
 
-                var to = varsScope.GetValue(args[1]);
-                var from = varsScope.GetValue(args[2]);
-                var key = varsScope.GetValue(args[3]);
+                var key = ScriptParser.ParseValue(
+                    varsScope, args[3], lineIndex, args,
+                    (o) => o is IScriptObject
+                );
 
-                if (to == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
-                if (from == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
-                if (key == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
+                var from = (IMapObject)ScriptParser.GetValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => o is IMapObject oMap && oMap.GetKeyType().IsSameType(key)
+                );
 
-                if (from is IMapObject mapObject)
-                {
-                    if (to is BooleanObject && key.IsSameType(mapObject.GetKeyType()))
-                    {
-                        var checkResult = new BooleanObject();
-                        mapObject.HasKey(lineIndex, args, key, checkResult);
-                        to.Set(lineIndex, args, checkResult);
-                    }
-                    else throw new InvalidValueTypeScriptException(lineIndex, args);
-                }
-                else throw new InvalidOperationScriptException(lineIndex, args);
+                var checkResult = new BooleanObject();
+                from.HasKey(lineIndex, args, key, checkResult);
+                to.Set(lineIndex, args, checkResult);
             };
         }
     }

@@ -1,7 +1,5 @@
-﻿using HOI4ModBuilder.src.scripts.commands.operators;
-using HOI4ModBuilder.src.scripts.exceptions;
+﻿using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
-using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.commands
 {
@@ -9,6 +7,18 @@ namespace HOI4ModBuilder.src.scripts.commands.commands
     {
         private static readonly string _keyword = "PUT";
         public static new string GetKeyword() => _keyword;
+        public static new string GetPath() => "commands.declarators.methods." + _keyword;
+        public static new string[] GetDocumentation() => documentation;
+        public static readonly string[] documentation = new string[]
+        {
+            $"{_keyword} <IPUT<KEY_TYPE,VALUE_TYPE:to> <KEY_TYPE:key> <VALUE_TYPE:value>",
+            "======== OR ========",
+            $"{_keyword} (",
+            $"\tOUT IPUT<KEY_TYPE,VALUE_TYPE:to>",
+            $"\t<KEY_TYPE:key>",
+            $"\t<VALUE_TYPE:value>",
+            ")"
+        };
         public override ScriptCommand CreateEmptyCopy() => new PutMethod();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
@@ -16,7 +26,7 @@ namespace HOI4ModBuilder.src.scripts.commands.commands
             lineIndex = index;
             args = ScriptParser.ParseCommandCallArgs(
                 (a) => a.Length == 4,
-                new bool[] { },
+                new bool[] { true },
                 out _executeBeforeCall,
                 lines, ref index, indent, varsScope, args
             );
@@ -24,18 +34,24 @@ namespace HOI4ModBuilder.src.scripts.commands.commands
             _varsScope = varsScope;
             _action = delegate ()
             {
+                var key = ScriptParser.ParseValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => true
+                );
 
-                var variable = varsScope.GetValue(args[1]);
-                var key = ScriptParser.ParseValue(varsScope, args[2]);
-                var value = ScriptParser.ParseValue(varsScope, args[3]);
+                var value = ScriptParser.ParseValue(
+                    varsScope, args[3], lineIndex, args,
+                    (o) => o is IScriptObject
+                );
 
-                if (variable == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
+                var to = (IPutObject)ScriptParser.GetValue(
+                    varsScope, args[1], lineIndex, args,
+                    (o) => o is IPutObject oPut &&
+                        oPut.GetKeyType().IsSameType(key) &&
+                        oPut.GetValueType().IsSameType(value)
+                );
 
-                if (variable is IPutObject obj)
-                    obj.Put(lineIndex, args, key, value);
-                else
-                    throw new InvalidOperationScriptException(lineIndex, args);
+                to.Put(lineIndex, args, key, value);
             };
         }
     }

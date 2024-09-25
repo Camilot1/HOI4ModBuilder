@@ -1,8 +1,6 @@
-﻿using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
+﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects;
-using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {
@@ -10,6 +8,17 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
     {
         private static readonly string _keyword = "GET_SIZE";
         public static new string GetKeyword() => _keyword;
+        public static new string GetPath() => "commands.declarators.methods." + _keyword;
+        public static new string[] GetDocumentation() => documentation;
+        public static readonly string[] documentation = new string[]
+        {
+            $"{_keyword} <INUMBER:to> <IGETSIZE:from>",
+            "======== OR ========",
+            $"{_keyword} (",
+            $"\tOUT <VALUE_TYPE:to>",
+            $"\t<IGETSIZE>:from>",
+            ")"
+        };
         public override ScriptCommand CreateEmptyCopy() => new GetSizeMethod();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
@@ -25,22 +34,19 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var variable = varsScope.GetValue(args[1]);
-                var target = varsScope.GetValue(args[2]);
+                var from = (IGetSizeObject)ScriptParser.GetValue(
+                    varsScope, args[1], lineIndex, args,
+                    (o) => o is IGetSizeObject
+                );
 
-                if (variable == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
-                if (target == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
+                var to = (INumberObject)ScriptParser.GetValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => o is INumberObject
+                );
 
-                if (variable is INumberObject varObj && target is IGetSizeObject targetObj)
-                {
-                    var result = new IntObject();
-                    targetObj.GetSize(lineIndex, args, result);
-                    varObj.Set(lineIndex, args, result);
-                }
-                else
-                    throw new InvalidOperationScriptException(lineIndex, args);
+                var result = new IntObject();
+                from.GetSize(lineIndex, args, result);
+                to.Set(lineIndex, args, result);
             };
         }
     }

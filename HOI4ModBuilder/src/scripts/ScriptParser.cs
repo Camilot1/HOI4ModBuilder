@@ -484,5 +484,10 @@ namespace HOI4ModBuilder.src.scripts
 
             DebugConsumer?.Invoke(command, lineIndex, varsScope);
         }
+
+        public static string replaceSpecialChars(string s)
+        {
+            return s.Replace("\\t", "\t").Replace("\\n", "\n");
+        }
     }
 }

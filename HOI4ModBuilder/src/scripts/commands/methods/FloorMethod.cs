@@ -1,5 +1,4 @@
 ﻿using HOI4ModBuilder.src.scripts.commands.declarators;
-using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;
 using System;
 

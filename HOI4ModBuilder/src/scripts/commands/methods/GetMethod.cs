@@ -1,8 +1,5 @@
-﻿using HOI4ModBuilder.src.scripts.commands.declarators;
-using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects.interfaces;
+﻿using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
-using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {
@@ -41,16 +38,15 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
                     varsScope, args[2], lineIndex, args,
                     (o) => o is IGetObject
                 );
-                var valueType = from.GetValueType();
 
                 var to = ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o.IsSameType(valueType)
+                    (o) => o.IsSameType(from.GetValueType())
                 );
 
-                var key = ScriptParser.GetValue(
+                var key = ScriptParser.ParseValue(
                     varsScope, args[3], lineIndex, args,
-                    (o) => true
+                    (o) => o is IScriptObject
                 );
 
                 var getResult = from.GetValueType().GetEmptyCopy();

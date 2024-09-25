@@ -1,8 +1,5 @@
-﻿using HOI4ModBuilder.src.scripts.commands.commands;
-using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects;
+﻿using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
-using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {
@@ -10,6 +7,20 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
     {
         private static readonly string _keyword = "MIN";
         public static new string GetKeyword() => _keyword;
+        public static new string GetPath() => "commands.declarators.methods." + _keyword;
+        public static new string[] GetDocumentation() => documentation;
+        public static readonly string[] documentation = new string[]
+        {
+            $"{_keyword} <INUMBER:result> <INUMBER:value0> <INUMBER:value1> ... <INUMBER:valueN>",
+            "======== OR ========",
+            $"{_keyword} (",
+            $"\tOUT <INUMBER:result>",
+            $"\t<INUMBER:value0>",
+            $"\t<INUMBER:value1>",
+            $"\t...",
+            $"\t<INUMBER:valueN>",
+            ")"
+        };
         public override ScriptCommand CreateEmptyCopy() => new MinMethod();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
@@ -25,38 +36,33 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             _varsScope = varsScope;
             _action = delegate ()
             {
+                var result = (INumberObject)ScriptParser.GetValue(
+                    varsScope, args[1], lineIndex, args,
+                    (o) => o is INumberObject
+                );
 
-                var variable = varsScope.GetValue(args[1]);
                 INumberObject minValue = null;
 
 
                 for (int i = 2; i < args.Length; i++)
                 {
-                    var value = ScriptParser.ParseValue(varsScope, args[i]);
-
-                    if (variable == null)
-                        throw new VariableIsNotDeclaredScriptException(lineIndex, args);
-                    if (value == null)
-                        throw new VariableValueIsNotSetScriptException(lineIndex, args);
-                    if (!(value is INumberObject))
-                        throw new InvalidValueTypeScriptException(lineIndex, args);
-
-                    var tempValue = value as INumberObject;
+                    var value = (INumberObject)ScriptParser.ParseValue(
+                        varsScope, args[i], lineIndex, args,
+                        (o) => o is INumberObject
+                    );
                     var tempCheck = new BooleanObject();
 
                     if (minValue == null)
-                        minValue = tempValue;
+                        minValue = value;
                     else
                     {
-                        tempValue.IsLowerThan(lineIndex, args, minValue, tempCheck);
+                        value.IsLowerThan(lineIndex, args, minValue, tempCheck);
                         if (tempCheck.Value)
-                        {
-                            minValue = tempValue;
-                        }
+                            minValue = value;
                     }
                 }
 
-                variable.Set(lineIndex, args, minValue);
+                result.Set(lineIndex, args, minValue);
             };
         }
     }
