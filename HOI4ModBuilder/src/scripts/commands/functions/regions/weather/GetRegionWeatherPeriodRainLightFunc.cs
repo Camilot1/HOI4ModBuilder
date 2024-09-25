@@ -7,23 +7,23 @@ using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
 {
-    public class GetRegionWeatherPeriodBlizzardFunction : ScriptCommand
+    public class GetRegionWeatherPeriodRainLightFunc : ScriptCommand
     {
-        private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_BLIZZARD";
+        private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_RAIN_LIGHT";
         public static new string GetKeyword() => _keyword;
         public static new string GetPath() => "commands.declarators.functions.regions.weather." + _keyword;
         public static new string[] GetDocumentation() => documentation;
         public static readonly string[] documentation = new string[]
         {
-            $"{_keyword} <INUMBER:blizzard_chance> <INUMBER:<region_id> <INUMBER:weather_period_index>",
+            $"{_keyword} <INUMBER:rain_light_chance> <INUMBER:<region_id> <INUMBER:weather_period_index>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <INUMBER:blizzard_chance>",
+            $"\tOUT <INUMBER:rain_light_chance>",
             "\t<INUMBER:<region_id>",
             "\t<INUMBER:weather_period_index>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetRegionWeatherPeriodBlizzardFunction();
+        public override ScriptCommand CreateEmptyCopy() => new GetRegionWeatherPeriodRainLightFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -38,7 +38,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var blizzardChance = ScriptParser.GetValue(
+                var rainLightChance = ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
                     (o) => o is INumberObject
                 );
@@ -57,9 +57,8 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
                 if (!region.TryGetWeatherPeriod(Convert.ToInt32(weatherPeriodIndex.GetValue()), out var period))
                     throw new IndexOutOfRangeScriptException(lineIndex, args);
 
-                blizzardChance.Set(lineIndex, args, new FloatObject(period.Blizzard));
+                rainLightChance.Set(lineIndex, args, new FloatObject(period.RainLight));
             };
         }
     }
 }
-

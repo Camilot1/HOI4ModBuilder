@@ -1,35 +1,35 @@
-﻿using HOI4ModBuilder.src.scripts.exceptions;
+﻿using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
+using HOI4ModBuilder.src.hoiDataObjects.map;
+using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects;
-using HOI4ModBuilder.src.hoiDataObjects.map;
-using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using System;
 
-namespace HOI4ModBuilder.src.scripts.commands.functions.regions
+namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
 {
-    public class GetRegionWeatherPeriodsCountFunction : ScriptCommand
+    public class GetRegionWeatherPeriodSandstormFunc : ScriptCommand
     {
-        private static readonly string _keyword = "GET_REGION_WEATHER_PERIODS_COUNT";
+        private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_SANDSTORM";
         public static new string GetKeyword() => _keyword;
         public static new string GetPath() => "commands.declarators.functions.regions.weather." + _keyword;
         public static new string[] GetDocumentation() => documentation;
         public static readonly string[] documentation = new string[]
         {
-            $"{_keyword} <INUMBER:weather_periods_count> <INUMBER:<region_id> <INUMBER:weather_period_index>",
+            $"{_keyword} <INUMBER:sandstorm_chance> <INUMBER:<region_id> <INUMBER:weather_period_index>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <INUMBER:weather_periods_count>",
+            $"\tOUT <INUMBER:sandstorm_chance>",
             "\t<INUMBER:<region_id>",
             "\t<INUMBER:weather_period_index>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetRegionWeatherPeriodsCountFunction();
+        public override ScriptCommand CreateEmptyCopy() => new GetRegionWeatherPeriodSandstormFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
             lineIndex = index;
             args = ScriptParser.ParseCommandCallArgs(
-                (a) => a.Length == 3,
+                (a) => a.Length == 4,
                 new bool[] { true },
                 out _executeBeforeCall,
                 lines, ref index, indent, varsScope, args
@@ -38,7 +38,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var weatherPeriodsCount = ScriptParser.GetValue(
+                var sandstormChance = ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
                     (o) => o is INumberObject
                 );
@@ -46,11 +46,18 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions
                     varsScope, args[2], lineIndex, args,
                     (o) => o is INumberObject
                 );
+                var weatherPeriodIndex = ScriptParser.ParseValue(
+                    varsScope, args[3], lineIndex, args,
+                    (o) => o is INumberObject
+                );
 
                 if (!StrategicRegionManager.TryGetRegion(Convert.ToUInt16(regionId.GetValue()), out var region))
                     throw new ValueNotFoundScriptException(lineIndex, args);
 
-                weatherPeriodsCount.Set(lineIndex, args, new IntObject(region.GetWeatherPeriodsCount()));
+                if (!region.TryGetWeatherPeriod(Convert.ToInt32(weatherPeriodIndex.GetValue()), out var period))
+                    throw new IndexOutOfRangeScriptException(lineIndex, args);
+
+                sandstormChance.Set(lineIndex, args, new FloatObject(period.Sandstorm));
             };
         }
     }

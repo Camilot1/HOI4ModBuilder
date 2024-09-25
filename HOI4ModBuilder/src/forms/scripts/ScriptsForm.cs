@@ -108,6 +108,18 @@ namespace HOI4ModBuilder.src.forms.scripts
             });
         }
 
+        public void PrintToConsole(string value)
+        {
+            Action action = () => RichTextBox_Console.AppendText(value);
+            Invoke(action);
+        }
+
+        public void ClearConsole()
+        {
+            Action action = () => RichTextBox_Console.Clear();
+            Invoke(action);
+        }
+
         private void UpdateDebug(ScriptCommand command, int lineIndex, VarsScope varsScope)
         {
             RichTextBox_Debug.Clear();

@@ -1,9 +1,11 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.src.forms.scripts;
 using HOI4ModBuilder.src.scripts.commands;
 using HOI4ModBuilder.src.scripts.commands.commands;
 using HOI4ModBuilder.src.scripts.commands.declarators;
 using HOI4ModBuilder.src.scripts.commands.declarators.vars;
 using HOI4ModBuilder.src.scripts.commands.functions;
+using HOI4ModBuilder.src.scripts.commands.functions.console;
 using HOI4ModBuilder.src.scripts.commands.functions.files;
 using HOI4ModBuilder.src.scripts.commands.functions.regions;
 using HOI4ModBuilder.src.scripts.commands.functions.regions.weather;
@@ -76,32 +78,36 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(MapDeclarator.GetKeyword(), () => new MapDeclarator());
             RegisterFabric(StringDeclarator.GetKeyword(), () => new StringDeclarator(), () => new StringObject());
 
-            RegisterFabric(GetModDirectoryPath.GetKeyword(), () => new GetModDirectoryPath());
+            RegisterFabric(ConsoleClearFunc.GetKeyword(), () => new ConsoleClearFunc());
+            RegisterFabric(ConsoleWriteFunc.GetKeyword(), () => new ConsoleWriteFunc());
+            RegisterFabric(ConsoleWriteLnFunc.GetKeyword(), () => new ConsoleWriteLnFunc());
 
-            RegisterFabric(GetRegionWeatherPeriodArcticWaterFunction.GetKeyword(), () => new GetRegionWeatherPeriodArcticWaterFunction());
-            RegisterFabric(GetRegionWeatherPeriodBetweenFunction.GetKeyword(), () => new GetRegionWeatherPeriodBetweenFunction());
-            RegisterFabric(GetRegionWeatherPeriodBlizzardFunction.GetKeyword(), () => new GetRegionWeatherPeriodBlizzardFunction());
-            RegisterFabric(GetRegionWeatherPeriodMinSnowLevelFunction.GetKeyword(), () => new GetRegionWeatherPeriodMinSnowLevelFunction());
-            RegisterFabric(GetRegionWeatherPeriodMudFunction.GetKeyword(), () => new GetRegionWeatherPeriodMudFunction());
-            RegisterFabric(GetRegionWeatherPeriodNoPhenomenonFunction.GetKeyword(), () => new GetRegionWeatherPeriodNoPhenomenonFunction());
-            RegisterFabric(GetRegionWeatherPeriodRainHeavyFunction.GetKeyword(), () => new GetRegionWeatherPeriodRainHeavyFunction());
-            RegisterFabric(GetRegionWeatherPeriodRainLightFunction.GetKeyword(), () => new GetRegionWeatherPeriodRainLightFunction());
-            RegisterFabric(GetRegionWeatherPeriodSandstormFunction.GetKeyword(), () => new GetRegionWeatherPeriodSandstormFunction());
-            RegisterFabric(GetRegionWeatherPeriodsCountFunction.GetKeyword(), () => new GetRegionWeatherPeriodsCountFunction());
-            RegisterFabric(GetRegionWeatherPeriodSnowFunction.GetKeyword(), () => new GetRegionWeatherPeriodSnowFunction());
-            RegisterFabric(GetRegionWeatherPeriodTemperatureFunction.GetKeyword(), () => new GetRegionWeatherPeriodTemperatureFunction());
-            RegisterFabric(IsRegionHasWeatherFunction.GetKeyword(), () => new IsRegionHasWeatherFunction());
+            RegisterFabric(GetModDirectoryPathFunc.GetKeyword(), () => new GetModDirectoryPathFunc());
 
-            RegisterFabric(GetAllRegionsIdsFunction.GetKeyword(), () => new GetAllRegionsIdsFunction());
+            RegisterFabric(GetRegionWeatherPeriodArcticWaterFunc.GetKeyword(), () => new GetRegionWeatherPeriodArcticWaterFunc());
+            RegisterFabric(GetRegionWeatherPeriodBetweenFunc.GetKeyword(), () => new GetRegionWeatherPeriodBetweenFunc());
+            RegisterFabric(GetRegionWeatherPeriodBlizzardFunc.GetKeyword(), () => new GetRegionWeatherPeriodBlizzardFunc());
+            RegisterFabric(GetRegionWeatherPeriodMinSnowLevelFunc.GetKeyword(), () => new GetRegionWeatherPeriodMinSnowLevelFunc());
+            RegisterFabric(GetRegionWeatherPeriodMudFunc.GetKeyword(), () => new GetRegionWeatherPeriodMudFunc());
+            RegisterFabric(GetRegionWeatherPeriodNoPhenomenonFunc.GetKeyword(), () => new GetRegionWeatherPeriodNoPhenomenonFunc());
+            RegisterFabric(GetRegionWeatherPeriodRainHeavyFunc.GetKeyword(), () => new GetRegionWeatherPeriodRainHeavyFunc());
+            RegisterFabric(GetRegionWeatherPeriodRainLightFunc.GetKeyword(), () => new GetRegionWeatherPeriodRainLightFunc());
+            RegisterFabric(GetRegionWeatherPeriodSandstormFunc.GetKeyword(), () => new GetRegionWeatherPeriodSandstormFunc());
+            RegisterFabric(GetRegionWeatherPeriodsCountFunc.GetKeyword(), () => new GetRegionWeatherPeriodsCountFunc());
+            RegisterFabric(GetRegionWeatherPeriodSnowFunc.GetKeyword(), () => new GetRegionWeatherPeriodSnowFunc());
+            RegisterFabric(GetRegionWeatherPeriodTemperatureFunc.GetKeyword(), () => new GetRegionWeatherPeriodTemperatureFunc());
+            RegisterFabric(IsRegionHasWeatherFunc.GetKeyword(), () => new IsRegionHasWeatherFunc());
 
-            RegisterFabric(GetAllStatesIdsFunction.GetKeyword(), () => new GetAllStatesIdsFunction());
-            RegisterFabric(GetStateBuildingLevelFunction.GetKeyword(), () => new GetStateBuildingLevelFunction());
-            RegisterFabric(GetStatePopulationFunction.GetKeyword(), () => new GetStatePopulationFunction());
-            RegisterFabric(GetStateRegionIdFunction.GetKeyword(), () => new GetStateRegionIdFunction());
-            RegisterFabric(SetStateBuildingLevelFunction.GetKeyword(), () => new SetStateBuildingLevelFunction());
+            RegisterFabric(GetAllRegionsIdsFunc.GetKeyword(), () => new GetAllRegionsIdsFunc());
 
-            RegisterFabric(GetDaysSinceYearStartFunction.GetKeyword(), () => new GetDaysSinceYearStartFunction());
-            RegisterFabric(GetWeeksSinceYearStartFunction.GetKeyword(), () => new GetWeeksSinceYearStartFunction());
+            RegisterFabric(GetAllStatesIdsFunc.GetKeyword(), () => new GetAllStatesIdsFunc());
+            RegisterFabric(GetStateBuildingLevelFunc.GetKeyword(), () => new GetStateBuildingLevelFunc());
+            RegisterFabric(GetStatePopulationFunc.GetKeyword(), () => new GetStatePopulationFunc());
+            RegisterFabric(GetStateRegionIdFunc.GetKeyword(), () => new GetStateRegionIdFunc());
+            RegisterFabric(SetStateBuildingLevelFunc.GetKeyword(), () => new SetStateBuildingLevelFunc());
+
+            RegisterFabric(GetDaysSinceYearStartFunc.GetKeyword(), () => new GetDaysSinceYearStartFunc());
+            RegisterFabric(GetWeeksSinceYearStartFunc.GetKeyword(), () => new GetWeeksSinceYearStartFunc());
 
             RegisterFabric(BreakKeyword.GetKeyword(), () => new BreakKeyword());
             RegisterFabric(ContinueKeyword.GetKeyword(), () => new ContinueKeyword());

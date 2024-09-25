@@ -5,7 +5,7 @@ using HOI4ModBuilder.src.scripts.commands.declarators;
 
 namespace HOI4ModBuilder.src.scripts.commands.functions.files
 {
-    public class GetModDirectoryPath : ScriptCommand
+    public class GetModDirectoryPathFunc : ScriptCommand
     {
         private static readonly string _keyword = "GET_MOD_DIRECTORY_PATH";
         public static new string GetKeyword() => _keyword;
@@ -19,7 +19,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.files
             $"\tOUT <{StringDeclarator.GetKeyword()}|{FileDeclarator.GetKeyword()}:path>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetModDirectoryPath();
+        public override ScriptCommand CreateEmptyCopy() => new GetModDirectoryPathFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {

@@ -9,7 +9,7 @@ using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.functions
 {
-    public class SetStateBuildingLevelFunction : ScriptCommand
+    public class SetStateBuildingLevelFunc : ScriptCommand
     {
         private static readonly string _keyword = "SET_STATE_BUILDING_LEVEL";
         public static new string GetKeyword() => _keyword;
@@ -26,7 +26,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
             ")"
         };
 
-        public override ScriptCommand CreateEmptyCopy() => new SetStateBuildingLevelFunction();
+        public override ScriptCommand CreateEmptyCopy() => new SetStateBuildingLevelFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {

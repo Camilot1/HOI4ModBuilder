@@ -7,23 +7,23 @@ using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
 {
-    public class GetRegionWeatherPeriodMudFunction : ScriptCommand
+    internal class GetRegionWeatherPeriodMinSnowLevelFunc : ScriptCommand
     {
-        private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_MUD";
+        private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_MIN_SNOW_LEVEL";
         public static new string GetKeyword() => _keyword;
         public static new string GetPath() => "commands.declarators.functions.regions.weather." + _keyword;
         public static new string[] GetDocumentation() => documentation;
         public static readonly string[] documentation = new string[]
         {
-            $"{_keyword} <INUMBER:mud_chance> <INUMBER:<region_id> <INUMBER:weather_period_index>",
+            $"{_keyword} <INUMBER:min_snow_level> <INUMBER:<region_id> <INUMBER:weather_period_index>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <INUMBER:mud_chance>",
+            $"\tOUT <INUMBER:min_snow_level>",
             "\t<INUMBER:<region_id>",
             "\t<INUMBER:weather_period_index>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetRegionWeatherPeriodMudFunction();
+        public override ScriptCommand CreateEmptyCopy() => new GetRegionWeatherPeriodMinSnowLevelFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -38,7 +38,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var mudChance = ScriptParser.GetValue(
+                var minSnowLevel = ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
                     (o) => o is INumberObject
                 );
@@ -57,8 +57,9 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
                 if (!region.TryGetWeatherPeriod(Convert.ToInt32(weatherPeriodIndex.GetValue()), out var period))
                     throw new IndexOutOfRangeScriptException(lineIndex, args);
 
-                mudChance.Set(lineIndex, args, new FloatObject(period.Mud));
+                minSnowLevel.Set(lineIndex, args, new FloatObject(period.MinSnowLevel));
             };
         }
     }
 }
+

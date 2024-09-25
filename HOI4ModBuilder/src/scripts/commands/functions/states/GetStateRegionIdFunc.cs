@@ -1,37 +1,34 @@
-﻿
-using HOI4ModBuilder.hoiDataObjects.map;
-using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
-using HOI4ModBuilder.src.hoiDataObjects.history.states;
+﻿using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
+using HOI4ModBuilder.src.scripts.objects;
+using HOI4ModBuilder.hoiDataObjects.map;
 using System;
 
-namespace HOI4ModBuilder.src.scripts.commands.functions
+namespace HOI4ModBuilder.src.scripts.commands.functions.states
 {
-    public class GetStateBuildingLevelFunction : ScriptCommand
+    public class GetStateRegionIdFunc : ScriptCommand
     {
-        private static readonly string _keyword = "GET_STATE_BUILDING_LEVEL";
+        private static readonly string _keyword = "GET_STATE_REGION_ID";
         public static new string GetKeyword() => _keyword;
         public static new string GetPath() => "commands.declarators.functions.states." + _keyword;
         public static new string[] GetDocumentation() => documentation;
         public static readonly string[] documentation = new string[]
         {
-            $"{_keyword} <INUMBER:level> <INUMBER:state_id> <ISTRING:building_name>",
+            $"{_keyword} <INUMBER:region_id> <INUMBER:state_id>",
             "======== OR ========",
             $"{_keyword} (",
-            "\tOUT <INUMBER:level>",
+            "\tOUT <INUMBER:region_id>",
             "\t<INUMBER:state_id>",
-            "\t<ISTRING:building_name>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetStateBuildingLevelFunction();
+        public override ScriptCommand CreateEmptyCopy() => new GetStateRegionIdFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
             lineIndex = index;
             args = ScriptParser.ParseCommandCallArgs(
-                (a) => a.Length == 4,
+                (a) => a.Length == 3,
                 new bool[] { true },
                 out _executeBeforeCall,
                 lines, ref index, indent, varsScope, args
@@ -40,7 +37,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var buildingLevel = ScriptParser.GetValue(
+                var stateRegionId = ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
                     (o) => o is INumberObject
                 );
@@ -48,18 +45,12 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
                     varsScope, args[2], lineIndex, args,
                     (o) => o is INumberObject
                 );
-                var buildingName = ScriptParser.ParseValue(
-                    varsScope, args[3], lineIndex, args,
-                    (o) => o is IScriptObject
-                );
 
                 if (!StateManager.TryGetState(Convert.ToUInt16(stateId.GetValue()), out State state))
                     throw new ValueNotFoundScriptException(lineIndex, args);
 
-                if (!BuildingManager.TryGetBuilding((string)buildingName.GetValue(), out Building building))
-                    throw new ValueNotFoundScriptException(lineIndex, args);
-
-                buildingLevel.Set(lineIndex, args, new IntObject((int)state.GetStateBuildingLevel(building)));
+                state.TryGetRegionId(out var regionId);
+                stateRegionId.Set(lineIndex, args, new IntObject(regionId));
             };
         }
     }

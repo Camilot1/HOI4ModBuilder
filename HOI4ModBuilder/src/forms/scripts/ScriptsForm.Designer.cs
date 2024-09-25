@@ -41,12 +41,18 @@
             this.Button_Debug_NextStep = new System.Windows.Forms.Button();
             this.Button_Debug_Flip = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.RichTextBox_Console = new System.Windows.Forms.RichTextBox();
             this.groupBox1.SuspendLayout();
             this.GroupBox_Debug.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // Button_ChooseFile
@@ -137,7 +143,7 @@
             this.GroupBox_Debug.Controls.Add(this.Button_Debug_Flip);
             this.GroupBox_Debug.Location = new System.Drawing.Point(3, 3);
             this.GroupBox_Debug.Name = "GroupBox_Debug";
-            this.GroupBox_Debug.Size = new System.Drawing.Size(401, 522);
+            this.GroupBox_Debug.Size = new System.Drawing.Size(404, 362);
             this.GroupBox_Debug.TabIndex = 6;
             this.GroupBox_Debug.TabStop = false;
             this.GroupBox_Debug.Text = "Дебаг: ";
@@ -159,7 +165,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RichTextBox_Debug.Location = new System.Drawing.Point(6, 48);
             this.RichTextBox_Debug.Name = "RichTextBox_Debug";
-            this.RichTextBox_Debug.Size = new System.Drawing.Size(389, 468);
+            this.RichTextBox_Debug.Size = new System.Drawing.Size(392, 308);
             this.RichTextBox_Debug.TabIndex = 2;
             this.RichTextBox_Debug.Text = "";
             // 
@@ -197,10 +203,41 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.GroupBox_Debug);
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(799, 528);
             this.splitContainer1.SplitterDistance = 388;
             this.splitContainer1.TabIndex = 7;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.GroupBox_Debug);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.RichTextBox_Console);
+            this.splitContainer2.Size = new System.Drawing.Size(405, 525);
+            this.splitContainer2.SplitterDistance = 368;
+            this.splitContainer2.TabIndex = 7;
+            // 
+            // RichTextBox_Console
+            // 
+            this.RichTextBox_Console.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RichTextBox_Console.Location = new System.Drawing.Point(6, 3);
+            this.RichTextBox_Console.Name = "RichTextBox_Console";
+            this.RichTextBox_Console.Size = new System.Drawing.Size(392, 144);
+            this.RichTextBox_Console.TabIndex = 3;
+            this.RichTextBox_Console.Text = "";
             // 
             // ScriptsForm
             // 
@@ -222,6 +259,10 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -242,5 +283,7 @@
         private System.Windows.Forms.Button Button_Debug_Flip;
         private System.Windows.Forms.Button Button_Debug_Terminate;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.RichTextBox RichTextBox_Console;
     }
 }

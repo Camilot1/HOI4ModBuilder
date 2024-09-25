@@ -7,7 +7,7 @@ using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.functions
 {
-    public class GetStatePopulationFunction : ScriptCommand
+    public class GetStatePopulationFunc : ScriptCommand
     {
         private static readonly string _keyword = "GET_STATE_POPULATION";
         public static new string GetKeyword() => _keyword;
@@ -22,7 +22,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
             "\t<INUMBER:state_id>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetStatePopulationFunction();
+        public override ScriptCommand CreateEmptyCopy() => new GetStatePopulationFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {

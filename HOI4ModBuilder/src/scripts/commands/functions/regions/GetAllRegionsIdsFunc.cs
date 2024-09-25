@@ -7,7 +7,7 @@ using HOI4ModBuilder.src.scripts.commands.declarators;
 
 namespace HOI4ModBuilder.src.scripts.commands.functions.regions
 {
-    public class GetAllRegionsIdsFunction : ScriptCommand
+    public class GetAllRegionsIdsFunc : ScriptCommand
     {
         private static readonly string _keyword = "GET_ALL_REGIONS_IDS";
         public static new string GetKeyword() => _keyword;
@@ -21,7 +21,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions
             $"\tOUT <{ListDeclarator.GetKeyword()}<INUMBER>>:regions_ids>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetAllRegionsIdsFunction();
+        public override ScriptCommand CreateEmptyCopy() => new GetAllRegionsIdsFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {

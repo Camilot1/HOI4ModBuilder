@@ -1,5 +1,4 @@
-﻿
-using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
+﻿using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
@@ -8,23 +7,23 @@ using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
 {
-    public class GetRegionWeatherPeriodRainHeavyFunction : ScriptCommand
+    public class GetRegionWeatherPeriodNoPhenomenonFunc : ScriptCommand
     {
-        private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_RAIN_HEAVY";
+        private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_NO_PHENOMENON";
         public static new string GetKeyword() => _keyword;
         public static new string GetPath() => "commands.declarators.functions.regions.weather." + _keyword;
         public static new string[] GetDocumentation() => documentation;
         public static readonly string[] documentation = new string[]
         {
-            $"{_keyword} <INUMBER:rain_heavy_chance> <INUMBER:<region_id> <INUMBER:weather_period_index>",
+            $"{_keyword} <INUMBER:no_phenomenon_chance> <INUMBER:<region_id> <INUMBER:weather_period_index>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <INUMBER:rain_heavy_chance>",
+            $"\tOUT <INUMBER:no_phenomenon_chance>",
             "\t<INUMBER:<region_id>",
             "\t<INUMBER:weather_period_index>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetRegionWeatherPeriodRainHeavyFunction();
+        public override ScriptCommand CreateEmptyCopy() => new GetRegionWeatherPeriodNoPhenomenonFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -39,7 +38,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var rainHeavyChance = ScriptParser.GetValue(
+                var noPhenomenonChance = ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
                     (o) => o is INumberObject
                 );
@@ -58,7 +57,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
                 if (!region.TryGetWeatherPeriod(Convert.ToInt32(weatherPeriodIndex.GetValue()), out var period))
                     throw new IndexOutOfRangeScriptException(lineIndex, args);
 
-                rainHeavyChance.Set(lineIndex, args, new FloatObject(period.RainHeavy));
+                noPhenomenonChance.Set(lineIndex, args, new FloatObject(period.NoPhenomenon));
             };
         }
     }

@@ -1,13 +1,11 @@
 ﻿using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.scripts.commands.declarators;
-using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
-using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.functions
 {
-    public class GetAllStatesIdsFunction : ScriptCommand
+    public class GetAllStatesIdsFunc : ScriptCommand
     {
         private static readonly string _keyword = "GET_ALL_STATES_IDS";
         public static new string GetKeyword() => _keyword;
@@ -21,7 +19,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
             $"\tOUT <{ListDeclarator.GetKeyword()}<INUMBER>>:states_ids>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetAllStatesIdsFunction();
+        public override ScriptCommand CreateEmptyCopy() => new GetAllStatesIdsFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {

@@ -6,7 +6,7 @@ using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.functions.time
 {
-    public class GetWeeksSinceYearStartFunction : ScriptCommand
+    public class GetWeeksSinceYearStartFunc : ScriptCommand
     {
         private static readonly string _keyword = "GET_WEEKS_SINCE_YEAR_START";
         public static new string GetKeyword() => _keyword;
@@ -22,7 +22,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.time
             "\t<INUMBER:month_index>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetWeeksSinceYearStartFunction();
+        public override ScriptCommand CreateEmptyCopy() => new GetWeeksSinceYearStartFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
