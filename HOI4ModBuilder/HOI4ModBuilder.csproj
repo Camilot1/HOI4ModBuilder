@@ -390,7 +390,6 @@
     <Compile Include="src\hoiDataObjects\common\units\equipment\EquipmentManager.cs" />
     <Compile Include="src\hoiDataObjects\common\units\equipment\EquipmentsFile.cs" />
     <Compile Include="src\hoiDataObjects\common\units\equipment\EquipmentsList.cs" />
-    <Compile Include="src\hoiDataObjects\common\units\equipment\ICreateEmptyCopy.cs" />
     <Compile Include="src\hoiDataObjects\common\units\SubUnit.cs" />
     <Compile Include="src\hoiDataObjects\common\units\SubUnitManager.cs" />
     <Compile Include="src\hoiDataObjects\Faction.cs" />
