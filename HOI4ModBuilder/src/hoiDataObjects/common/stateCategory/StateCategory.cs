@@ -15,7 +15,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
-        private static int NextHashCode = _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        private static int NextHashCode => _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
         public override int GetHashCode() => _hashCode;
 
         public string name;
