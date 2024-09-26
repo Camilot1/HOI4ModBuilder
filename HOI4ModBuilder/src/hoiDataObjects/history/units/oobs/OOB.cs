@@ -2,6 +2,7 @@
 using HOI4ModBuilder.src.Pdoxcl2Sharp;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.exceptions;
+using OpenTK.Platform.Windows;
 using Pdoxcl2Sharp;
 using System.Collections.Generic;
 using System.Text;
@@ -92,11 +93,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 if (token == DivisionTemplate.BLOCK_NAME)
                     Logger.ParseLayeredListedValue(prevLayer, token, ref _divisionTemplates, parser, new DivisionTemplate());
                 else if (token == OOBUnits.BLOCK_NAME)
-                    Logger.ParseNewLayeredValueOrContinueOld(prevLayer, token, ref _units, parser, new OOBUnits());
+                {
+                    if (_units == null) _units = new OOBUnits();
+                    Logger.ParseLayeredValue(prevLayer, token, _units, parser);
+                }
                 else if (token == OOBAirWings.BLOCK_NAME)
-                    Logger.ParseNewLayeredValueOrContinueOld(prevLayer, token, ref _airWings, parser, new OOBAirWings());
+                {
+                    if (_airWings == null) _airWings = new OOBAirWings();
+                    Logger.ParseLayeredValue(prevLayer, token, _airWings, parser);
+                }
                 else if (token == OOBInstantEffect.BLOCK_NAME)
-                    Logger.ParseNewLayeredValueOrContinueOld(prevLayer, token, ref _instantEffect, parser, new OOBInstantEffect());
+                {
+                    if (_instantEffect == null) _instantEffect = new OOBInstantEffect();
+                    Logger.ParseLayeredValue(prevLayer, token, _instantEffect, parser);
+                }
                 else if (token == "start_equipment_factor") //Paradox moment :)))
                     parser.ReadFloat();
                 else

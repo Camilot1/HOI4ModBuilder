@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.src.utils;
+using SharpFont;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -71,7 +72,7 @@ namespace HOI4ModBuilder
 
         public static Stream ToStream(string text)
         {
-            return new MemoryStream(Encoding.UTF8.GetBytes(text));
+            return new MemoryStream(System.Text.Encoding.UTF8.GetBytes(text));
         }
 
         public static void Setter<T>(ref T parameter, ref T value, ref bool needToSave)

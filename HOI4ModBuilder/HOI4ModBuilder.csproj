@@ -386,6 +386,11 @@
     <Compile Include="src\hoiDataObjects\common\terrain\TerrainManager.cs" />
     <Compile Include="src\hoiDataObjects\common\units\divisionsNames\DivisionNamesGroup.cs" />
     <Compile Include="src\hoiDataObjects\common\units\divisionsNames\DivisionNamesGroupManager.cs" />
+    <Compile Include="src\hoiDataObjects\common\units\equipment\Equipment.cs" />
+    <Compile Include="src\hoiDataObjects\common\units\equipment\EquipmentManager.cs" />
+    <Compile Include="src\hoiDataObjects\common\units\equipment\EquipmentsFile.cs" />
+    <Compile Include="src\hoiDataObjects\common\units\equipment\EquipmentsList.cs" />
+    <Compile Include="src\hoiDataObjects\common\units\equipment\ICreateEmptyCopy.cs" />
     <Compile Include="src\hoiDataObjects\common\units\SubUnit.cs" />
     <Compile Include="src\hoiDataObjects\common\units\SubUnitManager.cs" />
     <Compile Include="src\hoiDataObjects\Faction.cs" />
@@ -725,9 +730,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\hoiDataObjects\common\equipment\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
       <Visible>False</Visible>

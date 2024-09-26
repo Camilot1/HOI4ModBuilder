@@ -78,16 +78,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                         );
                     else
                     {
-                        _stateAirWingsGroup.TryGetValue(state, out OOBAirWingsGroup airWingsGroup);
-                        Logger.ParseNewLayeredValueOrContinueOld(prevLayer, token, ref airWingsGroup, parser, new OOBAirWingsGroup(state));
+                        if (!_stateAirWingsGroup.TryGetValue(state, out OOBAirWingsGroup airWingsGroup))
+                            airWingsGroup = new OOBAirWingsGroup(state);
+
+                        Logger.ParseLayeredValue(prevLayer, token, airWingsGroup, parser);
                         _stateAirWingsGroup[state] = airWingsGroup;
                     }
                 }
                 else if (parser.CurrentValueIsName)
                 {
                     var taskForceShipIntances = OOBManager.RequestShipInstances(token, prevLayer);
-                    _carrierAirWingsGroup.TryGetValue(taskForceShipIntances, out OOBAirWingsGroup airWingsGroup);
-                    Logger.ParseNewLayeredValueOrContinueOld(prevLayer, token, ref airWingsGroup, parser, new OOBAirWingsGroup(taskForceShipIntances));
+                    if (!_carrierAirWingsGroup.TryGetValue(taskForceShipIntances, out OOBAirWingsGroup airWingsGroup))
+                        airWingsGroup = new OOBAirWingsGroup(taskForceShipIntances);
+
+                    Logger.ParseLayeredValue(prevLayer, token, airWingsGroup, parser);
                     _carrierAirWingsGroup[taskForceShipIntances] = airWingsGroup;
                 }
                 else throw new UnknownTokenException(token);

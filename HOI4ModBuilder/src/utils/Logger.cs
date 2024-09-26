@@ -92,6 +92,22 @@ namespace HOI4ModBuilder.src.utils
             oldValue = newValue;
         }
 
+        public static void CheckValueOverride<T>(LinkedLayer prevLayer, ref T? oldValue, T newValue) where T : struct
+        {
+            if (oldValue != null)
+                LogLayeredWarning(prevLayer, EnumLocKey.LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN);
+
+            oldValue = newValue;
+        }
+
+        public static void CheckValueOverride<T>(LinkedLayer prevLayer, ref T oldValue, T newValue) where T : class
+        {
+            if (oldValue != null)
+                LogLayeredWarning(prevLayer, EnumLocKey.LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN);
+
+            oldValue = newValue;
+        }
+
         public static void ParseLayeredValueAndCheckOverride<T>(LinkedLayer prevLayer, string newLayerName, ref T oldValue, ParadoxParser parser, T newParseObject) where T : class, IParadoxObject
         {
             var newLayer = new LinkedLayer(prevLayer, newLayerName);
@@ -105,12 +121,17 @@ namespace HOI4ModBuilder.src.utils
             oldValue = parsedValue;
         }
 
+        public static void ParseLayeredValue<T>(LinkedLayer newLayer, ref T value, ParadoxParser parser, T newParseObject) where T : class, IParadoxObject
+        {
+            T parsedValue = null;
+            WrapTokenCallbackExceptions(newLayer.Name, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject, out bool _));
+            value = parsedValue;
+        }
+
         public static void ParseLayeredValue<T>(LinkedLayer prevLayer, string newLayerName, ref T value, ParadoxParser parser, T newParseObject) where T : class, IParadoxObject
         {
             var newLayer = new LinkedLayer(prevLayer, newLayerName);
-            T parsedValue = null;
-            WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject, out bool _));
-            value = parsedValue;
+            ParseLayeredValue(newLayer, ref value, parser, newParseObject);
         }
 
         public static void ParseLayeredValue<T>(LinkedLayer prevLayer, string newLayerName, ParadoxParser parser, T newParseObject) where T : class, IParadoxObject
@@ -119,13 +140,14 @@ namespace HOI4ModBuilder.src.utils
             WrapTokenCallbackExceptions(newLayerName, () => parser.AdvancedParse(newLayer, newParseObject, out bool _));
         }
 
-        public static void ParseNewLayeredValueOrContinueOld<T>(LinkedLayer prevLayer, string newLayerName, ref T value, ParadoxParser parser, T newParseObject) where T : class, IParadoxObject
+        public static void ParseLayeredValue<T>(LinkedLayer prevLayer, string newLayerName, T value, ParadoxParser parser) where T : class, IParadoxObject
         {
             var newLayer = new LinkedLayer(prevLayer, newLayerName);
-            if (value != null) newParseObject = value;
-            T parsedValue = null;
-            WrapTokenCallbackExceptions(newLayerName, () => parsedValue = parser.AdvancedParse(newLayer, newParseObject, out bool _));
-            value = parsedValue;
+            ParseLayeredValue(newLayer, value, parser);
+        }
+        public static void ParseLayeredValue<T>(LinkedLayer newLayer, T value, ParadoxParser parser) where T : class, IParadoxObject
+        {
+            WrapTokenCallbackExceptions(newLayer.Name, () => value = parser.AdvancedParse(newLayer, value, out bool _));
         }
 
         public static void ParseLayeredListedValue<T>(LinkedLayer prevLayer, string newLayerName, ref List<T> list, ParadoxParser parser, T newParseObject) where T : class, IParadoxObject

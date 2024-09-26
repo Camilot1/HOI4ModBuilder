@@ -119,9 +119,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 else if (token == TOKEN_START_MANPOWER_FACTOR)
                     Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _startManpowerFactor, parser.ReadFloat());
                 else if (token == ForcedEquipmentVariants.BLOCK_NAME)
-                    Logger.ParseNewLayeredValueOrContinueOld(prevLayer, token, ref _forcedEquipmentVariants, parser, new ForcedEquipmentVariants());
+                {
+                    if (_forcedEquipmentVariants == null) _forcedEquipmentVariants = new ForcedEquipmentVariants();
+                    Logger.ParseLayeredValue(prevLayer, token, _forcedEquipmentVariants, parser);
+                }
                 else if (token == DivisionOfficer.BLOCK_NAME)
+                {
                     Logger.ParseLayeredValueAndCheckOverride(prevLayer, token, ref _divisionOfficer, parser, new DivisionOfficer());
+                }
                 else if (token == "bonus") //Paradox moment :)))
                     parser.ReadInt32();
                 else

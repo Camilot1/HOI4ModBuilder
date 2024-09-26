@@ -20,7 +20,7 @@ using static HOI4ModBuilder.utils.Enums;
 namespace HOI4ModBuilder.managers
 {
 
-    class ProvinceManager
+    public class ProvinceManager
     {
         public static bool NeedToSave { get; set; }
         private static bool _hasProcessedDefinitionFile;
