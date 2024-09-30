@@ -499,15 +499,16 @@ namespace HOI4ModBuilder
 
         public static void CleanUpMemory()
         {
+            float bytesToMBytesDivider = 1024f * 1024f;
             long memoryBeforeCleaning = GC.GetTotalMemory(false);
             GC.Collect();
             GC.WaitForPendingFinalizers();
             long memoryAfterCleaning = GC.GetTotalMemory(false);
 
             Logger.Log(
-                $"{memoryBeforeCleaning / 1024f / 1024f} MB -> " +
-                $"{memoryAfterCleaning / 1024f / 1024f} MB " +
-                $"({(memoryAfterCleaning - memoryBeforeCleaning) / 1024f / 1024f} MB)"
+                $"{memoryBeforeCleaning / bytesToMBytesDivider} MB -> " +
+                $"{memoryAfterCleaning / bytesToMBytesDivider} MB " +
+                $"({(memoryAfterCleaning - memoryBeforeCleaning) / bytesToMBytesDivider} MB)"
             );
         }
 

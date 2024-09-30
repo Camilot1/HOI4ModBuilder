@@ -39,6 +39,7 @@ using static HOI4ModBuilder.utils.Structs;
 using HOI4ModBuilder.src.tools.auto;
 using HOI4ModBuilder.src.scripts;
 using HOI4ModBuilder.src.forms.scripts;
+using HOI4ModBuilder.src.hoiDataObjects.common.units.equipment;
 
 namespace HOI4ModBuilder
 {
@@ -429,6 +430,8 @@ namespace HOI4ModBuilder
             //SubUnitManager.Save(settings);
             //DivisionNamesGroupManager.Save(settings);
             //OOBManager.Save(settings);
+
+            EquipmentManager.Save(settings);
 
             Utils.CleanUpMemory();
         }

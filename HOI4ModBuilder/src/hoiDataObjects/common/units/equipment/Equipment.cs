@@ -1,5 +1,6 @@
 ﻿
 using HOI4ModBuilder.hoiDataObjects.common.resources;
+using HOI4ModBuilder.Properties;
 using HOI4ModBuilder.src.Pdoxcl2Sharp;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.exceptions;
@@ -84,7 +85,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
 
         //TODO implement type, group_by, interface_category
 
-        private static readonly string TOKEN_RESOURCES = "resources";
         private EquipmentResources _resources;
         private EquipmentResources Resources { get => _resources; set => Utils.Setter(ref _resources, ref value, ref _needToSave); }
 
@@ -97,12 +97,25 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
 
         public bool Save(StringBuilder sb, string outTab, string tab)
         {
-            throw new System.NotImplementedException();
+            ParadoxUtils.StartBlock(sb, outTab, _name);
+            string innerTab = outTab + tab;
+            ParadoxUtils.Save(sb, innerTab, TOKEN_YEAR, _year);
+            ParadoxUtils.Save(sb, innerTab, TOKEN_PICTURE, _picture);
+            ParadoxUtils.Save(sb, innerTab, TOKEN_IS_ARCHETYPE, _isArchetype);
+            ParadoxUtils.Save(sb, innerTab, TOKEN_IS_BUILDABLE, _isBuildable);
+            ParadoxUtils.Save(sb, innerTab, TOKEN_IS_ACTIVE, _isActive);
+            ParadoxUtils.Save(sb, innerTab, TOKEN_ARCHETYPE, _archetype);
+            ParadoxUtils.Save(sb, innerTab, TOKEN_PARENT, _parent);
+            ParadoxUtils.Save(sb, innerTab, TOKEN_PRIORITY, _priority);
+            ParadoxUtils.Save(sb, innerTab, TOKEN_VISUAL_LEVEL, _visualLevel);
+            _resources?.Save(sb, outTab, tab);
+            ParadoxUtils.EndBlock(sb, outTab);
+            return true;
         }
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
         {
-            Logger.WrapTokenCallbackExceptions(_name, () =>
+            Logger.WrapTokenCallbackExceptions(token, () =>
             {
                 LinkedLayer newLayer = new LinkedLayer(prevLayer, token);
                 if (token == TOKEN_YEAR)
@@ -123,7 +136,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
                     Logger.CheckValueOverride(newLayer, ref _priority, parser.ReadInt32());
                 else if (token == TOKEN_VISUAL_LEVEL)
                     Logger.CheckValueOverride(newLayer, ref _visualLevel, parser.ReadInt32());
-                else if (token == TOKEN_RESOURCES)
+                else if (token == EquipmentResources.BLOCK_NAME)
                 {
                     if (_resources == null) _resources = new EquipmentResources();
                     Logger.ParseLayeredValue(newLayer, _resources, parser);
@@ -133,27 +146,44 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
             });
         }
 
-        public bool Validate(LinkedLayer prevLayer)
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool Validate(LinkedLayer prevLayer) => true;
     }
 
     public class EquipmentResources : IParadoxObject
     {
+        public static readonly string BLOCK_NAME = "resources";
+
+        private readonly Dictionary<Resource, uint> _values = new Dictionary<Resource, uint>();
+
         public bool Save(StringBuilder sb, string outTab, string tab)
         {
-            throw new System.NotImplementedException();
+            ParadoxUtils.StartBlock(sb, outTab, BLOCK_NAME);
+
+            string innerTab = outTab + tab;
+            foreach (var entry in _values)
+            {
+                ParadoxUtils.Save(sb, innerTab, entry.Key.tag, entry.Value);
+            }
+
+            ParadoxUtils.EndBlock(sb, outTab);
+            return true;
         }
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
         {
-            throw new System.NotImplementedException();
+            Logger.WrapTokenCallbackExceptions(token, () =>
+            {
+                if (ResourceManager.TryGetResource(token, out var resource))
+                {
+                    if (_values.ContainsKey(resource))
+                        Logger.LogLayeredWarning(prevLayer, EnumLocKey.WARNING_RESOURCE_COUNT_ALREDY_DEFINED);
+
+                    _values[resource] = parser.ReadUInt32();
+                }
+                else throw new UnknownTokenException(token);
+            });
         }
 
-        public bool Validate(LinkedLayer prevLayer)
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool Validate(LinkedLayer prevLayer) => true;
     }
 }

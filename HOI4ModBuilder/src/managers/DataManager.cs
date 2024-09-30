@@ -11,6 +11,7 @@ using HOI4ModBuilder.src.hoiDataObjects.common.ideologies;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.common.units;
 using HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames;
+using HOI4ModBuilder.src.hoiDataObjects.common.units.equipment;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.history.units.oobs;
@@ -59,6 +60,7 @@ namespace HOI4ModBuilder.managers
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_UNITS, () => SubUnitManager.Load(settings)),
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_DIVISION_NAMES_GROUPS, () => DivisionNamesGroupManager.Load(settings)),
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_OOBS, () => OOBManager.Load(settings)),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_EQUPMENTS, () => EquipmentManager.Load(settings)),
                 //new LocalizedAction(EnumLocKey.NONE, () => LocalizationManager.Load(settings)),
             };
 

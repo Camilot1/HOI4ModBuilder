@@ -30,7 +30,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
 
         public bool Save(StringBuilder sb, string outTab, string tab)
         {
-            throw new NotImplementedException();
+            return _equipmentsList.Save(sb, tab, outTab);
         }
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
@@ -44,9 +44,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
             });
         }
 
-        public bool Validate(LinkedLayer prevLayer)
-        {
-            return true;
-        }
+        public bool Validate(LinkedLayer prevLayer) => true;
     }
 }
