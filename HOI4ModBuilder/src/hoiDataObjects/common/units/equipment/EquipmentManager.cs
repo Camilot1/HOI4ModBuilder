@@ -9,7 +9,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
 {
     public class EquipmentManager
     {
-        private static readonly string directoryPath = @"common\units\equipment\";
+        private static readonly string directoryPath = FileManager.AssembleFolderPath(new string[] { "common", "units", "equipment" });
+
+
+        private static Dictionary<string, List<string>> _equipmentInternalTypes;
 
         private static Dictionary<FileInfo, EquipmentsFile> _equipmentsByFiles;
         private static Dictionary<string, Equipment> _allEquipments;
