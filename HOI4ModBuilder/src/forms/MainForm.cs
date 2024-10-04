@@ -431,7 +431,7 @@ namespace HOI4ModBuilder
             //DivisionNamesGroupManager.Save(settings);
             //OOBManager.Save(settings);
 
-            EquipmentManager.Save(settings);
+            //EquipmentManager.Save(settings);
 
             Utils.CleanUpMemory();
         }
