@@ -494,17 +494,17 @@ namespace HOI4ModBuilder
 
         public static void SaveTerrainMap()
         {
-            if (terrain.needToSave) terrain.GetBitmap().Save(SettingsManager.settings.modDirectory + @"map\terrain.bmp", ImageFormat.Bmp);
+            if (terrain.needToSave) terrain.GetBitmap().Save(SettingsManager.Settings.modDirectory + @"map\terrain.bmp", ImageFormat.Bmp);
         }
 
         public static void SaveTreesMap()
         {
-            if (trees.needToSave) trees.GetBitmap().Save(SettingsManager.settings.modDirectory + @"map\trees.bmp", ImageFormat.Bmp);
+            if (trees.needToSave) trees.GetBitmap().Save(SettingsManager.Settings.modDirectory + @"map\trees.bmp", ImageFormat.Bmp);
         }
 
         public static void SaveCitiesMap()
         {
-            if (cities.needToSave) cities.GetBitmap().Save(SettingsManager.settings.modDirectory + @"map\cities.bmp", ImageFormat.Bmp);
+            if (cities.needToSave) cities.GetBitmap().Save(SettingsManager.Settings.modDirectory + @"map\cities.bmp", ImageFormat.Bmp);
         }
 
         public static void SaveHeightMap(Settings settings)
@@ -516,7 +516,7 @@ namespace HOI4ModBuilder
                 if (settings.GetGenerateNormalMapFlag())
                 {
                     var reducedBitmap = ImageUtils.Reduce8bppIndexedImageSize(height.GetBitmap());
-                    SaveNormalMap(ImageUtils.GenerateNormalMap(reducedBitmap, SettingsManager.settings.GetNormalMapStrength()));
+                    SaveNormalMap(ImageUtils.GenerateNormalMap(reducedBitmap, SettingsManager.Settings.GetNormalMapStrength()));
                 }
             }
         }
@@ -526,7 +526,7 @@ namespace HOI4ModBuilder
             byte[] values = Utils.BitmapToArray(inputBitmap, ImageLockMode.ReadOnly, _24bppRgb);
             var outputBitmap = new Bitmap(inputBitmap.Width, inputBitmap.Height, PixelFormat.Format24bppRgb);
             Utils.ArrayToBitmap(values, outputBitmap, ImageLockMode.WriteOnly, inputBitmap.Width, inputBitmap.Height, _24bppRgb);
-            outputBitmap.Save(SettingsManager.settings.modDirectory + @"map\provinces.bmp", ImageFormat.Bmp);
+            outputBitmap.Save(SettingsManager.Settings.modDirectory + @"map\provinces.bmp", ImageFormat.Bmp);
         }
 
         public static void SaveHeightMap(Bitmap inputBitmap)
@@ -543,11 +543,11 @@ namespace HOI4ModBuilder
             outputBitmap.Palette = palette;
 
             Utils.ArrayToBitmap(values, outputBitmap, ImageLockMode.WriteOnly, inputBitmap.Width, inputBitmap.Height, _8bppGrayscale);
-            outputBitmap.Save(SettingsManager.settings.modDirectory + @"map\heightmap.bmp", ImageFormat.Bmp);
+            outputBitmap.Save(SettingsManager.Settings.modDirectory + @"map\heightmap.bmp", ImageFormat.Bmp);
         }
         public static void SaveNormalMap(Bitmap inputBitmap)
         {
-            inputBitmap.Save(SettingsManager.settings.modDirectory + @"map\world_normal.bmp", ImageFormat.Bmp);
+            inputBitmap.Save(SettingsManager.Settings.modDirectory + @"map\world_normal.bmp", ImageFormat.Bmp);
         }
 
         public static void SaveRiversMap(Settings settings)
@@ -607,7 +607,7 @@ namespace HOI4ModBuilder
             outputBitmap.Palette = palette;
 
             Utils.ArrayToBitmap(outputValues, outputBitmap, ImageLockMode.WriteOnly, width, height, _8bppIndexed);
-            outputBitmap.Save(SettingsManager.settings.modDirectory + @"map\rivers.bmp", ImageFormat.Bmp);
+            outputBitmap.Save(SettingsManager.Settings.modDirectory + @"map\rivers.bmp", ImageFormat.Bmp);
         }
 
         private static MapPair CreateRiverMap(src.FileInfo fileInfo)

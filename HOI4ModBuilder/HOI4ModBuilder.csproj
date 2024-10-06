@@ -328,11 +328,11 @@
     <Compile Include="src\forms\scripts\ScriptsForm.Designer.cs">
       <DependentUpon>ScriptsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\forms\SearchErrorsSettingsForm.cs">
+    <Compile Include="src\forms\SearchSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\forms\SearchErrorsSettingsForm.Designer.cs">
-      <DependentUpon>SearchErrorsSettingsForm.cs</DependentUpon>
+    <Compile Include="src\forms\SearchSettingsForm.Designer.cs">
+      <DependentUpon>SearchSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="src\forms\SettingsForm.cs">
       <SubType>Form</SubType>
@@ -432,6 +432,34 @@
     <Compile Include="src\hoiDataObjects\map\adjacencies\AdjacencyRule.cs" />
     <Compile Include="src\hoiDataObjects\map\MapPositionsManager.cs" />
     <Compile Include="src\hoiDataObjects\map\continents\ContinentManager.cs" />
+    <Compile Include="src\managers\mapChecks\errors\checkers\CheckRegionWithNotNavalTerrain.cs" />
+    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerLandProvincesWithNoState.cs" />
+    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerProvincesWithMultiRegions.cs" />
+    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerProvincesWithMultiStates.cs" />
+    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerProvincesWithNoRegion.cs" />
+    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerRiversMismatches.cs" />
+    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerSeaProvincesWithState.cs" />
+    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerProvincesCoastalMismatches.cs" />
+    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerStateWithMultiRegions.cs" />
+    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerSeaCrosses.cs" />
+    <Compile Include="src\managers\mapChecks\errors\EnumMapErrorCode.cs" />
+    <Compile Include="src\managers\mapChecks\MapChecker.cs" />
+    <Compile Include="src\managers\mapChecks\MapCheckerManager.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerDividedProvinces.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerFrontlinePossibleErrors.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerHeightMapMismatches.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerProvincesBordersLimit.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerProvincesBordersMismatches.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerProvincesContinents.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerProvincesTerrains.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerProvincesWithMultiVictoryPoints.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerProvincesXCrosses.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerProvinceWrongColors.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerRailways.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerStatesVictoryPointsForForeignProvinces.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerSupplyHubHasNoConnections.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\EnumMapWarningCode.cs" />
+    <Compile Include="src\managers\mapChecks\warnings\WarningsManager.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\BooleanDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\branch\BranchDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\CharDeclarator.cs" />
@@ -590,7 +618,7 @@
     <Compile Include="src\hoiDataObjects\map\provinces\ProvinceManager.cs" />
     <Compile Include="src\managers\ActionHistoryManager.cs" />
     <Compile Include="src\managers\DataManager.cs" />
-    <Compile Include="src\managers\ErrorManager.cs" />
+    <Compile Include="src\managers\mapChecks\errors\ErrorManager.cs" />
     <Compile Include="src\managers\FileManager.cs" />
     <Compile Include="src\managers\LocalModDataManager.cs" />
     <Compile Include="src\openTK\text\Font.cs" />
@@ -668,11 +696,11 @@
     <EmbeddedResource Include="src\forms\scripts\ScriptsForm.resx">
       <DependentUpon>ScriptsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\forms\SearchErrorsSettingsForm.en.resx">
-      <DependentUpon>SearchErrorsSettingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="src\forms\SearchSettingsForm.en.resx">
+      <DependentUpon>SearchSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\forms\SearchErrorsSettingsForm.resx">
-      <DependentUpon>SearchErrorsSettingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="src\forms\SearchSettingsForm.resx">
+      <DependentUpon>SearchSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\forms\SettingsForm.en.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>

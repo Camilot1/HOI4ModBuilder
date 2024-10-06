@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using Pdoxcl2Sharp;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.errors;
+using HOI4ModBuilder.src.managers.warnings;
 
 namespace HOI4ModBuilder.src
 {
@@ -14,7 +16,7 @@ namespace HOI4ModBuilder.src
         public static readonly string SETTINGS_FILENAME = "settings.json";
         public static readonly string SETTINGS_FILEPATH = CONFIGS_DIRECTORY + SETTINGS_FILENAME;
 
-        public static Settings settings;
+        public static Settings Settings { get; private set; }
         public static void Init()
         {
             try
@@ -22,14 +24,15 @@ namespace HOI4ModBuilder.src
                 if (!Directory.Exists(CONFIGS_DIRECTORY)) Directory.CreateDirectory(CONFIGS_DIRECTORY);
                 if (!File.Exists(SETTINGS_FILEPATH))
                 {
-                    settings = new Settings { language = GuiLocManager.GetCurrentParentLanguageName };
+                    Settings = new Settings { language = GuiLocManager.GetCurrentParentLanguageName };
                     SaveSettings();
                 }
-                settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SETTINGS_FILEPATH));
-                GuiLocManager.Init(settings);
-                settings.LoadModDescriptors();
+                Settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SETTINGS_FILEPATH));
+                GuiLocManager.Init(Settings);
+                Settings.LoadModDescriptors();
 
-                var needToSave = settings.CheckNewErrorCodes();
+                var needToSave = Settings.CheckNewWarningCodes();
+                needToSave |= Settings.CheckNewErrorCodes();
 
                 if (needToSave) SaveSettings();
             }
@@ -51,14 +54,14 @@ namespace HOI4ModBuilder.src
 
         public static void SaveSettings()
         {
-            File.WriteAllText(SETTINGS_FILEPATH, JsonConvert.SerializeObject(settings, Formatting.Indented));
-            if (settings.currentModSettings != null) LocalModDataManager.SaveLocalSettings(settings);
-            settings.LoadModDescriptors();
+            File.WriteAllText(SETTINGS_FILEPATH, JsonConvert.SerializeObject(Settings, Formatting.Indented));
+            if (Settings.currentModSettings != null) LocalModDataManager.SaveLocalSettings(Settings);
+            Settings.LoadModDescriptors();
         }
 
         public static void ChangeLanguage(string language)
         {
-            if (settings != null) settings.language = language;
+            if (Settings != null) Settings.language = language;
             SaveSettings();
             Init();
         }
@@ -78,7 +81,8 @@ namespace HOI4ModBuilder.src
         public double MAP_VIEWPORT_HEIGHT = 1004;
         public int maxAdditionalTextureSize = 2048;
 
-        public SearchErrorsSettings searchErrorsSettings = new SearchErrorsSettings();
+        public MapCheckerInfo searchWarningsSettings = new MapCheckerInfo();
+        public MapCheckerInfo searchErrorsSettings = new MapCheckerInfo();
         public ModSettings defaultModSettings = new ModSettings();
 
         [JsonIgnore]
@@ -123,34 +127,61 @@ namespace HOI4ModBuilder.src
 
         public bool IsModDirectorySelected()
         {
-            var settings = SettingsManager.settings;
+            var settings = SettingsManager.Settings;
             if (settings.modDirectory == null || settings.modDirectory == "" || !Directory.Exists(settings.modDirectory)) return false;
             else return true;
         }
 
+        public bool CheckNewWarningCodes()
+        {
+            if (searchWarningsSettings == null) searchWarningsSettings = new MapCheckerInfo();
+            if (searchWarningsSettings.known == null) searchWarningsSettings.known = new List<string>();
+
+            var newCodes = new List<string>();
+
+            foreach (var errorCodes in Enum.GetValues(typeof(EnumMapWarningCode)))
+            {
+                var strValue = errorCodes.ToString();
+                if (!searchWarningsSettings.known.Contains(strValue)) newCodes.Add(strValue);
+            }
+
+            if (newCodes.Count == 0) return false;
+
+            Logger.LogSingleInfoMessage(
+                EnumLocKey.FOUNDED_NEW_WARNING_CODES,
+                new Dictionary<string, string>
+                {
+                    { "{newWarningCodes}", string.Join("\n", newCodes) }
+                }
+            );
+            searchWarningsSettings.known.AddRange(newCodes);
+
+            return true;
+        }
+
         public bool CheckNewErrorCodes()
         {
-            if (searchErrorsSettings == null) searchErrorsSettings = new SearchErrorsSettings();
-            if (searchErrorsSettings.knownErrors == null) searchErrorsSettings.knownErrors = new List<string>();
+            if (searchErrorsSettings == null) searchErrorsSettings = new MapCheckerInfo();
+            if (searchErrorsSettings.known == null) searchErrorsSettings.known = new List<string>();
 
-            var newErrorCodes = new List<string>();
+            var newCodes = new List<string>();
 
             foreach (var errorCodes in Enum.GetValues(typeof(EnumMapErrorCode)))
             {
                 var strValue = errorCodes.ToString();
-                if (!searchErrorsSettings.knownErrors.Contains(strValue)) newErrorCodes.Add(strValue);
+                if (!searchErrorsSettings.known.Contains(strValue)) newCodes.Add(strValue);
             }
 
-            if (newErrorCodes.Count == 0) return false;
+            if (newCodes.Count == 0) return false;
 
             Logger.LogSingleInfoMessage(
                 EnumLocKey.FOUNDED_NEW_ERROR_CODES,
                 new Dictionary<string, string>
                 {
-                    { "{newErrorCodes}", string.Join("\n", newErrorCodes) }
+                    { "{newErrorCodes}", string.Join("\n", newCodes) }
                 }
             );
-            searchErrorsSettings.knownErrors.AddRange(newErrorCodes);
+            searchErrorsSettings.known.AddRange(newCodes);
 
             return true;
         }
@@ -177,7 +208,8 @@ namespace HOI4ModBuilder.src
             => useModSettings ? currentModSettings.MAP_SCALE_PIXEL_TO_KM : defaultModSettings.MAP_SCALE_PIXEL_TO_KM;
 
         public double GetWaterHeight() => useModSettings ? currentModSettings.WATER_HEIGHT : defaultModSettings.WATER_HEIGHT;
-        public List<string> GetErrorsFilter() => searchErrorsSettings?.errors;
+        public List<string> GetWarningsFilter() => searchWarningsSettings?.enabled;
+        public List<string> GetErrorsFilter() => searchErrorsSettings?.enabled;
     }
 
     public class SaveDataSettings
@@ -210,10 +242,10 @@ namespace HOI4ModBuilder.src
 
     }
 
-    public class SearchErrorsSettings
+    public class MapCheckerInfo
     {
-        public List<string> errors = new List<string>(0);
-        public List<string> knownErrors = new List<string>(0);
+        public List<string> enabled = new List<string>(0);
+        public List<string> known = new List<string>(0);
     }
 
     public class ModSettings

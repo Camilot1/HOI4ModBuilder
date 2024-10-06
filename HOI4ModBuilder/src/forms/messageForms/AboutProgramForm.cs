@@ -88,7 +88,7 @@ namespace HOI4ModBuilder.src.forms.messageForms
         {
             Logger.TryOrLog(() =>
             {
-                var settings = SettingsManager.settings;
+                var settings = SettingsManager.Settings;
 
                 switch (GuiLocManager.GetCurrentParentLanguageName)
                 {

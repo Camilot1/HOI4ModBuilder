@@ -217,6 +217,8 @@
             this.ToolStripMenuItem_Language_RU = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Language_EN = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Discord = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.Button_OpenSearchWarningsSettings = new System.Windows.Forms.Button();
             this.TabControl_Main.SuspendLayout();
             this.TabPage_Map.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -239,6 +241,7 @@
             this.ContextMenuStrip_Map.SuspendLayout();
             this.TabPage_Resources.SuspendLayout();
             this.MenuStrip1.SuspendLayout();
+            this.groupBox10.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabControl_Main
@@ -419,6 +422,7 @@
             resources.ApplyResources(this.flowLayoutPanel2, "flowLayoutPanel2");
             this.flowLayoutPanel2.Controls.Add(this.groupBox7);
             this.flowLayoutPanel2.Controls.Add(this.groupBox8);
+            this.flowLayoutPanel2.Controls.Add(this.groupBox10);
             this.flowLayoutPanel2.Controls.Add(this.groupBox4);
             this.flowLayoutPanel2.Controls.Add(this.groupBox5);
             this.flowLayoutPanel2.Controls.Add(this.groupBox11);
@@ -1576,6 +1580,20 @@
             resources.ApplyResources(this.ToolStripMenuItem_Discord, "ToolStripMenuItem_Discord");
             this.ToolStripMenuItem_Discord.Click += new System.EventHandler(this.ToolStripMenuItem_Discord_Click);
             // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.Button_OpenSearchWarningsSettings);
+            resources.ApplyResources(this.groupBox10, "groupBox10");
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.TabStop = false;
+            // 
+            // Button_OpenSearchWarningsSettings
+            // 
+            resources.ApplyResources(this.Button_OpenSearchWarningsSettings, "Button_OpenSearchWarningsSettings");
+            this.Button_OpenSearchWarningsSettings.Name = "Button_OpenSearchWarningsSettings";
+            this.Button_OpenSearchWarningsSettings.UseVisualStyleBackColor = true;
+            this.Button_OpenSearchWarningsSettings.Click += new System.EventHandler(this.Button_OpenSearchWarningsSettings_Click);
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -1616,6 +1634,7 @@
             this.TabPage_Resources.ResumeLayout(false);
             this.MenuStrip1.ResumeLayout(false);
             this.MenuStrip1.PerformLayout();
+            this.groupBox10.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1809,6 +1828,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_Scripts;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.Button Button_OpenSearchWarningsSettings;
     }
 }
 

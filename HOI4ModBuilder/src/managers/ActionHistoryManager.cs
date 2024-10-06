@@ -53,7 +53,7 @@ namespace HOI4ModBuilder.src.managers
                 _history.Add(pair);
                 if (!isSilent) pair.redo();
 
-                if (_history.Count > SettingsManager.settings.actionHistorySize) _history.RemoveAt(0);
+                if (_history.Count > SettingsManager.Settings.actionHistorySize) _history.RemoveAt(0);
                 else _currentPair++;
             });
         }

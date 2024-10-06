@@ -132,6 +132,17 @@ namespace HOI4ModBuilder.utils
             }
         }
 
+        public struct Color3F
+        {
+            public readonly float r, g, b;
+            public Color3F(float r, float g, float b)
+            {
+                this.r = r;
+                this.g = g;
+                this.b = b;
+            }
+        }
+
         public struct Color3B
         {
             public readonly byte red, green, blue;

@@ -51,7 +51,7 @@ namespace HOI4ModBuilder.src.forms
         {
             isLoading = true;
 
-            var settings = SettingsManager.settings;
+            var settings = SettingsManager.Settings;
 
             switch (settings.language)
             {
@@ -234,7 +234,7 @@ namespace HOI4ModBuilder.src.forms
         {
             Logger.TryOrLog(() =>
             {
-                var settings = SettingsManager.settings;
+                var settings = SettingsManager.Settings;
                 var prevLang = settings.language;
 
                 switch (ComboBox_Language.SelectedIndex)
@@ -301,7 +301,7 @@ namespace HOI4ModBuilder.src.forms
         {
             Logger.TryOrLog(() =>
             {
-                if (!isLoading) SettingsManager.settings.useModSettings = ComboBox_UsingSettingsType.SelectedIndex == 1;
+                if (!isLoading) SettingsManager.Settings.useModSettings = ComboBox_UsingSettingsType.SelectedIndex == 1;
             });
         }
 
@@ -309,7 +309,7 @@ namespace HOI4ModBuilder.src.forms
         {
             Logger.TryOrLog(() =>
             {
-                var settings = SettingsManager.settings;
+                var settings = SettingsManager.Settings;
 
                 if (!settings.IsModDirectorySelected())
                 {

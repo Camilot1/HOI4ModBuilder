@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
+using HOI4ModBuilder.src.managers.errors;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -49,7 +50,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (buttons == MouseButtons.Left && MapManager.displayLayers[(int)EnumAdditionalLayers.ERRORS])
             {
-                var codes = ErrorManager.GetErrorCodes(pos, 2);
+                var codes = ErrorManager.Instance.GetErrorCodes(pos, 2);
                 if (codes.Count != 0)
                 {
                     var sb = new StringBuilder();

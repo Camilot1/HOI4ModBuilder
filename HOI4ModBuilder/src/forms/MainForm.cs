@@ -229,7 +229,7 @@ namespace HOI4ModBuilder
                     Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_ALREADY_SAVING_OR_LOADING);
                     return;
                 }
-                else if (!SettingsManager.settings.IsModDirectorySelected())
+                else if (!SettingsManager.Settings.IsModDirectorySelected())
                 {
                     Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
                     return;
@@ -237,7 +237,7 @@ namespace HOI4ModBuilder
 
                 isLoadingOrSaving[0] = true;
 
-                SaveAllData(SettingsManager.settings);
+                SaveAllData(SettingsManager.Settings);
 
                 isLoadingOrSaving[0] = false;
             },
@@ -295,7 +295,7 @@ namespace HOI4ModBuilder
                 Logger.LogSingleErrorMessage(EnumLocKey.CANT_LOAD_BECAUSE_ALREADY_SAVING_OR_LOADING);
                 return;
             }
-            else if (!SettingsManager.settings.IsModDirectorySelected())
+            else if (!SettingsManager.Settings.IsModDirectorySelected())
             {
                 Logger.LogSingleErrorMessage(EnumLocKey.CANT_LOAD_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
                 return;
@@ -327,7 +327,11 @@ namespace HOI4ModBuilder
 
                         Logger.CloseAllTextBoxMessageForms();
 
-                        LoadAllData(SettingsManager.settings);
+                        //Stopwatch stopwatch = Stopwatch.StartNew();
+                        LoadAllData(SettingsManager.Settings);
+                        //stopwatch.Stop();
+                        //Logger.LogSingleInfoMessage(stopwatch.ElapsedMilliseconds + " ms");
+
                         context.MakeCurrent(null);
                     },
                     () => TryInvokeActionOrLog(
@@ -436,7 +440,7 @@ namespace HOI4ModBuilder
             Utils.CleanUpMemory();
         }
 
-        private void LoadAllData(Settings settings)
+        private async void LoadAllData(Settings settings)
         {
             LocalModDataManager.Load(settings);
 
@@ -447,11 +451,12 @@ namespace HOI4ModBuilder
             //Logger.Log($"Выполняю загрузку шрифтов");
             //FontManager.LoadFonts();
 
-            Logger.Log($"Loading mod directory: {SettingsManager.settings.modDirectory}");
-            DataManager.Load(SettingsManager.settings);
-            MapManager.Load(SettingsManager.settings);
+            Logger.Log($"Loading mod directory: {SettingsManager.Settings.modDirectory}");
+            DataManager.Load(SettingsManager.Settings);
+            MapManager.Load(SettingsManager.Settings);
 
-            ErrorManager.Init(settings);
+            WarningsManager.Init();
+            ErrorManager.Init();
 
             isMapMainLayerChangeEnabled = true;
         }
@@ -599,8 +604,8 @@ namespace HOI4ModBuilder
                     if (fileScale.Item1 == EnumFileScale.HEIGHT)
                     {
                         scaleFactor = fileScale.Item2 /
-                            (SettingsManager.settings.MAP_VIEWPORT_HEIGHT *
-                            SettingsManager.settings.GetMapScalePixelToKM() * 1000d);
+                            (SettingsManager.Settings.MAP_VIEWPORT_HEIGHT *
+                            SettingsManager.Settings.GetMapScalePixelToKM() * 1000d);
                     }
 
                     texturePlane.Scale((float)scaleFactor);
@@ -831,19 +836,19 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Save_Maps_Provinces_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => TextureManager.SaveProvincesMap());
         private void ToolStripMenuItem_Save_Maps_Rivers_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => TextureManager.SaveRiversMap(SettingsManager.settings));
+            => Logger.TryOrLog(() => TextureManager.SaveRiversMap(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Maps_All_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => TextureManager.SaveAllMaps(SettingsManager.settings));
+            => Logger.TryOrLog(() => TextureManager.SaveAllMaps(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Definition_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => ProvinceManager.SaveProvinces(SettingsManager.settings));
+            => Logger.TryOrLog(() => ProvinceManager.SaveProvinces(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Adjacencies_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => AdjacenciesManager.Save(SettingsManager.settings));
+            => Logger.TryOrLog(() => AdjacenciesManager.Save(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Supply_All_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => SupplyManager.SaveAll(SettingsManager.settings));
+            => Logger.TryOrLog(() => SupplyManager.SaveAll(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Supply_Railways_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => SupplyManager.SaveRailways(SettingsManager.settings.modDirectory + @"map\"));
+            => Logger.TryOrLog(() => SupplyManager.SaveRailways(SettingsManager.Settings.modDirectory + @"map\"));
         private void ToolStripMenuItem_Save_Supply_Hubs_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => SupplyManager.SaveSupplyNodes(SettingsManager.settings.modDirectory + @"map\"));
+            => Logger.TryOrLog(() => SupplyManager.SaveSupplyNodes(SettingsManager.Settings.modDirectory + @"map\"));
         private void ToolStripMenuItem_LoadAll_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => LoadAll());
         private void ToolStripMenuItem_Help_About_Click(object sender, EventArgs e)
@@ -1208,11 +1213,11 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Save_States_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => StateManager.Save(SettingsManager.settings));
+            => Logger.TryOrLog(() => StateManager.Save(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Regions_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => StrategicRegionManager.Save(SettingsManager.settings));
+            => Logger.TryOrLog(() => StrategicRegionManager.Save(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Maps_Heights_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => TextureManager.SaveHeightMap(SettingsManager.settings));
+            => Logger.TryOrLog(() => TextureManager.SaveHeightMap(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Maps_Terrain_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => TextureManager.SaveTerrainMap());
         private void ToolStripMenuItem_Save_Maps_Trees_Click(object sender, EventArgs e)
@@ -1405,8 +1410,11 @@ namespace HOI4ModBuilder
             foreach (var texture in mapTextures) ListBox_Textures.Items.Add(texture.fileName);
         }
 
-        private void Button_OpenSearchErrorsSettings_Click(object sender, EventArgs e) =>
-            Logger.TryOrLog(() => Task.Run(() => new SearchErrorsSettingsForm().ShowDialog()));
+        private void Button_OpenSearchWarningsSettings_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => Task.Run(() => new SearchSettingsForm(EnumSearchSettingsType.WARNINGS).ShowDialog()));
+        private void Button_OpenSearchErrorsSettings_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => Task.Run(() => new SearchSettingsForm(EnumSearchSettingsType.ERRORS).ShowDialog()));
+
         private void ToolStripTextBox_Map_Adjacency_Comment_TextChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() => AdjacenciesManager.GetSelectedSeaCross()?.SetComment(ToolStripTextBox_Map_Adjacency_Comment.Text));
         private void ToolStripMenuItem_Map_Adjacency_Rule_AddRequiredProvince_Click(object sender, EventArgs e)

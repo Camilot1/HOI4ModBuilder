@@ -36,7 +36,7 @@ namespace HOI4ModBuilder.src.utils
         public static void SetCurrentUICulture(string language)
         {
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
-            Logger.TryOrLog(() => LoadLocalizationFile(SettingsManager.settings.language));
+            Logger.TryOrLog(() => LoadLocalizationFile(SettingsManager.Settings.language));
             foreach (var actionPair in new Dictionary<Form, Action>(formsReinitEvents)) actionPair.Value();
         }
 
@@ -191,6 +191,7 @@ namespace HOI4ModBuilder.src.utils
         MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE,
         MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE,
         MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING,
+        MAP_TAB_PROGRESSBAR_MAP_WARNINGS_SEARCHING,
         MAP_TAB_PROGRESSBAR_MAP_ADDITIONAL_TEXTURE_LOADING,
         MAP_TAB_PROGRESSBAR_MAP_ADDITIONAL_TEXTURE_LOADED,
 
@@ -463,6 +464,8 @@ namespace HOI4ModBuilder.src.utils
         SCRIPT_EXCEPTION_ARGUMENT_MUST_BE_VAR_DECLARATOR,
         ARGUMENT_CAN_NOT_BE_NULL,
         WARNING_RESOURCE_COUNT_ALREDY_DEFINED,
-        MAP_TAB_PROGRESSBAR_LOADING_EQUPMENTS
+        MAP_TAB_PROGRESSBAR_LOADING_EQUPMENTS,
+        FOUNDED_NEW_WARNING_CODES,
+        SEARCH_FORM_WARNINGS_TITLE
     }
 }

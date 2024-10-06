@@ -180,11 +180,11 @@ namespace HOI4ModBuilder.managers
                 }
             }
 
+            GL.Scale(1f, -1f, 1f);
+            if (displayLayers[(int)EnumAdditionalLayers.WARNINGS])
+                WarningsManager.Instance.Draw();
             if (displayLayers[(int)EnumAdditionalLayers.ERRORS])
-            {
-                GL.Scale(1f, -1f, 1f);
-                ErrorManager.Draw();
-            }
+                ErrorManager.Instance.Draw();
             //DrawTest();
 
             GL.PopMatrix();
@@ -735,7 +735,8 @@ namespace HOI4ModBuilder.managers
                         }
 
                         ProvinceBorderManager.Init(ProvincesPixels, (ushort)MapSize.x, (ushort)MapSize.y);
-                        ErrorManager.Init(SettingsManager.settings);
+                        WarningsManager.Init();
+                        ErrorManager.Init();
 
                         context.MakeCurrent(null);
                     },
@@ -858,7 +859,7 @@ namespace HOI4ModBuilder.managers
         public static SegmentedTexturedPlane LoadAdditionalMapTexture(string filePath, string fileName)
         {
             var textures = new List<Texture2D>(0);
-            TextureManager.LoadSegmentedTextures(filePath, SettingsManager.settings, textures, out float imageWidth, out float imageHeight);
+            TextureManager.LoadSegmentedTextures(filePath, SettingsManager.Settings, textures, out float imageWidth, out float imageHeight);
             if (textures.Count == 0) return null;
 
             var texturedPlane = new SegmentedTexturedPlane(textures, imageWidth, imageHeight);

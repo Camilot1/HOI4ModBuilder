@@ -39,7 +39,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.files
                     (o) => o is IStringObject || o is IFileObject
                 );
 
-                result.Set(lineIndex, args, new StringObject(SettingsManager.settings.modDirectory));
+                result.Set(lineIndex, args, new StringObject(SettingsManager.Settings.modDirectory));
             };
         }
     }

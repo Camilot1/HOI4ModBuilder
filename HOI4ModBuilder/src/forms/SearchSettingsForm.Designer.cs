@@ -1,6 +1,6 @@
 ﻿namespace HOI4ModBuilder.src.forms
 {
-    partial class SearchErrorsSettingsForm
+    partial class SearchSettingsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchErrorsSettingsForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchSettingsForm));
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.Button_Save = new System.Windows.Forms.Button();
             this.Button_EnableAll = new System.Windows.Forms.Button();
@@ -63,7 +63,7 @@
             this.Button_DisableAll.UseVisualStyleBackColor = true;
             this.Button_DisableAll.Click += new System.EventHandler(this.Button_DisableAll_Click);
             // 
-            // SearchErrorsSettingsForm
+            // SearchSettingsForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -71,7 +71,7 @@
             this.Controls.Add(this.Button_EnableAll);
             this.Controls.Add(this.Button_Save);
             this.Controls.Add(this.checkedListBox1);
-            this.Name = "SearchErrorsSettingsForm";
+            this.Name = "SearchSettingsForm";
             this.ResumeLayout(false);
 
         }

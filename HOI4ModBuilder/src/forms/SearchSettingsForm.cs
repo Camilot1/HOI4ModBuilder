@@ -1,27 +1,30 @@
-﻿using HOI4ModBuilder.src.managers;
+﻿using HOI4ModBuilder.src.managers.errors;
+using HOI4ModBuilder.src.managers.warnings;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.forms
 {
-    public partial class SearchErrorsSettingsForm : Form
+    public enum EnumSearchSettingsType
     {
-        public static SearchErrorsSettingsForm instance;
-        public static bool isLoading = false;
+        WARNINGS,
+        ERRORS
+    }
 
-        public SearchErrorsSettingsForm()
+    public partial class SearchSettingsForm : Form
+    {
+        public static SearchSettingsForm instance;
+        public static bool isLoading = false;
+        private readonly EnumSearchSettingsType _type;
+
+        public SearchSettingsForm(EnumSearchSettingsType type)
         {
             InitializeComponent();
             instance?.Invoke((MethodInvoker)delegate { instance?.Close(); });
             instance = this;
+            _type = type;
         }
 
         protected override void OnShown(EventArgs e)
@@ -35,6 +38,7 @@ namespace HOI4ModBuilder.src.forms
                     Controls.Clear();
                     InitializeComponent();
                     LoadData();
+                    Focus();
                 });
             });
         }
@@ -48,12 +52,29 @@ namespace HOI4ModBuilder.src.forms
 
         private void LoadData()
         {
-            var settings = SettingsManager.settings;
-
             checkedListBox1.Items.Clear();
-            if (settings == null || settings.searchErrorsSettings == null) return;
 
-            var enums = Enum.GetValues(typeof(EnumMapErrorCode));
+            Type type;
+            List<string> data;
+
+            if (_type == EnumSearchSettingsType.WARNINGS)
+            {
+                type = typeof(EnumMapWarningCode);
+                data = SettingsManager.Settings?.searchWarningsSettings?.enabled;
+                Text = GuiLocManager.GetLoc(EnumLocKey.SEARCH_FORM_WARNINGS_TITLE);
+            }
+            else if (_type == EnumSearchSettingsType.ERRORS)
+            {
+                type = typeof(EnumMapErrorCode);
+                data = SettingsManager.Settings?.searchErrorsSettings?.enabled;
+                Text = GuiLocManager.GetLoc(EnumLocKey.SEARCH_FORM_WARNINGS_TITLE);
+            }
+            else throw new Exception($"UNKNOWN TYPE: {_type}");
+
+            if (data == null)
+                return;
+
+            var enums = Enum.GetValues(type);
             Dictionary<string, int> indexes = new Dictionary<string, int>(enums.Length);
 
             int i = 0;
@@ -65,7 +86,7 @@ namespace HOI4ModBuilder.src.forms
                 i++;
             }
 
-            foreach (string name in settings.searchErrorsSettings.errors)
+            foreach (string name in data)
             {
                 if (indexes.TryGetValue(name, out int index))
                 {
@@ -75,17 +96,28 @@ namespace HOI4ModBuilder.src.forms
         }
 
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            WriteValuesToSettings();
-        }
+            => WriteValuesToSettings();
 
         private void WriteValuesToSettings()
         {
-            var data = SettingsManager.settings.searchErrorsSettings.errors;
+            Type type;
+            List<string> data;
+
+            if (_type == EnumSearchSettingsType.WARNINGS)
+            {
+                type = typeof(EnumMapWarningCode);
+                data = SettingsManager.Settings.searchWarningsSettings.enabled;
+            }
+            else if (_type == EnumSearchSettingsType.ERRORS)
+            {
+                type = typeof(EnumMapErrorCode);
+                data = SettingsManager.Settings.searchErrorsSettings.enabled;
+            }
+            else throw new Exception($"UNKNOWN TYPE: {_type}");
 
             data.Clear();
 
-            foreach (var enumObj in Enum.GetValues(typeof(EnumMapErrorCode)))
+            foreach (var enumObj in Enum.GetValues(type))
             {
                 string name = enumObj.ToString();
                 if (checkedListBox1.CheckedItems.Contains(name))
@@ -110,8 +142,6 @@ namespace HOI4ModBuilder.src.forms
         }
 
         private void Button_Save_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() => SettingsManager.SaveSettings());
-        }
+            => Logger.TryOrLog(() => SettingsManager.SaveSettings());
     }
 }
