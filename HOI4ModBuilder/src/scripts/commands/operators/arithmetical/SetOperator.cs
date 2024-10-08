@@ -1,6 +1,6 @@
 ﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 
-namespace HOI4ModBuilder.src.scripts.commands.arithmetical
+namespace HOI4ModBuilder.src.scripts.commands.operators.arithmetical
 {
     public class SetOperator : ScriptCommand
     {

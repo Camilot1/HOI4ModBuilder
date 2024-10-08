@@ -2,6 +2,7 @@
 using HOI4ModBuilder.src.forms.scripts;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.scripts.commands;
+using HOI4ModBuilder.src.scripts.commands.arithmetical;
 using HOI4ModBuilder.src.scripts.commands.commands;
 using HOI4ModBuilder.src.scripts.commands.declarators;
 using HOI4ModBuilder.src.scripts.commands.declarators.vars;
@@ -15,6 +16,7 @@ using HOI4ModBuilder.src.scripts.commands.functions.time;
 using HOI4ModBuilder.src.scripts.commands.keywords;
 using HOI4ModBuilder.src.scripts.commands.methods;
 using HOI4ModBuilder.src.scripts.commands.operators;
+using HOI4ModBuilder.src.scripts.commands.operators.arithmetical;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
