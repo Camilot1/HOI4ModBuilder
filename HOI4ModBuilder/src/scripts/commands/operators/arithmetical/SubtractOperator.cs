@@ -1,18 +1,18 @@
 ﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 
-namespace HOI4ModBuilder.src.scripts.commands.operators
+namespace HOI4ModBuilder.src.scripts.commands.operators.arithmetical
 {
-    public class AddOperator : ScriptCommand
+    public class SubtractOperator : ScriptCommand
     {
-        private static readonly string _keyword = "ADD";
+        private static readonly string _keyword = "SUBTRACT";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.operators." + _keyword;
+        public override string GetPath() => "commands.declarators.operators.arithmetical." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <IADD:variable> <ANY:value>"
+            $"{_keyword} <ISUBTRACT:variable> <ANY:value>"
         };
-        public override ScriptCommand CreateEmptyCopy() => new AddOperator();
+        public override ScriptCommand CreateEmptyCopy() => new SubtractOperator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -27,9 +27,9 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var variable = (IAddObject)ScriptParser.GetValue(
+                var variable = (ISubtractObject)ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o is IAddObject
+                    (o) => o is ISubtractObject
                 );
 
                 var value = ScriptParser.ParseValue(
@@ -37,7 +37,7 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
                     (o) => true
                 );
 
-                variable.Add(lineIndex, args, value);
+                variable.Subtract(lineIndex, args, value);
             };
         }
     }

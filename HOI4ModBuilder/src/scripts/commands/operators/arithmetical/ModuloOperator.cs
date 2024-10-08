@@ -1,14 +1,12 @@
-﻿using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
-using System;
+﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 
-namespace HOI4ModBuilder.src.scripts.commands.operators
+namespace HOI4ModBuilder.src.scripts.commands.operators.arithmetical
 {
     public class ModuloOperator : ScriptCommand
     {
         private static readonly string _keyword = "MODULO";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.operators." + _keyword;
+        public override string GetPath() => "commands.declarators.operators.arithmetical." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {

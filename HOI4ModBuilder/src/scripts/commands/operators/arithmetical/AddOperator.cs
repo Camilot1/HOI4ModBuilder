@@ -1,20 +1,18 @@
-﻿using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
-using System;
+﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 
-namespace HOI4ModBuilder.src.scripts.commands
+namespace HOI4ModBuilder.src.scripts.commands.operators.arithmetical
 {
-    public class SetOperator : ScriptCommand
+    public class AddOperator : ScriptCommand
     {
-        private static readonly string _keyword = "SET";
+        private static readonly string _keyword = "ADD";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.operators." + _keyword;
+        public override string GetPath() => "commands.declarators.operators.arithmetical." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <ISET:variable> <ANY:value>"
+            $"{_keyword} <IADD:variable> <ANY:value>"
         };
-        public override ScriptCommand CreateEmptyCopy() => new SetOperator();
+        public override ScriptCommand CreateEmptyCopy() => new AddOperator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -29,9 +27,9 @@ namespace HOI4ModBuilder.src.scripts.commands
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var variable = (ISetObject)ScriptParser.GetValue(
+                var variable = (IAddObject)ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o is ISetObject
+                    (o) => o is IAddObject
                 );
 
                 var value = ScriptParser.ParseValue(
@@ -39,7 +37,7 @@ namespace HOI4ModBuilder.src.scripts.commands
                     (o) => true
                 );
 
-                variable.Set(lineIndex, args, value);
+                variable.Add(lineIndex, args, value);
             };
         }
     }

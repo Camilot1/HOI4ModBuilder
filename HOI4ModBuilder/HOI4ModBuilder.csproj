@@ -510,13 +510,13 @@
     <Compile Include="src\scripts\commands\declarators\vars\MapDeclarator.cs" />
     <Compile Include="src\scripts\commands\methods\SetSizeMethod.cs" />
     <Compile Include="src\scripts\commands\methods\WriteMethod.cs" />
-    <Compile Include="src\scripts\commands\operators\AddOperator.cs" />
-    <Compile Include="src\scripts\commands\operators\DivideOperator.cs" />
-    <Compile Include="src\scripts\commands\operators\ModuloOperator.cs" />
-    <Compile Include="src\scripts\commands\operators\MultiplyOperator.cs" />
+    <Compile Include="src\scripts\commands\operators\arithmetical\AddOperator.cs" />
+    <Compile Include="src\scripts\commands\operators\arithmetical\DivideOperator.cs" />
+    <Compile Include="src\scripts\commands\operators\arithmetical\ModuloOperator.cs" />
+    <Compile Include="src\scripts\commands\operators\arithmetical\MultiplyOperator.cs" />
     <Compile Include="src\scripts\commands\methods\RoundMethod.cs" />
-    <Compile Include="src\scripts\commands\operators\SetOperator.cs" />
-    <Compile Include="src\scripts\commands\operators\SubtractOperator.cs" />
+    <Compile Include="src\scripts\commands\operators\arithmetical\SetOperator.cs" />
+    <Compile Include="src\scripts\commands\operators\arithmetical\SubtractOperator.cs" />
     <Compile Include="src\scripts\commands\ScopeScriptCommand.cs" />
     <Compile Include="src\scripts\commands\ScriptCommand.cs" />
     <Compile Include="src\scripts\exceptions\ArgumentMustBeMarkedAsOutScriptException.cs" />
@@ -757,7 +757,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="src\scripts\commands\operators\logical\" />
+    <Folder Include="src\scripts\commands\operators\relative\" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
       <Visible>False</Visible>

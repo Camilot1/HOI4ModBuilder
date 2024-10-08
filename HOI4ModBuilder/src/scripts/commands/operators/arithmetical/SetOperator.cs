@@ -1,20 +1,18 @@
-﻿using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
-using System;
+﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 
-namespace HOI4ModBuilder.src.scripts.commands.operators
+namespace HOI4ModBuilder.src.scripts.commands.arithmetical
 {
-    public class DivideOperator : ScriptCommand
+    public class SetOperator : ScriptCommand
     {
-        private static readonly string _keyword = "DIVIDE";
+        private static readonly string _keyword = "SET";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.operators." + _keyword;
+        public override string GetPath() => "commands.declarators.operators.arithmetical." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <IDIVIDE:variable> <ANY:value>"
+            $"{_keyword} <ISET:variable> <ANY:value>"
         };
-        public override ScriptCommand CreateEmptyCopy() => new DivideOperator();
+        public override ScriptCommand CreateEmptyCopy() => new SetOperator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -29,9 +27,9 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var variable = (IDivideObject)ScriptParser.GetValue(
+                var variable = (ISetObject)ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o is IDivideObject
+                    (o) => o is ISetObject
                 );
 
                 var value = ScriptParser.ParseValue(
@@ -39,7 +37,7 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
                     (o) => true
                 );
 
-                variable.Divide(lineIndex, args, value);
+                variable.Set(lineIndex, args, value);
             };
         }
     }

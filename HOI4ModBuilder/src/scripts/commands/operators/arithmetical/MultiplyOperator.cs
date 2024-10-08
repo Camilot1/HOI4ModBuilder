@@ -1,18 +1,18 @@
 ﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 
-namespace HOI4ModBuilder.src.scripts.commands.operators
+namespace HOI4ModBuilder.src.scripts.commands.operators.arithmetical
 {
-    public class SubtractOperator : ScriptCommand
+    public class MultiplyOperator : ScriptCommand
     {
-        private static readonly string _keyword = "SUBTRACT";
+        private static readonly string _keyword = "MULTIPLY";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.operators." + _keyword;
+        public override string GetPath() => "commands.declarators.operators.arithmetical." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <ISUBTRACT:variable> <ANY:value>"
+            $"{_keyword} <IMULTIPLY:variable> <ANY:value>"
         };
-        public override ScriptCommand CreateEmptyCopy() => new SubtractOperator();
+        public override ScriptCommand CreateEmptyCopy() => new MultiplyOperator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -27,9 +27,9 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var variable = (ISubtractObject)ScriptParser.GetValue(
+                var variable = (IMultiplyObject)ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o is ISubtractObject
+                    (o) => o is IMultiplyObject
                 );
 
                 var value = ScriptParser.ParseValue(
@@ -37,7 +37,7 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
                     (o) => true
                 );
 
-                variable.Subtract(lineIndex, args, value);
+                variable.Multiply(lineIndex, args, value);
             };
         }
     }
