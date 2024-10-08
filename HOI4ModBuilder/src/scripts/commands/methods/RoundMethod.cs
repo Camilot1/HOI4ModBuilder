@@ -1,13 +1,20 @@
-﻿using HOI4ModBuilder.src.scripts.exceptions;
+﻿using HOI4ModBuilder.src.scripts.commands.declarators;
+using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;
 using System;
 
-namespace HOI4ModBuilder.src.scripts.commands.operators
+namespace HOI4ModBuilder.src.scripts.commands.methods
 {
     public class RoundMethod : ScriptCommand
     {
         private static readonly string _keyword = "ROUND";
         public static new string GetKeyword() => _keyword;
+        public override string GetPath() => "commands.declarators.methods." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
+        {
+            $"{_keyword} <{FloatDeclarator.GetKeyword()}:var_name>"
+        };
         public override ScriptCommand CreateEmptyCopy() => new RoundMethod();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
@@ -23,15 +30,12 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var variable = varsScope.GetValue(args[1]);
+                var variable = (FloatObject)ScriptParser.GetValue(
+                    varsScope, args[1], lineIndex, args,
+                    (o) => o is FloatObject
+                );
 
-                if (variable == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
-
-                if (variable is FloatObject obj)
-                    obj.Value = (float)Math.Round(obj.Value);
-                else
-                    throw new InvalidOperationScriptException(lineIndex, args);
+                variable.Value = (float)Math.Round(variable.Value);
             };
         }
     }

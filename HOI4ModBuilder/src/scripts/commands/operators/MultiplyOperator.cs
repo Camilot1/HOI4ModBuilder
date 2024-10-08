@@ -9,6 +9,12 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
     {
         private static readonly string _keyword = "MULTIPLY";
         public static new string GetKeyword() => _keyword;
+        public override string GetPath() => "commands.declarators.operators." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
+        {
+            $"{_keyword} <IMULTIPLY:variable> <ANY:value>"
+        };
         public override ScriptCommand CreateEmptyCopy() => new MultiplyOperator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
@@ -24,19 +30,17 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
             _varsScope = varsScope;
             _action = delegate ()
             {
+                var variable = (IMultiplyObject)ScriptParser.GetValue(
+                    varsScope, args[1], lineIndex, args,
+                    (o) => o is IMultiplyObject
+                );
 
-                var variable = varsScope.GetValue(args[1]);
-                var value = ScriptParser.ParseValue(varsScope, args[2]);
+                var value = ScriptParser.ParseValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => true
+                );
 
-                if (variable == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
-                if (value == null)
-                    throw new VariableValueIsNotSetScriptException(lineIndex, args);
-
-                if (variable is IMultiplyObject obj)
-                    obj.Multiply(lineIndex, args, value);
-                else
-                    throw new InvalidOperationScriptException(lineIndex, args);
+                variable.Multiply(lineIndex, args, value);
             };
         }
     }

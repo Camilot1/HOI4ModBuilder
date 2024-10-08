@@ -7,9 +7,9 @@ namespace HOI4ModBuilder.src.scripts.commands.commands
     {
         private static readonly string _keyword = "PUT";
         public static new string GetKeyword() => _keyword;
-        public static new string GetPath() => "commands.declarators.methods." + _keyword;
-        public static new string[] GetDocumentation() => documentation;
-        public static readonly string[] documentation = new string[]
+        public override string GetPath() => "commands.declarators.methods." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
         {
             $"{_keyword} <IPUT<KEY_TYPE,VALUE_TYPE:to> <KEY_TYPE:key> <VALUE_TYPE:value>",
             "======== OR ========",

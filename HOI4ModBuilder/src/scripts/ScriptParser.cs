@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.src.forms.scripts;
+using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.scripts.commands;
 using HOI4ModBuilder.src.scripts.commands.commands;
 using HOI4ModBuilder.src.scripts.commands.declarators;
@@ -17,6 +18,8 @@ using HOI4ModBuilder.src.scripts.commands.operators;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
+using HOI4ModBuilder.src.utils;
+using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +31,8 @@ namespace HOI4ModBuilder.src.scripts
 {
     public class ScriptParser
     {
+        private static readonly string _scriptsFolderPath = FileManager.AssembleFolderPath(new string[] { "data", "scripts" });
+
         private static bool _isInited = Init();
         public static readonly string TRUE_KEY = "TRUE";
         public static readonly string FALSE_KEY = "FALSE";
@@ -53,8 +58,8 @@ namespace HOI4ModBuilder.src.scripts
         {
             if (_isInited) return true;
 
-
             RegisterCommandFabrics();
+            SaveDocumentation();
 
             return true;
         }
@@ -135,8 +140,42 @@ namespace HOI4ModBuilder.src.scripts
         }
 
         private static void RegisterFabric(string keyword, Func<ScriptCommand> fabric)
+            => RegisterFabric(keyword, fabric, null);
+
+        private static void SaveDocumentation()
         {
-            RegisterFabric(keyword, fabric, null);
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var entry in _commandsFabrics)
+            {
+                Logger.TryOrCatch(
+                    () =>
+                    {
+                        var scriptObject = entry.Value();
+
+                        sb.Append("Keyword: ").Append(Constants.NEW_LINE)
+                            .Append("\t").Append(entry.Key).Append(Constants.NEW_LINE);
+
+                        sb.Append("Command Path:").Append(Constants.NEW_LINE)
+                            .Append("\t").Append(scriptObject.GetPath()).Append(Constants.NEW_LINE);
+
+                        sb.Append("Documentation:").Append(Constants.NEW_LINE);
+                        foreach (var line in scriptObject.GetDocumentation())
+                            sb.Append('\t').Append(line).Append(Constants.NEW_LINE);
+
+                        sb.Append(Constants.NEW_LINE).Append(Constants.NEW_LINE).Append(Constants.NEW_LINE);
+                    },
+                    (ex) => Logger.LogExceptionAsError(
+                        EnumLocKey.EXCEPTION_DURING_SCRIPT_PARSER_DOCUMENTATION_SAVING,
+                        new Dictionary<string, string> { { "{fabric}", entry.Key } },
+                        ex
+                    )
+                );
+            }
+
+            Logger.DisplayErrors();
+
+            File.WriteAllText(_scriptsFolderPath + "_documentation.info", sb.ToString());
         }
 
         public static IScriptObject ParseValue(VarsScope varsScope, string value, int lineIndex, string[] args, Func<IScriptObject, bool> typeCheck)

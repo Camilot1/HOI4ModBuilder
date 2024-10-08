@@ -10,9 +10,9 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.time
     {
         private static readonly string _keyword = "GET_DAYS_SINCE_YEAR_START";
         public static new string GetKeyword() => _keyword;
-        public static new string GetPath() => "commands.declarators.functions.time." + _keyword;
-        public static new string[] GetDocumentation() => documentation;
-        public static readonly string[] documentation = new string[]
+        public override string GetPath() => "commands.declarators.functions.time." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
         {
             $"{_keyword} <INUMBER:days_since_year_start> <INUMBER:day_index> <INUMBER:month_index>",
             "======== OR ========",

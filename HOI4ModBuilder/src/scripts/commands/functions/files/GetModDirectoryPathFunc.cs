@@ -9,9 +9,9 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.files
     {
         private static readonly string _keyword = "GET_MOD_DIRECTORY_PATH";
         public static new string GetKeyword() => _keyword;
-        public static new string GetPath() => "commands.declarators.functions.files." + _keyword;
-        public static new string[] GetDocumentation() => documentation;
-        public static readonly string[] documentation = new string[]
+        public override string GetPath() => "commands.declarators.functions.files." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
         {
             $"{_keyword} <{StringDeclarator.GetKeyword()}|{FileDeclarator.GetKeyword()}:var_name>",
             "======== OR ========",

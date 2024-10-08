@@ -10,9 +10,9 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
         private static readonly string _for_keyword = "FOR";
         private static readonly string _in_keyword = "IN";
         public static new string GetKeyword() => _for_keyword;
-        public static new string GetPath() => "commands.declarators.vars.cycles." + _for_keyword;
-        public static new string[] GetDocumentation() => documentation;
-        public static readonly string[] documentation = new string[]
+        public override string GetPath() => "commands.declarators.vars.cycles." + _for_keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
         {
             _for_keyword + " <iterator_name> IN <LIST:values>",
             "\t<INNER_CODE>"

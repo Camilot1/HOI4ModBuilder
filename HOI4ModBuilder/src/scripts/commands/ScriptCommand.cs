@@ -19,7 +19,7 @@ namespace HOI4ModBuilder.src.scripts.commands
 
         public abstract ScriptCommand CreateEmptyCopy();
         public static string GetKeyword() => throw new NotImplementedException();
-        public static string GetPath() => throw new NotImplementedException();
-        public static string GetDocumentation() => throw new NotImplementedException();
+        public abstract string GetPath();
+        public abstract string[] GetDocumentation();
     }
 }

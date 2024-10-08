@@ -7,9 +7,9 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
     {
         private static readonly string _keyword = "HAS_KEY";
         public static new string GetKeyword() => _keyword;
-        public static new string GetPath() => "commands.declarators.methods." + _keyword;
-        public static new string[] GetDocumentation() => documentation;
-        public static readonly string[] documentation = new string[]
+        public override string GetPath() => "commands.declarators.methods." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
         {
             $"{_keyword} <BOOLEAN:to> <IMAP<KEY_TYPE,VALUE_TYPE>:from> <KEY_TYPE:key>",
             "======== OR ========",

@@ -8,6 +8,12 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
     {
         private static readonly string _keyword = "DIVIDE";
         public static new string GetKeyword() => _keyword;
+        public override string GetPath() => "commands.declarators.operators." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
+        {
+            $"{_keyword} <IDIVIDE:variable> <ANY:value>"
+        };
         public override ScriptCommand CreateEmptyCopy() => new DivideOperator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
@@ -23,18 +29,17 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var variable = varsScope.GetValue(args[1]);
-                var value = ScriptParser.ParseValue(varsScope, args[2]);
+                var variable = (IDivideObject)ScriptParser.GetValue(
+                    varsScope, args[1], lineIndex, args,
+                    (o) => o is IDivideObject
+                );
 
-                if (variable == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
-                if (value == null)
-                    throw new VariableValueIsNotSetScriptException(lineIndex, args);
+                var value = ScriptParser.ParseValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => true
+                );
 
-                if (variable is IDivideObject obj)
-                    obj.Divide(lineIndex, args, value);
-                else
-                    throw new InvalidOperationScriptException(lineIndex, args);
+                variable.Divide(lineIndex, args, value);
             };
         }
     }

@@ -9,9 +9,9 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
     {
         private static readonly string _keyword = "GET_ALL_STATES_IDS";
         public static new string GetKeyword() => _keyword;
-        public static new string GetPath() => "commands.declarators.functions.states." + _keyword;
-        public static new string[] GetDocumentation() => documentation;
-        public static readonly string[] documentation = new string[]
+        public override string GetPath() => "commands.declarators.functions.states." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
         {
             $"{_keyword} <{ListDeclarator.GetKeyword()}<INUMBER>>:states_ids>",
             "======== OR ========",

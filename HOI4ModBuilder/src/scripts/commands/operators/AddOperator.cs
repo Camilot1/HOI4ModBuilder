@@ -1,6 +1,4 @@
-﻿using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
-using System;
+﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 
 namespace HOI4ModBuilder.src.scripts.commands.operators
 {
@@ -8,6 +6,12 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
     {
         private static readonly string _keyword = "ADD";
         public static new string GetKeyword() => _keyword;
+        public override string GetPath() => "commands.declarators.operators." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
+        {
+            $"{_keyword} <IADD:variable> <ANY:value>"
+        };
         public override ScriptCommand CreateEmptyCopy() => new AddOperator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
@@ -23,18 +27,17 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var variable = varsScope.GetValue(args[1]);
-                var value = ScriptParser.ParseValue(varsScope, args[2]);
+                var variable = (IAddObject)ScriptParser.GetValue(
+                    varsScope, args[1], lineIndex, args,
+                    (o) => o is IAddObject
+                );
 
-                if (variable == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
-                if (value == null)
-                    throw new VariableValueIsNotSetScriptException(lineIndex, args);
+                var value = ScriptParser.ParseValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => true
+                );
 
-                if (variable is IAddObject obj)
-                    obj.Add(lineIndex, args, value);
-                else
-                    throw new InvalidOperationScriptException(lineIndex, args);
+                variable.Add(lineIndex, args, value);
             };
         }
     }

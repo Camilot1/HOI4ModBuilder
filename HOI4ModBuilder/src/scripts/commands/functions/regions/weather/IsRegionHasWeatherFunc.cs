@@ -14,9 +14,9 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
     {
         private static readonly string _keyword = "IS_REGION_HAS_WEATHER";
         public static new string GetKeyword() => _keyword;
-        public static new string GetPath() => "commands.declarators.functions.regions.weather." + _keyword;
-        public static new string[] GetDocumentation() => documentation;
-        public static readonly string[] documentation = new string[]
+        public override string GetPath() => "commands.declarators.functions.regions.weather." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
         {
             $"{_keyword} <{BooleanDeclarator.GetKeyword()}:is_region_has_weather> <INUMBER:<region_id> <INUMBER:weather_period_index>",
             "======== OR ========",

@@ -8,9 +8,9 @@ namespace HOI4ModBuilder.src.scripts.commands.keywords
     {
         private static readonly string _keyword = "BREAK";
         public static new string GetKeyword() => _keyword;
-        public static new string GetPath() => "commands.declarators.keywords." + _keyword;
-        public static new string[] GetDocumentation() => documentation;
-        public static readonly string[] documentation = new string[]
+        public override string GetPath() => "commands.declarators.keywords." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
         {
             $"{_keyword}"
         };

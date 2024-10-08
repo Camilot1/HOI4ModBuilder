@@ -10,9 +10,9 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
     {
         private static readonly string _keyword = "MAP";
         public static new string GetKeyword() => _keyword;
-        public static new string GetPath() => "commands.declarators.vars." + _keyword;
-        public static new string[] GetDocumentation() => documentation;
-        public static readonly string[] documentation = new string[]
+        public override string GetPath() => "commands.declarators.vars." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
         {
             $"{_keyword} <{_keyword}:var_name> <KEY_VALUE> <VALUE_TYPE> [OPTIONAL]<{_keyword}<KEY_TYPE,VALUE_TYPE>:other_value>",
             "======== OR ========",

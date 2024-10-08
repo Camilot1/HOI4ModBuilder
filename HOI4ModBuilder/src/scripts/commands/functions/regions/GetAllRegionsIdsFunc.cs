@@ -11,9 +11,9 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions
     {
         private static readonly string _keyword = "GET_ALL_REGIONS_IDS";
         public static new string GetKeyword() => _keyword;
-        public static new string GetPath() => "commands.declarators.functions.regions." + _keyword;
-        public static new string[] GetDocumentation() => documentation;
-        public static readonly string[] documentation = new string[]
+        public override string GetPath() => "commands.declarators.functions.regions." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
         {
             $"{_keyword} <{ListDeclarator.GetKeyword()}<INUMBER>:regions_ids>",
             "======== OR ========",

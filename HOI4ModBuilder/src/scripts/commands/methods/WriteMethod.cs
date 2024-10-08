@@ -1,8 +1,5 @@
-﻿using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects;
-using HOI4ModBuilder.src.scripts.objects.interfaces;
+﻿using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
-using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {
@@ -10,7 +7,13 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
     {
         private static readonly string _keyword = "WRITE";
         public static new string GetKeyword() => _keyword;
-        public override ScriptCommand CreateEmptyCopy() => new CeilMethod();
+        public override string GetPath() => "commands.declarators.methods." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
+        {
+            $"{_keyword} <IWRITE:variable> <ANY:value>"
+        };
+        public override ScriptCommand CreateEmptyCopy() => new WriteMethod();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -25,23 +28,20 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var variable = varsScope.GetValue(args[1]);
-                var value = ScriptParser.ParseValue(varsScope, args[2]);
+                var variable = (IWriteObject)ScriptParser.GetValue(
+                    varsScope, args[1], lineIndex, args,
+                    (o) => o is IWriteObject
+                );
 
-                if (variable == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
-                if (value == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
+                var value = ScriptParser.ParseValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => true
+                );
 
-                if (variable is IWriteObject writeObj)
-                {
-                    if (value is ICollectionObject collectionObj)
-                        writeObj.WriteRange(lineIndex, args, value);
-                    else
-                        writeObj.Write(lineIndex, args, value);
-                }
+                if (value is ICollectionObject collectionObj)
+                    variable.WriteRange(lineIndex, args, collectionObj);
                 else
-                    throw new InvalidOperationScriptException(lineIndex, args);
+                    variable.Write(lineIndex, args, value);
             };
         }
     }

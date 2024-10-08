@@ -3,6 +3,7 @@ using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HOI4ModBuilder.src.scripts.commands.declarators
 {
@@ -12,7 +13,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
         private static readonly string _else_if_keyword = "ELSE_IF";
         private static readonly string _else_keyword = "ELSE";
         public static new string GetKeyword() => _if_keyword;
-        public static new string GetPath() => "commands.declarators.BRANCH";
+        public override string GetPath() => "commands.declarators.BRANCH";
 
         private static readonly Dictionary<string, Func<int, string[], IRelativeObject, IRelativeObject, BooleanObject, bool>> _relationFuncs = new Dictionary<string, Func<int, string[], IRelativeObject, IRelativeObject, BooleanObject, bool>>
         {
@@ -24,8 +25,8 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
             { "!=", (lineIndex, args, a, b, r) => a.IsNotEquals(lineIndex, args, b, r) }
         };
 
-        public static new string[] GetDocumentation() => documentation;
-        public static readonly string[] documentation = new string[]
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
         {
             $"{_if_keyword} <{BooleanDeclarator.GetKeyword()}:value>",
             "\t<INNER_CODE>",
@@ -41,7 +42,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
             _else_keyword,
             "\t<INNER_CODE>",
             "======== WHERE ========",
-            $"RELATIVE_OPERATORS: {_relationFuncs.Keys}"
+            $"RELATIVE_OPERATORS: {string.Join(", ", _relationFuncs.Keys)}"
         };
 
 

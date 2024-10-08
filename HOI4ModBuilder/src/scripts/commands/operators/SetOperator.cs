@@ -8,6 +8,12 @@ namespace HOI4ModBuilder.src.scripts.commands
     {
         private static readonly string _keyword = "SET";
         public static new string GetKeyword() => _keyword;
+        public override string GetPath() => "commands.declarators.operators." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
+        {
+            $"{_keyword} <ISET:variable> <ANY:value>"
+        };
         public override ScriptCommand CreateEmptyCopy() => new SetOperator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
@@ -23,19 +29,17 @@ namespace HOI4ModBuilder.src.scripts.commands
             _varsScope = varsScope;
             _action = delegate ()
             {
+                var variable = (ISetObject)ScriptParser.GetValue(
+                    varsScope, args[1], lineIndex, args,
+                    (o) => o is ISetObject
+                );
 
-                var variable = varsScope.GetValue(args[1]);
-                var value = ScriptParser.ParseValue(varsScope, args[2]);
+                var value = ScriptParser.ParseValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => true
+                );
 
-                if (variable == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
-                if (value == null)
-                    throw new VariableValueIsNotSetScriptException(lineIndex, args);
-
-                if (variable is ISetObject obj)
-                    obj.Set(lineIndex, args, value);
-                else
-                    throw new InvalidOperationScriptException(lineIndex, args);
+                variable.Set(lineIndex, args, value);
             };
         }
     }

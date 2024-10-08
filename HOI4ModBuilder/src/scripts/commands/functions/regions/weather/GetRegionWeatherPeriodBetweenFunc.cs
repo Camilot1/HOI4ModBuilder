@@ -11,9 +11,9 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
     {
         private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_BETWEEN";
         public static new string GetKeyword() => _keyword;
-        public static new string GetPath() => "commands.declarators.functions.regions.weather." + _keyword;
-        public static new string[] GetDocumentation() => documentation;
-        public static readonly string[] documentation = new string[]
+        public override string GetPath() => "commands.declarators.functions.regions.weather." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
         {
             $"{_keyword} <INUMBER:start_day> <INUMBER:start_month> <INUMBER:end_day> <INUMBER:end_month> " +
                     "<INUMBER:region_id> <INUMBER:weather_period_index>",

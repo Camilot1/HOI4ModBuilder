@@ -1,7 +1,4 @@
-﻿
-using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
-using System;
+﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 
 namespace HOI4ModBuilder.src.scripts.commands.operators
 {
@@ -9,6 +6,12 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
     {
         private static readonly string _keyword = "SUBTRACT";
         public static new string GetKeyword() => _keyword;
+        public override string GetPath() => "commands.declarators.operators." + _keyword;
+        public override string[] GetDocumentation() => _documentation;
+        private static readonly string[] _documentation = new string[]
+        {
+            $"{_keyword} <ISUBTRACT:variable> <ANY:value>"
+        };
         public override ScriptCommand CreateEmptyCopy() => new SubtractOperator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
@@ -24,19 +27,17 @@ namespace HOI4ModBuilder.src.scripts.commands.operators
             _varsScope = varsScope;
             _action = delegate ()
             {
+                var variable = (ISubtractObject)ScriptParser.GetValue(
+                    varsScope, args[1], lineIndex, args,
+                    (o) => o is ISubtractObject
+                );
 
-                var variable = varsScope.GetValue(args[1]);
-                var value = ScriptParser.ParseValue(varsScope, args[2]);
+                var value = ScriptParser.ParseValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => true
+                );
 
-                if (variable == null)
-                    throw new VariableIsNotDeclaredScriptException(lineIndex, args);
-                if (value == null)
-                    throw new VariableValueIsNotSetScriptException(lineIndex, args);
-
-                if (variable is ISubtractObject obj)
-                    obj.Subtract(lineIndex, args, value);
-                else
-                    throw new InvalidOperationScriptException(lineIndex, args);
+                variable.Subtract(lineIndex, args, value);
             };
         }
     }
