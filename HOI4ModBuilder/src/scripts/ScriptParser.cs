@@ -1,8 +1,5 @@
-﻿using HOI4ModBuilder.hoiDataObjects.map;
-using HOI4ModBuilder.src.forms.scripts;
-using HOI4ModBuilder.src.managers;
+﻿using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.scripts.commands;
-using HOI4ModBuilder.src.scripts.commands.arithmetical;
 using HOI4ModBuilder.src.scripts.commands.commands;
 using HOI4ModBuilder.src.scripts.commands.declarators;
 using HOI4ModBuilder.src.scripts.commands.declarators.vars;
@@ -15,19 +12,16 @@ using HOI4ModBuilder.src.scripts.commands.functions.states;
 using HOI4ModBuilder.src.scripts.commands.functions.time;
 using HOI4ModBuilder.src.scripts.commands.keywords;
 using HOI4ModBuilder.src.scripts.commands.methods;
-using HOI4ModBuilder.src.scripts.commands.operators;
 using HOI4ModBuilder.src.scripts.commands.operators.arithmetical;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.utils;
-using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.scripts
 {
