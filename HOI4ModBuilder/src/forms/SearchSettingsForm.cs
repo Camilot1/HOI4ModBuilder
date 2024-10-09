@@ -61,13 +61,13 @@ namespace HOI4ModBuilder.src.forms
             {
                 type = typeof(EnumMapWarningCode);
                 data = SettingsManager.Settings?.searchWarningsSettings?.enabled;
-                Text = GuiLocManager.GetLoc(EnumLocKey.SEARCH_FORM_WARNINGS_TITLE);
+                Text = GuiLocManager.GetLoc(EnumLocKey.SEARCH_FORM_WARNINGS_SETTINGS_TITLE);
             }
             else if (_type == EnumSearchSettingsType.ERRORS)
             {
                 type = typeof(EnumMapErrorCode);
                 data = SettingsManager.Settings?.searchErrorsSettings?.enabled;
-                Text = GuiLocManager.GetLoc(EnumLocKey.SEARCH_FORM_WARNINGS_TITLE);
+                Text = GuiLocManager.GetLoc(EnumLocKey.SEARCH_FORM_ERRORS_SETTINGS_TITLE);
             }
             else throw new Exception($"UNKNOWN TYPE: {_type}");
 

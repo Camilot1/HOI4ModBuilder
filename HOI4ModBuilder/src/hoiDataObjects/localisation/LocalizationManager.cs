@@ -153,10 +153,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.localisation
 
                 try
                 {
-                    var umlLine = ParseLine(sb, line, i, out bool isLanguageLine);
+                    var umlLine = ParseLine(sb, line, i, out bool isBlockScope);
                     sb.Length = 0;
 
-                    if (isLanguageLine)
+                    if (isBlockScope)
                     {
                         if (!data.TryGetValue(umlLine.key, out list))
                         {
@@ -171,7 +171,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.localisation
                     }
                     else
                         throw new UMLParserException(GuiLocManager.GetLoc(
-                            EnumLocKey.EXCEPTION_UML_LINE_IS_OUTSIDE_OF_LANGUAGE_SCOPE,
+                            EnumLocKey.EXCEPTION_UML_LINE_IS_OUTSIDE_OF_BLOCK_SCOPE,
                                 new Dictionary<string, string> {
                                     { "{lineIndex}", $"{i}" },
                                     { "{line}", $"{line}" }
@@ -188,10 +188,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.localisation
             return hasNoErrors;
         }
 
-        private static YMLLine ParseLine(StringBuilder sb, string line, int lineIndex, out bool isLanguageLine)
+        private static YMLLine ParseLine(StringBuilder sb, string line, int lineIndex, out bool isBlockScope)
         {
             var state = EnumUMLState.READY_FOR_KEY;
-            isLanguageLine = false;
+            isBlockScope = false;
             bool hasVersion = false;
 
             YMLLine ymlData = default;
@@ -214,7 +214,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.localisation
                                 new Dictionary<string, string> { { "{lineIndex}", $"{lineIndex}" } }
                             ));
                         else if (ymlData.value == null && !hasVersion)
-                            isLanguageLine = true;
+                            isBlockScope = true;
                         else
                             throw new UMLParserException(GuiLocManager.GetLoc(
                                 EnumLocKey.EXCEPTION_UML_INCORRECT_LINE_STRUCTURE,
@@ -326,7 +326,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.localisation
                 }
             }
 
-            if (state != EnumUMLState.PARSED_VALUE && state != EnumUMLState.VERSION && isLanguageLine)
+            if (state != EnumUMLState.PARSED_VALUE && state != EnumUMLState.VERSION && isBlockScope)
                 throw new UMLParserException(GuiLocManager.GetLoc(
                     EnumLocKey.EXCEPTION_UML_INCORRECT_LINE_STRUCTURE,
                         new Dictionary<string, string> {
@@ -334,7 +334,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.localisation
                             { "{line}", $"{line}" }
                         }
                     ));
-            else if (state == EnumUMLState.VERSION) isLanguageLine = true;
+            else if (state == EnumUMLState.VERSION) isBlockScope = true;
 
             return ymlData;
         }

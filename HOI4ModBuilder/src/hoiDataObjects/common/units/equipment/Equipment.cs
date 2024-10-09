@@ -176,7 +176,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
                 if (ResourceManager.TryGetResource(token, out var resource))
                 {
                     if (_values.ContainsKey(resource))
-                        Logger.LogLayeredWarning(prevLayer, EnumLocKey.WARNING_RESOURCE_COUNT_ALREDY_DEFINED);
+                        Logger.LogLayeredWarning(
+                            prevLayer,
+                            EnumLocKey.WARNING_RESOURCE_COUNT_DUPLICATE_DEFINITION,
+                            new Dictionary<string, string> { { "{resourceName}", resource.tag } }
+                        );
 
                     _values[resource] = parser.ReadUInt32();
                 }

@@ -41,8 +41,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
                                         new Dictionary<string, string>
                                         {
                                             { "{aiAreaName}", aiArea.Name },
-                                            { "{currentFilePath}", fileInfo.filePath },
-                                            { "{firstFilePath}", _aiAreasDefinition[aiArea.Name].filePath }
+                                            { "{filePath}", fileInfo.filePath },
+                                            { "{otherFilePath}", _aiAreasDefinition[aiArea.Name].filePath }
                                         }
                                     );
                                 }
