@@ -126,6 +126,9 @@
   <data name="Button_GitHubRepo.Text" xml:space="preserve">
     <value>GitHub Repository</value>
   </data>
+  <data name="Button_Telegram.Text" xml:space="preserve">
+    <value>Telegram channel</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>About Application</value>
   </data>

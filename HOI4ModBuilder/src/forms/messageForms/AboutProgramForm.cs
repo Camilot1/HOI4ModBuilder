@@ -1,13 +1,7 @@
 ﻿using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.Media;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -22,6 +16,7 @@ namespace HOI4ModBuilder.src.forms.messageForms
         public static readonly string GitHubRepoURL = "https://github.com/Camilot1/HOI4ModBuilder";
         public static readonly string DiscordServerURL = "https://discord.gg/bc4wF8PMhb";
         public static readonly string DiscordDocumentationURL = "https://discord.gg/9Y5K4v85wd";
+        public static readonly string TelegramURL = "https://t.me/hoi4modbuilder";
 
         private static readonly Dictionary<string, string> localization = new Dictionary<string, string>
         {
@@ -30,14 +25,16 @@ namespace HOI4ModBuilder.src.forms.messageForms
                 $"Автор приложения: Camilot\n\n" +
                 $"GitHub Релизы: {GitHubReleasesURL}\n" +
                 $"GitHub Репозиторий: {GitHubRepoURL}\n" +
-                $"Discord сервер: {DiscordServerURL}"
+                $"Discord сервер: {DiscordServerURL}\n" +
+                $"Telegram канал: {TelegramURL}"
             },
             { "en",
                 $"Application version: {Logger.version}\n" +
                 $"Application creator: Camilot\n\n" +
                 $"GitHub Releases: {GitHubReleasesURL}\n" +
                 $"GitHub Repository: {GitHubRepoURL}\n" +
-                $"Discord server: {DiscordServerURL}"
+                $"Discord server: {DiscordServerURL}\n" +
+                $"Telegram channel: {TelegramURL}"
             }
         };
 
@@ -100,35 +97,15 @@ namespace HOI4ModBuilder.src.forms.messageForms
         }
 
         private void Button_GitHubReleases_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                using (Process.Start(GitHubReleasesURL)) { };
-            });
-        }
-
+            => LinksUtils.OpenLink(GitHubReleasesURL);
         private void Button_GitHubRepo_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                using (Process.Start(GitHubRepoURL)) { };
-            });
-        }
-
+            => LinksUtils.OpenLink(GitHubRepoURL);
         private void Button_Discord_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                using (Process.Start(DiscordServerURL)) { };
-            });
-        }
+            => LinksUtils.OpenLink(DiscordServerURL);
+        private void Button_Telegram_Click(object sender, EventArgs e)
+            => LinksUtils.OpenLink(TelegramURL);
 
         private void RichTextBox1_LinkClicked(object sender, LinkClickedEventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                using (Process.Start(e.LinkText)) { }
-            });
-        }
+            => LinksUtils.OpenLink(e.LinkText);
     }
 }

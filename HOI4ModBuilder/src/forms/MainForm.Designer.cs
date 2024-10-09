@@ -57,6 +57,8 @@
             this.CheckedListBox_MapAdditionalLayers = new System.Windows.Forms.CheckedListBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.ComboBox_BordersType = new System.Windows.Forms.ComboBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.Button_OpenSearchWarningsSettings = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.Button_OpenSearchErrorsSettings = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -213,12 +215,12 @@
             this.ToolStripMenuItem_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Help_Documentation = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Help_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Telegram = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Language = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Language_RU = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Language_EN = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_GitHub = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Discord = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.Button_OpenSearchWarningsSettings = new System.Windows.Forms.Button();
             this.TabControl_Main.SuspendLayout();
             this.TabPage_Map.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -234,6 +236,7 @@
             this.flowLayoutPanel2.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.groupBox10.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox11.SuspendLayout();
@@ -241,7 +244,6 @@
             this.ContextMenuStrip_Map.SuspendLayout();
             this.TabPage_Resources.SuspendLayout();
             this.MenuStrip1.SuspendLayout();
-            this.groupBox10.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabControl_Main
@@ -458,6 +460,20 @@
             resources.ApplyResources(this.ComboBox_BordersType, "ComboBox_BordersType");
             this.ComboBox_BordersType.Name = "ComboBox_BordersType";
             this.ComboBox_BordersType.SelectedIndexChanged += new System.EventHandler(this.ComboBox_BordersType_SelectedIndexChanged);
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.Button_OpenSearchWarningsSettings);
+            resources.ApplyResources(this.groupBox10, "groupBox10");
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.TabStop = false;
+            // 
+            // Button_OpenSearchWarningsSettings
+            // 
+            resources.ApplyResources(this.Button_OpenSearchWarningsSettings, "Button_OpenSearchWarningsSettings");
+            this.Button_OpenSearchWarningsSettings.Name = "Button_OpenSearchWarningsSettings";
+            this.Button_OpenSearchWarningsSettings.UseVisualStyleBackColor = true;
+            this.Button_OpenSearchWarningsSettings.Click += new System.EventHandler(this.Button_OpenSearchWarningsSettings_Click);
             // 
             // groupBox4
             // 
@@ -1071,7 +1087,9 @@
             this.ToolStripMenuItem_Data,
             this.ToolStripMenuItem_Help,
             this.ToolStripMenuItem_Language,
-            this.ToolStripMenuItem_Discord});
+            this.ToolStripMenuItem_GitHub,
+            this.ToolStripMenuItem_Discord,
+            this.ToolStripMenuItem_Telegram});
             resources.ApplyResources(this.MenuStrip1, "MenuStrip1");
             this.MenuStrip1.Name = "MenuStrip1";
             // 
@@ -1550,6 +1568,13 @@
             resources.ApplyResources(this.ToolStripMenuItem_Help_About, "ToolStripMenuItem_Help_About");
             this.ToolStripMenuItem_Help_About.Click += new System.EventHandler(this.ToolStripMenuItem_Help_About_Click);
             // 
+            // ToolStripMenuItem_Telegram
+            // 
+            this.ToolStripMenuItem_Telegram.Image = global::HOI4ModBuilder.Properties.Resources.icon_telegram;
+            this.ToolStripMenuItem_Telegram.Name = "ToolStripMenuItem_Telegram";
+            resources.ApplyResources(this.ToolStripMenuItem_Telegram, "ToolStripMenuItem_Telegram");
+            this.ToolStripMenuItem_Telegram.Click += new System.EventHandler(this.ToolStripMenuItem_Telegram_Click);
+            // 
             // ToolStripMenuItem_Language
             // 
             this.ToolStripMenuItem_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1573,26 +1598,19 @@
             resources.ApplyResources(this.ToolStripMenuItem_Language_EN, "ToolStripMenuItem_Language_EN");
             this.ToolStripMenuItem_Language_EN.Click += new System.EventHandler(this.ToolStripMenuItem_Language_EN_Click);
             // 
+            // ToolStripMenuItem_GitHub
+            // 
+            this.ToolStripMenuItem_GitHub.Image = global::HOI4ModBuilder.Properties.Resources.icon_github;
+            this.ToolStripMenuItem_GitHub.Name = "ToolStripMenuItem_GitHub";
+            resources.ApplyResources(this.ToolStripMenuItem_GitHub, "ToolStripMenuItem_GitHub");
+            this.ToolStripMenuItem_GitHub.Click += new System.EventHandler(this.ToolStripMenuItem_GitHub_Click);
+            // 
             // ToolStripMenuItem_Discord
             // 
             this.ToolStripMenuItem_Discord.Image = global::HOI4ModBuilder.Properties.Resources.icon_discord;
             this.ToolStripMenuItem_Discord.Name = "ToolStripMenuItem_Discord";
             resources.ApplyResources(this.ToolStripMenuItem_Discord, "ToolStripMenuItem_Discord");
             this.ToolStripMenuItem_Discord.Click += new System.EventHandler(this.ToolStripMenuItem_Discord_Click);
-            // 
-            // groupBox10
-            // 
-            this.groupBox10.Controls.Add(this.Button_OpenSearchWarningsSettings);
-            resources.ApplyResources(this.groupBox10, "groupBox10");
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.TabStop = false;
-            // 
-            // Button_OpenSearchWarningsSettings
-            // 
-            resources.ApplyResources(this.Button_OpenSearchWarningsSettings, "Button_OpenSearchWarningsSettings");
-            this.Button_OpenSearchWarningsSettings.Name = "Button_OpenSearchWarningsSettings";
-            this.Button_OpenSearchWarningsSettings.UseVisualStyleBackColor = true;
-            this.Button_OpenSearchWarningsSettings.Click += new System.EventHandler(this.Button_OpenSearchWarningsSettings_Click);
             // 
             // MainForm
             // 
@@ -1624,6 +1642,7 @@
             this.flowLayoutPanel2.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
@@ -1634,7 +1653,6 @@
             this.TabPage_Resources.ResumeLayout(false);
             this.MenuStrip1.ResumeLayout(false);
             this.MenuStrip1.PerformLayout();
-            this.groupBox10.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1830,6 +1848,8 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_Scripts;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.Button Button_OpenSearchWarningsSettings;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_GitHub;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Telegram;
     }
 }
 

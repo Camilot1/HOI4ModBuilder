@@ -126,13 +126,20 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Button_GitHubRepo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 23</value>
+    <value>120, 23</value>
   </data>
   <data name="Button_Releases.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 23</value>
+    <value>120, 23</value>
   </data>
   <data name="RichTextBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 5</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Button_Telegram.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>AboutProgramForm</value>
   </data>
   <data name="RichTextBox1.Text" xml:space="preserve">
     <value />
@@ -144,11 +151,13 @@
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Button_Discord.Location" type="System.Drawing.Point, System.Drawing">
-    <value>295, 235</value>
+    <value>255, 235</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Button_Discord.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
+  </data>
+  <data name="Button_Telegram.Location" type="System.Drawing.Point, System.Drawing">
+    <value>380, 235</value>
   </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
@@ -160,13 +169,16 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Button_GitHubRepo.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="Button_GitHubRepo.Text" xml:space="preserve">
     <value>GitHub Репозиторий</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>О программе</value>
+  <data name="&gt;&gt;Button_Telegram.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Button_Telegram.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="Button_Releases.Text" xml:space="preserve">
     <value>GitHub релизы</value>
@@ -174,35 +186,38 @@
   <data name="Button_Releases.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>AboutProgramForm</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>О программе</value>
   </data>
   <data name="&gt;&gt;Button_Discord.Name" xml:space="preserve">
     <value>Button_Discord</value>
   </data>
   <data name="Button_GitHubRepo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>150, 235</value>
+    <value>130, 235</value>
   </data>
   <data name="Button_Discord.Text" xml:space="preserve">
     <value>Discord сервер</value>
   </data>
   <data name="&gt;&gt;Button_Releases.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="Button_GitHubRepo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>439, 261</value>
+    <value>504, 261</value>
   </data>
   <data name="&gt;&gt;RichTextBox1.Name" xml:space="preserve">
     <value>RichTextBox1</value>
+  </data>
+  <data name="Button_Telegram.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
   <data name="Button_GitHubRepo.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="$this.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>455, 300</value>
+    <value>520, 300</value>
   </data>
   <data name="&gt;&gt;Button_GitHubRepo.Name" xml:space="preserve">
     <value>Button_GitHubRepo</value>
@@ -213,20 +228,26 @@
   <data name="&gt;&gt;Button_Discord.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;Button_Telegram.Name" xml:space="preserve">
+    <value>Button_Telegram</value>
+  </data>
   <data name="RichTextBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>430, 225</value>
+    <value>495, 225</value>
   </data>
   <data name="&gt;&gt;Button_Releases.Name" xml:space="preserve">
     <value>Button_Releases</value>
   </data>
+  <data name="Button_Telegram.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 23</value>
+  </data>
   <data name="Button_Discord.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 23</value>
+    <value>120, 23</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>455, 300</value>
+    <value>520, 300</value>
   </data>
   <data name="&gt;&gt;RichTextBox1.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="Button_Releases.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 235</value>
@@ -234,11 +255,14 @@
   <data name="RichTextBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
+  <data name="Button_Telegram.Text" xml:space="preserve">
+    <value>Telegram канал</value>
+  </data>
   <data name="Button_Discord.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="&gt;&gt;Button_Discord.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;Button_GitHubRepo.Parent" xml:space="preserve">
     <value>$this</value>
@@ -248,6 +272,12 @@
   </data>
   <data name="&gt;&gt;RichTextBox1.Type" xml:space="preserve">
     <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_Telegram.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;Button_Telegram.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

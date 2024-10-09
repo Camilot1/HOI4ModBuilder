@@ -1434,12 +1434,6 @@ namespace HOI4ModBuilder
                 using (Process.Start(AboutProgramForm.DiscordDocumentationURL)) { }
             });
 
-        private void ToolStripMenuItem_Discord_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() =>
-            {
-                using (Process.Start(AboutProgramForm.DiscordServerURL)) { }
-            });
-
         private void ToolStripMenuItem_Map_Railway_Split_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => RailwayTool.SplitRailwayAtProvince(SupplyManager.SelectedRailway ?? SupplyManager.RMBRailway, ProvinceManager.RMBProvince));
         private void ToolStripMenuItem_Map_Railway_Join_Click(object sender, EventArgs e)
@@ -1471,12 +1465,17 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() => AutoTools.RemoveSeaProvincesFromStates());
-        }
+            => Logger.TryOrLog(() => AutoTools.RemoveSeaProvincesFromStates());
 
         private void ToolStripMenuItem_Edit_Scripts_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => new ScriptsForm().ShowDialog());
+
+        private void ToolStripMenuItem_GitHub_Click(object sender, EventArgs e)
+            => LinksUtils.OpenLink(AboutProgramForm.GitHubRepoURL);
+        private void ToolStripMenuItem_Discord_Click(object sender, EventArgs e)
+            => LinksUtils.OpenLink(AboutProgramForm.DiscordServerURL);
+        private void ToolStripMenuItem_Telegram_Click(object sender, EventArgs e)
+            => LinksUtils.OpenLink(AboutProgramForm.TelegramURL);
 
         public void SetAdjacencyRules(Dictionary<string, AdjacencyRule>.KeyCollection rules)
         {

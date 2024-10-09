@@ -33,6 +33,7 @@
             this.Button_Releases = new System.Windows.Forms.Button();
             this.Button_Discord = new System.Windows.Forms.Button();
             this.Button_GitHubRepo = new System.Windows.Forms.Button();
+            this.Button_Telegram = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // RichTextBox1
@@ -63,10 +64,18 @@
             this.Button_GitHubRepo.UseVisualStyleBackColor = true;
             this.Button_GitHubRepo.Click += new System.EventHandler(this.Button_GitHubRepo_Click);
             // 
+            // Button_Telegram
+            // 
+            resources.ApplyResources(this.Button_Telegram, "Button_Telegram");
+            this.Button_Telegram.Name = "Button_Telegram";
+            this.Button_Telegram.UseVisualStyleBackColor = true;
+            this.Button_Telegram.Click += new System.EventHandler(this.Button_Telegram_Click);
+            // 
             // AboutProgramForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Button_Telegram);
             this.Controls.Add(this.Button_GitHubRepo);
             this.Controls.Add(this.Button_Discord);
             this.Controls.Add(this.Button_Releases);
@@ -82,5 +91,6 @@
         private System.Windows.Forms.Button Button_Releases;
         private System.Windows.Forms.Button Button_Discord;
         private System.Windows.Forms.Button Button_GitHubRepo;
+        private System.Windows.Forms.Button Button_Telegram;
     }
 }
