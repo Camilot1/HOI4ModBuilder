@@ -60,7 +60,13 @@ MAP_TAB_PROGRESSBAR_LOADING_SUPPLIES: "Loading Supplies: "
 MAP_TAB_PROGRESSBAR_PROVINCES_BORDERS_ASSEMBLE: "Assembling Provinces Borders: "
 MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE: "Assembling States Borders: "
 MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE: "Assembling Regions Borders: "
+MAP_TAB_PROGRESSBAR_LOADING_UNITS: "Loading SubUnits: "
+MAP_TAB_PROGRESSBAR_LOADING_OOBS: "Loading OOBs: "
+MAP_TAB_PROGRESSBAR_LOADING_DIVISION_NAMES_GROUPS: "Loading Division Names Groups: "
+MAP_TAB_PROGRESSBAR_LOADING_AI_AREAS: "Loading AI Areas: "
+MAP_TAB_PROGRESSBAR_LOADING_EQUPMENTS: "Loading Equipments: "
 MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING: "Finding Map Errors: "
+MAP_TAB_PROGRESSBAR_MAP_WARNINGS_SEARCHING: "Finding Map Warnings: "
 
 MAP_TAB_PROGRESSBAR_MAP_ADDITIONAL_TEXTURE_LOADING: "Loading {fileName}: {progress}"
 MAP_TAB_PROGRESSBAR_MAP_ADDITIONAL_TEXTURE_LOADED: "Loading {fileName}: Finished."
@@ -210,9 +216,9 @@ EXCEPTION_WHILE_ADJACENCY_RULE_RELATION_BLOCK_LOADING: "The exception has occure
 EXCEPTION_WHILE_ADJACENCY_RULE_IS_DISABLED_BLOCK_LOADING: "The exception has occured while parsing \"is_disables\" block in Adjacency Rule with name \"{adjacencyRuleName}\". Check the block with name \"{token}\"."
 EXCEPTION_WHILE_ADJACENCIES_LOADING: "The exception has occured while loading Adjacency with id = {adjacencyId}. Cause: {exceptionMessage}"
 
-EXCEPTION_WHILE_BUILDING_LOADING: "Произошла ошибка при загрузке блока постройки с названием \"{buildingName}\". Проверьте блок, начинающийся с токена \"{token}\"."
-EXCEPTION_WHILE_IDEOLOGY_GROUP_MODIFIERS_LOADING: "Произошла ошибка при загрузке modifiers группы идеологий \"{ideologyGroupName}\". Проверьте блок, начинающийся с токена \"{token}\"."
-EXCEPTION_IDEOLOGY_GROUP_DUPLICATE_GROUP_NAME_INF_FILE: "В файле {filePath} объявлена уже добавленаня ранее группа идеологий с именем \"{ideologyGroupName}\"."
+EXCEPTION_WHILE_BUILDING_LOADING: "The exception has occured while loading building block with name \"{buildingName}\". Check the block starting with token \"{token}\"."
+EXCEPTION_WHILE_IDEOLOGY_GROUP_MODIFIERS_LOADING: "The exception has occured during loading modifiers of ideologies group with name \"{ideologyGroupName}\". Check the block starting with token \"{token}\"."
+EXCEPTION_IDEOLOGY_GROUP_DUPLICATE_GROUP_NAME_INF_FILE: "The file {filePath} contains duplicate definition of ideology group with name \"{ideologyGroupName}\"."
 
 EXCEPTION_WHILE_STATE_HISTORY_LOADING: "The exception has occured while parsing \"history\" block in State with id = {stateId}. Check the block with name \"{token}\"."
 EXCEPTION_WHILE_STATE_CATEGORY_LOADING: "The exception has occured while parsing State Category with name \"{name}\". Check the block with name \"{token}\"."
@@ -225,9 +231,10 @@ EXCEPTION_PROVINCE_MERGE_NULL_PROVINCES_OR_SAME_PROVINCES_IDS: "Two provinces ar
 EXCEPTION_PROVINCE_MERGE_SECOND_PROVINCE_HAS_BUILDINGS: "The second province with id = {id} has provincial buildings."
 EXCEPTION_PROVINCE_MERGE_SECOND_PROVINCE_HAS_RAILWAYS: "The second province with id = {id} has railway connection."
 EXCEPTION_PROVINCE_MERGE_SECOND_PROVINCE_HAS_SUPPLY_HUB: "The second selected province with id = {id} has supply hub."
-EXCEPTION_PROVINCE_MERGE_NO_PROVINCE_FOR_VACANT_ID: "The list of provinces does not have enough provinces for performing merge provinces action"
+EXCEPTION_PROVINCE_MERGE_NO_PROVINCE_FOR_VACANT_ID: "The list of provinces does not have enough provinces for performing merge provinces action."
 EXCEPTION_PROVINCE_MERGE_NEXT_VACANT_PROVINCE_ID_IS_ZERO: "ID of the next free province is equals 0. Report about this to the Application creator."
 EXCEPTION_PROVINCE_MERGE_PROVINCE_TO_REPLACE_NOT_FOUND: "Province with id = {provinceIdToReplace} that was supposed to be updated with freed id, not found."
+EXCEPTION_PROVINCE_MERGE_SECOND_PROVINCE_HAS_ADJACENCIES: "The second selected province with id = {id} has adjacency."
 
 EXCEPTION_INFO_ARGS_BLOCKS_WITH_REPLACE_TAGS_DUPLICATE_BLOCK_NAMES_IN_SAME_FILE: "The file {filePath} contains 2 blocks with same name \"{newBlockName}\". Original name with replace tags of the block was \"{originalBlockName}\"."
 EXCEPTION_INFO_ARGS_BLOCKS_WITH_REPLACE_TAGS_DUPLICATE_BLOCK_NAME_IN_FILE: "The file {filePath} contains block with name \"{newBlockName}\" that duplicate the name of another block in another file. The original name with replace tags of the block was \"{originalBlockName}\"."
@@ -260,3 +267,135 @@ EXCEPTION_WHILE_REGION_SAVING: "The exception has occured while saving Region wi
 
 EXCEPTION_INCORRECT_DATE_PERIOD: "Could not parse date period. Token \"{token}\" has to be stated in format \"<day>.<month>\"."
 WARNINGS_TRIED_TO_PAINT_WITH_UNKNOWN_PROVINCE_COLOR: "You tried to paint with unknown province color = {color}. Choose an action: \n\nOK - create a new province with this color.\nCancel the paint action."
+
+ERROR_WHILE_SUB_UNITS_LOADING: "Could not load sub_units from file {filePath}."
+ERROR_WHILE_SUB_UNIT_LOADING: "The exception has occured while loading loading sub_unit with name \"{token}\"."
+ERROR_UNIT_DUPLICATE_NAME: "The unit's name \"{name}\" already taken by another unit. The first definition of this name was in file {firstFilePath}."
+
+ERROR_WHILE_DIVISION_NAMES_GROUP_LOADING: "The exception has occured while loading division_names_group with name \"{token}\" in file {filePath}."
+ERROR_DIVISION_NAMES_GROUP_DUPLICATE_NAME: "The division_names_group's name \"{name}\" already taken by other group. The first definition of this name was in file {firstFilePath}."
+
+ERROR_DIVISION_NAMES_GROUP_NOT_FOUND: "The division_names_group with name \"{name}\" not found."
+
+ERROR_DIVISION_TEMPLATE_UNKNOWN_TOKEN: "The division_template block has unknown token \"{token}\"."
+ERROR_DIVISION_TEMPLATE_INCORRECT_SUB_UNIT_COORDINATES: "The sub_unit with name \"{subUnitName}\" has invalid coordinates."
+ERROR_DIVISION_TEMPLATE_SUB_UNITS_COORDINATES_OVERLAPPING: "The sub_unit with name \"{subUnitName}\" uses the same coordinates \"{X}; {Y}\" that already taken by other sub_unit with name \"{otherSubUnitName}\" ."
+
+ERROR_DIVISION_NAME_INCORRECT_TOKEN: "The division_name block has unknown token \"{token}\"."
+ERROR_DIVISION_PROVINCE_NOT_FOUND: "The location parameter uses id = {provinceId} of not existing province."
+
+WARNING_WHILE_DIVISION_VALIDATION_PARAMETER_VALUE_IS_OUT_OF_RANGE_IN_FILE: "In file {filePath} the division with name \"{divisionName}\" has value \"{parameterName}\" = {parameterValue} that is beyond acceptable range of values: {allowedRange}. Parameter \"{parameterName}\" is set to {newParameterValue}."
+ERROR_WHILE_DIVISION_VALIDATION_DIVISION_HAS_NO_NAME_NOR_DIVISION_NAME: "In file {filePath} the division with name \"{divisionName}\" has no defined value neither for parameter \"name\" nor for parameters' block \"division_name\"."
+ERROR_WHILE_DIVISION_VALIDATION_DIVISION_HAS_NAME_AND_DIVISION_NAME: "In file {filePath} the division with name \"{divisionName}\" must not has defined values for both parameter \"name\" and for parameters' block \"division_name\" at once."
+ERROR_WHILE_DIVISION_VALIDATION_DIVISION_HAS_NO_LOCATION: "In file {filePath} the division with name \"{divisionName}\" has no defined province id for parameter \"location\"."
+ERROR_WHILE_DIVISION_VALIDATION_DIVISION_HAS_NO_DIVISION_TEMPLATE: "In file {filePath} the division with name \"{divisionName}\" has no defined value for parameter \"division_template\"."
+
+EXCEPTION_COORDINATES_UNKNOWN_TOKEN: "Unknow token \"{token}\" in coodinates block."
+
+EXCEPTION_WHILE_BLOCK_LOADING: "The exception has occured while loading block \"{name}\"."
+
+UNKNOWN_TOKEN: "Unknown token \"{token}\"."
+INCORRECT_VALUE: "Invalid value \"{value}\"."
+PROVINCE_NOT_FOUND: "The province with id = {provinceId} not found."
+COUNTRY_NOT_FOUND: "The country with tag \"{countryTag}\" not found."
+DIVISION_NAMES_GROUP_NOT_FOUND: "The group with division names \"{divisionNamesGroup}\" not found."
+
+ERROR_LAYERED_PREFIX: "Error stacktrace: \"{blockLayeredPath}\" \nFile: \"{filePath}\""
+WARNING_LAYERED_PREFIX: "Exception stacktrace: \"{blockLayeredPath}\" \nFile: \"{filePath}\""
+
+SUB_UNIT_NOT_FOUND: "The sub_unit with name \"{name}\" not found."
+SUB_UNITS_COORDINATES_OVERLAPPING: "Sub_units with names \"{firstSubUnitName}\" and \"{secondSubUnitName}\" uses the same coordinates \"{XY}\"."
+
+SUB_UNIT_DUPLICATE_DEFINITION: "Found dublicate definition of sub_unit with name \"{name}\". First definition was in file {filePath}"
+SUB_UNIT_DUPLICATE_DEFINITION_IN_CURRENT_FILE: "Found dublicate definition of sub_unit with name \"{name}\" in current file."
+
+BLOCK_DOESNT_HAVE_MANDATORY_INNER_PARAMETER: "The block has no mandatory parameter \"{parameterName}\"."
+BLOCK_HAS_SEVERAL_MUTUALLY_EXCLUSIVE_MANDATORY_INNER_PARAMETERS: "The block has several mutually exclusive mandatory parameters \"{parametersNames}\""
+BLOCK_DOESNT_HAVE_ANY_OF_SEVERAL_MUTUALLY_EXCLUSIVE_MANDATORY_INNER_PARAMETERS: "The block doesn't have any of several mutually exclusive mandatory parameters \"{parametersNames}\""
+BLOCK_MUST_HAVE_AT_LEAST_ONE_MANDATORY_PARAMETER: "The block must have at least one mandatory parameter: {parametersNames}"
+
+LAYERED_LEVELS_PARAMETER_VALUE_OVERRIDDEN: "The block has duplicate definition of parameters \"{parameterName}\". Old value \"{oldParameterValue}\" will be override by new value \"{newParameterValue}\"."
+LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN: "The block is defined multiple times. The old value of the block will be override by the new one."
+PARAMETER_VALUE_IS_OUT_OF_RANGE: "The defined value of the parameter \"{parameterName}\" = {parameterValue} is out of valid values range: {allowedRange}. The parameter \"{parameterName}\" is set to {newParameterValue}."
+
+DIVISION_TEMPLATE_MUST_HAVE_AT_LEAST_ONE_REGIMENT_OR_SUPPORT_SUB_UNIT: "The devision template must has at least one sub_unit in \"regiments\" or \"support\"."
+FLEET_MUST_HAVE_AT_LEAST_ONE_TASK_FORCE: "The fleet must has at least one task force."
+TASK_FORCE_MUST_HAVE_AT_LEAST_ONE_SHIP: "The task force must has at least one ship."
+TASK_FORCE_SHIP_NOT_FOUND: "The task force's ship with name \"{name}\" not found."
+TASK_FORCES_USES_SHIP_THAT_DOESNT_DEFINED_ANYWHERE: "During loading was found {requestsCount} requests for using ship with name \"{taskForceShipName}\" that wasn't defined in any of \"{directoryPath}*.txt\" files. Request list for this ship: {requestsList}."
+
+INFORMATION_MESSAGE_TITLE: "Info message"
+
+EXCEPTION_SCRIPTED_EFFECT_DUPLICATE_NAME_WITH_OTHER_SCRIPTED_EFFECT_IN_FILE: "The duplicate definition of scripted effect with name \"{blockName}\" is found in file {filePath}. The first definition was in file {otherFilePath}"
+EXCEPTION_SCRIPTED_EFFECT_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE: "The definition of scripted effect with name \"{blockName}\" that is already taken by another block. The secound definition was found in file {filePath}. The first definition was found in file {otherFilePath}"
+
+
+EXCEPTION_SCRIPTED_TRIGGER_DUPLICATE_NAME_WITH_OTHER_SCRIPTED_TRIGGER_IN_FILE: "The name \"{blockName}\" of scripted trigger is already taken by another scripted trigger. Duplicate definition found in file {filePath}. The first defition was found in file {otherFilePath}"
+EXCEPTION_SCRIPTED_TRIGGER_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE: "The name \"{blockName}\" of scripted trigger is already taken by another block. The duplicate definition was found in file {filePath}. The first definition was found in file {otherFilePath}"
+
+AI_AREA_HAS_INCORRECT_STRATEGIC_REGION_ID_VALUE: "Value id = \"{value}\" of strategic region is invalid"
+AI_AREA_CONTAINTS_ID_OF_NOT_EXISTING_STRATEGIC_REGION: "The strategic region with id = {value} not found"
+AI_AREA_FILE_CONTAINS_AI_AREAS_WITH_DUPLICATE_NAMES: "Duplicate definitions of ai_areas with same name \"{aiAreName}\" was found in file {filePath}"
+AI_AREA_WITH_THIS_NAME_ALREADY_DEFINED_IN_ANOTHER_FILE: "The duplicate definition for ai_area with name \"{aiAreaName}\" was found in file {filePath}. The first definition was in file {otherFilePath}"
+
+CONTINENT_NOT_FOUND_BY_NAME: "The continent with name \"{continentName}\" not found"
+
+EXCEPTION_WHILE_AI_AREAS_SAVING: "The exception has occured with loading ai_areas in file {filePath}"
+
+PROVINCE_IS_NOT_SUITABLE_FOR_SHIPS: "Task force cannot be located in province with id = {provinceId}"
+PROVINCE_CANT_BE_A_NAVAL_BASE_FOR_SHIPS: "The province with id = {provinceId} cannot be used as naval base for task force"
+
+AUTOTOOL_RESULT_MESSAGE_BOX_TITLE: "Autotool execution result"
+AUTOTOOL_RESULT_MESSAGE_BOX_TEXT: "Changes: {count}"
+
+EXCEPTION_UML_LINE_KEY_IS_NULL: "No key found at line {lineIndex}"
+EXCEPTION_UML_LINE_VALUE_IS_NULL: "No value found at {lineIndex}"
+EXCEPTION_UML_LINE_CHARACTER_IS_NOT_ALLOWED_IN_KEY: "Invalid character \"{character}\" found in key on line {lineIndex}"
+EXCEPTION_UML_LINE_CHARACTER_IS_NOT_ALLOWED_IN_VALUE: "Invalid character \"{character}\" found in value on line {lineIndex}"
+EXCEPTION_UML_LINE_CHARACTER_IS_NOT_ALLOWED_AFTER_VALUE: "Invalid character \"{character}\" found after value on line {lineIndex}"
+EXCEPTION_UML_LINE_INCORRECT_VERSION_VALUE: "Invalid version value \"{value}\" found at line {lineIndex}"
+EXCEPTION_UML_INCORRECT_LINE_STRUCTURE: "Invalid key-value structure is found at line {lineIndex}: {line}"
+EXCEPTION_UML_LINE_IS_OUTSIDE_OF_BLOCK_SCOPE: "The key-value pair defined outside of parent block at line {lineIndex}: {line}"
+ERROR_LOCALIZATION_FILE_CONTAINS_LOC_KEY_FOR_DIFFERENT_LANGUAGE: "The localization file {filePath} contains keys for language \"{parsedLanguage}\", but was expected keys for language \"{expectedLanguage}\""
+
+FOUNDED_NEW_ERROR_CODES: "The new map error codes for searching was founded: {newErrorCodes}"
+FOUNDED_NEW_WARNING_CODES: "The new map warning codes for searching was founded:: {newWarningCodes}"
+
+SCRIPTS_CHOOSE_FILE: "Script file choose"
+
+SCRIPT_EXCEPTION_INVALID_VALUE_TYPE_INTERNAL: "Invalid value data type {value}. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_INVALID_VALUE_TYPE: "Invalid value data type {value} in argument number {argIndex}. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_VARIABLE_IS_NOT_DECLARED: "The variable {value} is not declared. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_IS_NOT_SET: "Failed to assign a new value. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_INVALID_OPERATION: "Unsupported operation {value}. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_INDEX_OUT_OF_RANGE_INTERNAL: "The value {value} is out of range. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_INDEX_OUT_OF_RANGE: "The value {value} in argument number {argIndex} is out of range. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_INVALID_KEY_TYPE_INTERNAL: "Invalid key data type {value}. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_INVALID_KEY_TYPE: "Invalid key data type {value} in argument number {argIndex}. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_VARIABLE_IS_ALREADY_DECLARED: "The variable {value} in argument number {argIndex} is already declared. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_INVALID_ARGS_COUNT: "Incorrect number of arguments. Required number: {allowedCounts}. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_VALUE_NOT_FOUND: "The value {value} in argument number {argIndex} not found. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_UNKNOWN_COMMAND: "Unknow command \"{value}\". \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_INVALID_COMMAND_ARGS: "Invalid argument number {argIndex} with value. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_INTERNAL: "Internal script exception. \nLine: {lineIndex}. \nArgs: {args}. \nException: {ex}"
+SCRIPT_EXCEPTION_NULL_POINTER: "Null pointer exception. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_INVALID_SCOPE_TYPE: "Invalid script scope for command execution. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_INVALID_MULTILINE_ARGS: "Invalid structure of multiline comment arguments. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_ARGUMENT_MUST_BE_MARKED_AS_OUT: "The argument number {argIndex} must be defined as OUT. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_ARGUMENT_MUST_NOT_BE_MARKED_AS_OUT: "The argument number {argIndex} must not be defined as OUT. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_ARGUMENT_MUST_BE_VAR_DECLARATOR: "The argument number {argIndex} should be the data type declarator of the variable to be created. \nLine: {lineIndex}. \nArgs: {args}"
+
+SCRIPT_EXCEPTION_PROCESS_TERMINATED: "Script process terminated. Line: {lineIndex}"
+
+WARNING_RESOURCE_COUNT_DUPLICATE_DEFINITION: "The amount of resource \"{resourceName}\" has duplicate definition."
+
+SEARCH_FORM_WARNINGS_SETTINGS_TITLE: "Warning searching settings"
+SEARCH_FORM_ERRORS_SETTINGS_TITLE: "Errors searching settings"
+
+EXCEPTION_DURING_SCRIPT_PARSER_DOCUMENTATION_SAVING: "The exception has occured during autogeneration and saving CustomScriptsParser documentation"
+
+WARNING_LOCALIZATION_KEY_NOT_FOUND: "The localization key \"{locKey}\" not found in file {filePath}."
+
+NONE: "None"
+
+STATE_NOT_FOUND_BY_ID: "The state with id = {stateId} not found."
