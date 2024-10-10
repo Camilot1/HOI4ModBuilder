@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.src.utils;
+﻿using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -146,7 +147,7 @@ namespace HOI4ModBuilder.src.forms
 
                 if (DirDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string path = DirDialog.SelectedPath + @"\";
+                    var path = FileManager.AssembleFolderPath(new[] { DirDialog.SelectedPath });
 
                     if (!File.Exists(path + "hoi4.exe"))
                     {
@@ -172,9 +173,9 @@ namespace HOI4ModBuilder.src.forms
 
                 if (DirDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string path = DirDialog.SelectedPath + @"\";
+                    var path = FileManager.AssembleFolderPath(new[] { DirDialog.SelectedPath });
 
-                    if (!Directory.Exists(path + @"save games"))
+                    if (!Directory.Exists(path + "save games"))
                     {
                         Logger.LogSingleErrorMessage(EnumLocKey.SINGLE_MESSAGE_NO_SAVEGAMES_FOULDER_IN_DIRECTORY_IN_DOCUMENTS, new Dictionary<string, string> { { "{directoryName}", "save games" } });
                         return;
@@ -198,7 +199,7 @@ namespace HOI4ModBuilder.src.forms
 
                 if (DirDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string path = DirDialog.SelectedPath + @"\";
+                    var path = FileManager.AssembleFolderPath(new[] { DirDialog.SelectedPath });
 
                     string descriptorPath = null;
                     int descriptorCount = 0;

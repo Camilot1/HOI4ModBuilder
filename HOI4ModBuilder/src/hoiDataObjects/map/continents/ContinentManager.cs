@@ -11,6 +11,9 @@ namespace HOI4ModBuilder.hoiDataObjects
     class ContinentManager : IParadoxRead
     {
         public static ContinentManager Instance { get; private set; }
+
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "map" });
+        private static readonly string CONTINENTS_FILE_NAME = "continent.txt";
         private static src.FileInfo _currentFile;
         private static List<string> _continents = new List<string>();
         public static List<string> GetContinents => _continents;
@@ -22,11 +25,11 @@ namespace HOI4ModBuilder.hoiDataObjects
         public static void Load(Settings settings)
         {
             Instance = new ContinentManager();
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\", FileManager.TXT_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
-            if (fileInfoPairs.ContainsKey("continent.txt"))
+            if (fileInfoPairs.ContainsKey(CONTINENTS_FILE_NAME))
             {
-                _currentFile = fileInfoPairs["continent.txt"];
+                _currentFile = fileInfoPairs[CONTINENTS_FILE_NAME];
                 _continents = new List<string> { "" };
 
                 MainForm.Instance.InvokeAction(() => MainForm.Instance.ToolStripComboBox_Map_Province_Continent.Items.Clear());

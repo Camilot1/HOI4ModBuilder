@@ -17,6 +17,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 {
     class StrategicRegionManager
     {
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "map", "strategicregions" });
+
         private static Dictionary<ushort, StrategicRegion> _regions = new Dictionary<ushort, StrategicRegion>();
         public static void ForEachRegion(Action<StrategicRegion> action)
         {
@@ -38,7 +40,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             _regions = new Dictionary<ushort, StrategicRegion>();
             _regionsBorders = new HashSet<ProvinceBorder>();
 
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\strategicregions\", FileManager.TXT_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
             foreach (FileInfo fileInfo in fileInfoPairs.Values)
             {
@@ -60,7 +62,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                         throw new Exception(GuiLocManager.GetLoc(EnumLocKey.ERROR_REGION_HAS_NO_FILE));
 
                     region.Save(sb);
-                    File.WriteAllText(settings.modDirectory + @"map\strategicregions\" + region.FileInfo.fileName, sb.ToString());
+                    File.WriteAllText(settings.modDirectory + FOLDER_PATH + region.FileInfo.fileName, sb.ToString());
                     sb.Length = 0;
                 }
                 catch (Exception ex)

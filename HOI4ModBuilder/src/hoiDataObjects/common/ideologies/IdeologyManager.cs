@@ -13,6 +13,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ideologies
     class IdeologyManager : IParadoxRead
     {
         public static IdeologyManager Instance { get; private set; }
+
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "ideologies" });
         private static FileInfo _currentFile = null;
         private static Dictionary<FileInfo, List<IdeologyGroup>> _ideologyGroupsByFilesMap = new Dictionary<FileInfo, List<IdeologyGroup>>();
         private static Dictionary<string, IdeologyGroup> _allIdeologiyGroups = new Dictionary<string, IdeologyGroup>();
@@ -23,7 +25,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ideologies
             _ideologyGroupsByFilesMap = new Dictionary<FileInfo, List<IdeologyGroup>>();
             _allIdeologiyGroups = new Dictionary<string, IdeologyGroup>();
 
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"common\ideologies\", FileManager.TXT_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
             foreach (var fileInfo in fileInfoPairs.Values)
             {

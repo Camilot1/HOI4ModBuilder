@@ -5,15 +5,14 @@ using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
 {
     class StateCategoryManager : IParadoxRead
     {
         public static StateCategoryManager Instance { get; private set; }
+
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "state_category" });
         private static FileInfo _currentFile = null;
         private static Dictionary<FileInfo, List<StateCategory>> _stateCategoriesByFilesMap = new Dictionary<FileInfo, List<StateCategory>>();
         private static Dictionary<string, StateCategory> _allStateCategories = new Dictionary<string, StateCategory>();
@@ -24,7 +23,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
             _stateCategoriesByFilesMap = new Dictionary<FileInfo, List<StateCategory>>();
             _allStateCategories = new Dictionary<string, StateCategory>();
 
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"common\state_category\", FileManager.TXT_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
             foreach (var fileInfo in fileInfoPairs.Values)
             {

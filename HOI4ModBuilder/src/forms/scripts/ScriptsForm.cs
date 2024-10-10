@@ -55,7 +55,8 @@ namespace HOI4ModBuilder.src.forms.scripts
             {
                 string filePath;
                 var fd = new OpenFileDialog();
-                Utils.PrepareFileDialog(fd, GuiLocManager.GetLoc(EnumLocKey.SCRIPTS_CHOOSE_FILE), Application.StartupPath + @"\data\scripts", "TXT files (*.txt)|*.txt");
+                var dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "scripts" });
+                Utils.PrepareFileDialog(fd, GuiLocManager.GetLoc(EnumLocKey.SCRIPTS_CHOOSE_FILE), dialogPath, "TXT files (*.txt)|*.txt");
                 if (fd.ShowDialog() == DialogResult.OK) filePath = fd.FileName;
                 else return;
 

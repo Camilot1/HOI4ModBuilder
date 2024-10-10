@@ -1,17 +1,14 @@
 ﻿using HOI4ModBuilder.src.managers;
 using Pdoxcl2Sharp;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames
 {
     class DivisionNamesGroupManager
     {
-        private static readonly string DIRECTORY_PATH = @"common\units\names_divisions\";
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "units", "names_divisions" });
         private static Dictionary<string, DivisionNamesGroup> _divisionNamesGroups = new Dictionary<string, DivisionNamesGroup>();
         private static Dictionary<FileInfo, DivisionNamesGroup> _divisionNamesGroupFiles = new Dictionary<FileInfo, DivisionNamesGroup>();
 
@@ -20,7 +17,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames
             _divisionNamesGroups = new Dictionary<string, DivisionNamesGroup>();
             _divisionNamesGroupFiles = new Dictionary<FileInfo, DivisionNamesGroup>();
 
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, DIRECTORY_PATH, FileManager.TXT_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
             foreach (FileInfo fileInfo in fileInfoPairs.Values)
             {
@@ -35,7 +32,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames
                 var fileInfo = file.FileInfo;
                 if (fileInfo.needToDelete)
                 {
-                    File.Delete(settings.modDirectory + DIRECTORY_PATH + fileInfo.fileName);
+                    File.Delete(settings.modDirectory + FOLDER_PATH + fileInfo.fileName);
                     continue;
                 }
                 if (fileInfo.needToSave)
@@ -43,7 +40,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames
                     StringBuilder sb = new StringBuilder();
                     //TODO implement
                     //file.Save(sb, "", "\t");
-                    File.WriteAllText(settings.modDirectory + DIRECTORY_PATH + fileInfo.fileName, sb.ToString());
+                    File.WriteAllText(settings.modDirectory + FOLDER_PATH + fileInfo.fileName, sb.ToString());
                     sb.Length = 0;
                 }
             }

@@ -327,10 +327,10 @@ namespace HOI4ModBuilder
 
                         Logger.CloseAllTextBoxMessageForms();
 
-                        //Stopwatch stopwatch = Stopwatch.StartNew();
+                        Stopwatch stopwatch = Stopwatch.StartNew();
                         LoadAllData(SettingsManager.Settings);
-                        //stopwatch.Stop();
-                        //Logger.LogSingleInfoMessage(stopwatch.ElapsedMilliseconds + " ms");
+                        stopwatch.Stop();
+                        Logger.Log("Loading time: " + stopwatch.ElapsedMilliseconds + " ms");
 
                         context.MakeCurrent(null);
                     },
@@ -583,7 +583,8 @@ namespace HOI4ModBuilder
             Logger.TryOrLog(() =>
             {
                 var fd = new OpenFileDialog();
-                Utils.PrepareFileDialog(fd, Application.StartupPath + @"\data\textures\map", "BMP files (*.bmp)|*.bmp");
+                string dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "textures", "map" });
+                Utils.PrepareFileDialog(fd, dialogPath, "BMP files (*.bmp)|*.bmp");
 
                 if (fd.ShowDialog() == DialogResult.OK)
                 {
@@ -664,7 +665,8 @@ namespace HOI4ModBuilder
             Logger.TryOrLog(() =>
             {
                 var fd = new SaveFileDialog();
-                Utils.PrepareFileDialog(fd, Application.StartupPath + @"\data\textures\map\data", "JSON files (*.json)|*.json");
+                string dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "textures", "map", "data" });
+                Utils.PrepareFileDialog(fd, dialogPath, "JSON files (*.json)|*.json");
 
                 if (fd.ShowDialog() == DialogResult.OK)
                 {
@@ -680,7 +682,8 @@ namespace HOI4ModBuilder
             Logger.TryOrLog(() =>
             {
                 var fd = new OpenFileDialog();
-                Utils.PrepareFileDialog(fd, Application.StartupPath + @"\data\textures\map\data", "JSON files (*.json)|*.json");
+                string dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "textures", "map", "data" });
+                Utils.PrepareFileDialog(fd, dialogPath, "JSON files (*.json)|*.json");
 
                 if (fd.ShowDialog() == DialogResult.OK)
                 {
@@ -846,9 +849,9 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Save_Supply_All_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => SupplyManager.SaveAll(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Supply_Railways_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => SupplyManager.SaveRailways(SettingsManager.Settings.modDirectory + @"map\"));
+            => Logger.TryOrLog(() => SupplyManager.SaveRailways(FileManager.AssembleFolderPath(new[] { SettingsManager.Settings.modDirectory, "map" })));
         private void ToolStripMenuItem_Save_Supply_Hubs_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => SupplyManager.SaveSupplyNodes(SettingsManager.Settings.modDirectory + @"map\"));
+            => Logger.TryOrLog(() => SupplyManager.SaveSupplyNodes(FileManager.AssembleFolderPath(new[] { SettingsManager.Settings.modDirectory, "map" })));
         private void ToolStripMenuItem_LoadAll_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => LoadAll());
         private void ToolStripMenuItem_Help_About_Click(object sender, EventArgs e)

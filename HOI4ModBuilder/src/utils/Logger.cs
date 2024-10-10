@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.forms;
+using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.Pdoxcl2Sharp;
 using Pdoxcl2Sharp;
 using System;
@@ -12,7 +13,7 @@ namespace HOI4ModBuilder.src.utils
 {
     class Logger
     {
-        public static readonly string logDirPath = @"logs\";
+        public static readonly string logDirPath = FileManager.AssembleFolderPath(new string[] { "logs" });
         public static readonly string logFilePath = logDirPath + "latest.log";
         public static readonly string version = "Alpha 0.2.4";
 

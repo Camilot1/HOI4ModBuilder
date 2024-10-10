@@ -194,7 +194,7 @@ namespace HOI4ModBuilder.src
         public string GetModSettingsDirectoryPath()
             => modDirectory + ModSettingsDirectory;
         public string GetModSettingsFilePath()
-            => GetModSettingsDirectoryPath() + @"\" + ModSettingsFile;
+            => GetModSettingsDirectoryPath() + FileManager.PATH_SEPARATOR_STRING + ModSettingsFile;
 
         public bool IsModSettingsDirectoryExists() => Directory.Exists(GetModSettingsDirectoryPath());
         public bool IsModSettingsFileExists() => File.Exists(GetModSettingsFilePath());

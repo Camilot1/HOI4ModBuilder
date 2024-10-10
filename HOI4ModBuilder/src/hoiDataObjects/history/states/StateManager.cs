@@ -9,12 +9,8 @@ using OpenTK.Graphics.OpenGL;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
@@ -24,6 +20,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
     class StateManager : IParadoxRead
     {
         public static StateManager Instance { get; private set; }
+
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "history", "states" });
         private static FileInfo _currentFile;
         private static Dictionary<ushort, State> _statesById = new Dictionary<ushort, State>();
         public static void ForEachState(Action<State> action)
@@ -48,7 +46,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             _statesById = new Dictionary<ushort, State>();
             _statesBorders = new HashSet<ProvinceBorder>();
 
-            var fileInfosPairs = FileManager.ReadFileInfos(settings, @"history\states\", FileManager.TXT_FORMAT);
+            var fileInfosPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
             Logger.Log("Loading of States started");
             foreach (var fileInfo in fileInfosPairs.Values)
@@ -77,12 +75,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                             ), ex)
                     );
 
-                    File.WriteAllText(settings.modDirectory + @"history\states\" + state.fileInfo.fileName, sb.ToString());
+                    File.WriteAllText(settings.modDirectory + FOLDER_PATH + state.fileInfo.fileName, sb.ToString());
                     sb.Length = 0;
                 }
 
                 if (state.fileInfo.needToDelete)
-                    File.Delete(settings.modDirectory + @"history\states\" + state.fileInfo.fileName);
+                    File.Delete(settings.modDirectory + FOLDER_PATH + state.fileInfo.fileName);
             }
         }
 

@@ -917,12 +917,13 @@ namespace HOI4ModBuilder.managers
 
             string bmpFilePath, definitionFilePath;
             var fd = new OpenFileDialog();
-            Utils.PrepareFileDialog(fd, GuiLocManager.GetLoc(EnumLocKey.AUTOTOOLS_FIND_MAP_CHANGES_TITLE_CHOOSE_PROVINCES_BMP_FILE), Application.StartupPath + @"\data\mapChanges", "BMP files (*.bmp)|*.bmp");
+            var dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "mapChanges" });
+            Utils.PrepareFileDialog(fd, GuiLocManager.GetLoc(EnumLocKey.AUTOTOOLS_FIND_MAP_CHANGES_TITLE_CHOOSE_PROVINCES_BMP_FILE), dialogPath, "BMP files (*.bmp)|*.bmp");
             if (fd.ShowDialog() == DialogResult.OK) bmpFilePath = fd.FileName;
             else return;
 
             fd = new OpenFileDialog();
-            Utils.PrepareFileDialog(fd, GuiLocManager.GetLoc(EnumLocKey.AUTOTOOLS_FIND_MAP_CHANGES_TITLE_CHOOSE_DEFINITION_CSV_FILE), Application.StartupPath + @"\data\mapChanges", "CSV files (*.csv)|*.csv");
+            Utils.PrepareFileDialog(fd, GuiLocManager.GetLoc(EnumLocKey.AUTOTOOLS_FIND_MAP_CHANGES_TITLE_CHOOSE_DEFINITION_CSV_FILE), dialogPath, "CSV files (*.csv)|*.csv");
             if (fd.ShowDialog() == DialogResult.OK) definitionFilePath = fd.FileName;
             else return;
 

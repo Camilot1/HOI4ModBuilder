@@ -157,7 +157,8 @@ namespace HOI4ModBuilder.src.forms.recoveryForms
 
                 var thread = new Thread(() =>
                 {
-                    var fd = Utils.PrepareFolderDialog(Application.StartupPath + @"\data\recovery\strategic_regions\");
+                    var dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "recovery", "strategic_regions" });
+                    var fd = Utils.PrepareFolderDialog(dialogPath);
                     if (fd.ShowDialog() != DialogResult.OK) return;
 
                     Invoke(new Action(() =>

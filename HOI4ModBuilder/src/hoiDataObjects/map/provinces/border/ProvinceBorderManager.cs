@@ -5,10 +5,6 @@ using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 
@@ -286,7 +282,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             Province lp, rp;
 
-            var pixels = new List<Value2US>();
+            var pixels = new List<Value2US>(2048);
             //Проходим по граничным пикселям с 4 направлениями
             Logger.Log($"X-Cross count: {borderInfoMap[4].Values.Count}. Coordinates: ");
             foreach (var borderInfo in borderInfoMap[4].Values)

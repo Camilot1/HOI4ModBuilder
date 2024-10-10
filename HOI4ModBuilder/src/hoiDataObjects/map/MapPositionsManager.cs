@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
 {
     class MapPositionsManager
     {
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "map" });
+        private static readonly string UNITSTACKS_FILE_NAME = "unitstacks.txt";
+
         private static readonly Random _random = new Random();
         private static Dictionary<int, Info> _pixelsByProvincesIds = new Dictionary<int, Info>(0);
         private static Dictionary<int, Value2US> _portsPoses = new Dictionary<int, Value2US>(0);
@@ -126,7 +130,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
                 sb.Length = 0;
             }
 
-            File.WriteAllLines(settings.modDirectory + @"map\unitstacks.txt", exportLines);
+            File.WriteAllLines(settings.modDirectory + FOLDER_PATH + UNITSTACKS_FILE_NAME, exportLines);
             lines.Clear();
         }
 

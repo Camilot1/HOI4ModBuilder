@@ -9,13 +9,16 @@ using OpenTK.Graphics.OpenGL;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
-using HOI4ModBuilder.src.tools.map.advanced;
 using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 {
     class SupplyManager
     {
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "map" });
+        private static readonly string RAILWAYS_FILE_NAME = "railways.txt";
+        private static readonly string SUPPLY_NODES_FILE_NAME = "supply_nodes.txt";
+
         public static bool NeedToSaveSupplyNodes { get; set; }
         public static SupplyNode SelectedSupplyNode = null;
         public static List<SupplyNode> SupplyNodes { get; private set; }
@@ -35,13 +38,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         {
             HandleEscape();
 
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\", FileManager.ANY_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
 
-            if (!fileInfoPairs.TryGetValue("railways.txt", out FileInfo railwaysFileInfo))
-                throw new FileNotFoundException("railways.txt");
+            if (!fileInfoPairs.TryGetValue(RAILWAYS_FILE_NAME, out FileInfo railwaysFileInfo))
+                throw new FileNotFoundException(RAILWAYS_FILE_NAME);
 
-            if (!fileInfoPairs.TryGetValue("supply_nodes.txt", out FileInfo supplyNodesFileInfo))
-                throw new FileNotFoundException("supply_nodes.txt");
+            if (!fileInfoPairs.TryGetValue(SUPPLY_NODES_FILE_NAME, out FileInfo supplyNodesFileInfo))
+                throw new FileNotFoundException(SUPPLY_NODES_FILE_NAME);
 
             NeedToSaveRailways = railwaysFileInfo.needToSave;
             NeedToSaveSupplyNodes = supplyNodesFileInfo.needToSave;
@@ -52,15 +55,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public static void SaveAll(Settings settings)
         {
-            SaveRailways(settings.modDirectory + @"map\");
-            SaveSupplyNodes(settings.modDirectory + @"map\");
+            SaveRailways(settings.modDirectory + FOLDER_PATH);
+            SaveSupplyNodes(settings.modDirectory + FOLDER_PATH);
         }
 
         public static void SaveRailways(string dirPath)
         {
             if (!NeedToSaveRailways) return;
 
-            string railwaysPath = dirPath + "railways.txt";
+            string railwaysPath = dirPath + RAILWAYS_FILE_NAME;
             var sb = new StringBuilder();
             foreach (var railway in Railways) railway.Save(sb);
             File.WriteAllText(railwaysPath, sb.ToString());
@@ -70,7 +73,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         {
             if (!NeedToSaveSupplyNodes) return;
 
-            string supplyNodesPath = dirPath + "supply_nodes.txt";
+            string supplyNodesPath = dirPath + SUPPLY_NODES_FILE_NAME;
 
             var sb = new StringBuilder();
             foreach (var supplyNode in SupplyNodes) supplyNode.Save(sb);

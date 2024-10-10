@@ -1,17 +1,14 @@
-﻿using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
-using HOI4ModBuilder.src.managers;
+﻿using HOI4ModBuilder.src.managers;
 using Pdoxcl2Sharp;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 {
     class BuildingManager : IParadoxRead
     {
         public static BuildingManager Instance { get; private set; }
+
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "buildings" });
         private static FileInfo _currentFile = null;
         private static Dictionary<FileInfo, List<Building>> _buildingsByFilesMap = new Dictionary<FileInfo, List<Building>>();
         private static Dictionary<string, Building> _allBuildings = new Dictionary<string, Building>();
@@ -22,7 +19,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             _buildingsByFilesMap = new Dictionary<FileInfo, List<Building>>();
             _allBuildings = new Dictionary<string, Building>();
 
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"common\buildings\", FileManager.TXT_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
             foreach (var fileInfo in fileInfoPairs.Values)
             {

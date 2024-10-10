@@ -22,6 +22,9 @@ namespace HOI4ModBuilder.managers
 
     public class ProvinceManager
     {
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "map" });
+        private static readonly string DEFINITION_FILE_NAME = "definition.csv";
+
         public static bool NeedToSave { get; set; }
         private static bool _hasProcessedDefinitionFile;
         public static ushort NextVacantProvinceId { get; set; }
@@ -198,12 +201,10 @@ namespace HOI4ModBuilder.managers
             _provincesById = new Dictionary<ushort, Province>();
             _provincesByColor = new Dictionary<int, Province>();
 
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\", FileManager.ANY_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
 
-            if (!fileInfoPairs.TryGetValue("definition.csv", out src.FileInfo fileInfo))
-            {
-                throw new FileNotFoundException("definition.csv");
-            }
+            if (!fileInfoPairs.TryGetValue(DEFINITION_FILE_NAME, out src.FileInfo fileInfo))
+                throw new FileNotFoundException(DEFINITION_FILE_NAME);
 
             NeedToSave = fileInfo.needToSave;
             ProcessDefinitionFile(fileInfo.filePath);
@@ -213,7 +214,7 @@ namespace HOI4ModBuilder.managers
         {
             if (!NeedToSave) return;
 
-            string filePath = settings.modDirectory + @"map\definition.csv";
+            string filePath = settings.modDirectory + FOLDER_PATH + DEFINITION_FILE_NAME;
             ushort[] ids = _provincesById.Keys.OrderBy(x => x).ToArray();
             var sb = new StringBuilder();
             if (ids.Length > 0 && ids[0] != 0)

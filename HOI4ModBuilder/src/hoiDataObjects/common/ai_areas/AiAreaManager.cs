@@ -10,6 +10,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
 {
     class AiAreaManager
     {
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "ai_areas" });
         private static Dictionary<FileInfo, AiAreasFile> _aiAreasFiles = new Dictionary<FileInfo, AiAreasFile>();
         private static Dictionary<string, AiArea> _allAiAreas = new Dictionary<string, AiArea>();
         private static Dictionary<string, FileInfo> _aiAreasDefinition = new Dictionary<string, FileInfo>();
@@ -20,7 +21,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
             _allAiAreas = new Dictionary<string, AiArea>();
             _aiAreasDefinition = new Dictionary<string, FileInfo>();
 
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"common\ai_areas\", FileManager.TXT_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
             foreach (var fileInfo in fileInfoPairs.Values)
             {
@@ -74,12 +75,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
                             ), ex)
                     );
 
-                    File.WriteAllText(settings.modDirectory + @"common\ai_areas\" + aiAreasFile.FileInfo.fileName, sb.ToString());
+                    File.WriteAllText(settings.modDirectory + FOLDER_PATH + aiAreasFile.FileInfo.fileName, sb.ToString());
                     sb.Length = 0;
                 }
 
                 if (!aiAreasFile.HasAnyInnerInfo)
-                    File.Delete(settings.modDirectory + @"common\ai_areas\" + aiAreasFile.FileInfo.fileName);
+                    File.Delete(settings.modDirectory + FOLDER_PATH + aiAreasFile.FileInfo.fileName);
             }
         }
 

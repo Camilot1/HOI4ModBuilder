@@ -7,6 +7,8 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
 {
     public class MapCheckerRiversMismatches : MapChecker
     {
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "map" });
+
         public MapCheckerRiversMismatches()
             : base(-1, (list) => CheckRiversMismatches(list))
         { }
@@ -14,7 +16,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
         private static void CheckRiversMismatches(List<MapCheckData> list)
         {
             var settings = SettingsManager.Settings;
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\", FileManager.ANY_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
             if (!fileInfoPairs.TryGetValue("rivers.bmp", out FileInfo fileInfo)) return;
 
             var riversBitmap = new Bitmap(fileInfo.filePath);

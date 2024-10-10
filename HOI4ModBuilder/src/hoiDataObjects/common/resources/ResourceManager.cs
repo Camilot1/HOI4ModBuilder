@@ -1,18 +1,15 @@
 ﻿using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.managers;
 using Pdoxcl2Sharp;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.hoiDataObjects.common.resources
 {
     class ResourceManager : IParadoxRead
     {
         public static ResourceManager Instance { get; private set; }
+
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "resources" });
         private static FileInfo _currentFile = null;
         private static Dictionary<FileInfo, Dictionary<string, Resource>> _resourcesByFilesMap = new Dictionary<FileInfo, Dictionary<string, Resource>>(0);
         private static Dictionary<string, Resource> _allResources = new Dictionary<string, Resource>(0);
@@ -23,7 +20,7 @@ namespace HOI4ModBuilder.hoiDataObjects.common.resources
             _resourcesByFilesMap = new Dictionary<FileInfo, Dictionary<string, Resource>>();
             _allResources = new Dictionary<string, Resource>();
 
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"common\resources\", FileManager.TXT_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
             foreach (FileInfo fileInfo in fileInfoPairs.Values)
             {

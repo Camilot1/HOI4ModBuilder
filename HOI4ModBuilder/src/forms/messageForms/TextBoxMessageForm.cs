@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.src.utils;
+﻿using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -86,7 +87,8 @@ namespace HOI4ModBuilder.src.forms
         {
             Logger.TryOrLog(() =>
             {
-                using (Process.Start("explorer", Application.StartupPath + @"\logs\")) { };
+                var path = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "logs" });
+                using (Process.Start("explorer", path)) { };
             });
         }
 

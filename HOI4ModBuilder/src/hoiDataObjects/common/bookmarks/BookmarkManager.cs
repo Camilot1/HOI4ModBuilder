@@ -13,6 +13,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.bookmarks
     class BookmarkManager : IParadoxRead
     {
         public static BookmarkManager Instance { get; private set; }
+
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "bookmarks" });
         private static FileInfo _currentFile = null;
         private static Dictionary<FileInfo, List<Bookmark>> _bookmarksByFilesMap = new Dictionary<FileInfo, List<Bookmark>>();
         private static Dictionary<string, Bookmark> _allBookmarks = new Dictionary<string, Bookmark>();
@@ -28,7 +30,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.bookmarks
             _allBookmarks = new Dictionary<string, Bookmark>();
             _allBookmarksByDateTimes = new Dictionary<DateTime, Bookmark>();
 
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"common\bookmarks\", FileManager.TXT_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
             MainForm.Instance.InvokeAction(() => MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Clear());
 

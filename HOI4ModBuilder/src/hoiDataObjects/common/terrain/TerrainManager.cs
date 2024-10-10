@@ -10,6 +10,8 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
     class TerrainManager : IParadoxRead
     {
         public static TerrainManager Instance { get; private set; }
+
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "terrain" });
         private static src.FileInfo _currentFile;
         private static Dictionary<string, ProvincialTerrain> _provincialTerraings = new Dictionary<string, ProvincialTerrain>();
         public static Dictionary<string, ProvincialTerrain>.KeyCollection GetAllTerrainKeys => _provincialTerraings.Keys;
@@ -20,7 +22,7 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
         {
             Instance = new TerrainManager();
             _provincialTerraings = new Dictionary<string, ProvincialTerrain>();
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"common\terrain\", FileManager.TXT_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
             MainForm.Instance.InvokeAction(() => MainForm.Instance.ToolStripComboBox_Map_Province_Terrain.Items.Clear());
 

@@ -10,7 +10,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 {
     class OOBManager
     {
-        private static readonly string directoryPath = @"history\units\";
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "history", "units" });
         private static Dictionary<FileInfo, OOB> _oobsByFiles = new Dictionary<FileInfo, OOB>();
 
         private static Dictionary<string, ShipInstances> _shipInstances = new Dictionary<string, ShipInstances>();
@@ -33,7 +33,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             _oobsByFiles = new Dictionary<FileInfo, OOB>();
             _shipInstances = new Dictionary<string, ShipInstances>();
 
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, directoryPath, FileManager.TXT_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
             foreach (FileInfo fileInfo in fileInfoPairs.Values)
             {
@@ -67,7 +67,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                         {
                             { "{requestsCount}", $"{shipInstance.RequestsCount}" },
                             { "{taskForceShipName}", $"{shipInstance.Name}" },
-                            { "{directoryPath}", $"{directoryPath}" },
+                            { "{directoryPath}", $"{FOLDER_PATH}" },
                             { "{requestsList}", $"{sb}" }
                         }
                     );
@@ -81,7 +81,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             {
                 if (oob.FileInfo.needToDelete)
                 {
-                    File.Delete(settings.modDirectory + directoryPath + oob.FileInfo.fileName);
+                    File.Delete(settings.modDirectory + FOLDER_PATH + oob.FileInfo.fileName);
                     continue;
                 }
 
@@ -90,7 +90,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                     StringBuilder sb = new StringBuilder();
                     oob.Save(sb, "", "\t");
 
-                    File.WriteAllText(settings.modDirectory + directoryPath + oob.FileInfo.fileName, sb.ToString());
+                    File.WriteAllText(settings.modDirectory + FOLDER_PATH + oob.FileInfo.fileName, sb.ToString());
                     sb.Length = 0;
                 }
             }

@@ -8,11 +8,8 @@ using OpenTK.Graphics.OpenGL;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
@@ -21,6 +18,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 {
     class AdjacenciesManager
     {
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "map" });
+        private static readonly string ADJACENCIES_FILE_NAME = "adjacencies.csv";
+        private static readonly string ADJACENCY_RULES_FILE_NAME = "adjacency_rules.txt";
+
         public static bool NeedToSaveAdjacencyRules { get; set; }
         public static bool NeedToSaveAdjacencies { get; set; }
         private static string _header;
@@ -40,7 +41,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         {
             if (NeedToSaveAdjacencies)
             {
-                string adjacenciesPath = settings.modDirectory + @"map\adjacencies.csv";
+                string adjacenciesPath = settings.modDirectory + FOLDER_PATH + ADJACENCIES_FILE_NAME;
                 var sb = new StringBuilder();
                 sb.Append(_header).Append(Constants.NEW_LINE);
                 foreach (Adjacency adjacency in _adjacencies) adjacency.Save(sb);
@@ -49,7 +50,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
             if (NeedToSaveAdjacencyRules)
             {
-                string adjacencyRulesPath = settings.modDirectory + @"map\adjacency_rules.txt";
+                string adjacencyRulesPath = settings.modDirectory + FOLDER_PATH + ADJACENCY_RULES_FILE_NAME;
                 StringBuilder sb = new StringBuilder();
                 foreach (var rule in _adjacencyRules.Values) rule.Save(sb, "\t");
                 File.WriteAllText(adjacencyRulesPath, sb.ToString());
@@ -64,9 +65,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             _seaAdjacencies = new List<Adjacency>();
             _selectedSeaCross = null;
 
-            var fileInfos = FileManager.ReadFileInfos(settings, @"map\", FileManager.ANY_FORMAT);
+            var fileInfos = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
 
-            if (!fileInfos.TryGetValue("adjacency_rules.txt", out FileInfo rulesFileInfo)) throw new FileNotFoundException("adjacency_rules.txt");
+            if (!fileInfos.TryGetValue(ADJACENCY_RULES_FILE_NAME, out FileInfo rulesFileInfo))
+                throw new FileNotFoundException(ADJACENCY_RULES_FILE_NAME);
             NeedToSaveAdjacencyRules = rulesFileInfo.needToSave;
 
             var adjRules = new AdjacencyRuleList(_adjacencyRules);
@@ -75,7 +77,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
             MainForm.Instance.SetAdjacencyRules(_adjacencyRules.Keys);
 
-            if (!fileInfos.TryGetValue("adjacencies.csv", out FileInfo adjacenciesFileInfo)) throw new FileNotFoundException("adjacencies.csv");
+            if (!fileInfos.TryGetValue(ADJACENCIES_FILE_NAME, out FileInfo adjacenciesFileInfo))
+                throw new FileNotFoundException(ADJACENCIES_FILE_NAME);
             NeedToSaveAdjacencies = adjacenciesFileInfo.needToSave;
 
             string[] data = File.ReadAllLines(adjacenciesFileInfo.filePath);
@@ -302,19 +305,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         public static void HandleCursor(MouseButtons button, Point2D pos)
         {
             if (button == MouseButtons.Left)
-            {
                 SelectSeaCross(pos);
-            }
         }
 
-        private static void HandleDelete()
-        {
-            RemoveAdjacency(_selectedSeaCross);
-        }
-
-        private static void HandleEscape()
-        {
-            _selectedSeaCross = null;
-        }
+        private static void HandleDelete() => RemoveAdjacency(_selectedSeaCross);
+        private static void HandleEscape() => _selectedSeaCross = null;
     }
 }

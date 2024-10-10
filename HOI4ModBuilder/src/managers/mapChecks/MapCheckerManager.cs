@@ -37,16 +37,11 @@ namespace HOI4ModBuilder.src.managers.mapChecks
 
             int startedCounter = RunCheckers();
 
-            Logger.Log($"startedCounter: {startedCounter}");
-
             int runningCounter;
             do
             {
                 runningCounter = GetRunningCheckersCount();
                 int finishedCounter = startedCounter - runningCounter;
-
-                Logger.Log($"runningCounter: {runningCounter}");
-                Logger.Log($"finishedCounter: {finishedCounter}");
 
                 MainForm.DisplayProgress(
                     _locKey,
@@ -56,8 +51,6 @@ namespace HOI4ModBuilder.src.managers.mapChecks
                 );
                 Thread.Sleep(100);
             } while (runningCounter > 0);
-
-            Logger.Log($"COLLECT");
 
             CollectCheckersData();
         }

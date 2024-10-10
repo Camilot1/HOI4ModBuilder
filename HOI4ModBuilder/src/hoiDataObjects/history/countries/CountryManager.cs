@@ -17,6 +17,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
 {
     class CountryManager
     {
+        private static readonly string COUNTRIES_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "countries" });
+        private static readonly string COUNTRY_TAGS_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "country_tags" });
         private static FileInfo _currentFile;
         private static Dictionary<FileInfo, Country> _countriesByFiles = new Dictionary<FileInfo, Country>(0);
         private static Dictionary<string, Country> _contriesByTag = new Dictionary<string, Country>(0);
@@ -32,7 +34,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
             _countryColors = new Dictionary<string, CountryColors>();
             _cosmeticCountryColors = new Dictionary<string, CountryColors>();
 
-            var fileInfosPairs = FileManager.ReadFileInfos(settings, @"common\countries\", FileManager.TXT_FORMAT);
+            var fileInfosPairs = FileManager.ReadFileInfos(settings, COUNTRIES_FOLDER_PATH, FileManager.TXT_FORMAT);
 
             if (fileInfosPairs.TryGetValue("colors.txt", out FileInfo colorsFileInfo))
             {
@@ -57,7 +59,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
             {
                 _currentFile = fileInfo;
 
-                var countryGraphics = new CountryGraphics(@"common\countries\" + fileInfo.fileName);
+                var countryGraphics = new CountryGraphics(COUNTRIES_FOLDER_PATH + fileInfo.fileName);
                 Logger.Log($"Loading CountryGraphics = {fileInfo.fileName}");
 
                 Logger.TryOrCatch(
@@ -76,7 +78,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
                 _countryGraphicsDictionary[fileInfo.fileName] = countryGraphics;
             }
 
-            fileInfosPairs = FileManager.ReadFileInfos(settings, @"common\country_tags\", FileManager.TXT_FORMAT);
+            fileInfosPairs = FileManager.ReadFileInfos(settings, COUNTRY_TAGS_FOLDER_PATH, FileManager.TXT_FORMAT);
 
             foreach (var fileInfo in fileInfosPairs.Values)
             {

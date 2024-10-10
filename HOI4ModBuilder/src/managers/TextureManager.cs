@@ -18,6 +18,15 @@ namespace HOI4ModBuilder
 
     class TextureManager
     {
+        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "map" });
+        private static readonly string PROVINCES_FILE_NAME = "provinces.bmp";
+        private static readonly string HEIGHTMAP_FILE_NAME = "heightmap.bmp";
+        private static readonly string WORLD_NORMAL_FILE_NAME = "world_normal.bmp";
+        private static readonly string RIVERS_FILE_NAME = "rivers.bmp";
+        private static readonly string TERRAIN_FILE_NAME = "terrain.bmp";
+        private static readonly string TREES_FILE_NAME = "trees.bmp";
+        private static readonly string CITIES_FILE_NAME = "cities.bmp";
+
         public static readonly TextureType _8bppAlpha = TextureTypes.Get(EnumTextureType._8bppAlpha);
         public static readonly TextureType _8bppGrayscale = TextureTypes.Get(EnumTextureType._8bppGrayScale);
         public static readonly TextureType _8bppIndexed = TextureTypes.Get(EnumTextureType._8bppIndexed);
@@ -240,20 +249,20 @@ namespace HOI4ModBuilder
 
         private static void LoadMapPairs(Settings settings)
         {
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\", FileManager.ANY_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
             LocalizedAction[] actions =
             {
                 new LocalizedAction(
                      EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXTURE_MAPS,
                     () => {
-                        provinces = LoadMapPair(fileInfoPairs, "provinces.bmp", _24bppRgb);
+                        provinces = LoadMapPair(fileInfoPairs, PROVINCES_FILE_NAME, _24bppRgb);
                         MapManager.ProvincesPixels = BrgToArgb(Utils.BitmapToArray(provinces.GetBitmap(), ImageLockMode.ReadOnly, _24bppRgb), 255);
-                        terrain = LoadMapPair(fileInfoPairs, "terrain.bmp", _8bppIndexed);
-                        trees = LoadMapPair(fileInfoPairs, "trees.bmp", _8bppIndexed);
-                        cities = LoadMapPair(fileInfoPairs, "cities.bmp", _8bppIndexed);
-                        height = LoadMapPair(fileInfoPairs, "heightmap.bmp", _8bppGrayscale);
+                        terrain = LoadMapPair(fileInfoPairs, TERRAIN_FILE_NAME, _8bppIndexed);
+                        trees = LoadMapPair(fileInfoPairs, TREES_FILE_NAME, _8bppIndexed);
+                        cities = LoadMapPair(fileInfoPairs, CITIES_FILE_NAME, _8bppIndexed);
+                        height = LoadMapPair(fileInfoPairs, HEIGHTMAP_FILE_NAME, _8bppGrayscale);
                         MapManager.HeightsPixels = Utils.BitmapToArray(height.GetBitmap(), ImageLockMode.ReadOnly, _8bppGrayscale);
-                        normal = LoadMapPair(fileInfoPairs, "world_normal.bmp", _24bppRgb);
+                        normal = LoadMapPair(fileInfoPairs, WORLD_NORMAL_FILE_NAME, _24bppRgb);
 
                         var bitmap = new Bitmap(1, 1, _8bppGrayscale.imagePixelFormat);
                         var texture = new Texture2D(bitmap, _8bppGrayscale, false);
@@ -321,7 +330,7 @@ namespace HOI4ModBuilder
 
         private static void LoadAdditionalLayers(Settings settings)
         {
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, @"map\", FileManager.ANY_FORMAT);
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
             LocalizedAction[] actions =
             {
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_ADDITIONAL_MAP_LAYERS, () => rivers = CreateRiverMap(fileInfoPairs["rivers.bmp"]))
@@ -494,17 +503,20 @@ namespace HOI4ModBuilder
 
         public static void SaveTerrainMap()
         {
-            if (terrain.needToSave) terrain.GetBitmap().Save(SettingsManager.Settings.modDirectory + @"map\terrain.bmp", ImageFormat.Bmp);
+            if (terrain.needToSave)
+                terrain.GetBitmap().Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + TERRAIN_FILE_NAME, ImageFormat.Bmp);
         }
 
         public static void SaveTreesMap()
         {
-            if (trees.needToSave) trees.GetBitmap().Save(SettingsManager.Settings.modDirectory + @"map\trees.bmp", ImageFormat.Bmp);
+            if (trees.needToSave)
+                trees.GetBitmap().Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + TREES_FILE_NAME, ImageFormat.Bmp);
         }
 
         public static void SaveCitiesMap()
         {
-            if (cities.needToSave) cities.GetBitmap().Save(SettingsManager.Settings.modDirectory + @"map\cities.bmp", ImageFormat.Bmp);
+            if (cities.needToSave)
+                cities.GetBitmap().Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + CITIES_FILE_NAME, ImageFormat.Bmp);
         }
 
         public static void SaveHeightMap(Settings settings)
@@ -526,7 +538,7 @@ namespace HOI4ModBuilder
             byte[] values = Utils.BitmapToArray(inputBitmap, ImageLockMode.ReadOnly, _24bppRgb);
             var outputBitmap = new Bitmap(inputBitmap.Width, inputBitmap.Height, PixelFormat.Format24bppRgb);
             Utils.ArrayToBitmap(values, outputBitmap, ImageLockMode.WriteOnly, inputBitmap.Width, inputBitmap.Height, _24bppRgb);
-            outputBitmap.Save(SettingsManager.Settings.modDirectory + @"map\provinces.bmp", ImageFormat.Bmp);
+            outputBitmap.Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + PROVINCES_FILE_NAME, ImageFormat.Bmp);
         }
 
         public static void SaveHeightMap(Bitmap inputBitmap)
@@ -543,11 +555,11 @@ namespace HOI4ModBuilder
             outputBitmap.Palette = palette;
 
             Utils.ArrayToBitmap(values, outputBitmap, ImageLockMode.WriteOnly, inputBitmap.Width, inputBitmap.Height, _8bppGrayscale);
-            outputBitmap.Save(SettingsManager.Settings.modDirectory + @"map\heightmap.bmp", ImageFormat.Bmp);
+            outputBitmap.Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + HEIGHTMAP_FILE_NAME, ImageFormat.Bmp);
         }
         public static void SaveNormalMap(Bitmap inputBitmap)
         {
-            inputBitmap.Save(SettingsManager.Settings.modDirectory + @"map\world_normal.bmp", ImageFormat.Bmp);
+            inputBitmap.Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + WORLD_NORMAL_FILE_NAME, ImageFormat.Bmp);
         }
 
         public static void SaveRiversMap(Settings settings)
@@ -607,7 +619,7 @@ namespace HOI4ModBuilder
             outputBitmap.Palette = palette;
 
             Utils.ArrayToBitmap(outputValues, outputBitmap, ImageLockMode.WriteOnly, width, height, _8bppIndexed);
-            outputBitmap.Save(SettingsManager.Settings.modDirectory + @"map\rivers.bmp", ImageFormat.Bmp);
+            outputBitmap.Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + RIVERS_FILE_NAME, ImageFormat.Bmp);
         }
 
         private static MapPair CreateRiverMap(src.FileInfo fileInfo)
