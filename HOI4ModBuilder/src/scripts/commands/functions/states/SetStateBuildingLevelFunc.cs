@@ -41,24 +41,28 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
             _varsScope = varsScope;
             _action = delegate ()
             {
+                int argIndexStateId = 1;
                 var stateId = ScriptParser.ParseValue(
-                    varsScope, args[1], lineIndex, args,
+                    varsScope, args[argIndexStateId], lineIndex, args,
                     (o) => o is INumberObject
                 );
+
+                int argIndexBuildingName = 2;
                 var buildingName = ScriptParser.ParseValue(
-                    varsScope, args[2], lineIndex, args,
+                    varsScope, args[argIndexBuildingName], lineIndex, args,
                     (o) => o is IStringObject
                 );
+
                 var buildingLevel = ScriptParser.ParseValue(
                     varsScope, args[3], lineIndex, args,
                     (o) => o is INumberObject
                 );
 
                 if (!StateManager.TryGetState(Convert.ToUInt16(stateId.GetValue()), out State state))
-                    throw new ValueNotFoundScriptException(lineIndex, args);
+                    throw new ValueNotFoundScriptException(lineIndex, args, stateId.GetValue(), argIndexStateId);
 
-                if (!BuildingManager.TryGetBuilding((string)buildingName.GetValue(), out Building building))
-                    throw new ValueNotFoundScriptException(lineIndex, args);
+                if (!BuildingManager.TryGetBuilding(Convert.ToString(buildingName.GetValue()), out Building building))
+                    throw new ValueNotFoundScriptException(lineIndex, args, buildingName.GetValue(), argIndexBuildingName);
 
                 state.SetStateBuildingLevel(building, Convert.ToUInt32(buildingLevel.GetValue()));
             };

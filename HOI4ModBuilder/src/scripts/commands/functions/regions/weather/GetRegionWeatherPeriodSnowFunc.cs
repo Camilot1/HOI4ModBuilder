@@ -43,20 +43,24 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
                     varsScope, args[1], lineIndex, args,
                     (o) => o is INumberObject
                 );
+
+                int argIndexRegionId = 2;
                 var regionId = ScriptParser.ParseValue(
-                    varsScope, args[2], lineIndex, args,
+                    varsScope, args[argIndexRegionId], lineIndex, args,
                     (o) => o is INumberObject
                 );
+
+                int argIndexWeatherPeriodIndex = 3;
                 var weatherPeriodIndex = ScriptParser.ParseValue(
-                    varsScope, args[3], lineIndex, args,
+                    varsScope, args[argIndexWeatherPeriodIndex], lineIndex, args,
                     (o) => o is INumberObject
                 );
 
                 if (!StrategicRegionManager.TryGetRegion(Convert.ToUInt16(regionId.GetValue()), out var region))
-                    throw new ValueNotFoundScriptException(lineIndex, args);
+                    throw new ValueNotFoundScriptException(lineIndex, args, regionId.GetValue(), argIndexRegionId);
 
                 if (!region.TryGetWeatherPeriod(Convert.ToInt32(weatherPeriodIndex.GetValue()), out var period))
-                    throw new IndexOutOfRangeScriptException(lineIndex, args);
+                    throw new IndexOutOfRangeScriptException(lineIndex, args, weatherPeriodIndex.GetValue(), argIndexWeatherPeriodIndex);
 
                 snowChance.Set(lineIndex, args, new FloatObject(period.Snow));
 

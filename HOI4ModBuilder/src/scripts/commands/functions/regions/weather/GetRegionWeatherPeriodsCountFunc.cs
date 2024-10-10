@@ -42,13 +42,15 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions
                     varsScope, args[1], lineIndex, args,
                     (o) => o is INumberObject
                 );
+
+                int argIndexRegionId = 2;
                 var regionId = ScriptParser.ParseValue(
-                    varsScope, args[2], lineIndex, args,
+                    varsScope, args[argIndexRegionId], lineIndex, args,
                     (o) => o is INumberObject
                 );
 
                 if (!StrategicRegionManager.TryGetRegion(Convert.ToUInt16(regionId.GetValue()), out var region))
-                    throw new ValueNotFoundScriptException(lineIndex, args);
+                    throw new ValueNotFoundScriptException(lineIndex, args, regionId.GetValue(), argIndexRegionId);
 
                 weatherPeriodsCount.Set(lineIndex, args, new IntObject(region.GetWeatherPeriodsCount()));
             };

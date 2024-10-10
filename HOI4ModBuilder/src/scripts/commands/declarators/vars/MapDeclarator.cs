@@ -38,20 +38,25 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var name = args[1];
+                int argIndexName = 1;
+                var name = args[argIndexName];
 
-                var keyType = ScriptParser.GetScriptObjectEmptyCopy(args[2]);
+                int argIndexKeyType = 2;
+                var keyTypeRaw = args[argIndexKeyType];
+                var keyType = ScriptParser.GetScriptObjectEmptyCopy(keyTypeRaw);
                 if (keyType == null)
-                    throw new InvalidKeyTypeScriptException(lineIndex, args);
+                    throw new InvalidKeyTypeScriptException(lineIndex, args, keyTypeRaw, argIndexKeyType);
 
-                var valueType = ScriptParser.GetScriptObjectEmptyCopy(args[3]);
+                int argIndexValueType = 3;
+                var valueTypeRaw = args[argIndexValueType];
+                var valueType = ScriptParser.GetScriptObjectEmptyCopy(valueTypeRaw);
                 if (valueType == null)
-                    throw new InvalidValueTypeScriptException(lineIndex, args);
+                    throw new InvalidValueTypeScriptException(lineIndex, args, valueTypeRaw, argIndexValueType);
 
                 var obj = new MapObject(keyType, valueType);
 
                 if (!varsScope.TryDeclareVar(name, obj))
-                    throw new VariableIsAlreadyDeclaredScriptException(lineIndex, args);
+                    throw new VariableIsAlreadyDeclaredScriptException(lineIndex, args, name, argIndexName);
 
                 string otherRawValue = args.Length > 4 ? args[4] : null;
                 if (otherRawValue != null)

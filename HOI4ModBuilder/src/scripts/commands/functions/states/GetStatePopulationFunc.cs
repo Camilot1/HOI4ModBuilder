@@ -41,13 +41,15 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
                     varsScope, args[1], lineIndex, args,
                     (o) => o is INumberObject
                 );
+
+                int argIndexStateId = 2;
                 var stateId = ScriptParser.ParseValue(
-                    varsScope, args[2], lineIndex, args,
+                    varsScope, args[argIndexStateId], lineIndex, args,
                     (o) => o is INumberObject
                 );
 
                 if (!StateManager.TryGetState(Convert.ToUInt16(stateId.GetValue()), out State state))
-                    throw new ValueNotFoundScriptException(lineIndex, args);
+                    throw new ValueNotFoundScriptException(lineIndex, args, stateId.GetValue(), argIndexStateId);
 
                 population.Set(lineIndex, args, new IntObject(state.manpower));
             };

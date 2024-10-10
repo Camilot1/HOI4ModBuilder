@@ -4,8 +4,8 @@ namespace HOI4ModBuilder.src.scripts.exceptions
 {
     public class ArgumentMustBeVarDeclarator : ScriptException
     {
-        public ArgumentMustBeVarDeclarator(int lineIndex, string[] args)
-            : base(EnumLocKey.SCRIPT_EXCEPTION_ARGUMENT_MUST_BE_VAR_DECLARATOR, lineIndex, args)
+        public ArgumentMustBeVarDeclarator(int lineIndex, string[] args, int argIndex)
+            : base(EnumLocKey.SCRIPT_EXCEPTION_ARGUMENT_MUST_BE_VAR_DECLARATOR, lineIndex, args, argIndex)
         { }
     }
 }

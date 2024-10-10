@@ -35,12 +35,14 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var name = args[1];
+                int argIndexName = 1;
+                var name = args[argIndexName];
+
                 var rawValue = args.Length > 2 ? args[2] : null;
                 var obj = new FloatObject();
 
                 if (!varsScope.TryDeclareVar(name, obj))
-                    throw new VariableIsAlreadyDeclaredScriptException(lineIndex, args);
+                    throw new VariableIsAlreadyDeclaredScriptException(lineIndex, args, name, argIndexName);
 
                 if (rawValue != null)
                     obj.Set(lineIndex, args, ScriptParser.ParseValue(varsScope, rawValue));

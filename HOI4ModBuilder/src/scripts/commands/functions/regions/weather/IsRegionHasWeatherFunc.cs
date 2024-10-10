@@ -45,13 +45,15 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
                     varsScope, args[1], lineIndex, args,
                     (o) => o is BooleanObject
                 );
+
+                int argIndexRegionId = 2;
                 var regionId = ScriptParser.ParseValue(
-                    varsScope, args[2], lineIndex, args,
+                    varsScope, args[argIndexRegionId], lineIndex, args,
                     (o) => o is INumberObject
                 );
 
                 if (!StrategicRegionManager.TryGetRegion(Convert.ToUInt16(regionId.GetValue()), out StrategicRegion region))
-                    throw new ValueNotFoundScriptException(lineIndex, args);
+                    throw new ValueNotFoundScriptException(lineIndex, args, regionId.GetValue(), argIndexRegionId);
 
                 bool result = region.Weather != null && region.Weather.GetPeriodsCount() != 0;
 

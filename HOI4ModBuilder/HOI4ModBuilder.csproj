@@ -524,7 +524,6 @@
     <Compile Include="src\scripts\exceptions\IndexOutOfRangeScriptException.cs" />
     <Compile Include="src\scripts\exceptions\InternalScriptException.cs" />
     <Compile Include="src\scripts\exceptions\InvalidArgsCountScriptException.cs" />
-    <Compile Include="src\scripts\exceptions\InvalidCommandArgsCountScriptException.cs" />
     <Compile Include="src\scripts\exceptions\InvalidCommandArgsScriptException.cs" />
     <Compile Include="src\scripts\exceptions\InvalidKeyTypeScriptException.cs" />
     <Compile Include="src\scripts\exceptions\InvalidMultilineArgsScriptException.cs" />
@@ -533,6 +532,7 @@
     <Compile Include="src\scripts\exceptions\InvalidValueTypeScriptException.cs" />
     <Compile Include="src\scripts\exceptions\ArgumentMustBeVarDeclarator.cs" />
     <Compile Include="src\scripts\exceptions\NullPointerScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\ProcessTerminatedScriptException.cs" />
     <Compile Include="src\scripts\exceptions\ScriptException.cs" />
     <Compile Include="src\scripts\exceptions\UnknownCommandScriptException.cs" />
     <Compile Include="src\scripts\exceptions\ValueNotFoundScriptException.cs" />

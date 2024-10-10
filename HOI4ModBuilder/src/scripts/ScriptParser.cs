@@ -178,18 +178,18 @@ namespace HOI4ModBuilder.src.scripts
         {
             var obj = ParseValue(varsScope, value);
             if (obj == null)
-                throw new VariableIsNotDeclaredScriptException(lineIndex, args);
+                throw new VariableIsNotDeclaredScriptException(lineIndex, args, value);
             if (!typeCheck(obj))
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, obj);
             return obj;
         }
         public static IScriptObject GetValue(VarsScope varsScope, string name, int lineIndex, string[] args, Func<IScriptObject, bool> typeCheck)
         {
             var obj = varsScope.GetValue(name);
             if (obj == null)
-                throw new VariableIsNotDeclaredScriptException(lineIndex, args);
+                throw new VariableIsNotDeclaredScriptException(lineIndex, args, name);
             if (!typeCheck(obj))
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, obj);
             return obj;
         }
 
@@ -242,7 +242,7 @@ namespace HOI4ModBuilder.src.scripts
                 string[] args = GetStringArgs(index, lines[index]);
 
                 if (!_commandsFabrics.TryGetValue(args[0], out var commandFabric))
-                    throw new UnknownCommandScriptException(index, args);
+                    throw new UnknownCommandScriptException(index, args, args[0]);
 
                 var newCommand = commandFabric();
                 newCommand.Parse(lines, ref index, indent, innerVarsScope, args);
@@ -291,7 +291,7 @@ namespace HOI4ModBuilder.src.scripts
                     }
                     else if (isParsingChar)
                     {
-                        throw new InvalidValueTypeScriptException(lineIndex, new string[] { line });
+                        throw new InvalidValueTypeScriptException(lineIndex, new string[] { line }, sb.ToString());
                     }
                     else if (sb.Length != 0)
                     {
@@ -395,13 +395,14 @@ namespace HOI4ModBuilder.src.scripts
                     bool hasCallInnerArgs = TryGetArg(callInnerArgs, 0, out string callInnerArg);
                     bool isMarkedAsOut = callInnerArg == "OUT";
 
-                    if (isOutParam && (!hasCallInnerArgs || !isMarkedAsOut))
-                        throw new ArgumentMustBeMarkedAsOutScriptException(index, callInnerArgs);
-                    else if (!isOutParam && hasCallInnerArgs && isMarkedAsOut)
-                        throw new ArgumentMustNotBeMarkedAsOutScriptException(index, callInnerArgs);
-
                     int commandIndex = isMarkedAsOut ? 1 : 0;
                     int varNameIndex = isMarkedAsOut ? 1 : 0;
+
+                    if (isOutParam && (!hasCallInnerArgs || !isMarkedAsOut))
+                        throw new ArgumentMustBeMarkedAsOutScriptException(index, callInnerArgs, commandIndex);
+                    else if (!isOutParam && hasCallInnerArgs && isMarkedAsOut)
+                        throw new ArgumentMustNotBeMarkedAsOutScriptException(index, callInnerArgs, commandIndex);
+
 
                     if (_commandsFabrics.TryGetValue(callInnerArgs[commandIndex], out var commandFabric))
                     {
@@ -409,7 +410,7 @@ namespace HOI4ModBuilder.src.scripts
 
                         if (tempCommand is VarDeclarator)
                             varNameIndex += 1;
-                        else throw new ArgumentMustBeVarDeclarator(index, callInnerArgs);
+                        else throw new ArgumentMustBeVarDeclarator(index, callInnerArgs, commandIndex);
 
 
                         var newCommandArgs = GetNewArgs(callInnerArgs, commandIndex);
@@ -508,7 +509,7 @@ namespace HOI4ModBuilder.src.scripts
             if (IsTerminated)
             {
                 IsTerminated = false;
-                throw new Exception();
+                throw new ProcessTerminatedScriptException(lineIndex);
             }
 
             while (!NextStep)

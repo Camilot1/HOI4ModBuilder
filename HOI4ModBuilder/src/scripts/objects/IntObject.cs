@@ -37,7 +37,7 @@ namespace HOI4ModBuilder.src.scripts.objects
             else if (value is FloatObject floatObject)
                 Value = (int)floatObject.Value;
             else
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void Add(int lineIndex, string[] args, IScriptObject value)
@@ -51,7 +51,7 @@ namespace HOI4ModBuilder.src.scripts.objects
             else if (value is FloatObject floatObject)
                 Value += (int)floatObject.Value;
             else
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
         public void Subtract(int lineIndex, string[] args, IScriptObject value)
         {
@@ -64,7 +64,7 @@ namespace HOI4ModBuilder.src.scripts.objects
             else if (value is FloatObject floatObject)
                 Value -= (int)floatObject.Value;
             else
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void Multiply(int lineIndex, string[] args, IScriptObject value)
@@ -78,7 +78,7 @@ namespace HOI4ModBuilder.src.scripts.objects
             else if (value is FloatObject floatObject)
                 Value *= (int)floatObject.Value;
             else
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void Divide(int lineIndex, string[] args, IScriptObject value)
@@ -90,7 +90,7 @@ namespace HOI4ModBuilder.src.scripts.objects
             else if (value is FloatObject floatObject)
                 Value /= (int)floatObject.Value;
             else
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void Modulo(int lineIndex, string[] args, IScriptObject value)
@@ -102,7 +102,7 @@ namespace HOI4ModBuilder.src.scripts.objects
             else if (value is FloatObject floatObject)
                 Value %= (int)floatObject.Value;
             else
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public bool IsGreaterThan(int lineIndex, string[] args, IRelativeObject relativeObject, BooleanObject result)
@@ -115,7 +115,7 @@ namespace HOI4ModBuilder.src.scripts.objects
                 result.Value = Value > intObject.Value;
             else if (relativeObject is FloatObject floatObject)
                 result.Value = Value > floatObject.Value;
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            else throw new InvalidValueTypeScriptException(lineIndex, args, relativeObject);
 
             return result.Value;
         }
@@ -130,7 +130,7 @@ namespace HOI4ModBuilder.src.scripts.objects
                 result.Value = Value >= intObject.Value;
             else if (relativeObject is FloatObject floatObject)
                 result.Value = Value >= floatObject.Value;
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            else throw new InvalidValueTypeScriptException(lineIndex, args, relativeObject);
 
             return result.Value;
         }
@@ -145,7 +145,7 @@ namespace HOI4ModBuilder.src.scripts.objects
                 result.Value = Value < intObject.Value;
             else if (relativeObject is FloatObject floatObject)
                 result.Value = Value < floatObject.Value;
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            else throw new InvalidValueTypeScriptException(lineIndex, args, relativeObject);
 
             return result.Value;
         }
@@ -160,7 +160,7 @@ namespace HOI4ModBuilder.src.scripts.objects
                 result.Value = Value <= intObject.Value;
             else if (relativeObject is FloatObject floatObject)
                 result.Value = Value <= floatObject.Value;
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            else throw new InvalidValueTypeScriptException(lineIndex, args, relativeObject);
 
             return result.Value;
         }
@@ -175,7 +175,7 @@ namespace HOI4ModBuilder.src.scripts.objects
                 result.Value = Value == intObject.Value;
             else if (relativeObject is FloatObject floatObject)
                 result.Value = Value == floatObject.Value;
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            else throw new InvalidValueTypeScriptException(lineIndex, args, relativeObject);
 
             return result.Value;
         }
@@ -190,7 +190,7 @@ namespace HOI4ModBuilder.src.scripts.objects
                 result.Value = Value != intObject.Value;
             else if (relativeObject is FloatObject floatObject)
                 result.Value = Value != floatObject.Value;
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            else throw new InvalidValueTypeScriptException(lineIndex, args, relativeObject);
 
             return result.Value;
         }

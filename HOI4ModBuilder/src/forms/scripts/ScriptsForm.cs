@@ -84,8 +84,16 @@ namespace HOI4ModBuilder.src.forms.scripts
             {
                 var executeTask = new Task(() =>
                 {
-                    var action = ScriptParser.Parse(_scriptLines);
-                    action?.Invoke();
+                    Logger.TryOrCatch(() =>
+                    {
+                        var action = ScriptParser.Parse(_scriptLines);
+                        action?.Invoke();
+                    },
+                    (ex) =>
+                    {
+                        Logger.LogSingleErrorMessage(ex.Message);
+                        Logger.Log(ex.ToString());
+                    });
                 });
                 executeTask.ContinueWith((t) =>
                 {

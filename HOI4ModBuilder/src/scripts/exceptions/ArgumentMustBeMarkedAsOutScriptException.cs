@@ -4,8 +4,8 @@ namespace HOI4ModBuilder.src.scripts.exceptions
 {
     internal class ArgumentMustBeMarkedAsOutScriptException : ScriptException
     {
-        public ArgumentMustBeMarkedAsOutScriptException(int lineIndex, string[] args)
-            : base(EnumLocKey.SCRIPT_EXCEPTION_ARGUMENT_MUST_BE_MARKED_AS_OUT, lineIndex, args)
+        public ArgumentMustBeMarkedAsOutScriptException(int lineIndex, string[] args, int argIndex)
+            : base(EnumLocKey.SCRIPT_EXCEPTION_ARGUMENT_MUST_BE_MARKED_AS_OUT, lineIndex, args, argIndex)
         { }
     }
 }

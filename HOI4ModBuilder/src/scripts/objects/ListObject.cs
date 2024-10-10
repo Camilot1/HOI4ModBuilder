@@ -44,12 +44,12 @@ namespace HOI4ModBuilder.src.scripts.objects
             {
                 if (ValueType.IsSameType(listObject.ValueType))
                     _list = listObject._list;
-                else throw new InvalidValueTypeScriptException(lineIndex, args);
+                else throw new InvalidValueTypeScriptException(lineIndex, args, value);
             }
             else if (value == null)
-                throw new VariableIsNotDeclaredScriptException(lineIndex, args);
+                throw new VariableIsNotDeclaredScriptException(lineIndex, args, null);
             else
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void Add(int lineIndex, string[] args, IScriptObject value)
@@ -61,7 +61,7 @@ namespace HOI4ModBuilder.src.scripts.objects
                 else
                     _list.Add(value);
             }
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            else throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void Clear(int lineIndex, string[] args)
@@ -76,46 +76,46 @@ namespace HOI4ModBuilder.src.scripts.objects
                 int index = (int)numberObject.GetValue();
 
                 if (index < 0 || index >= _list.Count)
-                    throw new IndexOutOfRangeScriptException(lineIndex, args);
+                    throw new IndexOutOfRangeScriptException(lineIndex, args, index);
 
                 var obj = _list[index];
                 value.Set(lineIndex, args, obj);
             }
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            else throw new InvalidKeyTypeScriptException(lineIndex, args, key);
         }
 
         public void Insert(int lineIndex, string[] args, IScriptObject key, IScriptObject value)
         {
             if (!ValueType.IsSameType(value))
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
 
             if (key is INumberObject numberObject)
             {
                 int index = (int)numberObject.GetValue();
 
                 if (index < 0 || index >= _list.Count)
-                    throw new IndexOutOfRangeScriptException(lineIndex, args);
+                    throw new IndexOutOfRangeScriptException(lineIndex, args, index);
 
                 if (value is IPrimitiveObject)
                     _list.Insert(index, value.GetCopy());
                 else
                     _list.Insert(index, value);
             }
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            else throw new InvalidKeyTypeScriptException(lineIndex, args, key);
         }
 
         public void Remove(int lineIndex, string[] args, IScriptObject value)
         {
             if (ValueType.IsSameType(value))
                 _list.Remove(value);
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            else throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void RemoveAt(int lineIndex, string[] args, INumberObject value)
         {
             int index = (int)value.GetValue();
             if (index < 0 || index >= _list.Count)
-                throw new IndexOutOfRangeScriptException(lineIndex, args);
+                throw new IndexOutOfRangeScriptException(lineIndex, args, value);
 
             _list.RemoveAt(index);
         }
@@ -129,13 +129,13 @@ namespace HOI4ModBuilder.src.scripts.objects
                 else
                     listObject.ForEach(obj => _list.Add(obj));
             else
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void HasValue(int lineIndex, string[] args, IScriptObject value, BooleanObject result)
         {
             if (!ValueType.IsSameType(value))
-                throw new InvalidKeyTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
 
             result.Value = _list.Contains(value);
         }
@@ -143,11 +143,11 @@ namespace HOI4ModBuilder.src.scripts.objects
         public void GetValues(int lineIndex, string[] args, IScriptObject values)
         {
             if (!(values is ListObject))
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, values);
 
             var listObject = (ListObject)values;
             if (!listObject.ValueType.IsSameType(ValueType))
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, listObject);
 
             listObject.Clear(lineIndex, args);
             foreach (IScriptObject value in _list)
@@ -185,7 +185,7 @@ namespace HOI4ModBuilder.src.scripts.objects
             int newSize = (int)value.GetValue();
 
             if (newSize < 0)
-                throw new IndexOutOfRangeScriptException(lineIndex, args);
+                throw new IndexOutOfRangeScriptException(lineIndex, args, newSize);
 
             while (_list.Count < newSize)
                 _list.Add(ValueType.GetEmptyCopy());

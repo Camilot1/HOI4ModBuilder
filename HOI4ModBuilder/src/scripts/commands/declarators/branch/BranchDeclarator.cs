@@ -109,17 +109,18 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
                 if (args[0] == _else_if_keyword)
                 {
                     if (_prev == null)
-                        throw new InvalidOperationScriptException(index, args);
+                        throw new InvalidOperationScriptException(index, args, args[0]);
                 }
                 else if (args[0] != _if_keyword)
-                    throw new InvalidOperationScriptException(index, args);
+                    throw new InvalidOperationScriptException(index, args, args[0]);
 
                 checkFunc = () =>
                 {
-                    var variable = ScriptParser.ParseValue(varsScope, args[1]);
+                    int argIndex = 1;
+                    var variable = ScriptParser.ParseValue(varsScope, args[argIndex]);
                     if (variable is BooleanObject booleanObject)
                         return booleanObject.Value;
-                    else throw new InvalidValueTypeScriptException(index, args);
+                    else throw new InvalidValueTypeScriptException(index, args, variable, argIndex);
                 };
             }
             else if (args.Length == 4)
@@ -127,23 +128,28 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
                 if (args[0] == _else_if_keyword)
                 {
                     if (_prev == null)
-                        throw new InvalidOperationScriptException(index, args);
+                        throw new InvalidOperationScriptException(index, args, args[0]);
                 }
                 else if (args[0] != _if_keyword)
-                    throw new InvalidOperationScriptException(index, args);
+                    throw new InvalidOperationScriptException(index, args, args[0]);
 
                 checkFunc = () =>
                 {
-                    var varA = ScriptParser.ParseValue(varsScope, args[1]);
-                    var varB = ScriptParser.ParseValue(varsScope, args[3]);
+                    int argIndexVarA = 1;
+                    var varA = ScriptParser.ParseValue(varsScope, args[argIndexVarA]);
+                    if (!(varA is IRelativeObject objA))
+                        throw new InvalidValueTypeScriptException(index, args, varA, argIndexVarA);
+
                     var relationFunc = _relationFuncs[args[2]];
-
                     if (relationFunc == null)
-                        throw new InvalidOperationScriptException(index, args);
+                        throw new InvalidOperationScriptException(index, args, args[2]);
 
-                    if (varA is IRelativeObject objA && varB is IRelativeObject objB)
-                        return relationFunc(index, args, objA, objB, new BooleanObject());
-                    else throw new InvalidValueTypeScriptException(index, args);
+                    int argIndexVarB = 3;
+                    var varB = ScriptParser.ParseValue(varsScope, args[argIndexVarB]);
+                    if (!(varB is IRelativeObject objB))
+                        throw new InvalidValueTypeScriptException(index, args, varB, argIndexVarB);
+
+                    return relationFunc(index, args, objA, objB, new BooleanObject());
                 };
             }
             else throw new InvalidArgsCountScriptException(index, args);

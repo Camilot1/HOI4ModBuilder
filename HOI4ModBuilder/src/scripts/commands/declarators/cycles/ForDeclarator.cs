@@ -28,7 +28,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
                 throw new InvalidArgsCountScriptException(lineIndex, args);
 
             if (args[2] != _in_keyword)
-                throw new InvalidCommandArgsScriptException(lineIndex, args);
+                throw new InvalidCommandArgsScriptException(lineIndex, args, args[2], 2);
 
             index++;
             var innerVarsScope = new VarsScope(varsScope, EnumVarsScopeType.FOR);
@@ -39,13 +39,15 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var iterator = args[1];
+                int argIndexIterator = 1;
+                var iterator = args[argIndexIterator];
                 if (varsScope.HasLocalVar(iterator))
-                    throw new VariableIsAlreadyDeclaredScriptException(lineIndex, args);
+                    throw new VariableIsAlreadyDeclaredScriptException(lineIndex, args, iterator, argIndexIterator);
 
-                var list = ScriptParser.ParseValue(innerVarsScope, args[3]);
+                int argIndexList = 3;
+                var list = ScriptParser.ParseValue(innerVarsScope, args[argIndexList]);
                 if (!(list is IListObject))
-                    throw new InvalidValueTypeScriptException(lineIndex, args);
+                    throw new InvalidValueTypeScriptException(lineIndex, args, list, argIndexList);
 
                 ((IListObject)list).ForEach(item =>
                 {

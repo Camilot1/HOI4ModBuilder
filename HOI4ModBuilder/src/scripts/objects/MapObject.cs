@@ -62,16 +62,16 @@ namespace HOI4ModBuilder.src.scripts.objects
         public void Set(int lineIndex, string[] args, IScriptObject value)
         {
             if (!IsSameType(value))
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
             _map = ((MapObject)value)._map;
         }
 
         public void Put(int lineIndex, string[] args, IScriptObject key, IScriptObject value)
         {
             if (!KeyType.IsSameType(key))
-                throw new InvalidKeyTypeScriptException(lineIndex, args);
+                throw new InvalidKeyTypeScriptException(lineIndex, args, key);
             if (!ValueType.IsSameType(value))
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
 
             _map[key] = value;
         }
@@ -79,7 +79,7 @@ namespace HOI4ModBuilder.src.scripts.objects
         public void HasKey(int lineIndex, string[] args, IScriptObject key, BooleanObject result)
         {
             if (!KeyType.IsSameType(key))
-                throw new InvalidKeyTypeScriptException(lineIndex, args);
+                throw new InvalidKeyTypeScriptException(lineIndex, args, key);
 
             result.Value = _map.ContainsKey(key);
         }
@@ -87,11 +87,11 @@ namespace HOI4ModBuilder.src.scripts.objects
         public void GetKeys(int lineIndex, string[] args, IScriptObject keys)
         {
             if (!(keys is ListObject))
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, keys);
 
             var listObject = (ListObject)keys;
             if (!listObject.ValueType.IsSameType(KeyType))
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, listObject);
 
             listObject.Clear(lineIndex, args);
             foreach (IScriptObject key in _map.Keys)
@@ -105,7 +105,7 @@ namespace HOI4ModBuilder.src.scripts.objects
         public void HasValue(int lineIndex, string[] args, IScriptObject value, BooleanObject result)
         {
             if (!ValueType.IsSameType(value))
-                throw new InvalidKeyTypeScriptException(lineIndex, args);
+                throw new InvalidKeyTypeScriptException(lineIndex, args, value);
 
             result.Value = _map.ContainsValue(value);
         }
@@ -113,11 +113,11 @@ namespace HOI4ModBuilder.src.scripts.objects
         public void GetValues(int lineIndex, string[] args, IScriptObject values)
         {
             if (!(values is ListObject))
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, values);
 
             var listObject = (ListObject)values;
             if (!listObject.ValueType.IsSameType(ValueType))
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, listObject);
 
             listObject.Clear(lineIndex, args);
             foreach (IScriptObject value in _map.Values)
@@ -131,10 +131,10 @@ namespace HOI4ModBuilder.src.scripts.objects
         public void Get(int lineIndex, string[] args, IScriptObject key, IScriptObject value)
         {
             if (!KeyType.IsSameType(key))
-                throw new InvalidKeyTypeScriptException(lineIndex, args);
+                throw new InvalidKeyTypeScriptException(lineIndex, args, key);
 
             if (!ValueType.IsSameType(value))
-                throw new InvalidKeyTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
 
             if (_map.TryGetValue(key, out IScriptObject mapValue))
                 value.Set(lineIndex, args, mapValue);

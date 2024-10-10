@@ -31,7 +31,7 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
             else if (value is FileObject fileObject)
                 FilePath = fileObject.FilePath;
             else
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void Append(int lineIndex, string[] args, IScriptObject value)
@@ -92,7 +92,7 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
             string text;
 
             if (!(value is ICollectionObject))
-                throw new InvalidOperationScriptException(lineIndex, args);
+                throw new InvalidOperationScriptException(lineIndex, args, value);
 
             var sb = new StringBuilder();
             if (value is IListObject listObject)
@@ -111,7 +111,7 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
                 });
                 text = sb.ToString();
             }
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            else throw new InvalidValueTypeScriptException(lineIndex, args, value);
 
             return text;
         }

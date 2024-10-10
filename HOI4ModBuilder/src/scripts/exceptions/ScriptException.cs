@@ -6,6 +6,16 @@ namespace HOI4ModBuilder.src.scripts
 {
     public class ScriptException : Exception
     {
+        public ScriptException(EnumLocKey enumLoc, int lineIndex)
+            : base(
+                GuiLocManager.GetLoc(
+                    enumLoc,
+                    new Dictionary<string, string> {
+                        { "{lineIndex}", "" + lineIndex }
+                    }
+                )
+            )
+        { }
         public ScriptException(EnumLocKey enumLoc, int lineIndex, string[] args)
             : base(
                 GuiLocManager.GetLoc(
@@ -17,6 +27,45 @@ namespace HOI4ModBuilder.src.scripts
                 )
             )
         { }
+        public ScriptException(EnumLocKey enumLoc, int lineIndex, string[] args, int argIndex)
+            : base(
+                GuiLocManager.GetLoc(
+                    enumLoc,
+                    new Dictionary<string, string> {
+                        { "{lineIndex}", "" + lineIndex },
+                        { "{args}", string.Join(" ", args) },
+                        { "{argIndex}", "" + argIndex }
+                    }
+                )
+            )
+        { }
+        public ScriptException(EnumLocKey enumLoc, int lineIndex, string[] args, object value, int argIndex)
+            : base(
+                GuiLocManager.GetLoc(
+                    enumLoc,
+                    new Dictionary<string, string> {
+                        { "{lineIndex}", "" + lineIndex },
+                        { "{args}", string.Join(" ", args) },
+                        { "{value}", "" + value },
+                        { "{argIndex}", "" + argIndex }
+                    }
+                )
+            )
+        { }
+
+        public ScriptException(EnumLocKey enumLoc, int lineIndex, string[] args, object value)
+            : base(
+                GuiLocManager.GetLoc(
+                    enumLoc,
+                    new Dictionary<string, string> {
+                        { "{lineIndex}", "" + lineIndex },
+                        { "{args}", string.Join(" ", args) },
+                        { "{value}", "" + value }
+                    }
+                )
+            )
+        { }
+
         public ScriptException(EnumLocKey enumLoc, int lineIndex, string[] args, Exception ex)
             : base(
                 GuiLocManager.GetLoc(
@@ -30,13 +79,14 @@ namespace HOI4ModBuilder.src.scripts
             )
         { }
 
-        public ScriptException(EnumLocKey enumLoc, int lineIndex, string[] args, int[] allowedCounts)
+        public ScriptException(EnumLocKey enumLoc, int lineIndex, string[] args, object value, int[] allowedCounts)
             : base(
                 GuiLocManager.GetLoc(
                     enumLoc,
                     new Dictionary<string, string> {
                         { "{lineIndex}", "" + lineIndex },
                         { "{args}", string.Join(" ", args) },
+                        { "{value}", "" + value },
                         { "{allowedCounts}", string.Join(", ", allowedCounts) }
                     }
                 )

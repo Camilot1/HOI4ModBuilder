@@ -27,7 +27,7 @@ namespace HOI4ModBuilder.src.scripts.objects
             if (value is BooleanObject booleanObject)
                 Value = booleanObject.Value;
             else
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
     }
 }

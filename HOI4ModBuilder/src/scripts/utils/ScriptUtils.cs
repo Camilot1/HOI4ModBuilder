@@ -12,12 +12,12 @@ namespace HOI4ModBuilder.src.scripts.utils
         public static int GetDaysSinceYearStart(int lineIndex, string[] args, int dayIndex, int monthIndex)
         {
             if (monthIndex < 0 || monthIndex >= daysInMonths.Length)
-                throw new IndexOutOfRangeScriptException(lineIndex, args);
+                throw new IndexOutOfRangeScriptException(lineIndex, args, monthIndex);
 
             int daysInMonth = daysInMonths[monthIndex];
 
             if (dayIndex < 0 || dayIndex >= daysInMonth)
-                throw new IndexOutOfRangeScriptException(lineIndex, args);
+                throw new IndexOutOfRangeScriptException(lineIndex, args, dayIndex);
 
             int daysSinceYearStart = 0;
             for (int i = 0; i < monthIndex; i++)

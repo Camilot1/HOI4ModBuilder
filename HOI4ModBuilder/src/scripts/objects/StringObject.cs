@@ -35,17 +35,17 @@ namespace HOI4ModBuilder.src.scripts.objects
             int index;
             if (key is INumberObject numberObject)
                 index = (int)numberObject.GetValue();
-            else throw new InvalidKeyTypeScriptException(lineIndex, args);
+            else throw new InvalidKeyTypeScriptException(lineIndex, args, key);
 
             if (index < 0 || index >= Value.Length)
-                throw new IndexOutOfRangeScriptException(lineIndex, args);
+                throw new IndexOutOfRangeScriptException(lineIndex, args, index);
 
             if (value is INumberObject)
             {
                 var charObject = new CharObject(Value[index]);
                 value.Set(lineIndex, args, charObject);
             }
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            else throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void HasValue(int lineIndex, string[] args, IScriptObject value, BooleanObject result)
@@ -53,7 +53,7 @@ namespace HOI4ModBuilder.src.scripts.objects
             string findValue;
             if (value is INumberObject || value is IStringObject)
                 findValue = value.GetValue().ToString();
-            else throw new InvalidKeyTypeScriptException(lineIndex, args);
+            else throw new InvalidValueTypeScriptException(lineIndex, args, value);
 
             var flag = Value.Contains(findValue);
             result.Set(lineIndex, args, new BooleanObject(flag));
@@ -61,17 +61,16 @@ namespace HOI4ModBuilder.src.scripts.objects
 
         public void GetValues(int lineIndex, string[] args, IScriptObject values)
         {
-            if (values is IListObject listObject)
-            {
-                if (!(listObject.GetValueType() is INumberObject))
-                    throw new InvalidValueTypeScriptException(lineIndex, args);
+            if (!(values is IListObject listObject))
+                throw new InvalidValueTypeScriptException(lineIndex, args, values);
 
-                var chars = Value.ToCharArray();
+            if (!(listObject.GetValueType() is INumberObject))
+                throw new InvalidValueTypeScriptException(lineIndex, args, listObject);
 
-                foreach (var ch in chars)
-                    listObject.Add(lineIndex, args, new CharObject(ch));
-            }
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            var chars = Value.ToCharArray();
+
+            foreach (var ch in chars)
+                listObject.Add(lineIndex, args, new CharObject(ch));
         }
 
         public IScriptObject GetKeyType() => new CharObject();
@@ -79,18 +78,18 @@ namespace HOI4ModBuilder.src.scripts.objects
         public void Put(int lineIndex, string[] args, IScriptObject key, IScriptObject value)
         {
             if (!(key is INumberObject))
-                throw new InvalidKeyTypeScriptException(lineIndex, args);
+                throw new InvalidKeyTypeScriptException(lineIndex, args, key);
 
             if (!(value is INumberObject))
-                throw new InvalidValueTypeScriptException(lineIndex, args);
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
 
             int keyIndex = (int)key.GetValue();
             if (keyIndex < 0 || keyIndex >= Value.Length)
-                throw new IndexOutOfRangeScriptException(lineIndex, args);
+                throw new IndexOutOfRangeScriptException(lineIndex, args, keyIndex);
 
             int valueIndex = (int)value.GetValue();
             if (valueIndex < 0 || valueIndex > char.MaxValue)
-                throw new IndexOutOfRangeScriptException(lineIndex, args);
+                throw new IndexOutOfRangeScriptException(lineIndex, args, valueIndex);
 
             string before = Value.Substring(0, keyIndex);
             string after = Value.Substring(keyIndex + 1, Value.Length - keyIndex);
@@ -104,30 +103,30 @@ namespace HOI4ModBuilder.src.scripts.objects
                 result.Value = Value.Contains((char)key.GetValue() + "");
             else if (key is IStringObject stringObj)
                 result.Value = Value.Contains(stringObj.GetValue().ToString());
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            else
+                throw new InvalidKeyTypeScriptException(lineIndex, args, key);
         }
 
         public void GetKeys(int lineIndex, string[] args, IScriptObject keys)
         {
-            if (keys is IListObject listObject)
-            {
-                if (!(listObject.GetValueType() is INumberObject))
-                    throw new InvalidValueTypeScriptException(lineIndex, args);
+            if (!(keys is IListObject listObject))
+                throw new InvalidValueTypeScriptException(lineIndex, args, keys);
 
-                for (int i = 0; i < Value.Length; i++)
-                    listObject.Add(lineIndex, args, new IntObject(i));
-            }
-            else throw new InvalidValueTypeScriptException(lineIndex, args);
+            if (!(listObject.GetValueType() is INumberObject))
+                throw new InvalidValueTypeScriptException(lineIndex, args, listObject);
+
+            for (int i = 0; i < Value.Length; i++)
+                listObject.Add(lineIndex, args, new IntObject(i));
         }
 
         public void Insert(int lineIndex, string[] args, IScriptObject key, IScriptObject value)
         {
             if (!(key is INumberObject))
-                throw new InvalidKeyTypeScriptException(lineIndex, args);
+                throw new InvalidKeyTypeScriptException(lineIndex, args, key);
 
             int index = (int)value.GetValue();
             if (index < 0 || index >= Value.Length)
-                throw new IndexOutOfRangeScriptException(lineIndex, args);
+                throw new IndexOutOfRangeScriptException(lineIndex, args, index);
 
             string valueObj;
             if (value is INumberObject numberObj)
@@ -143,7 +142,7 @@ namespace HOI4ModBuilder.src.scripts.objects
         {
             int index = (int)value.GetValue();
             if (index < 0 || index >= Value.Length)
-                throw new IndexOutOfRangeScriptException(lineIndex, args);
+                throw new IndexOutOfRangeScriptException(lineIndex, args, index);
 
             Value = Value.Remove(index, 1);
         }
@@ -159,7 +158,7 @@ namespace HOI4ModBuilder.src.scripts.objects
             int newSize = (int)value.GetValue();
 
             if (newSize < 0)
-                throw new IndexOutOfRangeScriptException(lineIndex, args);
+                throw new IndexOutOfRangeScriptException(lineIndex, args, newSize);
 
             if (size < newSize)
                 Value = Value.Substring(0, newSize);
