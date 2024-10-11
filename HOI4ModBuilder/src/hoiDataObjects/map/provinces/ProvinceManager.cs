@@ -46,7 +46,35 @@ namespace HOI4ModBuilder.managers
         public static void Load(Settings settings)
         {
             NextVacantProvinceId = 1;
-            LoadProvinces(settings);
+
+            _provincesById = new Dictionary<ushort, Province>();
+            _provincesByColor = new Dictionary<int, Province>();
+
+            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
+
+            if (!fileInfoPairs.TryGetValue(DEFINITION_FILE_NAME, out src.FileInfo fileInfo))
+                throw new FileNotFoundException(DEFINITION_FILE_NAME);
+
+            NeedToSave = fileInfo.needToSave;
+            ProcessDefinitionFile(fileInfo.filePath);
+        }
+        public static void Save(Settings settings)
+        {
+            if (!NeedToSave) return;
+
+            string filePath = settings.modDirectory + FOLDER_PATH + DEFINITION_FILE_NAME;
+            ushort[] ids = _provincesById.Keys.OrderBy(x => x).ToArray();
+            var sb = new StringBuilder();
+            if (ids.Length > 0 && ids[0] != 0)
+            {
+                sb.Append("0;0;0;0;land;false;unknown;0").Append(Constants.NEW_LINE);
+            }
+            foreach (ushort id in ids)
+            {
+                var province = _provincesById[id];
+                province.Save(sb);
+            }
+            File.WriteAllText(filePath, sb.ToString());
         }
 
         public static void AddProvince(Province province, out bool canAddById, out bool canAddByColor)
@@ -191,42 +219,6 @@ namespace HOI4ModBuilder.managers
         {
             _provincesByColor.Remove(color);
             NeedToSave = true;
-        }
-
-        /**
-         * Метод загрузки данных о провинциях
-         */
-        public static void LoadProvinces(Settings settings)
-        {
-            _provincesById = new Dictionary<ushort, Province>();
-            _provincesByColor = new Dictionary<int, Province>();
-
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
-
-            if (!fileInfoPairs.TryGetValue(DEFINITION_FILE_NAME, out src.FileInfo fileInfo))
-                throw new FileNotFoundException(DEFINITION_FILE_NAME);
-
-            NeedToSave = fileInfo.needToSave;
-            ProcessDefinitionFile(fileInfo.filePath);
-        }
-
-        public static void SaveProvinces(Settings settings)
-        {
-            if (!NeedToSave) return;
-
-            string filePath = settings.modDirectory + FOLDER_PATH + DEFINITION_FILE_NAME;
-            ushort[] ids = _provincesById.Keys.OrderBy(x => x).ToArray();
-            var sb = new StringBuilder();
-            if (ids.Length > 0 && ids[0] != 0)
-            {
-                sb.Append("0;0;0;0;land;false;unknown;0").Append(Constants.NEW_LINE);
-            }
-            foreach (ushort id in ids)
-            {
-                var province = _provincesById[id];
-                province.Save(sb);
-            }
-            File.WriteAllText(filePath, sb.ToString());
         }
 
         public static void Draw(bool showCenters)

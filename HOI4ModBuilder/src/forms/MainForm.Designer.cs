@@ -215,12 +215,12 @@
             this.ToolStripMenuItem_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Help_Documentation = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Help_About = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_Telegram = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Language = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Language_RU = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Language_EN = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_GitHub = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Discord = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Telegram = new System.Windows.Forms.ToolStripMenuItem();
             this.TabControl_Main.SuspendLayout();
             this.TabPage_Map.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -1568,13 +1568,6 @@
             resources.ApplyResources(this.ToolStripMenuItem_Help_About, "ToolStripMenuItem_Help_About");
             this.ToolStripMenuItem_Help_About.Click += new System.EventHandler(this.ToolStripMenuItem_Help_About_Click);
             // 
-            // ToolStripMenuItem_Telegram
-            // 
-            this.ToolStripMenuItem_Telegram.Image = global::HOI4ModBuilder.Properties.Resources.icon_telegram;
-            this.ToolStripMenuItem_Telegram.Name = "ToolStripMenuItem_Telegram";
-            resources.ApplyResources(this.ToolStripMenuItem_Telegram, "ToolStripMenuItem_Telegram");
-            this.ToolStripMenuItem_Telegram.Click += new System.EventHandler(this.ToolStripMenuItem_Telegram_Click);
-            // 
             // ToolStripMenuItem_Language
             // 
             this.ToolStripMenuItem_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1611,6 +1604,13 @@
             this.ToolStripMenuItem_Discord.Name = "ToolStripMenuItem_Discord";
             resources.ApplyResources(this.ToolStripMenuItem_Discord, "ToolStripMenuItem_Discord");
             this.ToolStripMenuItem_Discord.Click += new System.EventHandler(this.ToolStripMenuItem_Discord_Click);
+            // 
+            // ToolStripMenuItem_Telegram
+            // 
+            this.ToolStripMenuItem_Telegram.Image = global::HOI4ModBuilder.Properties.Resources.icon_telegram;
+            this.ToolStripMenuItem_Telegram.Name = "ToolStripMenuItem_Telegram";
+            resources.ApplyResources(this.ToolStripMenuItem_Telegram, "ToolStripMenuItem_Telegram");
+            this.ToolStripMenuItem_Telegram.Click += new System.EventHandler(this.ToolStripMenuItem_Telegram_Click);
             // 
             // MainForm
             // 

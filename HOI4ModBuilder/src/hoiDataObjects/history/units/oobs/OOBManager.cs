@@ -30,6 +30,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
         public static void Load(Settings settings)
         {
+            if (!SettingsManager.Settings.isWipEnabled(EnumWips.OOBS))
+                return;
+
             _oobsByFiles = new Dictionary<FileInfo, OOB>();
             _shipInstances = new Dictionary<string, ShipInstances>();
 
@@ -77,6 +80,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
         public static void Save(Settings settings)
         {
+            if (!SettingsManager.Settings.isWipEnabled(EnumWips.OOBS))
+                return;
+
             foreach (var oob in _oobsByFiles.Values)
             {
                 if (oob.FileInfo.needToDelete)

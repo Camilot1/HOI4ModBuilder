@@ -163,14 +163,17 @@
   <data name="label8.Text" xml:space="preserve">
     <value>World normal map sharpness:</value>
   </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Data Export Settings:</value>
+  </data>
   <data name="CheckedListBox_SaveSettings_Default.Items" xml:space="preserve">
     <value>Draw water pixel on rivers map</value>
   </data>
   <data name="CheckedListBox_SaveSettings_Default.Items1" xml:space="preserve">
     <value>Generate world normal map</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Data Export Settings:</value>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Active Settings File:</value>
   </data>
   <data name="Button_CreateModSettings.Text" xml:space="preserve">
     <value>Create Mod Related Settings File</value>
@@ -181,17 +184,50 @@
   <data name="ComboBox_UsingSettingsType.Items1" xml:space="preserve">
     <value>Mod Related Settings</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Active Settings File:</value>
+  <data name="TabPage_DefaultModSettings.Text" xml:space="preserve">
+    <value>Basic Settings</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>Features in Development (WIP):</value>
+  </data>
+  <data name="CheckedListBox_Wips_Default.Items" xml:space="preserve">
+    <value>Sub Units (beta)</value>
+  </data>
+  <data name="CheckedListBox_Wips_Default.Items1" xml:space="preserve">
+    <value>Divisions Names Groups (beta)</value>
+  </data>
+  <data name="CheckedListBox_Wips_Default.Items2" xml:space="preserve">
+    <value>OOBs (beta)</value>
+  </data>
+  <data name="CheckedListBox_Wips_Default.Items3" xml:space="preserve">
+    <value>Equipments (alpha)</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Parameters:</value>
   </data>
-  <data name="TabPage_DefaultModSettings.Text" xml:space="preserve">
-    <value>Basic Settings</value>
+  <data name="TabPage_CurrentModSettings.Text" xml:space="preserve">
+    <value>Current Mod Related Settings</value>
+  </data>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>Features in development (WIP):</value>
+  </data>
+  <data name="CheckedListBox_Wips_Current.Items" xml:space="preserve">
+    <value>Sub Units (beta)</value>
+  </data>
+  <data name="CheckedListBox_Wips_Current.Items1" xml:space="preserve">
+    <value>Divisions Names Groups (beta)</value>
+  </data>
+  <data name="CheckedListBox_Wips_Current.Items2" xml:space="preserve">
+    <value>OOBs (beta)</value>
+  </data>
+  <data name="CheckedListBox_Wips_Current.Items3" xml:space="preserve">
+    <value>Equipments (alpha)</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
     <value>Parameters:</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Data Export Settings:</value>
   </data>
   <data name="CheckedListBox_SaveSettings_Current.Items" xml:space="preserve">
     <value>Draw water pixel on rivers map</value>
@@ -205,11 +241,9 @@
   <data name="label11.Text" xml:space="preserve">
     <value>World normal map sharpness:</value>
   </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>Data Export Settings:</value>
-  </data>
-  <data name="TabPage_CurrentModSettings.Text" xml:space="preserve">
-    <value>Current Mod Related Settings</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Settings</value>

@@ -488,12 +488,19 @@ namespace HOI4ModBuilder
 
         public static void SaveAllMaps(Settings settings)
         {
-            SaveProvincesMap();
-            SaveRiversMap(settings);
-            SaveTerrainMap();
-            SaveTreesMap();
-            SaveCitiesMap();
-            SaveHeightMap(settings);
+            LocalizedAction[] actions =
+            {
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_TEXTURE_MAPS, () => {
+                    SaveProvincesMap();
+                    SaveRiversMap(settings);
+                    SaveTerrainMap();
+                    SaveTreesMap();
+                    SaveCitiesMap();
+                    SaveHeightMap(settings);
+                })
+            };
+
+            MainForm.ExecuteActions(actions);
         }
 
         public static void SaveProvincesMap()

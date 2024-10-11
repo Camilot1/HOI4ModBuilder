@@ -59,8 +59,12 @@
             this.ComboBox_UsingSettingsType = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TabPage_DefaultModSettings = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.CheckedListBox_Wips_Default = new System.Windows.Forms.CheckedListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.TabPage_CurrentModSettings = new System.Windows.Forms.TabPage();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.CheckedListBox_Wips_Current = new System.Windows.Forms.CheckedListBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -74,8 +78,10 @@
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.TabPage_DefaultModSettings.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.TabPage_CurrentModSettings.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.SuspendLayout();
@@ -275,10 +281,30 @@
             // TabPage_DefaultModSettings
             // 
             resources.ApplyResources(this.TabPage_DefaultModSettings, "TabPage_DefaultModSettings");
+            this.TabPage_DefaultModSettings.Controls.Add(this.groupBox6);
             this.TabPage_DefaultModSettings.Controls.Add(this.groupBox3);
             this.TabPage_DefaultModSettings.Controls.Add(this.groupBox1);
             this.TabPage_DefaultModSettings.Name = "TabPage_DefaultModSettings";
             this.TabPage_DefaultModSettings.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            resources.ApplyResources(this.groupBox6, "groupBox6");
+            this.groupBox6.Controls.Add(this.CheckedListBox_Wips_Default);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.TabStop = false;
+            // 
+            // CheckedListBox_Wips_Default
+            // 
+            resources.ApplyResources(this.CheckedListBox_Wips_Default, "CheckedListBox_Wips_Default");
+            this.CheckedListBox_Wips_Default.CheckOnClick = true;
+            this.CheckedListBox_Wips_Default.FormattingEnabled = true;
+            this.CheckedListBox_Wips_Default.Items.AddRange(new object[] {
+            resources.GetString("CheckedListBox_Wips_Default.Items"),
+            resources.GetString("CheckedListBox_Wips_Default.Items1"),
+            resources.GetString("CheckedListBox_Wips_Default.Items2"),
+            resources.GetString("CheckedListBox_Wips_Default.Items3")});
+            this.CheckedListBox_Wips_Default.Name = "CheckedListBox_Wips_Default";
             // 
             // groupBox3
             // 
@@ -293,10 +319,30 @@
             // TabPage_CurrentModSettings
             // 
             resources.ApplyResources(this.TabPage_CurrentModSettings, "TabPage_CurrentModSettings");
+            this.TabPage_CurrentModSettings.Controls.Add(this.groupBox7);
             this.TabPage_CurrentModSettings.Controls.Add(this.groupBox4);
             this.TabPage_CurrentModSettings.Controls.Add(this.groupBox5);
             this.TabPage_CurrentModSettings.Name = "TabPage_CurrentModSettings";
             this.TabPage_CurrentModSettings.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            resources.ApplyResources(this.groupBox7, "groupBox7");
+            this.groupBox7.Controls.Add(this.CheckedListBox_Wips_Current);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.TabStop = false;
+            // 
+            // CheckedListBox_Wips_Current
+            // 
+            resources.ApplyResources(this.CheckedListBox_Wips_Current, "CheckedListBox_Wips_Current");
+            this.CheckedListBox_Wips_Current.CheckOnClick = true;
+            this.CheckedListBox_Wips_Current.FormattingEnabled = true;
+            this.CheckedListBox_Wips_Current.Items.AddRange(new object[] {
+            resources.GetString("CheckedListBox_Wips_Current.Items"),
+            resources.GetString("CheckedListBox_Wips_Current.Items1"),
+            resources.GetString("CheckedListBox_Wips_Current.Items2"),
+            resources.GetString("CheckedListBox_Wips_Current.Items3")});
+            this.CheckedListBox_Wips_Current.Name = "CheckedListBox_Wips_Current";
             // 
             // groupBox4
             // 
@@ -386,9 +432,11 @@
             this.groupBox2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.TabPage_DefaultModSettings.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.TabPage_CurrentModSettings.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -441,5 +489,9 @@
         private System.Windows.Forms.CheckedListBox CheckedListBox_SaveSettings_Current;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox TextBox_NormalMapStrength_Current;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.CheckedListBox CheckedListBox_Wips_Default;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.CheckedListBox CheckedListBox_Wips_Current;
     }
 }

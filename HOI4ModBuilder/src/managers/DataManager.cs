@@ -15,7 +15,8 @@ using HOI4ModBuilder.src.hoiDataObjects.common.units.equipment;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.history.units.oobs;
-using HOI4ModBuilder.src.hoiDataObjects.localisation;
+using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
+using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.utils;
 using System;
@@ -57,10 +58,11 @@ namespace HOI4ModBuilder.managers
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_REGIONS, () => StrategicRegionManager.Load(settings)),
 
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_AI_AREAS, () => AiAreaManager.Load(settings)),
+
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_UNITS, () => SubUnitManager.Load(settings)),
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_DIVISION_NAMES_GROUPS, () => DivisionNamesGroupManager.Load(settings)),
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_OOBS, () => OOBManager.Load(settings)),
-                //new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_EQUPMENTS, () => EquipmentManager.Load(settings)),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_EQUPMENTS, () => EquipmentManager.Load(settings)),
                 //new LocalizedAction(EnumLocKey.NONE, () => LocalizationManager.Load(settings)),
             };
 
@@ -70,5 +72,35 @@ namespace HOI4ModBuilder.managers
             Console.WriteLine("Загрузка DataManager = " + stopwatch.ElapsedMilliseconds + " ms.");
         }
 
+        public static void Save(Settings settings)
+        {
+            SaveManagers(settings);
+        }
+        private static void SaveManagers(Settings settings)
+        {
+            var stopwatch = Stopwatch.StartNew();
+
+            LocalizedAction[] actions =
+            {
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_PROVINCES_DEFINITION, () => ProvinceManager.Save(settings)),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_ADJACENCIES, () => AdjacenciesManager.Save(settings)),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_SUPPLIES, () => SupplyManager.SaveAll(settings)),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_STATES, () => StateManager.Save(settings)),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_REGIONS, () => StrategicRegionManager.Save(settings)),
+
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_AI_AREAS, () => AiAreaManager.Save(settings)),
+
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_UNITS, () => SubUnitManager.Save(settings)),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_DIVISION_NAMES_GROUPS, () => DivisionNamesGroupManager.Save(settings)),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_OOBS, () => OOBManager.Save(settings)),
+                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_EQUPMENTS, () => EquipmentManager.Save(settings)),
+                //new LocalizedAction(EnumLocKey.NONE, () => LocalizationManager.Save(settings)),
+            };
+
+            MainForm.ExecuteActions(actions);
+
+            stopwatch.Stop();
+            Console.WriteLine("Загрузка DataManager = " + stopwatch.ElapsedMilliseconds + " ms.");
+        }
     }
 }

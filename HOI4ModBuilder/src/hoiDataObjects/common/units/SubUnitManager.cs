@@ -16,6 +16,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units
 
         public static void Load(Settings settings)
         {
+            if (!SettingsManager.Settings.isWipEnabled(EnumWips.SUB_UNITS))
+                return;
+
             _allSubUnits = new Dictionary<string, SubUnit>();
             _subUnitsFiles = new Dictionary<FileInfo, SubUnitsFile>();
 
@@ -38,6 +41,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units
 
         public static void Save(Settings settings)
         {
+            if (!SettingsManager.Settings.isWipEnabled(EnumWips.SUB_UNITS))
+                return;
+
             foreach (var fileInfoPair in _subUnitsFiles.Values)
             {
                 var fileInfo = fileInfoPair.FileInfo;

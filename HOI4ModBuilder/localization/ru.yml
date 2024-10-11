@@ -126,6 +126,18 @@ MAP_TAB_PROGRESSBAR_MAP_WARNINGS_SEARCHING: "Поиск предупрежден
 MAP_TAB_PROGRESSBAR_LOADING_AI_AREAS: "Загрузка зон ИИ: "
 MAP_TAB_PROGRESSBAR_LOADING_EQUPMENTS: "Загрузка снаряжения: "
 
+MAP_TAB_PROGRESSBAR_SAVING_PROVINCES_DEFINITION: "Сохранение файла провинций: "
+MAP_TAB_PROGRESSBAR_SAVING_ADJACENCIES: "Сохранение файла смежностей: "
+MAP_TAB_PROGRESSBAR_SAVING_SUPPLIES: "Сохранение снабжения: "
+MAP_TAB_PROGRESSBAR_SAVING_STATES: "Сохранение областей: "
+MAP_TAB_PROGRESSBAR_SAVING_REGIONS: "Сохранение страт. регионов: "
+MAP_TAB_PROGRESSBAR_SAVING_AI_AREAS: "Сохранение зон ИИ: "
+MAP_TAB_PROGRESSBAR_SAVING_UNITS: "Сохранение юнитов: "
+MAP_TAB_PROGRESSBAR_SAVING_DIVISION_NAMES_GROUPS: "Сохранение групп названий дивизий: "
+MAP_TAB_PROGRESSBAR_SAVING_OOBS: "Сохранение OOBs: "
+MAP_TAB_PROGRESSBAR_SAVING_EQUPMENTS: "Сохранение снаряжения: "
+MAP_TAB_PROGRESSBAR_SAVING_TEXTURE_MAPS: "Сохранение текстурных карт"
+
 MAP_TAB_PROGRESSBAR_MAP_ADDITIONAL_TEXTURE_LOADING: "Загрузка {fileName}: {progress}"
 MAP_TAB_PROGRESSBAR_MAP_ADDITIONAL_TEXTURE_LOADED: "Загрузка {fileName}: завершена."
 

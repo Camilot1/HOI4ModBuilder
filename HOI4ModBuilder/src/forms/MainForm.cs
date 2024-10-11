@@ -419,28 +419,20 @@ namespace HOI4ModBuilder
 
         private void SaveAllData(Settings settings)
         {
+            isMapMainLayerChangeEnabled = false;
+
             Logger.Log("Saving...");
 
             LocalModDataManager.SaveLocalSettings(settings);
+            DataManager.Save(settings);
             TextureManager.SaveAllMaps(settings);
-            ProvinceManager.SaveProvinces(settings);
-            AdjacenciesManager.Save(settings);
-            SupplyManager.SaveAll(settings);
-            StateManager.Save(settings);
-            StrategicRegionManager.Save(settings);
-
-            //AiAreaManager.Save(settings);
-            //TODO Implement
-            //SubUnitManager.Save(settings);
-            //DivisionNamesGroupManager.Save(settings);
-            //OOBManager.Save(settings);
-
-            //EquipmentManager.Save(settings);
 
             Utils.CleanUpMemory();
+
+            isMapMainLayerChangeEnabled = true;
         }
 
-        private async void LoadAllData(Settings settings)
+        private void LoadAllData(Settings settings)
         {
             LocalModDataManager.Load(settings);
 
@@ -843,7 +835,7 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Save_Maps_All_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => TextureManager.SaveAllMaps(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Definition_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => ProvinceManager.SaveProvinces(SettingsManager.Settings));
+            => Logger.TryOrLog(() => ProvinceManager.Save(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Adjacencies_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AdjacenciesManager.Save(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Supply_All_Click(object sender, EventArgs e)

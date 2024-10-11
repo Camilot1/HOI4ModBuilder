@@ -3,15 +3,8 @@ using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.forms
@@ -83,6 +76,15 @@ namespace HOI4ModBuilder.src.forms
                 CheckedListBox_SaveSettings_Default.SetItemChecked(0, settings.defaultModSettings.exportRiversMapWithWaterPixels);
                 CheckedListBox_SaveSettings_Default.SetItemChecked(1, settings.defaultModSettings.generateNormalMap);
 
+                foreach (EnumWips enumObj in Enum.GetValues(typeof(EnumWips)))
+                {
+                    int index = (int)enumObj;
+                    if (index >= CheckedListBox_SaveSettings_Default.Items.Count)
+                        continue;
+
+                    CheckedListBox_Wips_Default.SetItemChecked(index, settings.defaultModSettings.CheckWips(enumObj));
+                }
+
                 TextBox_WATER_HEIGHT_Default.Enabled = true;
                 TextBox_NormalMapStrength_Default.Enabled = true;
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Enabled = true;
@@ -96,6 +98,9 @@ namespace HOI4ModBuilder.src.forms
 
                 CheckedListBox_SaveSettings_Default.SetItemChecked(0, false);
                 CheckedListBox_SaveSettings_Default.SetItemChecked(1, false);
+
+                for (int i = 0; i < CheckedListBox_Wips_Current.Items.Count; i++)
+                    CheckedListBox_Wips_Default.SetItemChecked(i, false);
 
                 TextBox_WATER_HEIGHT_Default.Enabled = false;
                 TextBox_NormalMapStrength_Default.Enabled = false;
@@ -112,6 +117,15 @@ namespace HOI4ModBuilder.src.forms
                 CheckedListBox_SaveSettings_Current.SetItemChecked(0, settings.currentModSettings.exportRiversMapWithWaterPixels);
                 CheckedListBox_SaveSettings_Current.SetItemChecked(1, settings.currentModSettings.generateNormalMap);
 
+                foreach (EnumWips enumObj in Enum.GetValues(typeof(EnumWips)))
+                {
+                    int index = (int)enumObj;
+                    if (index >= CheckedListBox_SaveSettings_Current.Items.Count)
+                        continue;
+
+                    CheckedListBox_SaveSettings_Current.SetItemChecked(index, settings.defaultModSettings.CheckWips(enumObj));
+                }
+
                 TextBox_WATER_HEIGHT_Current.Enabled = true;
                 TextBox_NormalMapStrength_Current.Enabled = true;
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Enabled = true;
@@ -125,6 +139,9 @@ namespace HOI4ModBuilder.src.forms
 
                 CheckedListBox_SaveSettings_Current.SetItemChecked(0, false);
                 CheckedListBox_SaveSettings_Current.SetItemChecked(1, false);
+
+                for (int i = 0; i < CheckedListBox_Wips_Current.Items.Count; i++)
+                    CheckedListBox_Wips_Current.SetItemChecked(i, false);
 
                 TextBox_WATER_HEIGHT_Current.Enabled = false;
                 TextBox_NormalMapStrength_Current.Enabled = false;
@@ -264,37 +281,60 @@ namespace HOI4ModBuilder.src.forms
 
                 settings.actionHistorySize = int.Parse(TextBox_ActionHistorySize.Text);
 
-                float textureOpacity = float.Parse(TextBox_Textures_Opacity.Text.Replace('.', ',')) / 100f;
+                double textureOpacity = Convert.ToDouble(TextBox_Textures_Opacity.Text) / 100d;
                 if (textureOpacity < 0) settings.textureOpacity = 0;
                 else if (textureOpacity > 1) settings.textureOpacity = 255;
                 else settings.textureOpacity = (byte)Math.Round(textureOpacity * 255);
 
-                settings.MAP_VIEWPORT_HEIGHT = double.Parse(TextBox_MAP_VIEWPORT_HEIGHT.Text.Replace('.', ','));
+                settings.MAP_VIEWPORT_HEIGHT = Convert.ToDouble(TextBox_MAP_VIEWPORT_HEIGHT.Text);
                 settings.maxAdditionalTextureSize = int.Parse(ComboBox_MaxAdditionalTextureSize.Text);
 
-                if (settings.defaultModSettings != null)
-                {
-                    settings.defaultModSettings.MAP_SCALE_PIXEL_TO_KM = double.Parse(TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Text.Replace('.', ','));
-                    settings.defaultModSettings.WATER_HEIGHT = double.Parse(TextBox_WATER_HEIGHT_Default.Text.Replace('.', ','));
-                    settings.defaultModSettings.normalMapStrength = double.Parse(TextBox_NormalMapStrength_Default.Text.Replace('.', ','));
+                //Default settings
+                var modSettings = settings.defaultModSettings;
+                modSettings.MAP_SCALE_PIXEL_TO_KM = Convert.ToDouble(TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Text);
+                modSettings.WATER_HEIGHT = Convert.ToDouble(TextBox_WATER_HEIGHT_Default.Text);
+                modSettings.normalMapStrength = Convert.ToDouble(TextBox_NormalMapStrength_Default.Text);
 
-                    settings.defaultModSettings.exportRiversMapWithWaterPixels = CheckedListBox_SaveSettings_Default.GetItemChecked(0);
-                    settings.defaultModSettings.generateNormalMap = CheckedListBox_SaveSettings_Default.GetItemChecked(1);
+                modSettings.exportRiversMapWithWaterPixels = CheckedListBox_SaveSettings_Default.GetItemChecked(0);
+                modSettings.generateNormalMap = CheckedListBox_SaveSettings_Default.GetItemChecked(1);
+
+                foreach (EnumWips enumObj in Enum.GetValues(typeof(EnumWips)))
+                {
+                    int index = (int)enumObj;
+                    if (index >= CheckedListBox_Wips_Default.Items.Count)
+                        continue;
+
+                    modSettings.SetWips(enumObj, CheckedListBox_Wips_Default.GetItemChecked(index));
                 }
 
-                if (settings.currentModSettings != null)
-                {
-                    settings.currentModSettings.MAP_SCALE_PIXEL_TO_KM = double.Parse(TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Text.Replace('.', ','));
-                    settings.currentModSettings.WATER_HEIGHT = double.Parse(TextBox_WATER_HEIGHT_Current.Text.Replace('.', ','));
-                    settings.currentModSettings.normalMapStrength = double.Parse(TextBox_NormalMapStrength_Current.Text.Replace('.', ','));
+                //Current mod settings
+                modSettings = settings.currentModSettings;
 
-                    settings.currentModSettings.exportRiversMapWithWaterPixels = CheckedListBox_SaveSettings_Current.GetItemChecked(0);
-                    settings.currentModSettings.generateNormalMap = CheckedListBox_SaveSettings_Current.GetItemChecked(1);
+                if (modSettings != null)
+                {
+                    modSettings.MAP_SCALE_PIXEL_TO_KM = Convert.ToDouble(TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Text);
+                    modSettings.WATER_HEIGHT = Convert.ToDouble(TextBox_WATER_HEIGHT_Current.Text);
+                    modSettings.normalMapStrength = Convert.ToDouble(TextBox_NormalMapStrength_Current.Text);
+
+                    modSettings.exportRiversMapWithWaterPixels = CheckedListBox_SaveSettings_Current.GetItemChecked(0);
+                    modSettings.generateNormalMap = CheckedListBox_SaveSettings_Current.GetItemChecked(1);
+
+                    foreach (EnumWips enumObj in Enum.GetValues(typeof(EnumWips)))
+                    {
+                        int index = (int)enumObj;
+                        if (index >= CheckedListBox_Wips_Current.Items.Count)
+                            continue;
+
+                        modSettings.SetWips(enumObj, CheckedListBox_Wips_Current.GetItemChecked(index));
+                    }
                 }
 
                 SettingsManager.SaveSettings();
-                if (prevLang != settings.language) GuiLocManager.SetCurrentUICulture(settings.language);
-                else LoadData();
+                if (prevLang != settings.language)
+                    GuiLocManager.SetCurrentUICulture(settings.language);
+                else
+                    LoadData();
+
             });
         }
 

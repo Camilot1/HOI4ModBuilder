@@ -96,8 +96,10 @@ namespace HOI4ModBuilder.src
             modDescriptors.Clear();
             modDescriptors = new Dictionary<string, ModDescriptor>();
 
-            foreach (string path in unchangableModDirectories) LoadModDescriptor(path);
-            foreach (string path in changableModDirectories) LoadModDescriptor(path);
+            foreach (string path in unchangableModDirectories)
+                LoadModDescriptor(path);
+            foreach (string path in changableModDirectories)
+                LoadModDescriptor(path);
             LoadModDescriptor(modDirectory);
         }
 
@@ -132,11 +134,11 @@ namespace HOI4ModBuilder.src
             else return true;
         }
 
+        public bool isWipEnabled(EnumWips enumWip)
+            => useModSettings ? currentModSettings.CheckWips(enumWip) : defaultModSettings.CheckWips(enumWip);
+
         public bool CheckNewWarningCodes()
         {
-            if (searchWarningsSettings == null) searchWarningsSettings = new MapCheckerInfo();
-            if (searchWarningsSettings.known == null) searchWarningsSettings.known = new List<string>();
-
             var newCodes = new List<string>();
 
             foreach (var errorCodes in Enum.GetValues(typeof(EnumMapWarningCode)))
@@ -161,9 +163,6 @@ namespace HOI4ModBuilder.src
 
         public bool CheckNewErrorCodes()
         {
-            if (searchErrorsSettings == null) searchErrorsSettings = new MapCheckerInfo();
-            if (searchErrorsSettings.known == null) searchErrorsSettings.known = new List<string>();
-
             var newCodes = new List<string>();
 
             foreach (var errorCodes in Enum.GetValues(typeof(EnumMapErrorCode)))
@@ -254,8 +253,27 @@ namespace HOI4ModBuilder.src
         public bool exportRiversMapWithWaterPixels = true;
         public bool generateNormalMap = false;
 
+        public HashSet<string> wipsEnabled = new HashSet<string>(0);
+
         public double MAP_SCALE_PIXEL_TO_KM = 7.114;
         public double WATER_HEIGHT = 9.5f;
+
+        public bool CheckWips(EnumWips enumWips) => wipsEnabled.Contains("" + enumWips);
+        public void SetWips(EnumWips enumWips, bool value)
+        {
+            if (value)
+                wipsEnabled.Add("" + enumWips);
+            else
+                wipsEnabled.Remove("" + enumWips);
+        }
+    }
+
+    public enum EnumWips
+    {
+        SUB_UNITS,
+        DIVISIONS_NAMES_GROUPS,
+        OOBS,
+        EQUIPMENTS
     }
 
     public class ModDescriptor : IParadoxRead
