@@ -79,7 +79,7 @@ namespace HOI4ModBuilder.src.forms
                 foreach (EnumWips enumObj in Enum.GetValues(typeof(EnumWips)))
                 {
                     int index = (int)enumObj;
-                    if (index >= CheckedListBox_SaveSettings_Default.Items.Count)
+                    if (index >= CheckedListBox_Wips_Default.Items.Count)
                         continue;
 
                     CheckedListBox_Wips_Default.SetItemChecked(index, settings.defaultModSettings.CheckWips(enumObj));

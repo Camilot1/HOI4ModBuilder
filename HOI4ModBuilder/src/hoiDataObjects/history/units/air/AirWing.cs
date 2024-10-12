@@ -81,7 +81,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             ParadoxUtils.StartInlineBlock(sb, " ", _equipment);
 
             ParadoxUtils.SaveQuotedInline(sb, " ", TOKEN_OWNER, _owner?.Tag);
-            ParadoxUtils.SaveQuotedInline(sb, " ", TOKEN_CREATOR, _creator?.Tag);
+            ParadoxUtils.SaveInline(sb, " ", TOKEN_CREATOR, _creator?.Tag);
             ParadoxUtils.SaveInline(sb, " ", TOKEN_AMOUNT, _amount);
             ParadoxUtils.SaveQuotedInline(sb, " ", TOKEN_VERSION_NAME, _versionName);
             ParadoxUtils.SaveInline(sb, " ", TOKEN_CREATE_IF_MISSING, _createIfMissing);
