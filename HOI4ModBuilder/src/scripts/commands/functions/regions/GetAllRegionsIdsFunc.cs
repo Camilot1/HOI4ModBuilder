@@ -18,7 +18,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions
             $"{_keyword} <{ListDeclarator.GetKeyword()}<INUMBER>:regions_ids>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <{ListDeclarator.GetKeyword()}<INUMBER>>:regions_ids>",
+            $"\tOUT <{ListDeclarator.GetKeyword()}<INUMBER>:regions_ids>",
             ")"
         };
         public override ScriptCommand CreateEmptyCopy() => new GetAllRegionsIdsFunc();

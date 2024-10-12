@@ -13,10 +13,10 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <{ListDeclarator.GetKeyword()}<INUMBER>>:states_ids>",
+            $"{_keyword} <{ListDeclarator.GetKeyword()}<INUMBER>:states_ids>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <{ListDeclarator.GetKeyword()}<INUMBER>>:states_ids>",
+            $"\tOUT <{ListDeclarator.GetKeyword()}<INUMBER>:states_ids>",
             ")"
         };
         public override ScriptCommand CreateEmptyCopy() => new GetAllStatesIdsFunc();

@@ -14,7 +14,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            _for_keyword + " <iterator_name> IN <LIST:values>",
+            _for_keyword + " <iterator_name> IN <ILIST:values>",
             "\t<INNER_CODE>"
         };
         public override ScriptCommand CreateEmptyCopy() => new ForDeclarator();

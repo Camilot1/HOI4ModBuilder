@@ -16,6 +16,7 @@ using HOI4ModBuilder.src.scripts.commands.operators.arithmetical;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
+using HOI4ModBuilder.src.scripts.utils;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace HOI4ModBuilder.src.scripts
         private static readonly string _scriptsFolderPath = FileManager.AssembleFolderPath(new string[] { "data", "scripts" });
 
         private static bool _isInited = Init();
+        public static void Wake() { }
         public static readonly string TRUE_KEY = "TRUE";
         public static readonly string FALSE_KEY = "FALSE";
 
@@ -150,10 +152,18 @@ namespace HOI4ModBuilder.src.scripts
                         var scriptObject = entry.Value();
 
                         sb.Append("Keyword: ").Append(Constants.NEW_LINE)
-                            .Append("\t").Append(entry.Key).Append(Constants.NEW_LINE);
+                            .Append('\t').Append(entry.Key).Append(Constants.NEW_LINE);
 
                         sb.Append("Command Path:").Append(Constants.NEW_LINE)
-                            .Append("\t").Append(scriptObject.GetPath()).Append(Constants.NEW_LINE);
+                            .Append('\t').Append(scriptObject.GetPath()).Append(Constants.NEW_LINE);
+
+                        if (_scriptObjectsFabrics.TryGetValue(entry.Key, out var scriptObjectFabric))
+                        {
+                            sb.Append("Implements:").Append(Constants.NEW_LINE)
+                                .Append('\t');
+                            ScriptUtils.GetImplements(sb, scriptObjectFabric());
+                            sb.Append(Constants.NEW_LINE);
+                        }
 
                         sb.Append("Documentation:").Append(Constants.NEW_LINE);
                         foreach (var line in scriptObject.GetDocumentation())

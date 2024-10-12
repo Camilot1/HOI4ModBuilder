@@ -11,7 +11,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.console
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <ISCRIPTOBJECT>:value>"
+            $"{_keyword} <ISCRIPTOBJECT:value>"
         };
         public override ScriptCommand CreateEmptyCopy() => new ConsoleClearFunc();
 

@@ -41,6 +41,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units
 
         public static void Save(Settings settings)
         {
+            return; //Implement later
+
             if (!SettingsManager.Settings.isWipEnabled(EnumWips.SUB_UNITS))
                 return;
 

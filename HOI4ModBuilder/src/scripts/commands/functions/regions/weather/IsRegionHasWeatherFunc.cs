@@ -18,11 +18,11 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <{BooleanDeclarator.GetKeyword()}:is_region_has_weather> <INUMBER:<region_id> <INUMBER:weather_period_index>",
+            $"{_keyword} <{BooleanDeclarator.GetKeyword()}:is_region_has_weather> <INUMBER:region_id> <INUMBER:weather_period_index>",
             "======== OR ========",
             $"{_keyword} (",
             $"\tOUT <{BooleanDeclarator.GetKeyword()}:is_region_has_weather>",
-            "\t<INUMBER:<region_id>",
+            "\t<INUMBER:region_id>",
             "\t<INUMBER:weather_period_index>",
             ")"
         };

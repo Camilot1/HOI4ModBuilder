@@ -53,6 +53,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
 
         public static void Save(Settings settings)
         {
+            return; //TODO Implement saving
+
             if (!SettingsManager.Settings.isWipEnabled(EnumWips.EQUIPMENTS))
                 return;
 

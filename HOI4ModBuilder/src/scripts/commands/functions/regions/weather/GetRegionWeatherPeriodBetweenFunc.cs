@@ -23,7 +23,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
             $"\tOUT <INUMBER:start_month>",
             $"\tOUT <INUMBER:end_day>",
             $"\tOUT <INUMBER:end_month>",
-            "\t<INUMBER:<region_id>",
+            "\t<INUMBER:region_id>",
             "\t<INUMBER:weather_period_index>",
             ")"
         };

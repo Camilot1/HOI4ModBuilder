@@ -15,11 +15,11 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <INUMBER:mud_chance> <INUMBER:<region_id> <INUMBER:weather_period_index>",
+            $"{_keyword} <INUMBER:mud_chance> <INUMBER:region_id> <INUMBER:weather_period_index>",
             "======== OR ========",
             $"{_keyword} (",
             $"\tOUT <INUMBER:mud_chance>",
-            "\t<INUMBER:<region_id>",
+            "\t<INUMBER:region_id>",
             "\t<INUMBER:weather_period_index>",
             ")"
         };
