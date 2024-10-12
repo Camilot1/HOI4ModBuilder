@@ -62,7 +62,7 @@ namespace HOI4ModBuilder.src.managers
             }
         }
 
-        public List<EnumMapWarningCode> GetErrorCodes(Point2D pos, double distance)
+        public List<EnumMapWarningCode> GetWarningCodes(Point2D pos, double distance)
         {
             var codes = new List<EnumMapWarningCode>();
 

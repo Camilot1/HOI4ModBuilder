@@ -15,6 +15,7 @@ using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.managers.errors;
+using HOI4ModBuilder.src.managers.warnings;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -48,13 +49,31 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 }
             }
 
-            if (buttons == MouseButtons.Left && MapManager.displayLayers[(int)EnumAdditionalLayers.ERRORS])
+            if (buttons == MouseButtons.Left)
             {
-                var codes = ErrorManager.Instance.GetErrorCodes(pos, 2);
-                if (codes.Count != 0)
+                var warningCodes = new List<EnumMapWarningCode>();
+                var errorCodes = new List<EnumMapErrorCode>();
+
+                if (MapManager.displayLayers[(int)EnumAdditionalLayers.WARNINGS])
+                    warningCodes = WarningsManager.Instance.GetWarningCodes(pos, 2);
+                if (MapManager.displayLayers[(int)EnumAdditionalLayers.ERRORS])
+                    errorCodes = ErrorManager.Instance.GetErrorCodes(pos, 2);
+
+                if (warningCodes.Count != 0 || errorCodes.Count != 0)
                 {
                     var sb = new StringBuilder();
-                    foreach (EnumMapErrorCode code in codes) sb.Append(code.ToString()).Append('\n');
+                    if (warningCodes.Count > 0)
+                    {
+                        sb.Append(GuiLocManager.GetLoc(EnumLocKey.WARNINGS)).Append(':').Append(Constants.NEW_LINE);
+                        foreach (EnumMapWarningCode code in warningCodes)
+                            sb.Append("    ").Append(code.ToString()).Append('\n');
+                    }
+                    if (errorCodes.Count > 0)
+                    {
+                        sb.Append(GuiLocManager.GetLoc(EnumLocKey.ERRORS)).Append(':').Append(Constants.NEW_LINE);
+                        foreach (EnumMapErrorCode code in errorCodes)
+                            sb.Append("    ").Append(code.ToString()).Append('\n');
+                    }
                     Logger.LogSingleErrorMessage(sb.ToString());
                     return;
                 }

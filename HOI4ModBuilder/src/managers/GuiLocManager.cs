@@ -16,6 +16,17 @@ namespace HOI4ModBuilder.src.utils
 
         private static Dictionary<EnumLocKey, string> _locKeys = new Dictionary<EnumLocKey, string>();
         private static Dictionary<string, string> _locStrings = new Dictionary<string, string>();
+        private static Dictionary<string, EnumLocKey> _stringsToEnums = InitStringsToEnums();
+
+        private static Dictionary<string, EnumLocKey> InitStringsToEnums()
+        {
+            var dictionary = new Dictionary<string, EnumLocKey>();
+
+            foreach (EnumLocKey key in Enum.GetValues(typeof(EnumLocKey)))
+                dictionary[key.ToString()] = key;
+
+            return dictionary;
+        }
 
         private static readonly IDeserializer yamlDeserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
@@ -65,13 +76,16 @@ namespace HOI4ModBuilder.src.utils
         }
         public static string GetLoc(string key)
         {
-            if (_locStrings.TryGetValue(key, out var value)) return value;
-            else return key.ToString();
+            if (_locStrings.TryGetValue(key, out var value) ||
+                _stringsToEnums.TryGetValue(key, out var enumObj) && _locKeys.TryGetValue(enumObj, out value))
+                return value;
+            return key.ToString();
         }
 
         public static string GetLoc(string key, Dictionary<string, string> replaceValues, string additionalText)
         {
-            if (_locStrings.TryGetValue(key, out var value))
+            if (_locStrings.TryGetValue(key, out var value) ||
+                _stringsToEnums.TryGetValue(key, out var enumObj) && _locKeys.TryGetValue(enumObj, out value))
             {
                 if (replaceValues != null)
                     foreach (var valuePair in replaceValues) value = value.Replace(valuePair.Key, valuePair.Value);
@@ -105,6 +119,7 @@ namespace HOI4ModBuilder.src.utils
 
                 //Переносим ключи и их локализацию из файла в словарь локализации
                 _locKeys = new Dictionary<EnumLocKey, string>();
+                _locStrings = new Dictionary<string, string>();
                 foreach (var pair in tempDictionary)
                 {
                     if (transferDictionary.TryGetValue(pair.Key, out var enumKey))
@@ -482,5 +497,8 @@ namespace HOI4ModBuilder.src.utils
         MAP_TAB_PROGRESSBAR_SAVING_OOBS,
         MAP_TAB_PROGRESSBAR_SAVING_EQUPMENTS,
         MAP_TAB_PROGRESSBAR_SAVING_TEXTURE_MAPS,
+        WARNINGS,
+        ERRORS,
+        EXCEPTIONS
     }
 }

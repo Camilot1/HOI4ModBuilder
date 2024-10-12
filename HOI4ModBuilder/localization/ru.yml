@@ -29,6 +29,7 @@ ADJACENCIES: "Смежности"
 IMPASSIBLE_ZONES: "Непроходимые зоны"
 WARNINGS: "Предупреждения"
 ERRORS: "Ошибки"
+EXCEPTIONS: "Критичские ошибки"
 OVERLAY_TEXTURES: "Наклад. текстуры"
 
 CURSOR: "Курсор"
