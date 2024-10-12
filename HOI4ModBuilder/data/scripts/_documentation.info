@@ -1,0 +1,751 @@
+Keyword: 
+	IF
+Command Path:
+	commands.declarators.BRANCH
+Documentation:
+	IF <BOOLEAN:value>
+		<INNER_CODE>
+	ELSE_IF <BOOLEAN:value>
+		<INNER_CODE>
+	ELSE
+		<INNER_CODE>
+	======== OR ========
+	IF <IRELATIVE:value_a> <RELATIVE_OPERATOR> <IRELATIVE:value_b>
+		<INNER_CODE>
+	ELSE_IF <IRELATIVE:value_a> <RELATIVE_OPERATOR> <IRELATIVE:value_a>
+		<INNER_CODE>
+	ELSE
+		<INNER_CODE>
+	======== WHERE ========
+	RELATIVE_OPERATORS: >, >=, <, <=, ==, !=
+
+
+
+Keyword: 
+	FOR
+Command Path:
+	commands.declarators.vars.cycles.FOR
+Documentation:
+	FOR <iterator_name> IN <ILIST:values>
+		<INNER_CODE>
+
+
+
+Keyword: 
+	BOOLEAN
+Command Path:
+	commands.declarators.vars.BOOLEAN
+Implements:
+	ISCRIPTOBJECT IPRIMITIVE ISET 
+Documentation:
+	BOOLEAN <BOOLEAN:var_name> [OPTIONAL]<BOOLEAN:other_value>
+	======== OR ========
+	BOOLEAN (
+		OUT <BOOLEAN:var_name>
+		[OPTIONAL]<BOOLEAN:other_value>
+	)
+
+
+
+Keyword: 
+	CHAR
+Command Path:
+	commands.declarators.vars.CHAR
+Implements:
+	ISCRIPTOBJECT INUMBER IRELATIVE IADD IDIVIDE IMODULO IMULTIPLY IPRIMITIVE ISET ISUBTRACT 
+Documentation:
+	CHAR <CHAR:var_name> [OPTIONAL]<BOOLEAN|INUMBER:other_value>
+	======== OR ========
+	CHAR (
+		OUT <CHAR:var_name>
+		[OPTIONAL]<BOOLEAN|INUMBER:other_value>
+	)
+
+
+
+Keyword: 
+	FILE
+Command Path:
+	commands.declarators.vars.FILE
+Implements:
+	ISCRIPTOBJECT IFILE IAPPEND ISET IWRITE 
+Documentation:
+	FILE <FILE:var_name> [OPTIONAL]<STRING|FILE:other_value>
+	======== OR ========
+	FILE (
+		OUT <FILE:var_name>
+		[OPTIONAL]<STRING|FILE:other_value>
+	)
+
+
+
+Keyword: 
+	FLOAT
+Command Path:
+	commands.declarators.vars.FLOAT
+Implements:
+	ISCRIPTOBJECT INUMBER IRELATIVE IADD IDIVIDE IMODULO IMULTIPLY IPRIMITIVE ISET ISUBTRACT 
+Documentation:
+	FLOAT <FLOAT:var_name> [OPTIONAL]<BOOLEAN|INUMBER:other_value>
+	======== OR ========
+	FLOAT (
+		OUT <FLOAT:var_name>
+		[OPTIONAL]<BOOLEAN|INUMBER:other_value>
+	)
+
+
+
+Keyword: 
+	INT
+Command Path:
+	commands.declarators.vars.INT
+Implements:
+	ISCRIPTOBJECT INUMBER IRELATIVE IADD IDIVIDE IMODULO IMULTIPLY IPRIMITIVE ISET ISUBTRACT 
+Documentation:
+	INT <INT:var_name> [OPTIONAL]<BOOLEAN|INUMBER:other_value>
+	======== OR ========
+	INT (
+		OUT <INT:var_name>
+		[OPTIONAL]<BOOLEAN|INUMBER:other_value>
+	)
+
+
+
+Keyword: 
+	LIST
+Command Path:
+	commands.declarators.vars.LIST
+Documentation:
+	LIST <LIST:var_name> <VALUE_TYPE> [OPTIONAL]<LIST<VALUE_TYPE>:other_value>
+	======== OR ========
+	LIST (
+		OUT <LIST:var_name>
+		<VALUE_TYPE>
+		[OPTIONAL]<LIST<VALUE_TYPE>:other_value>
+	)
+
+
+
+Keyword: 
+	MAP
+Command Path:
+	commands.declarators.vars.MAP
+Documentation:
+	MAP <MAP:var_name> <KEY_VALUE> <VALUE_TYPE> [OPTIONAL]<MAP<KEY_TYPE,VALUE_TYPE>:other_value>
+	======== OR ========
+	MAP (
+		OUT <MAP:var_name>
+		<KEY_VALUE>
+		<VALUE_TYPE>
+		[OPTIONAL]<MAP<KEY_TYPE,VALUE_TYPE>:other_value>
+	)
+
+
+
+Keyword: 
+	STRING
+Command Path:
+	commands.declarators.vars.STRING
+Implements:
+	ISCRIPTOBJECT ISTRING IADD ICLEAR IGET IGETSIZE IINSERT IPRIMITIVE IPUT IREMOVEAT ISET ISETSIZE ITRIM 
+Documentation:
+	STRING <STRING:var_name> [OPTIONAL]<ANY:other_value>
+	======== OR ========
+	STRING (
+		OUT <STRING:var_name>
+		[OPTIONAL]<ANY:other_value>
+	)
+
+
+
+Keyword: 
+	CONSOLE_CLEAR
+Command Path:
+	commands.declarators.functions.console.CONSOLE_CLEAR
+Documentation:
+	CONSOLE_CLEAR <ISCRIPTOBJECT:value>
+
+
+
+Keyword: 
+	CONSOLE_WRITE
+Command Path:
+	commands.declarators.functions.console.CONSOLE_WRITE
+Documentation:
+	CONSOLE_WRITE <ISCRIPTOBJECT:value>
+
+
+
+Keyword: 
+	CONSOLE_WRITE_LN
+Command Path:
+	commands.declarators.functions.console.CONSOLE_WRITE_LN
+Documentation:
+	CONSOLE_WRITE_LN <ISCRIPTOBJECT:value>
+
+
+
+Keyword: 
+	GET_MOD_DIRECTORY_PATH
+Command Path:
+	commands.declarators.functions.files.GET_MOD_DIRECTORY_PATH
+Documentation:
+	GET_MOD_DIRECTORY_PATH <STRING|FILE:var_name>
+	======== OR ========
+	GET_MOD_DIRECTORY_PATH (
+		OUT <STRING|FILE:path>
+	)
+
+
+
+Keyword: 
+	GET_REGION_WEATHER_PERIOD_ARCTIC_WATER
+Command Path:
+	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_ARCTIC_WATER
+Documentation:
+	GET_REGION_WEATHER_PERIOD_ARCTIC_WATER <INUMBER:arctic_water_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
+	======== OR ========
+	GET_REGION_WEATHER_PERIOD_ARCTIC_WATER (
+		OUT <INUMBER:arctic_water_chance>
+		<INUMBER:region_id>
+		<INUMBER:weather_period_index>
+	)
+
+
+
+Keyword: 
+	GET_REGION_WEATHER_PERIOD_BETWEEN
+Command Path:
+	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_BETWEEN
+Documentation:
+	GET_REGION_WEATHER_PERIOD_BETWEEN <INUMBER:start_day> <INUMBER:start_month> <INUMBER:end_day> <INUMBER:end_month> <INUMBER:region_id> <INUMBER:weather_period_index>
+	======== OR ========
+	GET_REGION_WEATHER_PERIOD_BETWEEN (
+		OUT <INUMBER:start_day>
+		OUT <INUMBER:start_month>
+		OUT <INUMBER:end_day>
+		OUT <INUMBER:end_month>
+		<INUMBER:region_id>
+		<INUMBER:weather_period_index>
+	)
+
+
+
+Keyword: 
+	GET_REGION_WEATHER_PERIOD_BLIZZARD
+Command Path:
+	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_BLIZZARD
+Documentation:
+	GET_REGION_WEATHER_PERIOD_BLIZZARD <INUMBER:blizzard_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
+	======== OR ========
+	GET_REGION_WEATHER_PERIOD_BLIZZARD (
+		OUT <INUMBER:blizzard_chance>
+		<INUMBER:region_id>
+		<INUMBER:weather_period_index>
+	)
+
+
+
+Keyword: 
+	GET_REGION_WEATHER_PERIOD_MIN_SNOW_LEVEL
+Command Path:
+	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_MIN_SNOW_LEVEL
+Documentation:
+	GET_REGION_WEATHER_PERIOD_MIN_SNOW_LEVEL <INUMBER:min_snow_level> <INUMBER:region_id> <INUMBER:weather_period_index>
+	======== OR ========
+	GET_REGION_WEATHER_PERIOD_MIN_SNOW_LEVEL (
+		OUT <INUMBER:min_snow_level>
+		<INUMBER:region_id>
+		<INUMBER:weather_period_index>
+	)
+
+
+
+Keyword: 
+	GET_REGION_WEATHER_PERIOD_MUD
+Command Path:
+	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_MUD
+Documentation:
+	GET_REGION_WEATHER_PERIOD_MUD <INUMBER:mud_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
+	======== OR ========
+	GET_REGION_WEATHER_PERIOD_MUD (
+		OUT <INUMBER:mud_chance>
+		<INUMBER:region_id>
+		<INUMBER:weather_period_index>
+	)
+
+
+
+Keyword: 
+	GET_REGION_WEATHER_PERIOD_NO_PHENOMENON
+Command Path:
+	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_NO_PHENOMENON
+Documentation:
+	GET_REGION_WEATHER_PERIOD_NO_PHENOMENON <INUMBER:no_phenomenon_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
+	======== OR ========
+	GET_REGION_WEATHER_PERIOD_NO_PHENOMENON (
+		OUT <INUMBER:no_phenomenon_chance>
+		<INUMBER:region_id>
+		<INUMBER:weather_period_index>
+	)
+
+
+
+Keyword: 
+	GET_REGION_WEATHER_PERIOD_RAIN_HEAVY
+Command Path:
+	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_RAIN_HEAVY
+Documentation:
+	GET_REGION_WEATHER_PERIOD_RAIN_HEAVY <INUMBER:rain_heavy_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
+	======== OR ========
+	GET_REGION_WEATHER_PERIOD_RAIN_HEAVY (
+		OUT <INUMBER:rain_heavy_chance>
+		<INUMBER:region_id>
+		<INUMBER:weather_period_index>
+	)
+
+
+
+Keyword: 
+	GET_REGION_WEATHER_PERIOD_RAIN_LIGHT
+Command Path:
+	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_RAIN_LIGHT
+Documentation:
+	GET_REGION_WEATHER_PERIOD_RAIN_LIGHT <INUMBER:rain_light_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
+	======== OR ========
+	GET_REGION_WEATHER_PERIOD_RAIN_LIGHT (
+		OUT <INUMBER:rain_light_chance>
+		<INUMBER:region_id>
+		<INUMBER:weather_period_index>
+	)
+
+
+
+Keyword: 
+	GET_REGION_WEATHER_PERIOD_SANDSTORM
+Command Path:
+	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_SANDSTORM
+Documentation:
+	GET_REGION_WEATHER_PERIOD_SANDSTORM <INUMBER:sandstorm_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
+	======== OR ========
+	GET_REGION_WEATHER_PERIOD_SANDSTORM (
+		OUT <INUMBER:sandstorm_chance>
+		<INUMBER:region_id>
+		<INUMBER:weather_period_index>
+	)
+
+
+
+Keyword: 
+	GET_REGION_WEATHER_PERIODS_COUNT
+Command Path:
+	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIODS_COUNT
+Documentation:
+	GET_REGION_WEATHER_PERIODS_COUNT <INUMBER:weather_periods_count> <INUMBER:region_id> <INUMBER:weather_period_index>
+	======== OR ========
+	GET_REGION_WEATHER_PERIODS_COUNT (
+		OUT <INUMBER:weather_periods_count>
+		<INUMBER:region_id>
+		<INUMBER:weather_period_index>
+	)
+
+
+
+Keyword: 
+	GET_REGION_WEATHER_PERIOD_SNOW
+Command Path:
+	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_SNOW
+Documentation:
+	GET_REGION_WEATHER_PERIOD_SNOW <INUMBER:snow_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
+	======== OR ========
+	GET_REGION_WEATHER_PERIOD_SNOW (
+		OUT <INUMBER:snow_chance>
+		<INUMBER:region_id>
+		<INUMBER:weather_period_index>
+	)
+
+
+
+Keyword: 
+	GET_REGION_WEATHER_PERIOD_TEMPERATURE
+Command Path:
+	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_TEMPERATURE
+Documentation:
+	GET_REGION_WEATHER_PERIOD_TEMPERATURE <INUMBER:min_temperature> <INUMBER:max_temperature> <INUMBER:region_id> <INUMBER:weather_period_index>
+	======== OR ========
+	GET_REGION_WEATHER_PERIOD_TEMPERATURE (
+		OUT <INUMBER:min_temperature>
+		OUT <INUMBER:max_temperature>
+		<INUMBER:region_id>
+		<INUMBER:weather_period_index>
+	)
+
+
+
+Keyword: 
+	IS_REGION_HAS_WEATHER
+Command Path:
+	commands.declarators.functions.regions.weather.IS_REGION_HAS_WEATHER
+Documentation:
+	IS_REGION_HAS_WEATHER <BOOLEAN:is_region_has_weather> <INUMBER:region_id> <INUMBER:weather_period_index>
+	======== OR ========
+	IS_REGION_HAS_WEATHER (
+		OUT <BOOLEAN:is_region_has_weather>
+		<INUMBER:region_id>
+		<INUMBER:weather_period_index>
+	)
+
+
+
+Keyword: 
+	GET_ALL_REGIONS_IDS
+Command Path:
+	commands.declarators.functions.regions.GET_ALL_REGIONS_IDS
+Documentation:
+	GET_ALL_REGIONS_IDS <LIST<INUMBER>:regions_ids>
+	======== OR ========
+	GET_ALL_REGIONS_IDS (
+		OUT <LIST<INUMBER>:regions_ids>
+	)
+
+
+
+Keyword: 
+	GET_ALL_STATES_IDS
+Command Path:
+	commands.declarators.functions.states.GET_ALL_STATES_IDS
+Documentation:
+	GET_ALL_STATES_IDS <LIST<INUMBER>:states_ids>
+	======== OR ========
+	GET_ALL_STATES_IDS (
+		OUT <LIST<INUMBER>:states_ids>
+	)
+
+
+
+Keyword: 
+	GET_STATE_BUILDING_LEVEL
+Command Path:
+	commands.declarators.functions.states.GET_STATE_BUILDING_LEVEL
+Documentation:
+	GET_STATE_BUILDING_LEVEL <INUMBER:level> <INUMBER:state_id> <ISTRING:building_name>
+	======== OR ========
+	GET_STATE_BUILDING_LEVEL (
+		OUT <INUMBER:level>
+		<INUMBER:state_id>
+		<ISTRING:building_name>
+	)
+
+
+
+Keyword: 
+	GET_STATE_POPULATION
+Command Path:
+	commands.declarators.functions.states.GET_STATE_POPULATION
+Documentation:
+	GET_STATE_POPULATION <INUMBER:population> <INUMBER:state_id>
+	======== OR ========
+	GET_STATE_POPULATION (
+		OUT <INUMBER:population>
+		<INUMBER:state_id>
+	)
+
+
+
+Keyword: 
+	GET_STATE_REGION_ID
+Command Path:
+	commands.declarators.functions.states.GET_STATE_REGION_ID
+Documentation:
+	GET_STATE_REGION_ID <INUMBER:region_id> <INUMBER:state_id>
+	======== OR ========
+	GET_STATE_REGION_ID (
+		OUT <INUMBER:region_id>
+		<INUMBER:state_id>
+	)
+
+
+
+Keyword: 
+	SET_STATE_BUILDING_LEVEL
+Command Path:
+	commands.declarators.functions.states.SET_STATE_BUILDING_LEVEL
+Documentation:
+	SET_STATE_BUILDING_LEVEL <INUMBER:state_id> <ISTRING:building_name> <INUMBER:building_level>
+	======== OR ========
+	SET_STATE_BUILDING_LEVEL (
+		<INUMBER:state_id>
+		<ISTRING:building_name>
+		<INUMBER:building_level>
+	)
+
+
+
+Keyword: 
+	GET_DAYS_SINCE_YEAR_START
+Command Path:
+	commands.declarators.functions.time.GET_DAYS_SINCE_YEAR_START
+Documentation:
+	GET_DAYS_SINCE_YEAR_START <INUMBER:days_since_year_start> <INUMBER:day_index> <INUMBER:month_index>
+	======== OR ========
+	GET_DAYS_SINCE_YEAR_START (
+		OUT <INUMBER:days_since_year_start>
+		<INUMBER:day_index>
+		<INUMBER:month_index>
+	)
+
+
+
+Keyword: 
+	GET_WEEKS_SINCE_YEAR_START
+Command Path:
+	commands.declarators.functions.time.GET_WEEKS_SINCE_YEAR_START
+Documentation:
+	GET_WEEKS_SINCE_YEAR_START <INUMBER:weeks_since_year_start> <INUMBER:day_index> <INUMBER:month_index>
+	======== OR ========
+	GET_WEEKS_SINCE_YEAR_START (
+		OUT <INUMBER:weeks_since_year_start>
+		<INUMBER:day_index>
+		<INUMBER:month_index>
+	)
+
+
+
+Keyword: 
+	BREAK
+Command Path:
+	commands.declarators.keywords.BREAK
+Documentation:
+	BREAK
+
+
+
+Keyword: 
+	CONTINUE
+Command Path:
+	commands.declarators.keywords.CONTINUE
+Documentation:
+	CONTINUE
+
+
+
+Keyword: 
+	CEIL
+Command Path:
+	commands.declarators.methods.CEIL
+Documentation:
+	CEIL <FLOAT:var_name>
+
+
+
+Keyword: 
+	CLEAR
+Command Path:
+	commands.declarators.methods.CLEAR
+Documentation:
+	CLEAR <ICLEAR:var_name>
+
+
+
+Keyword: 
+	FLOOR
+Command Path:
+	commands.declarators.methods.FLOOR
+Documentation:
+	FLOOR <FLOAT:var_name>
+
+
+
+Keyword: 
+	GET_KEYS
+Command Path:
+	commands.declarators.methods.GET_KEYS
+Documentation:
+	GET_KEYS <ILIST<VALUE_TYPE>:to_list> <IMAP<KEY_TYPE>:from_map>
+	======== OR ========
+	GET_KEYS (
+		OUT <ILIST<VALUE_TYPE>:to_list>
+		<IMAP<KEY_TYPE>:from_map>
+	)
+
+
+
+Keyword: 
+	GET
+Command Path:
+	commands.declarators.methods.GET
+Documentation:
+	GET <VALUE_TYPE:to> <KEY_TYPE:key|index> <IGET<KEY_TYPE,VALUE_TYPE>:from>
+	======== OR ========
+	GET (
+		OUT <VALUE_TYPE:to>
+		<KEY_TYPE:key|index>
+		<IGET<KEY_TYPE,VALUE_TYPE>:from>
+	)
+
+
+
+Keyword: 
+	GET_SIZE
+Command Path:
+	commands.declarators.methods.GET_SIZE
+Documentation:
+	GET_SIZE <INUMBER:to> <IGETSIZE:from>
+	======== OR ========
+	GET_SIZE (
+		OUT <VALUE_TYPE:to>
+		<IGETSIZE>:from>
+	)
+
+
+
+Keyword: 
+	HAS_KEY
+Command Path:
+	commands.declarators.methods.HAS_KEY
+Documentation:
+	HAS_KEY <BOOLEAN:to> <IMAP<KEY_TYPE,VALUE_TYPE>:from> <KEY_TYPE:key>
+	======== OR ========
+	HAS_KEY (
+		OUT <BOOLEAN:to>
+		<IMAP<KEY_TYPE,VALUE_TYPE>:from>
+		<KEY_TYPE:key>
+	)
+
+
+
+Keyword: 
+	MAX
+Command Path:
+	commands.declarators.methods.MAX
+Documentation:
+	MAX <INUMBER:result> <INUMBER:value0> <INUMBER:value1> ... <INUMBER:valueN>
+	======== OR ========
+	MAX (
+		OUT <INUMBER:result>
+		<INUMBER:value0>
+		<INUMBER:value1>
+		...
+		<INUMBER:valueN>
+	)
+
+
+
+Keyword: 
+	MIN
+Command Path:
+	commands.declarators.methods.MIN
+Documentation:
+	MIN <INUMBER:result> <INUMBER:value0> <INUMBER:value1> ... <INUMBER:valueN>
+	======== OR ========
+	MIN (
+		OUT <INUMBER:result>
+		<INUMBER:value0>
+		<INUMBER:value1>
+		...
+		<INUMBER:valueN>
+	)
+
+
+
+Keyword: 
+	PUT
+Command Path:
+	commands.declarators.methods.PUT
+Documentation:
+	PUT <IPUT<KEY_TYPE,VALUE_TYPE:to> <KEY_TYPE:key> <VALUE_TYPE:value>
+	======== OR ========
+	PUT (
+		OUT IPUT<KEY_TYPE,VALUE_TYPE:to>
+		<KEY_TYPE:key>
+		<VALUE_TYPE:value>
+	)
+
+
+
+Keyword: 
+	ROUND
+Command Path:
+	commands.declarators.methods.ROUND
+Documentation:
+	ROUND <FLOAT:var_name>
+
+
+
+Keyword: 
+	SET_SIZE
+Command Path:
+	commands.declarators.methods.SET_SIZE
+Documentation:
+	SET_SIZE <ISETSIZE:variable> <INUMBER:new_size>
+	======== OR ========
+	SET_SIZE (
+		OUT <ISETSIZE:variable>
+		<INUMBER:new_size>
+	)
+
+
+
+Keyword: 
+	WRITE
+Command Path:
+	commands.declarators.methods.WRITE
+Documentation:
+	WRITE <IWRITE:variable> <ANY:value>
+
+
+
+Keyword: 
+	ADD
+Command Path:
+	commands.declarators.operators.arithmetical.ADD
+Documentation:
+	ADD <IADD:variable> <ANY:value>
+
+
+
+Keyword: 
+	DIVIDE
+Command Path:
+	commands.declarators.operators.arithmetical.DIVIDE
+Documentation:
+	DIVIDE <IDIVIDE:variable> <ANY:value>
+
+
+
+Keyword: 
+	MODULO
+Command Path:
+	commands.declarators.operators.arithmetical.MODULO
+Documentation:
+	MODULO <IMODULO:variable> <ANY:value>
+
+
+
+Keyword: 
+	MULTIPLY
+Command Path:
+	commands.declarators.operators.arithmetical.MULTIPLY
+Documentation:
+	MULTIPLY <IMULTIPLY:variable> <ANY:value>
+
+
+
+Keyword: 
+	SET
+Command Path:
+	commands.declarators.operators.arithmetical.SET
+Documentation:
+	SET <ISET:variable> <ANY:value>
+
+
+
+Keyword: 
+	SUBTRACT
+Command Path:
+	commands.declarators.operators.arithmetical.SUBTRACT
+Documentation:
+	SUBTRACT <ISUBTRACT:variable> <ANY:value>
+
+
+

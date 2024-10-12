@@ -1,0 +1,7 @@
+INT value 10
+MULTIPLY value 5
+
+CONSOLE_WRITE value
+CONSOLE_WRITE value
+CONSOLE_WRITE_LN value
+CONSOLE_WRITE_LN value

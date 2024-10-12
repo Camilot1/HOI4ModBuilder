@@ -40,7 +40,7 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
                 () =>
                 {
                     string text = value.GetValue().ToString();
-                    text = ScriptParser.replaceSpecialChars(text);
+                    text = ScriptParser.ReplaceSpecialChars(text);
                     File.AppendAllText(FilePath, text);
                 },
                 (ex) => throw new InternalScriptException(lineIndex, args, ex)
@@ -53,7 +53,7 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
                 () =>
                 {
                     string text = FormatCollectionToText(lineIndex, args, value);
-                    text = ScriptParser.replaceSpecialChars(text);
+                    text = ScriptParser.ReplaceSpecialChars(text);
                     File.AppendAllText(FilePath, text);
                 },
                 (ex) => throw new InternalScriptException(lineIndex, args, ex)
@@ -66,7 +66,7 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
                 () =>
                 {
                     string text = value.GetValue().ToString();
-                    text = ScriptParser.replaceSpecialChars(text);
+                    text = ScriptParser.ReplaceSpecialChars(text);
                     File.WriteAllText(FilePath, text);
                 },
                 (ex) => throw new InternalScriptException(lineIndex, args, ex)
@@ -79,7 +79,7 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
                 () =>
                 {
                     string text = FormatCollectionToText(lineIndex, args, value);
-                    text = ScriptParser.replaceSpecialChars(text);
+                    text = ScriptParser.ReplaceSpecialChars(text);
                     File.WriteAllText(FilePath, text);
                 },
                 (ex) => throw new InternalScriptException(lineIndex, args, ex)

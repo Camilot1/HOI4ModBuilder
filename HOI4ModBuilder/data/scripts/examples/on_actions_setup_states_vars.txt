@@ -1,0 +1,48 @@
+GET_MOD_DIRECTORY_PATH (
+	OUT STRING filePath
+)
+ADD filePath "common\on_actions\_h4mb_setup_states_vars.txt"
+
+FILE file filePath
+
+LIST export_list STRING
+ADD export_list "on_actions = {"
+ADD export_list "\ton_startup = {"
+ADD export_list "\t\teffect = {"
+
+GET_ALL_STATES_IDS (
+	OUT LIST states_ids INT
+)
+
+FOR state_id IN states_ids
+	GET_STATE_REGION_ID (
+		OUT INT state_region_id
+		state_id
+	)
+
+	IF state_region_id == 0
+		CONTINUE
+	
+	STRING line "\t\t\t"
+	ADD line state_id
+	ADD line " = {"
+	ADD export_list line
+	
+	SET line "\t\t\t\tset_variable = { state_id = "
+	ADD line state_id
+	ADD line " }"
+	ADD export_list line
+	
+	SET line "\t\t\t\tset_variable = { region_id = "
+	ADD line state_region_id
+	ADD line " }"
+	ADD export_list line	
+	
+	SET line "\t\t\t}"
+	ADD export_list line	
+
+ADD export_list "\t\t}"
+ADD export_list "\t}"
+ADD export_list "}"
+
+WRITE file export_list

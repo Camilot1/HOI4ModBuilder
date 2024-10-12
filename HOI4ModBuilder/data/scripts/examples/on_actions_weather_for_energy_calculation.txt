@@ -1,0 +1,117 @@
+# =========================================
+# ============== PREPARE DATA =============
+# =========================================
+
+# Get ids of all regions
+GET_ALL_REGIONS_IDS (
+	OUT LIST regions_ids INT
+)
+
+# Get how much weeks in the year and ceil it
+FLOAT weeks_count 365
+DIVIDE weeks_count 7
+CEIL weeks_count
+
+# Get count of regions
+GET_SIZE (
+	OUT INT regions_count
+	regions_ids
+)
+
+INT all_weeks_data_size regions_count
+MULTIPLY all_weeks_data_size weeks_count
+
+# Create list for data of all regions for every year week
+SET_SIZE (
+	LIST all_regions_weeks_data FLOAT
+	all_weeks_data_size
+)
+
+
+# =================================================
+# ============ FILL THE REFERENCE DATA ============
+# =================================================
+
+# In cycle by all regions' ids
+FOR region_id IN regions_ids
+	# Get how much weather periods in current region
+	GET_REGION_WEATHER_PERIODS_COUNT (
+		OUT INT weather_periods_count
+		region_id
+	)
+	
+	# If there is no weather, skip this region 
+	IF weather_periods_count == 0
+		CONTINUE
+	
+	# In cycle by all weather periods in this region
+	FOR weather_index IN weather_periods_count
+		# Get start and end date of weather period
+		GET_REGION_WEATHER_PERIOD_BETWEEN (
+			OUT INT start_day_index
+			OUT INT start_month_index
+			OUT INT end_day_index
+			OUT INT end_month_index
+			region_id
+			weather_index
+		)
+		
+		## TODO LOGIC 
+		
+		#GET_DAYS_SINCE_YEAR_START (
+		#	OUT INT start_days_since_year_start
+		#	region_id
+		#	start_day_index
+		#	start_month_index
+		#)
+		
+		#GET_DAYS_SINCE_YEAR_START (
+		#	OUT INT end_days_since_year_start
+		#	region_id
+		#	end_day_index
+		#	end_month_index
+		#)
+
+# ===========================================
+# =========== DATA INTERPOLATION ============
+# ===========================================
+
+## TODO LOGIC
+
+# ======================================
+# ============ DATA EXPORT =============
+# ======================================
+
+# Get mod directory path and create new on_actions file
+GET_MOD_DIRECTORY_PATH (
+	OUT STRING filePath
+)
+ADD filePath "common\on_actions\_h4mb_energy_setup_states_weather.txt"
+FILE file filePath
+
+# Add the header of on_actions file
+LIST export_list STRING
+ADD export_list "on_actions = {"
+ADD export_list "\ton_startup = {"
+ADD export_list "\t\teffect = {"
+
+# Assemble line and add it to export data list
+STRING line
+ADD line "\t\t\tset_variable = { weeks_count = "
+ADD line weeks_count
+ADD line "}"
+ADD export_list line
+
+## TODO LOGIC
+
+# CLEAR line
+# ADD line index
+# ADD line "resize_array = { population_energy_consume_factor_monthly_arr = "
+
+# Add the end of on_actions file
+ADD export_list "\t\t}"
+ADD export_list "\t}"
+ADD export_list "}"
+
+# Write data to file
+WRITE file export_list
