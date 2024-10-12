@@ -346,7 +346,7 @@ EXCEPTION_SCRIPTED_TRIGGER_DUPLICATE_NAME_WITH_OTHER_SCRIPTED_TRIGGER_IN_FILE: "
 EXCEPTION_SCRIPTED_TRIGGER_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE: "The name \"{blockName}\" of scripted trigger is already taken by another block. The duplicate definition was found in file {filePath}. The first definition was found in file {otherFilePath}"
 
 AI_AREA_HAS_INCORRECT_STRATEGIC_REGION_ID_VALUE: "Value id = \"{value}\" of strategic region is invalid"
-AI_AREA_CONTAINTS_ID_OF_NOT_EXISTING_STRATEGIC_REGION: "The strategic region with id = {value} not found"
+AI_AREA_CONTAINTS_ID_OF_NOT_EXISTING_STRATEGIC_REGION: "The strategic region with id = {regionId} not found"
 AI_AREA_FILE_CONTAINS_AI_AREAS_WITH_DUPLICATE_NAMES: "Duplicate definitions of ai_areas with same name \"{aiAreName}\" was found in file {filePath}"
 AI_AREA_WITH_THIS_NAME_ALREADY_DEFINED_IN_ANOTHER_FILE: "The duplicate definition for ai_area with name \"{aiAreaName}\" was found in file {filePath}. The first definition was in file {otherFilePath}"
 

@@ -148,7 +148,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             if (!int.TryParse(data[3], out int throughProvinceId))
             {
                 if (data[8].Trim().Length != 0)
-                    Logger.LogError(
+                    Logger.LogWarning(
                         EnumLocKey.ERROR_ADJACENCY_LOADING_INCORRECT_THIRD_PROVINCE_ID,
                         new Dictionary<string, string> {
                             { "{adjacencyId}", $"{id}"},
@@ -159,7 +159,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             else if (throughProvinceId >= 0)
             {
                 if (!ProvinceManager.TryGetProvince((ushort)throughProvinceId, out _throughProvince))
-                    Logger.LogError(
+                    Logger.LogWarning(
                         EnumLocKey.ERROR_ADJACENCY_LOADING_THIRD_PROVINCE_DOESNT_EXISTS,
                         new Dictionary<string, string> {
                             { "{adjacencyId}", $"{id}"},

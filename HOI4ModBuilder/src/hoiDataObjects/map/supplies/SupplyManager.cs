@@ -267,9 +267,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
                 level = byte.Parse(data[0]);
                 provinceCount = int.Parse(data[1]);
+                int realProvincesCount = data.Length - 2;
                 provinces = new List<Province>(data.Length);
 
-                for (int i = 0; i < provinceCount; i++)
+                for (int i = 0; i < provinceCount && i < realProvincesCount; i++)
                 {
                     if (ProvinceManager.TryGetProvince(ushort.Parse(data[i + 2]), out Province province))
                     {

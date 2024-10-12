@@ -350,21 +350,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                              }
                          );
 
-                    if (victoryPoints.TryGetValue(province, out uint oldVP))
-                    {
-                        if (oldVP > 0)
-                            Logger.LogError(
-                                EnumLocKey.ERROR_STATE_HISTORY_VICTORY_POINTS_PROVINCE_ALREADY_HAS_VICTORY_POINTS,
-                                new Dictionary<string, string>
-                                {
-                                    { "{stateId}", $"{state.Id}" },
-                                    { "{provinceId}", $"{province.Id}" },
-                                    { "{newVictoryPoints}", $"{vpValue}" },
-                                    { "{oldVictoryPoints}", $"{oldVP}" }
-                                }
-                            );
-                    }
-                    else victoryPoints[province] = vpValue;
+                    if (victoryPoints.TryGetValue(province, out uint oldVP) && oldVP > 0)
+                        Logger.LogWarning(
+                            EnumLocKey.ERROR_STATE_HISTORY_VICTORY_POINTS_PROVINCE_ALREADY_HAS_VICTORY_POINTS,
+                            new Dictionary<string, string>
+                            {
+                                { "{stateId}", $"{state.Id}" },
+                                { "{provinceId}", $"{province.Id}" },
+                                { "{newVictoryPoints}", $"{vpValue}" },
+                                { "{oldVictoryPoints}", $"{oldVP}" }
+                            }
+                        );
+                    victoryPoints[province] = vpValue;
 
                     break;
 
