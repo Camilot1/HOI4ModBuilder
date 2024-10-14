@@ -134,6 +134,7 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(ContinueKeyword.GetKeyword(), () => new ContinueKeyword());
 
             RegisterFabric(CeilMethod.GetKeyword(), () => new CeilMethod());
+            RegisterFabric(ClampMethod.GetKeyword(), () => new ClampMethod());
             RegisterFabric(ClearMethod.GetKeyword(), () => new ClearMethod());
             RegisterFabric(FloorMethod.GetKeyword(), () => new FloorMethod());
             RegisterFabric(GetKeysMethod.GetKeyword(), () => new GetKeysMethod());

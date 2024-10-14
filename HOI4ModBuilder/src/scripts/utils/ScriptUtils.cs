@@ -160,14 +160,14 @@ namespace HOI4ModBuilder.src.scripts.utils
                     );
 
                     v = Utils.Clamp(v, 0.35f, 0.95f);
+                    v = (1 - v) * 255;
+                    var p = Color.FromArgb(255, (int)v, (int)v, (int)v);
+                    /*
                     Color p = default;
                     if (v >= 0.8) p = Color.Purple;
                     else if (v >= 0.55) p = Color.Blue;
                     else if (v > 0.3) p = Color.Yellow;
                     else p = Color.White;
-                    /*
-                    v = 1 - v;
-                    var p = Color.FromArgb(255, (int)(v * 255), (int)(v * 255), (int)(v * 255));
                     */
 
                     bitmap.SetPixel(x, y, p);

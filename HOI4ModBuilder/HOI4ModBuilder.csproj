@@ -507,6 +507,7 @@
     <Compile Include="src\scripts\commands\keywords\BreakKeyword.cs" />
     <Compile Include="src\scripts\commands\keywords\ContinueKeyword.cs" />
     <Compile Include="src\scripts\commands\methods\CeilMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\ClampMethod.cs" />
     <Compile Include="src\scripts\commands\methods\ClearMethod.cs" />
     <Compile Include="src\scripts\commands\methods\FloorMethod.cs" />
     <Compile Include="src\scripts\commands\methods\GetKeysMethod.cs" />
