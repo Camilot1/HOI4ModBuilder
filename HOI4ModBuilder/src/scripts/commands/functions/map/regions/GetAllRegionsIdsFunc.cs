@@ -1,17 +1,15 @@
-﻿using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects.interfaces;
+﻿using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
-using System;
 using HOI4ModBuilder.src.scripts.commands.declarators;
 
-namespace HOI4ModBuilder.src.scripts.commands.functions.regions
+namespace HOI4ModBuilder.src.scripts.commands.functions.map.regions
 {
     public class GetAllRegionsIdsFunc : ScriptCommand
     {
         private static readonly string _keyword = "GET_ALL_REGIONS_IDS";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.functions.regions." + _keyword;
+        public override string GetPath() => "commands.declarators.functions.map.regions." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {

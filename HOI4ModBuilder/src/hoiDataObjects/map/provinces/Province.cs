@@ -344,7 +344,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public bool IsSuitableForShips() => _type == EnumProvinceType.SEA || CanBeNavalBaseForShips();
         public bool CanBeNavalBaseForShips() => _type == EnumProvinceType.LAND && (HasPort() || WillHavePortInHistory());
 
-        public uint pixelsCount;
+        public int pixelsCount;
         public bool dislayCenter;
         public Point2F center;
 

@@ -1,35 +1,33 @@
-﻿using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
-using HOI4ModBuilder.src.hoiDataObjects.map;
-using HOI4ModBuilder.src.scripts.exceptions;
+﻿using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects;
 using System;
+using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 
-namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
+namespace HOI4ModBuilder.src.scripts.commands.functions.map.regions
 {
-    internal class GetRegionWeatherPeriodMinSnowLevelFunc : ScriptCommand
+    public class GetRegionPixelsCountFunc : ScriptCommand
     {
-        private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_MIN_SNOW_LEVEL";
+        private static readonly string _keyword = "GET_REGION_PIXELS_COUNT";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.functions.regions.weather." + _keyword;
+        public override string GetPath() => "commands.declarators.functions.map.regions." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <INUMBER:min_snow_level> <INUMBER:region_id> <INUMBER:weather_period_index>",
+            $"{_keyword} <INUMBER:pixels_count> <INUMBER:region_id>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <INUMBER:min_snow_level>",
+            "\tOUT <INUMBER:pixels_count>",
             "\t<INUMBER:region_id>",
-            "\t<INUMBER:weather_period_index>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetRegionWeatherPeriodMinSnowLevelFunc();
+        public override ScriptCommand CreateEmptyCopy() => new GetRegionPixelsCountFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
             lineIndex = index;
             args = ScriptParser.ParseCommandCallArgs(
-                (a) => a.Length == 4,
+                (a) => a.Length == 3,
                 new bool[] { true },
                 out _executeBeforeCall,
                 lines, ref index, indent, varsScope, args
@@ -38,7 +36,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var minSnowLevel = ScriptParser.GetValue(
+                var pixelsCount = ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
                     (o) => o is INumberObject
                 );
@@ -49,21 +47,15 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
                     (o) => o is INumberObject
                 );
 
-                int argIndexWeatherReriodIndex = 3;
-                var weatherPeriodIndex = ScriptParser.ParseValue(
-                    varsScope, args[argIndexWeatherReriodIndex], lineIndex, args,
-                    (o) => o is INumberObject
-                );
-
                 if (!StrategicRegionManager.TryGetRegion(Convert.ToUInt16(regionId.GetValue()), out var region))
                     throw new ValueNotFoundScriptException(lineIndex, args, regionId.GetValue(), argIndexRegionId);
 
-                if (!region.TryGetWeatherPeriod(Convert.ToInt32(weatherPeriodIndex.GetValue()), out var period))
-                    throw new IndexOutOfRangeScriptException(lineIndex, args, weatherPeriodIndex.GetValue(), argIndexWeatherReriodIndex);
+                int[] sumPixelsCount = new int[1];
 
-                minSnowLevel.Set(lineIndex, args, new FloatObject(period.MinSnowLevel));
+                region.ForEachProvince(p => sumPixelsCount[0] += p.pixelsCount);
+
+                pixelsCount.Set(lineIndex, args, new IntObject(sumPixelsCount[0]));
             };
         }
     }
 }
-

@@ -5,25 +5,25 @@ using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects;
 using System;
 
-namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
+namespace HOI4ModBuilder.src.scripts.commands.functions.map.regions.weather
 {
-    public class GetRegionWeatherPeriodMudFunc : ScriptCommand
+    internal class GetRegionWeatherPeriodMinSnowLevelFunc : ScriptCommand
     {
-        private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_MUD";
+        private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_MIN_SNOW_LEVEL";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.functions.regions.weather." + _keyword;
+        public override string GetPath() => "commands.declarators.functions.map.regions.weather." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <INUMBER:mud_chance> <INUMBER:region_id> <INUMBER:weather_period_index>",
+            $"{_keyword} <INUMBER:min_snow_level> <INUMBER:region_id> <INUMBER:weather_period_index>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <INUMBER:mud_chance>",
+            $"\tOUT <INUMBER:min_snow_level>",
             "\t<INUMBER:region_id>",
             "\t<INUMBER:weather_period_index>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetRegionWeatherPeriodMudFunc();
+        public override ScriptCommand CreateEmptyCopy() => new GetRegionWeatherPeriodMinSnowLevelFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -38,7 +38,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var mudChance = ScriptParser.GetValue(
+                var minSnowLevel = ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
                     (o) => o is INumberObject
                 );
@@ -49,9 +49,9 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
                     (o) => o is INumberObject
                 );
 
-                int argIndexWeatherPeriodIndex = 3;
+                int argIndexWeatherReriodIndex = 3;
                 var weatherPeriodIndex = ScriptParser.ParseValue(
-                    varsScope, args[argIndexWeatherPeriodIndex], lineIndex, args,
+                    varsScope, args[argIndexWeatherReriodIndex], lineIndex, args,
                     (o) => o is INumberObject
                 );
 
@@ -59,10 +59,11 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
                     throw new ValueNotFoundScriptException(lineIndex, args, regionId.GetValue(), argIndexRegionId);
 
                 if (!region.TryGetWeatherPeriod(Convert.ToInt32(weatherPeriodIndex.GetValue()), out var period))
-                    throw new IndexOutOfRangeScriptException(lineIndex, args, weatherPeriodIndex.GetValue(), argIndexWeatherPeriodIndex);
+                    throw new IndexOutOfRangeScriptException(lineIndex, args, weatherPeriodIndex.GetValue(), argIndexWeatherReriodIndex);
 
-                mudChance.Set(lineIndex, args, new FloatObject(period.Mud));
+                minSnowLevel.Set(lineIndex, args, new FloatObject(period.MinSnowLevel));
             };
         }
     }
 }
+

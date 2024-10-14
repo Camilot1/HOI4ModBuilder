@@ -6,10 +6,13 @@ using HOI4ModBuilder.src.scripts.commands.declarators.vars;
 using HOI4ModBuilder.src.scripts.commands.functions;
 using HOI4ModBuilder.src.scripts.commands.functions.console;
 using HOI4ModBuilder.src.scripts.commands.functions.files;
-using HOI4ModBuilder.src.scripts.commands.functions.regions;
-using HOI4ModBuilder.src.scripts.commands.functions.regions.weather;
-using HOI4ModBuilder.src.scripts.commands.functions.states;
+using HOI4ModBuilder.src.scripts.commands.functions.map;
+using HOI4ModBuilder.src.scripts.commands.functions.map.provinces;
+using HOI4ModBuilder.src.scripts.commands.functions.map.regions;
+using HOI4ModBuilder.src.scripts.commands.functions.map.regions.weather;
+using HOI4ModBuilder.src.scripts.commands.functions.map.states;
 using HOI4ModBuilder.src.scripts.commands.functions.time;
+using HOI4ModBuilder.src.scripts.commands.functions.utils;
 using HOI4ModBuilder.src.scripts.commands.keywords;
 using HOI4ModBuilder.src.scripts.commands.methods;
 using HOI4ModBuilder.src.scripts.commands.operators.arithmetical;
@@ -87,6 +90,12 @@ namespace HOI4ModBuilder.src.scripts
 
             RegisterFabric(GetModDirectoryPathFunc.GetKeyword(), () => new GetModDirectoryPathFunc());
 
+            RegisterFabric(GetAllProvincesIdsFunc.GetKeyword(), () => new GetAllProvincesIdsFunc());
+            RegisterFabric(GetProvinceCenterFunc.GetKeyword(), () => new GetProvinceCenterFunc());
+            RegisterFabric(GetProvincePixelsCountFunc.GetKeyword(), () => new GetProvincePixelsCountFunc());
+            RegisterFabric(GetProvinceTerrainFunc.GetKeyword(), () => new GetProvinceTerrainFunc());
+            RegisterFabric(SetProvinceTerrainFunc.GetKeyword(), () => new SetProvinceTerrainFunc());
+
             RegisterFabric(GetRegionWeatherPeriodArcticWaterFunc.GetKeyword(), () => new GetRegionWeatherPeriodArcticWaterFunc());
             RegisterFabric(GetRegionWeatherPeriodBetweenFunc.GetKeyword(), () => new GetRegionWeatherPeriodBetweenFunc());
             RegisterFabric(GetRegionWeatherPeriodBlizzardFunc.GetKeyword(), () => new GetRegionWeatherPeriodBlizzardFunc());
@@ -102,15 +111,24 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(IsRegionHasWeatherFunc.GetKeyword(), () => new IsRegionHasWeatherFunc());
 
             RegisterFabric(GetAllRegionsIdsFunc.GetKeyword(), () => new GetAllRegionsIdsFunc());
+            RegisterFabric(GetRegionCenterFunc.GetKeyword(), () => new GetRegionCenterFunc());
+            RegisterFabric(GetRegionPixelsCountFunc.GetKeyword(), () => new GetRegionPixelsCountFunc());
 
             RegisterFabric(GetAllStatesIdsFunc.GetKeyword(), () => new GetAllStatesIdsFunc());
             RegisterFabric(GetStateBuildingLevelFunc.GetKeyword(), () => new GetStateBuildingLevelFunc());
+            RegisterFabric(GetStateCenterFunc.GetKeyword(), () => new GetStateCenterFunc());
+            RegisterFabric(GetStatePixelsCountFunc.GetKeyword(), () => new GetStatePixelsCountFunc());
+            RegisterFabric(GetStateProvincesIdsFunc.GetKeyword(), () => new GetStateProvincesIdsFunc());
             RegisterFabric(GetStatePopulationFunc.GetKeyword(), () => new GetStatePopulationFunc());
             RegisterFabric(GetStateRegionIdFunc.GetKeyword(), () => new GetStateRegionIdFunc());
             RegisterFabric(SetStateBuildingLevelFunc.GetKeyword(), () => new SetStateBuildingLevelFunc());
 
+            RegisterFabric(GetMapSizeFunc.GetKeyword(), () => new GetMapSizeFunc());
+
             RegisterFabric(GetDaysSinceYearStartFunc.GetKeyword(), () => new GetDaysSinceYearStartFunc());
             RegisterFabric(GetWeeksSinceYearStartFunc.GetKeyword(), () => new GetWeeksSinceYearStartFunc());
+
+            RegisterFabric(InterpolateFunc.GetKeyword(), () => new InterpolateFunc());
 
             RegisterFabric(BreakKeyword.GetKeyword(), () => new BreakKeyword());
             RegisterFabric(ContinueKeyword.GetKeyword(), () => new ContinueKeyword());

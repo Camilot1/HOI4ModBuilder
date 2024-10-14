@@ -1,30 +1,28 @@
-﻿
-using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
-using HOI4ModBuilder.src.hoiDataObjects.map;
+﻿using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects;
 using System;
 
-namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
+namespace HOI4ModBuilder.src.scripts.commands.functions.map.regions.weather
 {
-    public class GetRegionWeatherPeriodRainHeavyFunc : ScriptCommand
+    public class GetRegionWeatherPeriodBlizzardFunc : ScriptCommand
     {
-        private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_RAIN_HEAVY";
+        private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_BLIZZARD";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.functions.regions.weather." + _keyword;
+        public override string GetPath() => "commands.declarators.functions.map.regions.weather." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <INUMBER:rain_heavy_chance> <INUMBER:region_id> <INUMBER:weather_period_index>",
+            $"{_keyword} <INUMBER:blizzard_chance> <INUMBER:region_id> <INUMBER:weather_period_index>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <INUMBER:rain_heavy_chance>",
+            $"\tOUT <INUMBER:blizzard_chance>",
             "\t<INUMBER:region_id>",
             "\t<INUMBER:weather_period_index>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetRegionWeatherPeriodRainHeavyFunc();
+        public override ScriptCommand CreateEmptyCopy() => new GetRegionWeatherPeriodBlizzardFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -39,7 +37,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var rainHeavyChance = ScriptParser.GetValue(
+                var blizzardChance = ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
                     (o) => o is INumberObject
                 );
@@ -62,8 +60,9 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
                 if (!region.TryGetWeatherPeriod(Convert.ToInt32(weatherPeriodIndex.GetValue()), out var period))
                     throw new IndexOutOfRangeScriptException(lineIndex, args, weatherPeriodIndex.GetValue(), argIndexWeatherPeriodIndex);
 
-                rainHeavyChance.Set(lineIndex, args, new FloatObject(period.RainHeavy));
+                blizzardChance.Set(lineIndex, args, new FloatObject(period.Blizzard));
             };
         }
     }
 }
+

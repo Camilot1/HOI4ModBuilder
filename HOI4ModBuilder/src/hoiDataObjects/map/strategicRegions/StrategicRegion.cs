@@ -327,8 +327,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public void ForEachProvince(Action<StrategicRegion, Province> action)
         {
             if (action == null) return;
-
             foreach (var p in _provinces) action(this, p);
+        }
+        public void ForEachProvince(Action<Province> action)
+        {
+            if (action == null) return;
+            foreach (var p in _provinces) action(p);
         }
 
         public void Validate(out bool hasChanged)

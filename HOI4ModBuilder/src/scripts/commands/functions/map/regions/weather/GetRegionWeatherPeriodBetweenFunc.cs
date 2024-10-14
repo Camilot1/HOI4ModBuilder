@@ -5,13 +5,13 @@ using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects;
 using System;
 
-namespace HOI4ModBuilder.src.scripts.commands.functions.regions.weather
+namespace HOI4ModBuilder.src.scripts.commands.functions.map.regions.weather
 {
     public class GetRegionWeatherPeriodBetweenFunc : ScriptCommand
     {
         private static readonly string _keyword = "GET_REGION_WEATHER_PERIOD_BETWEEN";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.functions.regions.weather." + _keyword;
+        public override string GetPath() => "commands.declarators.functions.map.regions.weather." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
