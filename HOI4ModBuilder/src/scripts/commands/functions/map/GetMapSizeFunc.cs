@@ -43,7 +43,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map
                 );
 
                 var y = ScriptParser.GetValue(
-                    varsScope, args[1], lineIndex, args,
+                    varsScope, args[2], lineIndex, args,
                     (o) => o is INumberObject
                 );
 

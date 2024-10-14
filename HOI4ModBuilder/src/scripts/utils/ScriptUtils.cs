@@ -84,61 +84,91 @@ namespace HOI4ModBuilder.src.scripts.utils
         {
             var bitmap = new Bitmap(@"data\images\test.bmp");
 
+            var values = new double[]
+            {
+                0.1, 0.6,
+                0.75, 1.55
+            };
+
             int ldX = 0;
             int ldY = bitmap.Height - 1;
-            var ldC = bitmap.GetPixel(ldX, ldY);
+            double ldC = values[2];
 
             int rdX = bitmap.Width - 1;
             int rdY = bitmap.Height - 1;
-            var rdC = bitmap.GetPixel(rdX, rdY);
+            double rdC = values[3];
 
             int ruX = bitmap.Width - 1;
             int ruY = 0;
-            var ruC = bitmap.GetPixel(ruX, ruY);
+            var ruC = values[1];
 
             int luX = 0;
             int luY = 0;
-            var luC = bitmap.GetPixel(luX, luY);
-
-
+            var luC = values[0];
 
             for (int x = 0; x < bitmap.Width; x++)
             {
                 for (int y = 0; y < bitmap.Height; y++)
                 {
+                    /*
                     var cA = Interpolate2D(
                         x, y,
-                        ldX, ldY, ldC.A,
-                        rdX, rdY, rdC.A,
-                        ruX, ruY, ruC.A,
-                        luX, luY, luC.A
+                        ldX, ldY, ldC,
+                        rdX, rdY, rdC,
+                        ruX, ruY, ruC,
+                        luX, luY, luC
 
                     );
                     var cR = Interpolate2D(
                         x, y,
-                        ldX, ldY, ldC.R,
-                        rdX, rdY, rdC.R,
-                        ruX, ruY, ruC.R,
-                        luX, luY, luC.R
+                        ldX, ldY, ldC,
+                        rdX, rdY, rdC,
+                        ruX, ruY, ruC,
+                        luX, luY, luC
 
                     );
                     var cG = Interpolate2D(
                         x, y,
-                        ldX, ldY, ldC.G,
-                        rdX, rdY, rdC.G,
-                        ruX, ruY, ruC.G,
-                        luX, luY, luC.G
+                        ldX, ldY, ldC,
+                        rdX, rdY, rdC,
+                        ruX, ruY, ruC,
+                        luX, luY, luC
 
                     );
                     var cB = Interpolate2D(
                         x, y,
-                        ldX, ldY, ldC.B,
-                        rdX, rdY, rdC.B,
-                        ruX, ruY, ruC.B,
-                        luX, luY, luC.B
+                        ldX, ldY, ldC,
+                        rdX, rdY, rdC,
+                        ruX, ruY, ruC,
+                        luX, luY, luC
 
                     );
-                    var p = Color.FromArgb((byte)Math.Round(cA), (byte)Math.Round(cR), (byte)Math.Round(cG), (byte)Math.Round(cB));
+                    var p = Color.FromArgb(
+                        Utils.Clamp((int)Math.Round((1 - cA) * 100), 0, 50),
+                        Utils.Clamp((int)Math.Round((1 - cR) * 100), 0, 50),
+                        Utils.Clamp((int)Math.Round((1 - cG) * 100), 0, 50),
+                        Utils.Clamp((int)Math.Round((1 - cB) * 100), 0, 50)
+                    );
+                    */
+                    float v = (float)Interpolate2D(
+                        x, y,
+                        ldX, ldY, ldC,
+                        rdX, rdY, rdC,
+                        ruX, ruY, ruC,
+                        luX, luY, luC
+
+                    );
+
+                    v = Utils.Clamp(v, 0.35f, 0.95f);
+                    Color p = default;
+                    if (v >= 0.8) p = Color.Purple;
+                    else if (v >= 0.55) p = Color.Blue;
+                    else if (v > 0.3) p = Color.Yellow;
+                    else p = Color.White;
+                    /*
+                    v = 1 - v;
+                    var p = Color.FromArgb(255, (int)(v * 255), (int)(v * 255), (int)(v * 255));
+                    */
 
                     bitmap.SetPixel(x, y, p);
                 }
@@ -165,29 +195,61 @@ namespace HOI4ModBuilder.src.scripts.utils
             double x4, double y4, double Q4)
         {
             // Compute the bilinear coordinates (u, v) for the given point (x, y)
-            (double u, double v) = MapToUnitSquare(x1, y1, x2, y2, x3, y3, x4, y4, x, y);
+            (double u, double v) = MapToUnitSquareNewtonRaphson(x1, y1, x2, y2, x3, y3, x4, y4, x, y);
 
             // Perform bilinear interpolation using the mapped coordinates (u, v)
             return (1 - u) * (1 - v) * Q1 +
-                u * (1 - v) * Q2 +
-                u * v * Q3 +
-                (1 - u) * v * Q4;
+                   u * (1 - v) * Q2 +
+                   u * v * Q3 +
+                   (1 - u) * v * Q4;
         }
 
-        // Function to map the point (x, y) to the unit square coordinates (u, v)
-        private static (double, double) MapToUnitSquare(
+        // Function to map the point (x, y) to the unit square coordinates (u, v) using the Newton-Raphson method
+        private static (double, double) MapToUnitSquareNewtonRaphson(
             double x1, double y1, double x2, double y2,
             double x3, double y3, double x4, double y4,
             double x, double y)
         {
-            // Solve for u and v using bilinear coordinate mapping
-            double denominator = (x2 - x1 + x3 - x4) * (y4 - y1) - (y2 - y1 + y3 - y4) * (x4 - x1);
+            double u = 0.5, v = 0.5; // Initial guess
+            double tolerance = 1e-6;
+            int maxIterations = 100;
 
-            double uNumerator = (x - x1) * (y4 - y1) - (y - y1) * (x4 - x1);
-            double vNumerator = (x2 - x1 + x3 - x4) * (y - y1) - (y2 - y1 + y3 - y4) * (x - x1);
+            for (int i = 0; i < maxIterations; i++)
+            {
+                // Compute the position (xp, yp) in the quadrilateral based on the current (u, v)
+                double xp = (1 - u) * (1 - v) * x1 + u * (1 - v) * x2 + u * v * x3 + (1 - u) * v * x4;
+                double yp = (1 - u) * (1 - v) * y1 + u * (1 - v) * y2 + u * v * y3 + (1 - u) * v * y4;
 
-            double u = uNumerator / denominator;
-            double v = vNumerator / denominator;
+                // Differences between the target and current position
+                double dx = x - xp;
+                double dy = y - yp;
+
+                if (Math.Abs(dx) < tolerance && Math.Abs(dy) < tolerance)
+                {
+                    break; // Converged to a solution
+                }
+
+                // Partial derivatives with respect to u and v
+                double dxdU = -(1 - v) * x1 + (1 - v) * x2 + v * x3 - v * x4;
+                double dxdV = -(1 - u) * x1 - u * x2 + u * x3 + (1 - u) * x4;
+                double dydU = -(1 - v) * y1 + (1 - v) * y2 + v * y3 - v * y4;
+                double dydV = -(1 - u) * y1 - u * y2 + u * y3 + (1 - u) * y4;
+
+                // Determinant of the Jacobian matrix
+                double det = dxdU * dydV - dxdV * dydU;
+
+                if (Math.Abs(det) < tolerance)
+                {
+                    throw new InvalidOperationException("Jacobian determinant is too close to zero, unable to converge.");
+                }
+
+                // Update rules for u and v using the Newton-Raphson method
+                double deltaU = (dx * dydV - dy * dxdV) / det;
+                double deltaV = (dy * dxdU - dx * dydU) / det;
+
+                u += deltaU;
+                v += deltaV;
+            }
 
             return (u, v);
         }

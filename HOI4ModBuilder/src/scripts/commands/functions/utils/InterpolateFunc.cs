@@ -84,30 +84,30 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.utils
                 if (args.Length == 7)
                 {
                     result = (float)ScriptUtils.Interpolate1D(
-                        Convert.ToDouble(parameters[0]),
-                        Convert.ToDouble(parameters[1]),
-                        Convert.ToDouble(parameters[2]),
-                        Convert.ToDouble(parameters[3]),
-                        Convert.ToDouble(parameters[4])
+                        Convert.ToDouble(parameters[0].GetValue()),
+                        Convert.ToDouble(parameters[1].GetValue()),
+                        Convert.ToDouble(parameters[2].GetValue()),
+                        Convert.ToDouble(parameters[3].GetValue()),
+                        Convert.ToDouble(parameters[4].GetValue())
                     );
                 }
                 else
                 {
                     result = (float)ScriptUtils.Interpolate2D(
-                        Convert.ToDouble(parameters[0]),
-                        Convert.ToDouble(parameters[1]),
-                        Convert.ToDouble(parameters[2]),
-                        Convert.ToDouble(parameters[3]),
-                        Convert.ToDouble(parameters[4]),
-                        Convert.ToDouble(parameters[5]),
-                        Convert.ToDouble(parameters[6]),
-                        Convert.ToDouble(parameters[7]),
-                        Convert.ToDouble(parameters[8]),
-                        Convert.ToDouble(parameters[9]),
-                        Convert.ToDouble(parameters[10]),
-                        Convert.ToDouble(parameters[11]),
-                        Convert.ToDouble(parameters[12]),
-                        Convert.ToDouble(parameters[13])
+                        Convert.ToDouble(parameters[0].GetValue()),
+                        Convert.ToDouble(parameters[1].GetValue()),
+                        Convert.ToDouble(parameters[2].GetValue()),
+                        Convert.ToDouble(parameters[3].GetValue()),
+                        Convert.ToDouble(parameters[4].GetValue()),
+                        Convert.ToDouble(parameters[5].GetValue()),
+                        Convert.ToDouble(parameters[6].GetValue()),
+                        Convert.ToDouble(parameters[7].GetValue()),
+                        Convert.ToDouble(parameters[8].GetValue()),
+                        Convert.ToDouble(parameters[9].GetValue()),
+                        Convert.ToDouble(parameters[10].GetValue()),
+                        Convert.ToDouble(parameters[11].GetValue()),
+                        Convert.ToDouble(parameters[12].GetValue()),
+                        Convert.ToDouble(parameters[13].GetValue())
                     );
                 }
 

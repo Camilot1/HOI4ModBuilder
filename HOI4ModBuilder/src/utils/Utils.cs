@@ -496,6 +496,12 @@ namespace HOI4ModBuilder
             if (i > max) return max;
             return i;
         }
+        public static float Clamp(float i, float min, float max)
+        {
+            if (i < min) return min;
+            if (i > max) return max;
+            return i;
+        }
 
         public static void CleanUpMemory()
         {
