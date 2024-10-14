@@ -2,6 +2,7 @@
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
+using System;
 using System.Text;
 
 namespace HOI4ModBuilder.src.scripts.objects
@@ -175,5 +176,71 @@ namespace HOI4ModBuilder.src.scripts.objects
         }
 
         public void Trim(int lineIndex, string[] args) => Value = Value.Trim();
+
+        public bool IsGreaterThan(int lineIndex, string[] args, IRelativeObject relativeObject, BooleanObject result)
+        {
+            if (!(relativeObject is IStringObject stringObject))
+                throw new InvalidValueTypeScriptException(lineIndex, args, relativeObject);
+
+            bool checkResult = string.Compare(Value, Convert.ToString(stringObject.GetValue())) > 0;
+            result.Set(lineIndex, args, new BooleanObject(checkResult));
+
+            return checkResult;
+        }
+
+        public bool IsGreaterThanOrEquals(int lineIndex, string[] args, IRelativeObject relativeObject, BooleanObject result)
+        {
+            if (!(relativeObject is IStringObject stringObject))
+                throw new InvalidValueTypeScriptException(lineIndex, args, relativeObject);
+
+            bool checkResult = string.Compare(Value, Convert.ToString(stringObject.GetValue())) >= 0;
+            result.Set(lineIndex, args, new BooleanObject(checkResult));
+
+            return checkResult;
+        }
+
+        public bool IsLowerThan(int lineIndex, string[] args, IRelativeObject relativeObject, BooleanObject result)
+        {
+            if (!(relativeObject is IStringObject stringObject))
+                throw new InvalidValueTypeScriptException(lineIndex, args, relativeObject);
+
+            bool checkResult = string.Compare(Value, Convert.ToString(stringObject.GetValue())) < 0;
+            result.Set(lineIndex, args, new BooleanObject(checkResult));
+
+            return checkResult;
+        }
+
+        public bool IsLowerThanOrEquals(int lineIndex, string[] args, IRelativeObject relativeObject, BooleanObject result)
+        {
+            if (!(relativeObject is IStringObject stringObject))
+                throw new InvalidValueTypeScriptException(lineIndex, args, relativeObject);
+
+            bool checkResult = string.Compare(Value, Convert.ToString(stringObject.GetValue())) <= 0;
+            result.Set(lineIndex, args, new BooleanObject(checkResult));
+
+            return checkResult;
+        }
+
+        public bool IsEquals(int lineIndex, string[] args, IRelativeObject relativeObject, BooleanObject result)
+        {
+            if (!(relativeObject is IStringObject stringObject))
+                throw new InvalidValueTypeScriptException(lineIndex, args, relativeObject);
+
+            bool checkResult = Value == Convert.ToString(stringObject.GetValue());
+            result.Set(lineIndex, args, new BooleanObject(checkResult));
+
+            return checkResult;
+        }
+
+        public bool IsNotEquals(int lineIndex, string[] args, IRelativeObject relativeObject, BooleanObject result)
+        {
+            if (!(relativeObject is IStringObject stringObject))
+                throw new InvalidValueTypeScriptException(lineIndex, args, relativeObject);
+
+            bool checkResult = Value != Convert.ToString(stringObject.GetValue());
+            result.Set(lineIndex, args, new BooleanObject(checkResult));
+
+            return checkResult;
+        }
     }
 }
