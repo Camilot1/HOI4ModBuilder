@@ -23,6 +23,7 @@ using HOI4ModBuilder.src.scripts.utils;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -61,6 +62,8 @@ namespace HOI4ModBuilder.src.scripts
 
             RegisterCommandFabrics();
             SaveDocumentation();
+
+            //ScriptUtils.TestInterpolation();
 
             return true;
         }
@@ -137,6 +140,7 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(ClampMethod.GetKeyword(), () => new ClampMethod());
             RegisterFabric(ClearMethod.GetKeyword(), () => new ClearMethod());
             RegisterFabric(FloorMethod.GetKeyword(), () => new FloorMethod());
+            RegisterFabric(FormatMethod.GetKeyword(), () => new FormatMethod());
             RegisterFabric(GetKeysMethod.GetKeyword(), () => new GetKeysMethod());
             RegisterFabric(GetMethod.GetKeyword(), () => new GetMethod());
             RegisterFabric(GetSizeMethod.GetKeyword(), () => new GetSizeMethod());

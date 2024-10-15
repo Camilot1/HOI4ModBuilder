@@ -160,8 +160,11 @@ namespace HOI4ModBuilder.src.scripts.utils
                     );
 
                     v = Utils.Clamp(v, 0.35f, 0.95f);
-                    v = (1 - v) * 255;
+
+
+                    v = v * 100;
                     var p = Color.FromArgb(255, (int)v, (int)v, (int)v);
+
                     /*
                     Color p = default;
                     if (v >= 0.8) p = Color.Purple;
