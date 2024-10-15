@@ -708,6 +708,9 @@
     <EmbeddedResource Include="src\forms\recoveryForms\StrategicRegionsDataRecoveryForm.resx">
       <DependentUpon>StrategicRegionsDataRecoveryForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\forms\scripts\ScriptsForm.en.resx">
+      <DependentUpon>ScriptsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\forms\scripts\ScriptsForm.resx">
       <DependentUpon>ScriptsForm.cs</DependentUpon>
     </EmbeddedResource>

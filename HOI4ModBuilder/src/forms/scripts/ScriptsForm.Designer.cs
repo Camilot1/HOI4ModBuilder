@@ -28,173 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Button_ChooseFile = new System.Windows.Forms.Button();
-            this.Button_Save = new System.Windows.Forms.Button();
-            this.Button_Load = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.Button_Execute = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScriptsForm));
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.RichTextBox_Script = new System.Windows.Forms.RichTextBox();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.GroupBox_Debug = new System.Windows.Forms.GroupBox();
             this.Button_Debug_Terminate = new System.Windows.Forms.Button();
             this.RichTextBox_Debug = new System.Windows.Forms.RichTextBox();
             this.Button_Debug_NextStep = new System.Windows.Forms.Button();
             this.Button_Debug_Flip = new System.Windows.Forms.Button();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.RichTextBox_Console = new System.Windows.Forms.RichTextBox();
-            this.groupBox1.SuspendLayout();
-            this.GroupBox_Debug.SuspendLayout();
+            this.Button_ChooseFile = new System.Windows.Forms.Button();
+            this.Button_Save = new System.Windows.Forms.Button();
+            this.Button_Load = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Button_Execute = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.GroupBox_Debug.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // Button_ChooseFile
-            // 
-            this.Button_ChooseFile.Location = new System.Drawing.Point(5, 5);
-            this.Button_ChooseFile.Name = "Button_ChooseFile";
-            this.Button_ChooseFile.Size = new System.Drawing.Size(90, 23);
-            this.Button_ChooseFile.TabIndex = 0;
-            this.Button_ChooseFile.Text = "Выбрать файл";
-            this.Button_ChooseFile.UseVisualStyleBackColor = true;
-            this.Button_ChooseFile.Click += new System.EventHandler(this.Button_ChooseFile_Click);
-            // 
-            // Button_Save
-            // 
-            this.Button_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Button_Save.Location = new System.Drawing.Point(522, 5);
-            this.Button_Save.Name = "Button_Save";
-            this.Button_Save.Size = new System.Drawing.Size(90, 23);
-            this.Button_Save.TabIndex = 1;
-            this.Button_Save.Text = "Сохранить";
-            this.Button_Save.UseVisualStyleBackColor = true;
-            this.Button_Save.Click += new System.EventHandler(this.Button_Save_Click);
-            // 
-            // Button_Load
-            // 
-            this.Button_Load.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Button_Load.Location = new System.Drawing.Point(618, 5);
-            this.Button_Load.Name = "Button_Load";
-            this.Button_Load.Size = new System.Drawing.Size(90, 23);
-            this.Button_Load.TabIndex = 2;
-            this.Button_Load.Text = "Загрузить";
-            this.Button_Load.UseVisualStyleBackColor = true;
-            this.Button_Load.Click += new System.EventHandler(this.Button_Load_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(101, 6);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(415, 20);
-            this.textBox1.TabIndex = 3;
-            // 
-            // Button_Execute
-            // 
-            this.Button_Execute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Button_Execute.Location = new System.Drawing.Point(714, 5);
-            this.Button_Execute.Name = "Button_Execute";
-            this.Button_Execute.Size = new System.Drawing.Size(90, 23);
-            this.Button_Execute.TabIndex = 4;
-            this.Button_Execute.Text = "Выполнить";
-            this.Button_Execute.UseVisualStyleBackColor = true;
-            this.Button_Execute.Click += new System.EventHandler(this.Button_Execute_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.RichTextBox_Script);
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(382, 522);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Файл не выбран";
-            // 
-            // RichTextBox_Script
-            // 
-            this.RichTextBox_Script.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.RichTextBox_Script.Location = new System.Drawing.Point(7, 19);
-            this.RichTextBox_Script.Name = "RichTextBox_Script";
-            this.RichTextBox_Script.Size = new System.Drawing.Size(369, 497);
-            this.RichTextBox_Script.TabIndex = 0;
-            this.RichTextBox_Script.Text = "";
-            this.RichTextBox_Script.TextChanged += new System.EventHandler(this.RichTextBox_Script_TextChanged);
-            // 
-            // GroupBox_Debug
-            // 
-            this.GroupBox_Debug.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.GroupBox_Debug.Controls.Add(this.Button_Debug_Terminate);
-            this.GroupBox_Debug.Controls.Add(this.RichTextBox_Debug);
-            this.GroupBox_Debug.Controls.Add(this.Button_Debug_NextStep);
-            this.GroupBox_Debug.Controls.Add(this.Button_Debug_Flip);
-            this.GroupBox_Debug.Location = new System.Drawing.Point(3, 3);
-            this.GroupBox_Debug.Name = "GroupBox_Debug";
-            this.GroupBox_Debug.Size = new System.Drawing.Size(404, 362);
-            this.GroupBox_Debug.TabIndex = 6;
-            this.GroupBox_Debug.TabStop = false;
-            this.GroupBox_Debug.Text = "Дебаг: ";
-            // 
-            // Button_Debug_Terminate
-            // 
-            this.Button_Debug_Terminate.Location = new System.Drawing.Point(192, 19);
-            this.Button_Debug_Terminate.Name = "Button_Debug_Terminate";
-            this.Button_Debug_Terminate.Size = new System.Drawing.Size(90, 23);
-            this.Button_Debug_Terminate.TabIndex = 3;
-            this.Button_Debug_Terminate.Text = "Остановить";
-            this.Button_Debug_Terminate.UseVisualStyleBackColor = true;
-            this.Button_Debug_Terminate.Click += new System.EventHandler(this.Button_Debug_Terminate_Click);
-            // 
-            // RichTextBox_Debug
-            // 
-            this.RichTextBox_Debug.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.RichTextBox_Debug.Location = new System.Drawing.Point(6, 48);
-            this.RichTextBox_Debug.Name = "RichTextBox_Debug";
-            this.RichTextBox_Debug.Size = new System.Drawing.Size(392, 308);
-            this.RichTextBox_Debug.TabIndex = 2;
-            this.RichTextBox_Debug.Text = "";
-            // 
-            // Button_Debug_NextStep
-            // 
-            this.Button_Debug_NextStep.Location = new System.Drawing.Point(96, 19);
-            this.Button_Debug_NextStep.Name = "Button_Debug_NextStep";
-            this.Button_Debug_NextStep.Size = new System.Drawing.Size(90, 23);
-            this.Button_Debug_NextStep.TabIndex = 1;
-            this.Button_Debug_NextStep.Text = "След. шаг";
-            this.Button_Debug_NextStep.UseVisualStyleBackColor = true;
-            this.Button_Debug_NextStep.Click += new System.EventHandler(this.Button_Debug_NextStep_Click);
-            // 
-            // Button_Debug_Flip
-            // 
-            this.Button_Debug_Flip.Location = new System.Drawing.Point(0, 19);
-            this.Button_Debug_Flip.Name = "Button_Debug_Flip";
-            this.Button_Debug_Flip.Size = new System.Drawing.Size(90, 23);
-            this.Button_Debug_Flip.TabIndex = 0;
-            this.Button_Debug_Flip.Text = "Переключить";
-            this.Button_Debug_Flip.UseVisualStyleBackColor = true;
-            this.Button_Debug_Flip.Click += new System.EventHandler(this.Button_Debug_Flip_Click);
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(5, 34);
+            resources.ApplyResources(this.splitContainer1, "splitContainer1");
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -204,18 +68,24 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(799, 528);
-            this.splitContainer1.SplitterDistance = 388;
-            this.splitContainer1.TabIndex = 7;
+            // 
+            // groupBox1
+            // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.RichTextBox_Script);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // RichTextBox_Script
+            // 
+            resources.ApplyResources(this.RichTextBox_Script, "RichTextBox_Script");
+            this.RichTextBox_Script.Name = "RichTextBox_Script";
+            this.RichTextBox_Script.TextChanged += new System.EventHandler(this.RichTextBox_Script_TextChanged);
             // 
             // splitContainer2
             // 
-            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.splitContainer2, "splitContainer2");
             this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer2.Panel1
             // 
@@ -224,45 +94,102 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.RichTextBox_Console);
-            this.splitContainer2.Size = new System.Drawing.Size(405, 525);
-            this.splitContainer2.SplitterDistance = 368;
-            this.splitContainer2.TabIndex = 7;
+            // 
+            // GroupBox_Debug
+            // 
+            resources.ApplyResources(this.GroupBox_Debug, "GroupBox_Debug");
+            this.GroupBox_Debug.Controls.Add(this.Button_Debug_Terminate);
+            this.GroupBox_Debug.Controls.Add(this.RichTextBox_Debug);
+            this.GroupBox_Debug.Controls.Add(this.Button_Debug_NextStep);
+            this.GroupBox_Debug.Controls.Add(this.Button_Debug_Flip);
+            this.GroupBox_Debug.Name = "GroupBox_Debug";
+            this.GroupBox_Debug.TabStop = false;
+            // 
+            // Button_Debug_Terminate
+            // 
+            resources.ApplyResources(this.Button_Debug_Terminate, "Button_Debug_Terminate");
+            this.Button_Debug_Terminate.Name = "Button_Debug_Terminate";
+            this.Button_Debug_Terminate.UseVisualStyleBackColor = true;
+            this.Button_Debug_Terminate.Click += new System.EventHandler(this.Button_Debug_Terminate_Click);
+            // 
+            // RichTextBox_Debug
+            // 
+            resources.ApplyResources(this.RichTextBox_Debug, "RichTextBox_Debug");
+            this.RichTextBox_Debug.Name = "RichTextBox_Debug";
+            // 
+            // Button_Debug_NextStep
+            // 
+            resources.ApplyResources(this.Button_Debug_NextStep, "Button_Debug_NextStep");
+            this.Button_Debug_NextStep.Name = "Button_Debug_NextStep";
+            this.Button_Debug_NextStep.UseVisualStyleBackColor = true;
+            this.Button_Debug_NextStep.Click += new System.EventHandler(this.Button_Debug_NextStep_Click);
+            // 
+            // Button_Debug_Flip
+            // 
+            resources.ApplyResources(this.Button_Debug_Flip, "Button_Debug_Flip");
+            this.Button_Debug_Flip.Name = "Button_Debug_Flip";
+            this.Button_Debug_Flip.UseVisualStyleBackColor = true;
+            this.Button_Debug_Flip.Click += new System.EventHandler(this.Button_Debug_Flip_Click);
             // 
             // RichTextBox_Console
             // 
-            this.RichTextBox_Console.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.RichTextBox_Console.Location = new System.Drawing.Point(6, 3);
+            resources.ApplyResources(this.RichTextBox_Console, "RichTextBox_Console");
             this.RichTextBox_Console.Name = "RichTextBox_Console";
-            this.RichTextBox_Console.Size = new System.Drawing.Size(392, 144);
-            this.RichTextBox_Console.TabIndex = 3;
-            this.RichTextBox_Console.Text = "";
+            // 
+            // Button_ChooseFile
+            // 
+            resources.ApplyResources(this.Button_ChooseFile, "Button_ChooseFile");
+            this.Button_ChooseFile.Name = "Button_ChooseFile";
+            this.Button_ChooseFile.UseVisualStyleBackColor = true;
+            this.Button_ChooseFile.Click += new System.EventHandler(this.Button_ChooseFile_Click);
+            // 
+            // Button_Save
+            // 
+            resources.ApplyResources(this.Button_Save, "Button_Save");
+            this.Button_Save.Name = "Button_Save";
+            this.Button_Save.UseVisualStyleBackColor = true;
+            this.Button_Save.Click += new System.EventHandler(this.Button_Save_Click);
+            // 
+            // Button_Load
+            // 
+            resources.ApplyResources(this.Button_Load, "Button_Load");
+            this.Button_Load.Name = "Button_Load";
+            this.Button_Load.UseVisualStyleBackColor = true;
+            this.Button_Load.Click += new System.EventHandler(this.Button_Load_Click);
+            // 
+            // textBox1
+            // 
+            resources.ApplyResources(this.textBox1, "textBox1");
+            this.textBox1.Name = "textBox1";
+            // 
+            // Button_Execute
+            // 
+            resources.ApplyResources(this.Button_Execute, "Button_Execute");
+            this.Button_Execute.Name = "Button_Execute";
+            this.Button_Execute.UseVisualStyleBackColor = true;
+            this.Button_Execute.Click += new System.EventHandler(this.Button_Execute_Click);
             // 
             // ScriptsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(808, 565);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.Button_Execute);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.Button_Load);
             this.Controls.Add(this.Button_Save);
             this.Controls.Add(this.Button_ChooseFile);
-            this.MinimumSize = new System.Drawing.Size(595, 450);
             this.Name = "ScriptsForm";
-            this.Text = "Скрипты";
-            this.groupBox1.ResumeLayout(false);
-            this.GroupBox_Debug.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.GroupBox_Debug.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
