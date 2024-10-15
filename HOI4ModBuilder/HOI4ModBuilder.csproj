@@ -510,6 +510,7 @@
     <Compile Include="src\scripts\commands\methods\ClampMethod.cs" />
     <Compile Include="src\scripts\commands\methods\ClearMethod.cs" />
     <Compile Include="src\scripts\commands\methods\FloorMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\FormatMethod.cs" />
     <Compile Include="src\scripts\commands\methods\GetKeysMethod.cs" />
     <Compile Include="src\scripts\commands\methods\GetSizeMethod.cs" />
     <Compile Include="src\scripts\commands\methods\GetMethod.cs" />

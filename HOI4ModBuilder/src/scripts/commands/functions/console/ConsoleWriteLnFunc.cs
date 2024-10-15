@@ -28,7 +28,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.console
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var value = ScriptParser.GetValue(
+                var value = ScriptParser.ParseValue(
                     varsScope, args[1], lineIndex, args,
                     (o) => o is IScriptObject
                 );
