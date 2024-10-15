@@ -1,20 +1,18 @@
-﻿using HOI4ModBuilder.src.scripts.commands.declarators;
-using HOI4ModBuilder.src.scripts.objects;
-using System;
+﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {
-    public class RoundMethod : ScriptCommand
+    public class TrimMethod : ScriptCommand
     {
-        private static readonly string _keyword = "ROUND";
+        private static readonly string _keyword = "TRIM";
         public static new string GetKeyword() => _keyword;
         public override string GetPath() => "commands.declarators.methods." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <{FloatDeclarator.GetKeyword()}:var_name>"
+            $"{_keyword} <ITRIM:var_name>"
         };
-        public override ScriptCommand CreateEmptyCopy() => new RoundMethod();
+        public override ScriptCommand CreateEmptyCopy() => new TrimMethod();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -29,13 +27,14 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var variable = (FloatObject)ScriptParser.GetValue(
+                var variable = (ITrimObject)ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o is FloatObject
+                    (o) => o is ITrimObject
                 );
 
-                variable.Value = (float)Math.Round(variable.Value);
+                variable.Trim(lineIndex, args);
             };
         }
     }
 }
+

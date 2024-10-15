@@ -3,6 +3,6 @@
     public interface IWriteObject
     {
         void Write(int lineIndex, string[] args, IScriptObject value);
-        void WriteRange(int lineIndex, string[] args, IScriptObject value);
+        void WriteRange(int lineIndex, string[] args, ICollectionObject value);
     }
 }

@@ -177,6 +177,15 @@ namespace HOI4ModBuilder.src.scripts.objects
 
         public void Trim(int lineIndex, string[] args) => Value = Value.Trim();
 
+        public void Split(int lineIndex, string[] args, CharObject regex, IListObject result)
+        {
+            var values = Value.Split(regex.Value);
+            foreach (var str in values)
+            {
+                result.Add(lineIndex, args, new StringObject(str));
+            }
+        }
+
         public bool IsGreaterThan(int lineIndex, string[] args, IRelativeObject relativeObject, BooleanObject result)
         {
             if (!(relativeObject is IStringObject stringObject))

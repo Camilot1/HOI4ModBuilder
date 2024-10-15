@@ -137,23 +137,28 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(BreakKeyword.GetKeyword(), () => new BreakKeyword());
             RegisterFabric(ContinueKeyword.GetKeyword(), () => new ContinueKeyword());
 
+            RegisterFabric(AppendMethod.GetKeyword(), () => new AppendMethod());
             RegisterFabric(CeilMethod.GetKeyword(), () => new CeilMethod());
             RegisterFabric(ClampMethod.GetKeyword(), () => new ClampMethod());
             RegisterFabric(ClearMethod.GetKeyword(), () => new ClearMethod());
+            RegisterFabric(DeleteMethod.GetKeyword(), () => new DeleteMethod());
             RegisterFabric(FloorMethod.GetKeyword(), () => new FloorMethod());
             RegisterFabric(FormatMethod.GetKeyword(), () => new FormatMethod());
             RegisterFabric(GetKeysMethod.GetKeyword(), () => new GetKeysMethod());
             RegisterFabric(GetMethod.GetKeyword(), () => new GetMethod());
             RegisterFabric(GetSizeMethod.GetKeyword(), () => new GetSizeMethod());
             RegisterFabric(HasKeyMethod.GetKeyword(), () => new HasKeyMethod());
+            RegisterFabric(IsExistsMethod.GetKeyword(), () => new IsExistsMethod());
             RegisterFabric(MaxMethod.GetKeyword(), () => new MaxMethod());
             RegisterFabric(MinMethod.GetKeyword(), () => new MinMethod());
             RegisterFabric(NextFloatMethod.GetKeyword(), () => new NextFloatMethod());
             RegisterFabric(NextIntMethod.GetKeyword(), () => new NextIntMethod());
             RegisterFabric(PutMethod.GetKeyword(), () => new PutMethod());
+            RegisterFabric(ReadMethod.GetKeyword(), () => new ReadMethod());
             RegisterFabric(RoundMethod.GetKeyword(), () => new RoundMethod());
             RegisterFabric(SetSeedMethod.GetKeyword(), () => new SetSeedMethod());
             RegisterFabric(SetSizeMethod.GetKeyword(), () => new SetSizeMethod());
+            RegisterFabric(TrimMethod.GetKeyword(), () => new TrimMethod());
             RegisterFabric(WriteMethod.GetKeyword(), () => new WriteMethod());
 
             RegisterFabric(AddOperator.GetKeyword(), () => new AddOperator());

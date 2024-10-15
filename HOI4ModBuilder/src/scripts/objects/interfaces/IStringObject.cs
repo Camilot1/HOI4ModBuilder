@@ -4,7 +4,7 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
 {
     public interface IStringObject
         : IScriptObject, IAddObject, IGetObject, IPutObject, IInsertObject, IRemoveAtObject, IClearObject,
-        IGetSizeObject, ISetSizeObject, ITrimObject, IRelativeObject
+        IGetSizeObject, ISetSizeObject, ITrimObject, IRelativeObject, ISplitObject
     {
     }
 }

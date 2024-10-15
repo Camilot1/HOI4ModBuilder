@@ -42,11 +42,13 @@ namespace HOI4ModBuilder.src.scripts.utils
             if (obj is IOrObject) sb.Append("IOR ");
             if (obj is IPrimitiveObject) sb.Append("IPRIMITIVE ");
             if (obj is IPutObject) sb.Append("IPUT ");
+            if (obj is IReadObject) sb.Append("IREAD ");
             if (obj is IRemoveAtObject) sb.Append("IREMOVEAT ");
             if (obj is IRemoveObject) sb.Append("IREMOVE ");
             if (obj is ISetObject) sb.Append("ISET ");
             if (obj is ISetSeedObject) sb.Append("ISETSEED ");
             if (obj is ISetSizeObject) sb.Append("ISETSIZE ");
+            if (obj is ISplitObject) sb.Append("ISPLIT ");
             if (obj is ISubtractObject) sb.Append("ISUBTRACT ");
             if (obj is ITrimObject) sb.Append("ITRIM ");
             if (obj is IWriteObject) sb.Append("IWRITE ");

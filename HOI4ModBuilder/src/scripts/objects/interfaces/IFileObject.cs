@@ -2,7 +2,7 @@
 
 namespace HOI4ModBuilder.src.scripts.objects.interfaces
 {
-    public interface IFileObject : IScriptObject, IAppendObject, IWriteObject
+    public interface IFileObject : IScriptObject, IAppendObject, IWriteObject, IReadObject
     {
     }
 }

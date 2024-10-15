@@ -11,7 +11,7 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <IWRITE:variable> <ANY:value>"
+            $"{_keyword} <IWRITE:to> <ANY:from>"
         };
         public override ScriptCommand CreateEmptyCopy() => new WriteMethod();
 

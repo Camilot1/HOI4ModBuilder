@@ -1,26 +1,25 @@
-﻿using HOI4ModBuilder.src.scripts.commands.declarators;
-using HOI4ModBuilder.src.scripts.objects;
-using System;
+﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
+using HOI4ModBuilder.src.scripts.objects.interfaces;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {
-    public class RoundMethod : ScriptCommand
+    public class AppendMethod : ScriptCommand
     {
-        private static readonly string _keyword = "ROUND";
+        private static readonly string _keyword = "APPEND";
         public static new string GetKeyword() => _keyword;
         public override string GetPath() => "commands.declarators.methods." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <{FloatDeclarator.GetKeyword()}:var_name>"
+            $"{_keyword} <IAPPEND:to> <ANY:from>"
         };
-        public override ScriptCommand CreateEmptyCopy() => new RoundMethod();
+        public override ScriptCommand CreateEmptyCopy() => new AppendMethod();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
             lineIndex = index;
             args = ScriptParser.ParseCommandCallArgs(
-                (a) => a.Length == 2,
+                (a) => a.Length == 3,
                 new bool[] { },
                 out _executeBeforeCall,
                 lines, ref index, indent, varsScope, args
@@ -29,13 +28,22 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var variable = (FloatObject)ScriptParser.GetValue(
+                var variable = (IAppendObject)ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o is FloatObject
+                    (o) => o is IAppendObject
                 );
 
-                variable.Value = (float)Math.Round(variable.Value);
+                var value = ScriptParser.ParseValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => true
+                );
+
+                if (value is ICollectionObject collectionObj)
+                    variable.AppendRange(lineIndex, args, collectionObj);
+                else
+                    variable.Append(lineIndex, args, value);
             };
         }
     }
 }
+

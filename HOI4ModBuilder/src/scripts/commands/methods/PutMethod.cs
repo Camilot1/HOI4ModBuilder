@@ -11,10 +11,10 @@ namespace HOI4ModBuilder.src.scripts.commands.commands
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <IPUT<KEY_TYPE,VALUE_TYPE:to> <KEY_TYPE:key> <VALUE_TYPE:value>",
+            $"{_keyword} <IPUT<KEY_TYPE,VALUE_TYPE>:to> <KEY_TYPE:key> <VALUE_TYPE:value>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT IPUT<KEY_TYPE,VALUE_TYPE:to>",
+            $"\tOUT <IPUT<KEY_TYPE,VALUE_TYPE>:to>",
             $"\t<KEY_TYPE:key>",
             $"\t<VALUE_TYPE:value>",
             ")"

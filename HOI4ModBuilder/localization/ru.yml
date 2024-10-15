@@ -458,6 +458,8 @@ SCRIPT_EXCEPTION_INVALID_MULTILINE_ARGS: "Некорректная структ�
 SCRIPT_EXCEPTION_ARGUMENT_MUST_BE_MARKED_AS_OUT: "Аргумент под номером {argIndex} должен быть помечен как OUT. \nСтрока: {lineIndex}. \nАргументы: {args}"
 SCRIPT_EXCEPTION_ARGUMENT_MUST_NOT_BE_MARKED_AS_OUT: "Аргумент под номером {argIndex} не должен быть помечен как OUT. \nСтрока: {lineIndex}. \nАргументы: {args}"
 SCRIPT_EXCEPTION_ARGUMENT_MUST_BE_VAR_DECLARATOR: "Аргумент под номером {argIndex} должен быть декларатором типа данных создаваемой переменной. \nСтрока: {lineIndex}. \nАргументы: {args}"
+SCRIPT_EXCEPTION_FILE_NOT_FOUND_INTERNAL: "Файл по пути \"{value}\" не найден. \nСтрока: {lineIndex} \nАргументы: {args}"
+SCRIPT_EXCEPTION_FILE_NOT_FOUND: "Файл по пути в аргументе под номером {argIndex} не найден. \nСтрока: {lineIndex} \nАргументы: {args}"
 
 SCRIPT_EXCEPTION_PROCESS_TERMINATED: "Выполнение скрипта остановлено. Строка: {lineIndex}"
 

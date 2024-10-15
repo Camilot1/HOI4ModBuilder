@@ -1,8 +1,10 @@
 ﻿using HOI4ModBuilder.src.scripts.commands.declarators;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.utils;
+using System;
 using System.IO;
 using System.Text;
+using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.src.scripts.objects.interfaces
 {
@@ -47,7 +49,7 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
             );
         }
 
-        public void AppendRange(int lineIndex, string[] args, IScriptObject value)
+        public void AppendRange(int lineIndex, string[] args, ICollectionObject value)
         {
             Logger.TryOrCatch(
                 () =>
@@ -62,37 +64,36 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
 
         public void Write(int lineIndex, string[] args, IScriptObject value)
         {
-            Logger.TryOrCatch(
-                () =>
-                {
-                    string text = value.GetValue().ToString();
-                    text = ScriptParser.ReplaceSpecialChars(text);
-                    File.WriteAllText(FilePath, text);
-                },
-                (ex) => throw new InternalScriptException(lineIndex, args, ex)
-            );
+            try
+            {
+                string text = value.GetValue().ToString();
+                text = ScriptParser.ReplaceSpecialChars(text);
+                File.WriteAllText(FilePath, text);
+            }
+            catch (Exception ex)
+            {
+                throw new InternalScriptException(lineIndex, args, ex);
+            }
         }
 
-        public void WriteRange(int lineIndex, string[] args, IScriptObject value)
+        public void WriteRange(int lineIndex, string[] args, ICollectionObject value)
         {
-            Logger.TryOrCatch(
-                () =>
-                {
-                    string text = FormatCollectionToText(lineIndex, args, value);
-                    text = ScriptParser.ReplaceSpecialChars(text);
-                    File.WriteAllText(FilePath, text);
-                },
-                (ex) => throw new InternalScriptException(lineIndex, args, ex)
-            );
+            try
+            {
+                string text = FormatCollectionToText(lineIndex, args, value);
+                text = ScriptParser.ReplaceSpecialChars(text);
+                File.WriteAllText(FilePath, text);
+            }
+            catch (Exception ex)
+            {
+                throw new InternalScriptException(lineIndex, args, ex);
+            }
         }
 
 
-        private string FormatCollectionToText(int lineIndex, string[] args, IScriptObject value)
+        private string FormatCollectionToText(int lineIndex, string[] args, ICollectionObject value)
         {
             string text;
-
-            if (!(value is ICollectionObject))
-                throw new InvalidOperationScriptException(lineIndex, args, value);
 
             var sb = new StringBuilder();
             if (value is IListObject listObject)
@@ -114,6 +115,47 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
             else throw new InvalidValueTypeScriptException(lineIndex, args, value);
 
             return text;
+        }
+
+        public void Read(int lineIndex, string[] args, IStringObject result)
+        {
+            if (!File.Exists(FilePath))
+                throw new FileNotFoundException(FilePath);
+
+            try
+            {
+                result.Set(lineIndex, args, new StringObject(File.ReadAllText(FilePath)));
+            }
+            catch (ScriptException sEx)
+            {
+                throw sEx; //??? Lol what? okay
+            }
+            catch (Exception ex)
+            {
+                throw new InternalScriptException(lineIndex, args, ex);
+            }
+        }
+
+        public void ReadRange(int lineIndex, string[] args, IListObject result)
+        {
+            if (!File.Exists(FilePath))
+                throw new FileNotFoundException(FilePath);
+
+            try
+            {
+                foreach (var line in File.ReadAllLines(FilePath))
+                {
+                    result.Add(lineIndex, args, new StringObject(line));
+                }
+            }
+            catch (ScriptException sEx)
+            {
+                throw sEx; //??? Lol what? okay
+            }
+            catch (Exception ex)
+            {
+                throw new InternalScriptException(lineIndex, args, ex);
+            }
         }
     }
 }
