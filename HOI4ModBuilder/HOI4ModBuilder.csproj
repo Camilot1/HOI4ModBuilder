@@ -465,6 +465,7 @@
     <Compile Include="src\scripts\commands\declarators\vars\CharDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\FileDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\cycles\ForDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\RandomDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\StringDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\VarDeclarator.cs" />
     <Compile Include="src\scripts\commands\functions\console\ConsoleClearFunc.cs" />
@@ -586,12 +587,14 @@
     <Compile Include="src\scripts\objects\interfaces\INumberObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\ILogicalObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\IClearObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\IRandomObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\IRelativeObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\IScriptObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\IStringObject.cs" />
     <Compile Include="src\scripts\objects\IntObject.cs" />
     <Compile Include="src\scripts\objects\ListObject.cs" />
     <Compile Include="src\scripts\objects\MapObject.cs" />
+    <Compile Include="src\scripts\objects\RandomObject.cs" />
     <Compile Include="src\scripts\objects\StringObject.cs" />
     <Compile Include="src\scripts\ScriptParser.cs" />
     <Compile Include="src\scripts\utils\ScriptUtils.cs" />

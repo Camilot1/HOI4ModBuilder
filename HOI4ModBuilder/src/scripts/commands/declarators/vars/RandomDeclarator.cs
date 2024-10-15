@@ -1,26 +1,23 @@
-﻿
-using HOI4ModBuilder.src.scripts.commands.declarators.vars;
-using HOI4ModBuilder.src.scripts.exceptions;
-using HOI4ModBuilder.src.scripts.objects;
+﻿using HOI4ModBuilder.src.scripts.objects;
 
-namespace HOI4ModBuilder.src.scripts.commands.declarators
+namespace HOI4ModBuilder.src.scripts.commands.declarators.vars
 {
-    public class BooleanDeclarator : VarDeclarator
+    public class RandomDeclarator : VarDeclarator
     {
-        private static readonly string _keyword = "BOOLEAN";
+        private static readonly string _keyword = "RANDOM";
         public static new string GetKeyword() => _keyword;
         public override string GetPath() => "commands.declarators.vars." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <{_keyword}:var_name> [OPTIONAL]<{_keyword}:other_value>",
+            $"{_keyword} <{_keyword}:var_name> [OPTIONAL]<INUMBER:seed>",
             "======== OR ========",
             $"{_keyword} (",
             $"\tOUT <{_keyword}:var_name>",
-            $"\t[OPTIONAL]<{_keyword}:other_value>",
+            $"\t[OPTIONAL]<INUMBER:seed>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new BooleanDeclarator();
+        public override ScriptCommand CreateEmptyCopy() => new RandomDeclarator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -38,8 +35,8 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
                 int argIndexName = 1;
                 var name = args[argIndexName];
 
-                var rawValue = args.Length > 2 ? args[2] : null;
-                var obj = new BooleanObject();
+                var rawSeed = args.Length > 2 ? args[2] : null;
+                var obj = new RandomObject();
 
                 if (!varsScope.TryDeclareVar(name, obj))
                     throw new VariableIsAlreadyDeclaredScriptException(lineIndex, args, name, argIndexName);
@@ -50,3 +47,4 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
         }
     }
 }
+
