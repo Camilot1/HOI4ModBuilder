@@ -58,16 +58,16 @@ namespace HOI4ModBuilder.src.scripts.objects
 
         public void NextFloat(int lineIndex, string[] args, INumberObject maxValue, INumberObject result)
         {
-            double max = Convert.ToDouble(maxValue.GetValue());
-            float value = (float)(Value.NextDouble() * max);
+            var max = Convert.ToDouble(maxValue.GetValue());
+            var value = (float)(Value.NextDouble() * max);
             result.Set(lineIndex, args, new FloatObject(value));
         }
 
         public void NextFloat(int lineIndex, string[] args, INumberObject minValue, INumberObject maxValue, INumberObject result)
         {
-            int min = Convert.ToInt32(minValue.GetValue());
-            int max = Convert.ToInt32(maxValue.GetValue());
-            float value = (float)(Value.NextDouble() * (max - min) + min);
+            var min = (float)Convert.ToDouble(minValue.GetValue());
+            var max = (float)Convert.ToDouble(maxValue.GetValue());
+            var value = (float)(Value.NextDouble() * (max - min) + min);
             result.Set(lineIndex, args, new FloatObject(value));
         }
     }

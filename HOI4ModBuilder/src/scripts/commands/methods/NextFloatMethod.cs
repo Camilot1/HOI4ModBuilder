@@ -65,7 +65,7 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
                 if (randomObj == null)
                     throw new VariableIsNotDeclaredScriptException(lineIndex, args, argIndexRandomObj);
 
-                var resultValue = new IntObject();
+                var resultValue = new FloatObject();
 
                 if (args.Length == 3)
                 {
