@@ -16,6 +16,7 @@ namespace HOI4ModBuilder.src.scripts.objects
 
         private Dictionary<IScriptObject, IScriptObject> _map;
         public object GetValue() => _map;
+        public MapObject() { _map = new Dictionary<IScriptObject, IScriptObject>(); }
 
         public MapObject(IScriptObject keyType, IScriptObject valueType)
         {

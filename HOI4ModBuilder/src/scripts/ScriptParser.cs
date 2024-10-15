@@ -83,8 +83,9 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(FileDeclarator.GetKeyword(), () => new FileDeclarator(), () => new FileObject());
             RegisterFabric(FloatDeclarator.GetKeyword(), () => new FloatDeclarator(), () => new FloatObject());
             RegisterFabric(IntDeclarator.GetKeyword(), () => new IntDeclarator(), () => new IntObject());
-            RegisterFabric(ListDeclarator.GetKeyword(), () => new ListDeclarator());
-            RegisterFabric(MapDeclarator.GetKeyword(), () => new MapDeclarator());
+            RegisterFabric(ListDeclarator.GetKeyword(), () => new ListDeclarator(), () => new ListObject());
+            RegisterFabric(MapDeclarator.GetKeyword(), () => new MapDeclarator(), () => new MapObject());
+            RegisterFabric(RandomDeclarator.GetKeyword(), () => new RandomDeclarator(), () => new RandomObject());
             RegisterFabric(StringDeclarator.GetKeyword(), () => new StringDeclarator(), () => new StringObject());
 
             RegisterFabric(ConsoleClearFunc.GetKeyword(), () => new ConsoleClearFunc());
@@ -147,8 +148,11 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(HasKeyMethod.GetKeyword(), () => new HasKeyMethod());
             RegisterFabric(MaxMethod.GetKeyword(), () => new MaxMethod());
             RegisterFabric(MinMethod.GetKeyword(), () => new MinMethod());
+            RegisterFabric(NextFloatMethod.GetKeyword(), () => new NextFloatMethod());
+            RegisterFabric(NextIntMethod.GetKeyword(), () => new NextIntMethod());
             RegisterFabric(PutMethod.GetKeyword(), () => new PutMethod());
             RegisterFabric(RoundMethod.GetKeyword(), () => new RoundMethod());
+            RegisterFabric(SetSeedMethod.GetKeyword(), () => new SetSeedMethod());
             RegisterFabric(SetSizeMethod.GetKeyword(), () => new SetSizeMethod());
             RegisterFabric(WriteMethod.GetKeyword(), () => new WriteMethod());
 

@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.src.scripts.objects;
+﻿using HOI4ModBuilder.src.scripts.exceptions;
+using HOI4ModBuilder.src.scripts.objects;
 
 namespace HOI4ModBuilder.src.scripts.commands.declarators.vars
 {
@@ -41,8 +42,8 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators.vars
                 if (!varsScope.TryDeclareVar(name, obj))
                     throw new VariableIsAlreadyDeclaredScriptException(lineIndex, args, name, argIndexName);
 
-                if (rawValue != null)
-                    obj.Set(lineIndex, args, ScriptParser.ParseValue(varsScope, rawValue));
+                if (rawSeed != null)
+                    obj.Set(lineIndex, args, ScriptParser.ParseValue(varsScope, rawSeed));
             };
         }
     }

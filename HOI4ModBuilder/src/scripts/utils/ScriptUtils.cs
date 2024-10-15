@@ -21,6 +21,7 @@ namespace HOI4ModBuilder.src.scripts.utils
             if (obj is ILogicalObject) sb.Append("ILOGICAL ");
             if (obj is IMapObject) sb.Append("IMAP ");
             if (obj is INumberObject) sb.Append("INUMBER ");
+            if (obj is IRandomObject) sb.Append("IRANDOM ");
             if (obj is IRelativeObject) sb.Append("IRELATIVE ");
             if (obj is IStringObject) sb.Append("ISTRING ");
 
@@ -35,6 +36,8 @@ namespace HOI4ModBuilder.src.scripts.utils
             if (obj is IInsertObject) sb.Append("IINSERT ");
             if (obj is IModuloObject) sb.Append("IMODULO ");
             if (obj is IMultiplyObject) sb.Append("IMULTIPLY ");
+            if (obj is INextFloatObject) sb.Append("INEXTFLOAT ");
+            if (obj is INextIntObject) sb.Append("INEXTINT ");
             if (obj is INotObject) sb.Append("INOT ");
             if (obj is IOrObject) sb.Append("IOR ");
             if (obj is IPrimitiveObject) sb.Append("IPRIMITIVE ");
@@ -42,6 +45,7 @@ namespace HOI4ModBuilder.src.scripts.utils
             if (obj is IRemoveAtObject) sb.Append("IREMOVEAT ");
             if (obj is IRemoveObject) sb.Append("IREMOVE ");
             if (obj is ISetObject) sb.Append("ISET ");
+            if (obj is ISetSeedObject) sb.Append("ISETSEED ");
             if (obj is ISetSizeObject) sb.Append("ISETSIZE ");
             if (obj is ISubtractObject) sb.Append("ISUBTRACT ");
             if (obj is ITrimObject) sb.Append("ITRIM ");

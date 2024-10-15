@@ -5,7 +5,6 @@ using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.src.scripts.objects
 {
@@ -14,6 +13,8 @@ namespace HOI4ModBuilder.src.scripts.objects
         public IScriptObject ValueType;
         private List<IScriptObject> _list;
         public object GetValue() => _list;
+
+        public ListObject() { _list = new List<IScriptObject>(); }
 
         public ListObject(IScriptObject valueType)
         {
