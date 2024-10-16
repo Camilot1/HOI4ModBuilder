@@ -547,6 +547,7 @@
     <Compile Include="src\scripts\exceptions\ArgumentMustNotBeMarkedAsOutScriptException.cs" />
     <Compile Include="src\scripts\exceptions\FileNotFoundScriptException.cs" />
     <Compile Include="src\scripts\exceptions\IndexOutOfRangeScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\InfiniteCycleScriptException.cs" />
     <Compile Include="src\scripts\exceptions\InternalScriptException.cs" />
     <Compile Include="src\scripts\exceptions\InvalidArgsCountScriptException.cs" />
     <Compile Include="src\scripts\exceptions\InvalidCommandArgsScriptException.cs" />

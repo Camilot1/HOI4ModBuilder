@@ -27,6 +27,25 @@ namespace HOI4ModBuilder.src.scripts
                 )
             )
         { }
+        public ScriptException(EnumLocKey enumLoc, int lineIndex, string[] args, Dictionary<string, string> otherPairs)
+            : base(
+                GuiLocManager.GetLoc(
+                    enumLoc,
+                    new Func<Dictionary<string, string>>(() =>
+                    {
+                        var dictionary = new Dictionary<string, string> {
+                            { "{lineIndex}", "" + lineIndex },
+                            { "{args}", string.Join(" ", args) }
+                        };
+
+                        foreach (var entry in otherPairs)
+                            dictionary[entry.Key] = entry.Value;
+
+                        return dictionary;
+                    })()
+                )
+            )
+        { }
         public ScriptException(EnumLocKey enumLoc, int lineIndex, string[] args, int argIndex)
             : base(
                 GuiLocManager.GetLoc(

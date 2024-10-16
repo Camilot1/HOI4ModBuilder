@@ -457,7 +457,8 @@ SCRIPT_EXCEPTION_ARGUMENT_MUST_BE_MARKED_AS_OUT: "The argument number {argIndex}
 SCRIPT_EXCEPTION_ARGUMENT_MUST_NOT_BE_MARKED_AS_OUT: "The argument number {argIndex} must not be defined as OUT. \nLine: {lineIndex}. \nArgs: {args}"
 SCRIPT_EXCEPTION_ARGUMENT_MUST_BE_VAR_DECLARATOR: "The argument number {argIndex} should be the data type declarator of the variable to be created. \nLine: {lineIndex}. \nArgs: {args}"
 SCRIPT_EXCEPTION_FILE_NOT_FOUND_INTERNAL: "The file \"{value}\" not found. \nLine: {lineIndex} \nArgs: {args}"
-SCRIPT_EXCEPTION_FILE_NOT_FOUND: "Tje file from argument number {argIndex} not found. \nLine: {lineIndex} \nArgs: {args}"
+SCRIPT_EXCEPTION_FILE_NOT_FOUND: "The file from argument number {argIndex} not found. \nLine: {lineIndex} \nArgs: {args}"
+SCRIPT_EXCEPTION_INFINITE_CYCLE: "Infinite cycle from {start} to {end} with step {step}. \nLine: {lineIndex} \nArgs: {args}"
 
 SCRIPT_EXCEPTION_PROCESS_TERMINATED: "Script process terminated. Line: {lineIndex}"
 
