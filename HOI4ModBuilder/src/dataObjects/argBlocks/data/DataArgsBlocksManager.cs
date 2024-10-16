@@ -230,7 +230,7 @@ namespace HOI4ModBuilder.src.dataObjects
                         break;
                     case EnumValueType.DECIMAL:
                     case EnumValueType.FLOAT:
-                        if (float.TryParse(value.Replace('.', ','), out float floatValue))
+                        if (Utils.TryParseFloat(value, out float floatValue))
                         {
                             dataBlock.ValueType = EnumValueType.FLOAT;
                             dataBlock.SetSilentValue(floatValue);

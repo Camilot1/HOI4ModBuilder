@@ -115,7 +115,7 @@ namespace HOI4ModBuilder.src.utils
             sb.Append(indent).Append(parameter).Append(' ').Append(demiliter).Append(' ');
 
             if (value is bool boolVal) sb.Append(boolVal ? "yes" : "no");
-            else if (value is float) sb.Append(("" + value).Replace(',', '.'));
+            else if (value is float floatValue) sb.Append(Utils.FloatToString(floatValue));
             else sb.Append(value);
 
             return true;
@@ -134,7 +134,7 @@ namespace HOI4ModBuilder.src.utils
             sb.Append('\"');
 
             if (value is bool boolVal) sb.Append(boolVal ? "yes" : "no");
-            else if (value is float) sb.Append(("" + value).Replace(',', '.'));
+            else if (value is float floatValue) sb.Append(Utils.FloatToString(floatValue));
             else if (value is string sValue) sb.Append(sValue.Replace("\"", "\\\""));
             else sb.Append(value);
 

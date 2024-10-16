@@ -139,7 +139,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
                     foreach (var value in tempIconOffset)
                     {
                         if (int.TryParse(value, out int offsetIntValue)) iconOffset.Add(offsetIntValue);
-                        else if (float.TryParse(value.Replace('.', ','), out float offsetFloatValue)) iconOffset.Add((int)Math.Round(offsetFloatValue));
+                        else if (Utils.TryParseFloat(value, out float offsetFloatValue)) iconOffset.Add((int)Math.Round(offsetFloatValue));
                         else Logger.LogError(
                                 EnumLocKey.ERROR_ADJACENCY_RULE_LOADING_ICON_OFFSET_INCORRECT_VALUE,
                                 new Dictionary<string, string>

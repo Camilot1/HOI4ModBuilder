@@ -339,9 +339,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
                     ));
 
                 Utils.HsvToRgb(
-                    double.Parse(colors[0].Replace('.', ',')),
-                    double.Parse(colors[1].Replace('.', ',')),
-                    double.Parse(colors[2].Replace('.', ',')),
+                    Utils.ParseDouble(colors[0]),
+                    Utils.ParseDouble(colors[1]),
+                    Utils.ParseDouble(colors[2]),
                     out r, out g, out b);
             }
             else if (format == "hex")

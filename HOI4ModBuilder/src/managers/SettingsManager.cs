@@ -78,7 +78,7 @@ namespace HOI4ModBuilder.src
         public bool useModSettings = true;
         public int actionHistorySize = 20;
         public byte textureOpacity = 180;
-        public double MAP_VIEWPORT_HEIGHT = 1004;
+        public float MAP_VIEWPORT_HEIGHT = 1004;
         public int maxAdditionalTextureSize = 2048;
 
         public MapCheckerInfo searchWarningsSettings = new MapCheckerInfo();
@@ -197,16 +197,16 @@ namespace HOI4ModBuilder.src
 
         public bool IsModSettingsDirectoryExists() => Directory.Exists(GetModSettingsDirectoryPath());
         public bool IsModSettingsFileExists() => File.Exists(GetModSettingsFilePath());
-        public double GetNormalMapStrength()
+        public float GetNormalMapStrength()
             => useModSettings ? currentModSettings.normalMapStrength : defaultModSettings.normalMapStrength;
         public bool GetExportRiversMapWithWaterPixelsFlag()
             => useModSettings ? currentModSettings.exportRiversMapWithWaterPixels : defaultModSettings.exportRiversMapWithWaterPixels;
         public bool GetGenerateNormalMapFlag()
             => useModSettings ? currentModSettings.generateNormalMap : defaultModSettings.generateNormalMap;
-        public double GetMapScalePixelToKM()
+        public float GetMapScalePixelToKM()
             => useModSettings ? currentModSettings.MAP_SCALE_PIXEL_TO_KM : defaultModSettings.MAP_SCALE_PIXEL_TO_KM;
 
-        public double GetWaterHeight() => useModSettings ? currentModSettings.WATER_HEIGHT : defaultModSettings.WATER_HEIGHT;
+        public float GetWaterHeight() => useModSettings ? currentModSettings.WATER_HEIGHT : defaultModSettings.WATER_HEIGHT;
         public List<string> GetWarningsFilter() => searchWarningsSettings?.enabled;
         public List<string> GetErrorsFilter() => searchErrorsSettings?.enabled;
     }
@@ -249,14 +249,14 @@ namespace HOI4ModBuilder.src
 
     public class ModSettings
     {
-        public double normalMapStrength = 1.5d;
+        public float normalMapStrength = 1.5f;
         public bool exportRiversMapWithWaterPixels = true;
         public bool generateNormalMap = false;
 
         public HashSet<string> wipsEnabled = new HashSet<string>(0);
 
-        public double MAP_SCALE_PIXEL_TO_KM = 7.114;
-        public double WATER_HEIGHT = 9.5f;
+        public float MAP_SCALE_PIXEL_TO_KM = 7.114f;
+        public float WATER_HEIGHT = 9.5f;
 
         public bool CheckWips(EnumWips enumWips) => wipsEnabled.Contains("" + enumWips);
         public void SetWips(EnumWips enumWips, bool value)

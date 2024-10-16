@@ -281,19 +281,19 @@ namespace HOI4ModBuilder.src.forms
 
                 settings.actionHistorySize = int.Parse(TextBox_ActionHistorySize.Text);
 
-                double textureOpacity = Convert.ToDouble(TextBox_Textures_Opacity.Text) / 100d;
+                double textureOpacity = Utils.ParseFloat(TextBox_Textures_Opacity.Text) / 100d;
                 if (textureOpacity < 0) settings.textureOpacity = 0;
                 else if (textureOpacity > 1) settings.textureOpacity = 255;
                 else settings.textureOpacity = (byte)Math.Round(textureOpacity * 255);
 
-                settings.MAP_VIEWPORT_HEIGHT = Convert.ToDouble(TextBox_MAP_VIEWPORT_HEIGHT.Text);
+                settings.MAP_VIEWPORT_HEIGHT = Utils.ParseFloat(TextBox_MAP_VIEWPORT_HEIGHT.Text);
                 settings.maxAdditionalTextureSize = int.Parse(ComboBox_MaxAdditionalTextureSize.Text);
 
                 //Default settings
                 var modSettings = settings.defaultModSettings;
-                modSettings.MAP_SCALE_PIXEL_TO_KM = Convert.ToDouble(TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Text);
-                modSettings.WATER_HEIGHT = Convert.ToDouble(TextBox_WATER_HEIGHT_Default.Text);
-                modSettings.normalMapStrength = Convert.ToDouble(TextBox_NormalMapStrength_Default.Text);
+                modSettings.MAP_SCALE_PIXEL_TO_KM = Utils.ParseFloat(TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Text);
+                modSettings.WATER_HEIGHT = Utils.ParseFloat(TextBox_WATER_HEIGHT_Default.Text);
+                modSettings.normalMapStrength = Utils.ParseFloat(TextBox_NormalMapStrength_Default.Text);
 
                 modSettings.exportRiversMapWithWaterPixels = CheckedListBox_SaveSettings_Default.GetItemChecked(0);
                 modSettings.generateNormalMap = CheckedListBox_SaveSettings_Default.GetItemChecked(1);
@@ -312,9 +312,9 @@ namespace HOI4ModBuilder.src.forms
 
                 if (modSettings != null)
                 {
-                    modSettings.MAP_SCALE_PIXEL_TO_KM = Convert.ToDouble(TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Text);
-                    modSettings.WATER_HEIGHT = Convert.ToDouble(TextBox_WATER_HEIGHT_Current.Text);
-                    modSettings.normalMapStrength = Convert.ToDouble(TextBox_NormalMapStrength_Current.Text);
+                    modSettings.MAP_SCALE_PIXEL_TO_KM = Utils.ParseFloat(TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Text);
+                    modSettings.WATER_HEIGHT = Utils.ParseFloat(TextBox_WATER_HEIGHT_Current.Text);
+                    modSettings.normalMapStrength = Utils.ParseFloat(TextBox_NormalMapStrength_Current.Text);
 
                     modSettings.exportRiversMapWithWaterPixels = CheckedListBox_SaveSettings_Current.GetItemChecked(0);
                     modSettings.generateNormalMap = CheckedListBox_SaveSettings_Current.GetItemChecked(1);

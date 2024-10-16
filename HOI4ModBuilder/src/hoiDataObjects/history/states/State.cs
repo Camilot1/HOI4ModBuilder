@@ -325,7 +325,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 case "buildings_max_level_factor":
                     temp = parser.ReadString();
 
-                    if (float.TryParse(temp.Replace('.', ','), out float value))
+                    if (Utils.TryParseFloat(temp, out float value))
                     {
                         if (value >= 0) buildingsMaxLevelFactor = value;
                         else Logger.LogError(
@@ -367,7 +367,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 case "local_supplies":
                     temp = parser.ReadString();
 
-                    if (float.TryParse(temp.Replace('.', ','), out value))
+                    if (Utils.TryParseFloat(temp, out value))
                     {
                         if (value >= 0) localSupplies = value;
                         else Logger.LogError(
@@ -514,7 +514,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
                 var temp = parser.ReadString();
                 if (uint.TryParse(temp, out uint countUint)) stateResources[resource] = countUint;
-                else if (float.TryParse(temp.Replace('.', ','), out float countFloat))
+                else if (Utils.TryParseFloat(temp, out float countFloat))
                 {
                     if (countFloat < 0)
                         Logger.LogError(

@@ -338,7 +338,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                         );
 
                     if (uint.TryParse(values[1], out uint vpValue)) { }
-                    else if (float.TryParse(values[1].Replace('.', ','), out float vpValueFloat) && vpValueFloat > 0)
+                    else if (Utils.TryParseFloat(values[1], out float vpValueFloat) && vpValueFloat > 0)
                         vpValue = (uint)Math.Round(vpValueFloat);
                     else
                         Logger.LogError(

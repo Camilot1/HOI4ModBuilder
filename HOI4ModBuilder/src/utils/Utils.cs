@@ -524,5 +524,41 @@ namespace HOI4ModBuilder
             );
         }
 
+        public static bool TryParseFloat(string str, out float result)
+        {
+            result = 0;
+            if (str == null) return false;
+            if (float.TryParse(str, out result)) return true;
+            if (float.TryParse(str.Replace(',', '.'), out result)) return true;
+            if (float.TryParse(str.Replace('.', ','), out result)) return true;
+            return false;
+        }
+
+        public static float ParseFloat(string str)
+        {
+            if (TryParseFloat(str, out float result))
+                return result;
+            else
+                throw new FormatException("Input string was not in correct format: " + str);
+        }
+
+        public static bool TryParseDouble(string str, out double result)
+        {
+            result = 0;
+            if (str == null) return false;
+            if (double.TryParse(str, out result)) return true;
+            if (double.TryParse(str.Replace(',', '.'), out result)) return true;
+            if (double.TryParse(str.Replace('.', ','), out result)) return true;
+            return false;
+        }
+
+        public static double ParseDouble(string str)
+        {
+            if (TryParseDouble(str, out double result))
+                return result;
+            else
+                throw new FormatException("Input string was not in correct format: " + str);
+        }
+
     }
 }
