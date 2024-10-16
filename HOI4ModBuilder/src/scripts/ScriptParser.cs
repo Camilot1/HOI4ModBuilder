@@ -158,6 +158,7 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(RoundMethod.GetKeyword(), () => new RoundMethod());
             RegisterFabric(SetSeedMethod.GetKeyword(), () => new SetSeedMethod());
             RegisterFabric(SetSizeMethod.GetKeyword(), () => new SetSizeMethod());
+            RegisterFabric(SplitMethod.GetKeyword(), () => new SplitMethod());
             RegisterFabric(TrimMethod.GetKeyword(), () => new TrimMethod());
             RegisterFabric(WriteMethod.GetKeyword(), () => new WriteMethod());
 

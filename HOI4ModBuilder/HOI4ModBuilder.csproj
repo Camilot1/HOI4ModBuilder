@@ -531,6 +531,7 @@
     <Compile Include="src\scripts\commands\methods\ReadMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSeedMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSizeMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\SplitMethod.cs" />
     <Compile Include="src\scripts\commands\methods\TrimMethod.cs" />
     <Compile Include="src\scripts\commands\methods\WriteMethod.cs" />
     <Compile Include="src\scripts\commands\operators\arithmetical\AddOperator.cs" />
