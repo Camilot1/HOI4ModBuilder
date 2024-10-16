@@ -362,6 +362,10 @@ namespace HOI4ModBuilder.src.forms
                 if (!settings.IsModSettingsFileExists())
                 {
                     settings.currentModSettings = new ModSettings();
+
+                    if (!Directory.Exists(settings.GetModSettingsDirectoryPath()))
+                        Directory.CreateDirectory(settings.GetModSettingsDirectoryPath());
+
                     File.WriteAllText(
                         settings.GetModSettingsFilePath(),
                         JsonConvert.SerializeObject(settings.currentModSettings, Formatting.Indented)
