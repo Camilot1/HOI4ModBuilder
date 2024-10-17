@@ -43,13 +43,13 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
 
                 int argIndexKeyType = 2;
                 var keyTypeRaw = args[argIndexKeyType];
-                var keyType = ScriptParser.GetScriptObjectEmptyCopy(keyTypeRaw);
+                var keyType = ScriptFabricsRegister.ProduceNewScriptObject(keyTypeRaw);
                 if (keyType == null)
                     throw new InvalidKeyTypeScriptException(lineIndex, args, keyTypeRaw, argIndexKeyType);
 
                 int argIndexValueType = 3;
                 var valueTypeRaw = args[argIndexValueType];
-                var valueType = ScriptParser.GetScriptObjectEmptyCopy(valueTypeRaw);
+                var valueType = ScriptFabricsRegister.ProduceNewScriptObject(valueTypeRaw);
                 if (valueType == null)
                     throw new InvalidValueTypeScriptException(lineIndex, args, valueTypeRaw, argIndexValueType);
 

@@ -620,6 +620,7 @@
     <Compile Include="src\scripts\objects\RandomObject.cs" />
     <Compile Include="src\scripts\objects\StringObject.cs" />
     <Compile Include="src\scripts\ScriptParser.cs" />
+    <Compile Include="src\scripts\ScriptFabricsRegister.cs" />
     <Compile Include="src\scripts\utils\ScriptUtils.cs" />
     <Compile Include="src\scripts\VarsScope.cs" />
     <Compile Include="src\tools\AutoTools.cs" />
