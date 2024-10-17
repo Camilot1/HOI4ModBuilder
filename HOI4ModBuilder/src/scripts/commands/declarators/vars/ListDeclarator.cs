@@ -41,10 +41,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
 
                 int argIndexValueType = 2;
                 var valueType = args[argIndexValueType];
-                var valueTypeObj = ScriptFabricsRegister.ProduceNewScriptObject(valueType);
-                if (valueTypeObj == null)
-                    throw new InvalidValueTypeScriptException(lineIndex, args, valueType, argIndexValueType);
-
+                var valueTypeObj = ScriptFabricsRegister.ProduceNewScriptObject(lineIndex, args, valueType, argIndexValueType);
                 var obj = new ListObject(valueTypeObj);
 
                 if (!varsScope.TryDeclareVar(name, obj))

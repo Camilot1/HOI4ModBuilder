@@ -23,8 +23,8 @@ using HOI4ModBuilder.src.utils;
 using System.Text;
 using System.IO;
 using HOI4ModBuilder.src.managers;
-using HOI4ModBuilder.src.scripts.utils;
 using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
+using HOI4ModBuilder.src.scripts.exceptions;
 
 namespace HOI4ModBuilder.src.scripts
 {
@@ -40,10 +40,14 @@ namespace HOI4ModBuilder.src.scripts
         public static bool HasScriptObjectFabric(string keyword)
             => _scriptObjectsFabrics.ContainsKey(keyword);
 
-        public static IScriptObject ProduceNewScriptObject(string name)
+        public static IScriptObject ProduceNewScriptObject(int lineIndex, string[] args, string name, int argIndex)
         {
-            if (_scriptObjectsFabrics.TryGetValue(name, out Func<IScriptObject> fabric)) return fabric();
-            else return null;
+            if (_scriptObjectsFabrics.TryGetValue(name, out Func<IScriptObject> fabric))
+                return fabric();
+            else if (name == AnyObject.KEY)
+                return new AnyObject();
+            else
+                throw new InvalidTypeScriptException(lineIndex, args, name, argIndex);
         }
 
         public static void Init()

@@ -5,7 +5,6 @@ using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.src.scripts.objects
 {
@@ -16,7 +15,12 @@ namespace HOI4ModBuilder.src.scripts.objects
 
         private Dictionary<IScriptObject, IScriptObject> _map;
         public object GetValue() => _map;
-        public MapObject() { _map = new Dictionary<IScriptObject, IScriptObject>(); }
+        public MapObject()
+        {
+            KeyType = new AnyObject();
+            ValueType = new AnyObject();
+            _map = new Dictionary<IScriptObject, IScriptObject>();
+        }
 
         public MapObject(IScriptObject keyType, IScriptObject valueType)
         {
@@ -42,12 +46,12 @@ namespace HOI4ModBuilder.src.scripts.objects
             {
                 IScriptObject key, value;
 
-                if (KeyType is IPrimitiveObject)
+                if (entry.Key is IPrimitiveObject)
                     key = entry.Key.GetCopy();
                 else
                     key = entry.Key;
 
-                if (ValueType is IPrimitiveObject)
+                if (entry.Value is IPrimitiveObject)
                     value = entry.Value.GetCopy();
                 else
                     value = entry.Value;
@@ -91,13 +95,14 @@ namespace HOI4ModBuilder.src.scripts.objects
                 throw new InvalidValueTypeScriptException(lineIndex, args, keys);
 
             var listObject = (ListObject)keys;
-            if (!listObject.ValueType.IsSameType(KeyType))
-                throw new InvalidValueTypeScriptException(lineIndex, args, listObject);
 
             listObject.Clear(lineIndex, args);
             foreach (IScriptObject key in _map.Keys)
             {
-                var obj = KeyType.GetEmptyCopy();
+                if (!listObject.ValueType.IsSameType(key))
+                    throw new InvalidValueTypeScriptException(lineIndex, args, key);
+
+                var obj = key.GetEmptyCopy();
                 obj.Set(lineIndex, args, key);
                 listObject.Add(lineIndex, args, obj);
             }
@@ -117,13 +122,14 @@ namespace HOI4ModBuilder.src.scripts.objects
                 throw new InvalidValueTypeScriptException(lineIndex, args, values);
 
             var listObject = (ListObject)values;
-            if (!listObject.ValueType.IsSameType(ValueType))
-                throw new InvalidValueTypeScriptException(lineIndex, args, listObject);
 
             listObject.Clear(lineIndex, args);
             foreach (IScriptObject value in _map.Values)
             {
-                var obj = ValueType.GetEmptyCopy();
+                if (!listObject.ValueType.IsSameType(value))
+                    throw new InvalidValueTypeScriptException(lineIndex, args, value);
+
+                var obj = value.GetEmptyCopy();
                 obj.Set(lineIndex, args, value);
                 listObject.Add(lineIndex, args, obj);
             }
@@ -157,11 +163,14 @@ namespace HOI4ModBuilder.src.scripts.objects
             var sb = new StringBuilder();
 
             foreach (var item in _map)
-                sb.Append(item.Key.GetValue()).Append('=').Append(item.Value.GetValue()).Append(", ");
+            {
+                sb.Append(ScriptParser.FormatToString(item.Key)).Append(" = ")
+                    .Append(ScriptParser.FormatToString(item.Value)).Append(", ");
+            }
 
             if (sb.Length > 2) sb.Length -= 2;
 
-            return GetKeyword() + "<" + KeyType?.GetKeyword() + ',' + ValueType?.GetKeyword() + ">[" + sb + "]";
+            return GetKeyword() + "<" + KeyType.GetKeyword() + ',' + ValueType.GetKeyword() + ">[ " + sb + " ]";
         }
 
         public void GetSize(int lineIndex, string[] args, INumberObject result)

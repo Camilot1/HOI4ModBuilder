@@ -3,6 +3,7 @@ using HOI4ModBuilder.src.scripts.commands;
 using HOI4ModBuilder.src.scripts.commands.declarators.vars;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;
+using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -88,7 +89,7 @@ namespace HOI4ModBuilder.src.scripts
 
                 string[] args = GetStringArgs(index, lines[index]);
 
-                if (ScriptFabricsRegister.TryGetCommandFabric(args[0], out var commandFabric))
+                if (!ScriptFabricsRegister.TryGetCommandFabric(args[0], out var commandFabric))
                     throw new UnknownCommandScriptException(index, args, args[0]);
 
                 var newCommand = commandFabric();
@@ -188,7 +189,7 @@ namespace HOI4ModBuilder.src.scripts
                 return new CharObject(value[1]);
             else if (int.TryParse(value, out var intValue))
                 return new IntObject(intValue);
-            else if (float.TryParse(value, out var floatValue))
+            else if (Utils.TryParseFloat(value, out var floatValue))
                 return new FloatObject(floatValue);
             else if (value.Equals("TRUE"))
                 return new BooleanObject(true);
@@ -196,6 +197,18 @@ namespace HOI4ModBuilder.src.scripts
                 return new BooleanObject(false);
             else
                 return null;
+        }
+
+        public static string FormatToString(IScriptObject obj)
+        {
+            if (obj is IPrimitiveObject)
+            {
+                var value = obj.GetValue();
+                if (value is string)
+                    return "\"" + value + "\"";
+                else return value.ToString();
+            }
+            else return obj.ToString();
         }
 
         public static string[] ParseCommandCallArgs(

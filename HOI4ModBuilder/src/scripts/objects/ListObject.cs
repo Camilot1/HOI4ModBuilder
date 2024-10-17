@@ -14,7 +14,11 @@ namespace HOI4ModBuilder.src.scripts.objects
         private List<IScriptObject> _list;
         public object GetValue() => _list;
 
-        public ListObject() { _list = new List<IScriptObject>(); }
+        public ListObject()
+        {
+            ValueType = new AnyObject();
+            _list = new List<IScriptObject>();
+        }
 
         public ListObject(IScriptObject valueType)
         {
@@ -55,7 +59,7 @@ namespace HOI4ModBuilder.src.scripts.objects
 
         public void Add(int lineIndex, string[] args, IScriptObject value)
         {
-            if (value.IsSameType(ValueType))
+            if (ValueType.IsSameType(value))
             {
                 if (value is IPrimitiveObject)
                     _list.Add(value.GetCopy());
@@ -123,12 +127,13 @@ namespace HOI4ModBuilder.src.scripts.objects
 
         public void AddRange(int lineIndex, string[] args, IScriptObject value)
         {
-            if (value is IListObject listObject && listObject.GetValueType().IsSameType(ValueType))
-
-                if (value is IPrimitiveObject)
-                    listObject.ForEach(obj => _list.Add(obj.GetCopy()));
-                else
-                    listObject.ForEach(obj => _list.Add(obj));
+            if (value is IListObject listObject && ValueType.IsSameType(listObject.GetValueType()))
+                listObject.ForEach(obj =>
+                {
+                    if (obj is IPrimitiveObject)
+                        _list.Add(obj.GetCopy());
+                    else _list.Add(obj);
+                });
             else
                 throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
@@ -147,13 +152,14 @@ namespace HOI4ModBuilder.src.scripts.objects
                 throw new InvalidValueTypeScriptException(lineIndex, args, values);
 
             var listObject = (ListObject)values;
-            if (!listObject.ValueType.IsSameType(ValueType))
-                throw new InvalidValueTypeScriptException(lineIndex, args, listObject);
 
             listObject.Clear(lineIndex, args);
             foreach (IScriptObject value in _list)
             {
-                var obj = ValueType.GetEmptyCopy();
+                if (!listObject.ValueType.IsSameType(value))
+                    throw new InvalidValueTypeScriptException(lineIndex, args, value);
+
+                var obj = value.GetEmptyCopy();
                 obj.Set(lineIndex, args, value);
                 listObject.Add(lineIndex, args, obj);
             }
@@ -171,11 +177,11 @@ namespace HOI4ModBuilder.src.scripts.objects
             var sb = new StringBuilder();
 
             foreach (var item in _list)
-                sb.Append(item.GetValue()).Append(", ");
+                sb.Append(ScriptParser.FormatToString(item)).Append(", ");
 
             if (sb.Length > 2) sb.Length -= 2;
 
-            return GetKeyword() + "<" + ValueType?.GetKeyword() + ">[" + sb + "]";
+            return GetKeyword() + "<" + ValueType?.GetKeyword() + ">[ " + sb + " ]";
         }
 
         public void GetSize(int lineIndex, string[] args, INumberObject result)

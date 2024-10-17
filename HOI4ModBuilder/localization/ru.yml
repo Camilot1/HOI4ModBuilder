@@ -446,6 +446,7 @@ SCRIPT_EXCEPTION_INDEX_OUT_OF_RANGE_INTERNAL: "Значение {value} нахо
 SCRIPT_EXCEPTION_INDEX_OUT_OF_RANGE: "Значение {value} в аргументе под номером {argIndex} находится за пределами допустимого диапазона. \nСтрока: {lineIndex}. \nАргументы: {args}"
 SCRIPT_EXCEPTION_INVALID_KEY_TYPE_INTERNAL: "Некорректный тип данных ключа {value}. \nСтрока: {lineIndex}. \nАргументы: {args}"
 SCRIPT_EXCEPTION_INVALID_KEY_TYPE: "Некорректный тип данных ключа {value} в аргументе под номером {argIndex}. \nСтрока: {lineIndex}. \nАргументы: {args}"
+SCRIPT_EXCEPTION_INVALID_TYPE: "Некорректный тип данных {value} в аргументе под номером {argIndex}. \nСтрока: {lineIndex} \nАргументы: {args}"
 SCRIPT_EXCEPTION_VARIABLE_IS_ALREADY_DECLARED: "Переменная {value} в аргументе под номером {argIndex} уже определена. \nСтрока: {lineIndex}. \nАргументы: {args}"
 SCRIPT_EXCEPTION_INVALID_ARGS_COUNT: "Некорректное количество аргументов. Требуемое количество: {allowedCounts}. \nСтрока: {lineIndex}. \nАргументы: {args}"
 SCRIPT_EXCEPTION_VALUE_NOT_FOUND: "Значение {value} в аргументе под номером {argIndex} не найдено. \nСтрока: {lineIndex}. \nАргументы: {args}"

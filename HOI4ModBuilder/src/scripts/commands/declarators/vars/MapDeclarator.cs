@@ -43,15 +43,11 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
 
                 int argIndexKeyType = 2;
                 var keyTypeRaw = args[argIndexKeyType];
-                var keyType = ScriptFabricsRegister.ProduceNewScriptObject(keyTypeRaw);
-                if (keyType == null)
-                    throw new InvalidKeyTypeScriptException(lineIndex, args, keyTypeRaw, argIndexKeyType);
+                var keyType = ScriptFabricsRegister.ProduceNewScriptObject(lineIndex, args, keyTypeRaw, argIndexKeyType);
 
                 int argIndexValueType = 3;
                 var valueTypeRaw = args[argIndexValueType];
-                var valueType = ScriptFabricsRegister.ProduceNewScriptObject(valueTypeRaw);
-                if (valueType == null)
-                    throw new InvalidValueTypeScriptException(lineIndex, args, valueTypeRaw, argIndexValueType);
+                var valueType = ScriptFabricsRegister.ProduceNewScriptObject(lineIndex, args, valueTypeRaw, argIndexValueType);
 
                 var obj = new MapObject(keyType, valueType);
 

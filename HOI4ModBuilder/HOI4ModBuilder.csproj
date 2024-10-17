@@ -562,6 +562,7 @@
     <Compile Include="src\scripts\exceptions\InvalidMultilineArgsScriptException.cs" />
     <Compile Include="src\scripts\exceptions\InvalidOperationScriptException.cs" />
     <Compile Include="src\scripts\exceptions\InvalidScopeTypeScriptException.cs" />
+    <Compile Include="src\scripts\exceptions\InvalidTypeScriptException.cs" />
     <Compile Include="src\scripts\exceptions\InvalidValueTypeScriptException.cs" />
     <Compile Include="src\scripts\exceptions\ArgumentMustBeVarDeclarator.cs" />
     <Compile Include="src\scripts\exceptions\NullPointerScriptException.cs" />
@@ -572,6 +573,7 @@
     <Compile Include="src\scripts\exceptions\VariableIsAlreadyDeclaredScriptException.cs" />
     <Compile Include="src\scripts\exceptions\VariableIsNotDeclaredScriptException.cs" />
     <Compile Include="src\scripts\exceptions\VariableValueIsNotSetScriptException.cs" />
+    <Compile Include="src\scripts\objects\AnyObject.cs" />
     <Compile Include="src\scripts\objects\BooleanObject.cs" />
     <Compile Include="src\scripts\objects\CharObject.cs" />
     <Compile Include="src\scripts\objects\FloatObject.cs" />
