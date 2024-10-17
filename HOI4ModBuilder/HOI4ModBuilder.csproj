@@ -500,6 +500,8 @@
     <Compile Include="src\scripts\commands\functions\map\states\GetStateAdjacentProvincesIdsFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateBuildingLevelFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateCenterFunc.cs" />
+    <Compile Include="src\scripts\commands\functions\map\states\GetStateControllerFunc.cs" />
+    <Compile Include="src\scripts\commands\functions\map\states\GetStateOwnerFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStatePixelsCountFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStatePopulationFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateProvincesIdsFunc.cs" />
