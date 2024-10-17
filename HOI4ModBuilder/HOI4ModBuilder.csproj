@@ -477,6 +477,8 @@
     <Compile Include="src\scripts\commands\functions\map\provinces\GetProvinceAdjacentProvincesIdsFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\provinces\GetProvinceCenterFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\provinces\GetProvincePixelsCountFunc.cs" />
+    <Compile Include="src\scripts\commands\functions\map\provinces\GetProvinceRegionIdFunc.cs" />
+    <Compile Include="src\scripts\commands\functions\map\provinces\GetProvinceStateIdFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\provinces\GetProvinceTerrainFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\provinces\SetProvinceTerrainFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\regions\GetAllRegionsIdsFunc.cs" />

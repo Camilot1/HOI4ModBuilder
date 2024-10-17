@@ -98,6 +98,8 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(GetProvinceAdjacentProvincesIdsFunc.GetKeyword(), () => new GetProvinceAdjacentProvincesIdsFunc());
             RegisterFabric(GetProvinceCenterFunc.GetKeyword(), () => new GetProvinceCenterFunc());
             RegisterFabric(GetProvincePixelsCountFunc.GetKeyword(), () => new GetProvincePixelsCountFunc());
+            RegisterFabric(GetProvinceRegionIdFunc.GetKeyword(), () => new GetProvinceRegionIdFunc());
+            RegisterFabric(GetProvinceStateIdFunc.GetKeyword(), () => new GetProvinceStateIdFunc());
             RegisterFabric(GetProvinceTerrainFunc.GetKeyword(), () => new GetProvinceTerrainFunc());
             RegisterFabric(SetProvinceTerrainFunc.GetKeyword(), () => new SetProvinceTerrainFunc());
 
