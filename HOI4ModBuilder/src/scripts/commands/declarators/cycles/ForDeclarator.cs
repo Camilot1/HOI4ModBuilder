@@ -72,7 +72,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
                         if (!(rangeParam is INumberObject rangeNumberParam))
                             throw new InvalidValueTypeScriptException(lineIndex, args, i);
 
-                        rangeParams[i] = rangeNumberParam;
+                        rangeParams[i - MIN_PARAMETERS] = rangeNumberParam;
                     }
 
                     INumberObject startObj = null, endObj = null, stepObj = null;
@@ -81,12 +81,22 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
                         startObj = (INumberObject)rangeParams[0].GetEmptyCopy();
                         endObj = (INumberObject)rangeParams[0].GetCopy();
                         stepObj = (INumberObject)rangeParams[0].GetEmptyCopy();
+
+                        if (endObj.IsLowerThan(lineIndex, args, new IntObject(), new BooleanObject()))
+                            stepObj.Set(lineIndex, args, new IntObject(-1));
+                        else
+                            stepObj.Set(lineIndex, args, new IntObject(1));
                     }
                     else if (rangeParams.Length == 2)
                     {
                         startObj = (INumberObject)rangeParams[0].GetCopy();
                         endObj = (INumberObject)rangeParams[1].GetCopy();
                         stepObj = (INumberObject)rangeParams[0].GetEmptyCopy();
+
+                        if (endObj.IsLowerThan(lineIndex, args, startObj, new BooleanObject()))
+                            stepObj.Set(lineIndex, args, new IntObject(-1));
+                        else
+                            stepObj.Set(lineIndex, args, new IntObject(1));
                     }
                     else if (rangeParams.Length == 3)
                     {
@@ -136,15 +146,20 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
 
             bool isInfinite = step.IsEquals(lineIndex, args, new IntObject(), booleanObj);
 
+            var startCopy = (INumberObject)start.GetCopy();
+            startCopy.Add(lineIndex, args, step);
+            if (start.IsEquals(lineIndex, args, startCopy, booleanObj))
+                isInfinite = true;
+
             if (isInfinite)
-                throw new InfiniteCycleScriptException(lineIndex, args, start.GetValue(), end.GetValue(), step.GetValue());
+                throw new InfiniteCycleScriptException(lineIndex, args, start, end, step);
 
             bool stepIsPositive = step.IsGreaterThan(lineIndex, args, new IntObject(), booleanObj);
 
             if (stepIsPositive && start.IsGreaterThan(lineIndex, args, end, booleanObj))
-                throw new InfiniteCycleScriptException(lineIndex, args, start.GetValue(), end.GetValue(), step.GetValue());
+                throw new InfiniteCycleScriptException(lineIndex, args, start, end, step);
             else if (!stepIsPositive && start.IsLowerThan(lineIndex, args, end, booleanObj))
-                throw new InfiniteCycleScriptException(lineIndex, args, start.GetValue(), end.GetValue(), step.GetValue());
+                throw new InfiniteCycleScriptException(lineIndex, args, start, end, step);
 
 
             if (stepIsPositive)
