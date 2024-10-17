@@ -95,6 +95,7 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(GetModDirectoryPathFunc.GetKeyword(), () => new GetModDirectoryPathFunc());
 
             RegisterFabric(GetAllProvincesIdsFunc.GetKeyword(), () => new GetAllProvincesIdsFunc());
+            RegisterFabric(GetProvinceAdjacentProvincesIdsFunc.GetKeyword(), () => new GetProvinceAdjacentProvincesIdsFunc());
             RegisterFabric(GetProvinceCenterFunc.GetKeyword(), () => new GetProvinceCenterFunc());
             RegisterFabric(GetProvincePixelsCountFunc.GetKeyword(), () => new GetProvincePixelsCountFunc());
             RegisterFabric(GetProvinceTerrainFunc.GetKeyword(), () => new GetProvinceTerrainFunc());
@@ -115,10 +116,12 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(IsRegionHasWeatherFunc.GetKeyword(), () => new IsRegionHasWeatherFunc());
 
             RegisterFabric(GetAllRegionsIdsFunc.GetKeyword(), () => new GetAllRegionsIdsFunc());
+            RegisterFabric(GetRegionAdjacentProvincesIdsFunc.GetKeyword(), () => new GetRegionAdjacentProvincesIdsFunc());
             RegisterFabric(GetRegionCenterFunc.GetKeyword(), () => new GetRegionCenterFunc());
             RegisterFabric(GetRegionPixelsCountFunc.GetKeyword(), () => new GetRegionPixelsCountFunc());
 
             RegisterFabric(GetAllStatesIdsFunc.GetKeyword(), () => new GetAllStatesIdsFunc());
+            RegisterFabric(GetStateAdjacentProvincesIdsFunc.GetKeyword(), () => new GetStateAdjacentProvincesIdsFunc());
             RegisterFabric(GetStateBuildingLevelFunc.GetKeyword(), () => new GetStateBuildingLevelFunc());
             RegisterFabric(GetStateCenterFunc.GetKeyword(), () => new GetStateCenterFunc());
             RegisterFabric(GetStatePixelsCountFunc.GetKeyword(), () => new GetStatePixelsCountFunc());

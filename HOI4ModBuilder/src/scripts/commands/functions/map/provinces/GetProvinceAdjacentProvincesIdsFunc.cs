@@ -1,31 +1,33 @@
-﻿using HOI4ModBuilder.src.scripts.commands.declarators;
+﻿using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects;
-using HOI4ModBuilder.managers;
+using System;
+using HOI4ModBuilder.src.scripts.exceptions;
 
 namespace HOI4ModBuilder.src.scripts.commands.functions.map.provinces
 {
-    public class GetAllProvincesIdsFunc : ScriptCommand
+    public class GetProvinceAdjacentProvincesIdsFunc : ScriptCommand
     {
-        private static readonly string _keyword = "GET_ALL_PROVINCES_IDS";
+        private static readonly string _keyword = "GET_PROVINCE_ADJACENT_PROVINCES_IDS";
         public static new string GetKeyword() => _keyword;
         public override string GetPath() => "commands.declarators.functions.map.provinces." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <ILIST<INUMBER>:provinces_ids>",
+            $"{_keyword} <ILIST<INUMBER>:adjacent_provinces_ids> <INUMBER:province_id>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <ILIST<INUMBER>:provinces_ids>",
+            $"\tOUT <ILIST<INUMBER>:adjacent_provinces_ids>",
+            $"\t<INUMBER:province_id>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetAllProvincesIdsFunc();
+        public override ScriptCommand CreateEmptyCopy() => new GetProvinceAdjacentProvincesIdsFunc();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
             lineIndex = index;
             args = ScriptParser.ParseCommandCallArgs(
-                (a) => a.Length == 2,
+                (a) => a.Length == 3,
                 new bool[] { true },
                 out _executeBeforeCall,
                 lines, ref index, indent, varsScope, args
@@ -39,11 +41,17 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.provinces
                     (o) => o is IListObject obj && obj.GetValueType() is INumberObject
                 );
 
-                foreach (var provinceId in ProvinceManager.GetProvincesIds())
-                    provincesIds.Add(lineIndex, args, new IntObject(provinceId));
+                int argIndexProvinceId = 2;
+                var provinceId = (INumberObject)ScriptParser.ParseValue(
+                    varsScope, args[argIndexProvinceId], lineIndex, args,
+                    (o) => o is INumberObject
+                );
+
+                if (!ProvinceManager.TryGetProvince(Convert.ToUInt16(provinceId.GetValue()), out var province))
+                    throw new ValueNotFoundScriptException(lineIndex, args, provinceId.GetValue(), argIndexProvinceId);
+
+                province.ForEachAdjacentProvince((thisProvince, otherProvince) => provincesIds.Add(lineIndex, args, new IntObject(otherProvince.Id)));
             };
         }
     }
 }
-
-

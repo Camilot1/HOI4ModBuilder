@@ -65,6 +65,15 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public List<Province> provinces = new List<Province>(0);
         public Dictionary<Resource, uint> resources = new Dictionary<Resource, uint>(0);
         public List<ProvinceBorder> borders = new List<ProvinceBorder>(0);
+        public void ForEachAdjacentProvince(Action<Province, Province> action)
+        {
+            foreach (var p in provinces)
+                p.ForEachAdjacentProvince((thisProvince, otherProvince) =>
+                {
+                    if (thisProvince.State == this)
+                        action(thisProvince, otherProvince);
+                });
+        }
 
         public Country owner;
         public Country controller;

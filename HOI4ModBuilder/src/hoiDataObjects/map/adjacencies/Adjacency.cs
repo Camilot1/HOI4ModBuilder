@@ -1,11 +1,8 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.utils;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
@@ -20,6 +17,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         public ushort id;
         public bool isNormal;
         private Province _startProvince, _endProvince;
+        public Province StartProvince { get => _startProvince; }
+        public Province EndProvince { get => _endProvince; }
         private EnumAdjaciencyType _enumType;
         private Province _throughProvince;
         public Province ThroughProvince { get => _throughProvince; }

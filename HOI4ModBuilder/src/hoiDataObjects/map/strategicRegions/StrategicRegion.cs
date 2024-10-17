@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.hoiDataObjects.common.terrain;
+﻿using FreeTypeSharp.Native;
+using HOI4ModBuilder.hoiDataObjects.common.terrain;
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
@@ -52,11 +53,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public bool HasProvince(Province province) => _provinces.Contains(province);
 
         private List<ProvinceBorder> _borders = new List<ProvinceBorder>(0);
-        public List<ProvinceBorder> Borders
-        {
-            get => _borders;
-        }
+        public List<ProvinceBorder> Borders { get => _borders; }
 
+        public void ForEachAdjacentProvince(Action<Province, Province> action)
+        {
+            foreach (var p in _provinces)
+                p.ForEachAdjacentProvince((thisProvince, otherProvince) =>
+                {
+                    if (thisProvince.Region == this)
+                        action(thisProvince, otherProvince);
+                });
+        }
 
         private RegionStaticModifiers _staticModifiers = new RegionStaticModifiers();
         public RegionStaticModifiers StaticModifiers

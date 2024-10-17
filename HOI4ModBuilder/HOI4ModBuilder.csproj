@@ -474,11 +474,13 @@
     <Compile Include="src\scripts\commands\functions\files\GetModDirectoryPathFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\GetMapSizeFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\provinces\GetAllProvincesIdsFunc.cs" />
+    <Compile Include="src\scripts\commands\functions\map\provinces\GetProvinceAdjacentProvincesIdsFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\provinces\GetProvinceCenterFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\provinces\GetProvincePixelsCountFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\provinces\GetProvinceTerrainFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\provinces\SetProvinceTerrainFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\regions\GetAllRegionsIdsFunc.cs" />
+    <Compile Include="src\scripts\commands\functions\map\regions\GetRegionAdjacentProvincesIdsFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\regions\GetRegionCenterFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\regions\GetRegionPixelsCountFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\regions\weather\GetRegionWeatherPeriodArcticWaterFunc.cs" />
@@ -495,6 +497,7 @@
     <Compile Include="src\scripts\commands\functions\map\regions\weather\GetRegionWeatherPeriodTemperatureFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\regions\weather\IsRegionHasWeatherFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetAllStatesIdsFunc.cs" />
+    <Compile Include="src\scripts\commands\functions\map\states\GetStateAdjacentProvincesIdsFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateBuildingLevelFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateCenterFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStatePixelsCountFunc.cs" />

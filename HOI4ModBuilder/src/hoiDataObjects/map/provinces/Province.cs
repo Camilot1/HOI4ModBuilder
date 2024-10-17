@@ -287,6 +287,26 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         }
 
         public List<ProvinceBorder> borders = new List<ProvinceBorder>(4);
+        public void ForEachAdjacentProvince(Action<Province, Province> action)
+        {
+            foreach (var b in borders)
+            {
+                if (b.provinceA == this) action(this, b.provinceB);
+                else if (b.provinceB == this) action(this, b.provinceA);
+            }
+
+            if (_adjacencies != null)
+            {
+                foreach (var adj in _adjacencies)
+                {
+                    if (adj.GetEnumType() == EnumAdjaciencyType.IMPASSABLE)
+                        continue;
+
+                    if (adj.StartProvince == this) action(this, adj.EndProvince);
+                    if (adj.EndProvince == this) action(this, adj.StartProvince);
+                }
+            }
+        }
 
         private Dictionary<Building, uint> _buildings;
 
