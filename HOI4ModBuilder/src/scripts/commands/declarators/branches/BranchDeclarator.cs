@@ -3,7 +3,6 @@ using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace HOI4ModBuilder.src.scripts.commands.declarators
 {
@@ -13,7 +12,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
         private static readonly string _else_if_keyword = "ELSE_IF";
         private static readonly string _else_keyword = "ELSE";
         public static new string GetKeyword() => _if_keyword;
-        public override string GetPath() => "commands.declarators.BRANCH";
+        public override string GetPath() => "commands.declarators.branches." + _if_keyword;
 
         private static readonly Dictionary<string, Func<int, string[], IRelativeObject, IRelativeObject, BooleanObject, bool>> _relationFuncs = new Dictionary<string, Func<int, string[], IRelativeObject, IRelativeObject, BooleanObject, bool>>
         {

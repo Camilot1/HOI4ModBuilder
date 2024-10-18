@@ -460,8 +460,9 @@
     <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerSupplyHubHasNoConnections.cs" />
     <Compile Include="src\managers\mapChecks\warnings\EnumMapWarningCode.cs" />
     <Compile Include="src\managers\mapChecks\warnings\WarningsManager.cs" />
+    <Compile Include="src\scripts\commands\declarators\funcs\FuncDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\BooleanDeclarator.cs" />
-    <Compile Include="src\scripts\commands\declarators\branch\BranchDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\branches\BranchDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\CharDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\FileDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\cycles\ForDeclarator.cs" />
@@ -501,6 +502,7 @@
     <Compile Include="src\scripts\commands\functions\map\states\GetAllStatesIdsFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateAdjacentProvincesIdsFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateBuildingLevelFunc.cs" />
+    <Compile Include="src\scripts\commands\functions\map\states\GetStateCategoryFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateCenterFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateControllerFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateOwnerFunc.cs" />
@@ -577,6 +579,7 @@
     <Compile Include="src\scripts\objects\BooleanObject.cs" />
     <Compile Include="src\scripts\objects\CharObject.cs" />
     <Compile Include="src\scripts\objects\FloatObject.cs" />
+    <Compile Include="src\scripts\objects\FuncObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\IAddObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\IAddRangeObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\IAndObject.cs" />
@@ -607,6 +610,7 @@
     <Compile Include="src\scripts\objects\FileObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\ICollectionObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\IFileObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\IFuncObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\IListObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\IMapObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\INumberObject.cs" />

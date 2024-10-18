@@ -1,7 +1,6 @@
 ﻿using HOI4ModBuilder.src.scripts.objects;
 using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
 
 namespace HOI4ModBuilder.src.scripts
 {
@@ -9,8 +8,10 @@ namespace HOI4ModBuilder.src.scripts
     {
         public EnumVarsScopeType EnumVarScopeType { get; private set; }
         public VarsScope Prev { get; private set; }
-        private Dictionary<string, IScriptObject> _vars = new Dictionary<string, IScriptObject>();
+        private Dictionary<string, IScriptObject> _vars = new Dictionary<string, IScriptObject>(0);
         public Dictionary<string, IScriptObject> GetVars() => _vars;
+        private Dictionary<string, IScriptObject> _funcs = new Dictionary<string, IScriptObject>(0);
+        public Dictionary<string, IScriptObject> GetFuncs() => _funcs;
 
         public VarsScope(EnumVarsScopeType enumVarScopeType)
         {

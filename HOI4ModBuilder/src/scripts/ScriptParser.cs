@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.scripts.commands;
+using HOI4ModBuilder.src.scripts.commands.declarators.funcs;
 using HOI4ModBuilder.src.scripts.commands.declarators.vars;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;
@@ -211,6 +212,65 @@ namespace HOI4ModBuilder.src.scripts
             else return obj.ToString();
         }
 
+        public static void ParseFuncDeclaratorArgs(
+            string[] lines, ref int index, int indent, string[] args,
+            out string funcName, out FuncParameter[] funcParams
+        )
+        {
+            var funcParamsList = new List<FuncParameter>();
+
+            int lineIndex = index;
+
+            if (IsLastArg(args, "("))
+            {
+                int newIndent = indent + 1;
+                if (args.Length != 3)
+                    throw new InvalidArgsCountScriptException(lineIndex, args);
+
+                funcName = args[1];
+
+                index++;
+                while (index < lines.Length)
+                {
+                    var line = lines[index];
+                    int innerIndent = GetIndent(line, out bool isEmpty);
+                    var callInnerArgs = GetStringArgs(lineIndex, line);
+
+                    if (isEmpty)
+                    {
+                        index++;
+                        continue;
+                    }
+
+                    if (IsLastArg(callInnerArgs, "("))
+                        throw new InvalidMultilineArgsScriptException(index, callInnerArgs);
+
+                    if (IsLastArg(callInnerArgs, ")"))
+                        break;
+
+                    if (innerIndent != newIndent)
+                        throw new InvalidMultilineArgsScriptException(lineIndex, callInnerArgs);
+
+                    TryGetArg(callInnerArgs, 0, out string callInnerArg);
+                    bool isMarkedAsOut = callInnerArg == "OUT";
+
+                    int typeNameIndex = isMarkedAsOut ? 1 : 0;
+                    var typeName = callInnerArgs[typeNameIndex];
+                    int varNameIndex = isMarkedAsOut ? 1 : 0;
+                    var varName = callInnerArgs[varNameIndex];
+
+                    var scriptObject = ScriptFabricsRegister.ProduceNewScriptObject(index, callInnerArgs, typeName, typeNameIndex);
+
+                    funcParamsList.Add(new FuncParameter(isMarkedAsOut, scriptObject, varName));
+
+                    index++;
+                }
+
+                funcParams = funcParamsList.ToArray();
+            }
+            else throw new InvalidMultilineArgsScriptException(lineIndex, args);
+        }
+
         public static string[] ParseCommandCallArgs(
             Func<string[], bool> checkArgsFunc, bool[] outParams, out Action executeBeforeCall,
             string[] lines, ref int index, int indent, VarsScope varsScope, string[] args
@@ -221,10 +281,7 @@ namespace HOI4ModBuilder.src.scripts
             if (IsLastArg(args, "("))
             {
                 int newIndent = indent + 1;
-                List<string> multilineArgs = new List<string>
-                {
-                    args[0]
-                };
+                var multilineArgs = new List<string> { args[0] };
                 var executeBeforeCallList = new List<Action>();
 
                 index++;
@@ -244,9 +301,7 @@ namespace HOI4ModBuilder.src.scripts
                         throw new InvalidMultilineArgsScriptException(index, callInnerArgs);
 
                     if (IsLastArg(callInnerArgs, ")"))
-                    {
                         break;
-                    }
 
                     if (innerIndent != newIndent)
                         throw new InvalidMultilineArgsScriptException(lineIndex, callInnerArgs);
