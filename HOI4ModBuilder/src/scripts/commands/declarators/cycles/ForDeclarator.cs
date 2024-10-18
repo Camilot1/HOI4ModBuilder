@@ -61,7 +61,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
                 if (varsScope.HasLocalVar(iterator))
                     throw new VariableIsAlreadyDeclaredScriptException(lineIndex, args, iterator, argIndexIterator);
 
-                IListObject list = null;
+                IListObject iterationList = null;
 
                 if (hasRangeKeyword)
                 {
@@ -106,25 +106,25 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
                     }
                     else throw new InvalidArgsCountScriptException(lineIndex, args);
 
-                    list = AssembleRange(lineIndex, args, startObj, endObj, stepObj);
+                    iterationList = AssembleRange(lineIndex, args, startObj, endObj, stepObj);
                 }
                 else
                 {
                     int argIndexList = 3;
                     var tempObj = ScriptParser.ParseValue(varsScope, args[argIndexList]);
                     if (!(tempObj is IListObject listObj))
-                        throw new InvalidValueTypeScriptException(lineIndex, args, list, argIndexList);
-                    list = listObj;
+                        throw new InvalidValueTypeScriptException(lineIndex, args, iterationList, argIndexList);
+                    iterationList = listObj;
                 }
 
 
-                list.ForEach(item =>
+                iterationList.ForEach(iteratorValue =>
                 {
                     if (CheckExitScope())
                         return;
 
                     innerVarsScope.ClearLocalVars();
-                    innerVarsScope.PutLocalVariable(iterator, item);
+                    innerVarsScope.PutLocalVariable(iterator, iteratorValue);
 
                     foreach (var command in commands)
                     {

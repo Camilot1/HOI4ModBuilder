@@ -38,7 +38,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.states
             {
                 var countryTag = ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o is INumberObject
+                    (o) => o is IStringObject
                 );
 
                 int argIndexStateId = 2;
