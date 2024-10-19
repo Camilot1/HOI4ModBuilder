@@ -58,8 +58,10 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
             {
                 int argIndexIterator = 1;
                 var iterator = args[argIndexIterator];
+                /*
                 if (varsScope.HasLocalVar(iterator))
                     throw new VariableIsAlreadyDeclaredScriptException(lineIndex, args, iterator, argIndexIterator);
+                */
 
                 IListObject iterationList = null;
 

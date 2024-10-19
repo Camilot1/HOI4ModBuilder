@@ -106,8 +106,10 @@ namespace HOI4ModBuilder.src.scripts
 
         public bool TryDeclareVar(string name, IScriptObject value)
         {
+            /*
             if (HasLocalVar(name))
                 return false;
+            */
 
             PutLocalVariable(name, value);
             return true;
