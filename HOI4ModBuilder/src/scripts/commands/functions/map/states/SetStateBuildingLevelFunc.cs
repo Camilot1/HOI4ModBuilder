@@ -38,7 +38,6 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
                 lines, ref index, indent, varsScope, args
             );
 
-            _varsScope = varsScope;
             _action = delegate ()
             {
                 int argIndexStateId = 1;

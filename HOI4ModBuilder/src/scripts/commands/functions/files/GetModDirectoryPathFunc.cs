@@ -31,7 +31,6 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.files
                 lines, ref index, indent, varsScope, args
             );
 
-            _varsScope = varsScope;
             _action = delegate ()
             {
                 var result = ScriptParser.GetValue(

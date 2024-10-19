@@ -38,7 +38,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators.funcs
 
             index--;
 
-            _varsScope = varsScope;
+            _innerVarsScope = innerVarsScope;
             _action = delegate ()
             {
                 innerVarsScope.ClearLocalVars();

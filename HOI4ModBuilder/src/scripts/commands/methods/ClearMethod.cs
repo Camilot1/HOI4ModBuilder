@@ -17,7 +17,6 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
             lineIndex = index;
-            _varsScope = varsScope;
             _action = delegate ()
             {
                 var obj = (IClearObject)ScriptParser.GetValue(

@@ -19,7 +19,6 @@ namespace HOI4ModBuilder.src.scripts.commands.keywords
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
             lineIndex = index;
-            _varsScope = varsScope;
             args = ScriptParser.ParseCommandCallArgs(
                 (a) => a.Length == 1,
                 new bool[] { },
