@@ -38,7 +38,7 @@ namespace HOI4ModBuilder.src.scripts
             if (checkFunc(EnumVarScopeType))
                 return true;
             else if (Prev != null)
-                return GetSpecificParentScopes(stackTrace, checkFunc);
+                return Prev.GetSpecificParentScopes(stackTrace, checkFunc);
             else
                 return false;
         }
