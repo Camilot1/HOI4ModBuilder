@@ -160,7 +160,10 @@ namespace HOI4ModBuilder.src.scripts
                 }
                 else if (ch == '#')
                 {
-                    break;
+                    if (isParsingString || isParsingChar)
+                        sb.Append(ch);
+                    else
+                        break;
                 }
                 else
                 {
