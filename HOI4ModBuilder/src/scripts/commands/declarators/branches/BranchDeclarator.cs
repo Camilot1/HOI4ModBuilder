@@ -78,7 +78,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
 
             index--;
 
-            _varsScope = varsScope;
+            _varsScope = innerVarsScope;
             _action = delegate ()
             {
                 if (checkFunc())

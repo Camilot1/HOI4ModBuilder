@@ -222,6 +222,9 @@ namespace HOI4ModBuilder.src.scripts
 
             Logger.DisplayErrors();
 
+            if (!Directory.Exists(_scriptsFolderPath))
+                Directory.CreateDirectory(_scriptsFolderPath);
+
             File.WriteAllText(_scriptsFolderPath + "_documentation.info", sb.ToString());
         }
 

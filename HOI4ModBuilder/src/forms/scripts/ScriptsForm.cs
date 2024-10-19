@@ -150,7 +150,26 @@ namespace HOI4ModBuilder.src.forms.scripts
 
             RichTextBox_Debug.Text = sb.ToString();
 
-            GroupBox_Debug.Text = "Debug: " + ScriptParser.IsDebug + "; Line: " + lineIndex;
+            GroupBox_Debug.Text = $"Debug: {ScriptParser.IsDebug}; Line: {lineIndex + 1}";
+
+            var scriptLines = RichTextBox_Script.Text.Split('\n');
+            var currentLineMark = ">>>";
+            for (int i = 0; i < scriptLines.Length; i++)
+            {
+                var scriptLine = scriptLines[i];
+                if (lineIndex == i)
+                {
+                    if (!scriptLine.StartsWith(currentLineMark))
+                        scriptLine = currentLineMark + scriptLine;
+                }
+                else if (scriptLine.StartsWith(currentLineMark))
+                {
+                    scriptLine = scriptLine.Substring(currentLineMark.Length);
+                }
+
+                scriptLines[i] = scriptLine;
+            }
+            RichTextBox_Script.Text = string.Join("\n", scriptLines);
         }
 
         private void RichTextBox_Script_TextChanged(object sender, EventArgs e)
