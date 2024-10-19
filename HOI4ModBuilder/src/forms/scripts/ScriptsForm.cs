@@ -150,7 +150,7 @@ namespace HOI4ModBuilder.src.forms.scripts
 
             RichTextBox_Debug.Text = sb.ToString();
 
-            GroupBox_Debug.Text = "Debug: " + ScriptParser.IsDebug + "; Line: " + lineIndex;
+            GroupBox_Debug.Text = $"Debug: {ScriptParser.IsDebug}; Line: {lineIndex + 1}";
         }
 
         private void RichTextBox_Script_TextChanged(object sender, EventArgs e)
