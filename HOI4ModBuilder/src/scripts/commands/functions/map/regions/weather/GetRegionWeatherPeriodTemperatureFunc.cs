@@ -36,6 +36,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.regions.weather
                 lines, ref index, indent, varsScope, args
             );
 
+            _varsScope = varsScope;
             _action = delegate ()
             {
                 var minTemp = ScriptParser.GetValue(

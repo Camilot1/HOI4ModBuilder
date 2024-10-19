@@ -30,6 +30,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators.vars
                 lines, ref index, indent, varsScope, args
             );
 
+            _varsScope = varsScope;
             _action = delegate ()
             {
                 int argIndexName = 1;

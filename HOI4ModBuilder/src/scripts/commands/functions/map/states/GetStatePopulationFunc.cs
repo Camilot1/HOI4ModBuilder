@@ -34,6 +34,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
                 lines, ref index, indent, varsScope, args
             );
 
+            _varsScope = varsScope;
             _action = delegate ()
             {
                 var population = ScriptParser.GetValue(

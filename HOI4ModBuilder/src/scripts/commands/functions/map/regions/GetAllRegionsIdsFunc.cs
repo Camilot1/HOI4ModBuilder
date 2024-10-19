@@ -31,6 +31,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.regions
                 lines, ref index, indent, varsScope, args
             );
 
+            _varsScope = varsScope;
             _action = delegate ()
             {
                 var regionsIds = (IListObject)ScriptParser.GetValue(

@@ -35,6 +35,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.provinces
                 lines, ref index, indent, varsScope, args
             );
 
+            _varsScope = varsScope;
             _action = delegate ()
             {
                 int argIndexProvinceId = 1;

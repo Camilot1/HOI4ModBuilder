@@ -24,6 +24,7 @@ namespace HOI4ModBuilder.src.scripts.commands.operators.arithmetical
                 lines, ref index, indent, varsScope, args
             );
 
+            _varsScope = varsScope;
             _action = delegate ()
             {
                 var variable = (ISubtractObject)ScriptParser.GetValue(

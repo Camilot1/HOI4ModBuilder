@@ -29,6 +29,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
                 lines, ref index, indent, varsScope, args
             );
 
+            _varsScope = varsScope;
             _action = delegate ()
             {
                 var from = (IMapObject)ScriptParser.GetValue(
@@ -38,7 +39,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
 
                 var to = (IListObject)ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o is IListObject obj &&
+                    (o) => o is IListObject obj && 
                     obj.GetValueType().IsSameType(from.GetKeyType())
                 );
 
