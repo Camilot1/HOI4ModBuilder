@@ -501,6 +501,7 @@
     <Compile Include="src\scripts\commands\functions\map\regions\weather\IsRegionHasWeatherFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetAllStatesIdsFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateAdjacentProvincesIdsFunc.cs" />
+    <Compile Include="src\scripts\commands\functions\map\states\GetStateAdjacentStatesIdsFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateBuildingLevelFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateCategoryFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateCenterFunc.cs" />
