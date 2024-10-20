@@ -1,7 +1,7 @@
 Keyword: 
 	IF
 Command Path:
-	commands.declarators.BRANCH
+	commands.declarators.branches.IF
 Documentation:
 	IF <BOOLEAN:value>
 		<INNER_CODE>
@@ -28,6 +28,9 @@ Command Path:
 Documentation:
 	FOR <iterator_name> IN <ILIST:values>
 		<INNER_CODE>
+	======== OR ========
+	FOR <iterator_name> IN RANGE [optional]<INUMBER:start> <INUMBER:end> [optional]<INUMBER:step>
+		<INNER_CODE>
 
 
 
@@ -36,7 +39,7 @@ Keyword:
 Command Path:
 	commands.declarators.vars.BOOLEAN
 Implements:
-	ISCRIPTOBJECT IPRIMITIVE ISET 
+	ISCRIPTOBJECT IRELATIVE IPRIMITIVE ISET 
 Documentation:
 	BOOLEAN <BOOLEAN:var_name> [OPTIONAL]<BOOLEAN:other_value>
 	======== OR ========
@@ -68,7 +71,7 @@ Keyword:
 Command Path:
 	commands.declarators.vars.FILE
 Implements:
-	ISCRIPTOBJECT IFILE IAPPEND ISET IWRITE 
+	ISCRIPTOBJECT IFILE IAPPEND IREAD ISET IWRITE 
 Documentation:
 	FILE <FILE:var_name> [OPTIONAL]<STRING|FILE:other_value>
 	======== OR ========
@@ -115,6 +118,8 @@ Keyword:
 	LIST
 Command Path:
 	commands.declarators.vars.LIST
+Implements:
+	ISCRIPTOBJECT ICOLLECTION ILIST IADD IADDRANGE ICLEAR IGET IGETSIZE IINSERT IREMOVEAT IREMOVE ISET ISETSIZE ISORT 
 Documentation:
 	LIST <LIST:var_name> <VALUE_TYPE> [OPTIONAL]<LIST<VALUE_TYPE>:other_value>
 	======== OR ========
@@ -130,6 +135,8 @@ Keyword:
 	MAP
 Command Path:
 	commands.declarators.vars.MAP
+Implements:
+	ISCRIPTOBJECT ICOLLECTION IMAP ICLEAR IGET IGETSIZE IPUT ISET 
 Documentation:
 	MAP <MAP:var_name> <KEY_VALUE> <VALUE_TYPE> [OPTIONAL]<MAP<KEY_TYPE,VALUE_TYPE>:other_value>
 	======== OR ========
@@ -143,11 +150,27 @@ Documentation:
 
 
 Keyword: 
+	RANDOM
+Command Path:
+	commands.declarators.vars.RANDOM
+Implements:
+	ISCRIPTOBJECT IRANDOM INEXTFLOAT INEXTINT ISET ISETSEED 
+Documentation:
+	RANDOM <RANDOM:var_name> [OPTIONAL]<INUMBER:seed>
+	======== OR ========
+	RANDOM (
+		OUT <RANDOM:var_name>
+		[OPTIONAL]<INUMBER:seed>
+	)
+
+
+
+Keyword: 
 	STRING
 Command Path:
 	commands.declarators.vars.STRING
 Implements:
-	ISCRIPTOBJECT ISTRING IADD ICLEAR IGET IGETSIZE IINSERT IPRIMITIVE IPUT IREMOVEAT ISET ISETSIZE ITRIM 
+	ISCRIPTOBJECT IRELATIVE ISTRING IADD ICLEAR IGET IGETSIZE IINSERT IPRIMITIVE IPUT IREMOVEAT ISET ISETSIZE ISPLIT ITRIM 
 Documentation:
 	STRING <STRING:var_name> [OPTIONAL]<ANY:other_value>
 	======== OR ========
@@ -199,9 +222,121 @@ Documentation:
 
 
 Keyword: 
+	GET_ALL_PROVINCES_IDS
+Command Path:
+	commands.declarators.functions.map.provinces.GET_ALL_PROVINCES_IDS
+Documentation:
+	GET_ALL_PROVINCES_IDS <ILIST<INUMBER>:provinces_ids>
+	======== OR ========
+	GET_ALL_PROVINCES_IDS (
+		OUT <ILIST<INUMBER>:provinces_ids>
+	)
+
+
+
+Keyword: 
+	GET_PROVINCE_ADJACENT_PROVINCES_IDS
+Command Path:
+	commands.declarators.functions.map.provinces.GET_PROVINCE_ADJACENT_PROVINCES_IDS
+Documentation:
+	GET_PROVINCE_ADJACENT_PROVINCES_IDS <ILIST<INUMBER>:adjacent_provinces_ids> <INUMBER:province_id>
+	======== OR ========
+	GET_PROVINCE_ADJACENT_PROVINCES_IDS (
+		OUT <ILIST<INUMBER>:adjacent_provinces_ids>
+		<INUMBER:province_id>
+	)
+
+
+
+Keyword: 
+	GET_PROVINCE_CENTER
+Command Path:
+	commands.declarators.functions.map.provinces.GET_PROVINCE_CENTER
+Documentation:
+	GET_PROVINCE_CENTER <INUMBER:x> <INUMBER:y> <INUMBER:province_id>
+	======== OR ========
+	GET_PROVINCE_CENTER (
+		OUT <INUMBER:x>
+		OUT <INUMBER:y>
+		<INUMBER:province_id>
+	)
+
+
+
+Keyword: 
+	GET_PROVINCE_PIXELS_COUNT
+Command Path:
+	commands.declarators.functions.map.provinces.GET_PROVINCE_PIXELS_COUNT
+Documentation:
+	GET_PROVINCE_PIXELS_COUNT <INUMBER:pixels_count> <INUMBER:province_id>
+	======== OR ========
+	GET_PROVINCE_PIXELS_COUNT (
+		OUT <INUMBER:pixels_count>
+		<INUMBER:province_id>
+	)
+
+
+
+Keyword: 
+	GET_PROVINCE_REGION_ID
+Command Path:
+	commands.declarators.functions.map.states.GET_PROVINCE_REGION_ID
+Documentation:
+	GET_PROVINCE_REGION_ID <INUMBER:region_d> <INUMBER:province_id>
+	======== OR ========
+	GET_PROVINCE_REGION_ID (
+		OUT <INUMBER:region_d>
+		<INUMBER:province_id>
+	)
+
+
+
+Keyword: 
+	GET_PROVINCE_STATE_ID
+Command Path:
+	commands.declarators.functions.map.states.GET_PROVINCE_STATE_ID
+Documentation:
+	GET_PROVINCE_STATE_ID <INUMBER:state_id> <INUMBER:province_id>
+	======== OR ========
+	GET_PROVINCE_STATE_ID (
+		OUT <INUMBER:state_id>
+		<INUMBER:province_id>
+	)
+
+
+
+Keyword: 
+	GET_PROVINCE_TERRAIN
+Command Path:
+	commands.declarators.functions.map.provinces.GET_PROVINCE_TERRAIN
+Documentation:
+	GET_PROVINCE_TERRAIN <ISTRING:terrain_name> <INUMBER:province_id>
+	======== OR ========
+	GET_PROVINCE_TERRAIN (
+		OUT <ISTRING:terrain_name>
+		<INUMBER:province_id>
+	)
+
+
+
+Keyword: 
+	SET_PROVINCE_TERRAIN
+Command Path:
+	commands.declarators.functions.map.provinces.SET_PROVINCE_TERRAIN
+Documentation:
+	SET_PROVINCE_TERRAIN <INUMBER:province_id> <ISTRING:terrain_name>
+	======== OR ========
+	SET_PROVINCE_TERRAIN (
+		<INUMBER:province_id>
+		<ISTRING:terrain_name>
+	)
+
+
+
+Keyword: 
 	GET_REGION_WEATHER_PERIOD_ARCTIC_WATER
 Command Path:
-	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_ARCTIC_WATER
+	commands.declarators.functions.map.regions.weather.GET_REGION_WEATHER_PERIOD_ARCTIC_WATER
 Documentation:
 	GET_REGION_WEATHER_PERIOD_ARCTIC_WATER <INUMBER:arctic_water_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
 	======== OR ========
@@ -216,7 +351,7 @@ Documentation:
 Keyword: 
 	GET_REGION_WEATHER_PERIOD_BETWEEN
 Command Path:
-	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_BETWEEN
+	commands.declarators.functions.map.regions.weather.GET_REGION_WEATHER_PERIOD_BETWEEN
 Documentation:
 	GET_REGION_WEATHER_PERIOD_BETWEEN <INUMBER:start_day> <INUMBER:start_month> <INUMBER:end_day> <INUMBER:end_month> <INUMBER:region_id> <INUMBER:weather_period_index>
 	======== OR ========
@@ -234,7 +369,7 @@ Documentation:
 Keyword: 
 	GET_REGION_WEATHER_PERIOD_BLIZZARD
 Command Path:
-	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_BLIZZARD
+	commands.declarators.functions.map.regions.weather.GET_REGION_WEATHER_PERIOD_BLIZZARD
 Documentation:
 	GET_REGION_WEATHER_PERIOD_BLIZZARD <INUMBER:blizzard_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
 	======== OR ========
@@ -249,7 +384,7 @@ Documentation:
 Keyword: 
 	GET_REGION_WEATHER_PERIOD_MIN_SNOW_LEVEL
 Command Path:
-	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_MIN_SNOW_LEVEL
+	commands.declarators.functions.map.regions.weather.GET_REGION_WEATHER_PERIOD_MIN_SNOW_LEVEL
 Documentation:
 	GET_REGION_WEATHER_PERIOD_MIN_SNOW_LEVEL <INUMBER:min_snow_level> <INUMBER:region_id> <INUMBER:weather_period_index>
 	======== OR ========
@@ -264,7 +399,7 @@ Documentation:
 Keyword: 
 	GET_REGION_WEATHER_PERIOD_MUD
 Command Path:
-	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_MUD
+	commands.declarators.functions.map.regions.weather.GET_REGION_WEATHER_PERIOD_MUD
 Documentation:
 	GET_REGION_WEATHER_PERIOD_MUD <INUMBER:mud_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
 	======== OR ========
@@ -279,7 +414,7 @@ Documentation:
 Keyword: 
 	GET_REGION_WEATHER_PERIOD_NO_PHENOMENON
 Command Path:
-	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_NO_PHENOMENON
+	commands.declarators.functions.map.regions.weather.GET_REGION_WEATHER_PERIOD_NO_PHENOMENON
 Documentation:
 	GET_REGION_WEATHER_PERIOD_NO_PHENOMENON <INUMBER:no_phenomenon_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
 	======== OR ========
@@ -294,7 +429,7 @@ Documentation:
 Keyword: 
 	GET_REGION_WEATHER_PERIOD_RAIN_HEAVY
 Command Path:
-	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_RAIN_HEAVY
+	commands.declarators.functions.map.regions.weather.GET_REGION_WEATHER_PERIOD_RAIN_HEAVY
 Documentation:
 	GET_REGION_WEATHER_PERIOD_RAIN_HEAVY <INUMBER:rain_heavy_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
 	======== OR ========
@@ -309,7 +444,7 @@ Documentation:
 Keyword: 
 	GET_REGION_WEATHER_PERIOD_RAIN_LIGHT
 Command Path:
-	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_RAIN_LIGHT
+	commands.declarators.functions.map.regions.weather.GET_REGION_WEATHER_PERIOD_RAIN_LIGHT
 Documentation:
 	GET_REGION_WEATHER_PERIOD_RAIN_LIGHT <INUMBER:rain_light_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
 	======== OR ========
@@ -324,7 +459,7 @@ Documentation:
 Keyword: 
 	GET_REGION_WEATHER_PERIOD_SANDSTORM
 Command Path:
-	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_SANDSTORM
+	commands.declarators.functions.map.regions.weather.GET_REGION_WEATHER_PERIOD_SANDSTORM
 Documentation:
 	GET_REGION_WEATHER_PERIOD_SANDSTORM <INUMBER:sandstorm_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
 	======== OR ========
@@ -339,7 +474,7 @@ Documentation:
 Keyword: 
 	GET_REGION_WEATHER_PERIODS_COUNT
 Command Path:
-	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIODS_COUNT
+	commands.declarators.functions.map.regions.weather.GET_REGION_WEATHER_PERIODS_COUNT
 Documentation:
 	GET_REGION_WEATHER_PERIODS_COUNT <INUMBER:weather_periods_count> <INUMBER:region_id> <INUMBER:weather_period_index>
 	======== OR ========
@@ -354,7 +489,7 @@ Documentation:
 Keyword: 
 	GET_REGION_WEATHER_PERIOD_SNOW
 Command Path:
-	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_SNOW
+	commands.declarators.functions.map.regions.weather.GET_REGION_WEATHER_PERIOD_SNOW
 Documentation:
 	GET_REGION_WEATHER_PERIOD_SNOW <INUMBER:snow_chance> <INUMBER:region_id> <INUMBER:weather_period_index>
 	======== OR ========
@@ -369,7 +504,7 @@ Documentation:
 Keyword: 
 	GET_REGION_WEATHER_PERIOD_TEMPERATURE
 Command Path:
-	commands.declarators.functions.regions.weather.GET_REGION_WEATHER_PERIOD_TEMPERATURE
+	commands.declarators.functions.map.regions.weather.GET_REGION_WEATHER_PERIOD_TEMPERATURE
 Documentation:
 	GET_REGION_WEATHER_PERIOD_TEMPERATURE <INUMBER:min_temperature> <INUMBER:max_temperature> <INUMBER:region_id> <INUMBER:weather_period_index>
 	======== OR ========
@@ -385,7 +520,7 @@ Documentation:
 Keyword: 
 	IS_REGION_HAS_WEATHER
 Command Path:
-	commands.declarators.functions.regions.weather.IS_REGION_HAS_WEATHER
+	commands.declarators.functions.map.regions.weather.IS_REGION_HAS_WEATHER
 Documentation:
 	IS_REGION_HAS_WEATHER <BOOLEAN:is_region_has_weather> <INUMBER:region_id> <INUMBER:weather_period_index>
 	======== OR ========
@@ -400,7 +535,7 @@ Documentation:
 Keyword: 
 	GET_ALL_REGIONS_IDS
 Command Path:
-	commands.declarators.functions.regions.GET_ALL_REGIONS_IDS
+	commands.declarators.functions.map.regions.GET_ALL_REGIONS_IDS
 Documentation:
 	GET_ALL_REGIONS_IDS <LIST<INUMBER>:regions_ids>
 	======== OR ========
@@ -411,9 +546,52 @@ Documentation:
 
 
 Keyword: 
+	GET_REGION_ADJACENT_PROVINCES_IDS
+Command Path:
+	commands.declarators.functions.map.regions.GET_REGION_ADJACENT_PROVINCES_IDS
+Documentation:
+	GET_REGION_ADJACENT_PROVINCES_IDS <ILIST<INUMBER>:adjacent_provinces_ids> <INUMBER:region_id>
+	======== OR ========
+	GET_REGION_ADJACENT_PROVINCES_IDS (
+		OUT <ILIST<INUMBER>:adjacent_provinces_ids>
+		<INUMBER:region_id>
+	)
+
+
+
+Keyword: 
+	GET_REGION_CENTER
+Command Path:
+	commands.declarators.functions.map.regions.GET_REGION_CENTER
+Documentation:
+	GET_REGION_CENTER <INUMBER:x> <INUMBER:y> <INUMBER:region_id>
+	======== OR ========
+	GET_REGION_CENTER (
+		OUT <INUMBER:x>
+		OUT <INUMBER:y>
+		<INUMBER:region_id>
+	)
+
+
+
+Keyword: 
+	GET_REGION_PIXELS_COUNT
+Command Path:
+	commands.declarators.functions.map.regions.GET_REGION_PIXELS_COUNT
+Documentation:
+	GET_REGION_PIXELS_COUNT <INUMBER:pixels_count> <INUMBER:region_id>
+	======== OR ========
+	GET_REGION_PIXELS_COUNT (
+		OUT <INUMBER:pixels_count>
+		<INUMBER:region_id>
+	)
+
+
+
+Keyword: 
 	GET_ALL_STATES_IDS
 Command Path:
-	commands.declarators.functions.states.GET_ALL_STATES_IDS
+	commands.declarators.functions.map.states.GET_ALL_STATES_IDS
 Documentation:
 	GET_ALL_STATES_IDS <LIST<INUMBER>:states_ids>
 	======== OR ========
@@ -424,9 +602,37 @@ Documentation:
 
 
 Keyword: 
+	GET_STATE_ADJACENT_PROVINCES_IDS
+Command Path:
+	commands.declarators.functions.map.states.GET_STATE_ADJACENT_PROVINCES_IDS
+Documentation:
+	GET_STATE_ADJACENT_PROVINCES_IDS <ILIST<INUMBER>:adjacent_provinces_ids> <INUMBER:state_id>
+	======== OR ========
+	GET_STATE_ADJACENT_PROVINCES_IDS (
+		OUT <ILIST<INUMBER>:adjacent_provinces_ids>
+		<INUMBER:state_id>
+	)
+
+
+
+Keyword: 
+	GET_STATE_ADJACENT_STATES_IDS
+Command Path:
+	commands.declarators.functions.map.states.GET_STATE_ADJACENT_STATES_IDS
+Documentation:
+	GET_STATE_ADJACENT_STATES_IDS <ILIST<INUMBER>:adjacent_states_ids> <INUMBER:state_id>
+	======== OR ========
+	GET_STATE_ADJACENT_STATES_IDS (
+		OUT <ILIST<INUMBER>:adjacent_states_ids>
+		<INUMBER:state_id>
+	)
+
+
+
+Keyword: 
 	GET_STATE_BUILDING_LEVEL
 Command Path:
-	commands.declarators.functions.states.GET_STATE_BUILDING_LEVEL
+	commands.declarators.functions.map.states.GET_STATE_BUILDING_LEVEL
 Documentation:
 	GET_STATE_BUILDING_LEVEL <INUMBER:level> <INUMBER:state_id> <ISTRING:building_name>
 	======== OR ========
@@ -439,9 +645,94 @@ Documentation:
 
 
 Keyword: 
+	GET_STATE_CATEGORY
+Command Path:
+	commands.declarators.functions.map.states.GET_STATE_CATEGORY
+Documentation:
+	GET_STATE_CATEGORY <ISTRING:state_category> <INUMBER:state_id>
+	======== OR ========
+	GET_STATE_CATEGORY (
+		OUT <ISTRING:state_category>
+		<INUMBER:state_id>
+	)
+
+
+
+Keyword: 
+	GET_STATE_CENTER
+Command Path:
+	commands.declarators.functions.map.states.GET_STATE_CENTER
+Documentation:
+	GET_STATE_CENTER <INUMBER:x> <INUMBER:y> <INUMBER:state_id>
+	======== OR ========
+	GET_STATE_CENTER (
+		OUT <INUMBER:x>
+		OUT <INUMBER:y>
+		<INUMBER:state_id>
+	)
+
+
+
+Keyword: 
+	GET_STATE_CONTROLLER
+Command Path:
+	commands.declarators.functions.map.states.GET_STATE_CONTROLLER
+Documentation:
+	GET_STATE_CONTROLLER <ISTRING:country_tag> <INUMBER:state_id>
+	======== OR ========
+	GET_STATE_CONTROLLER (
+		OUT <ISTRING:country_tag>
+		<INUMBER:state_id>
+	)
+
+
+
+Keyword: 
+	GET_STATE_OWNER
+Command Path:
+	commands.declarators.functions.map.states.GET_STATE_OWNER
+Documentation:
+	GET_STATE_OWNER <ISTRING:country_tag> <INUMBER:state_id>
+	======== OR ========
+	GET_STATE_OWNER (
+		OUT <ISTRING:country_tag>
+		<INUMBER:state_id>
+	)
+
+
+
+Keyword: 
+	GET_STATE_PIXELS_COUNT
+Command Path:
+	commands.declarators.functions.map.states.GET_STATE_PIXELS_COUNT
+Documentation:
+	GET_STATE_PIXELS_COUNT <INUMBER:pixels_count> <INUMBER:state_id>
+	======== OR ========
+	GET_STATE_PIXELS_COUNT (
+		OUT <INUMBER:pixels_count>
+		<INUMBER:state_id>
+	)
+
+
+
+Keyword: 
+	GET_STATE_PROVINCES_IDS
+Command Path:
+	commands.declarators.functions.map.states.GET_STATE_PROVINCES_IDS
+Documentation:
+	GET_STATE_PROVINCES_IDS <LIST<INUMBER>:provinces_ids> <INUMBER:state_id>
+	======== OR ========
+	GET_STATE_PROVINCES_IDS (
+		OUT <LIST<INUMBER>:provinces_ids>
+		 <INUMBER:state_id>
+	)
+
+
+
+Keyword: 
 	GET_STATE_POPULATION
 Command Path:
-	commands.declarators.functions.states.GET_STATE_POPULATION
+	commands.declarators.functions.map.states.GET_STATE_POPULATION
 Documentation:
 	GET_STATE_POPULATION <INUMBER:population> <INUMBER:state_id>
 	======== OR ========
@@ -455,7 +746,7 @@ Documentation:
 Keyword: 
 	GET_STATE_REGION_ID
 Command Path:
-	commands.declarators.functions.states.GET_STATE_REGION_ID
+	commands.declarators.functions.map.states.GET_STATE_REGION_ID
 Documentation:
 	GET_STATE_REGION_ID <INUMBER:region_id> <INUMBER:state_id>
 	======== OR ========
@@ -469,7 +760,7 @@ Documentation:
 Keyword: 
 	SET_STATE_BUILDING_LEVEL
 Command Path:
-	commands.declarators.functions.states.SET_STATE_BUILDING_LEVEL
+	commands.declarators.functions.map.states.SET_STATE_BUILDING_LEVEL
 Documentation:
 	SET_STATE_BUILDING_LEVEL <INUMBER:state_id> <ISTRING:building_name> <INUMBER:building_level>
 	======== OR ========
@@ -477,6 +768,20 @@ Documentation:
 		<INUMBER:state_id>
 		<ISTRING:building_name>
 		<INUMBER:building_level>
+	)
+
+
+
+Keyword: 
+	GET_MAP_SIZE
+Command Path:
+	commands.declarators.functions.map.GET_MAP_SIZE
+Documentation:
+	GET_MAP_SIZE <INUMBER:x> <INUMBER:y>
+	======== OR ========
+	GET_MAP_SIZE (
+		OUT <INUMBER:x>
+		OUT <INUMBER:y>
 	)
 
 
@@ -512,6 +817,44 @@ Documentation:
 
 
 Keyword: 
+	INTERPOLATE
+Command Path:
+	commands.declarators.functions.utils.INTERPOLATE
+Documentation:
+	INTERPOLATE <INUMBER:result_value> <INUMBER:target_value> <INUMBER:start_arg> <INUMBER:start_value> <INUMBER:end_arg> <INUMBER:end_value>
+	======== OR ========
+	INTERPOLATE (
+		OUT <INUMBER:result_value>
+		<INUMBER:target_value>
+		<INUMBER:start_arg>
+		<INUMBER:start_value>
+		<INUMBER:end_arg>
+		<INUMBER:end_value>
+	)
+	======== OR ========
+	INTERPOLATE <INUMBER:result_value> <INUMBER:target_x> <INUMBER:target_y> <INUMBER:left_down_x> <INUMBER:left_down_y> <INUMBER:left_down_value> <INUMBER:right_down_x> <INUMBER:right_down_y> <INUMBER:right_down_value> <INUMBER:right_up_x> <INUMBER:right_up_y> <INUMBER:right_up_value> <INUMBER:left_up_x> <INUMBER:left_up_y> <INUMBER:left_up_value> 
+	======== OR ========
+	INTERPOLATE (
+		OUT <INUMBER:result_value>
+		<INUMBER:target_x>
+		<INUMBER:target_y>
+		<INUMBER:left_down_x>
+		<INUMBER:left_down_y>
+		<INUMBER:left_down_value>
+		<INUMBER:right_down_x>
+		<INUMBER:right_down_y>
+		<INUMBER:right_down_value>
+		<INUMBER:right_up_x>
+		<INUMBER:right_up_y>
+		<INUMBER:right_up_value>
+		<INUMBER:left_up_x>
+		<INUMBER:left_up_y>
+		<INUMBER:left_up_value>
+	)
+
+
+
+Keyword: 
 	BREAK
 Command Path:
 	commands.declarators.keywords.BREAK
@@ -530,11 +873,29 @@ Documentation:
 
 
 Keyword: 
+	APPEND
+Command Path:
+	commands.declarators.methods.APPEND
+Documentation:
+	APPEND <IAPPEND:to> <ANY:from>
+
+
+
+Keyword: 
 	CEIL
 Command Path:
 	commands.declarators.methods.CEIL
 Documentation:
 	CEIL <FLOAT:var_name>
+
+
+
+Keyword: 
+	CLAMP
+Command Path:
+	commands.declarators.methods.CLAMP
+Documentation:
+	CLAMP <INUMBER:var_name> <INUMBER:min> <INUMBER:max>
 
 
 
@@ -548,11 +909,40 @@ Documentation:
 
 
 Keyword: 
+	DELETE
+Command Path:
+	commands.declarators.methods.DELETE
+Documentation:
+	DELETE <IFILE|ISTRING:file_path>
+	======== OR ========
+	DELETE (
+		<IFILE|ISTRING:file_path>
+	)
+
+
+
+Keyword: 
 	FLOOR
 Command Path:
 	commands.declarators.methods.FLOOR
 Documentation:
 	FLOOR <FLOAT:var_name>
+
+
+
+Keyword: 
+	FORMAT
+Command Path:
+	commands.declarators.methods.FORMAT
+Documentation:
+	Formats a number to a string value by using pattern line like "0.000"
+	FORMAT <ISTRING:result> <INUMBER:value> <ISTRING:pattern>
+	======== OR ========
+	FORMAT (
+		OUT <ISTRING:result>
+		<INUMBER:value>
+		<ISTRING:pattern>
+	)
 
 
 
@@ -615,6 +1005,20 @@ Documentation:
 
 
 Keyword: 
+	IS_EXISTS
+Command Path:
+	commands.declarators.methods.IS_EXISTS
+Documentation:
+	IS_EXISTS <BOOLEAN:result> <IFILE|ISTRING:file_path>
+	======== OR ========
+	IS_EXISTS (
+		OUT <BOOLEAN:result>
+		<IFILE|ISTRING:file_path>
+	)
+
+
+
+Keyword: 
 	MAX
 Command Path:
 	commands.declarators.methods.MAX
@@ -649,16 +1053,85 @@ Documentation:
 
 
 Keyword: 
+	NEXT_FLOAT
+Command Path:
+	commands.declarators.methods.NEXT_FLOAT
+Documentation:
+	NEXT_FLOAT <INUMBER:result_var> <IRANDOM:random_obj>
+	======== OR ========
+	NEXT_FLOAT (
+		OUT <INUMBER:result_var>
+		<IRANDOM:random_obj>
+	)
+	======== OR ========
+	NEXT_FLOAT <INUMBER:result_var> <IRANDOM:random_obj> <INUMBER:max_value>
+	======== OR ========
+	NEXT_FLOAT (
+		OUT <INUMBER:result_var>
+		<IRANDOM:random_obj>
+		<INUMBER:max_value>
+	)
+	======== OR ========
+	NEXT_FLOAT <INUMBER:result_var> <IRANDOM:random_obj> <INUMBER:min_value> <INUMBER:max_value>
+	======== OR ========
+	NEXT_FLOAT (
+		OUT <INUMBER:result_var>
+		<IRANDOM:random_obj>
+		<INUMBER:min_value>
+		<INUMBER:max_value>
+	)
+
+
+
+Keyword: 
+	NEXT_INT
+Command Path:
+	commands.declarators.methods.NEXT_INT
+Documentation:
+	NEXT_INT <INUMBER:result_var> <IRANDOM:random_obj> <INUMBER:max_value>
+	======== OR ========
+	NEXT_INT (
+		OUT <INUMBER:result_var>
+		<IRANDOM:random_obj>
+		<INUMBER:max_value>
+	)
+	======== OR ========
+	NEXT_INT <INUMBER:result_var> <IRANDOM:random_obj> <INUMBER:min_value> <INUMBER:max_value>
+	======== OR ========
+	NEXT_INT (
+		OUT <INUMBER:result_var>
+		<IRANDOM:random_obj>
+		<INUMBER:min_value>
+		<INUMBER:max_value>
+	)
+
+
+
+Keyword: 
 	PUT
 Command Path:
 	commands.declarators.methods.PUT
 Documentation:
-	PUT <IPUT<KEY_TYPE,VALUE_TYPE:to> <KEY_TYPE:key> <VALUE_TYPE:value>
+	PUT <IPUT<KEY_TYPE,VALUE_TYPE>:to> <KEY_TYPE:key> <VALUE_TYPE:value>
 	======== OR ========
 	PUT (
-		OUT IPUT<KEY_TYPE,VALUE_TYPE:to>
+		OUT <IPUT<KEY_TYPE,VALUE_TYPE>:to>
 		<KEY_TYPE:key>
 		<VALUE_TYPE:value>
+	)
+
+
+
+Keyword: 
+	READ
+Command Path:
+	commands.declarators.methods.READ
+Documentation:
+	READ <ISTRING|ILIST<ISTRING>:to> <IREAD:from>
+	======== OR ========
+	READ (
+		OUT <ISTRING|ILIST<ISTRING>:to>
+		<IREAD:from>
 	)
 
 
@@ -669,6 +1142,15 @@ Command Path:
 	commands.declarators.methods.ROUND
 Documentation:
 	ROUND <FLOAT:var_name>
+
+
+
+Keyword: 
+	SET_SEED
+Command Path:
+	commands.declarators.methods.SET_SEED
+Documentation:
+	SET_SEED <ISETSEED:variable> <INUMBER:value>
 
 
 
@@ -687,11 +1169,44 @@ Documentation:
 
 
 Keyword: 
+	SORT
+Command Path:
+	commands.declarators.methods.SORT
+Documentation:
+	SORT <ISORT:var_name>
+
+
+
+Keyword: 
+	SPLIT
+Command Path:
+	commands.declarators.methods.SPLIT
+Documentation:
+	SPLIT <ILIST<ISTRING>:result> <ISPLIT:source> <CHAR:regex>
+	======== OR ========
+	SPLIT (
+		OUT <ILIST<ISTRING>:result>
+		<ISPLIT:source>
+		<CHAR:regex>
+	)
+
+
+
+Keyword: 
+	TRIM
+Command Path:
+	commands.declarators.methods.TRIM
+Documentation:
+	TRIM <ITRIM:var_name>
+
+
+
+Keyword: 
 	WRITE
 Command Path:
 	commands.declarators.methods.WRITE
 Documentation:
-	WRITE <IWRITE:variable> <ANY:value>
+	WRITE <IWRITE:to> <ANY:from>
 
 
 

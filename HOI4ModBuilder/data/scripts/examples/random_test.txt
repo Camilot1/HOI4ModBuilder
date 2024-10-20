@@ -1,0 +1,52 @@
+# Create random object
+RANDOM random
+
+# Generate next random float in range [0,5; 1,5)
+NEXT_FLOAT (
+	OUT FLOAT result
+	random
+	0,5
+	1,5
+)
+
+# Write value to console
+CONSOLE_WRITE_LN result
+
+# Generate next random float in range [0,5; 1,5)
+NEXT_FLOAT (
+	OUT result
+	random
+	0,5
+	1,5
+)
+
+# Write value to console
+CONSOLE_WRITE_LN result
+
+# Set random seed to 1
+SET_SEED random 1
+
+# Generate next random float in range [0,5; 1,5)
+NEXT_FLOAT (
+	OUT result
+	random
+	0,5
+	1,5
+)
+
+# Write value to console
+CONSOLE_WRITE_LN result
+
+# Set random seed to 1
+SET_SEED random 1
+
+# Generate next random float in range [0,5; 1,5)
+NEXT_FLOAT (
+	OUT result
+	random
+	0,5
+	1,5
+)
+
+# Write value to console
+CONSOLE_WRITE_LN result

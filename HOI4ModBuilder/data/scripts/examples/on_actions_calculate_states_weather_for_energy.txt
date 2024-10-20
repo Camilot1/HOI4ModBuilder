@@ -2,15 +2,17 @@
 # ============== PREPARE DATA =============
 # =========================================
 
+FLOAT days_count 365
+
+# Get how much weeks in the year and ceil it
+FLOAT weeks_count days_count
+DIVIDE weeks_count 7
+CEIL weeks_count
+
 # Get ids of all regions
 GET_ALL_REGIONS_IDS (
 	OUT LIST regions_ids INT
 )
-
-# Get how much weeks in the year and ceil it
-FLOAT weeks_count 365
-DIVIDE weeks_count 7
-CEIL weeks_count
 
 # Get count of regions
 GET_SIZE (
@@ -18,12 +20,12 @@ GET_SIZE (
 	regions_ids
 )
 
-INT all_weeks_data_size regions_count
-MULTIPLY all_weeks_data_size weeks_count
 
 # Create list for data of all regions for every year week
+INT all_weeks_data_size regions_count
+MULTIPLY all_weeks_data_size weeks_count
 SET_SIZE (
-	LIST all_regions_weeks_data FLOAT
+	OUT LIST all_regions_weeks_data FLOAT
 	all_weeks_data_size
 )
 

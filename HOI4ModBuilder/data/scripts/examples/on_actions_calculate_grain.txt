@@ -1,0 +1,125 @@
+# Prepare on_actions file
+GET_MOD_DIRECTORY_PATH (
+	OUT STRING filePath
+)
+ADD filePath "common\on_actions\_h4mb_setup_grains_vars.txt"
+
+FILE file filePath
+
+# Export on_actions file's header
+LIST export_list STRING
+ADD export_list "on_actions = {"
+ADD export_list "\ton_startup = {"
+ADD export_list "\t\teffect = {"
+
+# Get all states' ids
+GET_ALL_STATES_IDS (
+	OUT LIST states_ids INT
+)
+
+# Get map width and height
+GET_MAP_SIZE (
+	OUT INT map_width
+	OUT INT map_height
+)
+
+# In cycle for each state on map
+FOR state_id IN states_ids
+	# Get all state's provinces ids
+	GET_STATE_PROVINCES_IDS (
+		OUT LIST provinces_ids INT
+		state_id
+	)
+	
+	# Get state's center position
+	GET_STATE_CENTER (
+		OUT FLOAT state_center_x
+		OUT FLOAT state_center_y
+		state_id
+	)
+		
+	FLOAT plains_pixels_count 0
+	
+	# Count how much pixels of planes in current state
+	FOR province_id IN provinces_ids
+		# Get province's terrain name
+		GET_PROVINCE_TERRAIN (
+			OUT STRING terrain_name
+			province_id
+		)
+		
+		INT province_pixels_count 0
+		# If province is "plains" or "village" then grain can be harvested from it
+		IF terrain_name == "plains"
+			GET_PROVINCE_PIXELS_COUNT province_pixels_count province_id		
+		IF terrain_name == "village"
+			GET_PROVINCE_PIXELS_COUNT province_pixels_count province_id
+			
+		ADD plains_pixels_count province_pixels_count
+	
+	# Apply pixels-to-grain factor value
+	FLOAT grains_value plains_pixels_count
+	MULTIPLY grains_value 0,01
+	
+	# Interpolate soil fertility for each state
+	INTERPOLATE (
+		OUT FLOAT fertility_factor
+		state_center_x
+		state_center_y
+		0
+		map_height
+		0,75
+		map_width
+		map_height
+		1,55
+		map_width
+		0
+		0,6
+		0
+		0
+		0,1
+	)
+	
+	CLAMP fertility_factor 0,35 0,95
+	
+	MULTIPLY grains_value fertility_factor
+	ROUND grains_value
+		
+	# Export vars to file
+	STRING line "\t\t\t"
+	ADD line state_id
+	ADD line " = {"
+	ADD export_list line
+	
+	# Format values from format "0,1231656" to format "0.123" 
+	FORMAT (
+		OUT STRING fertility_factor_formatter
+		fertility_factor
+		"0.000"
+	)
+	
+	SET line "\t\t\t\tset_variable = { fertility_factor = "
+	ADD line fertility_factor_formatter
+	ADD line " }"
+	ADD export_list line
+	
+	SET line "\t\t\t\tset_variable = { grains_value = "
+	ADD line grains_value
+	ADD line " }"
+	ADD export_list line
+	
+	SET line "\t\t\t\tadd_resource = { type = grain amount = "
+	ADD line grains_value
+	ADD line " }"
+	ADD export_list line
+	
+	SET line "\t\t\t}"
+	ADD export_list line	
+
+# Export on_actions file's end
+ADD export_list "\t\t}"
+ADD export_list "\t}"
+ADD export_list "}"
+
+# Write data to file
+WRITE file export_list
