@@ -541,6 +541,7 @@
     <Compile Include="src\scripts\commands\methods\ReadMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSeedMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSizeMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\SortMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SplitMethod.cs" />
     <Compile Include="src\scripts\commands\methods\TrimMethod.cs" />
     <Compile Include="src\scripts\commands\methods\WriteMethod.cs" />
@@ -603,6 +604,7 @@
     <Compile Include="src\scripts\objects\interfaces\basic\ISetSeedObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ISetSizeObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ISetObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\ISortObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ISplitObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ISubtractObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ITrimObject.cs" />

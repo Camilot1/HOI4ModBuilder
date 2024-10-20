@@ -153,6 +153,7 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(RoundMethod.GetKeyword(), () => new RoundMethod());
             RegisterFabric(SetSeedMethod.GetKeyword(), () => new SetSeedMethod());
             RegisterFabric(SetSizeMethod.GetKeyword(), () => new SetSizeMethod());
+            RegisterFabric(SortMethod.GetKeyword(), () => new SortMethod());
             RegisterFabric(SplitMethod.GetKeyword(), () => new SplitMethod());
             RegisterFabric(TrimMethod.GetKeyword(), () => new TrimMethod());
             RegisterFabric(WriteMethod.GetKeyword(), () => new WriteMethod());
@@ -235,6 +236,7 @@ namespace HOI4ModBuilder.src.scripts
 
             if (obj is ICollectionObject) sb.Append("ICOLLECTION ");
             if (obj is IFileObject) sb.Append("IFILE ");
+            if (obj is IFuncObject) sb.Append("IFUNC ");
             if (obj is IListObject) sb.Append("ILIST ");
             if (obj is ILogicalObject) sb.Append("ILOGICAL ");
             if (obj is IMapObject) sb.Append("IMAP ");
@@ -266,6 +268,7 @@ namespace HOI4ModBuilder.src.scripts
             if (obj is ISetObject) sb.Append("ISET ");
             if (obj is ISetSeedObject) sb.Append("ISETSEED ");
             if (obj is ISetSizeObject) sb.Append("ISETSIZE ");
+            if (obj is ISortObject) sb.Append("ISORT ");
             if (obj is ISplitObject) sb.Append("ISPLIT ");
             if (obj is ISubtractObject) sb.Append("ISUBTRACT ");
             if (obj is ITrimObject) sb.Append("ITRIM ");

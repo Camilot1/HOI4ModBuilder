@@ -216,5 +216,7 @@ namespace HOI4ModBuilder.src.scripts.objects
             while (_list.Count > newSize)
                 _list.RemoveAt(_list.Count - 1);
         }
+
+        public void Sort(int lineIndex, string[] args) => _list.Sort();
     }
 }
