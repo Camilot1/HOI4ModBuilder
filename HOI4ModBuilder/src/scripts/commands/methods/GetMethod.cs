@@ -34,14 +34,15 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var from = (IGetObject)ScriptParser.GetValue(
-                    varsScope, args[2], lineIndex, args,
-                    (o) => o is IGetObject
-                );
-
                 var to = ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o.IsSameType(from.GetValueType())
+                    (o) => true
+                );
+
+                var from = (IGetObject)ScriptParser.GetValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => o is IGetObject @object &&
+                            @object.GetValueType().IsSameType(to)
                 );
 
                 var key = ScriptParser.ParseValue(
