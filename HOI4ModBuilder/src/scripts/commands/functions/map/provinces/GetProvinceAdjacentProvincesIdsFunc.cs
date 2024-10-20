@@ -3,6 +3,7 @@ using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects;
 using System;
 using HOI4ModBuilder.src.scripts.exceptions;
+using System.Collections.Generic;
 
 namespace HOI4ModBuilder.src.scripts.commands.functions.map.provinces
 {
@@ -50,7 +51,12 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.provinces
                 if (!ProvinceManager.TryGetProvince(Convert.ToUInt16(provinceId.GetValue()), out var province))
                     throw new ValueNotFoundScriptException(lineIndex, args, provinceId.GetValue(), argIndexProvinceId);
 
-                province.ForEachAdjacentProvince((thisProvince, otherProvince) => provincesIds.Add(lineIndex, args, new IntObject(otherProvince.Id)));
+                var listProvincesIds = new List<ushort>();
+                province.ForEachAdjacentProvince((thisProvince, otherProvince) => listProvincesIds.Add(otherProvince.Id));
+                listProvincesIds.Sort();
+
+                foreach (var pId in listProvincesIds)
+                    provincesIds.Add(lineIndex, args, new IntObject(pId));
             };
         }
     }

@@ -52,15 +52,13 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.states
                     throw new ValueNotFoundScriptException(lineIndex, args, stateId.GetValue(), argIndexStateId);
 
                 var hashSetAdjacentStatesIds = new HashSet<ushort>();
-                var listSetAdjacentStatesIds = new List<ushort>();
                 state.ForEachAdjacentProvince((thisProvince, otherProvince) =>
                 {
                     if (otherProvince.State != null)
                         hashSetAdjacentStatesIds.Add(otherProvince.State.Id);
                 });
 
-                foreach (var adjacentStateId in hashSetAdjacentStatesIds)
-                    listSetAdjacentStatesIds.Add(adjacentStateId);
+                var listSetAdjacentStatesIds = new List<ushort>(hashSetAdjacentStatesIds);
                 listSetAdjacentStatesIds.Sort();
 
                 foreach (var adjacentStateId in listSetAdjacentStatesIds)
