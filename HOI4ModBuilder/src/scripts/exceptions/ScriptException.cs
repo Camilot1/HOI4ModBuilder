@@ -11,7 +11,7 @@ namespace HOI4ModBuilder.src.scripts
                 GuiLocManager.GetLoc(
                     enumLoc,
                     new Dictionary<string, string> {
-                        { "{lineIndex}", "" + lineIndex }
+                        { "{lineIndex}", "" + (lineIndex + 1) }
                     }
                 )
             )
@@ -21,7 +21,7 @@ namespace HOI4ModBuilder.src.scripts
                 GuiLocManager.GetLoc(
                     enumLoc,
                     new Dictionary<string, string> {
-                        { "{lineIndex}", "" + lineIndex },
+                        { "{lineIndex}", "" + (lineIndex + 1) },
                         { "{args}", string.Join(" ", args) }
                     }
                 )
@@ -34,7 +34,7 @@ namespace HOI4ModBuilder.src.scripts
                     new Func<Dictionary<string, string>>(() =>
                     {
                         var dictionary = new Dictionary<string, string> {
-                            { "{lineIndex}", "" + lineIndex },
+                            { "{lineIndex}", "" + (lineIndex + 1) },
                             { "{args}", string.Join(" ", args) }
                         };
 
@@ -51,7 +51,7 @@ namespace HOI4ModBuilder.src.scripts
                 GuiLocManager.GetLoc(
                     enumLoc,
                     new Dictionary<string, string> {
-                        { "{lineIndex}", "" + lineIndex },
+                        { "{lineIndex}", "" + (lineIndex + 1) },
                         { "{args}", string.Join(" ", args) },
                         { "{argIndex}", "" + argIndex }
                     }
@@ -63,7 +63,7 @@ namespace HOI4ModBuilder.src.scripts
                 GuiLocManager.GetLoc(
                     enumLoc,
                     new Dictionary<string, string> {
-                        { "{lineIndex}", "" + lineIndex },
+                        { "{lineIndex}", "" + (lineIndex + 1) },
                         { "{args}", string.Join(" ", args) },
                         { "{value}", "" + value },
                         { "{argIndex}", "" + argIndex }
@@ -77,7 +77,7 @@ namespace HOI4ModBuilder.src.scripts
                 GuiLocManager.GetLoc(
                     enumLoc,
                     new Dictionary<string, string> {
-                        { "{lineIndex}", "" + lineIndex },
+                        { "{lineIndex}", "" + (lineIndex + 1) },
                         { "{args}", string.Join(" ", args) },
                         { "{value}", "" + value }
                     }
@@ -90,7 +90,7 @@ namespace HOI4ModBuilder.src.scripts
                 GuiLocManager.GetLoc(
                     enumLoc,
                     new Dictionary<string, string> {
-                        { "{lineIndex}", "" + lineIndex },
+                        { "{lineIndex}", "" + (lineIndex + 1) },
                         { "{args}", string.Join(" ", args) }
                     }
                 ),
@@ -103,7 +103,7 @@ namespace HOI4ModBuilder.src.scripts
                 GuiLocManager.GetLoc(
                     enumLoc,
                     new Dictionary<string, string> {
-                        { "{lineIndex}", "" + lineIndex },
+                        { "{lineIndex}", "" + (lineIndex + 1) },
                         { "{args}", string.Join(" ", args) },
                         { "{value}", "" + value },
                         { "{allowedCounts}", string.Join(", ", allowedCounts) }
