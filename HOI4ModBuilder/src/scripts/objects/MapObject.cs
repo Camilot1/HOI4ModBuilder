@@ -66,9 +66,33 @@ namespace HOI4ModBuilder.src.scripts.objects
 
         public void Set(int lineIndex, string[] args, IScriptObject value)
         {
-            if (!IsSameType(value))
+            if (IsSameType(value) || CanBeConvertedFrom(value))
+                _map = (Dictionary<IScriptObject, IScriptObject>)value.GetValue();
+            else if (value == null)
+                throw new VariableIsNotDeclaredScriptException(lineIndex, args, lineIndex);
+            else
                 throw new InvalidValueTypeScriptException(lineIndex, args, value);
-            _map = ((MapObject)value)._map;
+        }
+
+        public bool CanBeConvertedFrom(IScriptObject value)
+        {
+            if (!(value is IMapObject mapObject))
+                return false;
+
+            if (IsSameType(mapObject))
+                return true;
+
+            var result = new bool[] { true };
+            mapObject.ForEach((k, v) =>
+            {
+                if (!result[0])
+                    return;
+
+                if (!KeyType.IsSameType(k) || !ValueType.IsSameType(v))
+                    result[0] = false;
+            });
+
+            return result[0];
         }
 
         public void Put(int lineIndex, string[] args, IScriptObject key, IScriptObject value)

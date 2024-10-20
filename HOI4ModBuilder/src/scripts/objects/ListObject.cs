@@ -45,16 +45,32 @@ namespace HOI4ModBuilder.src.scripts.objects
 
         public void Set(int lineIndex, string[] args, IScriptObject value)
         {
-            if (value is ListObject listObject)
-            {
-                if (ValueType.IsSameType(listObject.ValueType))
-                    _list = listObject._list;
-                else throw new InvalidValueTypeScriptException(lineIndex, args, value);
-            }
+            if (IsSameType(value) || CanBeConvertedFrom(value))
+                _list = (List<IScriptObject>)value.GetValue();
             else if (value == null)
                 throw new VariableIsNotDeclaredScriptException(lineIndex, args, null);
             else
                 throw new InvalidValueTypeScriptException(lineIndex, args, value);
+        }
+        public bool CanBeConvertedFrom(IScriptObject value)
+        {
+            if (!(value is IListObject listObject))
+                return false;
+
+            if (IsSameType(listObject))
+                return true;
+
+            var result = new bool[] { true };
+            listObject.ForEach((v) =>
+            {
+                if (!result[0])
+                    return;
+
+                if (!ValueType.IsSameType(v))
+                    result[0] = false;
+            });
+
+            return result[0];
         }
 
         public void Add(int lineIndex, string[] args, IScriptObject value)
