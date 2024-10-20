@@ -34,14 +34,13 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var from = (IGetSizeObject)ScriptParser.GetValue(
-                    varsScope, args[1], lineIndex, args,
-                    (o) => o is IGetSizeObject
-                );
-
                 var to = (INumberObject)ScriptParser.GetValue(
-                    varsScope, args[2], lineIndex, args,
+                    varsScope, args[1], lineIndex, args,
                     (o) => o is INumberObject
+                );
+                var from = (IGetSizeObject)ScriptParser.GetValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => o is IGetSizeObject
                 );
 
                 var result = new IntObject();
