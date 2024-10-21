@@ -6,7 +6,7 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
     public interface IListObject :
         IScriptObject, ICollectionObject, IAddObject, IAddRangeObject,
         IInsertObject, IRemoveObject, IRemoveAtObject, IGetObject,
-        ISetSizeObject, IGetSizeObject, IClearObject, ISortObject
+        ISetSizeObject, IGetSizeObject, IClearObject, ISortObject, IReverseObject
     {
         void ForEach(Action<IScriptObject> action);
     }

@@ -218,5 +218,6 @@ namespace HOI4ModBuilder.src.scripts.objects
         }
 
         public void Sort(int lineIndex, string[] args) => _list.Sort();
+        public void Reverse(int lineIndex, string[] args) => _list.Reverse();
     }
 }

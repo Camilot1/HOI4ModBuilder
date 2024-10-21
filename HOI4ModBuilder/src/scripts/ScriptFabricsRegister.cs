@@ -150,6 +150,7 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(NextIntMethod.GetKeyword(), () => new NextIntMethod());
             RegisterFabric(PutMethod.GetKeyword(), () => new PutMethod());
             RegisterFabric(ReadMethod.GetKeyword(), () => new ReadMethod());
+            RegisterFabric(ReverseMethod.GetKeyword(), () => new ReverseMethod());
             RegisterFabric(RoundMethod.GetKeyword(), () => new RoundMethod());
             RegisterFabric(SetSeedMethod.GetKeyword(), () => new SetSeedMethod());
             RegisterFabric(SetSizeMethod.GetKeyword(), () => new SetSizeMethod());
@@ -265,6 +266,7 @@ namespace HOI4ModBuilder.src.scripts
             if (obj is IReadObject) sb.Append("IREAD ");
             if (obj is IRemoveAtObject) sb.Append("IREMOVEAT ");
             if (obj is IRemoveObject) sb.Append("IREMOVE ");
+            if (obj is IReverseObject) sb.Append("IREVERSE ");
             if (obj is ISetObject) sb.Append("ISET ");
             if (obj is ISetSeedObject) sb.Append("ISETSEED ");
             if (obj is ISetSizeObject) sb.Append("ISETSIZE ");

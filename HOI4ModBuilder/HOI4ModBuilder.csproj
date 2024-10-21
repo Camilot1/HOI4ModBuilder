@@ -539,6 +539,7 @@
     <Compile Include="src\scripts\commands\declarators\vars\ListDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\MapDeclarator.cs" />
     <Compile Include="src\scripts\commands\methods\ReadMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\ReverseMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSeedMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSizeMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SortMethod.cs" />
@@ -601,6 +602,7 @@
     <Compile Include="src\scripts\objects\interfaces\basic\IReadObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\IRemoveAtObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\IRemoveObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IReverseObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ISetSeedObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ISetSizeObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ISetObject.cs" />
