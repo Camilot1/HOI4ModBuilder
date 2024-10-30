@@ -219,5 +219,18 @@ namespace HOI4ModBuilder.src.scripts.objects
 
         public void Sort(int lineIndex, string[] args) => _list.Sort();
         public void Reverse(int lineIndex, string[] args) => _list.Reverse();
+
+        public void Shuffle(int lineIndex, string[] args)
+        {
+            var random = new Random();
+            int n = _list.Count;
+
+            // Start from the end and swap elements with a random one
+            for (int i = n - 1; i > 0; i--)
+            {
+                int j = random.Next(0, i + 1);
+                (_list[j], _list[i]) = (_list[i], _list[j]);
+            }
+        }
     }
 }

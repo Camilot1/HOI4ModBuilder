@@ -542,6 +542,7 @@
     <Compile Include="src\scripts\commands\methods\ReverseMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSeedMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSizeMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\ShuffleMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SortMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SplitMethod.cs" />
     <Compile Include="src\scripts\commands\methods\TrimMethod.cs" />
@@ -606,6 +607,7 @@
     <Compile Include="src\scripts\objects\interfaces\basic\ISetSeedObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ISetSizeObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ISetObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IShuffleObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ISortObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ISplitObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ISubtractObject.cs" />
