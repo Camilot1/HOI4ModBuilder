@@ -31,7 +31,7 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             {
                 var target = (IShuffleObject)ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o is ISortObject
+                    (o) => o is IShuffleObject
                 );
 
                 var seedRaw = args.Length > 2 ? args[2] : null;

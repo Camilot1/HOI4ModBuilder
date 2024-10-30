@@ -223,7 +223,7 @@ namespace HOI4ModBuilder.src.scripts.objects
         public void Shuffle(int lineIndex, string[] args) => Shuffle(new Random());
         public void Shuffle(int lineIndex, string[] args, INumberObject seed)
         {
-            var random = new Random(Convert.ToInt32(seed));
+            var random = new Random(Convert.ToInt32(seed.GetValue()));
             Shuffle(random);
         }
 
