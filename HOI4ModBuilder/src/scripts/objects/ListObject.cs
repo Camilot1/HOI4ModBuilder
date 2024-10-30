@@ -220,17 +220,31 @@ namespace HOI4ModBuilder.src.scripts.objects
         public void Sort(int lineIndex, string[] args) => _list.Sort();
         public void Reverse(int lineIndex, string[] args) => _list.Reverse();
 
-        public void Shuffle(int lineIndex, string[] args)
+        public void Shuffle(int lineIndex, string[] args) => Shuffle(new Random());
+        public void Shuffle(int lineIndex, string[] args, INumberObject seed)
         {
-            var random = new Random();
-            int n = _list.Count;
+            var random = new Random(Convert.ToInt32(seed));
+            Shuffle(random);
+        }
 
-            // Start from the end and swap elements with a random one
+        private void Shuffle(Random random)
+        {
+            int n = _list.Count;
             for (int i = n - 1; i > 0; i--)
             {
                 int j = random.Next(0, i + 1);
-                (_list[j], _list[i]) = (_list[i], _list[j]);
+                Swap(i, j);
             }
         }
+
+        public void Swap(int lineIndex, string[] args, INumberObject first, INumberObject second)
+        {
+            Swap(
+                Convert.ToInt32(first.GetValue()),
+                Convert.ToInt32(first.GetValue())
+            );
+        }
+
+        private void Swap(int first, int next) => (_list[next], _list[first]) = (_list[first], _list[next]);
     }
 }

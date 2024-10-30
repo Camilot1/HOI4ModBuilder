@@ -3,5 +3,6 @@
     public interface IShuffleObject
     {
         void Shuffle(int lineIndex, string[] args);
+        void Shuffle(int lineIndex, string[] args, INumberObject seed);
     }
 }

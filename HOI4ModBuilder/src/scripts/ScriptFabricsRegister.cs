@@ -157,6 +157,7 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(ShuffleMethod.GetKeyword(), () => new ShuffleMethod());
             RegisterFabric(SortMethod.GetKeyword(), () => new SortMethod());
             RegisterFabric(SplitMethod.GetKeyword(), () => new SplitMethod());
+            RegisterFabric(SwapMethod.GetKeyword(), () => new SwapMethod());
             RegisterFabric(TrimMethod.GetKeyword(), () => new TrimMethod());
             RegisterFabric(WriteMethod.GetKeyword(), () => new WriteMethod());
 
@@ -275,6 +276,7 @@ namespace HOI4ModBuilder.src.scripts
             if (obj is ISortObject) sb.Append("ISORT ");
             if (obj is ISplitObject) sb.Append("ISPLIT ");
             if (obj is ISubtractObject) sb.Append("ISUBTRACT ");
+            if (obj is ISwapObject) sb.Append("ISWAP ");
             if (obj is ITrimObject) sb.Append("ITRIM ");
             if (obj is IWriteObject) sb.Append("IWRITE ");
             if (obj is IXorObject) sb.Append("IXOR ");

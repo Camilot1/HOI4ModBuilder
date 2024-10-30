@@ -1,18 +1,17 @@
-﻿using HOI4ModBuilder.src.scripts.objects.interfaces;
-using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
-using System;
+﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
+using HOI4ModBuilder.src.scripts.objects.interfaces;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {
-    public class ShuffleMethod : ScriptCommand
+    public class SwapMethod : ScriptCommand
     {
-        private static readonly string _keyword = "SHUFFLE";
+        private static readonly string _keyword = "SWAP";
         public static new string GetKeyword() => _keyword;
         public override string GetPath() => "commands.declarators.methods." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <ISHUFFLE:target> [optional]<INUMBER:seed>"
+            $"{_keyword} <ISWAP:target> <INUMBER:first> <INUMBER:second>"
         };
         public override ScriptCommand CreateEmptyCopy() => new ShuffleMethod();
 
@@ -20,7 +19,7 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
         {
             lineIndex = index;
             args = ScriptParser.ParseCommandCallArgs(
-                (a) => a.Length == 2 || a.Length == 3,
+                (a) => a.Length == 4,
                 new bool[] { },
                 out _executeBeforeCall,
                 lines, ref index, indent, varsScope, args
@@ -29,25 +28,23 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var target = (IShuffleObject)ScriptParser.GetValue(
+                var target = (ISwapObject)ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o is ISortObject
+                    (o) => o is ISwapObject
                 );
 
-                var seedRaw = args.Length > 2 ? args[2] : null;
+                var first = (INumberObject)ScriptParser.ParseValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => o is INumberObject
+                );
+                var second = (INumberObject)ScriptParser.ParseValue(
+                    varsScope, args[3], lineIndex, args,
+                    (o) => o is INumberObject
+                );
 
-
-                if (seedRaw != null)
-                {
-                    var seed = (INumberObject)ScriptParser.ParseValue(
-                            varsScope, seedRaw, lineIndex, args,
-                            (o) => o is INumberObject
-                        );
-                    target.Shuffle(lineIndex, args, seed);
-                }
-                else
-                    target.Shuffle(lineIndex, args);
+                target.Swap(lineIndex, args, first, second);
             };
         }
     }
 }
+
