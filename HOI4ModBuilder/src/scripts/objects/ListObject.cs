@@ -239,10 +239,15 @@ namespace HOI4ModBuilder.src.scripts.objects
 
         public void Swap(int lineIndex, string[] args, INumberObject first, INumberObject second)
         {
-            Swap(
-                Convert.ToInt32(first.GetValue()),
-                Convert.ToInt32(first.GetValue())
-            );
+            int firstIndex = Convert.ToInt32(first.GetValue());
+            int secondIndex = Convert.ToInt32(second.GetValue());
+
+            if (firstIndex < 0 || firstIndex >= _list.Count)
+                throw new IndexOutOfRangeScriptException(lineIndex, args, firstIndex);
+            if (secondIndex < 0 || secondIndex >= _list.Count)
+                throw new IndexOutOfRangeScriptException(lineIndex, args, secondIndex);
+
+            Swap(firstIndex, secondIndex);
         }
 
         private void Swap(int first, int next) => (_list[next], _list[first]) = (_list[first], _list[next]);
