@@ -124,7 +124,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ideologies
         {
             try
             {
-                DataArgsBlocksManager.ParseDataArgsBlock(parser, null, token, null, _modifiers);
+                DataArgsBlocksManager.ParseDataArgsBlocks(parser, token, _modifiers);
             }
             catch (Exception ex)
             {

@@ -42,7 +42,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
         {
             Logger.WrapTokenCallbackExceptions(BLOCK_NAME, () =>
             {
-                DataArgsBlocksManager.ParseDataArgsBlock(parser, null, token, null, _effects);
+                DataArgsBlocksManager.ParseDataArgsBlocks(parser, token, _effects);
             });
         }
 

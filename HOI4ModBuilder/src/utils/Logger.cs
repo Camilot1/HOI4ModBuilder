@@ -93,7 +93,15 @@ namespace HOI4ModBuilder.src.utils
             oldValue = newValue;
         }
 
-        public static void CheckValueOverride<T>(LinkedLayer prevLayer, ref T? oldValue, T newValue) where T : struct
+        public static void CheckValueOverrideAndSet<T>(LinkedLayer prevLayer, string parameterName, ref T? oldValue, T newValue) where T : struct
+        {
+            if (oldValue != null)
+                LogLayeredWarning(new LinkedLayer(prevLayer, parameterName), EnumLocKey.LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN);
+
+            oldValue = newValue;
+        }
+
+        public static void CheckValueOverrideAndSet<T>(LinkedLayer prevLayer, ref T? oldValue, T newValue) where T : struct
         {
             if (oldValue != null)
                 LogLayeredWarning(prevLayer, EnumLocKey.LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN);
@@ -101,7 +109,15 @@ namespace HOI4ModBuilder.src.utils
             oldValue = newValue;
         }
 
-        public static void CheckValueOverride<T>(LinkedLayer prevLayer, ref T oldValue, T newValue) where T : class
+        public static void CheckValueOverrideAndSet<T>(LinkedLayer prevLayer, string parameterName, ref T oldValue, T newValue) where T : class
+        {
+            if (oldValue != null)
+                LogLayeredWarning(new LinkedLayer(prevLayer, parameterName), EnumLocKey.LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN);
+
+            oldValue = newValue;
+        }
+
+        public static void CheckValueOverrideAndSet<T>(LinkedLayer prevLayer, ref T oldValue, T newValue) where T : class
         {
             if (oldValue != null)
                 LogLayeredWarning(prevLayer, EnumLocKey.LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN);

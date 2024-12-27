@@ -117,29 +117,28 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
         {
             Logger.WrapTokenCallbackExceptions(token, () =>
             {
-                LinkedLayer newLayer = new LinkedLayer(prevLayer, token);
                 if (token == TOKEN_YEAR)
-                    Logger.CheckValueOverride(newLayer, ref _year, parser.ReadInt32());
+                    Logger.CheckValueOverrideAndSet(prevLayer, token, ref _year, parser.ReadInt32());
                 else if (token == TOKEN_PICTURE)
-                    Logger.CheckValueOverride(newLayer, ref _picture, parser.ReadString());
+                    Logger.CheckValueOverrideAndSet(prevLayer, token, ref _picture, parser.ReadString());
                 else if (token == TOKEN_IS_ARCHETYPE)
-                    Logger.CheckValueOverride(newLayer, ref _isArchetype, parser.ReadBool());
+                    Logger.CheckValueOverrideAndSet(prevLayer, token, ref _isArchetype, parser.ReadBool());
                 else if (token == TOKEN_IS_BUILDABLE)
-                    Logger.CheckValueOverride(newLayer, ref _isBuildable, parser.ReadBool());
+                    Logger.CheckValueOverrideAndSet(prevLayer, token, ref _isBuildable, parser.ReadBool());
                 else if (token == TOKEN_IS_ACTIVE)
-                    Logger.CheckValueOverride(newLayer, ref _isActive, parser.ReadBool());
+                    Logger.CheckValueOverrideAndSet(prevLayer, token, ref _isActive, parser.ReadBool());
                 else if (token == TOKEN_ARCHETYPE)
-                    Logger.CheckValueOverride(newLayer, ref _archetype, parser.ReadString());
+                    Logger.CheckValueOverrideAndSet(prevLayer, token, ref _archetype, parser.ReadString());
                 else if (token == TOKEN_PARENT)
-                    Logger.CheckValueOverride(newLayer, ref _parent, parser.ReadString());
+                    Logger.CheckValueOverrideAndSet(prevLayer, token, ref _parent, parser.ReadString());
                 else if (token == TOKEN_PRIORITY)
-                    Logger.CheckValueOverride(newLayer, ref _priority, parser.ReadInt32());
+                    Logger.CheckValueOverrideAndSet(prevLayer, token, ref _priority, parser.ReadInt32());
                 else if (token == TOKEN_VISUAL_LEVEL)
-                    Logger.CheckValueOverride(newLayer, ref _visualLevel, parser.ReadInt32());
+                    Logger.CheckValueOverrideAndSet(prevLayer, token, ref _visualLevel, parser.ReadInt32());
                 else if (token == EquipmentResources.BLOCK_NAME)
                 {
                     if (_resources == null) _resources = new EquipmentResources();
-                    Logger.ParseLayeredValue(newLayer, _resources, parser);
+                    Logger.ParseLayeredValue(new LinkedLayer(prevLayer, token), _resources, parser);
                 }
                 else
                     throw new UnknownTokenException(token);

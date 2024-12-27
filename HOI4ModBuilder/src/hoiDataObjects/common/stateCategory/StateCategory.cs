@@ -42,7 +42,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
                 default:
                     try
                     {
-                        DataArgsBlocksManager.ParseDataArgsBlock(parser, null, token, null, modifiers);
+                        DataArgsBlocksManager.ParseDataArgsBlocks(parser, token, modifiers);
                     }
                     catch (Exception ex)
                     {

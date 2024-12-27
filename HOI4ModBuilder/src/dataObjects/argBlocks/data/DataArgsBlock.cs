@@ -126,7 +126,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
         public virtual void TokenCallback(ParadoxParser parser, string token)
         {
-            DataArgsBlocksManager.ParseDataArgsBlock(parser, this, token, CurrentLevelDataBlocks, innerArgsBlocks);
+            DataArgsBlocksManager.ParseDataArgsBlock(parser, this, token, innerArgsBlocks);
         }
     }
 

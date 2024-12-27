@@ -383,6 +383,17 @@ namespace HOI4ModBuilder
             return ("" + value).Replace(',', '.');
         }
 
+        public static void ListToString(List<object> list, StringBuilder sb)
+        {
+            foreach (object o in list)
+            {
+                if (o is float) sb.Append(FloatToString((float)o)).Append(' ');
+                else sb.Append("" + o).Append(' ');
+            }
+
+            if (list.Count > 0) sb.Length = sb.Length - 1;
+        }
+
         public static bool ParseIntPositionFromString(string str, out int x, out int y)
         {
             x = -1;

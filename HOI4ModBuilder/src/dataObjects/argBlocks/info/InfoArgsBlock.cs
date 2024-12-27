@@ -28,9 +28,17 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         [JsonConverter(typeof(EnumArrayToStringConverter<EnumKeyValueDemiliter>))]
         [JsonProperty("allowedSpecialDemiliters")] public EnumKeyValueDemiliter[] AllowedSpecialDemiliters { get; private set; }
 
-        public bool CanHaveMandatoryBlocks => MandatoryInnerArgsBlocks != null && MandatoryInnerArgsBlocks.Count > 0;
-        public bool HasAllowedBlocks => AllowedInnerArgsBlocks != null;
-        public bool CanHaveUniversalParams => AllowedUniversalParamsInfo != null && AllowedUniversalParamsInfo.CanHaveUniversalParams;
+        [JsonIgnore]
+        public bool CanHaveMandatoryBlocks
+            => MandatoryInnerArgsBlocks != null &&
+                MandatoryInnerArgsBlocks.Count > 0;
+        [JsonIgnore]
+        public bool HasAllowedBlocks
+            => AllowedInnerArgsBlocks != null;
+        [JsonIgnore]
+        public bool CanHaveUniversalParams
+            => AllowedUniversalParamsInfo != null &&
+                AllowedUniversalParamsInfo.CanHaveUniversalParams;
 
         public bool TryGetMandatoryBlock(string name, ref InfoArgsBlock mandatoryBlock)
             => MandatoryInnerArgsBlocks != null && MandatoryInnerArgsBlocks.TryGetValue(name, out mandatoryBlock);
@@ -74,8 +82,10 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             List<InfoArgsBlock> newBlocks = new List<InfoArgsBlock>(newNames.Count);
             foreach (var newName in newNames)
             {
-                var newBlock = new InfoArgsBlock(this);
-                newBlock.Name = newName;
+                var newBlock = new InfoArgsBlock(this)
+                {
+                    Name = newName
+                };
                 newBlocks.Add(newBlock);
             }
             return newBlocks;
@@ -107,6 +117,10 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         [JsonConverter(typeof(EnumArrayToStringConverter<EnumKeyValueDemiliter>))]
         [JsonProperty("allowedDemiliters")] public EnumKeyValueDemiliter[] AllowedDemiliters { get; private set; }
 
-        public bool CanHaveUniversalParams => MaxUniversalParamsCount > 0 && AllowedValueTypes != null && AllowedValueTypes.Length > 0;
+        [JsonIgnore]
+        public bool CanHaveUniversalParams
+            => MaxUniversalParamsCount > 0 &&
+                AllowedValueTypes != null &&
+                AllowedValueTypes.Length > 0;
     }
 }

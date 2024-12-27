@@ -1,10 +1,14 @@
-﻿using HOI4ModBuilder.src.managers;
+﻿using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
+using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.Pdoxcl2Sharp;
+using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System.Collections.Generic;
+using System.Text;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 {
-    class BuildingManager : IParadoxRead
+    class BuildingManager : IParadoxObject
     {
         public static BuildingManager Instance { get; private set; }
 
@@ -25,43 +29,35 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             {
                 _currentFile = fileInfo;
                 using (var fs = new System.IO.FileStream(fileInfo.filePath, System.IO.FileMode.Open))
-                    ParadoxParser.Parse(fs, Instance);
+                    ParadoxParser.AdvancedParse(fs, new LinkedLayer(null, fileInfo.filePath, true), Instance, out bool validationResult);
             }
         }
 
-        public static Dictionary<string, Building>.KeyCollection GetBuildingNames()
+        public static Dictionary<string, Building>.KeyCollection GetBuildingNames() => _allBuildings.Keys;
+        public static Dictionary<string, Building>.ValueCollection GetBuildings() => _allBuildings.Values;
+        public static bool TryGetBuilding(string name, out Building building) => _allBuildings.TryGetValue(name, out building);
+        public static bool HasBuilding(string name) => _allBuildings.ContainsKey(name);
+
+        public bool Save(StringBuilder sb, string outTab, string tab)
         {
-            return _allBuildings.Keys;
+            throw new System.NotImplementedException();
         }
 
-        public static Dictionary<string, Building>.ValueCollection GetBuildings()
-        {
-            return _allBuildings.Values;
-        }
-
-        public static bool TryGetBuilding(string name, out Building building)
-        {
-            return _allBuildings.TryGetValue(name, out building);
-        }
-
-        public static bool HasBuilding(string name)
-        {
-            return _allBuildings.ContainsKey(name);
-        }
-
-        public void TokenCallback(ParadoxParser parser, string token)
+        public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
         {
             if (token == "buildings")
             {
                 var buildings = new List<Building>();
                 var list = new BuildingsList(buildings);
-                parser.Parse(list);
+                parser.AdvancedParse(new LinkedLayer(prevLayer, token), list, out bool _);
                 list.ExecuteAfterParse();
                 _buildingsByFilesMap.Add(_currentFile, buildings);
             }
         }
 
-        class BuildingsList : IParadoxRead
+        public bool Validate(LinkedLayer prevLayer) => true;
+
+        class BuildingsList : IParadoxObject
         {
             private List<Building> _buildings;
             public BuildingsList(List<Building> buildings)
@@ -69,19 +65,26 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
                 _buildings = buildings;
             }
 
-            public void TokenCallback(ParadoxParser parser, string token)
-            {
-                var building = new Building(token);
-                parser.Parse(building);
-                _buildings.Add(building);
-                _allBuildings[token] = building;
-            }
-
             public void ExecuteAfterParse()
             {
                 foreach (var building in _buildings)
                     building.ExecuteAfterParse();
             }
+
+            public bool Save(StringBuilder sb, string outTab, string tab)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
+            {
+                var building = new Building(token);
+                parser.AdvancedParse(new LinkedLayer(prevLayer, token), building, out bool _);
+                _buildings.Add(building);
+                _allBuildings[token] = building;
+            }
+
+            public bool Validate(LinkedLayer prevLayer) => true;
         }
     }
 }

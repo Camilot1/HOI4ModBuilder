@@ -202,7 +202,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             {
                 try
                 {
-                    DataArgsBlocksManager.ParseDataArgsBlock(parser, null, token, null, dataArgsBlocks);
+                    DataArgsBlocksManager.ParseDataArgsBlocks(parser, token, dataArgsBlocks);
                 }
                 catch (Exception ex)
                 {
@@ -294,7 +294,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         {
             try
             {
-                DataArgsBlocksManager.ParseDataArgsBlock(parser, null, token, null, isDisableArgBlocks);
+                DataArgsBlocksManager.ParseDataArgsBlock(parser, null, token, isDisableArgBlocks);
             }
             catch (Exception ex)
             {
