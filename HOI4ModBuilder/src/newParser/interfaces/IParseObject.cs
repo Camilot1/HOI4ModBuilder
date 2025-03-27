@@ -9,6 +9,7 @@ namespace HOI4ModBuilder.src.newParser.interfaces
         IParseObject GetEmptyCopy();
         Dictionary<string, Func<object, object>> GetStaticAdapter();
         Dictionary<string, DynamicGameParameter> GetDynamicAdapter();
+        bool CustomParseCallback(GameParser parser);
 
     }
 }

@@ -87,6 +87,13 @@ namespace HOI4ModBuilder.src.newParser.objects
                 return;
             }
 
+
+            if (_value is IPostParseCallbackable obj1)
+            {
+                obj1.PostParseCallback(parser);
+                return;
+            }
+
             if (parser.CurrentToken == Token.QUOTE)
                 parser.ParseQuoted();
             else
@@ -103,6 +110,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 ParseValueRaw(parser, rawValue);
 
             _comments = parser.ParseAndPullComments();
+
         }
 
         private void ParseValueConstant(GameParser parser, string rawValue)

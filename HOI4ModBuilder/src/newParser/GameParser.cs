@@ -123,9 +123,45 @@ namespace HOI4ModBuilder.src.newParser
                     if (_indent < 0)
                         throw new Exception("Invalid indentation (< 0): " + GetCursorInfo());
                     NextChar();
+
+                    return;
                 }
                 else
                     throw new Exception("Character " + _currentChar + " is not allowed: " + GetCursorInfo());
+            }
+        }
+
+        public void ParseInsideBlock(Action<string> tokensConsumer)
+        {
+            while (_index < _dataLength)
+            {
+                SkipWhiteSpaces();
+
+                string data;
+                if (_token == Token.QUOTE)
+                {
+                    ParseQuoted();
+                    data = PullParsedDataString();
+                }
+                else if (_token == Token.COMMENT)
+                {
+                    SkipComment();
+                    continue;
+                }
+                else if (_token == Token.RIGHT_CURLY)
+                {
+                    return;
+                }
+                else
+                {
+                    ParseUnquotedValue();
+                    data = PullParsedDataString();
+                }
+
+                if (data.Length == 0)
+                    throw new Exception("Invalid parse inside block structure: " + GetCursorInfo());
+
+                tokensConsumer.Invoke(data);
             }
         }
 
@@ -281,6 +317,22 @@ namespace HOI4ModBuilder.src.newParser
             }
         }
 
+        public void SkipComment()
+        {
+            if (_token != Token.COMMENT)
+                throw new Exception("Invalid Comment structure: " + GetCursorInfo());
+
+            while (_index < _dataLength)
+            {
+                NextChar();
+
+                if (((int)_token & (int)Token.NEW_LINE) != 0)
+                {
+                    return;
+                }
+            }
+        }
+
         private static readonly int FLAGS_UNQUOTED_UNTIL = (int)(
             Token.EQUALS | Token.LESS_THAN | Token.GREATER_THAN | Token.QUOTE |
             Token.LEFT_CURLY | Token.RIGHT_CURLY | Token.LEFT_PARANTHESIS | Token.RIGHT_PARANTHESIS |
@@ -288,6 +340,14 @@ namespace HOI4ModBuilder.src.newParser
             Token.SPACE | Token.NEW_LINE | Token.SHIELDED_QUOTE | Token.SEMICOLON
             );
         public void ParseUnquoted() => ParseUntil(FLAGS_UNQUOTED_UNTIL);
+
+        private static readonly int FLAGS_UNQUOTED_VALUE_UNTIL = (int)(
+            Token.EQUALS | Token.LESS_THAN | Token.GREATER_THAN | Token.QUOTE |
+            Token.LEFT_CURLY | Token.RIGHT_CURLY | Token.LEFT_PARANTHESIS | Token.RIGHT_PARANTHESIS |
+            Token.COMMENT | Token.SLASH | Token.BACK_SLASH |
+            Token.SPACE | Token.NEW_LINE | Token.SHIELDED_QUOTE | Token.SEMICOLON
+            );
+        public void ParseUnquotedValue() => ParseUntil(FLAGS_UNQUOTED_VALUE_UNTIL);
 
         public void ParseUntil(int flags)
         {

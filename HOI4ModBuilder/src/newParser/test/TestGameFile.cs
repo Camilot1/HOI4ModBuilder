@@ -19,6 +19,7 @@ namespace HOI4ModBuilder.src.newParser.test
 
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => null;
+        public override bool CustomParseCallback(GameParser parser) => false;
 
         public TestGameFile() { }
         public TestGameFile(FileInfo fileInfo) : base(fileInfo) { }

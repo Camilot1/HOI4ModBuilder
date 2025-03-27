@@ -470,10 +470,12 @@
     <Compile Include="src\newParser\interfaces\IParentable.cs" />
     <Compile Include="src\newParser\interfaces\IParseCallbackable.cs" />
     <Compile Include="src\newParser\interfaces\IParseObject.cs" />
+    <Compile Include="src\newParser\interfaces\IPostParseCallbackable.cs" />
     <Compile Include="src\newParser\objects\AbstractParseObject.cs" />
     <Compile Include="src\newParser\objects\GameComments.cs" />
     <Compile Include="src\newParser\objects\GameConstant.cs" />
     <Compile Include="src\newParser\objects\GameFile.cs" />
+    <Compile Include="src\newParser\objects\GameList.cs" />
     <Compile Include="src\newParser\objects\GameParameter.cs" />
     <Compile Include="src\newParser\ParserUtils.cs" />
     <Compile Include="src\newParser\structs\DynamicGameParameter.cs" />

@@ -10,16 +10,17 @@ namespace HOI4ModBuilder.src.newParser.objects
     {
         public AbstractParseObject()
         {
-            foreach (var obj in GetStaticAdapter())
-            {
-                ((IParentable)obj.Value.Invoke(this)).SetParent(this);
-            }
+            var staticAdapter = GetStaticAdapter();
+            if (staticAdapter != null)
+                foreach (var obj in GetStaticAdapter())
+                    ((IParentable)obj.Value.Invoke(this)).SetParent(this);
 
             //TODO impelement for dynamic adapter
         }
 
         public abstract Dictionary<string, Func<object, object>> GetStaticAdapter();
         public abstract Dictionary<string, DynamicGameParameter> GetDynamicAdapter();
+        public abstract bool CustomParseCallback(GameParser parser);
         public abstract IParseObject GetEmptyCopy();
 
         private IParentable _parent;
@@ -65,6 +66,9 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public void ParseCallback(GameParser parser)
         {
+            if (CustomParseCallback(parser))
+                return;
+
             parser.ParseUnquoted();
             var key = parser.PullParsedDataString();
 
