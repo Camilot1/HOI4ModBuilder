@@ -366,7 +366,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     break;
 
                 case "buildings":
-                    parser.Parse(new StateBuildingsDictionary(state, _stateBuildings, _provincesBuildings));
+                    parser.Parse(new ParserDummyBlock());
+                    //parser.Parse(new StateBuildingsDictionary(state, _stateBuildings, _provincesBuildings));
                     break;
 
                 default:

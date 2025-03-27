@@ -11,6 +11,7 @@ namespace Pdoxcl2Sharp
     public enum LexerToken
     {
         Equals,
+        Constant,
         Quote,
         LeftCurly,
         RightCurly,
@@ -81,6 +82,7 @@ namespace Pdoxcl2Sharp
         public Queue<char> NextChars { get => nextChars; }
 
         public bool CurrentValueIsName { get => currentToken == LexerToken.Quote; }
+        public bool CurrentValueIsConstant { get => currentToken == LexerToken.Constant; }
 
         /// <summary>
         /// Gets the last string read by the parser
@@ -585,6 +587,8 @@ namespace Pdoxcl2Sharp
                 case ',':
                 case ';':
                     return LexerToken.Comma;
+                case '@':
+                    return LexerToken.Constant;
                 default:
                     return LexerToken.Untyped;
             }

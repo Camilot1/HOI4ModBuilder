@@ -1,10 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using HOI4ModBuilder.src.dataObjects.parameters;
+using System.Collections.Generic;
 using System.Text;
 
 namespace HOI4ModBuilder.src.utils
 {
     class ParadoxUtils
     {
+        public static ParserFlags<T> Register<T>(Dictionary<string, ParserFlags<T>> register, ParserFlags<T> flags)
+        {
+            register.Add(flags.TOKEN, flags);
+            return flags;
+        }
         public static void NewLineIfNeeded(StringBuilder sb, string indent, ref bool flag)
         {
             if (flag)
@@ -116,6 +122,7 @@ namespace HOI4ModBuilder.src.utils
 
             if (value is bool boolVal) sb.Append(boolVal ? "yes" : "no");
             else if (value is float floatValue) sb.Append(Utils.FloatToString(floatValue));
+            else if (value is List<object> list) Utils.ListToString(list, sb);
             else sb.Append(value);
 
             return true;

@@ -1,4 +1,7 @@
-﻿using HOI4ModBuilder.src.forms;
+﻿
+using HOI4ModBuilder.src.dataObjects.parameters;
+using HOI4ModBuilder.src.forms;
+using HOI4ModBuilder.src.hoiDataObjects.localisation;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.Pdoxcl2Sharp;
 using Pdoxcl2Sharp;
@@ -76,6 +79,43 @@ namespace HOI4ModBuilder.src.utils
         {
             Task.Run(() => MessageBox.Show(message, GuiLocManager.GetLoc(EnumLocKey.INFORMATION_MESSAGE_TITLE), MessageBoxButtons.OK, MessageBoxIcon.Information));
             Log(message);
+        }
+
+        public static void CheckOverrideAndSet<T>(ParadoxParser parser, Dictionary<string, ParadoxConstant> constants, LinkedLayer prevLayer, string name, ref ParadoxParameter<T> parameter)
+        {
+            var value = parser.ReadString();
+
+            if (parameter.Value != null)
+            {
+                LogLayeredWarning(
+                    prevLayer, name, EnumLocKey.LAYERED_LEVELS_PARAMETER_VALUE_OVERRIDDEN,
+                    new Dictionary<string, string>
+                    {
+                        { "{oldParameterValue}", "" + parameter.Value },
+                        { "{newParameterValue}", value }
+                    }
+                );
+            }
+
+            if (value.StartsWith("@"))
+            {
+                if (!constants.TryGetValue(value, out ParadoxConstant constant))
+                {
+                    LogLayeredError(
+                        prevLayer, name, EnumLocKey.LAYERED_LEVELS_PARAMETER_VALUE_CONTANT_NOT_FOUND,
+                        new Dictionary<string, string> {
+                            { "{name}", name },
+                            { "{value}", value }
+                        }
+                    );
+                    return;
+                }
+
+                parameter.Constant = constant;
+                return;
+            }
+
+
         }
 
         public static void CheckLayeredValueOverrideAndSet<T>(LinkedLayer prevLayer, string parameterName, ref T oldValue, T newValue)

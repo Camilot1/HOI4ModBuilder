@@ -43,14 +43,29 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         public static bool TryGetEffect(string name, out InfoArgsBlock block)
             => _effectsInfoArgsBlocks.TryGetValue(name, out block) ||
                 _scriptedEffectsInfoArgsBlocks.TryGetValue(name, out block);
+        public static InfoArgsBlock GetEffect(string name)
+        {
+            if (TryGetEffect(name, out var block)) return block;
+            else return null;
+        }
 
         public static bool TryGetModifier(string name, out InfoArgsBlock block)
             => _modifiersInfoArgsBlocks.TryGetValue(name, out block) ||
                 _definedModifiersArgsBlocks.TryGetValue(name, out block);
+        public static InfoArgsBlock GetModifier(string name)
+        {
+            if (TryGetModifier(name, out var block)) return block;
+            else return null;
+        }
 
         public static bool TryGetTrigger(string name, out InfoArgsBlock block)
             => _triggersInfoArgsBlocks.TryGetValue(name, out block) ||
                 _scriptedTriggersArgsBlocks.TryGetValue(name, out block);
+        public static InfoArgsBlock GetTrigger(string name)
+        {
+            if (TryGetTrigger(name, out var block)) return block;
+            else return null;
+        }
 
         public static void Load(Settings settings)
         {
@@ -201,7 +216,12 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                 var file = new ScriptedEffectsFile(list);
 
                 using (var fs = new FileStream(fileInfoPair.Value.filePath, FileMode.Open))
-                    ParadoxParser.Parse(fs, file);
+                {
+                    Logger.TryOrCatch(
+                        () => ParadoxParser.Parse(fs, file),
+                        (ex) => Logger.LogException(ex)
+                    ); ;
+                }
 
                 foreach (var info in list)
                 {

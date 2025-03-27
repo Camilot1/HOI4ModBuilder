@@ -10,6 +10,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using YamlDotNet.Core.Tokens;
 using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder
@@ -387,7 +388,8 @@ namespace HOI4ModBuilder
         {
             foreach (object o in list)
             {
-                if (o is float) sb.Append(FloatToString((float)o)).Append(' ');
+                if (o is bool boolVal) sb.Append(boolVal ? "yes" : "no");
+                else if (o is float floatValue) sb.Append(FloatToString(floatValue)).Append(' ');
                 else sb.Append("" + o).Append(' ');
             }
 

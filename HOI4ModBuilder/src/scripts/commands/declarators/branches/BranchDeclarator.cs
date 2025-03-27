@@ -62,13 +62,13 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
             var innerVarsScope = new VarsScope(varsScope, EnumVarsScopeType.BRANCH);
             var commands = ScriptParser.Parse(lines, ref index, indent + 1, innerVarsScope);
 
-            if (index < lines.Length)
+            if (index < lines.Length) //TODO Пофиксить ELSE случай
             {
                 var line = lines[index];
                 var chainArgs = ScriptParser.GetStringArgs(lineIndex, line);
                 if (chainArgs.Length > 0)
                 {
-                    if (chainArgs[0] == _else_if_keyword || chainArgs[1] == _else_keyword)
+                    if (chainArgs[0] == _else_if_keyword || chainArgs[0] == _else_keyword)
                     {
                         _next = new BranchDeclarator() { _prev = this };
                         _next.Parse(lines, ref index, innerIndent, varsScope, chainArgs);

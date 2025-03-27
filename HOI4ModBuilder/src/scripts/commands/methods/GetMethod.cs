@@ -11,12 +11,12 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <VALUE_TYPE:to> <KEY_TYPE:key|index> <IGET<KEY_TYPE,VALUE_TYPE>:from>",
+            $"{_keyword} <VALUE_TYPE:to> <IGET<KEY_TYPE,VALUE_TYPE>:from> <KEY_TYPE:key|index>",
             "======== OR ========",
             $"{_keyword} (",
             $"\tOUT <VALUE_TYPE:to>",
-            $"\t<KEY_TYPE:key|index>",
             $"\t<IGET<KEY_TYPE,VALUE_TYPE>:from>",
+            $"\t<KEY_TYPE:key|index>",
             ")"
         };
         public override ScriptCommand CreateEmptyCopy() => new GetMethod();

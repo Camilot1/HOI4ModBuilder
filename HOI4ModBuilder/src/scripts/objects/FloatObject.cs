@@ -189,5 +189,12 @@ namespace HOI4ModBuilder.src.scripts.objects
 
             return result.Value;
         }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is IScriptObject scriptObject)
+                return Value.CompareTo(scriptObject.GetValue());
+            else return 0;
+        }
     }
 }

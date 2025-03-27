@@ -17,6 +17,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         private static Dictionary<FileInfo, List<Building>> _buildingsByFilesMap = new Dictionary<FileInfo, List<Building>>();
         private static Dictionary<string, Building> _allBuildings = new Dictionary<string, Building>();
 
+        public static readonly List<string> BUILDING_FORMATTER = new List<string>(Building.FORMATTER.Keys);
+
         public static void Load(Settings settings)
         {
             Instance = new BuildingManager();

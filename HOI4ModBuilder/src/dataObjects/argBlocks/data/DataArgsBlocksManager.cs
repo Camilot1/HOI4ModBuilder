@@ -7,6 +7,7 @@ using System.Linq;
 using Pdoxcl2Sharp;
 using HOI4ModBuilder.src.utils;
 using System.Text;
+using HOI4ModBuilder.src.parser;
 
 namespace HOI4ModBuilder.src.dataObjects
 {
@@ -339,6 +340,7 @@ namespace HOI4ModBuilder.src.dataObjects
                 ));
         }
 
+
         private static void TryParseUniversalParameterValue(ParadoxParser parser, DataArgsBlock dataBlock, UniversalParamsInfo universalParamsInfo)
         {
             if (universalParamsInfo.AllowedValueTypes == null)
@@ -381,5 +383,6 @@ namespace HOI4ModBuilder.src.dataObjects
 
             Parse(parser, dataBlock, allowedTypes, allowedDemiliters);
         }
+
     }
 }
