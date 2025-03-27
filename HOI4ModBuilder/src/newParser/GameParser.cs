@@ -97,6 +97,7 @@ namespace HOI4ModBuilder.src.newParser
                 else if (_token == Token.CONSTANT)
                 {
                     var constant = ParseConstant();
+                    obj.InitConstantsIfNull();
                     var constants = obj.GetConstants();
 
                     if (constants.ContainsKey(constant.Key))
@@ -110,6 +111,11 @@ namespace HOI4ModBuilder.src.newParser
                 {
                     _indent++;
                     NextChar();
+
+                    var comments = ParseAndPullComments();
+                    var parent = obj.GetParent();
+                    if (parent is ICommentable commentable)
+                        commentable.SetComments(comments);
                 }
                 else if (_token == Token.RIGHT_CURLY)
                 {
@@ -220,7 +226,7 @@ namespace HOI4ModBuilder.src.newParser
             if (value.Length == 0)
                 throw new Exception("Invalid Constant structure: " + GetCursorInfo());
 
-            var constant = new GameConstant("@" + key, value);
+            var constant = new GameConstant(key, value);
 
             constant.SetComments(ParseAndPullComments());
 
@@ -236,7 +242,7 @@ namespace HOI4ModBuilder.src.newParser
             if (_token == Token.COMMENT && !nextLine)
             {
                 ParseComment();
-                inlineComments = PullParsedDataString();
+                inlineComments = PullParsedCommentsString();
             }
 
             if (prevComments.Length != 0 || inlineComments.Length != 0)
@@ -263,13 +269,14 @@ namespace HOI4ModBuilder.src.newParser
             while (_index < _dataLength)
             {
                 NextChar();
-                _sbComments.Append(_currentChar);
 
                 if (((int)_token & (int)Token.NEW_LINE) != 0)
                 {
-                    _index--;
+                    _sbComments.Append(Constants.NEW_LINE);
                     return;
                 }
+
+                _sbComments.Append(_currentChar);
 
             }
         }

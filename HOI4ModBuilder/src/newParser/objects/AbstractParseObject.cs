@@ -8,6 +8,16 @@ namespace HOI4ModBuilder.src.newParser.objects
 {
     public abstract class AbstractParseObject : IParseObject
     {
+        public AbstractParseObject()
+        {
+            foreach (var obj in GetStaticAdapter())
+            {
+                ((IParentable)obj.Value.Invoke(this)).SetParent(this);
+            }
+
+            //TODO impelement for dynamic adapter
+        }
+
         public abstract Dictionary<string, Func<object, object>> GetStaticAdapter();
         public abstract Dictionary<string, DynamicGameParameter> GetDynamicAdapter();
         public abstract IParseObject GetEmptyCopy();
@@ -91,7 +101,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             //TODO
 
-            return true;
+            return false;
         }
 
 
@@ -117,8 +127,18 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (TryGetConstant(name, out constant))
                 return true;
 
-            if (GetParent() is IConstantable iConstable)
-                return iConstable.TryGetConstantParentable(name, out constant);
+            var tempParent = GetParent();
+
+            while (tempParent != null)
+            {
+                if (tempParent is IConstantable constantable)
+                {
+                    if (constantable.TryGetConstant(name, out constant))
+                        return true;
+                }
+
+                tempParent = tempParent.GetParent();
+            }
 
             constant = null;
             return false;

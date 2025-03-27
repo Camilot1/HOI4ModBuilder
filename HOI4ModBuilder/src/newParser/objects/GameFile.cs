@@ -15,9 +15,9 @@ namespace HOI4ModBuilder.src.newParser.objects
         private bool _allowsConstants;
         public bool IsAllowsConstants() => _allowsConstants;
 
-        public GameFile() { }
+        public GameFile() : base() { }
 
-        public GameFile(FileInfo fileInfo)
+        public GameFile(FileInfo fileInfo) : this()
         {
             _fileInfo = fileInfo;
         }

@@ -11,6 +11,7 @@ namespace HOI4ModBuilder.src.newParser.interfaces
     public interface IConstantable
     {
         Dictionary<string, GameConstant> GetConstants();
+        void InitConstantsIfNull();
         bool TryGetConstant(string name, out GameConstant constant);
         bool TryGetConstantParentable(string name, out GameConstant constant);
     }
