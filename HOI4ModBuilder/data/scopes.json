@@ -1,22 +1,25 @@
 [
   {
     "name": "AND",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
+	"innerScope": "TRIGGER",
     "canHaveAnyInnerBlocks": true
   },
   {
     "name": "OR",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
+	"innerScope": "TRIGGER",
     "canHaveAnyInnerBlocks": true
   },
   {
     "name": "NOT",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
+	"innerScope": "TRIGGER",
     "canHaveAnyInnerBlocks": true
   },
   {
     "name": "count_triggers",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "mandatoryInnerBlocks": {
       "amount": {
         "name": "amount",
@@ -27,12 +30,12 @@
   },
   {
     "name": "hidden_trigger",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "canHaveAnyInnerBlocks": true
   },
   {
     "name": "custom_trigger_tooltip",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "mandatoryInnerBlocks": {
       "tooltip": {
         "name": "tooltip",
@@ -43,26 +46,26 @@
   },
   {
     "name": "hidden_effect",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "SCOPE" ],
     "canHaveAnyInnerBlocks": true
   },
   {
     "name": "hidden_modifier",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "SCOPE" ],
     "canHaveAnyInnerBlocks": true
   },
   {
     "name": "effect_tooltip",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "EFFECT" ],
     "canHaveAnyInnerBlocks": true
   },
   {
     "name": "if",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "SCOPE" ],
     "mandatoryInnerBlocks": {
       "limit": {
         "name": "limit",
-        "allowedValueTypes": [ "LOC_KEY" ],
+		"innerScope": "TRIGGER",
 		"canHaveAnyInnerBlocks": true
       }
     },
@@ -70,11 +73,11 @@
   },
   {
     "name": "else_if",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "SCOPE" ],
     "mandatoryInnerBlocks": {
       "limit": {
         "name": "limit",
-        "allowedValueTypes": [ "LOC_KEY" ],
+		"innerScope": "TRIGGER",
 		"canHaveAnyInnerBlocks": true
       }
     },
@@ -82,7 +85,7 @@
   },
   {
     "name": "else",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "SCOPE" ],
     "canHaveAnyInnerBlocks": true
   }
 ]
