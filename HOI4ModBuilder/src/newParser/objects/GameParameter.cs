@@ -4,6 +4,9 @@ using HOI4ModBuilder.src.parser.parameter;
 using HOI4ModBuilder.src.parser;
 using System;
 using YamlDotNet.Core.Tokens;
+using System.Text;
+using HOI4ModBuilder.src.newParser.structs;
+using HOI4ModBuilder.src.utils;
 
 namespace HOI4ModBuilder.src.newParser.objects
 {
@@ -138,5 +141,23 @@ namespace HOI4ModBuilder.src.newParser.objects
                 throw new Exception("Unable to parse value type: " + rawValue + parser.GetCursorInfo(), ex);
             }
         }
+
+        public bool CustomSave(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key) => false;
+        public void Save(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key)
+        {
+            if (_value is ISaveable saveable)
+            {
+                saveable.Save(parser, sb, saveParameter, outIndent, key);
+                return;
+            }
+
+            sb.Append(outIndent).Append(key).Append(' ').Append(_enumDemiliter).Append(' ').Append(_value);
+
+            if (!saveParameter.IsForceInline)
+                sb.Append(Constants.NEW_LINE);
+        }
+
+        public SaveAdapter GetSaveAdapter() => null;
+
     }
 }

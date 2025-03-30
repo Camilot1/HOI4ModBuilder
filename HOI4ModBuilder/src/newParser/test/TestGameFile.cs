@@ -3,6 +3,7 @@ using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace HOI4ModBuilder.src.newParser.test
 {
@@ -20,6 +21,10 @@ namespace HOI4ModBuilder.src.newParser.test
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => null;
         public override bool CustomParseCallback(GameParser parser) => false;
+
+        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(typeof(TestObject)).Add(STATIC_ADAPTER.Keys);
+        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
+        public override bool CustomSave(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key) => false;
 
         public TestGameFile() { }
         public TestGameFile(FileInfo fileInfo) : base(fileInfo) { }

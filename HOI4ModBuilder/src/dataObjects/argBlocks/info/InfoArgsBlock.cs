@@ -1,15 +1,25 @@
 ﻿using HOI4ModBuilder.src.dataObjects.replaceTags;
+using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.utils.json;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace HOI4ModBuilder.src.dataObjects.argBlocks
 {
-    public class InfoArgsBlock
+    public class InfoArgsBlock : IScriptBlockInfo
     {
         [JsonProperty("name")] public string Name { get; private set; }
+        public string GetBlockName() => Name;
         [JsonProperty("isDisabled")] public bool IsDisabled { get; private set; }
         [JsonProperty("specificScopes")] private EnumScope[] _specificScopes;
+        [JsonProperty("innerScope")] public EnumScope InnerScope { get; private set; }
+        public EnumScope GetInnerScope() => InnerScope;
+        public bool IsAllowsInlineValue() => AllowedValueTypes != null && AllowedValueTypes.Length != 0;
+        public bool IsAllowsBlockValue() =>
+            CanHaveAnyInnerBlocks ||
+            MandatoryInnerArgsBlocks != null && MandatoryInnerArgsBlocks.Count > 0 ||
+            AllowedInnerArgsBlocks != null && AllowedInnerArgsBlocks.Count > 0 ||
+            AllowedUniversalParamsInfo != null && AllowedUniversalParamsInfo.MaxUniversalParamsCount > 0;
 
         [JsonConverter(typeof(EnumArrayToStringConverter<EnumArgsBlockFunctions>))]
         [JsonProperty("functions")] private EnumArgsBlockFunctions[] _functions;
@@ -21,12 +31,14 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
         [JsonConverter(typeof(EnumArrayToStringConverter<EnumValueType>))]
         [JsonProperty("allowedValueTypes")] public EnumValueType[] AllowedValueTypes { get; private set; }
+        public EnumValueType[] GetAllowedValueTypes() => AllowedValueTypes;
         [JsonProperty("defaultValueType")] public EnumValueType DefaultValueType { get; private set; }
         [JsonProperty("defaultValue")] public object DefaultValue { get; private set; }
         [JsonProperty("canHaveAnyInnerBlocks")] public bool CanHaveAnyInnerBlocks { get; private set; }
 
         [JsonConverter(typeof(EnumArrayToStringConverter<EnumKeyValueDemiliter>))]
         [JsonProperty("allowedSpecialDemiliters")] public EnumKeyValueDemiliter[] AllowedSpecialDemiliters { get; private set; }
+        public EnumKeyValueDemiliter[] GetAllowedSpecialDemiliters() => AllowedSpecialDemiliters;
 
         [JsonIgnore]
         public bool CanHaveMandatoryBlocks
@@ -46,28 +58,33 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             => AllowedInnerArgsBlocks != null && AllowedInnerArgsBlocks.TryGetValue(name, out allowedBlock);
 
         public InfoArgsBlock() { }
-        public InfoArgsBlock(InfoArgsBlock other)
+
+        public void Init(EnumScope innerScope)
         {
-            Name = other.Name;
-            _specificScopes = other._specificScopes;
-            _functions = other._functions;
-            AllowedInnerArgsBlocks = other.AllowedInnerArgsBlocks;
-            AllowedValueTypes = other.AllowedValueTypes;
+            InnerScope = innerScope;
+        }
+
+        public InfoArgsBlock(InfoArgsBlock other)
+            : this(other.Name, other.InnerScope, other._specificScopes, other.AllowedValueTypes)
+        {
             DefaultValueType = other.DefaultValueType;
             DefaultValue = other.DefaultValue;
+
+            _functions = other._functions;
+            AllowedInnerArgsBlocks = other.AllowedInnerArgsBlocks;
         }
-        public InfoArgsBlock(string name, EnumScope[] specificScopes, EnumValueType[] allowedValueTypes)
+        public InfoArgsBlock(string name, EnumScope innerScope, EnumScope[] specificScopes, EnumValueType[] allowedValueTypes)
+            : this()
         {
             Name = name;
+            InnerScope = innerScope;
             _specificScopes = specificScopes;
             AllowedValueTypes = allowedValueTypes;
         }
 
-        public InfoArgsBlock(string name, EnumScope[] specificScopes, EnumValueType[] allowedValueTypes, EnumValueType defaultValueType, object defaultValue)
+        public InfoArgsBlock(string name, EnumScope innerScope, EnumScope[] specificScopes, EnumValueType[] allowedValueTypes, EnumValueType defaultValueType, object defaultValue)
+            : this(name, innerScope, specificScopes, allowedValueTypes)
         {
-            Name = name;
-            _specificScopes = specificScopes;
-            AllowedValueTypes = allowedValueTypes;
             DefaultValueType = defaultValueType;
             DefaultValue = defaultValue;
         }
@@ -122,5 +139,6 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             => MaxUniversalParamsCount > 0 &&
                 AllowedValueTypes != null &&
                 AllowedValueTypes.Length > 0;
+
     }
 }

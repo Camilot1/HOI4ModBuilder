@@ -1,4 +1,8 @@
-﻿using HOI4ModBuilder.src.newParser.interfaces;
+﻿using HOI4ModBuilder.src.dataObjects.argBlocks;
+using HOI4ModBuilder.src.hoiDataObjects.history.countries;
+using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.newParser.interfaces;
+using HOI4ModBuilder.src.newParser.objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +32,61 @@ namespace HOI4ModBuilder.src.newParser
         };
 
         public static T Parse<T>(string value) => (T)_parseMapping[typeof(T)](value);
+        public static object ParseObject(string value)
+        {
+            if (int.TryParse(value, out var intResult))
+                return intResult;
+            else if (float.TryParse(value, out var floatResult))
+                return floatResult;
+
+            var loweredValue = value.ToLower();
+            if (loweredValue == "yes")
+                return true;
+            else if (loweredValue == "no")
+                return false;
+
+            return value;
+        }
+
+        public static bool TryParseScope(string value, out object scope)
+        {
+            if (CountryManager.TryGetCountry(value, out var country))
+            {
+                scope = country;
+                return true;
+            }
+
+            if (ushort.TryParse(value, out var intValue) && StateManager.TryGetState(intValue, out var state))
+            {
+                scope = state;
+                return true;
+            }
+
+            scope = null;
+            return false;
+        }
+
+        public static ScriptBlockParseObject ScriptBlockFabricProvide(IParentable parent, IScriptBlockInfo scriptBlockInfo)
+        {
+            if (scriptBlockInfo == null)
+                return null;
+
+            return new ScriptBlockParseObject(parent, scriptBlockInfo);
+        }
+
+        public static bool IsAllowedValueType(EnumValueType valueType, EnumValueType[] allowedValueTypes)
+        {
+            if (allowedValueTypes == null)
+                return false;
+
+            foreach (var allowedValueType in allowedValueTypes)
+            {
+                if (allowedValueType == valueType)
+                    return true;
+            }
+
+            return false;
+        }
 
         public static string AsseblePath(IParentable obj)
         {

@@ -7,15 +7,15 @@ using System.Text;
 
 namespace HOI4ModBuilder.src.parser
 {
-    enum EnumDemiliter
+    public enum EnumDemiliter
     {
         NONE,
-        EQUALS,
-        LESS_THAN,
-        GREATER_THAN
+        EQUALS = '=',
+        LESS_THAN = '<',
+        GREATER_THAN = '>',
     }
 
-    enum TokenType
+    public enum TokenType
     {
         NONE,
         COMMENT,

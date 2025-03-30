@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace HOI4ModBuilder.src.newParser.objects
 {
@@ -26,6 +22,12 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             _allowsConstants = allowsConstants;
             if (_allowsConstants) InitConstantsIfNull();
+        }
+
+        public void SaveToFile(GameParser parser)
+        {
+            StringBuilder sb = new StringBuilder();
+            Save(parser, sb, default, "", null); //TODO impelement correctly
         }
     }
 }

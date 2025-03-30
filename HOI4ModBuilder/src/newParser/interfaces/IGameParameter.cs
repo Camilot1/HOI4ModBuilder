@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.newParser.interfaces
 {
-    public interface IGameParameter : IParseCallbackable, IParentable, INeedToSave, ICommentable
+    public interface IGameParameter : IParseCallbackable, IParentable, INeedToSave, ISaveable
     {
     }
 }

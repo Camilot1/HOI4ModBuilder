@@ -1,8 +1,9 @@
 ﻿using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.structs;
-using HOI4ModBuilder.src.parser.parameter;
+using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace HOI4ModBuilder.src.newParser.objects
 {
@@ -12,15 +13,20 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             var staticAdapter = GetStaticAdapter();
             if (staticAdapter != null)
-                foreach (var obj in GetStaticAdapter())
-                    ((IParentable)obj.Value.Invoke(this)).SetParent(this);
+                foreach (var entry in staticAdapter)
+                    ((IParentable)entry.Value.Invoke(this)).SetParent(this);
 
-            //TODO impelement for dynamic adapter
+            var dynamicAdapter = GetDynamicAdapter();
+            if (dynamicAdapter != null)
+                foreach (var entry in dynamicAdapter)
+                    ((IParentable)entry.Value.provider.Invoke(this)).SetParent(this);
         }
 
         public abstract Dictionary<string, Func<object, object>> GetStaticAdapter();
         public abstract Dictionary<string, DynamicGameParameter> GetDynamicAdapter();
         public abstract bool CustomParseCallback(GameParser parser);
+        public abstract bool CustomSave(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key);
+        public abstract SaveAdapter GetSaveAdapter();
         public abstract IParseObject GetEmptyCopy();
 
         private IParentable _parent;
@@ -55,7 +61,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             {
                 foreach (var entry in dynamicAdapter)
                 {
-                    var param = entry.Value.parameterProvider(this);
+                    var param = entry.Value.provider(this);
                     if (param != null && param is INeedToSave iNeedSave && iNeedSave.IsNeedToSave())
                         return true;
                 }
@@ -78,7 +84,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (ParseStaticAdapter(parser, key))
                 return;
 
-            if (ParseDynamicAdapter(key))
+            if (ParseDynamicAdapter(parser, key))
                 return;
 
             throw new Exception("Unknown token: " + key + ": " + parser.GetCursorInfo());
@@ -101,11 +107,79 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             return true;
         }
-        private bool ParseDynamicAdapter(string key)
+        private bool ParseDynamicAdapter(GameParser parser, string key)
         {
-            //TODO
+            var dynamicAdapter = GetDynamicAdapter();
+            if (dynamicAdapter == null)
+                return false;
 
-            return false;
+            object newObj = null;
+            foreach (var entry in dynamicAdapter)
+            {
+                newObj = entry.Value.factory.Invoke(this, key);
+                if (newObj != null)
+                    break;
+            }
+
+            if (newObj == null)
+                return false;
+
+            if (newObj is IParseCallbackable parseCallbackable)
+                parseCallbackable.ParseCallback(parser);
+            else
+                throw new Exception("Invalid ParseStaticAdapter handler type: " + parser.GetCursorInfo());
+
+            return true;
+        }
+
+        private static readonly Dictionary<string, Func<object, object>> _defaultStaticAdapter = new Dictionary<string, Func<object, object>>();
+        private static readonly Dictionary<string, DynamicGameParameter> _defaultDynamicAdapter = new Dictionary<string, DynamicGameParameter>();
+
+        public void Save(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key)
+        {
+            if (CustomSave(parser, sb, saveParameter, outIndent, key))
+                return;
+
+            var saveAdapter = GetSaveAdapter();
+            var staticAdapter = GetStaticAdapter();
+            if (staticAdapter == null)
+                staticAdapter = _defaultStaticAdapter;
+
+            var dynamicAdapter = GetDynamicAdapter();
+            if (dynamicAdapter == null)
+                dynamicAdapter = _defaultDynamicAdapter;
+
+            var comments = GetComments();
+            if (comments == null)
+                comments = GameComments.DEFAULT;
+
+            if (comments.Previous.Length > 0)
+                sb.Append(outIndent).Append(comments.Previous);
+
+            sb.Append(outIndent).Append(key).Append(" = {");
+
+            if (comments.Inline.Length > 0)
+                sb.Append(comments.Inline);
+
+            var isInline = saveParameter.IsForceInline ||
+                comments.Inline.Length > 0 ||
+                (staticAdapter.Count + dynamicAdapter.Count <= 1);
+            var innerIndent = isInline ? "" : outIndent + Constants.INDENT;
+
+            if (!isInline)
+                sb.Append(Constants.NEW_LINE);
+
+            foreach (var parameter in saveAdapter.Parameters)
+            {
+                if (staticAdapter.TryGetValue(parameter.Name, out var staticProvider))
+                {
+
+                }
+                else if (dynamicAdapter.TryGetValue(parameter.Name, out var dynamicProvider))
+                {
+                    //TODO implement
+                }
+            }
         }
 
 

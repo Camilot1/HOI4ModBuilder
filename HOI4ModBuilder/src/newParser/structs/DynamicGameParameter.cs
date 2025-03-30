@@ -8,8 +8,8 @@ namespace HOI4ModBuilder.src.newParser.structs
 {
     public struct DynamicGameParameter
     {
-        public Func<object, object> parameterProvider;
-        public Func<object, string, object> payloadFactory; // First is Object, Second is Key
+        public Func<object, object> provider;
+        public Func<object, string, object> factory; // First is Object, Second is Key
 
     }
 }

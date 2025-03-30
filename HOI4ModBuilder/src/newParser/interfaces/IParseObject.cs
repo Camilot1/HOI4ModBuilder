@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HOI4ModBuilder.src.newParser.interfaces
 {
-    public interface IParseObject : INeedToSave, IParentable, ICommentable, IConstantable, IParseCallbackable
+    public interface IParseObject : INeedToSave, IParentable, ISaveable, IConstantable, IParseCallbackable
     {
         IParseObject GetEmptyCopy();
         Dictionary<string, Func<object, object>> GetStaticAdapter();

@@ -5,8 +5,11 @@
     {
         NONE,
         VAR,
-        CONDITIONAL,
+        MODIFIER,
+        EFFECT,
+        TRIGGER,
         ALL,
+        SCOPE,
         COUNTRY,
         STATE,
         COMBATANT,

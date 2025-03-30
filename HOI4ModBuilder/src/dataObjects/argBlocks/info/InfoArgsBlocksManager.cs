@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src.dataObjects.argBlocks.info;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
 using Pdoxcl2Sharp;
@@ -9,7 +10,7 @@ using System.IO;
 
 namespace HOI4ModBuilder.src.dataObjects.argBlocks
 {
-    class InfoArgsBlocksManager
+    public class InfoArgsBlocksManager
     {
         private static readonly string SCOPES_FILE_PATH = FileManager.AssembleFilePath(new[] { "data", "scopes.json" });
         private static readonly string EFFECTS_FILE_PATH = FileManager.AssembleFilePath(new[] { "data", "effects.json" });
@@ -107,14 +108,17 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
         private static void LoadGameInfoArgsBlocks()
         {
-            LoadInfoArgsBlocks(SCOPES_FILE_PATH, _scopesInfoArgsBlocks);
-            LoadInfoArgsBlocks(EFFECTS_FILE_PATH, _effectsInfoArgsBlocks);
-            LoadInfoArgsBlocks(MODIFIERS_FILE_PATH, _modifiersInfoArgsBlocks);
-            LoadInfoArgsBlocks(TRIGGERS_FILE_PATH, _triggersInfoArgsBlocks);
+            LoadInfoArgsBlocks(SCOPES_FILE_PATH, EnumScope.SCOPE, _scopesInfoArgsBlocks);
+            LoadInfoArgsBlocks(EFFECTS_FILE_PATH, EnumScope.EFFECT, _effectsInfoArgsBlocks);
+            LoadInfoArgsBlocks(MODIFIERS_FILE_PATH, EnumScope.MODIFIER, _modifiersInfoArgsBlocks);
+            LoadInfoArgsBlocks(TRIGGERS_FILE_PATH, EnumScope.TRIGGER, _triggersInfoArgsBlocks);
         }
 
         private static void LoadGameScriptedInfoArgsBlocks(Settings settings)
         {
+            if (settings == null)
+                return;
+
             LoadScriptedEffects(settings, SCRIPTED_EFFECTS_FOLDER_PATH);
             LoadDefinedModifiers(settings, DEFINED_MODIFIERS_FOLDER_PATH);
             LoadScriptedTriggers(settings, SCRIPTED_TRIGGERS_FOLDER_PATH);
@@ -122,10 +126,10 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
         private static void LoadCustomInfoArgsBlocks()
         {
-            LoadInfoArgsBlocks(CUSTOM_SCOPES_FILE_PATH, _scopesInfoArgsBlocks);
-            LoadInfoArgsBlocks(CUSTOM_EFFECTS_FILE_PATH, _effectsInfoArgsBlocks);
-            LoadInfoArgsBlocks(CUSTOM_MODIFIERS_FILE_PATH, _modifiersInfoArgsBlocks);
-            LoadInfoArgsBlocks(CUSTOM_TRIGGERS_FILE_PATH, _triggersInfoArgsBlocks);
+            LoadInfoArgsBlocks(CUSTOM_SCOPES_FILE_PATH, EnumScope.SCOPE, _scopesInfoArgsBlocks);
+            LoadInfoArgsBlocks(CUSTOM_EFFECTS_FILE_PATH, EnumScope.EFFECT, _effectsInfoArgsBlocks);
+            LoadInfoArgsBlocks(CUSTOM_MODIFIERS_FILE_PATH, EnumScope.MODIFIER, _modifiersInfoArgsBlocks);
+            LoadInfoArgsBlocks(CUSTOM_TRIGGERS_FILE_PATH, EnumScope.TRIGGER, _triggersInfoArgsBlocks);
         }
 
         private static void CleanUpAfterLoading()
@@ -134,14 +138,17 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             _definitionFiles = null;
         }
 
-        private static void LoadInfoArgsBlocks(string filePath, Dictionary<string, InfoArgsBlock> dictionary)
+        private static void LoadInfoArgsBlocks(string filePath, EnumScope enumScope, Dictionary<string, InfoArgsBlock> dictionary)
         {
             currentLoadingFilePath = filePath;
             if (!File.Exists(filePath)) File.WriteAllText(filePath, "[]");
 
             foreach (var block in JsonConvert.DeserializeObject<List<InfoArgsBlock>>(File.ReadAllText(filePath)))
             {
-                if (block.IsDisabled) continue;
+                if (block.IsDisabled)
+                    continue;
+
+                block.Init(enumScope);
 
                 var newBlocks = block.GetReplaceTagCopies();
                 if (newBlocks.Count > 0)
@@ -248,7 +255,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                     else
                     {
                         var infoArgsBlock = new InfoArgsBlock(
-                            info.name,
+                            info.name, EnumScope.EFFECT,
                             new EnumScope[] { EnumScope.ALL },
                             new EnumValueType[] { EnumValueType.BOOLEAN }
                         );
@@ -343,7 +350,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                                 ));
 
                         var infoArgsBlock = new InfoArgsBlock(
-                            info.name,
+                            info.name, EnumScope.MODIFIER,
                             scopes.ToArray(),
                             new EnumValueType[] { defaultValueType },
                             defaultValueType,
@@ -395,7 +402,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                     else
                     {
                         var infoArgsBlock = new InfoArgsBlock(
-                            info.name,
+                            info.name, EnumScope.TRIGGER,
                             new EnumScope[] { EnumScope.ALL },
                             new EnumValueType[] { EnumValueType.BOOLEAN }
                         );

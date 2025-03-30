@@ -1,17 +1,9 @@
 ﻿using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
-using HOI4ModBuilder.src.parser;
-using HOI4ModBuilder.src.parser.objects;
-using HOI4ModBuilder.src.Pdoxcl2Sharp;
 using HOI4ModBuilder.src.utils;
-using SharpFont.Fnt;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.newParser
 {
@@ -36,7 +28,8 @@ namespace HOI4ModBuilder.src.newParser
         SPACE = 0b1_0000_0000_0000_0000,
         NEW_LINE = 0b10_0000_0000_0000_0000,
         SHIELDED_QUOTE = 0b100_0000_0000_0000_0000,
-        SEMICOLON = 0b1000_0000_0000_0000_0000,
+        COLON = 0b1000_0000_0000_0000_0000,
+        SEMICOLON = 0b1_0000_0000_0000_0000_0000,
     }
 
     public class GameParser
@@ -109,7 +102,6 @@ namespace HOI4ModBuilder.src.newParser
                     obj.ParseCallback(this);
                 else if (_token == Token.LEFT_CURLY)
                 {
-                    _indent++;
                     NextChar();
 
                     var comments = ParseAndPullComments();
@@ -119,11 +111,7 @@ namespace HOI4ModBuilder.src.newParser
                 }
                 else if (_token == Token.RIGHT_CURLY)
                 {
-                    _indent--;
-                    if (_indent < 0)
-                        throw new Exception("Invalid indentation (< 0): " + GetCursorInfo());
                     NextChar();
-
                     return;
                 }
                 else
@@ -131,7 +119,7 @@ namespace HOI4ModBuilder.src.newParser
             }
         }
 
-        public void ParseInsideBlock(Action<string> tokensConsumer)
+        public void ParseInsideBlock(IParseObject obj, Action<string> tokensConsumer)
         {
             while (_index < _dataLength)
             {
@@ -198,8 +186,17 @@ namespace HOI4ModBuilder.src.newParser
                     else
                         _token = Token.QUOTE;
                     break;
-                case '{': _token = Token.LEFT_CURLY; break;
-                case '}': _token = Token.RIGHT_CURLY; break;
+                case '{':
+                    _token = Token.LEFT_CURLY;
+                    _indent++;
+                    break;
+                case '}':
+                    _token = Token.RIGHT_CURLY;
+                    _indent--;
+
+                    if (_indent < 0)
+                        throw new Exception("Invalid indentation (< 0): " + GetCursorInfo());
+                    break;
                 case ')': _token = Token.LEFT_PARANTHESIS; break;
                 case '(': _token = Token.RIGHT_PARANTHESIS; break;
                 case '#': _token = Token.COMMENT; break;
@@ -219,7 +216,7 @@ namespace HOI4ModBuilder.src.newParser
                     _lineIndex++;
                     _lineCharIndex = 0;
                     break;
-                case ':':
+                case ':': _token = Token.COLON; break;
                 case ';': _token = Token.SEMICOLON; break;
                 default: _token = Token.UNTYPED; break;
             }
