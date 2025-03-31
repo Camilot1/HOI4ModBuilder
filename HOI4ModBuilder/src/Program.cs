@@ -22,7 +22,7 @@ namespace HOI4ModBuilder
         {
             TransferDataToDebugDirectory();
 
-            TestMain.Execute();
+            //TestMain.Execute();
             Logger.Init();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

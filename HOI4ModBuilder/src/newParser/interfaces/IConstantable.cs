@@ -1,5 +1,4 @@
 ﻿using HOI4ModBuilder.src.newParser.objects;
-using HOI4ModBuilder.src.parser.parameter;
 using System;
 using System.Collections.Generic;
 using System.Linq;

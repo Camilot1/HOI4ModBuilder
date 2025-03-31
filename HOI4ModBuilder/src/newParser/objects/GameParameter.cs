@@ -7,6 +7,14 @@ using HOI4ModBuilder.src.utils;
 
 namespace HOI4ModBuilder.src.newParser.objects
 {
+    public enum EnumDemiliter
+    {
+        NONE,
+        EQUALS = '=',
+        LESS_THAN = '<',
+        GREATER_THAN = '>',
+    }
+
     public class GameParameter<T> : IGameParameter where T : new()
     {
         private bool _needToSave;
