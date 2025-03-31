@@ -9,7 +9,6 @@ namespace HOI4ModBuilder.src.newParser.objects
 {
     public enum EnumDemiliter
     {
-        NONE,
         EQUALS = '=',
         LESS_THAN = '<',
         GREATER_THAN = '>',

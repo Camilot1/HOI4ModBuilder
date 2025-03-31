@@ -44,7 +44,9 @@ namespace HOI4ModBuilder.src.newParser.test
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => DYNAMIC_ADAPTER;
         public override bool CustomParseCallback(GameParser parser) => false;
 
-        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(typeof(TestObject)).Add(STATIC_ADAPTER.Keys);
+        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(typeof(TestObject))
+            .Add(STATIC_ADAPTER.Keys)
+            .Add(DYNAMIC_ADAPTER.Keys);
         public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
         public override bool CustomSave(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key) => false;
     }

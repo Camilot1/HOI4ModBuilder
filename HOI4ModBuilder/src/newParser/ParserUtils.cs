@@ -50,6 +50,12 @@ namespace HOI4ModBuilder.src.newParser
 
         public static bool TryParseScope(string value, out IScriptBlockInfo scope)
         {
+            if (InfoArgsBlocksManager.TryGetScope(value, out var scopeBlock))
+            {
+                scope = scopeBlock;
+                return true;
+            }
+
             if (CountryManager.TryGetCountry(value, out var country))
             {
                 scope = country;

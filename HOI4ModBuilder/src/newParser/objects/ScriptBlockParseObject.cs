@@ -13,8 +13,8 @@ namespace HOI4ModBuilder.src.newParser.objects
     {
         private IScriptBlockInfo _scriptBlockInfo;
 
-        private char _demiliter;
-        public char Demiliter { get => _demiliter; set => Utils.Setter(ref _demiliter, ref value, ref _needToSave); }
+        private EnumDemiliter _demiliter;
+        public EnumDemiliter Demiliter { get => _demiliter; set => Utils.Setter(ref _demiliter, ref value, ref _needToSave); }
         public EnumValueType ValueType { get; set; }
 
         private object _value;
@@ -53,10 +53,14 @@ namespace HOI4ModBuilder.src.newParser.objects
                     }
                 }
 
-                if (!isAllowedDemifiler)
+                if (isAllowedDemifiler)
+                    _demiliter = (EnumDemiliter)demiliters[0];
+                else
                     throw new Exception("Invalid data structure (demiliter): " + parser.GetCursorInfo());
             }
-            else if (demiliters[0] != '=')
+            else if (demiliters[0] == '=')
+                _demiliter = (EnumDemiliter)demiliters[0];
+            else
                 throw new Exception("Invalid data structure (demiliter): " + parser.GetCursorInfo());
 
             if (parser.SkipWhiteSpaces())
@@ -102,17 +106,17 @@ namespace HOI4ModBuilder.src.newParser.objects
                 int[] universalParamsCounter = new int[1];
                 parser.ParseInsideBlock(
                     (comments) => SetComments(comments),
-                    (token) => InfoArgsBlockInnerParseCallback(parser, token, universalParamsCounter)
+                    (tokenComments, token) => InfoArgsBlockInnerParseCallback(parser, token, tokenComments, universalParamsCounter)
                 );
             }
             else
                 parser.ParseInsideBlock(
                     (comments) => SetComments(comments),
-                    (token) => ScopeInnerParseCallback(parser, token)
+                    (tokenComments, token) => ScopeInnerParseCallback(parser, token, tokenComments)
                 );
         }
 
-        private void InfoArgsBlockInnerParseCallback(GameParser parser, string key, int[] universalParamsCounter)
+        private void InfoArgsBlockInnerParseCallback(GameParser parser, string key, GameComments keyComments, int[] universalParamsCounter)
         {
             var innerList = (GameList<ScriptBlockParseObject>)_value;
             var infoArgsBlock = (InfoArgsBlock)_scriptBlockInfo;
@@ -120,16 +124,16 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (infoArgsBlock.CanHaveAnyInnerBlocks)
             {
                 if (ParserUtils.TryParseScope(key, out var innerBlock))
-                    ParseInner(innerBlock);
+                    ParseInnerScriptInfoBlock(parser, innerList, innerBlock, keyComments);
                 else if (InfoArgsBlocksManager.TryGetInfoArgsBlock(key, out var innerBlock0))
-                    ParseInner(innerBlock0);
+                    ParseInnerScriptInfoBlock(parser, innerList, innerBlock0, keyComments);
                 else
                     throw new Exception("Unknown token: " + parser.GetCursorInfo());
             }
             else if (infoArgsBlock.MandatoryInnerArgsBlocks != null && infoArgsBlock.MandatoryInnerArgsBlocks.TryGetValue(key, out var innerBlock1))
-                ParseInner(innerBlock1);
+                ParseInnerScriptInfoBlock(parser, innerList, innerBlock1, keyComments);
             else if (infoArgsBlock.AllowedInnerArgsBlocks != null && infoArgsBlock.AllowedInnerArgsBlocks.TryGetValue(key, out var innerBlock2))
-                ParseInner(innerBlock2);
+                ParseInnerScriptInfoBlock(parser, innerList, innerBlock2, keyComments);
             else if (infoArgsBlock.CanHaveUniversalParams)
             {
                 var innerBlock3 = new ScriptBlockParseObject(
@@ -137,22 +141,43 @@ namespace HOI4ModBuilder.src.newParser.objects
                 );
 
                 innerBlock3.CustomParseCallback(parser);
+
+                var comments = innerBlock3.GetComments();
+                if (comments != null)
+                    comments.Previous = keyComments != null ? keyComments.Previous + comments.Previous : comments.Previous;
+                else
+                    innerBlock3.SetComments(keyComments);
+
                 innerList.AddSilent(innerBlock3);
             }
             else
                 throw new Exception("Unknown token: " + parser.GetCursorInfo());
 
-            void ParseInner(IScriptBlockInfo innerInfo)
-            {
-                var innerBlock = new ScriptBlockParseObject(this, innerInfo);
-                innerBlock.CustomParseCallback(parser);
-                innerList.AddSilent(innerBlock);
-            }
+
         }
 
-        private void ScopeInnerParseCallback(GameParser parser, string key)
+        private void ParseInnerScriptInfoBlock(GameParser parser, GameList<ScriptBlockParseObject> innerList, IScriptBlockInfo innerInfo, GameComments keyComments)
         {
-            throw new NotImplementedException(); //TODO implement
+            var innerBlock = new ScriptBlockParseObject(this, innerInfo);
+            innerBlock.CustomParseCallback(parser);
+
+            var comments = innerBlock.GetComments();
+            if (comments != null)
+                comments.Previous = keyComments != null ? keyComments.Previous + comments.Previous : comments.Previous;
+            else
+                innerBlock.SetComments(keyComments);
+
+            innerList.AddSilent(innerBlock);
+        }
+
+        private void ScopeInnerParseCallback(GameParser parser, string key, GameComments keyComments)
+        {
+            var innerList = (GameList<ScriptBlockParseObject>)_value;
+
+            if (ParserUtils.TryParseScope(key, out var scopeBlock))
+                ParseInnerScriptInfoBlock(parser, innerList, scopeBlock, keyComments);
+            else if (InfoArgsBlocksManager.TryGetInfoArgsBlock(key, out var infoArgsBlock)) //TODO reimplement
+                ParseInnerScriptInfoBlock(parser, innerList, infoArgsBlock, keyComments);
         }
 
         private void ParseValueString(string value, bool valueIsName)

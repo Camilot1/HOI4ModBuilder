@@ -113,7 +113,8 @@ namespace HOI4ModBuilder.src.newParser
                 }
                 else if (_token == Token.RIGHT_CURLY)
                 {
-                    NextChar();
+                    if (_index < _dataLength - 1)
+                        NextChar();
                     return;
                 }
                 else
@@ -121,7 +122,7 @@ namespace HOI4ModBuilder.src.newParser
             }
         }
 
-        public void ParseInsideBlock(Action<GameComments> commentsConsumer, Action<string> tokensConsumer)
+        public void ParseInsideBlock(Action<GameComments> commentsConsumer, Action<GameComments, string> tokensConsumer)
         {
             if (_token == Token.LEFT_CURLY)
                 NextChar();
@@ -144,7 +145,7 @@ namespace HOI4ModBuilder.src.newParser
                 }
                 else if (_token == Token.COMMENT)
                 {
-                    SkipComment();
+                    ParseComment();
                     continue;
                 }
                 else if (_token == Token.RIGHT_CURLY)
@@ -161,7 +162,7 @@ namespace HOI4ModBuilder.src.newParser
                 if (data.Length == 0)
                     throw new Exception("Invalid parse inside block structure: " + GetCursorInfo());
 
-                tokensConsumer.Invoke(data);
+                tokensConsumer.Invoke(ParseAndPullComments(), data);
             }
         }
 
@@ -198,8 +199,6 @@ namespace HOI4ModBuilder.src.newParser
         {
             _prevChar = _currentChar;
             _index++;
-            if (_index >= _dataLength)
-                return;
             _currentChar = _data[_index];
             _lineCharIndex++;
 

@@ -41,6 +41,14 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
         private static string currentLoadingFilePath = null;
 
+        public static bool TryGetScope(string name, out InfoArgsBlock block)
+            => _scopesInfoArgsBlocks.TryGetValue(name, out block);
+        public static InfoArgsBlock GetScope(string name)
+        {
+            if (TryGetScope(name, out var block)) return block;
+            else return null;
+        }
+
         public static bool TryGetEffect(string name, out InfoArgsBlock block)
             => _effectsInfoArgsBlocks.TryGetValue(name, out block) ||
                 _scriptedEffectsInfoArgsBlocks.TryGetValue(name, out block);

@@ -57,7 +57,13 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             parser.ParseInsideBlock(
                 (comments) => SetComments(comments),
-                (token) => AddSilent(ParserUtils.Parse<T>(token))
+                (tokenComments, token) =>
+                {
+                    var obj = ParserUtils.Parse<T>(token);
+                    if (obj is ICommentable commentable)
+                        commentable.SetComments(tokenComments);
+                    AddSilent(obj);
+                }
             );
             return true;
         }
