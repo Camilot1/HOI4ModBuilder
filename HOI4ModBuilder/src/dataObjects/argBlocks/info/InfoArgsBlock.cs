@@ -73,6 +73,14 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             _functions = other._functions;
             AllowedInnerArgsBlocks = other.AllowedInnerArgsBlocks;
         }
+
+        public InfoArgsBlock(string name, EnumValueType[] allowedValueTypes)
+            : this()
+        {
+            Name = name;
+            AllowedValueTypes = allowedValueTypes;
+        }
+
         public InfoArgsBlock(string name, EnumScope innerScope, EnumScope[] specificScopes, EnumValueType[] allowedValueTypes)
             : this()
         {
@@ -136,9 +144,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
         [JsonIgnore]
         public bool CanHaveUniversalParams
-            => MaxUniversalParamsCount > 0 &&
-                AllowedValueTypes != null &&
-                AllowedValueTypes.Length > 0;
+            => MaxUniversalParamsCount > 0 && AllowedValueTypes != null && AllowedValueTypes.Length > 0;
 
     }
 }

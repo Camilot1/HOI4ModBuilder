@@ -8,7 +8,7 @@ using System.Text;
 
 namespace HOI4ModBuilder.src.newParser.objects
 {
-    public class GameList<T> : AbstractParseObject, IEnumerable<T> where T : new()
+    public class GameList<T> : AbstractParseObject, IValuePushable, IEnumerable<T> where T : new()
     {
         private readonly bool _allowsInlineAdd;
         private readonly bool _forceSeparateLineSave;
@@ -55,8 +55,10 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         private bool TryParseBlockValue(GameParser parser)
         {
-            SetComments(parser.ParseAndPullComments());
-            parser.ParseInsideBlock(this, (token) => Add(ParserUtils.Parse<T>(token)));
+            parser.ParseInsideBlock(
+                (comments) => SetComments(comments),
+                (token) => AddSilent(ParserUtils.Parse<T>(token))
+            );
             return true;
         }
 
@@ -71,7 +73,8 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (!_allowsInlineAdd || value.Length == 0)
                 throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
-            SetComments(parser.ParseAndPullComments());
+            var obj = ParserUtils.Parse<T>(value);
+            AddSilent(obj);
 
             return true;
         }
@@ -81,6 +84,8 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         private List<T> _list = new List<T>();
 
+        public void Push(object value) => AddSilent((T)value);
+        public void AddSilent(T item) => _list.Add(item);
         public void Add(T item)
         {
             _needToSave = true;

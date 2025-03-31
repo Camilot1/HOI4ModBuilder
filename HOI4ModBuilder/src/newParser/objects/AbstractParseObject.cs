@@ -114,11 +114,15 @@ namespace HOI4ModBuilder.src.newParser.objects
                 return false;
 
             object newObj = null;
+            object providerHandler = null;
             foreach (var entry in dynamicAdapter)
             {
                 newObj = entry.Value.factory.Invoke(this, key);
                 if (newObj != null)
+                {
+                    providerHandler = entry.Value.provider.Invoke(this);
                     break;
+                }
             }
 
             if (newObj == null)
@@ -128,6 +132,14 @@ namespace HOI4ModBuilder.src.newParser.objects
                 parseCallbackable.ParseCallback(parser);
             else
                 throw new Exception("Invalid ParseStaticAdapter handler type: " + parser.GetCursorInfo());
+
+            if (providerHandler == null)
+                throw new Exception("providerHandler in ParseStaticAdapter is null: " + parser.GetCursorInfo());
+
+            if (providerHandler is IValuePushable valuePushable)
+                valuePushable.Push(newObj);
+            else
+                throw new Exception("providerHandler in ParseStaticAdapter is not IValuePushable: " + parser.GetCursorInfo());
 
             return true;
         }

@@ -6,7 +6,6 @@ using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.src.newParser.objects
 {
@@ -98,10 +97,63 @@ namespace HOI4ModBuilder.src.newParser.objects
         private void ParseBlockValue(GameParser parser)
         {
             _value = new GameList<ScriptBlockParseObject>();
-
-            //TODO impelement;
+            if (_scriptBlockInfo is InfoArgsBlock)
+            {
+                int[] universalParamsCounter = new int[1];
+                parser.ParseInsideBlock(
+                    (comments) => SetComments(comments),
+                    (token) => InfoArgsBlockInnerParseCallback(parser, token, universalParamsCounter)
+                );
+            }
+            else
+                parser.ParseInsideBlock(
+                    (comments) => SetComments(comments),
+                    (token) => ScopeInnerParseCallback(parser, token)
+                );
         }
 
+        private void InfoArgsBlockInnerParseCallback(GameParser parser, string key, int[] universalParamsCounter)
+        {
+            var innerList = (GameList<ScriptBlockParseObject>)_value;
+            var infoArgsBlock = (InfoArgsBlock)_scriptBlockInfo;
+
+            if (infoArgsBlock.CanHaveAnyInnerBlocks)
+            {
+                if (ParserUtils.TryParseScope(key, out var innerBlock))
+                    ParseInner(innerBlock);
+                else if (InfoArgsBlocksManager.TryGetInfoArgsBlock(key, out var innerBlock0))
+                    ParseInner(innerBlock0);
+                else
+                    throw new Exception("Unknown token: " + parser.GetCursorInfo());
+            }
+            else if (infoArgsBlock.MandatoryInnerArgsBlocks != null && infoArgsBlock.MandatoryInnerArgsBlocks.TryGetValue(key, out var innerBlock1))
+                ParseInner(innerBlock1);
+            else if (infoArgsBlock.AllowedInnerArgsBlocks != null && infoArgsBlock.AllowedInnerArgsBlocks.TryGetValue(key, out var innerBlock2))
+                ParseInner(innerBlock2);
+            else if (infoArgsBlock.CanHaveUniversalParams)
+            {
+                var innerBlock3 = new ScriptBlockParseObject(
+                    this, new InfoArgsBlock(key, infoArgsBlock.AllowedUniversalParamsInfo.AllowedValueTypes)
+                );
+
+                innerBlock3.CustomParseCallback(parser);
+                innerList.AddSilent(innerBlock3);
+            }
+            else
+                throw new Exception("Unknown token: " + parser.GetCursorInfo());
+
+            void ParseInner(IScriptBlockInfo innerInfo)
+            {
+                var innerBlock = new ScriptBlockParseObject(this, innerInfo);
+                innerBlock.CustomParseCallback(parser);
+                innerList.AddSilent(innerBlock);
+            }
+        }
+
+        private void ScopeInnerParseCallback(GameParser parser, string key)
+        {
+            throw new NotImplementedException(); //TODO implement
+        }
 
         private void ParseValueString(string value, bool valueIsName)
         {

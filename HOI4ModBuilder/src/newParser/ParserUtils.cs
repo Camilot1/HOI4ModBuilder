@@ -48,7 +48,7 @@ namespace HOI4ModBuilder.src.newParser
             return value;
         }
 
-        public static bool TryParseScope(string value, out object scope)
+        public static bool TryParseScope(string value, out IScriptBlockInfo scope)
         {
             if (CountryManager.TryGetCountry(value, out var country))
             {
@@ -64,6 +64,22 @@ namespace HOI4ModBuilder.src.newParser
 
             scope = null;
             return false;
+        }
+
+
+        public static ScriptBlockParseObject ScriptBlockFabricProvide(IParentable parent, Func<IScriptBlockInfo>[] scriptBlockInfoProviders)
+        {
+            if (scriptBlockInfoProviders == null)
+                return null;
+
+            foreach (var provider in scriptBlockInfoProviders)
+            {
+                var scriptBlockInfo = provider.Invoke();
+                if (scriptBlockInfo != null)
+                    return new ScriptBlockParseObject(parent, scriptBlockInfo);
+            }
+
+            return null;
         }
 
         public static ScriptBlockParseObject ScriptBlockFabricProvide(IParentable parent, IScriptBlockInfo scriptBlockInfo)

@@ -1,9 +1,6 @@
 ﻿using HOI4ModBuilder.src.newParser.interfaces;
-using HOI4ModBuilder.src.parser.objects;
-using HOI4ModBuilder.src.parser.parameter;
 using HOI4ModBuilder.src.parser;
 using System;
-using YamlDotNet.Core.Tokens;
 using System.Text;
 using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
@@ -20,9 +17,6 @@ namespace HOI4ModBuilder.src.newParser.objects
         public IParentable GetParent() => _parent;
         public void SetParent(IParentable parent) => _parent = parent;
 
-        private GameConstant _constant;
-        public GameConstant Constant { get => _constant; set => _constant = value; }
-
         private GameComments _comments;
         public GameComments GetComments() => _comments;
         public void SetComments(GameComments comments) => _comments = comments;
@@ -30,24 +24,20 @@ namespace HOI4ModBuilder.src.newParser.objects
         private EnumDemiliter _enumDemiliter;
         private bool _isAnyDemiliter;
         public bool IsAnyDemiliter() => _isAnyDemiliter;
-        private bool _isQuoted;
-        public bool IsQuoted() => _isQuoted;
 
-        private T _value;
-        public T GetValue() => _constant != null ? _constant.GetValue<T>() : _value;
+        private object _value;
+        public object GetValueRaw() => _value;
+        public T GetValue() => _value is GameConstant gameConstant ? gameConstant.GetValue<T>() : (T)_value;
         public void SetValue(T value)
         {
             if (_value == null && value != null || !_value.Equals(value))
             {
                 if (value is GameConstant valueConstant)
-                    _constant = valueConstant;
+                    _value = valueConstant;
                 else if (value is string valueString && valueString.StartsWith("@"))
-                    ParseValueConstant(null, valueString.Substring(1));
+                    ParseValueConstant(null, valueString);
                 else
-                {
                     _value = value;
-                    Constant = null;
-                }
 
                 _needToSave = true;
             }
@@ -125,7 +115,9 @@ namespace HOI4ModBuilder.src.newParser.objects
                 commentable.TryGetConstantParentable(rawValue.Substring(1), out tempConstant);
 
             if (tempConstant != null)
-                _constant = tempConstant;
+                _value = tempConstant;
+            else if (parser == null)
+                _value = rawValue;
             else
                 throw new Exception("Constant with name " + rawValue + " not found or this scope does not support constants: " + parser?.GetCursorInfo());
         }

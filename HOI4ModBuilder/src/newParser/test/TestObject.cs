@@ -26,12 +26,17 @@ namespace HOI4ModBuilder.src.newParser.test
         };
 
         public readonly GameList<ScriptBlockParseObject> Modifiers = new GameList<ScriptBlockParseObject>();
+        public readonly GameList<ScriptBlockParseObject> Effects = new GameList<ScriptBlockParseObject>();
 
         private static readonly Dictionary<string, DynamicGameParameter> DYNAMIC_ADAPTER = new Dictionary<string, DynamicGameParameter>
         {
             { "modifiers", new DynamicGameParameter {
                 provider = o => ((TestObject)o).Modifiers,
                 factory = (o, key) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(key))
+            } },
+            { "effects", new DynamicGameParameter {
+                provider = o => ((TestObject)o).Effects,
+                factory = (o, key) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetEffect(key))
             } },
         };
 

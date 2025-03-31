@@ -74,6 +74,8 @@ namespace HOI4ModBuilder.src.newParser
             _prevChar = default;
             _currentChar = default;
 
+            _index = -1;
+
             Parse(file);
         }
 
@@ -119,8 +121,17 @@ namespace HOI4ModBuilder.src.newParser
             }
         }
 
-        public void ParseInsideBlock(IParseObject obj, Action<string> tokensConsumer)
+        public void ParseInsideBlock(Action<GameComments> commentsConsumer, Action<string> tokensConsumer)
         {
+            if (_token == Token.LEFT_CURLY)
+                NextChar();
+            else
+                throw new Exception("ParseInsideBlock must start at '{' char: " + GetCursorInfo());
+
+            var comments = ParseAndPullComments();
+            if (commentsConsumer != null)
+                commentsConsumer.Invoke(comments);
+
             while (_index < _dataLength)
             {
                 SkipWhiteSpaces();
@@ -138,6 +149,7 @@ namespace HOI4ModBuilder.src.newParser
                 }
                 else if (_token == Token.RIGHT_CURLY)
                 {
+                    NextChar();
                     return;
                 }
                 else
@@ -167,15 +179,36 @@ namespace HOI4ModBuilder.src.newParser
             return data;
         }
 
+        private void GoToPrevChar()
+        {
+            if (_index > 0)
+                _index--;
+            _currentChar = _data[_index];
+
+            if (_index == 0)
+                _prevChar = default;
+            else
+                _prevChar = _data[_index - 1];
+
+            ParseCharToken(_currentChar);
+        }
+
         /** Метод получения следующего символа из данных */
         private void NextChar()
         {
             _prevChar = _currentChar;
-            _currentChar = _data[_index];
             _index++;
+            if (_index >= _dataLength)
+                return;
+            _currentChar = _data[_index];
             _lineCharIndex++;
 
-            switch (_currentChar)
+            ParseCharToken(_currentChar);
+        }
+
+        private void ParseCharToken(char ch)
+        {
+            switch (ch)
             {
                 case '=': _token = Token.EQUALS; break;
                 case '<': _token = Token.LESS_THAN; break;
@@ -209,12 +242,14 @@ namespace HOI4ModBuilder.src.newParser
                 case '\t':
                 case ' ': _token = Token.SPACE; break;
                 case '\n':
+                    _lineIndex++;
+                    _lineCharIndex = 0;
+                    _token = Token.NEW_LINE;
+                    break;
                 case '\f':
                 case '\v':
                 case '\r':
                     _token = Token.NEW_LINE;
-                    _lineIndex++;
-                    _lineCharIndex = 0;
                     break;
                 case ':': _token = Token.COLON; break;
                 case ';': _token = Token.SEMICOLON; break;
@@ -350,15 +385,15 @@ namespace HOI4ModBuilder.src.newParser
         {
             while (_index < _dataLength)
             {
-                NextChar(); //TODO change to peek (in other places too)
-
                 if (((int)_token & flags) != 0)
                 {
-                    _index--;
+                    //GoToPrevChar();
+                    //_index--;
                     return;
                 }
 
                 _sbData.Append(_currentChar);
+                NextChar(); //TODO change to peek (in other places too)
             }
         }
 
@@ -381,16 +416,16 @@ namespace HOI4ModBuilder.src.newParser
             _sbData.Length = 0;
             while (_index < _dataLength)
             {
-                NextChar();
-
                 nextLine |= _token == Token.NEW_LINE;
 
                 bool isWhiteSpace = ((int)_token & MASK_WHITE_SPACE) != 0;
                 if (!isWhiteSpace)
                 {
-                    _index--;
+                    //GoToPrevChar();
+                    //_index--;
                     return nextLine;
                 }
+                NextChar();
             }
 
             return nextLine;

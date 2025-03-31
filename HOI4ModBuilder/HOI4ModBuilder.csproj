@@ -473,6 +473,7 @@
     <Compile Include="src\newParser\interfaces\IPostParseCallbackable.cs" />
     <Compile Include="src\newParser\interfaces\ISaveable.cs" />
     <Compile Include="src\newParser\interfaces\IScriptBlockInfo.cs" />
+    <Compile Include="src\newParser\interfaces\IValuePushable.cs" />
     <Compile Include="src\newParser\objects\AbstractParseObject.cs" />
     <Compile Include="src\newParser\objects\GameComments.cs" />
     <Compile Include="src\newParser\objects\GameConstant.cs" />
