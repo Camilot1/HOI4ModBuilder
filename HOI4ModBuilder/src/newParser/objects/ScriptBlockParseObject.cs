@@ -18,7 +18,21 @@ namespace HOI4ModBuilder.src.newParser.objects
         public EnumValueType ValueType { get; set; }
 
         private object _value;
-        public object Value { get => _value; set => Utils.Setter(ref _value, ref value, ref _needToSave); }
+        public object GetValue() => _value is GameConstant gameConstant ? gameConstant.Value : _value;
+        public void SetValue(object value)
+        {
+            if (_value == null && value != null || !_value.Equals(value))
+            {
+                if (value is GameConstant valueConstant)
+                    _value = valueConstant;
+                else if (value is string valueString && valueString.StartsWith("@"))
+                    ParseValueConstant(null, valueString);
+                else
+                    _value = value;
+
+                _needToSave = true;
+            }
+        }
 
         public ScriptBlockParseObject() { }
 
@@ -93,7 +107,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (value.Length == 0)
                 throw new Exception("Invalid data structure: " + parser.GetCursorInfo());
 
-            ParseValueString(value, isQuote);
+            ParseValueString(parser, value, isQuote);
 
             SetComments(parser.ParseAndPullComments());
         }
@@ -180,10 +194,36 @@ namespace HOI4ModBuilder.src.newParser.objects
                 ParseInnerScriptInfoBlock(parser, innerList, infoArgsBlock, keyComments);
         }
 
-        private void ParseValueString(string value, bool valueIsName)
+        private void ParseValueConstant(GameParser parser, string rawValue)
+        {
+            IParentable tempParent = GetParent();
+            GameConstant tempConstant = null;
+
+            if (tempParent is IConstantable commentable)
+                commentable.TryGetConstantParentable(rawValue.Substring(1), out tempConstant);
+
+            if (tempConstant != null)
+                _value = tempConstant;
+            else if (parser == null)
+                _value = rawValue;
+            else
+                throw new Exception("Constant with name " + rawValue + " not found or this scope does not support constants: " + parser?.GetCursorInfo());
+        }
+
+        private void ParseValueString(GameParser parser, string value, bool valueIsName)
         {
             bool canAcceptVars = false;
             bool hasParsedValue = false;
+
+            if (value.StartsWith("@"))
+                ParseValueConstant(parser, value);
+
+            GameConstant tempGameConstant = null;
+            if (_value is GameConstant gameConstant)
+            {
+                tempGameConstant = gameConstant;
+                value = gameConstant.Value;
+            }
 
             var allowedValueTypes = _scriptBlockInfo.GetAllowedValueTypes();
             if (allowedValueTypes != null)
@@ -280,6 +320,9 @@ namespace HOI4ModBuilder.src.newParser.objects
                         { "{allowedTypes}", string.Join(",", allowedValueTypes) }
                     }
                 ));
+
+            if (tempGameConstant != null)
+                _value = tempGameConstant;
         }
 
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => null;
@@ -289,9 +332,31 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public override SaveAdapter GetSaveAdapter() => null;
 
-        public override bool CustomSave(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key)
+        public override bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
-            throw new NotImplementedException();
+            if (_value is ISaveable saveable)
+            {
+                saveable.Save(parser, sb, outIndent, _scriptBlockInfo.GetBlockName(), default);
+                return true;
+            }
+
+            if (_value == null)
+                return true;
+
+            var comments = GetComments();
+            if (comments == null)
+                comments = GameComments.DEFAULT;
+
+            if (comments.Previous.Length > 0)
+                sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+
+            sb.Append(outIndent).Append(_scriptBlockInfo.GetBlockName()).Append(' ').Append((char)_demiliter)
+                .Append(' ').Append(ParserUtils.ObjectToSaveString(_value));
+
+            if (comments.Inline.Length > 0)
+                sb.Append(outIndent).Append(comments.Inline);
+
+            return true;
         }
     }
 }

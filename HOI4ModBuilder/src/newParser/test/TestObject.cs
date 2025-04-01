@@ -14,7 +14,9 @@ namespace HOI4ModBuilder.src.newParser.test
 
         public readonly GameParameter<int> IntValue = new GameParameter<int>();
         //public readonly GameParameter<GameList<int>> IntList = new GameParameter<GameList<int>>();
-        public readonly GameList<int> IntList = new GameList<int>();
+        public readonly GameList<int> IntList = new GameList<int>()
+            .INIT_SetAllowsInlineAdd(true)
+            .INIT_SetForceSeparateLineSave(false);
         public readonly GameParameter<TestObject> InnerObject = new GameParameter<TestObject>();
 
 
@@ -44,10 +46,11 @@ namespace HOI4ModBuilder.src.newParser.test
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => DYNAMIC_ADAPTER;
         public override bool CustomParseCallback(GameParser parser) => false;
 
-        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(typeof(TestObject))
+        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter("test", "TestObject")
             .Add(STATIC_ADAPTER.Keys)
-            .Add(DYNAMIC_ADAPTER.Keys);
+            .Add(DYNAMIC_ADAPTER.Keys)
+            .Load();
         public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
-        public override bool CustomSave(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key) => false;
+        public override bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter) => false;
     }
 }

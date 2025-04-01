@@ -180,20 +180,6 @@ namespace HOI4ModBuilder.src.newParser
             return data;
         }
 
-        private void GoToPrevChar()
-        {
-            if (_index > 0)
-                _index--;
-            _currentChar = _data[_index];
-
-            if (_index == 0)
-                _prevChar = default;
-            else
-                _prevChar = _data[_index - 1];
-
-            ParseCharToken(_currentChar);
-        }
-
         /** Метод получения следующего символа из данных */
         private void NextChar()
         {
@@ -333,18 +319,17 @@ namespace HOI4ModBuilder.src.newParser
             if (_token != Token.COMMENT)
                 throw new Exception("Invalid Comment structure: " + GetCursorInfo());
 
+            if (_sbComments.Length > 0 && _sbComments[_sbComments.Length - 1] != '\n')
+                _sbComments.Append(Constants.NEW_LINE);
+
             while (_index < _dataLength)
             {
-                NextChar();
 
                 if (((int)_token & (int)Token.NEW_LINE) != 0)
-                {
-                    _sbComments.Append(Constants.NEW_LINE);
                     return;
-                }
 
                 _sbComments.Append(_currentChar);
-
+                NextChar();
             }
         }
 
@@ -355,12 +340,9 @@ namespace HOI4ModBuilder.src.newParser
 
             while (_index < _dataLength)
             {
-                NextChar();
-
                 if (((int)_token & (int)Token.NEW_LINE) != 0)
-                {
                     return;
-                }
+                NextChar();
             }
         }
 

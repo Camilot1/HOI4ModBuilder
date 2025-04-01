@@ -75,6 +75,8 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (demiliter[0] != '=' && !_isAnyDemiliter)
                 throw new Exception("Invalid demiliter: " + demiliter + ": " + parser.GetCursorInfo());
+            else
+                _enumDemiliter = (EnumDemiliter)demiliter[0];
 
             if (parser.SkipWhiteSpaces())
                 throw new Exception("Invalid parameter structure: " + parser.GetCursorInfo());
@@ -141,18 +143,29 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
         }
 
-        public bool CustomSave(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key) => false;
-        public void Save(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key)
+        public bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter) => false;
+        public void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
             if (_value is ISaveable saveable)
             {
-                saveable.Save(parser, sb, saveParameter, outIndent, key);
+                saveable.Save(parser, sb, outIndent, key, saveParameter);
                 return;
             }
+            else if (_value == null)
+                return;
 
-            sb.Append(outIndent).Append(key).Append(' ').Append(_enumDemiliter).Append(' ').Append(_value);
+            if (saveParameter.AddEmptyLineBefore)
+                sb.Append(outIndent).Append(Constants.NEW_LINE);
 
-            if (!saveParameter.IsForceInline)
+            var comments = GetComments();
+            if (comments != null && comments.Previous.Length > 0)
+                sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+
+            sb.Append(outIndent).Append(key).Append(' ').Append((char)_enumDemiliter).Append(' ').Append(_value);
+
+            if (comments != null && comments.Inline.Length > 0)
+                sb.Append(' ').Append(comments.Inline).Append(Constants.NEW_LINE);
+            else if (!saveParameter.IsForceInline)
                 sb.Append(Constants.NEW_LINE);
         }
 

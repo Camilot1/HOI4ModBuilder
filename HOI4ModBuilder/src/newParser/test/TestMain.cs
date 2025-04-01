@@ -19,7 +19,7 @@ namespace HOI4ModBuilder.src.parser
             Console.WriteLine("!");
 
             //if (file.IsNeedToSave())
-            file.SaveToFile(parser);
+            file.SaveToFile(parser, new FileInfo("test2.txt", "test2.txt", true));
 
         }
     }

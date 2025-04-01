@@ -1,4 +1,6 @@
-﻿using HOI4ModBuilder.src.dataObjects.argBlocks;
+﻿using HOI4ModBuilder.hoiDataObjects.history.countries;
+using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.newParser.interfaces;
@@ -46,6 +48,24 @@ namespace HOI4ModBuilder.src.newParser
                 return false;
 
             return value;
+        }
+
+        public static string ObjectToSaveString(object value)
+        {
+            if (value is bool valueBool)
+                return valueBool ? "yes" : "no";
+            else if (value is int valueInt)
+                return "" + valueInt;
+            else if (value is float valueFloat)
+                return Utils.FloatToString(valueFloat);
+            else if (value is Country valueCountry)
+                return valueCountry.Tag;
+            else if (value is State valueState)
+                return "" + valueState.Id;
+            else if (value is string valueString)
+                return valueString;
+            else
+                throw new Exception("Unknown value type: " + value);
         }
 
         public static bool TryParseScope(string value, out IScriptBlockInfo scope)

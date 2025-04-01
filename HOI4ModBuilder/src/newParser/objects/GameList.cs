@@ -5,19 +5,38 @@ using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.structs;
 using System.Collections;
 using System.Text;
+using HOI4ModBuilder.src.utils;
 
 namespace HOI4ModBuilder.src.newParser.objects
 {
     public class GameList<T> : AbstractParseObject, IValuePushable, IEnumerable<T> where T : new()
     {
-        private readonly bool _allowsInlineAdd;
-        private readonly bool _forceSeparateLineSave;
+        private bool _allowsInlineAdd;
+        private bool _forceSeparateLineSave;
+        private Func<string, T> _valueParseAdapter;
+        private Func<T, object> _valueSaveAdapter;
         public GameList() : base() { }
-        public GameList(bool allowsInlineAdd, bool forceSeparateLineSave) : this()
+        public GameList<T> INIT_SetAllowsInlineAdd(bool value)
         {
-            _allowsInlineAdd = allowsInlineAdd;
-            _forceSeparateLineSave = forceSeparateLineSave;
+            _allowsInlineAdd = value;
+            return this;
         }
+        public GameList<T> INIT_SetForceSeparateLineSave(bool value)
+        {
+            _forceSeparateLineSave = value;
+            return this;
+        }
+        public GameList<T> INIT_SetValueParseAdapter(Func<string, T> value)
+        {
+            _valueParseAdapter = value;
+            return this;
+        }
+        public GameList<T> INIT_SetValueParseAdapter(Func<T, object> value)
+        {
+            _valueSaveAdapter = value;
+            return this;
+        }
+
         public new bool IsNeedToSave()
         {
             if (base.IsNeedToSave())
@@ -59,7 +78,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 (comments) => SetComments(comments),
                 (tokenComments, token) =>
                 {
-                    var obj = ParserUtils.Parse<T>(token);
+                    T obj = _valueParseAdapter != null ? _valueParseAdapter(token) : ParserUtils.Parse<T>(token);
                     if (obj is ICommentable commentable)
                         commentable.SetComments(tokenComments);
                     AddSilent(obj);
@@ -79,7 +98,12 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (!_allowsInlineAdd || value.Length == 0)
                 throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
-            var obj = ParserUtils.Parse<T>(value);
+            var obj = _valueParseAdapter != null ? _valueParseAdapter.Invoke(value) : ParserUtils.Parse<T>(value);
+
+            var comments = parser.ParseAndPullComments();
+            if (obj is ICommentable commentable)
+                commentable.SetComments(comments);
+
             AddSilent(obj);
 
             return true;
@@ -110,14 +134,125 @@ namespace HOI4ModBuilder.src.newParser.objects
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         //TODO impelemnt save
-        public override SaveAdapter GetSaveAdapter()
+        public override SaveAdapter GetSaveAdapter() => null;
+        public override bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
-            throw new NotImplementedException();
-        }
-        public override bool CustomSave(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key)
-        {
-            //TODO implement
+            if (_list.Count == 0)
+                return true;
+
+            if (saveParameter.AddEmptyLineBefore)
+                sb.Append(outIndent).Append(Constants.NEW_LINE);
+
+            if (_forceSeparateLineSave)
+                SeparateLineSave(parser, sb, outIndent, key, saveParameter);
+            else
+                ListSave(parser, sb, outIndent, key, saveParameter);
+
             return true;
+        }
+
+        private void SeparateLineSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        {
+            foreach (var value in _list)
+            {
+                object tempValue = value;
+                if (_valueSaveAdapter != null)
+                    tempValue = _valueSaveAdapter.Invoke(value);
+
+                if (value is ISaveable saveable)
+                    saveable.Save(parser, sb, outIndent, key, saveParameter);
+                else
+                {
+                    GameComments comments = null;
+                    if (value is ICommentable commentable)
+                        comments = commentable.GetComments();
+
+                    if (comments != null && comments.Previous.Length > 0)
+                        sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+
+                    sb.Append(outIndent).Append(key).Append(" = ").Append(tempValue);
+
+                    if (comments != null && comments.Inline.Length > 0)
+                        sb.Append(' ').Append(comments.Inline);
+
+                    sb.Append(Constants.NEW_LINE);
+                }
+            }
+        }
+
+        private void ListSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        {
+            string innerIndent = outIndent;
+
+            if (key != null)
+            {
+                var comments = GetComments();
+                if (comments == null)
+                    comments = GameComments.DEFAULT;
+
+                if (comments.Previous.Length > 0)
+                    sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+
+                sb.Append(outIndent).Append(key).Append(" = {");
+
+                if (comments.Inline.Length > 0)
+                    sb.Append(' ').Append(comments.Inline).Append(Constants.NEW_LINE);
+                else if (saveParameter.IsForceMultiline)
+                    sb.Append(Constants.NEW_LINE);
+                else
+                    innerIndent = " ";
+            }
+
+            foreach (var value in _list)
+            {
+                object tempValue = value;
+                if (_valueSaveAdapter != null)
+                    tempValue = _valueSaveAdapter.Invoke(value);
+
+                if (value is ISaveable saveable)
+                    saveable.Save(parser, sb, innerIndent, key, saveParameter);
+                else
+                {
+                    var comments = GameComments.DEFAULT;
+                    if (value is ICommentable commentable)
+                        comments = commentable.GetComments();
+
+                    if (comments.Previous.Length > 0)
+                    {
+                        if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
+                        {
+                            sb.Append(Constants.NEW_LINE);
+                            innerIndent = outIndent + Constants.INDENT;
+                        }
+                        sb.Append(innerIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+                    }
+
+                    sb.Append(innerIndent).Append(tempValue);
+
+                    if (comments.Inline.Length > 0)
+                    {
+                        sb.Append(' ').Append(comments.Inline);
+                        sb.Append(Constants.NEW_LINE);
+                        innerIndent = outIndent + Constants.INDENT;
+                    }
+                    else if (saveParameter.IsForceMultiline)
+                    {
+                        sb.Append(Constants.NEW_LINE);
+                        innerIndent = outIndent + Constants.INDENT;
+                    }
+                }
+            }
+
+            if (key != null)
+            {
+                if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
+                    sb.Append(outIndent);
+                else
+                    sb.Append(' ');
+
+                sb.Append('}');
+                sb.Append(Constants.NEW_LINE);
+            }
         }
     }
 }

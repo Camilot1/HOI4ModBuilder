@@ -22,9 +22,11 @@ namespace HOI4ModBuilder.src.newParser.test
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => null;
         public override bool CustomParseCallback(GameParser parser) => false;
 
-        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(typeof(TestObject)).Add(STATIC_ADAPTER.Keys);
+        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter("test", "TestGameFile")
+            .Add(STATIC_ADAPTER.Keys)
+            .Load();
         public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
-        public override bool CustomSave(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key) => false;
+        public override bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter) => false;
 
         public TestGameFile() { }
         public TestGameFile(FileInfo fileInfo) : base(fileInfo) { }

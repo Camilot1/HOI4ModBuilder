@@ -25,7 +25,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         public abstract Dictionary<string, Func<object, object>> GetStaticAdapter();
         public abstract Dictionary<string, DynamicGameParameter> GetDynamicAdapter();
         public abstract bool CustomParseCallback(GameParser parser);
-        public abstract bool CustomSave(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key);
+        public abstract bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter);
         public abstract SaveAdapter GetSaveAdapter();
         public abstract IParseObject GetEmptyCopy();
 
@@ -147,12 +147,13 @@ namespace HOI4ModBuilder.src.newParser.objects
         private static readonly Dictionary<string, Func<object, object>> _defaultStaticAdapter = new Dictionary<string, Func<object, object>>();
         private static readonly Dictionary<string, DynamicGameParameter> _defaultDynamicAdapter = new Dictionary<string, DynamicGameParameter>();
 
-        public void Save(GameParser parser, StringBuilder sb, SaveAdapterParameter saveParameter, string outIndent, string key)
+        public void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
-            if (CustomSave(parser, sb, saveParameter, outIndent, key))
+            if (CustomSave(parser, sb, outIndent, key, saveParameter))
                 return;
 
             var saveAdapter = GetSaveAdapter();
+
             var staticAdapter = GetStaticAdapter();
             if (staticAdapter == null)
                 staticAdapter = _defaultStaticAdapter;
@@ -161,36 +162,57 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (dynamicAdapter == null)
                 dynamicAdapter = _defaultDynamicAdapter;
 
+            if (saveParameter.AddEmptyLineBefore)
+                sb.Append(outIndent).Append(Constants.NEW_LINE);
+
             var comments = GetComments();
+            if (comments == null)
+            {
+                var parent = GetParent();
+                if (parent is ICommentable commentable)
+                    comments = commentable.GetComments();
+            }
             if (comments == null)
                 comments = GameComments.DEFAULT;
 
             if (comments.Previous.Length > 0)
-                sb.Append(outIndent).Append(comments.Previous);
+                sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
 
-            sb.Append(outIndent).Append(key).Append(" = {");
+            bool isInline = false;
+            string innerIndent = outIndent;
 
-            if (comments.Inline.Length > 0)
-                sb.Append(comments.Inline);
+            if (key != null)
+            {
+                sb.Append(outIndent).Append(key).Append(" = {");
 
-            var isInline = saveParameter.IsForceInline ||
-                comments.Inline.Length > 0 ||
-                (staticAdapter.Count + dynamicAdapter.Count <= 1);
-            var innerIndent = isInline ? "" : outIndent + Constants.INDENT;
+                if (comments.Inline.Length > 0)
+                    sb.Append(' ').Append(comments.Inline);
 
-            if (!isInline)
-                sb.Append(Constants.NEW_LINE);
+                isInline = saveParameter.IsForceInline ||
+                    comments.Inline.Length == 0 &&
+                    (staticAdapter.Count + dynamicAdapter.Count <= 1);
+                innerIndent = isInline ? "" : outIndent + Constants.INDENT;
+
+                if (!isInline)
+                    sb.Append(Constants.NEW_LINE);
+            }
 
             foreach (var parameter in saveAdapter.Parameters)
             {
                 if (staticAdapter.TryGetValue(parameter.Name, out var staticProvider))
-                {
-
-                }
+                    ((ISaveable)staticProvider.Invoke(this))
+                        .Save(parser, sb, innerIndent, parameter.Name, parameter);
                 else if (dynamicAdapter.TryGetValue(parameter.Name, out var dynamicProvider))
-                {
-                    //TODO implement
-                }
+                    ((ISaveable)dynamicProvider.provider.Invoke(this))
+                        .Save(parser, sb, innerIndent, null, parameter);
+            }
+
+            if (key != null)
+            {
+                //if (!isInline)
+                //    sb.Append(Constants.NEW_LINE);
+
+                sb.Append(outIndent).Append('}').Append(Constants.NEW_LINE);
             }
         }
 

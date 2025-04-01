@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 
 namespace HOI4ModBuilder.src.newParser.objects
 {
@@ -27,7 +28,15 @@ namespace HOI4ModBuilder.src.newParser.objects
         public void SaveToFile(GameParser parser)
         {
             StringBuilder sb = new StringBuilder();
-            Save(parser, sb, default, "", null); //TODO impelement correctly
+            Save(parser, sb, "", null, default);
+        }
+
+        public void SaveToFile(GameParser parser, FileInfo fileInfo)
+        {
+            StringBuilder sb = new StringBuilder();
+            Save(parser, sb, "", null, default);
+
+            File.WriteAllText(fileInfo.filePath, sb.ToString());
         }
     }
 }
