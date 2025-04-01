@@ -6,6 +6,7 @@ using HOI4ModBuilder.src.newParser.structs;
 using System.Collections;
 using System.Text;
 using HOI4ModBuilder.src.utils;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HOI4ModBuilder.src.newParser.objects
 {
@@ -210,7 +211,19 @@ namespace HOI4ModBuilder.src.newParser.objects
                     tempValue = _valueSaveAdapter.Invoke(value);
 
                 if (value is ISaveable saveable)
+                {
                     saveable.Save(parser, sb, innerIndent, key, saveParameter);
+
+                    //TODO Refactor. Временный фикс некорректного переноса строк в случае,
+                    //               если в объекте есть два списка без имени
+                    //  infrastructure = yes (фикс-перенос)
+                    //  infrastructure = yes (фикс-перенос)
+                    //  set_variable = { test1 = 10 }
+                    //  set_variable = { test2 = 14 }
+                    if (key == null && value is ScriptBlockParseObject scriptBlockParseObject)
+                        if (!(scriptBlockParseObject.GetValueRaw() is IValuePushable))
+                            sb.Append(Constants.NEW_LINE);
+                }
                 else
                 {
                     var comments = GameComments.DEFAULT;

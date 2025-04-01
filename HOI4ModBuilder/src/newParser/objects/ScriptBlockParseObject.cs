@@ -19,6 +19,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         private object _value;
         public object GetValue() => _value is GameConstant gameConstant ? gameConstant.Value : _value;
+        public object GetValueRaw() => _value;
         public void SetValue(object value)
         {
             if (_value == null && value != null || !_value.Equals(value))
