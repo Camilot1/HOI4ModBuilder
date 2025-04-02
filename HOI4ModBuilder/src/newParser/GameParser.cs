@@ -122,7 +122,7 @@ namespace HOI4ModBuilder.src.newParser
             }
         }
 
-        public void ParseInsideBlock(Action<GameComments> commentsConsumer, Action<GameComments, string> tokensConsumer)
+        public void ParseInsideBlock(Action<GameComments> commentsConsumer, Func<GameComments, string, bool> tokensConsumer)
         {
             if (_token == Token.LEFT_CURLY)
                 NextChar();
@@ -162,7 +162,8 @@ namespace HOI4ModBuilder.src.newParser
                 if (data.Length == 0)
                     throw new Exception("Invalid parse inside block structure: " + GetCursorInfo());
 
-                tokensConsumer.Invoke(ParseAndPullComments(), data);
+                if (tokensConsumer.Invoke(ParseAndPullComments(), data))
+                    return;
             }
         }
 
@@ -181,7 +182,7 @@ namespace HOI4ModBuilder.src.newParser
         }
 
         /** Метод получения следующего символа из данных */
-        private void NextChar()
+        public void NextChar()
         {
             _prevChar = _currentChar;
             _index++;

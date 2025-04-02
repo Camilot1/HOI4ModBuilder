@@ -6,7 +6,6 @@ using HOI4ModBuilder.src.newParser.structs;
 using System.Collections;
 using System.Text;
 using HOI4ModBuilder.src.utils;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace HOI4ModBuilder.src.newParser.objects
 {
@@ -14,7 +13,7 @@ namespace HOI4ModBuilder.src.newParser.objects
     {
         private bool _allowsInlineAdd;
         private bool _forceSeparateLineSave;
-        private Func<string, T> _valueParseAdapter;
+        private Func<object, string, T> _valueParseAdapter;
         private Func<T, object> _valueSaveAdapter;
         public GameList() : base() { }
         public GameList<T> INIT_SetAllowsInlineAdd(bool value)
@@ -27,12 +26,12 @@ namespace HOI4ModBuilder.src.newParser.objects
             _forceSeparateLineSave = value;
             return this;
         }
-        public GameList<T> INIT_SetValueParseAdapter(Func<string, T> value)
+        public GameList<T> INIT_SetValueParseAdapter(Func<object, string, T> value)
         {
             _valueParseAdapter = value;
             return this;
         }
-        public GameList<T> INIT_SetValueParseAdapter(Func<T, object> value)
+        public GameList<T> INIT_SetValueSaveAdapter(Func<T, object> value)
         {
             _valueSaveAdapter = value;
             return this;
@@ -79,10 +78,15 @@ namespace HOI4ModBuilder.src.newParser.objects
                 (comments) => SetComments(comments),
                 (tokenComments, token) =>
                 {
-                    T obj = _valueParseAdapter != null ? _valueParseAdapter(token) : ParserUtils.Parse<T>(token);
-                    if (obj is ICommentable commentable)
+                    T obj = _valueParseAdapter != null ? _valueParseAdapter(this, token) : ParserUtils.Parse<T>(token);
+
+                    if (obj is IParseObject parseObject)
+                        parseObject.CustomParseCallback(parser);
+                    else if (obj is ICommentable commentable)
                         commentable.SetComments(tokenComments);
                     AddSilent(obj);
+
+                    return false;
                 }
             );
             return true;
@@ -99,11 +103,16 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (!_allowsInlineAdd || value.Length == 0)
                 throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
-            var obj = _valueParseAdapter != null ? _valueParseAdapter.Invoke(value) : ParserUtils.Parse<T>(value);
+            var obj = _valueParseAdapter != null ? _valueParseAdapter.Invoke(this, value) : ParserUtils.Parse<T>(value);
 
-            var comments = parser.ParseAndPullComments();
-            if (obj is ICommentable commentable)
-                commentable.SetComments(comments);
+            if (obj is IParseObject parseObject)
+                parseObject.CustomParseCallback(parser);
+            else
+            {
+                var comments = parser.ParseAndPullComments();
+                if (obj is ICommentable commentable)
+                    commentable.SetComments(comments);
+            }
 
             AddSilent(obj);
 
@@ -160,7 +169,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (_valueSaveAdapter != null)
                     tempValue = _valueSaveAdapter.Invoke(value);
 
-                if (value is ISaveable saveable)
+                if (tempValue is ISaveable saveable)
                     saveable.Save(parser, sb, outIndent, key, saveParameter);
                 else
                 {

@@ -9,6 +9,9 @@ namespace HOI4ModBuilder.src.parser
     {
         public static void Execute()
         {
+            if (true)
+                return;
+
             Console.WriteLine("!!!");
             InfoArgsBlocksManager.Load(null);
 

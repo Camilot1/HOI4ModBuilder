@@ -5,6 +5,7 @@ using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
+using HOI4ModBuilder.src.newParser.structs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,12 +29,18 @@ namespace HOI4ModBuilder.src.newParser
             { typeof(short), (v) => short.Parse(v) },
             { typeof(int), (v) => int.Parse(v) },
             { typeof(uint), (v) => uint.Parse(v) },
-            { typeof(float), (v) => float.Parse(v) },
+            { typeof(float), (v) => Utils.ParseFloat(v) },
             { typeof(double), (v) => double.Parse(v) },
             { typeof(string), (v) => v },
         };
 
-        public static T Parse<T>(string value) => (T)_parseMapping[typeof(T)](value);
+        public static T Parse<T>(string value)
+        {
+            if (_parseMapping.TryGetValue(typeof(T), out var func))
+                return (T)func(value);
+            else
+                throw new Exception("Unknown value \"" + value + "\" type at ParseUtils.Parse: " + typeof(T));
+        }
         public static object ParseObject(string value)
         {
             if (int.TryParse(value, out var intResult))
@@ -62,6 +69,8 @@ namespace HOI4ModBuilder.src.newParser
                 return valueCountry.Tag;
             else if (value is State valueState)
                 return "" + valueState.Id;
+            else if (value is GameString valueGameString)
+                return valueGameString.value;
             else if (value is string valueString)
                 return valueString;
             else

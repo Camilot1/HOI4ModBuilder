@@ -2342,8 +2342,8 @@
   {
     "name": "max_fuel_building",
     "specificScopes": [ "STATE" ],
-    "allowedValueTypes": [ "INT" ],
-    "defaultValueType": "INT",
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
     "defaultValue": 0
   },
   {

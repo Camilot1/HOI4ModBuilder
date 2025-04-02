@@ -12,19 +12,12 @@ namespace HOI4ModBuilder.src.newParser.test
     {
         public override IParseObject GetEmptyCopy() => new TestObject();
 
-        public readonly GameParameter<int> IntValue = new GameParameter<int>();
-        //public readonly GameParameter<GameList<int>> IntList = new GameParameter<GameList<int>>();
-        public readonly GameList<int> IntList = new GameList<int>()
-            .INIT_SetAllowsInlineAdd(true)
-            .INIT_SetForceSeparateLineSave(false);
-        public readonly GameParameter<TestObject> InnerObject = new GameParameter<TestObject>();
-
+        public readonly GameList<ScriptBlockParseObject> ModifiersStatic = new GameList<ScriptBlockParseObject>()
+            .INIT_SetValueParseAdapter((o, token) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(token)));
 
         private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
         {
-            { "intValue", o => ((TestObject)o).IntValue },
-            { "intList", o => ((TestObject)o).IntList },
-            { "innerObject", o => ((TestObject)o).InnerObject }
+            { "modifiers", o => ((TestObject)o).ModifiersStatic },
         };
 
         public readonly GameList<ScriptBlockParseObject> Modifiers = new GameList<ScriptBlockParseObject>();
@@ -52,5 +45,6 @@ namespace HOI4ModBuilder.src.newParser.test
             .Load();
         public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
         public override bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter) => false;
+        public AbstractParseObject GetThis() => this;
     }
 }

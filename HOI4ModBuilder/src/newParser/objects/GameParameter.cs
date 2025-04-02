@@ -41,8 +41,8 @@ namespace HOI4ModBuilder.src.newParser.objects
             {
                 if (value is GameConstant valueConstant)
                     _value = valueConstant;
-                else if (value is string valueString && valueString.StartsWith("@"))
-                    ParseValueConstant(null, valueString);
+                else if (value is GameString valueString && valueString.value.StartsWith("@"))
+                    ParseValueConstant(null, valueString.value);
                 else
                     _value = value;
 
@@ -99,7 +99,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (parser.CurrentToken == Token.QUOTE)
                 parser.ParseQuoted();
             else
-                parser.ParseUnquoted();
+                parser.ParseUnquotedValue();
 
             var rawValue = parser.PullParsedDataString();
 

@@ -1,5 +1,4 @@
-﻿using HOI4ModBuilder.src.dataObjects.argBlocks;
-using HOI4ModBuilder.src.newParser.structs;
+﻿using HOI4ModBuilder.src.newParser.structs;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -42,6 +41,8 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             _adapters[_fullPath] = this;
         }
+        public SaveAdapter(string[] directoryPath, string fileName) : this(Path.Combine(directoryPath), fileName)
+        { }
 
         public SaveAdapter Load()
         {

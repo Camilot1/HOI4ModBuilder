@@ -12,6 +12,7 @@ namespace HOI4ModBuilder.src.newParser.objects
     public class ScriptBlockParseObject : AbstractParseObject
     {
         private IScriptBlockInfo _scriptBlockInfo;
+        public IScriptBlockInfo ScriptBlockInfo => _scriptBlockInfo;
 
         private EnumDemiliter _demiliter;
         public EnumDemiliter Demiliter { get => _demiliter; set => Utils.Setter(ref _demiliter, ref value, ref _needToSave); }
@@ -121,13 +122,21 @@ namespace HOI4ModBuilder.src.newParser.objects
                 int[] universalParamsCounter = new int[1];
                 parser.ParseInsideBlock(
                     (comments) => SetComments(comments),
-                    (tokenComments, token) => InfoArgsBlockInnerParseCallback(parser, token, tokenComments, universalParamsCounter)
+                    (tokenComments, token) =>
+                    {
+                        InfoArgsBlockInnerParseCallback(parser, token, tokenComments, universalParamsCounter);
+                        return false;
+                    }
                 );
             }
             else
                 parser.ParseInsideBlock(
                     (comments) => SetComments(comments),
-                    (tokenComments, token) => ScopeInnerParseCallback(parser, token, tokenComments)
+                    (tokenComments, token) =>
+                    {
+                        ScopeInnerParseCallback(parser, token, tokenComments);
+                        return false;
+                    }
                 );
         }
 

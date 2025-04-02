@@ -340,7 +340,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             if (_buildings == null || _buildings.Count == 0) return false;
 
             foreach (var building in _buildings.Keys)
-                if (building.isPort) return true;
+                if (building.IsPort.GetValue()) return true;
 
             return false;
         }
@@ -350,12 +350,12 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
             if (State.startHistory.TryGetProvinceBuildings(this, out Dictionary<Building, uint> buildings))
                 foreach (var building in buildings.Keys)
-                    if (building.isPort) return true;
+                    if (building.IsPort.GetValue()) return true;
 
             foreach (var stateHistory in State.stateHistories.Values)
                 if (stateHistory.TryGetProvinceBuildings(this, out buildings))
                     foreach (var building in buildings.Keys)
-                        if (building.isPort) return true;
+                        if (building.IsPort.GetValue()) return true;
 
             return false;
         }
