@@ -1,5 +1,97 @@
 ﻿[
   {
+    "name": "AND",
+    "specificScopes": [ "TRIGGER" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "OR",
+    "specificScopes": [ "TRIGGER" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "NOT",
+    "specificScopes": [ "TRIGGER" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "count_triggers",
+    "specificScopes": [ "TRIGGER" ],
+    "mandatoryInnerBlocks": {
+      "amount": {
+        "name": "amount",
+        "allowedValueTypes": [ "INT" ]
+      }
+    },
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "if",
+    "specificScopes": [ "SCOPE" ],
+    "mandatoryInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "else_if",
+    "specificScopes": [ "SCOPE" ],
+    "mandatoryInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "else",
+    "specificScopes": [ "SCOPE" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "hidden_trigger",
+    "specificScopes": [ "TRIGGER" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "custom_trigger_tooltip",
+    "specificScopes": [ "TRIGGER" ],
+    "mandatoryInnerBlocks": {
+      "tooltip": {
+        "name": "tooltip",
+        "allowedValueTypes": [ "LOC_KEY" ]
+      }
+    },
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "always",
+    "specificScopes": [ "TRIGGER" ],
+    "allowedValueTypes": [ "BOOLEAN" ],
+    "defaultValueType": "BOOLEAN",
+    "defaultValue": null
+  },
+  {
+    "name": "has_global_flag",
+    "specificScopes": [ "TRIGGER" ],
+    "allowedValueTypes": [ "STRING" ],
+    "defaultValueType": "STRING",
+    "defaultValue": null
+  },
+  {
+    "name": "has_dlc",
+    "specificScopes": [ "TRIGGER" ],
+    "allowedValueTypes": [ "NAME", "STRING" ],
+    "defaultValueType": "NAME",
+    "defaultValue": null
+  },
+  {
     "name": "every_possible_country",
     "specificScopes": [ "ALL" ],
     "targetType": "COUNTRY"

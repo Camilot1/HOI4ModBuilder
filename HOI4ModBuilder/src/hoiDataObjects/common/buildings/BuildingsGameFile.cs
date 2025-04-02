@@ -14,8 +14,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 
         public readonly GameDictionary<string, Building> Buildings = new GameDictionary<string, Building>()
             .INIT_SetValueParseAdapter((key, value) => new Building((string)key));
-        public readonly GameDictionary<string, Building> SpawnPoints = new GameDictionary<string, Building>()
-            .INIT_SetValueParseAdapter((key, value) => new Building((string)key));
+        public readonly GameDictionary<string, SpawnPoint> SpawnPoints = new GameDictionary<string, SpawnPoint>()
+            .INIT_SetValueParseAdapter((key, value) => new SpawnPoint((string)key));
 
         private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
         {

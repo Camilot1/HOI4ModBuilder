@@ -35,13 +35,6 @@
     "defaultValue": false
   },
   {
-    "name": "anti_air",
-    "specificScopes": [ "BUILDING" ],
-    "allowedValueTypes": [ "BOOLEAN" ],
-    "defaultValueType": "BOOLEAN",
-    "defaultValue": false
-  },
-  {
     "name": "supply_node",
     "specificScopes": [ "BUILDING" ],
     "allowedValueTypes": [ "BOOLEAN" ],
@@ -52,6 +45,13 @@
     "name": "is_port",
     "specificScopes": [ "BUILDING" ],
     "functions": [ "MODIFIER_BUILDING_SET_IS_PORT" ],
+    "allowedValueTypes": [ "BOOLEAN" ],
+    "defaultValueType": "BOOLEAN",
+    "defaultValue": false
+  },
+  {
+    "name": "anti_air",
+    "specificScopes": [ "BUILDING" ],
     "allowedValueTypes": [ "BOOLEAN" ],
     "defaultValueType": "BOOLEAN",
     "defaultValue": false
@@ -104,6 +104,13 @@
     "allowedValueTypes": [ "FLOAT" ],
     "defaultValueType": "FLOAT",
     "defaultValue": 0
+  },
+  {
+    "name": "gun_emplacement",
+    "specificScopes": [ "BUILDING" ],
+    "allowedValueTypes": [ "BOOLEAN" ],
+    "defaultValueType": "BOOLEAN",
+    "defaultValue": false
   },
   {
     "name": "nuclear_reactor",
@@ -2400,6 +2407,20 @@
     "specificScopes": [ "STATE" ],
     "allowedValueTypes": [ "FLOAT" ],
     "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "state_bunker_max_level_terrain_limit",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "INT" ],
+    "defaultValueType": "INT",
+    "defaultValue": 0
+  },
+  {
+    "name": "state_coastal_bunker_max_level_terrain_limit",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "INT" ],
+    "defaultValueType": "INT",
     "defaultValue": 0
   },
   {

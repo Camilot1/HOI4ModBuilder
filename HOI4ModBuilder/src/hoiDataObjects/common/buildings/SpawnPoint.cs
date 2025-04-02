@@ -23,8 +23,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         {
             { "type", o => ((SpawnPoint)o).Type },
             { "max", o => ((SpawnPoint)o).Max },
-            { "onlyCoastal", o => ((SpawnPoint)o).OnlyCoastal },
-            { "disableAutoNudging", o => ((SpawnPoint)o).DisableAutoNudging },
+            { "only_costal", o => ((SpawnPoint)o).OnlyCoastal },
+            { "disable_auto_nudging", o => ((SpawnPoint)o).DisableAutoNudging },
         };
 
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
@@ -42,5 +42,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
 
         public override IParseObject GetEmptyCopy() => new SpawnPoint();
+
+        public SpawnPoint() { }
+
+        public SpawnPoint(string buildingName)
+        {
+            this.buildingName = buildingName;
+        }
     }
 }

@@ -150,7 +150,8 @@ namespace HOI4ModBuilder.src.newParser
                 }
                 else if (_token == Token.RIGHT_CURLY)
                 {
-                    NextChar();
+                    if (_index < _dataLength - 1)
+                        NextChar();
                     return;
                 }
                 else

@@ -80,6 +80,9 @@ namespace HOI4ModBuilder.src.newParser.objects
                 {
                     T obj = _valueParseAdapter != null ? _valueParseAdapter(this, token) : ParserUtils.Parse<T>(token);
 
+                    if (obj == null)
+                        throw new Exception("Parsed value is null for token \"" + token + "\". It is not defined and not found while parsing: " + parser.GetCursorInfo());
+
                     if (obj is IParseObject parseObject)
                         parseObject.CustomParseCallback(parser);
                     else if (obj is ICommentable commentable)
