@@ -618,8 +618,6 @@
   },
 
 
-
-
   {
     "name": "add_dynamic_modifier",
     "specificScopes": [ "ALL" ],

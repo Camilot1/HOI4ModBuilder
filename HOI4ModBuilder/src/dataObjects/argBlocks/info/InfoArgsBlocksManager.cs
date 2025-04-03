@@ -1,9 +1,10 @@
 ﻿using HOI4ModBuilder.src.dataObjects.argBlocks.info;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
+using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
-using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -221,155 +222,44 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             }
         }
 
+        private static void LoadDefinedModifiers(Settings settings, string folderPath)
+        {
+            foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, folderPath, FileManager.TXT_FORMAT))
+            {
+                currentLoadingFilePath = fileInfoPair.Value.filePath;
+                Logger.TryOrCatch(
+                    () => LoadDefinedModifiersFile(fileInfoPair),
+                    (ex) => Logger.LogExceptionAsError(
+                        EnumLocKey.ERROR_COULD_NOT_LOAD_DEFINED_MODIFIERS_FILE,
+                        new Dictionary<string, string>
+                        {
+                            { "{filePath}", fileInfoPair.Value.filePath },
+                            { "{cause}", ex.Message },
+                        },
+                        ex)
+                    );
+            }
+        }
+
         private static void LoadScriptedEffects(Settings settings, string folderPath)
         {
             foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, folderPath, FileManager.ANY_FORMAT))
             {
                 currentLoadingFilePath = fileInfoPair.Value.filePath;
 
-                var list = new List<ScriptedEffect>();
-                var file = new ScriptedEffectsFile(fileInfoPair.Value, list);
-
-                using (var fs = new FileStream(fileInfoPair.Value.filePath, FileMode.Open))
-                {
-                    Logger.TryOrCatch(
-                        () => ParadoxParser.Parse(fs, file),
-                        (ex) => Logger.LogException(ex)
-                    ); ;
-                }
-
-                foreach (var info in list)
-                {
-                    if (_scriptedEffectsInfoArgsBlocks.ContainsKey(info.name))
-                        Logger.LogWarning(
-                            EnumLocKey.EXCEPTION_SCRIPTED_EFFECT_DUPLICATE_NAME_WITH_OTHER_SCRIPTED_EFFECT_IN_FILE,
-                            new Dictionary<string, string>
-                            {
-                                { "{filePath}", fileInfoPair.Value.filePath },
-                                { "{blockName}", info.name },
-                                { "{otherFilePath}", _definitionFiles[info.name] }
-                            }
-                        );
-                    else if (_allInfoArgsBlocks.ContainsKey(info.name))
-                        Logger.LogWarning(
-                            EnumLocKey.EXCEPTION_SCRIPTED_EFFECT_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE,
-                            new Dictionary<string, string>
-                            {
-                                { "{filePath}", fileInfoPair.Value.filePath },
-                                { "{blockName}", info.name },
-                                { "{otherFilePath}", _definitionFiles[info.name] }
-                            }
-                        );
-                    else
-                    {
-                        var infoArgsBlock = new InfoArgsBlock(
-                            info.name, EnumScope.EFFECT,
-                            new EnumScope[] { EnumScope.ALL },
-                            new EnumValueType[] { EnumValueType.BOOLEAN }
-                        );
-
-                        _allInfoArgsBlocks[info.name] = infoArgsBlock;
-                        _scriptedEffectsInfoArgsBlocks[info.name] = infoArgsBlock;
-                        _definitionFiles[info.name] = fileInfoPair.Value.filePath;
-                    }
-                }
-            }
-        }
-
-
-        private static void LoadDefinedModifiers(Settings settings, string folderPath)
-        {
-            foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, folderPath, FileManager.TXT_FORMAT))
-            {
-                currentLoadingFilePath = fileInfoPair.Value.filePath;
-
-                var list = new List<DefinedModifier>();
-                var file = new DefinedModifierFile(list);
-
-                using (var fs = new FileStream(fileInfoPair.Value.filePath, FileMode.Open))
-                    ParadoxParser.Parse(fs, file);
-
-                foreach (var info in list)
-                {
-                    if (_definedModifiersArgsBlocks.ContainsKey(info.name))
-                        Logger.LogWarning(
-                            EnumLocKey.EXCEPTION_DEFINED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_DEFINED_MODIFIER_IN_FILE,
-                            new Dictionary<string, string>
-                            {
-                                { "{filePath}", fileInfoPair.Value.filePath },
-                                { "{blockName}", info.name },
-                                { "{otherFilePath}", _definitionFiles[info.name] }
-                            }
-                        );
-                    else if (_allInfoArgsBlocks.ContainsKey(info.name))
-                        Logger.LogWarning(
-                            EnumLocKey.EXCEPTION_DEFINED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE,
-                            new Dictionary<string, string>
-                            {
-                                { "{filePath}", fileInfoPair.Value.filePath },
-                                { "{blockName}", info.name },
-                                { "{otherFilePath}", _definitionFiles[info.name] }
-                            }
-                        );
-                    else
-                    {
-                        List<EnumScope> scopes = new List<EnumScope>();
-                        foreach (var scope in info.categories)
+                Logger.TryOrCatch(
+                    () => LoadScriptedEffectsFile(fileInfoPair),
+                    (ex) => Logger.LogExceptionAsError(
+                        EnumLocKey.ERROR_COULD_NOT_LOAD_SCRIPTED_EFFECTS_FILE,
+                        new Dictionary<string, string>
                         {
-                            var uppedScope = scope.ToUpper();
-                            if (!Enum.TryParse(uppedScope, out EnumScope enumScope))
-                                throw new Exception(GuiLocManager.GetLoc(
-                                    EnumLocKey.EXCEPTION_DEFINED_MODIFIER_HAS_UNSUPPORTED_CATEGORY_IN_FILE,
-                                    new Dictionary<string, string>
-                                    {
-                                        { "{filePath}", fileInfoPair.Value.filePath },
-                                        { "{blockName}", info.name },
-                                        { "{category}", uppedScope },
-                                        { "{allowedCategories}", string.Join(",", Enum.GetValues(typeof(EnumScope))) }
-                                    }
-                                ));
+                            { "{filePath}", fileInfoPair.Value.filePath },
+                            { "{cause}", ex.Message },
+                        },
+                        ex)
+                    );
 
-                            scopes.Add(enumScope);
-                        }
-                        if (scopes.Count == 0) scopes.Add(EnumScope.ALL);
 
-                        EnumValueType defaultValueType;
-                        object defaultValue;
-
-                        if (info.valueType == "number" || info.valueType == "percentage" || info.valueType == "percentage_in_hundred")
-                        {
-                            defaultValueType = EnumValueType.FLOAT;
-                            defaultValue = 0;
-                        }
-                        else if (info.valueType == "yes_no")
-                        {
-                            defaultValueType = EnumValueType.BOOLEAN;
-                            defaultValue = false;
-                        }
-                        else throw new Exception(GuiLocManager.GetLoc(
-                                    EnumLocKey.EXCEPTION_DEFINED_MODIFIER_HAS_UNSUPPORTED_VALUE_TYPE_IN_FILE,
-                                    new Dictionary<string, string>
-                                    {
-                                        { "{filePath}", fileInfoPair.Value.filePath },
-                                        { "{blockName}", info.name },
-                                        { "{valueType}", info.valueType },
-                                        { "{allowedCategories}", string.Join(",", Enum.GetValues(typeof(EnumScope))) }
-                                    }
-                                ));
-
-                        var infoArgsBlock = new InfoArgsBlock(
-                            info.name, EnumScope.MODIFIER,
-                            scopes.ToArray(),
-                            new EnumValueType[] { defaultValueType },
-                            defaultValueType,
-                            defaultValue
-                        );
-
-                        _allInfoArgsBlocks[info.name] = infoArgsBlock;
-                        _definedModifiersArgsBlocks[info.name] = infoArgsBlock;
-                        _definitionFiles[info.name] = fileInfoPair.Value.filePath;
-                    }
-                }
             }
         }
 
@@ -378,47 +268,203 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, folderPath, FileManager.TXT_FORMAT))
             {
                 currentLoadingFilePath = fileInfoPair.Value.filePath;
+                Logger.TryOrCatch(
+                    () => LoadScriptedTriggersFile(fileInfoPair),
+                    (ex) => Logger.LogExceptionAsError(
+                        EnumLocKey.ERROR_COULD_NOT_LOAD_SCRIPTED_TRIGGERS_FILE,
+                        new Dictionary<string, string>
+                        {
+                            { "{filePath}", fileInfoPair.Value.filePath },
+                            { "{cause}", ex.Message },
+                        },
+                        ex)
+                    );
+            }
+        }
 
-                var list = new List<ScriptedTrigger>();
-                var file = new ScriptedTriggerFile(list);
+        private static void LoadDefinedModifiersFile(KeyValuePair<string, FileInfo> fileInfoPair)
+        {
+            var parser = new GameParser();
+            var file = new DefinedModifiersGameFile(fileInfoPair.Value, true);
+            parser.ParseFile(file);
 
-                using (var fs = new FileStream(fileInfoPair.Value.filePath, FileMode.Open))
-                    ParadoxParser.Parse(fs, file);
+            foreach (var obj in file.DynamicModifiers)
+            {
+                var name = obj.name;
 
-                foreach (var info in list)
+                if (_definedModifiersArgsBlocks.ContainsKey(name))
+                    Logger.LogWarning(
+                        EnumLocKey.EXCEPTION_DEFINED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_DEFINED_MODIFIER_IN_FILE,
+                        new Dictionary<string, string>
+                        {
+                                { "{filePath}", fileInfoPair.Value.filePath },
+                                { "{blockName}", name },
+                                { "{otherFilePath}", _definitionFiles[name] }
+                        }
+                    );
+                else if (_allInfoArgsBlocks.ContainsKey(name))
+                    Logger.LogWarning(
+                        EnumLocKey.EXCEPTION_DEFINED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE,
+                        new Dictionary<string, string>
+                        {
+                                { "{filePath}", fileInfoPair.Value.filePath },
+                                { "{blockName}", name },
+                                { "{otherFilePath}", _definitionFiles[name] }
+                        }
+                    );
+                else
                 {
-                    if (_scriptedTriggersArgsBlocks.ContainsKey(info.name))
-                        Logger.LogWarning(
-                            EnumLocKey.EXCEPTION_SCRIPTED_TRIGGER_DUPLICATE_NAME_WITH_OTHER_SCRIPTED_TRIGGER_IN_FILE,
-                            new Dictionary<string, string>
-                            {
-                                { "{filePath}", fileInfoPair.Value.filePath },
-                                { "{blockName}", info.name },
-                                { "{otherFilePath}", _definitionFiles[info.name] }
-                            }
-                        );
-                    else if (_allInfoArgsBlocks.ContainsKey(info.name))
-                        Logger.LogWarning(
-                            EnumLocKey.EXCEPTION_SCRIPTED_TRIGGER_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE,
-                            new Dictionary<string, string>
-                            {
-                                { "{filePath}", fileInfoPair.Value.filePath },
-                                { "{blockName}", info.name },
-                                { "{otherFilePath}", _definitionFiles[info.name] }
-                            }
-                        );
-                    else
+                    List<EnumScope> scopes = new List<EnumScope>();
+                    foreach (var scope in obj.Categories)
                     {
-                        var infoArgsBlock = new InfoArgsBlock(
-                            info.name, EnumScope.TRIGGER,
-                            new EnumScope[] { EnumScope.ALL },
-                            new EnumValueType[] { EnumValueType.BOOLEAN }
-                        );
+                        var key = scope.value;
 
-                        _allInfoArgsBlocks[info.name] = infoArgsBlock;
-                        _scriptedTriggersArgsBlocks[info.name] = infoArgsBlock;
-                        _definitionFiles[info.name] = fileInfoPair.Value.filePath;
+                        var uppedScope = key.ToUpper();
+                        if (!Enum.TryParse(uppedScope, out EnumScope enumScope))
+                            throw new Exception(GuiLocManager.GetLoc(
+                                EnumLocKey.EXCEPTION_DEFINED_MODIFIER_HAS_UNSUPPORTED_CATEGORY_IN_FILE,
+                                new Dictionary<string, string>
+                                {
+                                        { "{filePath}", fileInfoPair.Value.filePath },
+                                        { "{blockName}", name },
+                                        { "{category}", uppedScope },
+                                        { "{allowedCategories}", string.Join(",", Enum.GetValues(typeof(EnumScope))) }
+                                }
+                            ));
+
+                        scopes.Add(enumScope);
                     }
+                    if (scopes.Count == 0) scopes.Add(EnumScope.ALL);
+
+                    EnumValueType defaultValueType;
+                    object defaultValue;
+
+                    var valueType = "" + obj.ValueType.GetValue();
+
+                    if (valueType == "number" || valueType == "percentage" || valueType == "percentage_in_hundred")
+                    {
+                        defaultValueType = EnumValueType.FLOAT;
+                        defaultValue = 0;
+                    }
+                    else if (valueType == "yes_no")
+                    {
+                        defaultValueType = EnumValueType.BOOLEAN;
+                        defaultValue = false;
+                    }
+                    else throw new Exception(GuiLocManager.GetLoc(
+                                EnumLocKey.EXCEPTION_DEFINED_MODIFIER_HAS_UNSUPPORTED_VALUE_TYPE_IN_FILE,
+                                new Dictionary<string, string>
+                                {
+                                        { "{filePath}", fileInfoPair.Value.filePath },
+                                        { "{blockName}", name },
+                                        { "{valueType}", valueType },
+                                        { "{allowedCategories}", string.Join(",", Enum.GetValues(typeof(EnumScope))) }
+                                }
+                            ));
+
+                    var infoArgsBlock = new InfoArgsBlock(
+                        name, EnumScope.MODIFIER,
+                        scopes.ToArray(),
+                        new EnumValueType[] { defaultValueType },
+                        defaultValueType,
+                        defaultValue
+                    );
+
+                    _allInfoArgsBlocks[name] = infoArgsBlock;
+                    _definedModifiersArgsBlocks[name] = infoArgsBlock;
+                    _definitionFiles[name] = fileInfoPair.Value.filePath;
+                }
+            }
+        }
+
+        private static void LoadScriptedEffectsFile(KeyValuePair<string, FileInfo> fileInfoPair)
+        {
+            var parser = new GameParser();
+            var file = new ScriptedEffectsGameFile(fileInfoPair.Value, true);
+            parser.ParseFile(file);
+
+            foreach (var obj in file.DynamicEffects)
+            {
+                var info = obj.ScriptBlockInfo;
+                var name = info.GetBlockName();
+
+                if (_scriptedEffectsInfoArgsBlocks.ContainsKey(name))
+                    Logger.LogWarning(
+                        EnumLocKey.EXCEPTION_SCRIPTED_EFFECT_DUPLICATE_NAME_WITH_OTHER_SCRIPTED_EFFECT_IN_FILE,
+                        new Dictionary<string, string>
+                        {
+                                { "{filePath}", fileInfoPair.Value.filePath },
+                                { "{blockName}", name },
+                                { "{otherFilePath}", _definitionFiles[name] }
+                        }
+                    );
+                else if (_allInfoArgsBlocks.ContainsKey(name))
+                    Logger.LogWarning(
+                        EnumLocKey.EXCEPTION_SCRIPTED_EFFECT_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE,
+                        new Dictionary<string, string>
+                        {
+                                { "{filePath}", fileInfoPair.Value.filePath },
+                                { "{blockName}", name },
+                                { "{otherFilePath}", _definitionFiles[name] }
+                        }
+                    );
+                else
+                {
+                    var infoArgsBlock = new InfoArgsBlock(
+                        name, EnumScope.EFFECT,
+                        new EnumScope[] { EnumScope.ALL },
+                        new EnumValueType[] { EnumValueType.BOOLEAN }
+                    );
+
+                    _allInfoArgsBlocks[name] = infoArgsBlock;
+                    _scriptedEffectsInfoArgsBlocks[name] = infoArgsBlock;
+                    _definitionFiles[name] = fileInfoPair.Value.filePath;
+                }
+            }
+        }
+
+        private static void LoadScriptedTriggersFile(KeyValuePair<string, FileInfo> fileInfoPair)
+        {
+            var parser = new GameParser();
+            var file = new ScriptedTriggersGameFile(fileInfoPair.Value, true);
+            parser.ParseFile(file);
+
+            foreach (var obj in file.DynamicTriggers)
+            {
+                var info = obj.ScriptBlockInfo;
+                var blockName = info.GetBlockName();
+
+                if (_scriptedTriggersArgsBlocks.ContainsKey(blockName))
+                    Logger.LogWarning(
+                        EnumLocKey.EXCEPTION_SCRIPTED_TRIGGER_DUPLICATE_NAME_WITH_OTHER_SCRIPTED_TRIGGER_IN_FILE,
+                        new Dictionary<string, string>
+                        {
+                                { "{filePath}", fileInfoPair.Value.filePath },
+                                { "{blockName}", blockName },
+                                { "{otherFilePath}", _definitionFiles[blockName] }
+                        }
+                    );
+                else if (_allInfoArgsBlocks.ContainsKey(blockName))
+                    Logger.LogWarning(
+                        EnumLocKey.EXCEPTION_SCRIPTED_TRIGGER_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE,
+                        new Dictionary<string, string>
+                        {
+                                { "{filePath}", fileInfoPair.Value.filePath },
+                                { "{blockName}", blockName },
+                                { "{otherFilePath}", _definitionFiles[blockName] }
+                        }
+                    );
+                else
+                {
+                    var infoArgsBlock = new InfoArgsBlock(
+                        blockName, EnumScope.TRIGGER,
+                        new EnumScope[] { EnumScope.TRIGGER },
+                        new EnumValueType[] { EnumValueType.BOOLEAN }
+                    );
+
+                    _allInfoArgsBlocks[blockName] = infoArgsBlock;
+                    _scriptedTriggersArgsBlocks[blockName] = infoArgsBlock;
+                    _definitionFiles[blockName] = fileInfoPair.Value.filePath;
                 }
             }
         }

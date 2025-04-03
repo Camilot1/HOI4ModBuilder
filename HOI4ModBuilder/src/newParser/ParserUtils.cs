@@ -103,6 +103,17 @@ namespace HOI4ModBuilder.src.newParser
             return false;
         }
 
+        public static ScriptBlockParseObject GetAnyScriptBlockParseObject(IParentable parent, string token)
+        {
+            if (TryParseScope(token, out var info))
+                return new ScriptBlockParseObject(parent, info);
+
+            if (InfoArgsBlocksManager.TryGetInfoArgsBlock(token, out var infoBlock))
+                return new ScriptBlockParseObject(parent, infoBlock);
+
+            return null;
+        }
+
 
         public static ScriptBlockParseObject ScriptBlockFabricProvide(IParentable parent, Func<IScriptBlockInfo>[] scriptBlockInfoProviders)
         {

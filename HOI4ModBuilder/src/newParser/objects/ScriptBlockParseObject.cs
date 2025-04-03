@@ -88,7 +88,6 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (parser.SkipWhiteSpaces())
                 throw new Exception("Invalid data structure: " + parser.GetCursorInfo());
 
-
             if (_scriptBlockInfo == null)
                 throw new Exception("_scriptBlockInfo is null: " + parser.GetCursorInfo());
 
@@ -121,8 +120,14 @@ namespace HOI4ModBuilder.src.newParser.objects
         private void ParseBlockValue(GameParser parser)
         {
             _value = new GameList<ScriptBlockParseObject>();
-            if (_scriptBlockInfo is InfoArgsBlock)
+            if (_scriptBlockInfo is InfoArgsBlock infoArgsBlock)
             {
+                if (infoArgsBlock.SkipAnyInnerBlocks)
+                {
+                    parser.SkipInsideBlock();
+                    return;
+                }
+
                 int[] universalParamsCounter = new int[1];
                 parser.ParseInsideBlock(
                     (comments) => SetComments(comments),
@@ -149,16 +154,24 @@ namespace HOI4ModBuilder.src.newParser.objects
             var innerList = (GameList<ScriptBlockParseObject>)_value;
             var infoArgsBlock = (InfoArgsBlock)_scriptBlockInfo;
 
+            if (infoArgsBlock.SkipAnyInnerBlocks)
+                ParseCallback(parser);
+
             if (infoArgsBlock.CanHaveAnyInnerBlocks)
             {
                 if (ParserUtils.TryParseScope(key, out var innerBlock))
+                {
                     ParseInnerScriptInfoBlock(parser, innerList, innerBlock, keyComments);
+                    return;
+                }
                 else if (InfoArgsBlocksManager.TryGetInfoArgsBlock(key, out var innerBlock0))
+                {
                     ParseInnerScriptInfoBlock(parser, innerList, innerBlock0, keyComments);
-                else
-                    throw new Exception("Unknown token: " + parser.GetCursorInfo());
+                    return;
+                }
             }
-            else if (infoArgsBlock.MandatoryInnerArgsBlocks != null && infoArgsBlock.MandatoryInnerArgsBlocks.TryGetValue(key, out var innerBlock1))
+
+            if (infoArgsBlock.MandatoryInnerArgsBlocks != null && infoArgsBlock.MandatoryInnerArgsBlocks.TryGetValue(key, out var innerBlock1))
                 ParseInnerScriptInfoBlock(parser, innerList, innerBlock1, keyComments);
             else if (infoArgsBlock.AllowedInnerArgsBlocks != null && infoArgsBlock.AllowedInnerArgsBlocks.TryGetValue(key, out var innerBlock2))
                 ParseInnerScriptInfoBlock(parser, innerList, innerBlock2, keyComments);

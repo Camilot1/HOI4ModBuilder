@@ -13,6 +13,7 @@
         COUNTRY,
         STATE,
         COMBATANT,
+        CHARACTER,
         UNIT_LEADER,
         OPERATIVE,
         DIVISION,

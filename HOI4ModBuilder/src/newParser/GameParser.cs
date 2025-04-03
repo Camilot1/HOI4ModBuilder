@@ -62,7 +62,7 @@ namespace HOI4ModBuilder.src.newParser
         public string GetComments() => _sbComments.ToString();
         public void ClearComments() => _sbComments.Length = 0;
         public string GetString() => _sbData.ToString();
-        public string GetCursorInfo() => "[" + _lineIndex + ":" + _lineCharIndex + "] (" + _index + ")";
+        public string GetCursorInfo() => "[" + (_lineIndex + 1) + ":" + (_lineCharIndex + 1) + "] (" + (_index + 1) + ")";
 
         /** Метод считывания данных из указанного файла */
         public void ParseFile(GameFile file)
@@ -75,8 +75,15 @@ namespace HOI4ModBuilder.src.newParser
             _currentChar = default;
 
             _index = -1;
+            _indent = 0;
+            _lineIndex = 0;
+            _lineCharIndex = 0;
+            _token = Token.SPACE;
 
             Parse(file);
+
+            if (_indent != 0)
+                throw new Exception("Invalid file indent: " + _indent + ": " + GetCursorInfo() + ": " + file.FilePath);
 
             file.Validate(null);
         }
@@ -124,6 +131,28 @@ namespace HOI4ModBuilder.src.newParser
             }
         }
 
+        public void SkipInsideBlock()
+        {
+            int targetIndent = _indent - 1;
+            if (_token == Token.LEFT_CURLY)
+                NextChar();
+            else
+                throw new Exception("SkipInsideBlock must start at '{' char: " + GetCursorInfo());
+
+            int flags = (int)(Token.COMMENT | Token.QUOTE | Token.NEW_LINE);
+            while (_index < _dataLength - 1 && targetIndent != _indent)
+            {
+                if (_token == Token.COMMENT)
+                    SkipComments();
+                else if (_token == Token.QUOTE)
+                    SkipQuoted();
+                else if (_token == Token.NEW_LINE)
+                    SkipWhiteSpaces();
+                else
+                    SkipUntil(flags);
+            }
+        }
+
         public void ParseInsideBlock(Action<GameComments> commentsConsumer, Func<GameComments, string, bool> tokensConsumer)
         {
             if (_token == Token.LEFT_CURLY)
@@ -165,7 +194,8 @@ namespace HOI4ModBuilder.src.newParser
                 if (data.Length == 0)
                     throw new Exception("Invalid parse inside block structure: " + GetCursorInfo());
 
-                if (tokensConsumer.Invoke(ParseAndPullComments(), data))
+                comments = ParseAndPullComments();
+                if (tokensConsumer.Invoke(comments, data))
                     return;
             }
         }
@@ -277,7 +307,7 @@ namespace HOI4ModBuilder.src.newParser
             if (_token == Token.QUOTE)
                 ParseQuoted();
             else
-                ParseUnquoted();
+                ParseUnquotedValue();
 
             var value = PullParsedDataString();
             if (value.Length == 0)
@@ -318,6 +348,16 @@ namespace HOI4ModBuilder.src.newParser
             ParseUntil(FLAGS_QUOTED_UNTIL);
         }
 
+        public void SkipQuoted()
+        {
+            if (_token != Token.QUOTE)
+                throw new Exception("Invalid Quoted value structure: " + GetCursorInfo());
+
+            NextChar();
+
+            SkipUntil(FLAGS_QUOTED_UNTIL);
+        }
+
         public void ParseComments()
         {
             while (_index < _dataLength && _token == Token.COMMENT)
@@ -328,7 +368,7 @@ namespace HOI4ModBuilder.src.newParser
                 while (_index < _dataLength)
                 {
                     if (((int)_token & (int)Token.NEW_LINE) != 0)
-                        return;
+                        break;
 
                     _sbComments.Append(_currentChar);
                     NextChar();
@@ -338,16 +378,20 @@ namespace HOI4ModBuilder.src.newParser
             }
         }
 
-        public void SkipComment()
+        public void SkipComments()
         {
-            if (_token != Token.COMMENT)
-                throw new Exception("Invalid Comment structure: " + GetCursorInfo());
-
-            while (_index < _dataLength)
+            while (_index < _dataLength && _token == Token.COMMENT)
             {
-                if (((int)_token & (int)Token.NEW_LINE) != 0)
-                    return;
                 NextChar();
+                while (_index < _dataLength)
+                {
+                    if (((int)_token & (int)Token.NEW_LINE) != 0)
+                        break;
+
+                    NextChar();
+                }
+
+                SkipWhiteSpaces();
             }
         }
 
@@ -372,14 +416,22 @@ namespace HOI4ModBuilder.src.newParser
             while (_index < _dataLength)
             {
                 if (((int)_token & flags) != 0)
-                {
-                    //GoToPrevChar();
-                    //_index--;
                     return;
-                }
 
                 _sbData.Append(_currentChar);
-                NextChar(); //TODO change to peek (in other places too)
+
+                NextChar();
+            }
+        }
+
+        public void SkipUntil(int flags)
+        {
+            while (_index < _dataLength - 1)
+            {
+                if (((int)_token & flags) != 0)
+                    return;
+
+                NextChar();
             }
         }
 
@@ -406,11 +458,8 @@ namespace HOI4ModBuilder.src.newParser
 
                 bool isWhiteSpace = ((int)_token & MASK_WHITE_SPACE) != 0;
                 if (!isWhiteSpace)
-                {
-                    //GoToPrevChar();
-                    //_index--;
                     return nextLine;
-                }
+
                 NextChar();
             }
 

@@ -39,6 +39,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         [JsonConverter(typeof(EnumArrayToStringConverter<EnumKeyValueDemiliter>))]
         [JsonProperty("allowedSpecialDemiliters")] public EnumKeyValueDemiliter[] AllowedSpecialDemiliters { get; private set; }
         public EnumKeyValueDemiliter[] GetAllowedSpecialDemiliters() => AllowedSpecialDemiliters;
+        [JsonProperty("skipAnyInnerBlocks")] public bool SkipAnyInnerBlocks { get; private set; }
 
         [JsonIgnore]
         public bool CanHaveMandatoryBlocks
@@ -88,6 +89,13 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             InnerScope = innerScope;
             _specificScopes = specificScopes;
             AllowedValueTypes = allowedValueTypes;
+        }
+
+        public InfoArgsBlock(string name, EnumScope innerScope, EnumScope[] specificScopes, bool canHaveAnyInnerBlocks, bool skipAnyInnerBlocks)
+            : this(name, innerScope, specificScopes, null)
+        {
+            CanHaveAnyInnerBlocks = canHaveAnyInnerBlocks;
+            SkipAnyInnerBlocks = skipAnyInnerBlocks;
         }
 
         public InfoArgsBlock(string name, EnumScope innerScope, EnumScope[] specificScopes, EnumValueType[] allowedValueTypes, EnumValueType defaultValueType, object defaultValue)
