@@ -1,5 +1,4 @@
 ﻿using HOI4ModBuilder.src.newParser.interfaces;
-using HOI4ModBuilder.src.parser;
 using System;
 using System.Text;
 using HOI4ModBuilder.src.newParser.structs;
@@ -34,7 +33,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         private object _value;
         public object GetValueRaw() => _value;
-        public T GetValue() => _value is GameConstant gameConstant ? gameConstant.GetValue<T>() : (T)_value;
+        public T GetValue() => _value is GameConstant gameConstant ? gameConstant.GetValue<T>() : (_value != null ? (T)_value : default);
         public void SetValue(T value)
         {
             if (_value == null && value != null || !_value.Equals(value))
@@ -49,11 +48,26 @@ namespace HOI4ModBuilder.src.newParser.objects
                 _needToSave = true;
             }
         }
+        public void SetSilentValue(T value) => _value = value;
+
+        private Func<object, object, T> _valueParseAdapter;
+        private Func<T, object> _valueSaveAdapter;
+        public GameParameter<T> INIT_SetValueParseAdapter(Func<object, object, T> value)
+        {
+            _valueParseAdapter = value;
+            return this;
+        }
+        public GameParameter<T> INIT_SetValueSaveAdapter(Func<T, object> value)
+        {
+            _valueSaveAdapter = value;
+            return this;
+        }
 
         public void InitValue()
         {
             _value = new T();
-            if (_value is IParentable parentable) parentable.SetParent(this);
+            if (_value is IParentable parentable)
+                parentable.SetParent(this);
         }
         public void InitValueIfNull()
         {
@@ -62,7 +76,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public string AssemblePath() => ParserUtils.AsseblePath(this);
 
-        public void ParseCallback(GameParser parser)
+        public virtual void ParseCallback(GameParser parser)
         {
             if (parser.SkipWhiteSpaces())
                 throw new Exception("Invalid parameter structure: " + parser.GetCursorInfo());
@@ -124,9 +138,19 @@ namespace HOI4ModBuilder.src.newParser.objects
                 commentable.TryGetConstantParentable(rawValue.Substring(1), out tempConstant);
 
             if (tempConstant != null)
-                _value = tempConstant;
+            {
+                if (_valueParseAdapter != null)
+                    _value = _valueParseAdapter.Invoke(this, tempConstant);
+                else
+                    _value = tempConstant;
+            }
             else if (parser == null)
-                _value = rawValue;
+            {
+                if (_valueParseAdapter != null)
+                    _value = _valueParseAdapter.Invoke(this, rawValue);
+                else
+                    _value = rawValue;
+            }
             else
                 throw new Exception("Constant with name " + rawValue + " not found or this scope does not support constants: " + parser?.GetCursorInfo());
         }
@@ -135,7 +159,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             try
             {
-                _value = ParserUtils.Parse<T>(rawValue);
+                _value = _valueParseAdapter != null ? _valueParseAdapter.Invoke(this, rawValue) : ParserUtils.Parse<T>(rawValue);
             }
             catch (Exception ex)
             {
@@ -143,8 +167,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
         }
 
-        public bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter) => false;
-        public void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public virtual void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
             if (_value is ISaveable saveable)
             {
@@ -161,7 +184,12 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (comments != null && comments.Previous.Length > 0)
                 sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
 
-            sb.Append(outIndent).Append(key).Append(' ').Append((char)_enumDemiliter).Append(' ').Append(_value);
+            sb.Append(outIndent).Append(key).Append(' ').Append((char)_enumDemiliter).Append(' ');
+
+            if (_valueSaveAdapter != null && _value is T tValue)
+                sb.Append(ParserUtils.ObjectToSaveString(_valueSaveAdapter.Invoke(tValue)));
+            else
+                sb.Append(ParserUtils.ObjectToSaveString(_value));
 
             if (comments != null && comments.Inline.Length > 0)
                 sb.Append(' ').Append(comments.Inline).Append(Constants.NEW_LINE);
@@ -170,6 +198,12 @@ namespace HOI4ModBuilder.src.newParser.objects
         }
 
         public SaveAdapter GetSaveAdapter() => null;
+
+        public virtual void Validate(LinkedLayer layer)
+        {
+            if (_value is IValidatable validatable)
+                validatable.Validate(layer);
+        }
 
     }
 }

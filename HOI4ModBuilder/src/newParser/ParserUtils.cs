@@ -32,6 +32,7 @@ namespace HOI4ModBuilder.src.newParser
             { typeof(float), (v) => Utils.ParseFloat(v) },
             { typeof(double), (v) => double.Parse(v) },
             { typeof(GameString), (v) => new GameString() { value = v } },
+            { typeof(GameKeyObject<>), (v) => new GameKeyObject<object>() { key = v } },
             { typeof(string), (v) => v },
         };
 

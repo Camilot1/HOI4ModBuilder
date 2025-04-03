@@ -71,27 +71,6 @@
     "canHaveAnyInnerBlocks": true
   },
   {
-    "name": "always",
-    "specificScopes": [ "TRIGGER" ],
-    "allowedValueTypes": [ "BOOLEAN" ],
-    "defaultValueType": "BOOLEAN",
-    "defaultValue": null
-  },
-  {
-    "name": "has_global_flag",
-    "specificScopes": [ "TRIGGER" ],
-    "allowedValueTypes": [ "STRING" ],
-    "defaultValueType": "STRING",
-    "defaultValue": null
-  },
-  {
-    "name": "has_dlc",
-    "specificScopes": [ "TRIGGER" ],
-    "allowedValueTypes": [ "NAME", "STRING" ],
-    "defaultValueType": "NAME",
-    "defaultValue": null
-  },
-  {
     "name": "every_possible_country",
     "specificScopes": [ "ALL" ],
     "targetType": "COUNTRY"
@@ -379,12 +358,12 @@
 
   {
     "name": "always",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "allowedValueTypes": [ "BOOLEAN" ]
   },
   {
     "name": "has_global_flag",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "mandatoryInnerBlocks": {
       "flag": {
         "name": "flag",
@@ -412,30 +391,30 @@
   },
   {
     "name": "has_dlc",
-    "specificScopes": [ "ALL" ],
-    "allowedValueTypes": [ "NAME" ]
+    "specificScopes": [ "TRIGGER" ],
+    "allowedValueTypes": [ "NAME", "STRING" ]
   },
   {
     "name": "has_start_date",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "allowedValueTypes": [ "STRING" ],
     "allowedSpecialDemiliters": [ "LESS_THAN", "GREATER_THAN" ]
   },
   {
     "name": "date",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "allowedValueTypes": [ "STRING" ],
     "allowedSpecialDemiliters": [ "LESS_THAN", "GREATER_THAN" ]
   },
   {
     "name": "difficulty",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "allowedValueTypes": [ "INT" ],
     "allowedSpecialDemiliters": [ "LESS_THAN", "GREATER_THAN" ]
   },
   {
     "name": "has_any_custom_difficulty_setting",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "allowedValueTypes": [ "BOOLEAN" ]
   },
   {

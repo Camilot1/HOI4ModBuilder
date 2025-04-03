@@ -662,6 +662,8 @@
   {
     "name": "set_global_flag",
     "specificScopes": [ "ALL" ],
+    "allowedValueTypes": [ "STRING" ],
+    "defaultValueType": "STRING",
     "mandatoryInnerBlocks": {
       "flag": {
         "name": "flag",

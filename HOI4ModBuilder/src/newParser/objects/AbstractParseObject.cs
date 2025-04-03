@@ -22,12 +22,11 @@ namespace HOI4ModBuilder.src.newParser.objects
                     ((IParentable)entry.Value.provider.Invoke(this)).SetParent(this);
         }
 
-        public abstract Dictionary<string, Func<object, object>> GetStaticAdapter();
-        public abstract Dictionary<string, DynamicGameParameter> GetDynamicAdapter();
-        public abstract bool CustomParseCallback(GameParser parser);
-        public abstract bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter);
+        public virtual Dictionary<string, Func<object, object>> GetStaticAdapter() => null;
+        public virtual Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => null;
         public abstract SaveAdapter GetSaveAdapter();
         public abstract IParseObject GetEmptyCopy();
+        public AbstractParseObject GetThis() => this;
 
         private IParentable _parent;
         public IParentable GetParent() => _parent;
@@ -70,11 +69,8 @@ namespace HOI4ModBuilder.src.newParser.objects
             return false;
         }
 
-        public void ParseCallback(GameParser parser)
+        public virtual void ParseCallback(GameParser parser)
         {
-            if (CustomParseCallback(parser))
-                return;
-
             parser.ParseUnquoted();
             var key = parser.PullParsedDataString();
 
@@ -147,11 +143,8 @@ namespace HOI4ModBuilder.src.newParser.objects
         private static readonly Dictionary<string, Func<object, object>> _defaultStaticAdapter = new Dictionary<string, Func<object, object>>();
         private static readonly Dictionary<string, DynamicGameParameter> _defaultDynamicAdapter = new Dictionary<string, DynamicGameParameter>();
 
-        public void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public virtual void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
-            if (CustomSave(parser, sb, outIndent, key, saveParameter))
-                return;
-
             var saveAdapter = GetSaveAdapter();
 
             var staticAdapter = GetStaticAdapter();
@@ -257,5 +250,30 @@ namespace HOI4ModBuilder.src.newParser.objects
         }
 
         public string AssemblePath() => ParserUtils.AsseblePath(this);
+
+        public virtual void Validate(LinkedLayer layer)
+        {
+            var staticAdapter = GetStaticAdapter();
+            if (staticAdapter == null)
+                staticAdapter = _defaultStaticAdapter;
+
+            var dynamicAdapter = GetDynamicAdapter();
+            if (dynamicAdapter == null)
+                dynamicAdapter = _defaultDynamicAdapter;
+
+            foreach (var entry in staticAdapter)
+            {
+                var handler = entry.Value.Invoke(this);
+                if (handler is IValidatable validatable)
+                    validatable.Validate(new LinkedLayer(layer, entry.Key));
+            }
+
+            foreach (var entry in dynamicAdapter)
+            {
+                var handler = entry.Value.provider.Invoke(this);
+                if (handler is IValidatable validatable)
+                    validatable.Validate(new LinkedLayer(layer, entry.Key));
+            }
+        }
     }
 }

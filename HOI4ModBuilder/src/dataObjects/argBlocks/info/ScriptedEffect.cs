@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
+using System;
 using System.Collections.Generic;
 
 namespace HOI4ModBuilder.src.dataObjects.argBlocks.info
@@ -7,10 +8,12 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks.info
 
     class ScriptedEffectsFile : IParadoxRead
     {
+        private FileInfo _fileInfo;
         private List<ScriptedEffect> _list;
 
-        public ScriptedEffectsFile(List<ScriptedEffect> list)
+        public ScriptedEffectsFile(FileInfo fileInfo, List<ScriptedEffect> list)
         {
+            _fileInfo = fileInfo;
             _list = list;
         }
 
@@ -24,8 +27,25 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks.info
 
             var info = new ScriptedEffect(token);
             Logger.Log($"\tLoading ScriptedEffect \"{info.name}\"");
-            parser.Parse(info);
-            _list.Add(info);
+            Logger.TryOrCatch(
+                () =>
+                {
+                    parser.Parse(info);
+                    _list.Add(info);
+                },
+                (ex) =>
+                {
+                    Logger.LogError(
+                        EnumLocKey.ERROR_COULD_NOT_LOAD_SCRIPTED_BLOCK,
+                        new Dictionary<string, string>
+                        {
+                            { "{filePath}", _fileInfo?.filePath },
+                            { "{type}", "ScriptedEffect" },
+                            { "{name}", $"{info.name}" },
+                            { "{cause}", $"{ex.Message}" },
+                        }
+                    );
+                });
         }
     }
 

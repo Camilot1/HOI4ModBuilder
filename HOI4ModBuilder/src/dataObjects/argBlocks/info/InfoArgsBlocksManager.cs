@@ -228,7 +228,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                 currentLoadingFilePath = fileInfoPair.Value.filePath;
 
                 var list = new List<ScriptedEffect>();
-                var file = new ScriptedEffectsFile(list);
+                var file = new ScriptedEffectsFile(fileInfoPair.Value, list);
 
                 using (var fs = new FileStream(fileInfoPair.Value.filePath, FileMode.Open))
                 {

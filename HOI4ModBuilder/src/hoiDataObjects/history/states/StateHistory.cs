@@ -366,8 +366,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     break;
 
                 case "buildings":
-                    parser.Parse(new ParserDummyBlock());
-                    //parser.Parse(new StateBuildingsDictionary(state, _stateBuildings, _provincesBuildings));
+                    parser.Parse(new StateBuildingsDictionary(state, _stateBuildings, _provincesBuildings));
                     break;
 
                 default:
@@ -499,7 +498,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
             else if (BuildingManager.TryGetBuilding(token, out Building building))
             {
-                if (building.enumBuildingSlotCategory != Building.EnumBuildingSlotCategory.PROVINCIAL)
+                if (building.LevelCap.GetValue().GetSlotCategory() != EnumBuildingSlotCategory.PROVINCIAL)
                     stateBuildings[building] = parser.ReadUInt32();
                 else throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.ERROR_STATE_HISTORY_BUILDINGS_PROVINCIAL_BUILDING_IN_STATE,
@@ -538,7 +537,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         {
             if (BuildingManager.TryGetBuilding(token, out Building building))
             {
-                if (building.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.PROVINCIAL)
+                if (building.LevelCap.GetValue().GetSlotCategory() == EnumBuildingSlotCategory.PROVINCIAL)
                     provinceBuildings[building] = parser.ReadUInt32();
                 else throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.ERROR_STATE_HISTORY_BUILDINGS_NOT_PROVINCIAL_BUILDING_IN_PROVINCE,

@@ -366,6 +366,8 @@
     <Compile Include="src\hoiDataObjects\common\bookmarks\Bookmark.cs" />
     <Compile Include="src\hoiDataObjects\common\bookmarks\BookmarkManager.cs" />
     <Compile Include="src\hoiDataObjects\common\buildings\Building.cs" />
+    <Compile Include="src\hoiDataObjects\common\buildings\BuildingCountryModifiers.cs" />
+    <Compile Include="src\hoiDataObjects\common\buildings\BuildingLevelCap.cs" />
     <Compile Include="src\hoiDataObjects\common\buildings\BuildingManager.cs" />
     <Compile Include="src\hoiDataObjects\common\buildings\BuildingsGameFile.cs" />
     <Compile Include="src\hoiDataObjects\common\buildings\SpawnPoint.cs" />
@@ -475,6 +477,7 @@
     <Compile Include="src\newParser\interfaces\IPostParseCallbackable.cs" />
     <Compile Include="src\newParser\interfaces\ISaveable.cs" />
     <Compile Include="src\newParser\interfaces\IScriptBlockInfo.cs" />
+    <Compile Include="src\newParser\interfaces\IValidatable.cs" />
     <Compile Include="src\newParser\interfaces\IValuePushable.cs" />
     <Compile Include="src\newParser\objects\AbstractParseObject.cs" />
     <Compile Include="src\newParser\objects\GameComments.cs" />
@@ -487,6 +490,7 @@
     <Compile Include="src\newParser\objects\ScriptBlockParseObject.cs" />
     <Compile Include="src\newParser\ParserUtils.cs" />
     <Compile Include="src\newParser\structs\DynamicGameParameter.cs" />
+    <Compile Include="src\newParser\structs\GameKeyObject.cs" />
     <Compile Include="src\newParser\structs\GameString.cs" />
     <Compile Include="src\newParser\structs\SaveAdapterParameter.cs" />
     <Compile Include="src\newParser\test\TestGameFile.cs" />

@@ -1,13 +1,11 @@
-﻿using HOI4ModBuilder.hoiDataObjects.history.countries;
-using HOI4ModBuilder.src.dataObjects.argBlocks;
-using HOI4ModBuilder.src.hoiDataObjects.history.countries;
+﻿using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
+using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 {
@@ -21,10 +19,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         private string _name;
         public string Name { get => _name; set => Utils.Setter(ref _name, ref value, ref _needToSave); }
 
-        //TODO
-        public EnumBuildingSlotCategory enumBuildingSlotCategory => EnumBuildingSlotCategory.SHARED;
-        public uint maxLevel = 999;
-
         public readonly GameList<ScriptBlockParseObject> DlcAllowed = new GameList<ScriptBlockParseObject>()
             .INIT_SetValueParseAdapter((o, token) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetTrigger(token)));
         public readonly GameParameter<ushort> ShowOnMapCount = new GameParameter<ushort>();
@@ -32,15 +26,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public readonly GameParameter<bool> IsAlwaysShown = new GameParameter<bool>();
         public readonly GameParameter<bool> HasDestroyedMesh = new GameParameter<bool>();
         public readonly GameParameter<bool> IsCentered = new GameParameter<bool>();
-        public readonly GameParameter<GameString> SpawnPoint = new GameParameter<GameString>();
+        public readonly GameParameter<GameKeyObject<SpawnPoint>> SpawnPoint = new GameParameter<GameKeyObject<SpawnPoint>>()
+            .INIT_SetValueParseAdapter((o, value) => new GameKeyObject<SpawnPoint> { key = value })
+            .INIT_SetValueSaveAdapter((o) => o.key is GameConstant ? o.key : (o.value != null ? o.value.name : o.key));
         public readonly GameParameter<ushort> IconFrame = new GameParameter<ushort>();
         public readonly GameParameter<GameString> SpecialIcon = new GameParameter<GameString>();
         public readonly GameParameter<bool> IsBuildable = new GameParameter<bool>();
+
+        //Cost
         public readonly GameParameter<uint> BaseCost = new GameParameter<uint>();
         public readonly GameParameter<uint> BaseCostConvertion = new GameParameter<uint>();
         public readonly GameParameter<uint> ExtraCostPerLevel = new GameParameter<uint>();
         public readonly GameParameter<uint> ExtraCostPerControllerBuilding = new GameParameter<uint>();
         public readonly GameParameter<bool> HasInfrastructureConstructionEffect = new GameParameter<bool>();
+
+        public readonly GameParameter<BuildingLevelCap> LevelCap = new GameParameter<BuildingLevelCap>();
+
         public readonly GameParameter<float> BaseHealth = new GameParameter<float>();
         public readonly GameParameter<float> DamageFactor = new GameParameter<float>();
         public readonly GameParameter<float> RepairSpeedFactor = new GameParameter<float>();
@@ -52,7 +53,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public readonly GameParameter<bool> IsOnlyCoastal = new GameParameter<bool>();
         public readonly GameParameter<bool> IsPort = new GameParameter<bool>();
         public readonly GameParameter<bool> IsDisabledInDMZ = new GameParameter<bool>();
-        public readonly GameParameter<BuildingLevelCap> BuildingLevelCap = new GameParameter<BuildingLevelCap>();
         public readonly GameParameter<bool> IsShowModifier = new GameParameter<bool>();
         public readonly GameList<ScriptBlockParseObject> StateModifiers = new GameList<ScriptBlockParseObject>()
             .INIT_SetValueParseAdapter((o, token) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(token)));
@@ -78,6 +78,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             { "icon_frame", o => ((Building)o).IconFrame },
             { "special_icon", o => ((Building)o).SpecialIcon },
             { "is_buildable", o => ((Building)o).IsBuildable },
+
             { "base_cost", o => ((Building)o).BaseCost },
             { "base_cost_conversion", o => ((Building)o).BaseCostConvertion },
             { "per_level_extra_cost", o => ((Building)o).ExtraCostPerLevel },
@@ -92,7 +93,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             { "only_costal", o => ((Building)o).IsOnlyCoastal },
             { "is_port", o => ((Building)o).IsPort },
             { "disabled_in_dmz", o => ((Building)o).IsDisabledInDMZ },
-            { "level_cap", o => ((Building)o).BuildingLevelCap },
+            { "level_cap", o => ((Building)o).LevelCap },
             { "show_modifier", o => ((Building)o).IsShowModifier },
             { "state_modifiers", o => ((Building)o).StateModifiers },
             { "country_modifiers", o => ((Building)o).CountryModifiers },
@@ -119,10 +120,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => DYNAMIC_ADAPTER;
 
-        public override bool CustomParseCallback(GameParser parser) => false;
-
-        public override bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter) => false;
-
         private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(new[] { "common", "buildings" }, "Building")
             .Add(STATIC_ADAPTER.Keys)
             .Add(DYNAMIC_ADAPTER.Keys)
@@ -144,77 +141,36 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
                    _name == building._name;
         }
 
-        public enum EnumBuildingSlotCategory
+        public override void Validate(LinkedLayer layer)
         {
-            SHARED,
-            NON_SHARED,
-            PROVINCIAL
+            var spawnPoint = SpawnPoint.GetValue();
+            if (spawnPoint.key != null)
+            {
+                if (!(spawnPoint.key is string spawnPointKeyString))
+                    Logger.LogLayeredError(layer, EnumLocKey.ERROR_OBJECT_PARAMETER_INVALID_VALUE, new Dictionary<string, string>
+                    {
+                        { "{object}", _name },
+                        { "{parameter}", "spawn_point" },
+                        { "{value}", $"{spawnPoint.key}" },
+                    });
+                else if (!BuildingManager.PARSER_AllSpawnPoints.TryGetValue(spawnPointKeyString, out spawnPoint.value))
+                    Logger.LogLayeredWarning(layer, EnumLocKey.WARNING_OBJECT_PARAMETER_VALUE_NOT_FOUND, new Dictionary<string, string>
+                    {
+                        { "{object}", _name },
+                        { "{parameter}", "spawn_point" },
+                        { "{value}", $"{spawnPoint.key}" },
+                    });
+                else
+                    SpawnPoint.SetSilentValue(spawnPoint);
+            }
+
+            if (LevelCap.GetValue() == null)
+                LevelCap.SetValue(new BuildingLevelCap());
+
+            base.Validate(layer);
         }
-    }
-
-    public class BuildingLevelCap : AbstractParseObject
-    {
-        public readonly GameParameter<bool> SharedSlots = new GameParameter<bool>();
-        public readonly GameParameter<uint> StateMax = new GameParameter<uint>();
-        public readonly GameParameter<uint> ProvinceMax = new GameParameter<uint>();
-        public readonly GameParameter<GameString> GroupBy = new GameParameter<GameString>();
-        public readonly GameParameter<GameString> ExclusiveWith = new GameParameter<GameString>();
-
-        private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
-        {
-            { "shares_slots", o => ((BuildingLevelCap)o).SharedSlots },
-            { "state_max", o => ((BuildingLevelCap)o).StateMax },
-            { "province_max", o => ((BuildingLevelCap)o).ProvinceMax },
-            { "group_by", o => ((BuildingLevelCap)o).GroupBy },
-            { "exclusive_with", o => ((BuildingLevelCap)o).ExclusiveWith },
-        };
-
-        public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
-
-        public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => null;
-
-
-        public override bool CustomParseCallback(GameParser parser) => false;
-
-        public override bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter) => false;
-
-        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(new[] { "common", "building" }, "BuildingLevelCap")
-            .Add(STATIC_ADAPTER.Keys)
-            .Load();
-        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
-
-        public override IParseObject GetEmptyCopy() => new BuildingLevelCap();
-    }
-
-    public class BuildingCountryModifiers : AbstractParseObject
-    {
-        public readonly GameList<Country> EnableForControllers = new GameList<Country>()
-            .INIT_SetValueParseAdapter((o, token) => CountryManager.GetCountry(token))
-            .INIT_SetValueSaveAdapter((country) => country.Tag);
-        public readonly GameList<ScriptBlockParseObject> Modifiers = new GameList<ScriptBlockParseObject>()
-            .INIT_SetValueParseAdapter((o, token) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(token)));
-
-        private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
-        {
-            { "enable_for_controllers", o => ((BuildingCountryModifiers)o).EnableForControllers },
-            { "modifiers", o => ((BuildingCountryModifiers)o).Modifiers },
-        };
-
-
-        public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
-
-        public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => null;
-
-        public override bool CustomParseCallback(GameParser parser) => false;
-
-        public override bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter) => false;
-
-        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(new[] { "common", "buildings" }, "BuildingCountryModifiers")
-            .Add(STATIC_ADAPTER.Keys)
-            .Load();
-        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
-
-        public override IParseObject GetEmptyCopy() => new BuildingCountryModifiers();
 
     }
+
+
 }

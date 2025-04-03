@@ -12,12 +12,22 @@ namespace HOI4ModBuilder.src.newParser.test
     {
         public override IParseObject GetEmptyCopy() => new TestObject();
 
+        public readonly GameParameter<int> IntValue = new GameParameter<int>();
         public readonly GameList<ScriptBlockParseObject> ModifiersStatic = new GameList<ScriptBlockParseObject>()
             .INIT_SetValueParseAdapter((o, token) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(token)));
+        public readonly GameList<ScriptBlockParseObject> EffectsStatic = new GameList<ScriptBlockParseObject>()
+            .INIT_SetValueParseAdapter((o, token) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetEffect(token)));
+
+        public readonly GameDictionary<GameString, int> MapA = new GameDictionary<GameString, int>();
+        public readonly GameDictionary<GameString, TestObject> MapB = new GameDictionary<GameString, TestObject>();
 
         private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
         {
+            { "intValue", o => ((TestObject)o).IntValue },
+            { "mapA", o => ((TestObject)o).MapA },
+            { "mapB", o => ((TestObject)o).MapB },
             { "modifiers", o => ((TestObject)o).ModifiersStatic },
+            { "effects", o => ((TestObject)o).EffectsStatic },
         };
 
         public readonly GameList<ScriptBlockParseObject> Modifiers = new GameList<ScriptBlockParseObject>();
@@ -25,11 +35,11 @@ namespace HOI4ModBuilder.src.newParser.test
 
         private static readonly Dictionary<string, DynamicGameParameter> DYNAMIC_ADAPTER = new Dictionary<string, DynamicGameParameter>
         {
-            { "modifiers", new DynamicGameParameter {
+            { "dynamicModifiers", new DynamicGameParameter {
                 provider = o => ((TestObject)o).Modifiers,
                 factory = (o, key) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(key))
             } },
-            { "effects", new DynamicGameParameter {
+            { "dynamicEffects", new DynamicGameParameter {
                 provider = o => ((TestObject)o).Effects,
                 factory = (o, key) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetEffect(key))
             } },
@@ -37,14 +47,11 @@ namespace HOI4ModBuilder.src.newParser.test
 
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => DYNAMIC_ADAPTER;
-        public override bool CustomParseCallback(GameParser parser) => false;
 
         private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter("test", "TestObject")
             .Add(STATIC_ADAPTER.Keys)
             .Add(DYNAMIC_ADAPTER.Keys)
             .Load();
         public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
-        public override bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter) => false;
-        public AbstractParseObject GetThis() => this;
     }
 }

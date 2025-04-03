@@ -83,13 +83,13 @@ namespace HOI4ModBuilder.src.newParser.objects
         public SaveAdapter(string directoryPath, string fileName, string[] parameters) : this(directoryPath, fileName)
         {
             foreach (var parameter in parameters)
-                _parameters.Add(new SaveAdapterParameter(parameter, false, false, false));
+                _parameters.Add(new SaveAdapterParameter(parameter, false, false, false, false));
         }
 
         public SaveAdapter Add(IEnumerable<string> parameters)
         {
             foreach (var parameter in parameters)
-                _parameters.Add(new SaveAdapterParameter(parameter, false, false, false));
+                _parameters.Add(new SaveAdapterParameter(parameter, false, false, false, false));
             return this;
         }
     }

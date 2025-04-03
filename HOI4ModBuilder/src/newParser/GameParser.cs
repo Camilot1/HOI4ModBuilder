@@ -77,6 +77,8 @@ namespace HOI4ModBuilder.src.newParser
             _index = -1;
 
             Parse(file);
+
+            file.Validate(null);
         }
 
 
@@ -88,7 +90,7 @@ namespace HOI4ModBuilder.src.newParser
                 SkipWhiteSpaces();
 
                 if (_token == Token.COMMENT)
-                    ParseComment();
+                    ParseComments();
                 else if (_token == Token.CONSTANT)
                 {
                     var constant = ParseConstant();
@@ -145,7 +147,7 @@ namespace HOI4ModBuilder.src.newParser
                 }
                 else if (_token == Token.COMMENT)
                 {
-                    ParseComment();
+                    ParseComments();
                     continue;
                 }
                 else if (_token == Token.RIGHT_CURLY)
@@ -296,7 +298,7 @@ namespace HOI4ModBuilder.src.newParser
             var nextLine = SkipWhiteSpaces();
             if (_token == Token.COMMENT && !nextLine)
             {
-                ParseComment();
+                ParseComments();
                 inlineComments = PullParsedCommentsString();
             }
 
@@ -316,22 +318,23 @@ namespace HOI4ModBuilder.src.newParser
             ParseUntil(FLAGS_QUOTED_UNTIL);
         }
 
-        public void ParseComment()
+        public void ParseComments()
         {
-            if (_token != Token.COMMENT)
-                throw new Exception("Invalid Comment structure: " + GetCursorInfo());
-
-            if (_sbComments.Length > 0 && _sbComments[_sbComments.Length - 1] != '\n')
-                _sbComments.Append(Constants.NEW_LINE);
-
-            while (_index < _dataLength)
+            while (_index < _dataLength && _token == Token.COMMENT)
             {
+                if (_sbComments.Length > 0 && _sbComments[_sbComments.Length - 1] != '\n')
+                    _sbComments.Append(Constants.NEW_LINE);
 
-                if (((int)_token & (int)Token.NEW_LINE) != 0)
-                    return;
+                while (_index < _dataLength)
+                {
+                    if (((int)_token & (int)Token.NEW_LINE) != 0)
+                        return;
 
-                _sbComments.Append(_currentChar);
-                NextChar();
+                    _sbComments.Append(_currentChar);
+                    NextChar();
+                }
+
+                SkipWhiteSpaces();
             }
         }
 

@@ -44,7 +44,13 @@ namespace HOI4ModBuilder.src.newParser.objects
             _scriptBlockInfo = scriptBlockInfo;
         }
 
-        public override bool CustomParseCallback(GameParser parser)
+        public override void Validate(LinkedLayer layer)
+        {
+            if (_value is IValidatable validatable)
+                validatable.Validate(new LinkedLayer(layer, _scriptBlockInfo?.GetBlockName()));
+        }
+
+        public override void ParseCallback(GameParser parser)
         {
             if (parser.SkipWhiteSpaces())
                 throw new Exception("Invalid data structure: " + parser.GetCursorInfo());
@@ -92,8 +98,6 @@ namespace HOI4ModBuilder.src.newParser.objects
                 ParseInlineValue(parser);
             else
                 throw new Exception("Invalid data structure: " + parser.GetCursorInfo());
-
-            return true;
         }
 
         private void ParseInlineValue(GameParser parser)
@@ -164,7 +168,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     this, new InfoArgsBlock(key, infoArgsBlock.AllowedUniversalParamsInfo.AllowedValueTypes)
                 );
 
-                innerBlock3.CustomParseCallback(parser);
+                innerBlock3.ParseCallback(parser);
 
                 var comments = innerBlock3.GetComments();
                 if (comments != null)
@@ -183,7 +187,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         private void ParseInnerScriptInfoBlock(GameParser parser, GameList<ScriptBlockParseObject> innerList, IScriptBlockInfo innerInfo, GameComments keyComments)
         {
             var innerBlock = new ScriptBlockParseObject(this, innerInfo);
-            innerBlock.CustomParseCallback(parser);
+            innerBlock.ParseCallback(parser);
 
             var comments = innerBlock.GetComments();
             if (comments != null)
@@ -342,16 +346,16 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public override SaveAdapter GetSaveAdapter() => null;
 
-        public override bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public override void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
             if (_value is ISaveable saveable)
             {
                 saveable.Save(parser, sb, outIndent, _scriptBlockInfo.GetBlockName(), default);
-                return true;
+                return;
             }
 
             if (_value == null)
-                return true;
+                return;
 
             var comments = GetComments();
             if (comments == null)
@@ -365,8 +369,6 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (comments.Inline.Length > 0)
                 sb.Append(outIndent).Append(comments.Inline);
-
-            return true;
         }
     }
 }

@@ -57,7 +57,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             return false;
         }
 
-        public override bool CustomParseCallback(GameParser parser)
+        public override void ParseCallback(GameParser parser)
         {
             if (parser.SkipWhiteSpaces())
                 throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
@@ -72,12 +72,12 @@ namespace HOI4ModBuilder.src.newParser.objects
                 throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
             if (parser.CurrentToken == Token.LEFT_CURLY)
-                return TryParseBlockKeys(parser);
+                TryParseBlockKeys(parser);
             else
                 throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
         }
 
-        private bool TryParseBlockKeys(GameParser parser)
+        private void TryParseBlockKeys(GameParser parser)
         {
             parser.ParseInsideBlock(
                 (comments) => SetComments(comments),
@@ -157,26 +157,32 @@ namespace HOI4ModBuilder.src.newParser.objects
                     }
                 }
             );
-            return true;
         }
 
-        public override bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public override void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
             if (_dictionary.Count == 0)
-                return true;
+            {
+                if (!saveParameter.SaveIfEmpty)
+                    return;
+
+                if (saveParameter.AddEmptyLineBefore)
+                    sb.Append(outIndent).Append(Constants.NEW_LINE);
+
+                sb.Append(outIndent).Append(key).Append(" = {}").Append(Constants.NEW_LINE);
+                return;
+            }
 
             if (saveParameter.AddEmptyLineBefore)
                 sb.Append(outIndent).Append(Constants.NEW_LINE);
 
             EntrySave(parser, sb, outIndent, key, saveParameter);
 
-            return true;
+            return;
         }
 
         private void EntrySave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
-            //TODO Implement
-            /*
             string innerIndent = outIndent;
 
             if (key != null)
@@ -193,7 +199,13 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (comments.Inline.Length > 0)
                     sb.Append(' ').Append(comments.Inline);
 
-                sb.Append(Constants.NEW_LINE);
+                if (!saveParameter.IsForceInline && _dictionary.Count > 1)
+                {
+                    sb.Append(Constants.NEW_LINE);
+                    innerIndent = outIndent + Constants.INDENT;
+                }
+                else
+                    innerIndent = " ";
             }
 
             foreach (var entry in _dictionary)
@@ -202,18 +214,21 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (_keySaveAdapter != null)
                     tempKey = _keySaveAdapter.Invoke(entry.Key);
 
+                string stringKey = ParserUtils.ObjectToSaveString(tempKey);
+
                 object tempValue = entry.Value;
                 if (_valueSaveAdapter != null)
                     tempValue = _valueSaveAdapter.Invoke(entry.Value);
 
                 if (tempValue is ISaveable saveable)
                 {
-                    saveable.Save(parser, sb, innerIndent, "" + tempKey, saveParameter);
+                    innerIndent = outIndent + Constants.INDENT;
+                    saveable.Save(parser, sb, innerIndent, stringKey, saveParameter);
                 }
                 else
                 {
                     var comments = GameComments.DEFAULT;
-                    if (value is ICommentable commentable)
+                    if (entry.Key is ICommentable commentable)
                         comments = commentable.GetComments();
 
                     if (comments.Previous.Length > 0)
@@ -226,7 +241,8 @@ namespace HOI4ModBuilder.src.newParser.objects
                         sb.Append(innerIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
                     }
 
-                    sb.Append(innerIndent).Append(tempValue);
+                    var stringValue = ParserUtils.ObjectToSaveString(tempValue);
+                    sb.Append(innerIndent).Append(stringKey).Append(' ').Append((char)EnumDemiliter.EQUALS).Append(' ').Append(stringValue);
 
                     if (comments.Inline.Length > 0)
                     {
@@ -234,7 +250,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                         sb.Append(Constants.NEW_LINE);
                         innerIndent = outIndent + Constants.INDENT;
                     }
-                    else if (saveParameter.IsForceMultiline)
+                    else if (!saveParameter.IsForceInline)
                     {
                         sb.Append(Constants.NEW_LINE);
                         innerIndent = outIndent + Constants.INDENT;
@@ -252,12 +268,23 @@ namespace HOI4ModBuilder.src.newParser.objects
                 sb.Append('}');
                 sb.Append(Constants.NEW_LINE);
             }
-            */
         }
 
         public override SaveAdapter GetSaveAdapter() => null;
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => null;
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => null;
+
+        public override void Validate(LinkedLayer layer)
+        {
+            foreach (var entry in _dictionary)
+            {
+                if (entry.Key is IValidatable keyValidatable)
+                    keyValidatable.Validate(layer);
+                if (entry.Value is IValidatable valueValidatable)
+                    valueValidatable.Validate(layer);
+            }
+            base.Validate(layer);
+        }
 
         public override IParseObject GetEmptyCopy() => new GameDictionary<TKey, TValue>();
 

@@ -52,7 +52,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => null;
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => null;
-        public override bool CustomParseCallback(GameParser parser)
+        public override void ParseCallback(GameParser parser)
         {
             if (parser.SkipWhiteSpaces())
                 throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
@@ -67,12 +67,12 @@ namespace HOI4ModBuilder.src.newParser.objects
                 throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
             if (parser.CurrentToken == Token.LEFT_CURLY)
-                return TryParseBlockValue(parser);
+                TryParseBlockValue(parser);
             else
-                return TryParseInlineValue(parser);
+                TryParseInlineValue(parser);
         }
 
-        private bool TryParseBlockValue(GameParser parser)
+        private void TryParseBlockValue(GameParser parser)
         {
             parser.ParseInsideBlock(
                 (comments) => SetComments(comments),
@@ -84,7 +84,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                         throw new Exception("Parsed value is null for token \"" + token + "\". It is not defined and not found while parsing: " + parser.GetCursorInfo());
 
                     if (obj is IParseObject parseObject)
-                        parseObject.CustomParseCallback(parser);
+                        parseObject.ParseCallback(parser);
                     else if (obj is ICommentable commentable)
                         commentable.SetComments(tokenComments);
                     AddSilent(obj);
@@ -92,10 +92,9 @@ namespace HOI4ModBuilder.src.newParser.objects
                     return false;
                 }
             );
-            return true;
         }
 
-        private bool TryParseInlineValue(GameParser parser)
+        private void TryParseInlineValue(GameParser parser)
         {
             if (parser.CurrentToken == Token.QUOTE)
                 parser.ParseQuoted();
@@ -109,7 +108,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             var obj = _valueParseAdapter != null ? _valueParseAdapter.Invoke(this, value) : ParserUtils.Parse<T>(value);
 
             if (obj is IParseObject parseObject)
-                parseObject.CustomParseCallback(parser);
+                parseObject.ParseCallback(parser);
             else
             {
                 var comments = parser.ParseAndPullComments();
@@ -118,8 +117,6 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
 
             AddSilent(obj);
-
-            return true;
         }
 
         public override IParseObject GetEmptyCopy() => new GameList<T>();
@@ -148,10 +145,21 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         //TODO impelemnt save
         public override SaveAdapter GetSaveAdapter() => null;
-        public override bool CustomSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public override void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
             if (_list.Count == 0)
-                return true;
+            {
+                if (_forceSeparateLineSave)
+                    return;
+                if (!saveParameter.SaveIfEmpty)
+                    return;
+
+                if (saveParameter.AddEmptyLineBefore)
+                    sb.Append(outIndent).Append(Constants.NEW_LINE);
+
+                sb.Append(outIndent).Append(key).Append(" = {}").Append(Constants.NEW_LINE);
+                return;
+            }
 
             if (saveParameter.AddEmptyLineBefore)
                 sb.Append(outIndent).Append(Constants.NEW_LINE);
@@ -160,8 +168,6 @@ namespace HOI4ModBuilder.src.newParser.objects
                 SeparateLineSave(parser, sb, outIndent, key, saveParameter);
             else
                 ListSave(parser, sb, outIndent, key, saveParameter);
-
-            return true;
         }
 
         private void SeparateLineSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
@@ -210,8 +216,11 @@ namespace HOI4ModBuilder.src.newParser.objects
 
                 if (comments.Inline.Length > 0)
                     sb.Append(' ').Append(comments.Inline).Append(Constants.NEW_LINE);
-                else if (saveParameter.IsForceMultiline)
+                else if (saveParameter.IsForceMultiline || !saveParameter.IsForceInline && _list.Count > 0)
+                {
                     sb.Append(Constants.NEW_LINE);
+                    innerIndent = outIndent + Constants.INDENT;
+                }
                 else
                     innerIndent = " ";
             }
@@ -232,7 +241,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     //  infrastructure = yes (фикс-перенос)
                     //  set_variable = { test1 = 10 }
                     //  set_variable = { test2 = 14 }
-                    if (key == null && value is ScriptBlockParseObject scriptBlockParseObject)
+                    if (value is ScriptBlockParseObject scriptBlockParseObject)
                         if (!(scriptBlockParseObject.GetValueRaw() is IValuePushable))
                             sb.Append(Constants.NEW_LINE);
                 }
@@ -278,6 +287,15 @@ namespace HOI4ModBuilder.src.newParser.objects
                 sb.Append('}');
                 sb.Append(Constants.NEW_LINE);
             }
+        }
+        public override void Validate(LinkedLayer layer)
+        {
+            foreach (var value in _list)
+            {
+                if (value is IValidatable validatable)
+                    validatable.Validate(layer);
+            }
+            base.Validate(layer);
         }
     }
 }
