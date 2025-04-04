@@ -35,6 +35,7 @@ namespace HOI4ModBuilder.src.utils
             // Сигма не может быть отрицательной
             if (blurSigma < 0.0f)
                 throw new ArgumentException(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_INVALID_BLUR_SIGMA_VALUE, new Dictionary<string, string> {
+                    { "{name}", "normals_map.bmp" },
                     { "{blurSigma}", $"{blurSigma}" },
                 }));
 

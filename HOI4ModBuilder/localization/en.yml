@@ -473,3 +473,14 @@ EXCEPTION_DURING_SCRIPT_PARSER_DOCUMENTATION_SAVING: "The exception has occured 
 WARNING_LOCALIZATION_KEY_NOT_FOUND: "The localization key \"{locKey}\" not found in file {filePath}."
 
 STATE_NOT_FOUND_BY_ID: "The state with id = {stateId} not found."
+
+ERROR_COULD_NOT_LOAD_BUILDINGS_FILE: "Failed to load buildings from file {filePath}. Reason: {cause}"
+ERROR_OBJECT_PARAMETER_INVALID_VALUE: "Invalid value {value} for parameter {parameter} in object {object}"
+WARNING_OBJECT_PARAMETER_VALUE_NOT_FOUND: "Value {value} for parameter {parameter} not found for object {object}"
+WARNING_OBJECT_PARAMETER_OVERRIDE: "Detected override of parameter {parameter} to {value} in object {object}"
+ERROR_COULD_NOT_LOAD_SCRIPTED_TRIGGERS_FILE: "Failed to load scripted triggers from file {filePath}. Reason: {ex}"
+ERROR_COULD_NOT_LOAD_DEFINED_MODIFIERS_FILE: "Failed to load defined modifiers from file {filePath}. Reason: {ex}"
+ERROR_COULD_NOT_LOAD_SCRIPTED_EFFECTS_FILE: "Failed to load scripted effects from file {filePath}. Reason: {ex}"
+EXCEPTION_BITMAP_INVALID_PIXEL_FORMAT: "Invalid pixel format {currentFormat} for {name}. Expected pixel format: {validFormat}"
+EXCEPTION_BITMAP_IS_TOO_SMALL: "Texture map {name} is too small: {width}x{height}"
+EXCEPTION_INVALID_BLUR_SIGMA_VALUE: "Invalid blur (Sigma) value specified for {name}: {blurSigma}"

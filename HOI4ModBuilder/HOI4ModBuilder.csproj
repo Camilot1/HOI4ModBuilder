@@ -293,9 +293,6 @@
     <Compile Include="src\dataObjects\argBlocks\info\InfoArgsBlock.cs" />
     <Compile Include="src\dataObjects\argBlocks\info\scripted\ScriptedEffectsGameFile.cs" />
     <Compile Include="src\dataObjects\argBlocks\info\scripted\ScriptedTriggersGameFile.cs" />
-    <Compile Include="src\dataObjects\parameters\ParadoxConstant.cs" />
-    <Compile Include="src\dataObjects\parameters\ParadoxParameter.cs" />
-    <Compile Include="src\dataObjects\parameters\ParserFlags.cs" />
     <Compile Include="src\dataObjects\XYUshortCoordinates.cs" />
     <Compile Include="src\dataObjects\ParserDummyBlock.cs" />
     <Compile Include="src\dataObjects\replaceTags\ReplaceTagsManager.cs" />
