@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.parser;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace HOI4ModBuilder
         {
             TransferDataToDebugDirectory();
 
+            TestMain.Execute();
             Logger.Init();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

@@ -1,88 +1,650 @@
 [
   {
-    "name": "AND",
+    "name": "every_possible_country",
     "specificScopes": [ "ALL" ],
-    "canHaveAnyInnerBlocks": true
-  },
-  {
-    "name": "OR",
-    "specificScopes": [ "ALL" ],
-    "canHaveAnyInnerBlocks": true
-  },
-  {
-    "name": "NOT",
-    "specificScopes": [ "ALL" ],
-    "canHaveAnyInnerBlocks": true
-  },
-  {
-    "name": "count_triggers",
-    "specificScopes": [ "ALL" ],
-    "mandatoryInnerBlocks": {
-      "amount": {
-        "name": "amount",
-        "allowedValueTypes": [ "INT" ]
+    "innerScope": "COUNTRY",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
       }
     },
-    "canHaveAnyInnerBlocks": true
+	"canHaveAnyInnerBlocks": true
   },
   {
-    "name": "hidden_trigger",
+    "name": "every_country",
     "specificScopes": [ "ALL" ],
-    "canHaveAnyInnerBlocks": true
-  },
-  {
-    "name": "custom_trigger_tooltip",
-    "specificScopes": [ "ALL" ],
-    "mandatoryInnerBlocks": {
-      "tooltip": {
-        "name": "tooltip",
-        "allowedValueTypes": [ "LOC_KEY" ]
+    "innerScope": "COUNTRY",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
       }
     },
-    "canHaveAnyInnerBlocks": true
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_country",
+    "specificScopes": [ "ALL" ],
+    "innerScope": "COUNTRY",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_other_country",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "COUNTRY",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_other_country",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "COUNTRY",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_country_with_original_tag",
+    "specificScopes": [ "ALL" ],
+    "innerScope": "COUNTRY",
+    "mandatoryInnerBlocks": {
+      "original_tag_to_check": {
+        "name": "original_tag_to_check",
+        "allowedValueTypes": [ "COUNTRY" ]
+      }
+    },
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_country_with_original_tag",
+    "specificScopes": [ "ALL" ],
+    "innerScope": "COUNTRY",
+    "mandatoryInnerBlocks": {
+      "original_tag_to_check": {
+        "name": "original_tag_to_check",
+        "allowedValueTypes": [ "COUNTRY" ]
+      }
+    },
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_neighbor_country",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "COUNTRY",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_neighbor_country",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "COUNTRY",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_occupied_country",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "COUNTRY",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_occupied_country",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "COUNTRY",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_enemy_country",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "COUNTRY",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_enemy_country",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "COUNTRY",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_subject_country",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "COUNTRY",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_subject_country",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "COUNTRY",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_state",
+    "specificScopes": [ "ALL" ],
+    "innerScope": "STATE",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_state",
+    "specificScopes": [ "ALL" ],
+    "innerScope": "STATE",
+    "allowedInnerBlocks": {
+      "prioritize": {
+        "name": "prioritize",
+        "allowedValueTypes": [ "STATE" ]
+      },
+	  "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_neighbor_state",
+    "specificScopes": [ "STATE" ],
+    "innerScope": "STATE",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_neighbor_state",
+    "specificScopes": [ "STATE" ],
+    "innerScope": "STATE",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_owned_state",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "STATE",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_owned_state",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "STATE",
+    "allowedInnerBlocks": {
+      "prioritize": {
+        "name": "prioritize",
+        "allowedValueTypes": [ "STATE" ]
+      },
+	  "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    }
+  },
+  {
+    "name": "every_core_state",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "STATE",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_core_state",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "STATE",
+    "allowedInnerBlocks": {
+      "prioritize": {
+        "name": "prioritize",
+        "allowedValueTypes": [ "STATE" ]
+      },
+	  "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_controlled_state",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "STATE",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_controlled_state",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "STATE",
+    "allowedInnerBlocks": {
+      "prioritize": {
+        "name": "prioritize",
+        "allowedValueTypes": [ "STATE" ]
+      },
+	  "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_owned_controlled_state",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "STATE",
+    "allowedInnerBlocks": {
+      "prioritize": {
+        "name": "prioritize",
+        "allowedValueTypes": [ "STATE" ]
+      },
+	  "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_unit_leader",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "UNIT_LEADER",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_unit_leader",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "UNIT_LEADER",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_army_leader",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "UNIT_LEADER",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_army_leader",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "UNIT_LEADER",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "global_every_army_leader",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "UNIT_LEADER",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_navy_leader",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "UNIT_LEADER",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_navy_leader",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "UNIT_LEADER",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_operative",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "OPERATIVE",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_operative",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "UNIT_LEADER",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_character",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "CHARACTER",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_character",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "CHARACTER",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_country_division",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "DIVISION",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_country_division",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "DIVISION",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_state_division",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "DIVISION",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_state_division",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "DIVISION",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_military_industrial_organization",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "MIO",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_military_industrial_organization",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "MIO",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "every_purchase_contract",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "PURCHASE_CONTRACT",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "random_purchase_contract",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "PURCHASE_CONTRACT",
+	"allowedInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+	"canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "party_leader",
+    "specificScopes": [ "COUNTRY" ],
+    "innerScope": "CHARACTER",
+    "mandatoryInnerBlocks": {
+      "limit": {
+        "name": "limit",
+        "mandatoryInnerBlocks": {
+          "has_ideology": {
+            "name": "has_ideology",
+            "allowedValueTypes": [ "IDEOLOGY" ]
+          }
+        }
+      }
+    },
+	"canHaveAnyInnerBlocks": true
   },
   {
     "name": "hidden_effect",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "SCOPE" ],
     "canHaveAnyInnerBlocks": true
   },
   {
     "name": "hidden_modifier",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "SCOPE" ],
     "canHaveAnyInnerBlocks": true
   },
   {
     "name": "effect_tooltip",
-    "specificScopes": [ "ALL" ],
-    "canHaveAnyInnerBlocks": true
-  },
-  {
-    "name": "if",
-    "specificScopes": [ "ALL" ],
-    "mandatoryInnerBlocks": {
-      "limit": {
-        "name": "limit",
-        "allowedValueTypes": [ "LOC_KEY" ],
-		"canHaveAnyInnerBlocks": true
-      }
-    },
-    "canHaveAnyInnerBlocks": true
-  },
-  {
-    "name": "else_if",
-    "specificScopes": [ "ALL" ],
-    "mandatoryInnerBlocks": {
-      "limit": {
-        "name": "limit",
-        "allowedValueTypes": [ "LOC_KEY" ],
-		"canHaveAnyInnerBlocks": true
-      }
-    },
-    "canHaveAnyInnerBlocks": true
-  },
-  {
-    "name": "else",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "EFFECT" ],
     "canHaveAnyInnerBlocks": true
   }
 ]

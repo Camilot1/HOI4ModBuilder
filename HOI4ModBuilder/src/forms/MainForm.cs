@@ -54,7 +54,7 @@ namespace HOI4ModBuilder
         private ViewportInfo viewportInfo;
         public EnumMainLayer enumMainLayer = EnumMainLayer.PROVINCES_MAP;
         private EnumTool enumTool = EnumTool.CURSOR;
-        private EnumEditLayer enumEditLayer = EnumEditLayer.PROVINCES;
+        public EnumEditLayer enumEditLayer = EnumEditLayer.PROVINCES;
         private EnumBordersType enumBordersType = EnumBordersType.PROVINCES_BLACK;
         public EnumBordersType EnumBordersType => enumBordersType;
 

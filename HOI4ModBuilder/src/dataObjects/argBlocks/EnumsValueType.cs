@@ -8,6 +8,8 @@
         LOC_KEY,
         NAME,
         COUNTRY,
+        STATE,
+        RESOURCE,
         IDEOLOGY,
         STRING,
         BOOLEAN,

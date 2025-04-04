@@ -9,5 +9,6 @@ namespace HOI4ModBuilder.src.utils
     class Constants
     {
         public static readonly string NEW_LINE = "\r\n";
+        public static readonly string INDENT = "\t";
     }
 }

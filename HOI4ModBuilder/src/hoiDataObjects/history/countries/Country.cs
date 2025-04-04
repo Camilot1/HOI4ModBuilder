@@ -1,13 +1,15 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.hoiDataObjects;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
+using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
 
 namespace HOI4ModBuilder.hoiDataObjects.history.countries
 {
-    public class Country
+    public class Country : IScriptBlockInfo
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
@@ -39,6 +41,12 @@ namespace HOI4ModBuilder.hoiDataObjects.history.countries
                 CountryManager.AddCountryByTag(_tag, this);
             }
         }
+        public string GetBlockName() => _tag;
+        public EnumScope GetInnerScope() => EnumScope.COUNTRY;
+        public EnumKeyValueDemiliter[] GetAllowedSpecialDemiliters() => null;
+        public bool IsAllowsInlineValue() => false;
+        public bool IsAllowsBlockValue() => true;
+        public EnumValueType[] GetAllowedValueTypes() => null;
 
         public string cosmeticTag;
         public string graphicalCulture;

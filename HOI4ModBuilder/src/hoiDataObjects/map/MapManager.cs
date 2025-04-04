@@ -576,7 +576,10 @@ namespace HOI4ModBuilder.managers
 
                     uint count = 0;
 
-                    if (building.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.PROVINCIAL)
+                    var buildingLevelCap = building.LevelCap.GetValue();
+                    var buildingSlotCategory = buildingLevelCap.GetSlotCategory();
+
+                    if (buildingSlotCategory == EnumBuildingSlotCategory.PROVINCIAL)
                     {
                         func = (p) =>
                         {
@@ -589,7 +592,7 @@ namespace HOI4ModBuilder.managers
                             if (!p.TryGetBuildingCount(building, out count))
                                 return Utils.ArgbToInt(255, 0, 0, 0);
 
-                            float factor = count / (float)building.maxLevel;
+                            float factor = count / (float)buildingLevelCap.GetProvinceMaxCount();
                             if (factor > 1)
                                 return Utils.ArgbToInt(255, 255, 0, 0);
                             else
@@ -599,7 +602,7 @@ namespace HOI4ModBuilder.managers
                             }
                         };
                     }
-                    else if (building.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.SHARED)
+                    else if (buildingSlotCategory == EnumBuildingSlotCategory.SHARED)
                     {
                         uint maxCount = 0;
                         foreach (State state in StateManager.GetStates())
@@ -647,7 +650,7 @@ namespace HOI4ModBuilder.managers
                             {
                                 p.State.stateBuildings.TryGetValue(building, out count);
 
-                                float factor = count / (float)building.maxLevel;
+                                float factor = count / (float)buildingLevelCap.GetStateMaxCount();
                                 if (factor > 1)
                                     return Utils.ArgbToInt(255, 255, 0, 0);
                                 else

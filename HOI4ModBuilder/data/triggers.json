@@ -1,298 +1,86 @@
 ﻿[
   {
-    "name": "every_possible_country",
-    "specificScopes": [ "ALL" ],
-    "targetType": "COUNTRY"
+    "name": "AND",
+    "specificScopes": [ "TRIGGER" ],
+    "canHaveAnyInnerBlocks": true
   },
   {
-    "name": "every_country",
-    "specificScopes": [ "ALL" ],
-    "targetType": "COUNTRY"
+    "name": "OR",
+    "specificScopes": [ "TRIGGER" ],
+    "canHaveAnyInnerBlocks": true
   },
   {
-    "name": "random_country",
-    "specificScopes": [ "ALL" ],
-    "targetType": "COUNTRY"
+    "name": "NOT",
+    "specificScopes": [ "TRIGGER" ],
+    "canHaveAnyInnerBlocks": true
   },
   {
-    "name": "every_other_country",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "COUNTRY"
-  },
-  {
-    "name": "random_other_country",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "COUNTRY"
-  },
-  {
-    "name": "every_country_with_original_tag",
-    "specificScopes": [ "ALL" ],
-    "targetType": "COUNTRY",
+    "name": "count_triggers",
+    "specificScopes": [ "TRIGGER" ],
     "mandatoryInnerBlocks": {
-      "original_tag_to_check": {
-        "name": "original_tag_to_check",
-        "allowedValueTypes": [ "COUNTRY" ]
+      "amount": {
+        "name": "amount",
+        "allowedValueTypes": [ "INT" ]
       }
-    }
+    },
+    "canHaveAnyInnerBlocks": true
   },
   {
-    "name": "random_country_with_original_tag",
-    "specificScopes": [ "ALL" ],
-    "targetType": "COUNTRY",
-    "mandatoryInnerBlocks": {
-      "original_tag_to_check": {
-        "name": "original_tag_to_check",
-        "allowedValueTypes": [ "COUNTRY" ]
-      }
-    }
-  },
-  {
-    "name": "every_neighbor_country",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "COUNTRY"
-  },
-  {
-    "name": "random_neighbor_country",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "COUNTRY"
-  },
-  {
-    "name": "every_occupied_country",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "COUNTRY"
-  },
-  {
-    "name": "random_occupied_country",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "COUNTRY"
-  },
-  {
-    "name": "every_enemy_country",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "COUNTRY"
-  },
-  {
-    "name": "random_enemy_country",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "COUNTRY"
-  },
-  {
-    "name": "every_subject_country",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "COUNTRY"
-  },
-  {
-    "name": "random_subject_country",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "COUNTRY"
-  },
-  {
-    "name": "every_state",
-    "specificScopes": [ "ALL" ],
-    "targetType": "STATE"
-  },
-  {
-    "name": "random_state",
-    "specificScopes": [ "ALL" ],
-    "targetType": "STATE",
-    "optionalInnerBlocks": {
-      "prioritize": {
-        "name": "prioritize",
-        "allowedValueTypes": [ "STATE" ]
-      }
-    }
-  },
-  {
-    "name": "every_neighbor_state",
-    "specificScopes": [ "STATE" ],
-    "targetType": "STATE"
-  },
-  {
-    "name": "random_neighbor_state",
-    "specificScopes": [ "STATE" ],
-    "targetType": "STATE"
-  },
-  {
-    "name": "every_owned_state",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "STATE"
-  },
-  {
-    "name": "random_owned_state",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "STATE",
-    "optionalInnerBlocks": {
-      "prioritize": {
-        "name": "prioritize",
-        "allowedValueTypes": [ "STATE" ]
-      }
-    }
-  },
-  {
-    "name": "every_core_state",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "STATE"
-  },
-  {
-    "name": "random_core_state",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "STATE",
-    "optionalInnerBlocks": {
-      "prioritize": {
-        "name": "prioritize",
-        "allowedValueTypes": [ "STATE" ]
-      }
-    }
-  },
-  {
-    "name": "every_controlled_state",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "STATE"
-  },
-  {
-    "name": "random_controlled_state",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "STATE",
-    "optionalInnerBlocks": {
-      "prioritize": {
-        "name": "prioritize",
-        "allowedValueTypes": [ "STATE" ]
-      }
-    }
-  },
-  {
-    "name": "random_owned_controlled_state",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "STATE",
-    "optionalInnerBlocks": {
-      "prioritize": {
-        "name": "prioritize",
-        "allowedValueTypes": [ "STATE" ]
-      }
-    }
-  },
-  {
-    "name": "every_unit_leader",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "UNIT_LEADER"
-  },
-  {
-    "name": "random_unit_leader",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "UNIT_LEADER"
-  },
-  {
-    "name": "every_army_leader",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "UNIT_LEADER"
-  },
-  {
-    "name": "random_army_leader",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "UNIT_LEADER"
-  },
-  {
-    "name": "global_every_army_leader",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "UNIT_LEADER"
-  },
-  {
-    "name": "every_navy_leader",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "UNIT_LEADER"
-  },
-  {
-    "name": "random_navy_leader",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "UNIT_LEADER"
-  },
-  {
-    "name": "every_operative",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "OPERATIVE"
-  },
-  {
-    "name": "random_operative",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "UNIT_LEADER"
-  },
-  {
-    "name": "every_character",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "CHARACTER"
-  },
-  {
-    "name": "random_character",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "CHARACTER"
-  },
-  {
-    "name": "every_country_division",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "DIVISION"
-  },
-  {
-    "name": "random_country_division",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "DIVISION"
-  },
-  {
-    "name": "every_state_division",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "DIVISION"
-  },
-  {
-    "name": "random_state_division",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "DIVISION"
-  },
-  {
-    "name": "every_military_industrial_organization",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "MIO"
-  },
-  {
-    "name": "random_military_industrial_organization",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "MIO"
-  },
-  {
-    "name": "every_purchase_contract",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "PURCHASE_CONTRACT"
-  },
-  {
-    "name": "random_purchase_contract",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "PURCHASE_CONTRACT"
-  },
-  {
-    "name": "party_leader",
-    "specificScopes": [ "COUNTRY" ],
-    "targetType": "CHARACTER",
+    "name": "if",
+    "specificScopes": [ "SCOPE" ],
     "mandatoryInnerBlocks": {
       "limit": {
         "name": "limit",
-        "mandatoryInnerBlocks": {
-          "has_ideology": {
-            "name": "has_ideology",
-            "allowedValueTypes": [ "IDEOLOGY" ]
-          }
-        }
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
       }
-    }
+    },
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "else_if",
+    "specificScopes": [ "SCOPE" ],
+    "mandatoryInnerBlocks": {
+      "limit": {
+        "name": "limit",
+		"innerScope": "TRIGGER",
+		"canHaveAnyInnerBlocks": true
+      }
+    },
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "else",
+    "specificScopes": [ "SCOPE" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "hidden_trigger",
+    "specificScopes": [ "TRIGGER" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "custom_trigger_tooltip",
+    "specificScopes": [ "TRIGGER" ],
+    "mandatoryInnerBlocks": {
+      "tooltip": {
+        "name": "tooltip",
+        "allowedValueTypes": [ "LOC_KEY" ]
+      }
+    },
+    "canHaveAnyInnerBlocks": true
   },
 
 
 
   {
     "name": "always",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "allowedValueTypes": [ "BOOLEAN" ]
   },
   {
     "name": "has_global_flag",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "mandatoryInnerBlocks": {
       "flag": {
         "name": "flag",
@@ -320,30 +108,30 @@
   },
   {
     "name": "has_dlc",
-    "specificScopes": [ "ALL" ],
-    "allowedValueTypes": [ "NAME" ]
+    "specificScopes": [ "TRIGGER" ],
+    "allowedValueTypes": [ "NAME", "STRING" ]
   },
   {
     "name": "has_start_date",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "allowedValueTypes": [ "STRING" ],
     "allowedSpecialDemiliters": [ "LESS_THAN", "GREATER_THAN" ]
   },
   {
     "name": "date",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "allowedValueTypes": [ "STRING" ],
     "allowedSpecialDemiliters": [ "LESS_THAN", "GREATER_THAN" ]
   },
   {
     "name": "difficulty",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "allowedValueTypes": [ "INT" ],
     "allowedSpecialDemiliters": [ "LESS_THAN", "GREATER_THAN" ]
   },
   {
     "name": "has_any_custom_difficulty_setting",
-    "specificScopes": [ "ALL" ],
+    "specificScopes": [ "TRIGGER" ],
     "allowedValueTypes": [ "BOOLEAN" ]
   },
   {
@@ -665,5 +453,20 @@
     "name": "owns_state",
     "specificScopes": [ "COUNTRY" ],
     "allowedValueTypes": [ "VAR", "INT" ]
+  },
+  {
+    "name": "num_of_controlled_states",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "INT" ]
+  },
+  {
+    "name": "num_occupied_states",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "INT" ]
+  },
+  {
+    "name": "has_full_control_of_state",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "VAR", "STATE" ]
   }
 ]

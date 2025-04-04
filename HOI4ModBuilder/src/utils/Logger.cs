@@ -1,4 +1,7 @@
-﻿using HOI4ModBuilder.src.forms;
+﻿
+using HOI4ModBuilder.src.dataObjects.parameters;
+using HOI4ModBuilder.src.forms;
+using HOI4ModBuilder.src.hoiDataObjects.localisation;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.Pdoxcl2Sharp;
 using Pdoxcl2Sharp;
@@ -78,6 +81,43 @@ namespace HOI4ModBuilder.src.utils
             Log(message);
         }
 
+        public static void CheckOverrideAndSet<T>(ParadoxParser parser, Dictionary<string, ParadoxConstant> constants, LinkedLayer prevLayer, string name, ref ParadoxParameter<T> parameter)
+        {
+            var value = parser.ReadString();
+
+            if (parameter.Value != null)
+            {
+                LogLayeredWarning(
+                    prevLayer, name, EnumLocKey.LAYERED_LEVELS_PARAMETER_VALUE_OVERRIDDEN,
+                    new Dictionary<string, string>
+                    {
+                        { "{oldParameterValue}", "" + parameter.Value },
+                        { "{newParameterValue}", value }
+                    }
+                );
+            }
+
+            if (value.StartsWith("@"))
+            {
+                if (!constants.TryGetValue(value, out ParadoxConstant constant))
+                {
+                    LogLayeredError(
+                        prevLayer, name, EnumLocKey.LAYERED_LEVELS_PARAMETER_VALUE_CONTANT_NOT_FOUND,
+                        new Dictionary<string, string> {
+                            { "{name}", name },
+                            { "{value}", value }
+                        }
+                    );
+                    return;
+                }
+
+                parameter.Constant = constant;
+                return;
+            }
+
+
+        }
+
         public static void CheckLayeredValueOverrideAndSet<T>(LinkedLayer prevLayer, string parameterName, ref T oldValue, T newValue)
         {
             if (oldValue != null)
@@ -93,7 +133,15 @@ namespace HOI4ModBuilder.src.utils
             oldValue = newValue;
         }
 
-        public static void CheckValueOverride<T>(LinkedLayer prevLayer, ref T? oldValue, T newValue) where T : struct
+        public static void CheckValueOverrideAndSet<T>(LinkedLayer prevLayer, string parameterName, ref T? oldValue, T newValue) where T : struct
+        {
+            if (oldValue != null)
+                LogLayeredWarning(new LinkedLayer(prevLayer, parameterName), EnumLocKey.LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN);
+
+            oldValue = newValue;
+        }
+
+        public static void CheckValueOverrideAndSet<T>(LinkedLayer prevLayer, ref T? oldValue, T newValue) where T : struct
         {
             if (oldValue != null)
                 LogLayeredWarning(prevLayer, EnumLocKey.LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN);
@@ -101,7 +149,15 @@ namespace HOI4ModBuilder.src.utils
             oldValue = newValue;
         }
 
-        public static void CheckValueOverride<T>(LinkedLayer prevLayer, ref T oldValue, T newValue) where T : class
+        public static void CheckValueOverrideAndSet<T>(LinkedLayer prevLayer, string parameterName, ref T oldValue, T newValue) where T : class
+        {
+            if (oldValue != null)
+                LogLayeredWarning(new LinkedLayer(prevLayer, parameterName), EnumLocKey.LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN);
+
+            oldValue = newValue;
+        }
+
+        public static void CheckValueOverrideAndSet<T>(LinkedLayer prevLayer, ref T oldValue, T newValue) where T : class
         {
             if (oldValue != null)
                 LogLayeredWarning(prevLayer, EnumLocKey.LAYERED_LEVELS_BLOCK_VALUE_OVERRIDDEN);

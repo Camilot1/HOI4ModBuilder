@@ -2,9 +2,11 @@
 using HOI4ModBuilder.hoiDataObjects.history.countries;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src;
+using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
@@ -14,7 +16,7 @@ using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
 {
-    public class State : IParadoxRead
+    public class State : IParadoxRead, IScriptBlockInfo
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
@@ -44,6 +46,12 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 StateManager.AddState(_id, this);
             }
         }
+        public string GetBlockName() => "" + _id;
+        public EnumScope GetInnerScope() => EnumScope.STATE;
+        public EnumKeyValueDemiliter[] GetAllowedSpecialDemiliters() => null;
+        public bool IsAllowsInlineValue() => false;
+        public bool IsAllowsBlockValue() => true;
+        public EnumValueType[] GetAllowedValueTypes() => null;
 
         public bool TryGetRegionId(out ushort regionId)
         {

@@ -35,13 +35,6 @@
     "defaultValue": false
   },
   {
-    "name": "anti_air",
-    "specificScopes": [ "BUILDING" ],
-    "allowedValueTypes": [ "BOOLEAN" ],
-    "defaultValueType": "BOOLEAN",
-    "defaultValue": false
-  },
-  {
     "name": "supply_node",
     "specificScopes": [ "BUILDING" ],
     "allowedValueTypes": [ "BOOLEAN" ],
@@ -52,6 +45,13 @@
     "name": "is_port",
     "specificScopes": [ "BUILDING" ],
     "functions": [ "MODIFIER_BUILDING_SET_IS_PORT" ],
+    "allowedValueTypes": [ "BOOLEAN" ],
+    "defaultValueType": "BOOLEAN",
+    "defaultValue": false
+  },
+  {
+    "name": "anti_air",
+    "specificScopes": [ "BUILDING" ],
     "allowedValueTypes": [ "BOOLEAN" ],
     "defaultValueType": "BOOLEAN",
     "defaultValue": false
@@ -106,11 +106,334 @@
     "defaultValue": 0
   },
   {
+    "name": "gun_emplacement",
+    "specificScopes": [ "BUILDING" ],
+    "allowedValueTypes": [ "BOOLEAN" ],
+    "defaultValueType": "BOOLEAN",
+    "defaultValue": false
+  },
+  {
     "name": "nuclear_reactor",
     "specificScopes": [ "BUILDING" ],
     "allowedValueTypes": [ "BOOLEAN" ],
     "defaultValueType": "BOOLEAN",
     "defaultValue": false
+  },
+  
+  {
+    "name": "acclimatization_cold_climate_gain_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "acclimatization_hot_climate_gain_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "air_superiority_bonus_in_combat",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_attack_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_core_attack_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_attack_against_major_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_attack_against_minor_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_attack_speed_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_breakthrough_against_major_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_breakthrough_against_minor_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_defence_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_defence_against_major_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_defence_against_minor_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_core_defence_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_speed_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_strength_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  
+  {
+    "name": "army_morale",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_morale_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_org",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_org_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "army_org_regain",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "breakthrough_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "cas_damage_reduction",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "combat_width_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "coordination_bonus",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "dig_in_speed",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "dig_in_speed_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "experience_gain_army_unit",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "experience_gain_army_unit_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "experience_loss_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "initiative_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "land_night_attack",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "max_dig_in",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "max_dig_in_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "max_planning",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "max_planning_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "pocket_penalty",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "recon_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "recon_factor_while_entrenched",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "special_forces_cap",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "special_forces_min",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "INT" ],
+    "defaultValueType": "INT"
+  },
+  {
+    "name": "terrain_penalty_reduction",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "org_loss_at_low_org_factor",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "org_loss_when_moving",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "planning_speed",
+    "specificScopes": [ "COUNTRY", "UNIT_LEADER" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
   },
 
 
@@ -1049,11 +1372,6 @@
     "specificScopes": [ "COUNTRY" ],
     "allowedValueTypes": [ "FLOAT" ]
   },
-  {
-    "name": "resistance_target",
-    "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "FLOAT" ]
-  },
 
 
 
@@ -1803,22 +2121,6 @@
   },
 
 
-
-  {
-    "name": "s",
-    "specificScopes": [ "COUNTRY" ],
-    "allowedValueTypes": [ "FLOAT" ]
-  },
-
-
-
-  {
-    "name": "max_fuel_building",
-    "specificScopes": [ "STATE" ],
-    "allowedValueTypes": [ "FLOAT" ],
-    "defaultValueType": "FLOAT",
-    "defaultValue": 0
-  },
   {
     "name": "air_defence",
     "specificScopes": [ "STATE" ],
@@ -1833,11 +2135,341 @@
     "defaultValueType": "INT",
     "defaultValue": 0
   },
+  
   {
-    "name": "state_production_speed_buildings_factor",
+    "name": "army_speed_factor_for_controller",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "attrition_for_controller",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "equipment_capture_for_controller",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "equipment_capture_factor_for_controller",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "enemy_army_speed_factor",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "enemy_local_supplies",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "enemy_attrition",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "enemy_truck_attrition_factor",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "compliance_gain",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "compliance_growth",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "country_resource_<resource>",
     "specificScopes": [ "STATE" ],
     "allowedValueTypes": [ "INT" ],
     "defaultValueType": "INT",
+    "defaultValue": 0
+  },
+  {
+    "name": "country_resource_cost_<resource>",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "INT" ],
+    "defaultValueType": "INT",
+    "defaultValue": 0
+  },
+  {
+    "name": "disable_strategic_redeployment",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "BOOLEAN" ],
+    "defaultValueType": "BOOLEAN",
+    "defaultValue": 0
+  },
+  {
+    "name": "disable_strategic_redeployment_for_controller",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "BOOLEAN" ],
+    "defaultValueType": "BOOLEAN",
+    "defaultValue": 0
+  },
+  {
+    "name": "enemy_intel_network_gain_factor_over_occupied_tag",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_building_slots",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "INT" ],
+    "defaultValueType": "INT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_building_slots_factor",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_factories",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_factory_sabotage",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_intel_to_enemies",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_manpower",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_non_core_manpower",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_org_regain",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_resources",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_supplies",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_supplies_for_controller",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_supply_impact_factor",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_non_core_supply_impact_factor",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "mobilization_speed",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "non_core_manpower",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "max_fuel_building",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "recruitable_population",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "recruitable_population_factor",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "resistance_damage_to_garrison",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "resistance_decay",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "resistance_garrison_penetration_chance",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "resistance_growth",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "resistance_target",
+    "specificScopes": [ "STATE", "COUNTRY" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "starting_compliance",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "state_bunker_max_level_terrain_limit",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "INT" ],
+    "defaultValueType": "INT",
+    "defaultValue": 0
+  },
+  {
+    "name": "state_coastal_bunker_max_level_terrain_limit",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "INT" ],
+    "defaultValueType": "INT",
+    "defaultValue": 0
+  },
+  {
+    "name": "state_production_speed_<building>_factor",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "state_production_speed_buildings_factor",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "state_repair_speed_<building>_factor",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "state_resource_<resource>",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "INT" ],
+    "defaultValueType": "INT",
+    "defaultValue": 0
+  },
+  {
+    "name": "temporary_state_resource_<resource>",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "INT" ],
+    "defaultValueType": "INT",
+    "defaultValue": 0
+  },
+  {
+    "name": "enemy_operative_detection_chance_over_occupied_tag",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "enemy_operative_detection_chance_factor_over_occupied_tag",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
     "defaultValue": 0
   }
 ]

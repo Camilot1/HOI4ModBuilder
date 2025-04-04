@@ -10,7 +10,9 @@
       "value": {
         "name": "value",
         "allowedValueTypes": [ "VAR", "DECIMAL" ]
-      },
+      }
+    },
+    "allowedInnerBlocks": {
       "tooltip": {
         "name": "tooltip",
         "allowedValueTypes": [ "STRING" ]
@@ -33,7 +35,9 @@
       "value": {
         "name": "value",
         "allowedValueTypes": [ "VAR", "DECIMAL" ]
-      },
+      }
+    },
+    "allowedInnerBlocks": {
       "tooltip": {
         "name": "tooltip",
         "allowedValueTypes": [ "STRING" ]
@@ -140,7 +144,9 @@
       "value": {
         "name": "value",
         "allowedValueTypes": [ "VAR", "DECIMAL" ]
-      },
+      }
+    },
+    "allowedInnerBlocks": {
       "tooltip": {
         "name": "tooltip",
         "allowedValueTypes": [ "STRING" ]
@@ -163,7 +169,9 @@
       "value": {
         "name": "value",
         "allowedValueTypes": [ "VAR", "DECIMAL" ]
-      },
+      }
+    },
+    "allowedInnerBlocks": {
       "tooltip": {
         "name": "tooltip",
         "allowedValueTypes": [ "STRING" ]
@@ -186,7 +194,9 @@
       "value": {
         "name": "value",
         "allowedValueTypes": [ "VAR", "DECIMAL" ]
-      },
+      }
+    },
+    "allowedInnerBlocks": {
       "tooltip": {
         "name": "tooltip",
         "allowedValueTypes": [ "STRING" ]
@@ -209,7 +219,9 @@
       "value": {
         "name": "value",
         "allowedValueTypes": [ "VAR", "DECIMAL" ]
-      },
+      }
+    },
+    "allowedInnerBlocks": {
       "tooltip": {
         "name": "tooltip",
         "allowedValueTypes": [ "STRING" ]
@@ -232,7 +244,9 @@
       "value": {
         "name": "value",
         "allowedValueTypes": [ "VAR", "DECIMAL" ]
-      },
+      }
+    },
+    "allowedInnerBlocks": {
       "tooltip": {
         "name": "tooltip",
         "allowedValueTypes": [ "STRING" ]
@@ -255,7 +269,9 @@
       "value": {
         "name": "value",
         "allowedValueTypes": [ "VAR", "DECIMAL" ]
-      },
+      }
+    },
+    "allowedInnerBlocks": {
       "tooltip": {
         "name": "tooltip",
         "allowedValueTypes": [ "STRING" ]
@@ -278,7 +294,9 @@
       "value": {
         "name": "value",
         "allowedValueTypes": [ "VAR", "DECIMAL" ]
-      },
+      }
+    },
+    "allowedInnerBlocks": {
       "tooltip": {
         "name": "tooltip",
         "allowedValueTypes": [ "STRING" ]
@@ -301,7 +319,9 @@
       "value": {
         "name": "value",
         "allowedValueTypes": [ "VAR", "DECIMAL" ]
-      },
+      }
+    },
+    "allowedInnerBlocks": {
       "tooltip": {
         "name": "tooltip",
         "allowedValueTypes": [ "STRING" ]
@@ -324,7 +344,9 @@
       "value": {
         "name": "value",
         "allowedValueTypes": [ "VAR", "DECIMAL" ]
-      },
+      }
+    },
+    "allowedInnerBlocks": {
       "tooltip": {
         "name": "tooltip",
         "allowedValueTypes": [ "STRING" ]
@@ -357,7 +379,9 @@
       "var": {
         "name": "var",
         "allowedValueTypes": [ "VAR" ]
-      },
+      }
+    },
+    "allowedInnerBlocks": {
       "min": {
         "name": "value",
         "allowedValueTypes": [ "VAR", "DECIMAL" ]
@@ -375,7 +399,9 @@
       "var": {
         "name": "var",
         "allowedValueTypes": [ "VAR" ]
-      },
+      }
+    },
+    "allowedInnerBlocks": {
       "min": {
         "name": "value",
         "allowedValueTypes": [ "VAR", "DECIMAL" ]
@@ -592,8 +618,6 @@
   },
 
 
-
-
   {
     "name": "add_dynamic_modifier",
     "specificScopes": [ "ALL" ],
@@ -636,6 +660,8 @@
   {
     "name": "set_global_flag",
     "specificScopes": [ "ALL" ],
+    "allowedValueTypes": [ "STRING" ],
+    "defaultValueType": "STRING",
     "mandatoryInnerBlocks": {
       "flag": {
         "name": "flag",

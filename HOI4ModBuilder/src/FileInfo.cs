@@ -1,11 +1,4 @@
-﻿using HOI4ModBuilder.src.managers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HOI4ModBuilder.src
+﻿namespace HOI4ModBuilder.src
 {
     public class FileInfo
     {

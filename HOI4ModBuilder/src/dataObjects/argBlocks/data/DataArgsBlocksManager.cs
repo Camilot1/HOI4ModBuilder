@@ -5,8 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Pdoxcl2Sharp;
-using static HOI4ModBuilder.src.dataObjects.argBlocks.InfoArgsBlock;
 using HOI4ModBuilder.src.utils;
+using System.Text;
+using HOI4ModBuilder.src.parser;
 
 namespace HOI4ModBuilder.src.dataObjects
 {
@@ -18,7 +19,82 @@ namespace HOI4ModBuilder.src.dataObjects
             { ">", EnumKeyValueDemiliter.GREATER_THAN }
         };
 
-        public static void ParseDataArgsBlock(ParadoxParser parser, DataArgsBlock currentDataBlock, string token, List<DataArgsBlock> currentLevelDataBlocks, List<DataArgsBlock> innerLevelDataBlocks)
+        public static void ParseDataArgsBlocks(ParadoxParser parser, string token, List<DataArgsBlock> innerLevelDataBlocks)
+        {
+            ParseDataArgsBlock(parser, null, token, innerLevelDataBlocks);
+        }
+        public static void ParseModifiers(ParadoxParser parser, string token, List<DataArgsBlock> innerLevelDataBlocks)
+        {
+            ParseModifier(parser, null, token, innerLevelDataBlocks);
+        }
+
+        public static void SaveDataArgsBlocks(StringBuilder sb, string outTab, string tab, string name, List<DataArgsBlock> dataArgsBlocks)
+        {
+            if (dataArgsBlocks.Count == 0)
+            {
+                return;
+            }
+            else if (dataArgsBlocks.Count == 1)
+            {
+                if (dataArgsBlocks[0].innerArgsBlocks.Count > 0)
+                {
+                    ParadoxUtils.StartBlock(sb, outTab, name);
+                    dataArgsBlocks[0].Save(sb, outTab + tab, tab);
+                    ParadoxUtils.EndBlock(sb, outTab);
+                }
+                else
+                {
+                    ParadoxUtils.StartInlineBlock(sb, outTab, name);
+                    sb.Append(' ');
+                    dataArgsBlocks[0].Save(sb, outTab + tab, tab);
+                    ParadoxUtils.EndBlock(sb, " ");
+                }
+
+            }
+            else if (dataArgsBlocks.Count > 1)
+            {
+                ParadoxUtils.StartBlock(sb, outTab, name);
+                foreach (var block in dataArgsBlocks) block.Save(sb, outTab + tab, tab);
+                ParadoxUtils.EndBlock(sb, outTab);
+            }
+        }
+
+        public static void ParseModifier(ParadoxParser parser, DataArgsBlock currentDataBlock, string token, List<DataArgsBlock> innerLevelDataBlocks)
+        {
+            //Если не был получен список для внутренних блоков, то создаём его
+            if (innerLevelDataBlocks == null) innerLevelDataBlocks = new List<DataArgsBlock>(0);
+
+            if (TryParseOtherJSONBlocks()) return;
+            //Иначе выкидываем ошибку о неизвестном токене
+            else throw new Exception(GuiLocManager.GetLoc(
+                        EnumLocKey.EXCEPTION_DATA_ARGS_BLOCK_NOT_ALLOWED_TOKEN,
+                        new Dictionary<string, string>
+                        {
+                            { "{blockName}", currentDataBlock?.GetName() },
+                            { "{token}", token }
+                        }
+                    ));
+
+
+
+            bool TryParseOtherJSONBlocks() //Попытаться распарсить блоки, прописанные в .json файлах
+            {
+                if (InfoArgsBlocksManager.TryGetModifier(token, out var infoArgsBlock))
+                {
+                    var dataBlock = infoArgsBlock.GetNewDataArgsBlockInstance();
+                    dataBlock.CurrentLevelDataBlocks = innerLevelDataBlocks;
+                    TryParseBlockValue(parser, dataBlock);
+                    dataBlock.CheckAfterParsing();
+                    innerLevelDataBlocks.Add(dataBlock);
+
+                    return true;
+                }
+                else return false;
+            }
+
+        }
+
+        public static void ParseDataArgsBlock(ParadoxParser parser, DataArgsBlock currentDataBlock, string token, List<DataArgsBlock> innerLevelDataBlocks)
         {
             //Если не был получен список для внутренних блоков, то создаём его
             if (innerLevelDataBlocks == null) innerLevelDataBlocks = new List<DataArgsBlock>(0);
@@ -264,6 +340,7 @@ namespace HOI4ModBuilder.src.dataObjects
                 ));
         }
 
+
         private static void TryParseUniversalParameterValue(ParadoxParser parser, DataArgsBlock dataBlock, UniversalParamsInfo universalParamsInfo)
         {
             if (universalParamsInfo.AllowedValueTypes == null)
@@ -306,5 +383,6 @@ namespace HOI4ModBuilder.src.dataObjects
 
             Parse(parser, dataBlock, allowedTypes, allowedDemiliters);
         }
+
     }
 }

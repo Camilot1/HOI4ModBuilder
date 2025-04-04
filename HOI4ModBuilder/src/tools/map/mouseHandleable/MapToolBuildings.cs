@@ -45,18 +45,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 int newCount = 0;
                 uint prevCount = 0;
 
-                if (building.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.PROVINCIAL)
+                var buildingLevelCap = building.LevelCap.GetValue();
+                var buildingSlotCategory = buildingLevelCap.GetSlotCategory();
+                if (buildingSlotCategory == EnumBuildingSlotCategory.PROVINCIAL)
                 {
                     province.TryGetBuildingCount(building, out currentCount);
-                    maxCount = building.maxLevel;
-                    freeSlots = building.maxLevel - currentCount;
+                    maxCount = buildingLevelCap.GetProvinceMaxCount();
+                    freeSlots = maxCount - currentCount;
                     prevCount = currentCount;
                 }
-                else if (building.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.SHARED)
+                else if (buildingSlotCategory == EnumBuildingSlotCategory.SHARED)
                 {
                     foreach (var b in province.State.stateBuildings.Keys)
                     {
-                        if (b.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.SHARED)
+                        if (b.LevelCap.GetValue().GetSlotCategory() == EnumBuildingSlotCategory.SHARED)
                             currentCount += province.State.stateBuildings[b];
                     }
                     maxCount = (uint)Math.Round(province.State.stateCategory.localBuildingsSlots * province.State.buildingsMaxLevelFactor);
@@ -66,8 +68,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 else //NOT_SHARED 
                 {
                     province.State.stateBuildings.TryGetValue(building, out currentCount);
-                    maxCount = building.maxLevel;
-                    freeSlots = building.maxLevel - currentCount;
+                    maxCount = buildingLevelCap.GetStateMaxCount();
+                    freeSlots = maxCount - currentCount;
                     prevCount = currentCount;
                 }
 
@@ -80,7 +82,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
                 Action<uint> action;
 
-                if (building.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.PROVINCIAL)
+                if (buildingSlotCategory == EnumBuildingSlotCategory.PROVINCIAL)
                 {
                     action = (c) =>
                     {

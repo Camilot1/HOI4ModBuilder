@@ -89,6 +89,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
         }
 
         public static bool TryGetCountry(string tag, out Country country) => _contriesByTag.TryGetValue(tag, out country);
+        public static Country GetCountry(string tag) => _contriesByTag[tag];
         public static bool ContainsCountryTag(string tag) => _contriesByTag.ContainsKey(tag);
 
         public static void UpdateByDateTimeStamp(DateTime dateTime)

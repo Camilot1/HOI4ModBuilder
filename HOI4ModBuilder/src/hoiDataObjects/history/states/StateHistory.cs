@@ -183,7 +183,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 sb.Append(outTab).Append(tab).Append("buildings = {").Append(Constants.NEW_LINE);
 
                 foreach (var building in _stateBuildings.Keys)
-                    sb.Append(outTab).Append(tab2).Append(building.name).Append(" = ").Append(_stateBuildings[building]).Append(Constants.NEW_LINE);
+                    sb.Append(outTab).Append(tab2).Append(building.Name).Append(" = ").Append(_stateBuildings[building]).Append(Constants.NEW_LINE);
 
                 if (_provincesBuildings.Count > 0)
                 {
@@ -204,10 +204,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                         {
                             if (manyBuildings)
                             {
-                                sb.Append(outTab).Append(tab2).Append(tab).Append(building.name)
+                                sb.Append(outTab).Append(tab2).Append(tab).Append(building.Name)
                                   .Append(" = ").Append(provinceBuildinsById[building]).Append(Constants.NEW_LINE);
                             }
-                            else sb.Append(building.name).Append(" = ").Append(provinceBuildinsById[building]).Append(' ');
+                            else sb.Append(building.Name).Append(" = ").Append(provinceBuildinsById[building]).Append(' ');
                         }
 
                         if (manyBuildings) sb.Append(outTab).Append(tab2);
@@ -385,7 +385,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
                     try
                     {
-                        DataArgsBlocksManager.ParseDataArgsBlock(parser, null, token, null, dataArgsBlocks);
+                        DataArgsBlocksManager.ParseDataArgsBlock(parser, null, token, dataArgsBlocks);
                     }
                     catch (Exception ex)
                     {
@@ -498,14 +498,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
             else if (BuildingManager.TryGetBuilding(token, out Building building))
             {
-                if (building.enumBuildingSlotCategory != Building.EnumBuildingSlotCategory.PROVINCIAL)
+                if (building.LevelCap.GetValue().GetSlotCategory() != EnumBuildingSlotCategory.PROVINCIAL)
                     stateBuildings[building] = parser.ReadUInt32();
                 else throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.ERROR_STATE_HISTORY_BUILDINGS_PROVINCIAL_BUILDING_IN_STATE,
                         new Dictionary<string, string>
                         {
                             { "{stateId}", $"{state.Id}" },
-                            { "{buildingName}", building.name }
+                            { "{buildingName}", building.Name }
                         }
                     ));
             }
@@ -537,7 +537,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         {
             if (BuildingManager.TryGetBuilding(token, out Building building))
             {
-                if (building.enumBuildingSlotCategory == Building.EnumBuildingSlotCategory.PROVINCIAL)
+                if (building.LevelCap.GetValue().GetSlotCategory() == EnumBuildingSlotCategory.PROVINCIAL)
                     provinceBuildings[building] = parser.ReadUInt32();
                 else throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.ERROR_STATE_HISTORY_BUILDINGS_NOT_PROVINCIAL_BUILDING_IN_PROVINCE,
@@ -545,7 +545,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                         {
                             { "{stateId}", $"{state.Id}" },
                             { "{provinceId}", $"{province.Id}" },
-                            { "{buildingName}", building.name }
+                            { "{buildingName}", building.Name }
                         }
                     ));
             }

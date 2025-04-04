@@ -10,6 +10,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using YamlDotNet.Core.Tokens;
 using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder
@@ -381,6 +382,18 @@ namespace HOI4ModBuilder
         public static string FloatToString(float value)
         {
             return ("" + value).Replace(',', '.');
+        }
+
+        public static void ListToString(List<object> list, StringBuilder sb)
+        {
+            foreach (object o in list)
+            {
+                if (o is bool boolVal) sb.Append(boolVal ? "yes" : "no");
+                else if (o is float floatValue) sb.Append(FloatToString(floatValue)).Append(' ');
+                else sb.Append("" + o).Append(' ');
+            }
+
+            if (list.Count > 0) sb.Length = sb.Length - 1;
         }
 
         public static bool ParseIntPositionFromString(string str, out int x, out int y)

@@ -1,87 +1,56 @@
 ﻿using HOI4ModBuilder.src.managers;
-using Pdoxcl2Sharp;
+using HOI4ModBuilder.src.newParser;
+using HOI4ModBuilder.src.utils;
 using System.Collections.Generic;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 {
-    class BuildingManager : IParadoxRead
+    class BuildingManager
     {
         public static BuildingManager Instance { get; private set; }
 
         private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "buildings" });
-        private static FileInfo _currentFile = null;
-        private static Dictionary<FileInfo, List<Building>> _buildingsByFilesMap = new Dictionary<FileInfo, List<Building>>();
+        private static List<BuildingsGameFile> _gameFiles = new List<BuildingsGameFile>();
         private static Dictionary<string, Building> _allBuildings = new Dictionary<string, Building>();
+        public static Dictionary<string, Building> PARSER_AllBuildings => _allBuildings;
+        private static Dictionary<string, SpawnPoint> _allSpawnPoints = new Dictionary<string, SpawnPoint>();
+        public static Dictionary<string, SpawnPoint> PARSER_AllSpawnPoints => _allSpawnPoints;
 
         public static void Load(Settings settings)
         {
             Instance = new BuildingManager();
-            _buildingsByFilesMap = new Dictionary<FileInfo, List<Building>>();
+            _gameFiles = new List<BuildingsGameFile>();
             _allBuildings = new Dictionary<string, Building>();
+            _allSpawnPoints = new Dictionary<string, SpawnPoint>();
 
             var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
+            var gameParser = new GameParser();
 
             foreach (var fileInfo in fileInfoPairs.Values)
             {
-                _currentFile = fileInfo;
-                using (var fs = new System.IO.FileStream(fileInfo.filePath, System.IO.FileMode.Open))
-                    ParadoxParser.Parse(fs, Instance);
+                Logger.TryOrCatch(() =>
+                {
+                    var buildingFile = new BuildingsGameFile(fileInfo, true);
+                    gameParser.ParseFile(buildingFile);
+                    _gameFiles.Add(buildingFile);
+                },
+                (ex) =>
+                {
+                    Logger.LogError(EnumLocKey.ERROR_COULD_NOT_LOAD_BUILDINGS_FILE, new Dictionary<string, string>
+                    {
+                        { "{filePath}", fileInfo.filePath },
+                        { "{cause}", ex.Message },
+                    });
+                });
             }
         }
 
-        public static Dictionary<string, Building>.KeyCollection GetBuildingNames()
-        {
-            return _allBuildings.Keys;
-        }
+        public static Dictionary<string, Building>.KeyCollection GetBuildingNames() => _allBuildings.Keys;
+        public static Dictionary<string, Building>.ValueCollection GetBuildings() => _allBuildings.Values;
+        public static bool TryGetBuilding(string name, out Building building) => _allBuildings.TryGetValue(name, out building);
+        public static bool HasBuilding(string name) => _allBuildings.ContainsKey(name);
 
-        public static Dictionary<string, Building>.ValueCollection GetBuildings()
-        {
-            return _allBuildings.Values;
-        }
+        public bool Validate(LinkedLayer prevLayer) => true;
 
-        public static bool TryGetBuilding(string name, out Building building)
-        {
-            return _allBuildings.TryGetValue(name, out building);
-        }
-
-        public static bool HasBuilding(string name)
-        {
-            return _allBuildings.ContainsKey(name);
-        }
-
-        public void TokenCallback(ParadoxParser parser, string token)
-        {
-            if (token == "buildings")
-            {
-                var buildings = new List<Building>();
-                var list = new BuildingsList(buildings);
-                parser.Parse(list);
-                list.ExecuteAfterParse();
-                _buildingsByFilesMap.Add(_currentFile, buildings);
-            }
-        }
-
-        class BuildingsList : IParadoxRead
-        {
-            private List<Building> _buildings;
-            public BuildingsList(List<Building> buildings)
-            {
-                _buildings = buildings;
-            }
-
-            public void TokenCallback(ParadoxParser parser, string token)
-            {
-                var building = new Building(token);
-                parser.Parse(building);
-                _buildings.Add(building);
-                _allBuildings[token] = building;
-            }
-
-            public void ExecuteAfterParse()
-            {
-                foreach (var building in _buildings)
-                    building.ExecuteAfterParse();
-            }
-        }
     }
 }
