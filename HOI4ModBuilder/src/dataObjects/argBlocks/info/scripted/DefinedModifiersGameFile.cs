@@ -13,6 +13,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks.info
         private static readonly Dictionary<string, DynamicGameParameter> DYNAMIC_ADAPTER = new Dictionary<string, DynamicGameParameter>
         {
             { "dynamicModifiers", new DynamicGameParameter {
+                parseInnerBlock = true,
                 provider = o => ((DefinedModifiersGameFile)o).DynamicModifiers,
                 factory = (o, key) => new DefinedModifier(key)
             } },
@@ -34,7 +35,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks.info
         public readonly GameParameter<GameString> ValueType = new GameParameter<GameString>();
         public readonly GameParameter<byte> Precision = new GameParameter<byte>();
         public readonly GameParameter<GameString> Postfix = new GameParameter<GameString>();
-        public readonly GameList<GameString> Categories = new GameList<GameString>();
+        public readonly GameList<GameString> Categories = new GameList<GameString>(true, true);
 
         private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
         {

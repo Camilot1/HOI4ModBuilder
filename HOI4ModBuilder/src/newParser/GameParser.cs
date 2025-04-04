@@ -126,6 +126,8 @@ namespace HOI4ModBuilder.src.newParser
                         NextChar();
                     return;
                 }
+                else if (_index == _dataLength - 1)
+                    return;
                 else
                     throw new Exception("Character " + _currentChar + " is not allowed: " + GetCursorInfo());
             }
@@ -460,6 +462,8 @@ namespace HOI4ModBuilder.src.newParser
                 if (!isWhiteSpace)
                     return nextLine;
 
+                if (_index == _dataLength - 1)
+                    return nextLine;
                 NextChar();
             }
 

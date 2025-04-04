@@ -16,6 +16,11 @@ namespace HOI4ModBuilder.src.newParser.objects
         private Func<object, string, T> _valueParseAdapter;
         private Func<T, object> _valueSaveAdapter;
         public GameList() : base() { }
+        public GameList(bool allowsInlineAdd, bool forceSeparateLineSave) : this()
+        {
+            _allowsInlineAdd = allowsInlineAdd;
+            _forceSeparateLineSave = forceSeparateLineSave;
+        }
         public GameList<T> INIT_SetAllowsInlineAdd(bool value)
         {
             _allowsInlineAdd = value;

@@ -74,6 +74,11 @@ namespace HOI4ModBuilder.src.newParser.objects
             parser.ParseUnquoted();
             var key = parser.PullParsedDataString();
 
+            ParseAdapters(parser, key);
+        }
+
+        public void ParseAdapters(GameParser parser, string key)
+        {
             if (key.Length == 0)
                 throw new Exception("Invalid key structure: " + parser.GetCursorInfo());
 
@@ -111,11 +116,13 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             object newObj = null;
             object providerHandler = null;
+            bool parseInnerBlock = false;
             foreach (var entry in dynamicAdapter)
             {
                 newObj = entry.Value.factory.Invoke(this, key);
                 if (newObj != null)
                 {
+                    parseInnerBlock = entry.Value.parseInnerBlock;
                     providerHandler = entry.Value.provider.Invoke(this);
                     break;
                 }
@@ -125,7 +132,44 @@ namespace HOI4ModBuilder.src.newParser.objects
                 return false;
 
             if (newObj is IParseCallbackable parseCallbackable)
-                parseCallbackable.ParseCallback(parser);
+            {
+                if (parseInnerBlock)
+                {
+                    if (parser.SkipWhiteSpaces())
+                        throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+
+                    parser.ParseDemiliters();
+                    var demiliters = parser.PullParsedDataString();
+
+                    if (demiliters.Length != 1 || demiliters[0] != '=')
+                        throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+
+                    if (parser.SkipWhiteSpaces())
+                        throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+
+                    if (parser.CurrentToken != Token.LEFT_CURLY)
+                        throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+
+
+                    parser.ParseInsideBlock(
+                        (comments) =>
+                        {
+                            if (newObj is ICommentable commentable)
+                                commentable.SetComments(comments);
+                        },
+                        (tokenComments, token) =>
+                        {
+                            if (newObj is IParseObject parseObject)
+                                parseObject.ParseAdapters(parser, token);
+
+                            return false;
+                        }
+                    );
+
+                }
+                else
+                    parseCallbackable.ParseCallback(parser);
+            }
             else
                 throw new Exception("Invalid ParseStaticAdapter handler type: " + parser.GetCursorInfo());
 

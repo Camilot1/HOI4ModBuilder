@@ -3,6 +3,7 @@ using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
+using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
 using System;
@@ -339,14 +340,16 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                     EnumValueType defaultValueType;
                     object defaultValue;
 
-                    var valueType = "" + obj.ValueType.GetValue();
+                    var valueType = obj.ValueType.GetValue();
 
-                    if (valueType == "number" || valueType == "percentage" || valueType == "percentage_in_hundred")
+                    string valueTypeString = valueType is GameString gameString ? gameString.value : "" + valueType;
+
+                    if (valueTypeString == "number" || valueTypeString == "percentage" || valueTypeString == "percentage_in_hundred")
                     {
                         defaultValueType = EnumValueType.FLOAT;
                         defaultValue = 0;
                     }
-                    else if (valueType == "yes_no")
+                    else if (valueTypeString == "yes_no")
                     {
                         defaultValueType = EnumValueType.BOOLEAN;
                         defaultValue = false;
@@ -357,7 +360,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                                 {
                                         { "{filePath}", fileInfoPair.Value.filePath },
                                         { "{blockName}", name },
-                                        { "{valueType}", valueType },
+                                        { "{valueType}", valueTypeString },
                                         { "{allowedCategories}", string.Join(",", Enum.GetValues(typeof(EnumScope))) }
                                 }
                             ));
