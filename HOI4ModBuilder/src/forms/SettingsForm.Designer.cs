@@ -53,6 +53,10 @@
             this.label8 = new System.Windows.Forms.Label();
             this.TextBox_NormalMapStrength_Default = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.TextBox_NormalMapBlur_Default = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.CheckedListBox_SaveSettings_Default = new System.Windows.Forms.CheckedListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.Button_CreateModSettings = new System.Windows.Forms.Button();
@@ -71,6 +75,10 @@
             this.TextBox_MAP_SCALE_PIXEL_TO_KM_Current = new System.Windows.Forms.TextBox();
             this.TextBox_WATER_HEIGHT_Current = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.TextBox_NormalMapBlur_Current = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.CheckedListBox_SaveSettings_Current = new System.Windows.Forms.CheckedListBox();
             this.label11 = new System.Windows.Forms.Label();
             this.TextBox_NormalMapStrength_Current = new System.Windows.Forms.TextBox();
@@ -228,11 +236,35 @@
             // groupBox1
             // 
             resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.label14);
+            this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Controls.Add(this.TextBox_NormalMapBlur_Default);
+            this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.CheckedListBox_SaveSettings_Default);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.TextBox_NormalMapStrength_Default);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // label13
+            // 
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
+            // 
+            // TextBox_NormalMapBlur_Default
+            // 
+            resources.ApplyResources(this.TextBox_NormalMapBlur_Default, "TextBox_NormalMapBlur_Default");
+            this.TextBox_NormalMapBlur_Default.Name = "TextBox_NormalMapBlur_Default";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
             // 
             // CheckedListBox_SaveSettings_Default
             // 
@@ -377,11 +409,35 @@
             // groupBox5
             // 
             resources.ApplyResources(this.groupBox5, "groupBox5");
+            this.groupBox5.Controls.Add(this.label17);
+            this.groupBox5.Controls.Add(this.label16);
+            this.groupBox5.Controls.Add(this.TextBox_NormalMapBlur_Current);
+            this.groupBox5.Controls.Add(this.label15);
             this.groupBox5.Controls.Add(this.CheckedListBox_SaveSettings_Current);
             this.groupBox5.Controls.Add(this.label11);
             this.groupBox5.Controls.Add(this.TextBox_NormalMapStrength_Current);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
+            // 
+            // label17
+            // 
+            resources.ApplyResources(this.label17, "label17");
+            this.label17.Name = "label17";
+            // 
+            // label16
+            // 
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
+            // 
+            // TextBox_NormalMapBlur_Current
+            // 
+            resources.ApplyResources(this.TextBox_NormalMapBlur_Current, "TextBox_NormalMapBlur_Current");
+            this.TextBox_NormalMapBlur_Current.Name = "TextBox_NormalMapBlur_Current";
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
             // 
             // CheckedListBox_SaveSettings_Current
             // 
@@ -493,5 +549,13 @@
         private System.Windows.Forms.CheckedListBox CheckedListBox_Wips_Default;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.CheckedListBox CheckedListBox_Wips_Current;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox TextBox_NormalMapBlur_Default;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox TextBox_NormalMapBlur_Current;
+        private System.Windows.Forms.Label label15;
     }
 }

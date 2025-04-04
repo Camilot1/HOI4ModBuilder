@@ -534,8 +534,11 @@ namespace HOI4ModBuilder
 
                 if (settings.GetGenerateNormalMapFlag())
                 {
-                    var reducedBitmap = ImageUtils.Reduce8bppIndexedImageSize(height.GetBitmap());
-                    SaveNormalMap(ImageUtils.GenerateNormalMap(reducedBitmap, SettingsManager.Settings.GetNormalMapStrength()));
+                    SaveNormalMap(NormalMapGenerator.GenerateNormalMap(
+                        height.GetBitmap(),
+                        SettingsManager.Settings.GetNormalMapStrength(),
+                        SettingsManager.Settings.GetNormalMapBlur()
+                        ));
                 }
             }
         }

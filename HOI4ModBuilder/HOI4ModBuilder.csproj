@@ -761,6 +761,7 @@
     <Compile Include="src\utils\LocalizedAction.cs" />
     <Compile Include="src\utils\Logger.cs" />
     <Compile Include="src\utils\ImageUtils.cs" />
+    <Compile Include="src\utils\NormalMapGenerator.cs" />
     <Compile Include="src\utils\ParadoxUtils.cs" />
     <Compile Include="src\utils\Structs.cs" />
     <Compile Include="src\utils\Utils.cs" />

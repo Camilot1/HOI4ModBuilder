@@ -120,15 +120,18 @@
   <data name="&gt;&gt;CheckedListBox_SaveSettings_Default.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TextBox_WATER_HEIGHT_Default.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Непрозрачность текстур (%):</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 42</value>
   </data>
   <data name="&gt;&gt;Button_GameTempDirectory.Name" xml:space="preserve">
     <value>Button_GameTempDirectory</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>Резкость карты нормалей:</value>
+    <value>Сила карты нормалей:</value>
   </data>
   <data name="&gt;&gt;ComboBox_Language.ZOrder" xml:space="preserve">
     <value>17</value>
@@ -136,19 +139,22 @@
   <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
+  <data name="TextBox_NormalMapBlur_Current.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
   <data name="&gt;&gt;Button_CreateModSettings.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
-  <data name="Button_Save.Text" xml:space="preserve">
-    <value>Сохранить</value>
-  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
   </data>
   <data name="&gt;&gt;label9.Name" xml:space="preserve">
     <value>label9</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="ComboBox_UsingSettingsType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 19</value>
+  </data>
   <data name="TextBox_ModDirectory.Size" type="System.Drawing.Size, System.Drawing">
     <value>527, 20</value>
   </data>
@@ -158,8 +164,11 @@
   <data name="TextBox_WATER_HEIGHT_Default.Location" type="System.Drawing.Point, System.Drawing">
     <value>109, 19</value>
   </data>
-  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
-    <value>TabPage_CurrentModSettings</value>
+  <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>Функции в разработке (WIP):</value>
   </data>
   <data name="label10.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -167,8 +176,8 @@
   <data name="label8.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
   </data>
-  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="TextBox_NormalMapBlur_Default.Location" type="System.Drawing.Point, System.Drawing">
+    <value>156, 39</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
     <value>155, 92</value>
@@ -180,8 +189,8 @@
   <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>TabPage_DefaultModSettings</value>
+  <data name="label16.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;CheckedListBox_SaveSettings_Current.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -195,8 +204,8 @@
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
   </data>
-  <data name="&gt;&gt;Button_GameTempDirectory.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
   </data>
   <data name="TextBox_WATER_HEIGHT_Current.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
@@ -213,6 +222,9 @@
   <data name="&gt;&gt;TextBox_GameTempDirectory.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
+  <data name="&gt;&gt;Button_CreateModSettings.Name" xml:space="preserve">
+    <value>Button_CreateModSettings</value>
+  </data>
   <data name="&gt;&gt;TextBox_ActionHistorySize.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
@@ -224,6 +236,12 @@
   </data>
   <data name="TextBox_GameTempDirectory.Size" type="System.Drawing.Size, System.Drawing">
     <value>527, 20</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>272, 4</value>
+  </data>
+  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 13</value>
   </data>
   <data name="TabPage_CurrentModSettings.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -240,17 +258,26 @@
   <data name="&gt;&gt;ComboBox_Language.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="groupBox6.Location" type="System.Drawing.Point, System.Drawing">
     <value>272, 73</value>
+  </data>
+  <data name="label12.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="&gt;&gt;TextBox_NormalMapStrength_Current.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 18</value>
+  </data>
+  <data name="&gt;&gt;label17.Parent" xml:space="preserve">
+    <value>groupBox5</value>
   </data>
   <data name="TextBox_GameDirectory.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -274,7 +301,7 @@
     <value>18</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 13</value>
+    <value>122, 13</value>
   </data>
   <data name="&gt;&gt;groupBox6.Name" xml:space="preserve">
     <value>groupBox6</value>
@@ -282,8 +309,11 @@
   <data name="&gt;&gt;TabPage_CurrentModSettings.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label10.Name" xml:space="preserve">
-    <value>label10</value>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>324, 46</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;Button_CreateModSettings.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -294,8 +324,11 @@
   <data name="&gt;&gt;Button_GameTempDirectory.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
-  <data name="CheckedListBox_Wips_Current.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 64</value>
+  <data name="&gt;&gt;label14.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="label17.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 42</value>
@@ -309,20 +342,20 @@
   <data name="&gt;&gt;CheckedListBox_Wips_Current.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
   <data name="TextBox_GameDirectory.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 12</value>
   </data>
   <data name="&gt;&gt;label11.Name" xml:space="preserve">
     <value>label11</value>
   </data>
+  <data name="&gt;&gt;label10.Name" xml:space="preserve">
+    <value>label10</value>
+  </data>
   <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;label17.Name" xml:space="preserve">
+    <value>label17</value>
   </data>
   <data name="ComboBox_Language.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -336,6 +369,15 @@
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
     <value>524, 191</value>
   </data>
+  <data name="TextBox_NormalMapBlur_Current.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TextBox_NormalMapBlur_Current.Name" xml:space="preserve">
+    <value>TextBox_NormalMapBlur_Current</value>
+  </data>
   <data name="&gt;&gt;label8.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
@@ -344,6 +386,9 @@
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
+  </data>
+  <data name="&gt;&gt;Button_GameDirectory.ZOrder" xml:space="preserve">
+    <value>15</value>
   </data>
   <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Name" xml:space="preserve">
     <value>TextBox_MAP_SCALE_PIXEL_TO_KM_Current</value>
@@ -363,6 +408,12 @@
   <data name="&gt;&gt;ComboBox_MaxAdditionalTextureSize.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
   <data name="&gt;&gt;ComboBox_MaxAdditionalTextureSize.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
@@ -377,6 +428,9 @@
   </data>
   <data name="&gt;&gt;TextBox_ActionHistorySize.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>(0.5-0.8)</value>
   </data>
   <data name="TextBox_ModDirectory.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -405,8 +459,8 @@
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="TextBox_MAP_VIEWPORT_HEIGHT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>489, 137</value>
+  <data name="label13.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>25</value>
@@ -423,20 +477,38 @@
   <data name="&gt;&gt;TextBox_GameTempDirectory.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Current.Parent" xml:space="preserve">
-    <value>groupBox4</value>
+  <data name="label14.Text" xml:space="preserve">
+    <value>(~25)</value>
+  </data>
+  <data name="label14.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="&gt;&gt;label14.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label16.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>339, 92</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Язык:</value>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 42</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>Размытие карты нормалей:</value>
+  </data>
+  <data name="ComboBox_MaxAdditionalTextureSize.Items5" xml:space="preserve">
+    <value>16384</value>
   </data>
   <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Current.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="TextBox_NormalMapStrength_Current.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
+  <data name="groupBox7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>240, 88</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 92</value>
@@ -444,11 +516,17 @@
   <data name="Button_GameTempDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
+  <data name="&gt;&gt;Button_GameTempDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;CheckedListBox_SaveSettings_Current.Parent" xml:space="preserve">
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;TextBox_Textures_Opacity.Parent" xml:space="preserve">
     <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label16.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
@@ -459,11 +537,20 @@
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
   </data>
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="label13.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="&gt;&gt;label15.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 4</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 13</value>
   </data>
   <data name="CheckedListBox_SaveSettings_Current.Items" xml:space="preserve">
     <value>Отрисовывать воду на фоне карты рек</value>
@@ -477,11 +564,17 @@
   <data name="CheckedListBox_SaveSettings_Default.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left</value>
   </data>
+  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 13</value>
+  </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
     <value>240, 65</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 160</value>
+  </data>
+  <data name="label16.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
   </data>
   <data name="Button_ModDirectory.Location" type="System.Drawing.Point, System.Drawing">
     <value>545, 63</value>
@@ -492,11 +585,11 @@
   <data name="&gt;&gt;ComboBox_UsingSettingsType.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;label17.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
-    <value>groupBox3</value>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>WATER_HEIGHT:</value>
@@ -504,11 +597,17 @@
   <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 13</value>
+  </data>
+  <data name="TextBox_NormalMapBlur_Default.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
   <data name="CheckedListBox_Wips_Default.Items2" xml:space="preserve">
     <value>OOBs (бета)</value>
   </data>
-  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="TextBox_NormalMapBlur_Current.Location" type="System.Drawing.Point, System.Drawing">
+    <value>156, 39</value>
   </data>
   <data name="&gt;&gt;label5.Parent" xml:space="preserve">
     <value>$this</value>
@@ -519,17 +618,17 @@
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="CheckedListBox_Wips_Current.Items" xml:space="preserve">
-    <value>Sub Units (бета)</value>
-  </data>
   <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
     <value>tabControl1</value>
   </data>
-  <data name="Button_ModDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>338, 13</value>
   </data>
   <data name="&gt;&gt;TextBox_ModDirectory.Parent" xml:space="preserve">
     <value>$this</value>
+  </data>
+  <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
+    <value>212, 18</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -549,14 +648,14 @@
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 117</value>
   </data>
-  <data name="groupBox6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 88</value>
+  <data name="&gt;&gt;TextBox_NormalMapBlur_Current.Parent" xml:space="preserve">
+    <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Name" xml:space="preserve">
     <value>TextBox_MAP_SCALE_PIXEL_TO_KM_Default</value>
   </data>
-  <data name="groupBox7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 88</value>
+  <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Parent" xml:space="preserve">
+    <value>groupBox4</value>
   </data>
   <data name="Button_Save.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -564,8 +663,11 @@
   <data name="ComboBox_MaxAdditionalTextureSize.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
   </data>
-  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Default.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="Button_CreateModSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>345, 140</value>
@@ -573,23 +675,23 @@
   <data name="&gt;&gt;label7.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>7</value>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
   </data>
   <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Длина истории действий:</value>
+  <data name="&gt;&gt;CheckedListBox_SaveSettings_Default.Name" xml:space="preserve">
+    <value>CheckedListBox_SaveSettings_Default</value>
   </data>
   <data name="&gt;&gt;groupBox6.Parent" xml:space="preserve">
     <value>TabPage_DefaultModSettings</value>
   </data>
-  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="&gt;&gt;label9.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label15.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="Button_GameTempDirectory.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -600,8 +702,8 @@
   <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
     <value>TabPage_DefaultModSettings</value>
   </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
+  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="&gt;&gt;Button_Save.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -613,7 +715,7 @@
     <value>4</value>
   </data>
   <data name="&gt;&gt;CheckedListBox_SaveSettings_Default.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;Button_ModDirectory.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -639,6 +741,9 @@
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 22</value>
   </data>
+  <data name="TextBox_NormalMapBlur_Default.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
   <data name="groupBox5.Text" xml:space="preserve">
     <value>Настройки экспорта данных:</value>
   </data>
@@ -648,11 +753,17 @@
   <data name="&gt;&gt;TextBox_NormalMapStrength_Current.Parent" xml:space="preserve">
     <value>groupBox5</value>
   </data>
+  <data name="TabPage_CurrentModSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
   <data name="&gt;&gt;Button_Save.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Parent" xml:space="preserve">
-    <value>groupBox4</value>
+  <data name="CheckedListBox_Wips_Current.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 64</value>
+  </data>
+  <data name="label15.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 13</value>
@@ -669,11 +780,14 @@
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>SettingsForm</value>
+  </data>
   <data name="&gt;&gt;TabPage_DefaultModSettings.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;ComboBox_MaxAdditionalTextureSize.Name" xml:space="preserve">
+    <value>ComboBox_MaxAdditionalTextureSize</value>
   </data>
   <data name="&gt;&gt;Button_Save.Name" xml:space="preserve">
     <value>Button_Save</value>
@@ -699,6 +813,9 @@
   <data name="Button_Save.Location" type="System.Drawing.Point, System.Drawing">
     <value>545, 383</value>
   </data>
+  <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
+    <value>208, 42</value>
+  </data>
   <data name="groupBox7.Location" type="System.Drawing.Point, System.Drawing">
     <value>272, 73</value>
   </data>
@@ -711,6 +828,9 @@
   <data name="TextBox_MAP_VIEWPORT_HEIGHT.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 20</value>
   </data>
+  <data name="label12.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="ComboBox_UsingSettingsType.Items1" xml:space="preserve">
     <value>Настройки мода</value>
   </data>
@@ -720,26 +840,35 @@
   <data name="ComboBox_MaxAdditionalTextureSize.Items7" xml:space="preserve">
     <value>65536</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
+  <data name="label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
+    <value>groupBox1</value>
   </data>
   <data name="TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 20</value>
   </data>
+  <data name="&gt;&gt;TextBox_NormalMapBlur_Default.Name" xml:space="preserve">
+    <value>TextBox_NormalMapBlur_Default</value>
+  </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
   </data>
   <data name="CheckedListBox_SaveSettings_Default.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 109</value>
+    <value>248, 79</value>
   </data>
   <data name="Button_GameDirectory.Location" type="System.Drawing.Point, System.Drawing">
     <value>545, 11</value>
   </data>
+  <data name="label17.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
   <data name="groupBox7.TabIndex" type="System.Int32, mscorlib">
     <value>32</value>
   </data>
-  <data name="&gt;&gt;Button_CreateModSettings.Name" xml:space="preserve">
-    <value>Button_CreateModSettings</value>
+  <data name="label14.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 4</value>
@@ -753,19 +882,22 @@
   <data name="&gt;&gt;label10.Parent" xml:space="preserve">
     <value>groupBox4</value>
   </data>
-  <data name="CheckedListBox_SaveSettings_Current.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 40</value>
+  <data name="label15.Text" xml:space="preserve">
+    <value>(~25)</value>
   </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>Функции в разработке (WIP):</value>
+  <data name="CheckedListBox_SaveSettings_Current.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 66</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
-  <data name="&gt;&gt;Button_ModDirectory.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
   <data name="TextBox_NormalMapStrength_Default.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="TextBox_NormalMapStrength_Current.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
   </data>
   <data name="groupBox7.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -773,6 +905,9 @@
   </data>
   <data name="CheckedListBox_Wips_Current.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left</value>
+  </data>
+  <data name="label17.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -783,8 +918,8 @@
   <data name="TextBox_Textures_Opacity.Location" type="System.Drawing.Point, System.Drawing">
     <value>492, 90</value>
   </data>
-  <data name="&gt;&gt;ComboBox_MaxAdditionalTextureSize.Name" xml:space="preserve">
-    <value>ComboBox_MaxAdditionalTextureSize</value>
+  <data name="&gt;&gt;TextBox_NormalMapBlur_Current.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TextBox_ModDirectory.ZOrder" xml:space="preserve">
     <value>12</value>
@@ -792,23 +927,32 @@
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="CheckedListBox_SaveSettings_Default.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 40</value>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 13</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
   </data>
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
+    <value>TabPage_CurrentModSettings</value>
+  </data>
+  <data name="CheckedListBox_SaveSettings_Default.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 66</value>
+  </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;CheckedListBox_SaveSettings_Current.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
   </data>
-  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Default.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;CheckedListBox_SaveSettings_Current.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="Button_GameTempDirectory.Location" type="System.Drawing.Point, System.Drawing">
     <value>545, 37</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
   </data>
   <data name="TabPage_CurrentModSettings.Text" xml:space="preserve">
     <value>Настройки текущего мода</value>
@@ -819,20 +963,23 @@
   <data name="&gt;&gt;CheckedListBox_SaveSettings_Current.Name" xml:space="preserve">
     <value>CheckedListBox_SaveSettings_Current</value>
   </data>
-  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
   <data name="&gt;&gt;ComboBox_UsingSettingsType.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
+  <data name="&gt;&gt;TextBox_NormalMapBlur_Current.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="CheckedListBox_SaveSettings_Current.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 109</value>
+    <value>248, 79</value>
   </data>
   <data name="CheckedListBox_SaveSettings_Current.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
     <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;label13.Name" xml:space="preserve">
+    <value>label13</value>
   </data>
   <data name="TextBox_GameDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -843,17 +990,14 @@
   <data name="TextBox_WATER_HEIGHT_Default.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 20</value>
   </data>
-  <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
-    <value>28</value>
-  </data>
   <data name="ComboBox_MaxAdditionalTextureSize.Items3" xml:space="preserve">
     <value>4096</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>MAP_SCALE_PIXEL_TO_KM:</value>
   </data>
-  <data name="&gt;&gt;TabPage_DefaultModSettings.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>212, 18</value>
   </data>
   <data name="TextBox_NormalMapStrength_Default.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 20</value>
@@ -861,8 +1005,8 @@
   <data name="&gt;&gt;TextBox_MAP_VIEWPORT_HEIGHT.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>SettingsForm</value>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ComboBox_MaxAdditionalTextureSize.Items6" xml:space="preserve">
     <value>32768</value>
@@ -884,6 +1028,12 @@
   </data>
   <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
     <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label14.Name" xml:space="preserve">
+    <value>label14</value>
+  </data>
+  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="Button_GameDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -915,11 +1065,20 @@
   <data name="CheckedListBox_Wips_Current.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 15</value>
   </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
   <data name="ComboBox_MaxAdditionalTextureSize.Location" type="System.Drawing.Point, System.Drawing">
     <value>359, 113</value>
   </data>
   <data name="&gt;&gt;TextBox_GameTempDirectory.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 13</value>
+  </data>
+  <data name="&gt;&gt;label12.Name" xml:space="preserve">
+    <value>label12</value>
   </data>
   <data name="&gt;&gt;TabPage_DefaultModSettings.Name" xml:space="preserve">
     <value>TabPage_DefaultModSettings</value>
@@ -945,11 +1104,11 @@
   <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 22</value>
   </data>
-  <data name="Button_CreateModSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>146, 18</value>
+  <data name="&gt;&gt;Button_ModDirectory.ZOrder" xml:space="preserve">
+    <value>11</value>
   </data>
-  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>324, 46</value>
+  <data name="&gt;&gt;TextBox_NormalMapBlur_Default.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="Button_CreateModSettings.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 23</value>
@@ -966,14 +1125,20 @@
   <data name="TextBox_ActionHistorySize.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
+  <data name="Button_CreateModSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>146, 18</value>
+  </data>
   <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Parent" xml:space="preserve">
     <value>groupBox3</value>
+  </data>
+  <data name="Button_ModDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
   </data>
   <data name="TabPage_DefaultModSettings.Size" type="System.Drawing.Size, System.Drawing">
     <value>516, 165</value>
   </data>
-  <data name="&gt;&gt;Button_GameDirectory.ZOrder" xml:space="preserve">
-    <value>15</value>
+  <data name="CheckedListBox_Wips_Current.Items" xml:space="preserve">
+    <value>Sub Units (бета)</value>
   </data>
   <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Default.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -981,14 +1146,17 @@
   <data name="&gt;&gt;TextBox_MAP_VIEWPORT_HEIGHT.Name" xml:space="preserve">
     <value>TextBox_MAP_VIEWPORT_HEIGHT</value>
   </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Default.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="CheckedListBox_SaveSettings_Default.Items" xml:space="preserve">
     <value>Отрисовывать воду на фоне карты рек</value>
   </data>
   <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
     <value>240, 65</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Непрозрачность текстур (%):</value>
+  <data name="&gt;&gt;TextBox_NormalMapBlur_Default.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label11.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1005,8 +1173,8 @@
   <data name="ComboBox_MaxAdditionalTextureSize.Size" type="System.Drawing.Size, System.Drawing">
     <value>180, 21</value>
   </data>
-  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>29</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Язык:</value>
   </data>
   <data name="groupBox4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left</value>
@@ -1017,8 +1185,8 @@
   <data name="&gt;&gt;TextBox_WATER_HEIGHT_Current.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="ComboBox_MaxAdditionalTextureSize.Items2" xml:space="preserve">
-    <value>2048</value>
+  <data name="Button_Save.Text" xml:space="preserve">
+    <value>Сохранить</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
     <value>Параметры:</value>
@@ -1029,17 +1197,26 @@
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="label15.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="TextBox_NormalMapStrength_Default.Location" type="System.Drawing.Point, System.Drawing">
     <value>156, 15</value>
   </data>
-  <data name="ComboBox_MaxAdditionalTextureSize.Items5" xml:space="preserve">
-    <value>16384</value>
+  <data name="&gt;&gt;label13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ComboBox_UsingSettingsType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 19</value>
+  <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Длина истории действий:</value>
   </data>
   <data name="ComboBox_Language.Location" type="System.Drawing.Point, System.Drawing">
     <value>45, 89</value>
+  </data>
+  <data name="&gt;&gt;TextBox_NormalMapBlur_Default.Parent" xml:space="preserve">
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;TextBox_NormalMapStrength_Current.Name" xml:space="preserve">
     <value>TextBox_NormalMapStrength_Current</value>
@@ -1065,6 +1242,9 @@
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>(0.5-0.8)</value>
+  </data>
   <data name="TabPage_CurrentModSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
@@ -1074,11 +1254,14 @@
   <data name="&gt;&gt;label5.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;CheckedListBox_SaveSettings_Default.Name" xml:space="preserve">
-    <value>CheckedListBox_SaveSettings_Default</value>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;TabPage_CurrentModSettings.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
   </data>
   <data name="&gt;&gt;CheckedListBox_Wips_Default.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -1089,8 +1272,8 @@
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>137, 13</value>
   </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+  <data name="&gt;&gt;label12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ComboBox_UsingSettingsType.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1098,20 +1281,26 @@
   <data name="TextBox_ActionHistorySize.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 20</value>
   </data>
-  <data name="&gt;&gt;groupBox7.Parent" xml:space="preserve">
-    <value>TabPage_CurrentModSettings</value>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Размытие карты нормалей:</value>
   </data>
   <data name="TextBox_ActionHistorySize.Location" type="System.Drawing.Point, System.Drawing">
     <value>289, 89</value>
+  </data>
+  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>208, 42</value>
+  </data>
+  <data name="&gt;&gt;label16.Name" xml:space="preserve">
+    <value>label16</value>
   </data>
   <data name="Button_Save.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
   <data name="&gt;&gt;TextBox_NormalMapStrength_Default.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>Резкость карты нормалей:</value>
+    <value>Сила карты нормалей:</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>700, 450</value>
@@ -1137,23 +1326,29 @@
   <data name="Button_GameDirectory.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 20</value>
   </data>
-  <data name="Button_CreateModSettings.TabIndex" type="System.Int32, mscorlib">
-    <value>28</value>
-  </data>
-  <data name="&gt;&gt;TextBox_GameTempDirectory.Name" xml:space="preserve">
-    <value>TextBox_GameTempDirectory</value>
-  </data>
-  <data name="Button_ModDirectory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 20</value>
+  <data name="&gt;&gt;label12.Parent" xml:space="preserve">
+    <value>groupBox1</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="&gt;&gt;TextBox_GameTempDirectory.Name" xml:space="preserve">
+    <value>TextBox_GameTempDirectory</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Current.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="Button_ModDirectory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 20</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 13</value>
+  </data>
+  <data name="TextBox_MAP_VIEWPORT_HEIGHT.Location" type="System.Drawing.Point, System.Drawing">
+    <value>489, 137</value>
+  </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
     <value>260, 157</value>
-  </data>
-  <data name="TabPage_CurrentModSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
   </data>
   <data name="Button_Save.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 20</value>
@@ -1176,9 +1371,6 @@
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
@@ -1197,11 +1389,11 @@
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Настройки экспорта данных:</value>
   </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>338, 13</value>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>TabPage_DefaultModSettings</value>
   </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+  <data name="&gt;&gt;TabPage_DefaultModSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Button_GameDirectory.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1218,14 +1410,17 @@
   <data name="ComboBox_MaxAdditionalTextureSize.Items1" xml:space="preserve">
     <value>1024</value>
   </data>
+  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 212</value>
+  </data>
   <data name="&gt;&gt;TabPage_CurrentModSettings.Name" xml:space="preserve">
     <value>TabPage_CurrentModSettings</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TextBox_WATER_HEIGHT_Default.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+  <data name="&gt;&gt;label16.Parent" xml:space="preserve">
+    <value>groupBox5</value>
   </data>
   <data name="TabPage_DefaultModSettings.Text" xml:space="preserve">
     <value>Базовые настройки</value>
@@ -1248,11 +1443,17 @@
   <data name="groupBox6.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
   </data>
+  <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;TextBox_ModDirectory.Name" xml:space="preserve">
     <value>TextBox_ModDirectory</value>
+  </data>
+  <data name="&gt;&gt;groupBox7.Parent" xml:space="preserve">
+    <value>TabPage_CurrentModSettings</value>
   </data>
   <data name="ComboBox_UsingSettingsType.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
@@ -1278,8 +1479,11 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Настройки</value>
   </data>
-  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 212</value>
+  <data name="ComboBox_MaxAdditionalTextureSize.Items2" xml:space="preserve">
+    <value>2048</value>
+  </data>
+  <data name="&gt;&gt;label15.Parent" xml:space="preserve">
+    <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;Button_CreateModSettings.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -1287,17 +1491,23 @@
   <data name="&gt;&gt;TextBox_NormalMapStrength_Current.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="Button_CreateModSettings.Text" xml:space="preserve">
     <value>Создать файл настроек мода</value>
   </data>
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 13</value>
+    <value>122, 13</value>
   </data>
   <data name="&gt;&gt;tabControl1.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Button_ModDirectory.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+  <data name="&gt;&gt;label15.Name" xml:space="preserve">
+    <value>label15</value>
   </data>
   <data name="TabPage_DefaultModSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
@@ -1308,11 +1518,14 @@
   <data name="&gt;&gt;CheckedListBox_Wips_Default.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>272, 4</value>
+  <data name="TextBox_WATER_HEIGHT_Default.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
   </data>
-  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 13</value>
+  <data name="Button_ModDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="groupBox6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>240, 88</value>
   </data>
   <data name="CheckedListBox_Wips_Current.Items3" xml:space="preserve">
     <value>Equipments (альфа)</value>

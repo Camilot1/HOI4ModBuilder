@@ -199,6 +199,8 @@ namespace HOI4ModBuilder.src
         public bool IsModSettingsFileExists() => File.Exists(GetModSettingsFilePath());
         public float GetNormalMapStrength()
             => useModSettings ? currentModSettings.normalMapStrength : defaultModSettings.normalMapStrength;
+        public float GetNormalMapBlur()
+            => useModSettings ? currentModSettings.normalMapBlur : defaultModSettings.normalMapBlur;
         public bool GetExportRiversMapWithWaterPixelsFlag()
             => useModSettings ? currentModSettings.exportRiversMapWithWaterPixels : defaultModSettings.exportRiversMapWithWaterPixels;
         public bool GetGenerateNormalMapFlag()
@@ -249,9 +251,13 @@ namespace HOI4ModBuilder.src
 
     public class ModSettings
     {
-        public float normalMapStrength = 1.5f;
         public bool exportRiversMapWithWaterPixels = true;
         public bool generateNormalMap = false;
+
+        [JsonProperty("normalMapStrengthV2")]
+        public float normalMapStrength = 25f; //recomended 20-25
+        [JsonProperty("normalMapBlur")]
+        public float normalMapBlur = 0.8f; //recommended 0.5-0.8
 
         public HashSet<string> wipsEnabled = new HashSet<string>(0);
 

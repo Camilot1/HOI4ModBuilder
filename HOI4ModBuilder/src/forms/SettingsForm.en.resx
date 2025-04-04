@@ -158,13 +158,19 @@
     <value>                                         Max resolution of additional texture segment:</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 13</value>
+    <value>136, 13</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>World normal map sharpness:</value>
+    <value>World normal map strength:</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Data Export Settings:</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 13</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>World normal map blur:</value>
   </data>
   <data name="CheckedListBox_SaveSettings_Default.Items" xml:space="preserve">
     <value>Draw water pixel on rivers map</value>
@@ -229,6 +235,12 @@
   <data name="groupBox5.Text" xml:space="preserve">
     <value>Data Export Settings:</value>
   </data>
+  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 13</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>World normal map blur:</value>
+  </data>
   <data name="CheckedListBox_SaveSettings_Current.Items" xml:space="preserve">
     <value>Draw water pixel on rivers map</value>
   </data>
@@ -236,14 +248,14 @@
     <value>Generate world normal map</value>
   </data>
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 13</value>
+    <value>136, 13</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>World normal map sharpness:</value>
+    <value>World normal map strength:</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Settings</value>
