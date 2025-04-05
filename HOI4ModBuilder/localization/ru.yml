@@ -476,9 +476,14 @@ ERROR_COULD_NOT_LOAD_BUILDINGS_FILE: "Не удалось загрузить п�
 ERROR_OBJECT_PARAMETER_INVALID_VALUE: "Некорректное значение {value} для параметра {parameter} в объекте {object}"
 WARNING_OBJECT_PARAMETER_VALUE_NOT_FOUND: "Не найдено значение {value} для параметра {parameter} в объекте {object}"
 WARNING_OBJECT_PARAMETER_OVERRIDE: "Обнаружено переопределение значения параметра {parameter} на {value} в объекте {object}"
-ERROR_COULD_NOT_LOAD_SCRIPTED_TRIGGERS_FILE: "Не удалось загрузить скриптовые триггеры из файла {filePath}. Причина: {ex}"
-ERROR_COULD_NOT_LOAD_DEFINED_MODIFIERS_FILE: "Не удалось загрузить скриптовые модификаторы из файла {filePath}. Причина: {ex}"
-ERROR_COULD_NOT_LOAD_SCRIPTED_EFFECTS_FILE: "Не удалось загрузить скриптовые эффекты из файла {filePath}. Причина: {ex}"
+ERROR_COULD_NOT_LOAD_SCRIPTED_TRIGGERS_FILE: "Не удалось загрузить скриптовые триггеры из файла {filePath}. Причина: {cause}"
+ERROR_COULD_NOT_LOAD_DEFINED_MODIFIERS_FILE: "Не удалось загрузить скриптовые модификаторы из файла {filePath}. Причина: {cause}"
+ERROR_COULD_NOT_LOAD_SCRIPTED_EFFECTS_FILE: "Не удалось загрузить скриптовые эффекты из файла {filePath}. Причина: {cause}"
+ERROR_COULD_NOT_LOAD_SCRIPTED_MODIFIERS_FILE: "Не удалось загрузить скриптовые модификаторы из файла {filePath}. Причина: {cause}"
+EXCEPTION_SCRIPTED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_SCRIPTED_MODIFIER_IN_FILE: "Обнаружено повторное объявление скриптового модификатора с названием \"{blockName}\" в файле {filePath}. Первое объявление было в файле {otherFilePath}"
+EXCEPTION_SCRIPTED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE: "Обнаружено объявление скриптового модификатора с названием \"{blockName}\", уже занятым другим блоком. Повторное объявление найдено в файле {filePath}. Первое объявление было обнаружено в файле {otherFilePath}"
+
+
 EXCEPTION_BITMAP_INVALID_PIXEL_FORMAT: "Некорректный формат пикселей {currentFormat} у {name}. Ожидается формат пикселей {validFormat}"
 EXCEPTION_BITMAP_IS_TOO_SMALL: "Размер текстурной карты {name} слишком мал: {width}x{height}"
 EXCEPTION_INVALID_BLUR_SIGMA_VALUE: "Указано некорректное значение блюра (Сигма) для {name}: {blurSigma}"
