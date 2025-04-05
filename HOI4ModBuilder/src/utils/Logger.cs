@@ -16,7 +16,7 @@ namespace HOI4ModBuilder.src.utils
     {
         public static readonly string logDirPath = FileManager.AssembleFolderPath(new string[] { "logs" });
         public static readonly string logFilePath = logDirPath + "latest.log";
-        public static readonly string version = "Alpha 0.2.4 (Pre-Release 3)";
+        public static readonly string version = "Alpha 0.2.4";
 
         private static List<string> _warnings = new List<string>();
         private static List<string> _errors = new List<string>();
@@ -219,6 +219,22 @@ namespace HOI4ModBuilder.src.utils
             while (tempEx != null)
             {
                 message += " " + tempEx.Message;
+                tempEx = tempEx.InnerException;
+            }
+
+            if (MainForm.isLoadingOrSaving[0]) _exceptions.Add(message);
+            else LogSingleErrorMessage(ex.ToString());
+            Log($"EXCEPTION: {ex}\n");
+        }
+
+        public static void LogException(string message, Exception ex)
+        {
+            string exMessage = message + ex.Message;
+            var tempEx = ex.InnerException;
+
+            while (tempEx != null)
+            {
+                exMessage += " " + tempEx.Message;
                 tempEx = tempEx.InnerException;
             }
 
