@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.src.newParser.interfaces;
+﻿using HOI4ModBuilder.src.dataObjects.argBlocks.info;
+using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
 using System;
@@ -359,9 +360,8 @@ namespace HOI4ModBuilder.src.newParser
             _ignorIndentChange = true;
             NextChar();
             ParseUntil(FLAGS_QUOTED_UNTIL);
-            NextChar();
             _ignorIndentChange = false;
-
+            NextChar();
         }
 
         public void SkipQuoted()
@@ -372,8 +372,8 @@ namespace HOI4ModBuilder.src.newParser
             _ignorIndentChange = true;
             NextChar();
             SkipUntil(FLAGS_QUOTED_UNTIL);
-            NextChar();
             _ignorIndentChange = false;
+            NextChar();
         }
 
         public void ParseComments()
