@@ -119,6 +119,27 @@
     "defaultValueType": "BOOLEAN",
     "defaultValue": false
   },
+  {
+    "name": "sp_nuclear_bomb_speed_factor",
+    "specificScopes": [ "BUILDING" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "sp_thermo_nuclear_bomb_speed_factor",
+    "specificScopes": [ "BUILDING" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "thermonuclear_production_factor",
+    "specificScopes": [ "BUILDING" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
   
   {
     "name": "acclimatization_cold_climate_gain_factor",
@@ -2449,6 +2470,13 @@
     "specificScopes": [ "STATE" ],
     "allowedValueTypes": [ "INT" ],
     "defaultValueType": "INT",
+    "defaultValue": 0
+  },
+  {
+    "name": "state_resources_factor",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
     "defaultValue": 0
   },
   {
