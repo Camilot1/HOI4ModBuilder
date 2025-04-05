@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.dataObjects.argBlocks;
+using HOI4ModBuilder.src.hoiDataObjects.localisation;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
@@ -6,6 +7,7 @@ using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
+using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 {
@@ -25,6 +27,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public readonly GameParameter<ushort> ShowOnMapMeshes = new GameParameter<ushort>();
         public readonly GameParameter<bool> IsAlwaysShown = new GameParameter<bool>();
         public readonly GameParameter<bool> HasDestroyedMesh = new GameParameter<bool>();
+        public readonly GameParameter<bool> IsDisableGrowAnimation = new GameParameter<bool>();
         public readonly GameParameter<bool> IsCentered = new GameParameter<bool>();
         public readonly GameParameter<GameKeyObject<SpawnPoint>> SpawnPoint = new GameParameter<GameKeyObject<SpawnPoint>>()
             .INIT_SetValueParseAdapter((o, value) => new GameKeyObject<SpawnPoint> { key = value })
@@ -36,7 +39,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         //Cost
         public readonly GameParameter<uint> BaseCost = new GameParameter<uint>();
         public readonly GameParameter<uint> BaseCostConvertion = new GameParameter<uint>();
-        public readonly GameParameter<uint> ExtraCostPerLevel = new GameParameter<uint>();
+        public readonly GameParameter<int> ExtraCostPerLevel = new GameParameter<int>();
         public readonly GameParameter<uint> ExtraCostPerControllerBuilding = new GameParameter<uint>();
         public readonly GameParameter<bool> HasInfrastructureConstructionEffect = new GameParameter<bool>();
 
@@ -45,10 +48,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public readonly GameParameter<float> BaseHealth = new GameParameter<float>();
         public readonly GameParameter<float> DamageFactor = new GameParameter<float>();
         public readonly GameParameter<float> RepairSpeedFactor = new GameParameter<float>();
-        public readonly GameList<ScriptBlockParseObject> ProvinceDamageModifiers = new GameList<ScriptBlockParseObject>()
-            .INIT_SetValueParseAdapter((o, token) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(token)));
-        public readonly GameList<ScriptBlockParseObject> StateDamageModifiers = new GameList<ScriptBlockParseObject>()
-            .INIT_SetValueParseAdapter((o, token) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(token)));
+        public readonly GameList<GameKeyObject<ScriptBlockParseObject>> ProvinceDamageModifiers = new GameList<GameKeyObject<ScriptBlockParseObject>>()
+            .INIT_SetValueParseAdapter((o, value) => new GameKeyObject<ScriptBlockParseObject>
+            {
+                key = ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(value))
+            });
+        public readonly GameList<GameKeyObject<ScriptBlockParseObject>> StateDamageModifiers = new GameList<GameKeyObject<ScriptBlockParseObject>>()
+            .INIT_SetValueParseAdapter((o, value) => new GameKeyObject<ScriptBlockParseObject>
+            {
+                key = ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(value))
+            });
         public readonly GameParameter<bool> IsAlliedBuild = new GameParameter<bool>();
         public readonly GameParameter<bool> IsOnlyCoastal = new GameParameter<bool>();
         public readonly GameParameter<bool> IsPort = new GameParameter<bool>();
@@ -59,7 +68,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public readonly GameParameter<BuildingCountryModifiers> CountryModifiers = new GameParameter<BuildingCountryModifiers>();
         public readonly GameParameter<bool> IsNeedSupply = new GameParameter<bool>();
         public readonly GameParameter<bool> IsHideIfMissingTech = new GameParameter<bool>();
-        public readonly GameParameter<GameString> MissingTechLoc = new GameParameter<GameString>();
+        public readonly GameParameter<BindableLocalization> MissingTechLoc = new GameParameter<BindableLocalization>();
         public readonly GameParameter<bool> IsNeedDetection = new GameParameter<bool>();
         public readonly GameParameter<GameString> DetectingIntelType = new GameParameter<GameString>();
         public readonly GameParameter<bool> IsOnlyDisplayIfExists = new GameParameter<bool>();
@@ -73,6 +82,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             { "show_on_map_meshes", o => ((Building)o).ShowOnMapMeshes },
             { "always_shown", o => ((Building)o).IsAlwaysShown },
             { "has_destroyed_mesh", o => ((Building)o).HasDestroyedMesh },
+            { "disable_grow_animation", o => ((Building)o).IsDisableGrowAnimation },
             { "centered", o => ((Building)o).IsCentered },
             { "spawn_point", o => ((Building)o).SpawnPoint },
             { "icon_frame", o => ((Building)o).IconFrame },
@@ -99,6 +109,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             { "country_modifiers", o => ((Building)o).CountryModifiers },
             { "need_supply", o => ((Building)o).IsNeedSupply },
             { "hide_if_missing_tech", o => ((Building)o).IsHideIfMissingTech },
+            { "missing_tech_loc", o => ((Building)o).MissingTechLoc },
             { "need_detection", o => ((Building)o).IsNeedDetection },
             { "detecting_intel_type", o => ((Building)o).DetectingIntelType },
             { "only_display_if_exists", o => ((Building)o).IsOnlyDisplayIfExists },

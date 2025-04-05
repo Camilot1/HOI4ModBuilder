@@ -83,7 +83,12 @@ namespace HOI4ModBuilder.src.newParser.objects
                 (comments) => SetComments(comments),
                 (tokenComments, token) =>
                 {
-                    T obj = _valueParseAdapter != null ? _valueParseAdapter(this, token) : ParserUtils.Parse<T>(token);
+                    T obj = _valueParseAdapter != null ?
+                        _valueParseAdapter(this, token) :
+                        ParserUtils.Parse<T>(token);
+
+                    if (obj is IParentable parentable)
+                        parentable.SetParent(this);
 
                     if (obj == null)
                         throw new Exception("Parsed value is null for token \"" + token + "\". It is not defined and not found while parsing: " + parser.GetCursorInfo());
@@ -110,7 +115,12 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (!_allowsInlineAdd || value.Length == 0)
                 throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
-            var obj = _valueParseAdapter != null ? _valueParseAdapter.Invoke(this, value) : ParserUtils.Parse<T>(value);
+            var obj = _valueParseAdapter != null ?
+                _valueParseAdapter.Invoke(this, value) :
+                ParserUtils.Parse<T>(value);
+
+            if (obj is IParentable parentable)
+                parentable.SetParent(this);
 
             if (obj is IParseObject parseObject)
                 parseObject.ParseCallback(parser);

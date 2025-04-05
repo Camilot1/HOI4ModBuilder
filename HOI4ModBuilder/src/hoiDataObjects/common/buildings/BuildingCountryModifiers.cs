@@ -4,6 +4,7 @@ using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
+using HOI4ModBuilder.src.newParser.structs;
 using System;
 using System.Collections.Generic;
 
@@ -11,9 +12,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 {
     public class BuildingCountryModifiers : AbstractParseObject
     {
-        public readonly GameList<Country> EnableForControllers = new GameList<Country>()
-            .INIT_SetValueParseAdapter((o, token) => CountryManager.GetCountry(token))
-            .INIT_SetValueSaveAdapter((country) => country.Tag);
+        public readonly GameList<GameKeyObject<Country>> EnableForControllers = new GameList<GameKeyObject<Country>>()
+            .INIT_SetValueParseAdapter((o, token) => new GameKeyObject<Country> { key = token });
         public readonly GameList<ScriptBlockParseObject> Modifiers = new GameList<ScriptBlockParseObject>()
             .INIT_SetValueParseAdapter((o, token) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(token)));
 

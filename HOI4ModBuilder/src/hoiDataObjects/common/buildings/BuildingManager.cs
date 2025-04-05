@@ -36,11 +36,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
                 },
                 (ex) =>
                 {
-                    Logger.LogError(EnumLocKey.ERROR_COULD_NOT_LOAD_BUILDINGS_FILE, new Dictionary<string, string>
+                    Logger.LogExceptionAsError(EnumLocKey.ERROR_COULD_NOT_LOAD_BUILDINGS_FILE, new Dictionary<string, string>
                     {
                         { "{filePath}", fileInfo.filePath },
                         { "{cause}", ex.Message },
-                    });
+                    }, ex);
                 });
             }
         }

@@ -43,6 +43,15 @@ namespace HOI4ModBuilder.src.newParser
             else
                 throw new Exception("Unknown value \"" + value + "\" type at ParseUtils.Parse: " + typeof(T));
         }
+
+        public static object Parse(Type type, string value)
+        {
+            if (_parseMapping.TryGetValue(type, out var func))
+                return func(value);
+            else
+                throw new Exception("Unknown value \"" + value + "\" type at ParseUtils.Parse: " + type);
+        }
+
         public static object ParseObject(string value)
         {
             if (int.TryParse(value, out var intResult))

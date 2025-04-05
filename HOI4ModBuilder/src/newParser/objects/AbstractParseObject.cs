@@ -171,13 +171,44 @@ namespace HOI4ModBuilder.src.newParser.objects
                     parseCallbackable.ParseCallback(parser);
             }
             else
-                throw new Exception("Invalid ParseStaticAdapter handler type: " + parser.GetCursorInfo());
+            {
+                if (parser.SkipWhiteSpaces())
+                    throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+
+                parser.ParseDemiliters();
+                var demiliters = parser.PullParsedDataString();
+
+                if (demiliters.Length != 1 || demiliters[0] != '=')
+                    throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+
+                if (parser.SkipWhiteSpaces())
+                    throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+
+                if (parser.CurrentToken == Token.QUOTE)
+                    parser.ParseQuoted();
+                else
+                    parser.ParseUnquotedValue();
+
+                var value = parser.PullParsedDataString();
+                if (value.Length == 0)
+                    throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+
+                newObj = ParserUtils.Parse(newObj.GetType(), value);
+
+                var comments = parser.ParseAndPullComments();
+                if (newObj is ICommentable commentable)
+                    commentable.SetComments(comments);
+            }
+            //else
+            //    throw new Exception("Invalid ParseStaticAdapter handler type: " + parser.GetCursorInfo());
 
             if (providerHandler == null)
                 throw new Exception("providerHandler in ParseStaticAdapter is null: " + parser.GetCursorInfo());
 
             if (providerHandler is IValuePushable valuePushable)
                 valuePushable.Push(newObj);
+            else if (providerHandler is IKeyValuePushable keyValuePushable)
+                keyValuePushable.Push(key, newObj);
             else
                 throw new Exception("providerHandler in ParseStaticAdapter is not IValuePushable: " + parser.GetCursorInfo());
 

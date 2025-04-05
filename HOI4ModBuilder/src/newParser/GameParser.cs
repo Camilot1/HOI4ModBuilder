@@ -42,6 +42,8 @@ namespace HOI4ModBuilder.src.newParser
         private int _indent;
         public int Indent => _indent;
 
+        private bool _ignorIndentChange;
+
         private int _lineIndex;
         public int LineIndex => _lineIndex;
 
@@ -76,6 +78,7 @@ namespace HOI4ModBuilder.src.newParser
 
             _index = -1;
             _indent = 0;
+            _ignorIndentChange = false;
             _lineIndex = 0;
             _lineCharIndex = 0;
             _token = Token.SPACE;
@@ -153,6 +156,9 @@ namespace HOI4ModBuilder.src.newParser
                 else
                     SkipUntil(flags);
             }
+
+            if (_token == Token.RIGHT_CURLY && _index < _dataLength - 1)
+                NextChar();
         }
 
         public void ParseInsideBlock(Action<GameComments> commentsConsumer, Func<GameComments, string, bool> tokensConsumer)
@@ -242,11 +248,13 @@ namespace HOI4ModBuilder.src.newParser
                     break;
                 case '{':
                     _token = Token.LEFT_CURLY;
-                    _indent++;
+                    if (!_ignorIndentChange)
+                        _indent++;
                     break;
                 case '}':
                     _token = Token.RIGHT_CURLY;
-                    _indent--;
+                    if (!_ignorIndentChange)
+                        _indent--;
 
                     if (_indent < 0)
                         throw new Exception("Invalid indentation (< 0): " + GetCursorInfo());
@@ -347,7 +355,13 @@ namespace HOI4ModBuilder.src.newParser
             if (_token != Token.QUOTE)
                 throw new Exception("Invalid Quoted value structure: " + GetCursorInfo());
 
+
+            _ignorIndentChange = true;
+            NextChar();
             ParseUntil(FLAGS_QUOTED_UNTIL);
+            NextChar();
+            _ignorIndentChange = false;
+
         }
 
         public void SkipQuoted()
@@ -355,15 +369,18 @@ namespace HOI4ModBuilder.src.newParser
             if (_token != Token.QUOTE)
                 throw new Exception("Invalid Quoted value structure: " + GetCursorInfo());
 
+            _ignorIndentChange = true;
             NextChar();
-
             SkipUntil(FLAGS_QUOTED_UNTIL);
+            NextChar();
+            _ignorIndentChange = false;
         }
 
         public void ParseComments()
         {
             while (_index < _dataLength && _token == Token.COMMENT)
             {
+                _ignorIndentChange = true;
                 if (_sbComments.Length > 0 && _sbComments[_sbComments.Length - 1] != '\n')
                     _sbComments.Append(Constants.NEW_LINE);
 
@@ -375,6 +392,7 @@ namespace HOI4ModBuilder.src.newParser
                     _sbComments.Append(_currentChar);
                     NextChar();
                 }
+                _ignorIndentChange = false;
 
                 SkipWhiteSpaces();
             }
@@ -384,7 +402,7 @@ namespace HOI4ModBuilder.src.newParser
         {
             while (_index < _dataLength && _token == Token.COMMENT)
             {
-                NextChar();
+                _ignorIndentChange = true;
                 while (_index < _dataLength)
                 {
                     if (((int)_token & (int)Token.NEW_LINE) != 0)
@@ -392,6 +410,7 @@ namespace HOI4ModBuilder.src.newParser
 
                     NextChar();
                 }
+                _ignorIndentChange = false;
 
                 SkipWhiteSpaces();
             }

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace HOI4ModBuilder.src.newParser.objects
 {
-    public class GameDictionary<TKey, TValue> : AbstractParseObject, IDictionary<TKey, TValue> where TValue : new()
+    public class GameDictionary<TKey, TValue> : AbstractParseObject, IDictionary<TKey, TValue>, IKeyValuePushable where TValue : new()
     {
         private Dictionary<TKey, TValue> _dictionary = new Dictionary<TKey, TValue>();
 
@@ -87,6 +87,9 @@ namespace HOI4ModBuilder.src.newParser.objects
                         _keyParseAdapter(token) :
                         ParserUtils.Parse<TKey>(token);
 
+                    if (keyObj is IParentable keyParentable)
+                        keyParentable.SetParent(this);
+
                     if (parser.SkipWhiteSpaces())
                         throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
@@ -119,6 +122,9 @@ namespace HOI4ModBuilder.src.newParser.objects
                             _valueParseAdapter.Invoke(keyObj, null) :
                             new TValue();
 
+                        if (valueObj is IParentable valueParentable)
+                            valueParentable.SetParent(this);
+
                         if (valueObj is IParseObject parseObject)
                             parser.Parse(parseObject);
 
@@ -138,6 +144,9 @@ namespace HOI4ModBuilder.src.newParser.objects
                         var valueObj = _valueParseAdapter != null ?
                             _valueParseAdapter.Invoke(keyObj, value) :
                             ParserUtils.Parse<TValue>(value);
+
+                        if (valueObj is IParentable parentable)
+                            parentable.SetParent(this);
 
                         var newComments = parser.ParseAndPullComments();
 
@@ -320,5 +329,18 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         IEnumerator IEnumerable.GetEnumerator() => _dictionary.GetEnumerator();
 
+        public void Push(string key, object value)
+        {
+            object tempKey = key;
+            if (_keyParseAdapter != null)
+                tempKey = _keyParseAdapter.Invoke(key);
+
+            Logger.TryOrCatch(
+                () => _dictionary[(TKey)tempKey] = (TValue)value,
+                (ex) => Logger.LogException(
+                    $"Could not cast KeyValuePair \"{tempKey}\" ({key.GetType()}) = \"{value}\" ({value.GetType()}) " +
+                    $"to ({nameof(TKey)}) = ({nameof(TValue)}). Exception message: {ex.Message}",
+                    ex));
+        }
     }
 }
