@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.dataObjects.argBlocks.info;
+using HOI4ModBuilder.src.dataObjects.argBlocks.info.scripted;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
@@ -25,6 +26,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         private static readonly string CUSTOM_TRIGGERS_FILE_PATH = FileManager.AssembleFilePath(new[] { "data", "custom", "triggers.json" });
 
         private static readonly string SCRIPTED_EFFECTS_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "scripted_effects" });
+        private static readonly string SCRIPTED_STATIC_MODIFIERS_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "modifiers" });
+        private static readonly string SCRIPTED_DYNAMIC_MODIFIERS_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "dynamic_modifiers" });
         private static readonly string DEFINED_MODIFIERS_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "modifier_definitions" });
         private static readonly string SCRIPTED_TRIGGERS_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "scripted_triggers" });
 
@@ -36,7 +39,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         private static Dictionary<string, InfoArgsBlock> _triggersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
 
         private static Dictionary<string, InfoArgsBlock> _scriptedEffectsInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
-        private static Dictionary<string, InfoArgsBlock> _definedModifiersArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+        private static Dictionary<string, InfoArgsBlock> _scriptedModifiersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+        private static Dictionary<string, InfoArgsBlock> _definedModifiersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
         private static Dictionary<string, InfoArgsBlock> _scriptedTriggersArgsBlocks = new Dictionary<string, InfoArgsBlock>();
 
         private static Dictionary<string, string> _definitionFiles = new Dictionary<string, string>();
@@ -47,8 +51,10 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             => _scopesInfoArgsBlocks.TryGetValue(name, out block);
         public static InfoArgsBlock GetScope(string name)
         {
-            if (TryGetScope(name, out var block)) return block;
-            else return null;
+            if (TryGetScope(name, out var block))
+                return block;
+            else
+                return null;
         }
 
         public static bool TryGetEffect(string name, out InfoArgsBlock block)
@@ -56,17 +62,22 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                 _scriptedEffectsInfoArgsBlocks.TryGetValue(name, out block);
         public static InfoArgsBlock GetEffect(string name)
         {
-            if (TryGetEffect(name, out var block)) return block;
-            else return null;
+            if (TryGetEffect(name, out var block))
+                return block;
+            else
+                return null;
         }
 
         public static bool TryGetModifier(string name, out InfoArgsBlock block)
             => _modifiersInfoArgsBlocks.TryGetValue(name, out block) ||
-                _definedModifiersArgsBlocks.TryGetValue(name, out block);
+                _scriptedModifiersInfoArgsBlocks.TryGetValue(name, out block) ||
+                _definedModifiersInfoArgsBlocks.TryGetValue(name, out block);
         public static InfoArgsBlock GetModifier(string name)
         {
-            if (TryGetModifier(name, out var block)) return block;
-            else return null;
+            if (TryGetModifier(name, out var block))
+                return block;
+            else
+                return null;
         }
 
         public static bool TryGetTrigger(string name, out InfoArgsBlock block)
@@ -74,8 +85,10 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                 _scriptedTriggersArgsBlocks.TryGetValue(name, out block);
         public static InfoArgsBlock GetTrigger(string name)
         {
-            if (TryGetTrigger(name, out var block)) return block;
-            else return null;
+            if (TryGetTrigger(name, out var block))
+                return block;
+            else
+                return null;
         }
 
         public static void Load(Settings settings)
@@ -112,7 +125,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             _triggersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
 
             _scriptedEffectsInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
-            _definedModifiersArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+            _scriptedModifiersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+            _definedModifiersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
             _scriptedTriggersArgsBlocks = new Dictionary<string, InfoArgsBlock>();
         }
 
@@ -130,6 +144,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                 return;
 
             LoadScriptedEffects(settings, SCRIPTED_EFFECTS_FOLDER_PATH);
+            LoadScriptedModifiers(settings, SCRIPTED_STATIC_MODIFIERS_FOLDER_PATH);
+            LoadScriptedModifiers(settings, SCRIPTED_DYNAMIC_MODIFIERS_FOLDER_PATH);
             LoadDefinedModifiers(settings, DEFINED_MODIFIERS_FOLDER_PATH);
             LoadScriptedTriggers(settings, SCRIPTED_TRIGGERS_FOLDER_PATH);
         }
@@ -242,6 +258,28 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             }
         }
 
+        private static void LoadScriptedModifiers(Settings settings, string folderPath)
+        {
+            foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, folderPath, FileManager.ANY_FORMAT))
+            {
+                currentLoadingFilePath = fileInfoPair.Value.filePath;
+
+                Logger.TryOrCatch(
+                    () => LoadScriptedModifiersFile(fileInfoPair),
+                    (ex) => Logger.LogExceptionAsError(
+                        EnumLocKey.ERROR_COULD_NOT_LOAD_SCRIPTED_MODIFIERS_FILE,
+                        new Dictionary<string, string>
+                        {
+                            { "{filePath}", fileInfoPair.Value.filePath },
+                            { "{cause}", ex.Message },
+                        },
+                        ex)
+                    );
+
+
+            }
+        }
+
         private static void LoadScriptedEffects(Settings settings, string folderPath)
         {
             foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, folderPath, FileManager.ANY_FORMAT))
@@ -293,7 +331,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             {
                 var name = obj.name;
 
-                if (_definedModifiersArgsBlocks.ContainsKey(name))
+                if (_definedModifiersInfoArgsBlocks.ContainsKey(name))
                     Logger.LogWarning(
                         EnumLocKey.EXCEPTION_DEFINED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_DEFINED_MODIFIER_IN_FILE,
                         new Dictionary<string, string>
@@ -374,7 +412,53 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                     );
 
                     _allInfoArgsBlocks[name] = infoArgsBlock;
-                    _definedModifiersArgsBlocks[name] = infoArgsBlock;
+                    _definedModifiersInfoArgsBlocks[name] = infoArgsBlock;
+                    _definitionFiles[name] = fileInfoPair.Value.filePath;
+                }
+            }
+        }
+
+        private static void LoadScriptedModifiersFile(KeyValuePair<string, FileInfo> fileInfoPair)
+        {
+            var parser = new GameParser();
+            var file = new ScriptedModifiersGameFile(fileInfoPair.Value, true);
+            parser.ParseFile(file);
+
+            foreach (var obj in file.DynamicModifiers)
+            {
+                var info = obj.ScriptBlockInfo;
+                var name = info.GetBlockName();
+
+                if (_scriptedModifiersInfoArgsBlocks.ContainsKey(name))
+                    Logger.LogWarning(
+                        EnumLocKey.EXCEPTION_SCRIPTED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_SCRIPTED_MODIFIER_IN_FILE,
+                        new Dictionary<string, string>
+                        {
+                                { "{filePath}", fileInfoPair.Value.filePath },
+                                { "{blockName}", name },
+                                { "{otherFilePath}", _definitionFiles[name] }
+                        }
+                    );
+                else if (_allInfoArgsBlocks.ContainsKey(name))
+                    Logger.LogWarning(
+                        EnumLocKey.EXCEPTION_SCRIPTED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE,
+                        new Dictionary<string, string>
+                        {
+                                { "{filePath}", fileInfoPair.Value.filePath },
+                                { "{blockName}", name },
+                                { "{otherFilePath}", _definitionFiles[name] }
+                        }
+                    );
+                else
+                {
+                    var infoArgsBlock = new InfoArgsBlock(
+                        name, EnumScope.MODIFIER,
+                        new EnumScope[] { EnumScope.ALL },
+                        new EnumValueType[] { EnumValueType.BOOLEAN }
+                    );
+
+                    _allInfoArgsBlocks[name] = infoArgsBlock;
+                    _scriptedModifiersInfoArgsBlocks[name] = infoArgsBlock;
                     _definitionFiles[name] = fileInfoPair.Value.filePath;
                 }
             }

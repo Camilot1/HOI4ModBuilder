@@ -292,6 +292,7 @@
     <Compile Include="src\dataObjects\argBlocks\data\DataArgsBlock.cs" />
     <Compile Include="src\dataObjects\argBlocks\info\InfoArgsBlock.cs" />
     <Compile Include="src\dataObjects\argBlocks\info\scripted\ScriptedEffectsGameFile.cs" />
+    <Compile Include="src\dataObjects\argBlocks\info\scripted\ScriptedModifiersGameFile.cs" />
     <Compile Include="src\dataObjects\argBlocks\info\scripted\ScriptedTriggersGameFile.cs" />
     <Compile Include="src\dataObjects\XYUshortCoordinates.cs" />
     <Compile Include="src\dataObjects\ParserDummyBlock.cs" />
@@ -430,6 +431,7 @@
     <Compile Include="src\hoiDataObjects\history\units\oobs\OOBManager.cs" />
     <Compile Include="src\hoiDataObjects\history\units\oobs\OOBUnits.cs" />
     <Compile Include="src\hoiDataObjects\Idea.cs" />
+    <Compile Include="src\hoiDataObjects\localisation\BindableLocalization.cs" />
     <Compile Include="src\hoiDataObjects\localisation\LocalizationManager.cs" />
     <Compile Include="src\hoiDataObjects\map\adjacencies\Adjacency.cs" />
     <Compile Include="src\hoiDataObjects\map\adjacencies\AdjacenciesManager.cs" />
@@ -468,6 +470,7 @@
     <Compile Include="src\newParser\interfaces\ICommentable.cs" />
     <Compile Include="src\newParser\interfaces\IConstantable.cs" />
     <Compile Include="src\newParser\interfaces\IGameParameter.cs" />
+    <Compile Include="src\newParser\interfaces\IKeyValuePushable.cs" />
     <Compile Include="src\newParser\interfaces\IParentable.cs" />
     <Compile Include="src\newParser\interfaces\IParseCallbackable.cs" />
     <Compile Include="src\newParser\interfaces\IParseObject.cs" />

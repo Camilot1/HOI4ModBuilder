@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.src.newParser.interfaces;
+﻿using HOI4ModBuilder.src.newParser;
+using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
 using System;
