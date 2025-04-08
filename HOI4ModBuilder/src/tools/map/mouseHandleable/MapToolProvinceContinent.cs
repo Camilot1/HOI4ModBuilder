@@ -20,12 +20,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
-            if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
-            ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province);
+            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+                return;
 
-            if (buttons == MouseButtons.Left && province != null)
+            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+                return;
+
+            if (mouseEventArgs.Button == MouseButtons.Left)
             {
                 int prevContinentId = province.ContinentId;
                 int newContinentId = ContinentManager.GetContinentId(parameter);
@@ -63,12 +66,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 {
                     redoAction = (list) =>
                     {
-                        foreach (var tuple in list) tuple.Item3.ContinentId = tuple.Item2;
+                        foreach (var tuple in list)
+                            tuple.Item3.ContinentId = tuple.Item2;
                         MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                     };
                     undoAction = (list) =>
                     {
-                        foreach (var tuple in list) tuple.Item3.ContinentId = tuple.Item1;
+                        foreach (var tuple in list)
+                            tuple.Item3.ContinentId = tuple.Item1;
                         MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                     };
                 }
@@ -82,12 +87,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     );
                 }
             }
-            else if (buttons == MouseButtons.Right && province != null)
+            else if (mouseEventArgs.Button == MouseButtons.Right)
             {
                 int prevSelectedIndex = MainForm.Instance.ComboBox_Tool_Parameter.SelectedIndex;
                 int newSelectedIndex = province.ContinentId;
 
-                if (prevSelectedIndex == newSelectedIndex) return;
+                if (prevSelectedIndex == newSelectedIndex)
+                    return;
 
                 void action(int i)
                 {

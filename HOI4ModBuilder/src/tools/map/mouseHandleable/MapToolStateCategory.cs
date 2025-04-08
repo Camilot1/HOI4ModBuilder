@@ -20,16 +20,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
-            if (enumEditLayer != EnumEditLayer.STATES) return;
-            if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
+            if (enumEditLayer != EnumEditLayer.STATES)
+                return;
+            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+                return;
 
             StateCategoryManager.TryGetStateCategory(parameter, out StateCategory newCategory);
 
-            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province)) return;
+            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+                return;
 
-            if (buttons == MouseButtons.Left)
+            if (mouseEventArgs.Button == MouseButtons.Left)
             {
                 if (province.State == null) return;
                 StateCategory prevCategory = province.State.startStateCategory;
@@ -49,10 +52,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     () => action(province.State, prevCategory)
                 );
             }
-            else if (buttons == MouseButtons.Right)
+            else if (mouseEventArgs.Button == MouseButtons.Right)
             {
                 string newParameter = "";
-                if (province.State != null && province.State.startStateCategory != null) newParameter = province.State.startStateCategory.name;
+                if (province.State != null && province.State.startStateCategory != null)
+                    newParameter = province.State.startStateCategory.name;
 
                 MainForm.Instance.ComboBox_Tool_Parameter.Text = newParameter;
                 MainForm.Instance.ComboBox_Tool_Parameter.Refresh();

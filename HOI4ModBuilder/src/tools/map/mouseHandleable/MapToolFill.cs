@@ -21,16 +21,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
             int prevColor = 0, newColor = 0;
-            if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
-            if (Control.ModifierKeys == Keys.Shift) return;
-            if (bounds.HasSpace() && !bounds.Inbounds(pos)) return;
+            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+                return;
+            if (Control.ModifierKeys == Keys.Shift)
+                return;
+            if (bounds.HasSpace() && !bounds.Inbounds(pos))
+                return;
 
-            if (buttons == MouseButtons.Left) newColor = MainForm.Instance.GetBrushFirstColor().ToArgb();
-            else if (buttons == MouseButtons.Right) newColor = MainForm.Instance.GetBrushSecondColor().ToArgb();
-            else return;
+            if (mouseEventArgs.Button == MouseButtons.Left)
+                newColor = MainForm.Instance.GetBrushFirstColor().ToArgb();
+            else if (mouseEventArgs.Button == MouseButtons.Right)
+                newColor = MainForm.Instance.GetBrushSecondColor().ToArgb();
+            else
+                return;
 
             Action<int, int> action;
 
@@ -56,15 +62,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
                     HashSet<Value2US> positions = null;
 
-                    if (bounds.HasSpace()) positions = bounds.ToPositions((ushort)MapManager.MapSize.x, (ushort)MapManager.MapSize.y);
-                    else positions = TextureManager.provinces.NewGetRGBPositions((ushort)pos.x, (ushort)pos.y);
-                    if (positions == null || positions.Count == 0) return;
+                    if (bounds.HasSpace())
+                        positions = bounds.ToPositions((ushort)MapManager.MapSize.x, (ushort)MapManager.MapSize.y);
+                    else
+                        positions = TextureManager.provinces.NewGetRGBPositions((ushort)pos.x, (ushort)pos.y);
+                    if (positions == null || positions.Count == 0)
+                        return;
 
                     prevColor = TextureManager.provinces.GetColor(pos);
 
                     action = (p, n) =>
                     {
-                        if (p == n) return;
+                        if (p == n)
+                            return;
                         TextureManager.provinces.RGBFill(MapManager.ProvincesPixels, positions, n);
                     };
 

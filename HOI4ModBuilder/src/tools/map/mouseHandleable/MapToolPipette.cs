@@ -19,10 +19,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
-            if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
-            if (Control.ModifierKeys == Keys.Shift) return;
+            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+                return;
+            if (Control.ModifierKeys == Keys.Shift)
+                return;
 
             int prevColor, newColor;
             Action<int> action;
@@ -39,7 +41,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     return;
             }
 
-            if (buttons == MouseButtons.Left)
+            if (mouseEventArgs.Button == MouseButtons.Left)
             {
                 prevColor = MainForm.Instance.GetBrushFirstColor().ToArgb();
                 action = (c) => MainForm.Instance.SetBrushFirstColor(Color.FromArgb(c));
@@ -49,7 +51,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     () => action(prevColor)
                 );
             }
-            else if (buttons == MouseButtons.Right)
+            else if (mouseEventArgs.Button == MouseButtons.Right)
             {
                 prevColor = MainForm.Instance.GetBrushSecondColor().ToArgb();
                 action = (c) => MainForm.Instance.SetBrushSecondColor(Color.FromArgb(c));

@@ -19,22 +19,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
-            if (enumEditLayer != EnumEditLayer.PROVINCES) return;
-
-            if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
+            if (enumEditLayer != EnumEditLayer.PROVINCES)
+                return;
+            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+                return;
 
             ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province);
             bool prevCoastal = province.IsCoastal;
             bool newCoastal = false, doAction = false;
 
-            if (buttons == MouseButtons.Left && !prevCoastal)
+            if (mouseEventArgs.Button == MouseButtons.Left && !prevCoastal)
             {
                 newCoastal = true;
                 doAction = true;
             }
-            else if (buttons == MouseButtons.Right && prevCoastal)
+            else if (mouseEventArgs.Button == MouseButtons.Right && prevCoastal)
             {
                 newCoastal = false;
                 doAction = true;

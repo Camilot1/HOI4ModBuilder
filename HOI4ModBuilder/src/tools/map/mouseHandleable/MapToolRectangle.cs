@@ -22,9 +22,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
-            if (buttons != MouseButtons.Left) return;
+            if (mouseEventArgs.Button != MouseButtons.Left)
+                return;
 
             ushort x = (ushort)pos.x;
             ushort y = (ushort)pos.y;

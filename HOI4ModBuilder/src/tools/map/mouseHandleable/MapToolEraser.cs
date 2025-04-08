@@ -18,15 +18,21 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
             int prevColor = 0, newColor;
-            if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
-            if (Control.ModifierKeys == Keys.Shift) return;
-            if (bounds.HasSpace() && !bounds.Inbounds(pos)) return;
+            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+                return;
+            if (Control.ModifierKeys == Keys.Shift)
+                return;
+            if (bounds.HasSpace() && !bounds.Inbounds(pos))
+                return;
 
-            if (buttons == MouseButtons.Left) newColor = Utils.ArgbToInt(255, 255, 255, 255);
-            else return;
+            if (mouseEventArgs.Button == MouseButtons.Left)
+                newColor = Utils.ArgbToInt(255, 255, 255, 255);
+            else
+                return;
+
             Action<Point2D, int> action = null;
 
             switch (enumEditLayer)

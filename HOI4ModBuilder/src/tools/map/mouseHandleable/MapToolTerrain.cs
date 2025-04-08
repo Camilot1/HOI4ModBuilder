@@ -21,21 +21,27 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
-            if (!(enumEditLayer == EnumEditLayer.PROVINCES || enumEditLayer == EnumEditLayer.STRATEGIC_REGIONS)) return;
-            if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
+            if (!(enumEditLayer == EnumEditLayer.PROVINCES || enumEditLayer == EnumEditLayer.STRATEGIC_REGIONS))
+                return;
+            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+                return;
 
-            ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province);
-            if (buttons == MouseButtons.Left && parameter != null && province != null)
+            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+                return;
+
+            if (mouseEventArgs.Button == MouseButtons.Left && parameter != null)
             {
                 TerrainManager.TryGetProvincialTerrain(parameter, out ProvincialTerrain newProvincialTerrain);
                 if (newProvincialTerrain != null)
                 {
                     ProvincialTerrain prevTerrain = null;
 
-                    if (enumEditLayer == EnumEditLayer.PROVINCES) prevTerrain = province.Terrain;
-                    else if (enumEditLayer == EnumEditLayer.STRATEGIC_REGIONS && province.Region != null) prevTerrain = province.Region.Terrain;
+                    if (enumEditLayer == EnumEditLayer.PROVINCES)
+                        prevTerrain = province.Terrain;
+                    else if (enumEditLayer == EnumEditLayer.STRATEGIC_REGIONS && province.Region != null)
+                        prevTerrain = province.Region.Terrain;
 
                     Action<ProvincialTerrain> action;
 
@@ -45,7 +51,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         {
                             bool newToHandleMapChange = prevTerrain == null || !province.Terrain.Equals(t);
                             province.Terrain = t;
-                            if (newToHandleMapChange) MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                            if (newToHandleMapChange)
+                                MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                         };
                     }
                     else if (enumEditLayer == EnumEditLayer.STRATEGIC_REGIONS)
@@ -54,7 +61,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         {
                             bool newToHandleMapChange = prevTerrain == null || !province.Region.Terrain.Equals(t);
                             province.Region.UpdateTerrain(t);
-                            if (newToHandleMapChange) MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                            if (newToHandleMapChange)
+                                MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                         };
                     }
                     else return;
@@ -65,19 +73,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     );
                 }
             }
-            else if (buttons == MouseButtons.Right && province != null)
+            else if (mouseEventArgs.Button == MouseButtons.Right)
             {
                 string prevTerrain = MainForm.Instance.ComboBox_Tool_Parameter.Text;
                 ProvincialTerrain newTerrainObj = null;
 
-                if (enumEditLayer == EnumEditLayer.PROVINCES) newTerrainObj = province.Terrain;
-                else if (enumEditLayer == EnumEditLayer.STRATEGIC_REGIONS && province.Region != null) newTerrainObj = province.Region.Terrain;
+                if (enumEditLayer == EnumEditLayer.PROVINCES)
+                    newTerrainObj = province.Terrain;
+                else if (enumEditLayer == EnumEditLayer.STRATEGIC_REGIONS && province.Region != null)
+                    newTerrainObj = province.Region.Terrain;
 
-                if (newTerrainObj == null) return;
+                if (newTerrainObj == null)
+                    return;
 
                 string newTerrain = newTerrainObj.name;
 
-                if (prevTerrain == newTerrain) return;
+                if (prevTerrain == newTerrain)
+                    return;
 
                 void action(string t)
                 {

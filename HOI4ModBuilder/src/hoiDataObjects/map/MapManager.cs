@@ -798,15 +798,15 @@ namespace HOI4ModBuilder.managers
         public static void HandleMouseDown(MouseEventArgs e, ViewportInfo viewportInfo, EnumEditLayer enumEditLayer, EnumTool enumTool, string toolParameter)
         {
             Point2D pos = CalculateMapPos(e.X, e.Y, viewportInfo);
-            var buttons = e.Button;
             _mousePrevPoint = pos;
             _mouseState = EnumMouseState.DOWN;
 
             if (enumTool != EnumTool.CURSOR) ActionsBatch.Enabled = true;
 
-            MapToolsManager.HandleTool(buttons, _mouseState, pos, enumEditLayer, enumTool, bounds, toolParameter);
+            MapToolsManager.HandleTool(e, _mouseState, pos, enumEditLayer, enumTool, bounds, toolParameter);
 
-            if (buttons == MouseButtons.Middle) _isMapDragged = true;
+            if (e.Button == MouseButtons.Middle)
+                _isMapDragged = true;
 
             _mouseState = EnumMouseState.NONE;
         }
@@ -820,8 +820,10 @@ namespace HOI4ModBuilder.managers
             ActionsBatch.Execute();
             ActionsBatch.Enabled = false;
 
-            if (enumTool == EnumTool.CURSOR) selectedTexturedPlane = null;
-            if (button == MouseButtons.Middle) _isMapDragged = false;
+            if (enumTool == EnumTool.CURSOR)
+                selectedTexturedPlane = null;
+            if (button == MouseButtons.Middle)
+                _isMapDragged = false;
             _mouseState = EnumMouseState.NONE;
         }
 
@@ -844,7 +846,7 @@ namespace HOI4ModBuilder.managers
                 else if (ActionsBatch.Enabled && ((int)_mousePrevPoint.x != (int)pos.x || (int)_mousePrevPoint.y != (int)pos.y))
                 {
                     if (enumTool != EnumTool.BUILDINGS)
-                        MapToolsManager.HandleTool(e.Button, _mouseState, pos, enumEditLayer, enumTool, bounds, toolParameter);
+                        MapToolsManager.HandleTool(e, _mouseState, pos, enumEditLayer, enumTool, bounds, toolParameter);
                 }
                 _mousePrevPoint = pos;
             }

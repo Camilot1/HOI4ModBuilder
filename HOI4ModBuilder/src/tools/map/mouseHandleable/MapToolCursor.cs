@@ -6,11 +6,8 @@ using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.utils;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
@@ -30,13 +27,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
             Province selectedProvince = null;
             State selectedState = null;
             StrategicRegion selectedRegion = null;
 
-            if (buttons == MouseButtons.Left && Control.ModifierKeys == Keys.Shift && MapManager.displayLayers[(int)EnumAdditionalLayers.OVERLAY_TEXTURES])
+            if (mouseEventArgs.Button == MouseButtons.Left && Control.ModifierKeys == Keys.Shift && MapManager.displayLayers[(int)EnumAdditionalLayers.OVERLAY_TEXTURES])
             {
                 for (int i = MapManager.additionalMapTextures.Count - 1; i >= 0; i--)
                 {
@@ -49,7 +46,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 }
             }
 
-            if (buttons == MouseButtons.Left)
+            if (mouseEventArgs.Button == MouseButtons.Left)
             {
                 var warningCodes = new List<EnumMapWarningCode>();
                 var errorCodes = new List<EnumMapErrorCode>();
@@ -81,7 +78,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (!pos.InboundsPositiveBox(MapManager.MapSize))
             {
-                if (buttons == MouseButtons.Right) ProvinceManager.RMBProvince = null;
+                if (mouseEventArgs.Button == MouseButtons.Right)
+                    ProvinceManager.RMBProvince = null;
                 return;
             }
 
@@ -89,26 +87,37 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (enumEditLayer == EnumEditLayer.PROVINCES)
             {
-                if (buttons == MouseButtons.Left) selectedProvince = ProvinceManager.SelectProvince(color);
-                else if (buttons == MouseButtons.Right) selectedProvince = ProvinceManager.SelectRMBProvince(color);
+                if (mouseEventArgs.Button == MouseButtons.Left)
+                    selectedProvince = ProvinceManager.SelectProvince(color);
+                else if (mouseEventArgs.Button == MouseButtons.Right)
+                    selectedProvince = ProvinceManager.SelectRMBProvince(color);
             }
             else if (enumEditLayer == EnumEditLayer.STATES)
             {
-                if (buttons == MouseButtons.Left) selectedState = StateManager.SelectState(color);
-                else if (buttons == MouseButtons.Right) selectedState = StateManager.SelectRMBState(color);
+                if (mouseEventArgs.Button == MouseButtons.Left)
+                    selectedState = StateManager.SelectState(color);
+                else if (mouseEventArgs.Button == MouseButtons.Right)
+                    selectedState = StateManager.SelectRMBState(color);
             }
             else if (enumEditLayer == EnumEditLayer.STRATEGIC_REGIONS)
             {
-                if (buttons == MouseButtons.Left) selectedRegion = StrategicRegionManager.SelectRegion(color);
-                else if (buttons == MouseButtons.Right) selectedRegion = StrategicRegionManager.SelectRMBRegion(color);
+                if (mouseEventArgs.Button == MouseButtons.Left)
+                    selectedRegion = StrategicRegionManager.SelectRegion(color);
+                else if (mouseEventArgs.Button == MouseButtons.Right)
+                    selectedRegion = StrategicRegionManager.SelectRMBRegion(color);
             }
 
-            if (MapManager.displayLayers[(int)EnumAdditionalLayers.ADJACENCIES]) AdjacenciesManager.HandleCursor(buttons, pos);
-            if (MapManager.displayLayers[(int)EnumAdditionalLayers.RAILWAYS]) SupplyManager.HandleCursor(buttons, pos);
+            if (MapManager.displayLayers[(int)EnumAdditionalLayers.ADJACENCIES])
+                AdjacenciesManager.HandleCursor(mouseEventArgs.Button, pos);
+            if (MapManager.displayLayers[(int)EnumAdditionalLayers.RAILWAYS])
+                SupplyManager.HandleCursor(mouseEventArgs.Button, pos);
 
-            if (selectedProvince != null) MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedProvince.Id;
-            else if (selectedState != null) MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedState.Id;
-            else if (selectedRegion != null) MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedRegion.Id;
+            if (selectedProvince != null)
+                MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedProvince.Id;
+            else if (selectedState != null)
+                MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedState.Id;
+            else if (selectedRegion != null)
+                MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedRegion.Id;
 
             MainForm.Instance.textBox_PixelPos.Text = (int)pos.x + "; " + (int)pos.y;
             MainForm.Instance.textBox_HOI4PixelPos.Text = (int)pos.x + "; " + (MapManager.MapSize.y - (int)pos.y);

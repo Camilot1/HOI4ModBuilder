@@ -20,20 +20,28 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
-            if (enumEditLayer != EnumEditLayer.BUILDINGS) return;
-            if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
-            ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province);
+            if (enumEditLayer != EnumEditLayer.BUILDINGS)
+                return;
+            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+                return;
+
+            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+                return;
 
             int changeCount = 0;
 
-            if (!BuildingManager.TryGetBuilding(parameter, out Building building)) return;
+            if (!BuildingManager.TryGetBuilding(parameter, out Building building))
+                return;
 
-            if (buttons == MouseButtons.Left && province != null && province.State != null)
+            if (mouseEventArgs.Button == MouseButtons.Left && province.State != null)
                 changeCount = 1;
-            else if (buttons == MouseButtons.Right && province != null && province.State != null)
+            else if (mouseEventArgs.Button == MouseButtons.Right && province.State != null)
                 changeCount = -1;
+
+            if (MainForm.Instance.IsShiftPressed())
+                changeCount *= 10;
 
             if (changeCount != 0)
             {
@@ -75,8 +83,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
                 newCount = (int)prevCount + changeCount;
 
-                if (newCount < 0) newCount = 0;
-                else if (newCount > maxCount) newCount = (int)maxCount;
+                if (newCount < 0)
+                    newCount = 0;
+                else if (newCount > maxCount)
+                    newCount = (int)maxCount;
 
                 if (prevCount == newCount) return;
 
@@ -104,7 +114,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     () => action(prevCount)
                 );
             }
-            else return;
         }
     }
 }

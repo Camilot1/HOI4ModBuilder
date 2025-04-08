@@ -21,18 +21,24 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
             byte newByte = 0, prevByte = 0;
             int newColor = 0, prevColor = 0;
 
-            if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
-            if (Control.ModifierKeys == Keys.Shift) return;
-            if (bounds.HasSpace() && !bounds.Inbounds(pos)) return;
+            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+                return;
+            if (Control.ModifierKeys == Keys.Shift)
+                return;
+            if (bounds.HasSpace() && !bounds.Inbounds(pos))
+                return;
 
-            if (buttons == MouseButtons.Left) newColor = MainForm.Instance.GetBrushFirstColor().ToArgb();
-            else if (buttons == MouseButtons.Right) newColor = MainForm.Instance.GetBrushSecondColor().ToArgb();
-            else return;
+            if (mouseEventArgs.Button == MouseButtons.Left)
+                newColor = MainForm.Instance.GetBrushFirstColor().ToArgb();
+            else if (mouseEventArgs.Button == MouseButtons.Right)
+                newColor = MainForm.Instance.GetBrushSecondColor().ToArgb();
+            else
+                return;
 
             int i = (int)pos.x + (int)pos.y * MapManager.MapSize.x;
             Action<Point2D, byte, int> action = null;

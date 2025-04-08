@@ -555,7 +555,8 @@ namespace HOI4ModBuilder
         }
 
         public Color GetBrushSecondColor() => brushSecondColor;
-        private void Panel1_MouseWheel(object sender, MouseEventArgs e) => MapManager.HandleMouseWheel(e, viewportInfo);
+        private void Panel1_MouseWheel(object sender, MouseEventArgs e)
+            => MapManager.HandleMouseWheel(e, viewportInfo);
 
         private void CheckedListBox_MapAdditionalLayers_MouseUp(object sender, MouseEventArgs e)
         {
@@ -817,6 +818,11 @@ namespace HOI4ModBuilder
 
         private void ComboBox_EditLayer_SelectedIndexChanged(object sender, EventArgs e)
             => enumEditLayer = (EnumEditLayer)ComboBox_EditLayer.SelectedIndex;
+
+        public bool IsControlPresses() => ModifierKeys == Keys.Control;
+        public bool IsShiftPressed() => ModifierKeys == Keys.Shift;
+        public bool IsAltPressed() => ModifierKeys == Keys.Alt;
+
         private void Panel1_MouseDown(object sender, MouseEventArgs e)
             => Logger.TryOrLog(() => MapManager.HandleMouseDown(e, viewportInfo, enumEditLayer, enumTool, ComboBox_Tool_Parameter.Text));
         private void Panel1_MouseUp(object sender, MouseEventArgs e)

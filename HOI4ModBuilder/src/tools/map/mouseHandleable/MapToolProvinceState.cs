@@ -20,14 +20,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
-            if (enumEditLayer != EnumEditLayer.PROVINCES) return;
+            if (enumEditLayer != EnumEditLayer.PROVINCES)
+                return;
+            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+                return;
+            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+                return;
 
-            if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
-            ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province);
-
-            if (buttons == MouseButtons.Left && province != null)
+            if (mouseEventArgs.Button == MouseButtons.Left)
             {
                 var prevState = province.State;
                 StateManager.TryGetState(ushort.Parse(parameter), out State newState);
@@ -43,7 +45,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     () => action(newState, prevState)
                 );
             }
-            else if (buttons == MouseButtons.Right && province != null && province.State != null)
+            else if (mouseEventArgs.Button == MouseButtons.Right && province.State != null)
             {
                 MainForm.Instance.ComboBox_Tool_Parameter.Text = "" + province.State.Id;
                 MainForm.Instance.ComboBox_Tool_Parameter.Refresh();

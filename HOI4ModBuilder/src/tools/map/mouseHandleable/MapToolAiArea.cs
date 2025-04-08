@@ -20,11 +20,14 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
-            if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
-            if (!AiAreaManager.TryGetAiArea(parameter, out AiArea aiArea)) return;
-            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province)) return;
+            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+                return;
+            if (!AiAreaManager.TryGetAiArea(parameter, out AiArea aiArea))
+                return;
+            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+                return;
 
             int i = (int)pos.x + (int)pos.y * MapManager.MapSize.x;
 
@@ -53,17 +56,18 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             switch (enumEditLayer)
             {
                 case EnumEditLayer.CONTINENTS:
-                    if (buttons == MouseButtons.Left && !aiArea.HasContinentId(province.ContinentId))
+                    if (mouseEventArgs.Button == MouseButtons.Left && !aiArea.HasContinentId(province.ContinentId))
                         MapManager.ActionsBatch.AddWithExecute(() => AddContinent(), () => RemoveContinent());
-                    else if (buttons == MouseButtons.Right && aiArea.HasContinentId(province.ContinentId))
+                    else if (mouseEventArgs.Button == MouseButtons.Right && aiArea.HasContinentId(province.ContinentId))
                         MapManager.ActionsBatch.AddWithExecute(() => RemoveContinent(), () => AddContinent());
                     break;
                 case EnumEditLayer.STRATEGIC_REGIONS:
-                    if (province.Region == null) return;
+                    if (province.Region == null)
+                        return;
 
-                    if (buttons == MouseButtons.Left && !aiArea.HasRegion(province.Region))
+                    if (mouseEventArgs.Button == MouseButtons.Left && !aiArea.HasRegion(province.Region))
                         MapManager.ActionsBatch.AddWithExecute(() => AddRegion(), () => RemoveRegion());
-                    else if (buttons == MouseButtons.Right && aiArea.HasRegion(province.Region))
+                    else if (mouseEventArgs.Button == MouseButtons.Right && aiArea.HasRegion(province.Region))
                         MapManager.ActionsBatch.AddWithExecute(() => RemoveRegion(), () => AddRegion());
                     break;
             }

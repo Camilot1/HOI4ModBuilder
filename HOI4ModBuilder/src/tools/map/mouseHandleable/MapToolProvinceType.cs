@@ -19,17 +19,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseButtons buttons, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
-            if (enumEditLayer != EnumEditLayer.PROVINCES) return;
+            if (enumEditLayer != EnumEditLayer.PROVINCES)
+                return;
 
             Enum.TryParse(parameter.ToUpper(), out EnumProvinceType newType);
 
-            if (!pos.InboundsPositiveBox(MapManager.MapSize)) return;
-            ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province);
+            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+                return;
+
+            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+                return;
+
             var prevType = province.Type;
 
-            if (buttons == MouseButtons.Left && newType != prevType && province != null)
+            if (mouseEventArgs.Button == MouseButtons.Left && newType != prevType)
             {
                 void action(EnumProvinceType type)
                 {
@@ -42,12 +47,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     () => action(prevType)
                 );
             }
-            else if (buttons == MouseButtons.Right && province != null)
+            else if (mouseEventArgs.Button == MouseButtons.Right)
             {
                 int prevSelectedIndex = MainForm.Instance.ComboBox_Tool_Parameter.SelectedIndex;
                 int newSelectedIndex = (int)province.Type;
 
-                if (prevSelectedIndex == newSelectedIndex) return;
+                if (prevSelectedIndex == newSelectedIndex)
+                    return;
 
                 void action(int i)
                 {
