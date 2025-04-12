@@ -90,7 +90,7 @@ namespace HOI4ModBuilder.managers
 
             MainForm.ExecuteActions(actions);
 
-            ProvinceBorderManager.Init(ProvincesPixels, (ushort)MapSize.x, (ushort)MapSize.y);
+            ProvinceBorderManager.Init(ProvincesPixels, (short)MapSize.x, (short)MapSize.y);
 
             showMainLayer = true;
         }
@@ -375,7 +375,7 @@ namespace HOI4ModBuilder.managers
                         GL.Color3(1f, 0f, 0f);
                         GL.Begin(PrimitiveType.LineStrip);
                         Value2F medium = new Value2F();
-                        foreach (Value2US pos in b.pixels)
+                        foreach (Value2S pos in b.pixels)
                         {
                             medium.x += pos.x;
                             medium.y += MapSize.y - pos.y;
@@ -757,7 +757,7 @@ namespace HOI4ModBuilder.managers
                             p.ClearBorders();
                         }
 
-                        ProvinceBorderManager.Init(ProvincesPixels, (ushort)MapSize.x, (ushort)MapSize.y);
+                        ProvinceBorderManager.Init(ProvincesPixels, (short)MapSize.x, (short)MapSize.y);
                         WarningsManager.Init();
                         ErrorManager.Init();
 

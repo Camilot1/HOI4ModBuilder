@@ -1,5 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.src.hoiDataObjects.map.provinces.border;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using SharpFont;
 using System;
 using System.Collections.Generic;
@@ -82,6 +84,32 @@ namespace HOI4ModBuilder
 
             parameter = value;
             needToSave = true;
+        }
+
+        public static void ReverseLinkedData<T>(LinkedData<T> linkedData)
+        {
+            if (linkedData == null)
+                return;
+
+            if (linkedData.prev != null)
+            {
+                var current = linkedData;
+                while (current != null)
+                {
+                    (current.next, current.prev) = (current.prev, current.next);
+                    current = current.next;
+                }
+            }
+            else if (linkedData.next != null)
+            {
+                var current = linkedData;
+                while (current != null)
+                {
+                    (current.prev, current.next) = (current.next, current.prev);
+                    current = current.prev;
+                }
+            }
+
         }
 
         public static void Setter<T>(ref T parameter, ref T value, ref bool needToSave, ref bool hasChanged)

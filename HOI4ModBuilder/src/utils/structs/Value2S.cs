@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.utils.structs
 {
-    public struct Value2US
+    public struct Value2S
     {
-        public ushort x, y;
-        public Value2US(ushort x, ushort y)
+        public short x, y;
+        public Value2S(short x, short y)
         {
             this.x = x;
             this.y = y;
@@ -17,7 +17,7 @@ namespace HOI4ModBuilder.src.utils.structs
 
         public override bool Equals(object obj)
         {
-            return obj is Value2US uS &&
+            return obj is Value2S uS &&
                    x == uS.x &&
                    y == uS.y;
         }
@@ -29,7 +29,7 @@ namespace HOI4ModBuilder.src.utils.structs
 
         public override string ToString()
         {
-            return $"Value2US(x = {x}; y = {y})";
+            return $"Value2S(x = {x}; y = {y})";
         }
     }
 }

@@ -101,7 +101,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 {
                     if (border.pixels.Length == 1) continue;
                     GL.Begin(PrimitiveType.LineStrip);
-                    foreach (Value2US vertex in border.pixels)
+                    foreach (Value2S vertex in border.pixels)
                         GL.Vertex2(vertex.x, vertex.y);
                     GL.End();
                 }
@@ -116,7 +116,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 {
                     if (border.pixels.Length == 1) continue;
                     GL.Begin(PrimitiveType.LineStrip);
-                    foreach (Value2US vertex in border.pixels)
+                    foreach (Value2S vertex in border.pixels)
                         GL.Vertex2(vertex.x, vertex.y);
                     GL.End();
                 }

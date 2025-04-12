@@ -1,7 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.common.terrain;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
-using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
@@ -11,7 +10,6 @@ using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
 {
@@ -500,6 +498,5 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         }
 
     }
-
 
 }

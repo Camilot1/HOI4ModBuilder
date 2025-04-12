@@ -171,6 +171,8 @@ namespace HOI4ModBuilder.managers
             return province != null;
         }
         public static bool TryGetProvince(int color, out Province province) => _provincesByColor.TryGetValue(color, out province);
+        public static Province GetProvince(ushort id) => _provincesById[id];
+        public static Province GetProvince(int color) => _provincesByColor[color];
         public static bool TryGetProvince(Point2D point, out Province province) => TryGetProvince(MapManager.GetColor(point), out province);
         public static Dictionary<int, Province>.ValueCollection GetProvinces() => _provincesByColor.Values;
         public static int ProvincesCount => _provincesByColor.Count;
@@ -258,9 +260,11 @@ namespace HOI4ModBuilder.managers
 
                 foreach (var border in SelectedProvince.borders)
                 {
-                    if (border.pixels.Length == 1) continue;
+                    if (border.pixels.Length == 1)
+                        continue;
+
                     GL.Begin(PrimitiveType.LineStrip);
-                    foreach (Value2US vertex in border.pixels)
+                    foreach (Value2S vertex in border.pixels)
                     {
                         GL.Vertex2(vertex.x, vertex.y);
                     }
@@ -285,7 +289,7 @@ namespace HOI4ModBuilder.managers
                 {
                     if (border.pixels.Length == 1) continue;
                     GL.Begin(PrimitiveType.LineStrip);
-                    foreach (Value2US vertex in border.pixels)
+                    foreach (Value2S vertex in border.pixels)
                     {
                         GL.Vertex2(vertex.x, vertex.y);
                     }

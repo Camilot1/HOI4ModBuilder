@@ -1,6 +1,5 @@
 ﻿using HOI4ModBuilder.src.utils.structs;
 using System.Collections.Generic;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
 {
@@ -13,14 +12,14 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public int index;
         public Province provinceA, provinceB;
-        public Value2US[] pixels;
+        public Value2S[] pixels;
         public Point2F center;
 
-        public ProvinceBorder(int index, List<Value2US> pixels, Province provinceA, Province provinceB)
+        public ProvinceBorder(int index, List<Value2S> pixels, Province provinceA, Province provinceB)
         {
             this.index = index;
             int count = pixels.Count;
-            this.pixels = new Value2US[count];
+            this.pixels = new Value2S[count];
 
             for (int i = 0; i < count; i++)
             {
@@ -34,7 +33,10 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
             this.provinceA = provinceA;
             this.provinceB = provinceB;
+        }
 
+        public void AddToProvinces()
+        {
             provinceA.AddBorder(this);
             provinceB.AddBorder(this);
         }

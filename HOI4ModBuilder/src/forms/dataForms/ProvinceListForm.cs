@@ -59,7 +59,7 @@ namespace HOI4ModBuilder.src.forms
                 () =>
                 {
                     ushort id;
-                    ushort[] ids = ProvinceManager.GetProvincesIds().OrderBy(x => x).ToArray();
+                    ushort[] ids = ProvinceManager.GetProvincesIds().ToArray();
 
                     DataGridViewRow[] rows = new DataGridViewRow[ids.Length];
 

@@ -375,7 +375,8 @@ namespace HOI4ModBuilder.src.utils
             foreach (var form in _textBoxMessageForms)
                 TryOrLog(() =>
                 {
-                    if (!form.IsClosed) form.InvokeAction(() => form.Close());
+                    if (!form.IsClosed)
+                        form.InvokeAction(() => form.Close());
                 });
             _textBoxMessageForms.Clear();
         }
