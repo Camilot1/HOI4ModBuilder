@@ -7,6 +7,7 @@ using OpenTK.Graphics.OpenGL;
 using HOI4ModBuilder.src.utils;
 using System.Threading;
 using System.Net.Sockets;
+using HOI4ModBuilder.src.utils.structs;
 
 namespace HOI4ModBuilder.src.managers.mapChecks
 {

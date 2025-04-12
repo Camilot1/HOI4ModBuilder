@@ -36,6 +36,8 @@ using static HOI4ModBuilder.utils.Structs;
 using HOI4ModBuilder.src.tools.auto;
 using HOI4ModBuilder.src.forms.scripts;
 using HOI4ModBuilder.src.scripts;
+using HOI4ModBuilder.src.utils.structs;
+using HOI4ModBuilder.src.tools.brushes;
 
 namespace HOI4ModBuilder
 {
@@ -154,6 +156,7 @@ namespace HOI4ModBuilder
 
             MenuStrip1.Refresh();
             ScriptParser.Wake();
+            BrushManager.Load();
         }
 
         private void AfterFirstInit()
@@ -744,13 +747,15 @@ namespace HOI4ModBuilder
                 enumTool = (EnumTool)ComboBox_Tool.SelectedIndex;
                 switch (enumTool)
                 {
+                    case EnumTool.BRUSH:
+                    case EnumTool.ERASER:
+                        UpdateToolParameterComboBox(BrushManager.GetBrushesNames().GetEnumerator());
+                        break;
                     case EnumTool.CURSOR:
                     case EnumTool.RECTANGLE:
                     case EnumTool.ELLIPSE:
                     case EnumTool.MAGIC_WAND:
-                    case EnumTool.BRUSH:
                     case EnumTool.FILL:
-                    case EnumTool.ERASER:
                     case EnumTool.PIPETTE:
                     case EnumTool.PROVINCE_COASTAL:
                         UpdateToolParameterComboBox(null);
@@ -789,8 +794,10 @@ namespace HOI4ModBuilder
                         break;
                 }
 
-                if (enumTool == EnumTool.CURSOR) Panel_Map.ContextMenuStrip = ContextMenuStrip_Map;
-                else Panel_Map.ContextMenuStrip = null;
+                if (enumTool == EnumTool.CURSOR)
+                    Panel_Map.ContextMenuStrip = ContextMenuStrip_Map;
+                else
+                    Panel_Map.ContextMenuStrip = null;
             });
         }
 

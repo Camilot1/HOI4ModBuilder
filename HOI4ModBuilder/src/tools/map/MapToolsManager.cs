@@ -9,6 +9,7 @@ using HOI4ModBuilder.src.tools.map.advanced;
 using System;
 using HOI4ModBuilder.src.tools.map.mouseHandleable;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.utils.structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map
 {

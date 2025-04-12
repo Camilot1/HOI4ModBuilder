@@ -5,6 +5,7 @@ using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;

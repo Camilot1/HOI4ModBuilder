@@ -2,6 +2,7 @@
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
 using System.IO;

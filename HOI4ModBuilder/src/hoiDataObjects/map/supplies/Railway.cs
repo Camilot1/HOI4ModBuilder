@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;

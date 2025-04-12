@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using System.Collections.Generic;
 using System.Text;
 using static HOI4ModBuilder.utils.Structs;

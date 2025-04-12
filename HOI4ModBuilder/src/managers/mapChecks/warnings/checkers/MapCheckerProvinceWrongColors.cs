@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.managers.warnings;
+using HOI4ModBuilder.src.utils.structs;
 using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers

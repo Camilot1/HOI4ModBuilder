@@ -5,6 +5,7 @@ using HOI4ModBuilder.src.managers.warnings;
 using HOI4ModBuilder.src.managers.mapChecks;
 using HOI4ModBuilder.src.managers.mapChecks.warnings.checkers;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 
 namespace HOI4ModBuilder.src.managers
 {

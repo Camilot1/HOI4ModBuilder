@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.openTK.text;
+using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

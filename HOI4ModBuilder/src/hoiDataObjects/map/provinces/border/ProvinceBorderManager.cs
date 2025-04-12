@@ -2,6 +2,7 @@
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -84,13 +85,13 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             cur = pixels[0, 0];
             if (cur != l)
             {
-                Value2US pos;
-                pos.x = 0;
-                pos.y = 0;
-                BorderInfo borderInfo = new BorderInfo();
-                borderInfo.pos = pos;
-                borderInfo.directionCount++;
-                borderInfo.d = new Tuple<int, int>(cur, l);
+                var pos = new Value2US() { x = 0, y = 0 };
+                var borderInfo = new BorderInfo
+                {
+                    pos = pos,
+                    directionCount = 1,
+                    d = new Tuple<int, int>(cur, l)
+                };
 
                 borderInfoMap[0].Add(pos, borderInfo);
                 borderInfoMap[borderInfo.directionCount].Add(pos, borderInfo);
@@ -106,11 +107,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
                 if (lu != u || u != cur || cur != l || l != lu)
                 {
-                    Value2US pos;
-                    pos.x = 0;
-                    pos.y = y;
-                    var borderInfo = new BorderInfo();
-                    borderInfo.pos = pos;
+                    var pos = new Value2US() { x = 0, y = y };
+                    var borderInfo = new BorderInfo { pos = pos };
 
                     if (lu != u)
                     {
@@ -147,9 +145,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
                 if (cur != l)
                 {
-                    Value2US pos;
-                    pos.x = x;
-                    pos.y = 0;
+                    var pos = new Value2US() { x = x, y = 0 };
                     var borderInfo = new BorderInfo
                     {
                         pos = pos,
@@ -167,9 +163,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             cur = pixels[0, size.y - 1];
             if (cur != l)
             {
-                Value2US pos;
-                pos.x = 0;
-                pos.y = size.y;
+                var pos = new Value2US() { x = 0, y = size.y };
                 var borderInfo = new BorderInfo
                 {
                     pos = pos,
@@ -238,9 +232,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
                 if (l != cur)
                 {
-                    Value2US pos;
-                    pos.x = x;
-                    pos.y = size.y;
+                    var pos = new Value2US() { x = x, y = size.y };
                     var borderInfo = new BorderInfo
                     {
                         pos = pos,
@@ -261,9 +253,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
                 if (u != cur)
                 {
-                    Value2US pos;
-                    pos.x = size.x;
-                    pos.y = y;
+                    var pos = new Value2US { x = size.x, y = y };
                     var borderInfo = new BorderInfo
                     {
                         pos = pos,

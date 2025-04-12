@@ -4,6 +4,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using OpenTK.Graphics.OpenGL;
 using Pdoxcl2Sharp;
 using System;

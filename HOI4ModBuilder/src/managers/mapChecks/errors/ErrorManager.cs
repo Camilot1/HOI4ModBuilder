@@ -3,6 +3,7 @@ using HOI4ModBuilder.src.managers.mapChecks;
 using HOI4ModBuilder.src.managers.mapChecks.errors.checkers;
 using HOI4ModBuilder.src.managers.warnings;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
 using static HOI4ModBuilder.utils.Structs;

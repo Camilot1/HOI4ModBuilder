@@ -7,6 +7,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.supply;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -20,12 +20,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
-using static HOI4ModBuilder.utils.Structs;
 using HOI4ModBuilder.src.openTK.text;
 using System.Drawing.Imaging;
 using System.Drawing;
 using static HOI4ModBuilder.src.managers.ActionHistoryManager;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
+using HOI4ModBuilder.src.utils.structs;
 
 namespace HOI4ModBuilder.managers
 {
@@ -252,6 +252,26 @@ namespace HOI4ModBuilder.managers
             GL.Vertex2(pos.x + size.x, pos.y + size.y);
             GL.Vertex2(pos.x, pos.y + size.y);
             GL.End();
+        }
+
+        private static int prevPointerRadius = 0;
+        private static List<Point2D> _pointerPoints = new List<Point2D>();
+        private static void RecalculatePointerPoints(int radius)
+        {
+            if (radius == prevPointerRadius)
+                return;
+
+            prevPointerRadius = radius;
+            _pointerPoints = new List<Point2D>();
+
+            int diameter = radius * radius;
+            bool[,] pixels = new bool[diameter + 1, diameter + 1];
+
+            for (int x = 0; x < diameter; x++)
+                for (int y = 0; y < diameter; y++)
+                    pixels[x, y] = (radius - x) * (radius - x) + (radius - y) * (radius - y) <= radius * radius;
+
+
         }
 
         private static void DrawBounds()

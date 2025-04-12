@@ -262,12 +262,12 @@ namespace HOI4ModBuilder
 
             foreach (string fileName in counts.Keys)
             {
-                if (counts[fileName] == formats.Length) outputNames.Add(fileName);
+                if (counts[fileName] == formats.Length)
+                    outputNames.Add(fileName);
             }
             outputNames.Sort();
 
             return outputNames;
-
         }
 
         public static Tuple<EnumFileScale, int> GetFileScaleFromName(string fileName)

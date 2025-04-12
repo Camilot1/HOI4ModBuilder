@@ -4,6 +4,7 @@ using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 using static HOI4ModBuilder.utils.Structs;
 using System.Runtime.InteropServices;
+using HOI4ModBuilder.src.utils.structs;
 
 namespace HOI4ModBuilder
 {

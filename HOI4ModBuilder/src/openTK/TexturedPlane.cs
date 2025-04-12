@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.utils.structs;
 using Newtonsoft.Json;
 using OpenTK.Graphics.OpenGL;
 using System;

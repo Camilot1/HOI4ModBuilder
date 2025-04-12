@@ -13,6 +13,7 @@ using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.managers.errors;
 using HOI4ModBuilder.src.managers.warnings;
+using HOI4ModBuilder.src.utils.structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {

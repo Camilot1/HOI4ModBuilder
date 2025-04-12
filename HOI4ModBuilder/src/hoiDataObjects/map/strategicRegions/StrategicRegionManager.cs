@@ -3,6 +3,7 @@ using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using OpenTK.Graphics.OpenGL;
 using Pdoxcl2Sharp;
 using System;

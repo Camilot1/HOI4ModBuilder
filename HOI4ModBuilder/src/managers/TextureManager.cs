@@ -4,6 +4,7 @@ using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.openTK.text;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -72,20 +73,21 @@ namespace HOI4ModBuilder
                 this.texture = texture;
             }
 
-            public void SetColor(Point2D point, int color)
+            public void SetColor(int x, int y, int color)
             {
-                if (GetColor(point) == color) return;
-                bitmap.SetPixel((int)point.x, (int)point.y, Color.FromArgb(color));
+                if (GetColor(x, y) == color)
+                    return;
+                bitmap.SetPixel(x, y, Color.FromArgb(color));
                 needToSave = true;
             }
+            public void SetColor(Point2D point, int color)
+                => SetColor((int)point.x, (int)point.y, color);
 
-            public void WriteByte(Point2D point, byte value)
+            public void WriteByte(int x, int y, byte value)
             {
                 var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
                 var scan0 = bitmapData.Scan0;
 
-                int x = (int)point.x;
-                int y = (int)point.y;
                 byte prevValue = Marshal.ReadByte(scan0, y * bitmapData.Stride + x);
                 if (prevValue == value)
                 {
@@ -96,23 +98,26 @@ namespace HOI4ModBuilder
                 bitmap.UnlockBits(bitmapData);
                 needToSave = true;
             }
+            public void WriteByte(Point2D point, byte value)
+                => WriteByte((int)point.x, (int)point.y, value);
 
             public byte GetByte(Point2D point)
+                => GetByte((int)point.x, (int)point.y);
+
+            public byte GetByte(int x, int y)
             {
                 var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
                 var scan0 = bitmapData.Scan0;
 
-                int x = (int)point.x;
-                int y = (int)point.y;
                 byte value = Marshal.ReadByte(scan0, y * bitmapData.Stride + x);
                 bitmap.UnlockBits(bitmapData);
                 return value;
             }
 
             public int GetColor(Point2D point)
-            {
-                return bitmap.GetPixel((int)point.x, (int)point.y).ToArgb();
-            }
+                => bitmap.GetPixel((int)point.x, (int)point.y).ToArgb();
+            public int GetColor(int x, int y)
+                => bitmap.GetPixel(x, y).ToArgb();
 
             public bool GetIndex(int color, out byte index)
             {

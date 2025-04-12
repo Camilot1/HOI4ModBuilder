@@ -5,6 +5,7 @@ using System.Drawing;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
+using HOI4ModBuilder.src.utils.structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {

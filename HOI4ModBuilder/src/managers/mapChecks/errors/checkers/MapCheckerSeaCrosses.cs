@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.managers.errors;
+using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

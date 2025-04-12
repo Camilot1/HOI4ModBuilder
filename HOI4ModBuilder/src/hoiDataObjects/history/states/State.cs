@@ -8,6 +8,7 @@ using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;

@@ -1,11 +1,8 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using System.Linq;
 using System.Text;
-using static HOI4ModBuilder.utils.Structs;
 using OpenTK.Graphics.OpenGL;
 using HOI4ModBuilder.hoiDataObjects.common.terrain;
 using HOI4ModBuilder.src.utils;
@@ -16,6 +13,7 @@ using HOI4ModBuilder.src.managers;
 using System.Windows.Forms;
 using HOI4ModBuilder.hoiDataObjects;
 using static HOI4ModBuilder.utils.Enums;
+using HOI4ModBuilder.src.utils.structs;
 
 namespace HOI4ModBuilder.managers
 {
@@ -30,11 +28,11 @@ namespace HOI4ModBuilder.managers
         public static ushort NextVacantProvinceId { get; set; }
         public static Province SelectedProvince { get; set; }
         public static Province RMBProvince { get; set; }
-        private static Dictionary<ushort, Province> _provincesById = new Dictionary<ushort, Province>();
+        private static Province[] _provincesById = new Province[ushort.MaxValue];
         private static Dictionary<int, Province> _provincesByColor = new Dictionary<int, Province>();
         public static void ForEachProvince(Action<Province> action)
         {
-            foreach (var p in _provincesById.Values) action(p);
+            foreach (var p in _provincesById) action(p);
         }
 
         public static void Init()
@@ -47,7 +45,7 @@ namespace HOI4ModBuilder.managers
         {
             NextVacantProvinceId = 1;
 
-            _provincesById = new Dictionary<ushort, Province>();
+            _provincesById = new Province[ushort.MaxValue];
             _provincesByColor = new Dictionary<int, Province>();
 
             var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
@@ -63,15 +61,16 @@ namespace HOI4ModBuilder.managers
             if (!NeedToSave) return;
 
             string filePath = settings.modDirectory + FOLDER_PATH + DEFINITION_FILE_NAME;
-            ushort[] ids = _provincesById.Keys.OrderBy(x => x).ToArray();
+
             var sb = new StringBuilder();
-            if (ids.Length > 0 && ids[0] != 0)
-            {
+            if (_provincesById[0] == null)
                 sb.Append("0;0;0;0;land;false;unknown;0").Append(Constants.NEW_LINE);
-            }
-            foreach (ushort id in ids)
+
+            for (ushort id = 1; id < _provincesById.Length; id++)
             {
                 var province = _provincesById[id];
+                if (province == null)
+                    continue;
                 province.Save(sb);
             }
             File.WriteAllText(filePath, sb.ToString());
@@ -81,8 +80,8 @@ namespace HOI4ModBuilder.managers
         {
             ushort id = province.Id;
             int color = province.Color;
-            canAddById = _provincesById.ContainsKey(id);
-            canAddByColor = _provincesByColor.ContainsKey(color);
+            canAddById = _provincesById[id] == null;
+            canAddByColor = !_provincesByColor.ContainsKey(color);
 
             if (canAddById && canAddByColor)
             {
@@ -155,13 +154,26 @@ namespace HOI4ModBuilder.managers
             return color;
         }
 
-        public static bool ContainsProvinceIdKey(ushort id) => _provincesById.ContainsKey(id);
-        public static Dictionary<ushort, Province>.KeyCollection GetProvincesIds() => _provincesById.Keys;
-        public static bool TryGetProvince(ushort id, out Province province) => _provincesById.TryGetValue(id, out province);
+        public static bool ContainsProvinceIdKey(ushort id) => _provincesById[id] != null;
+        public static List<ushort> GetProvincesIds()
+        {
+            var ids = new List<ushort>(_provincesByColor.Count);
+            for (ushort id = 0; id < _provincesById.Length; id++)
+            {
+                if (_provincesById[id] != null)
+                    ids.Add(id);
+            }
+            return ids;
+        }
+        public static bool TryGetProvince(ushort id, out Province province)
+        {
+            province = _provincesById[id];
+            return province != null;
+        }
         public static bool TryGetProvince(int color, out Province province) => _provincesByColor.TryGetValue(color, out province);
         public static bool TryGetProvince(Point2D point, out Province province) => TryGetProvince(MapManager.GetColor(point), out province);
-        public static Dictionary<ushort, Province>.ValueCollection GetProvinces() => _provincesById.Values;
-        public static int ProvincesCount => _provincesById.Count;
+        public static Dictionary<int, Province>.ValueCollection GetProvinces() => _provincesByColor.Values;
+        public static int ProvincesCount => _provincesByColor.Count;
 
         public static void AddProvince(ushort id, Province province)
         {
@@ -171,7 +183,7 @@ namespace HOI4ModBuilder.managers
 
         public static void RemoveProvinceById(ushort id)
         {
-            _provincesById.Remove(id);
+            _provincesById[id] = null;
             NeedToSave = true;
         }
         public static void AddProvince(int color, Province province)
@@ -300,7 +312,6 @@ namespace HOI4ModBuilder.managers
 
         private static void ProcessDefinitionFile(string filePath)
         {
-            ushort id = 0;
             string[] lines = File.ReadAllLines(filePath);
             for (int i = 0; i < lines.Length; i++)
             {
@@ -324,6 +335,7 @@ namespace HOI4ModBuilder.managers
                         continue;
                     }
 
+                    ushort id;
                     if (!ushort.TryParse(values[0], out id))
                     {
                         Logger.LogError(
@@ -338,7 +350,7 @@ namespace HOI4ModBuilder.managers
 
                     if (id == 0) continue;
 
-                    if (_provincesById.ContainsKey(id))
+                    if (_provincesById[id] != null)
                     {
                         Logger.LogError(
                             EnumLocKey.ERROR_PROVINCE_DUPLICATE_ID,
@@ -378,7 +390,7 @@ namespace HOI4ModBuilder.managers
                             byte.Parse(values[3])
                         );
                     }
-                    catch (Exception _)
+                    catch (Exception)
                     {
                         Logger.LogError(
                             EnumLocKey.ERROR_PROVINCE_INCORRECT_COLOR_VALUE,
@@ -456,10 +468,10 @@ namespace HOI4ModBuilder.managers
                     }
 
                     var province = new Province(id, color, type, isCoastal, terrain, continentId);
-                    _provincesById.Add(id, province);
+                    _provincesById[id] = province;
                     _provincesByColor.Add(color, province);
                 }
-                catch (Exception _)
+                catch (Exception)
                 {
                     Logger.LogError(
                                 EnumLocKey.ERROR_PROVINCE_INCORRECT_LINE,
@@ -507,10 +519,11 @@ namespace HOI4ModBuilder.managers
                     {
                         //Создаём новую провинцию и добавляем её в словарь провинций
                         province = new Province(NextVacantProvinceId, color);
-                        _provincesById.Add(NextVacantProvinceId, province);
+                        _provincesById[NextVacantProvinceId] = province;
                         _provincesByColor.Add(color, province);
                         NextVacantProvinceId++;
-                        while (_provincesById.ContainsKey(NextVacantProvinceId)) NextVacantProvinceId++;
+                        while (_provincesById[NextVacantProvinceId] != null)
+                            NextVacantProvinceId++;
 
                         Logger.LogSingleErrorMessage(
                             EnumLocKey.SINGLE_MESSAGE_NEW_PROVINCE_WITH_COLOR_WAS_CREATED,
@@ -661,17 +674,25 @@ namespace HOI4ModBuilder.managers
             min = 0;
             max = 0;
 
-            foreach (var province in _provincesById.Values)
+            foreach (var province in _provincesById)
             {
+                if (province == null)
+                    continue;
+
                 min = province.victoryPoints;
                 max = province.victoryPoints;
                 break;
             }
 
-            foreach (var province in _provincesById.Values)
+            foreach (var province in _provincesById)
             {
-                if (province.victoryPoints > max) max = province.victoryPoints;
-                else if (province.victoryPoints < min) min = province.victoryPoints;
+                if (province == null)
+                    continue;
+
+                if (province.victoryPoints > max)
+                    max = province.victoryPoints;
+                else if (province.victoryPoints < min)
+                    min = province.victoryPoints;
             }
         }
 
