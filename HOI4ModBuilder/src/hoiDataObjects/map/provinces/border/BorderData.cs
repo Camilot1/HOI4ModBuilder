@@ -4,19 +4,19 @@ using System.Collections.Generic;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
 {
-    public struct ProvinceBorderData
+    public struct BorderData
     {
         public int provinceMinColor, provinceMaxColor;
         public HashSet<ValueDirectionalPos> points;
 
-        public ProvinceBorderData(int provinceMinColor, int provinceMaxColor)
+        public BorderData(int provinceMinColor, int provinceMaxColor)
         {
             this.provinceMinColor = provinceMinColor;
             this.provinceMaxColor = provinceMaxColor;
             points = new HashSet<ValueDirectionalPos>(16);
         }
 
-        public ProvinceBorderData Add(ValueDirectionalPos point)
+        public BorderData Add(ValueDirectionalPos point)
         {
             points.Add(point);
             return this;
@@ -84,6 +84,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
 
             var result = new List<List<Value2S>>();
 
+            bool hasUsedAny = false;
             foreach (var linkedData in linkedDataDictionary.Values)
             {
                 if (linkedData.data.isUsed)
@@ -92,7 +93,40 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
                 if (linkedData.prev != null && linkedData.next != null)
                     continue;
 
+                AcceptLinkedData(linkedData);
+            }
+
+            if (!hasUsedAny)
+            {
+                foreach (var linkedData in linkedDataDictionary.Values)
+                {
+                    if (linkedData.data.isUsed)
+                        continue;
+
+                    linkedData.data.isUsed = true;
+                    var pixels = new List<Value2S>
+                    {
+                        linkedData.data.pos
+                    };
+
+                    var temp = linkedData.next;
+                    while (temp != null && !temp.data.isUsed)
+                    {
+                        pixels.Add(temp.data.pos);
+                        temp.data.isUsed = true;
+                        temp = temp.next;
+                    }
+
+                    result.Add(pixels);
+                }
+            }
+
+
+            void AcceptLinkedData(LinkedData<ValueDirectionalPos> linkedData)
+            {
                 linkedData.data.isUsed = true;
+                hasUsedAny = true;
+
                 var pixels = new List<Value2S>
                 {
                     linkedData.data.pos
@@ -132,7 +166,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
 
         public override bool Equals(object obj)
         {
-            return obj is ProvinceBorderData data &&
+            return obj is BorderData data &&
                    provinceMinColor == data.provinceMinColor &&
                    provinceMaxColor == data.provinceMaxColor;
         }

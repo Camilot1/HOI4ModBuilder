@@ -21,11 +21,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
 using HOI4ModBuilder.src.openTK.text;
-using System.Drawing.Imaging;
-using System.Drawing;
 using static HOI4ModBuilder.src.managers.ActionHistoryManager;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.utils.structs;
+using HOI4ModBuilder.src.tools.brushes;
+using System.Drawing.Imaging;
+using System.Drawing;
 
 namespace HOI4ModBuilder.managers
 {
@@ -164,7 +165,8 @@ namespace HOI4ModBuilder.managers
             SupplyManager.Draw(displayLayers[(int)EnumAdditionalLayers.RAILWAYS], displayLayers[(int)EnumAdditionalLayers.SUPPLY_HUBS]);
 
             DrawPointer();
-            if (bounds.HasSpace()) DrawBounds();
+            if (bounds.HasSpace())
+                DrawBounds();
 
             GL.Scale(1f, -1f, 1f);
             GL.Color3(1f, 1f, 1f);
@@ -227,51 +229,65 @@ namespace HOI4ModBuilder.managers
 
             GL.Color3(1f, 1f, 1f);
         }
-
-        private static void DrawPointer()
+        public static void DrawPointer()
         {
-            Point2D pos = new Point2D
-            {
-                x = _mousePrevPoint.x / _mapSizeFactor.x,
-                y = _mousePrevPoint.y / _mapSizeFactor.y
-            };
-            pos.x -= pos.x % (1 / _mapSizeFactor.x);
-            pos.y -= pos.y % (1 / _mapSizeFactor.y);
+            double rawMapX = _mousePrevPoint.x / _mapSizeFactor.x;
+            double rawMapY = _mousePrevPoint.y / _mapSizeFactor.y;
 
-            Point2D size = new Point2D
-            {
-                x = _pointerSize.x / _mapSizeFactor.x,
-                y = _pointerSize.y / _mapSizeFactor.y,
-            };
+            Point2D snappedCenterPos = new Point2D();
 
             GL.LineWidth(1f);
-            GL.Color3(0f, 0f, 0f);
-            GL.Begin(PrimitiveType.LineLoop);
-            GL.Vertex2(pos.x, pos.y);
-            GL.Vertex2(pos.x + size.x, pos.y);
-            GL.Vertex2(pos.x + size.x, pos.y + size.y);
-            GL.Vertex2(pos.x, pos.y + size.y);
-            GL.End();
-        }
+            GL.Color3(0.0f, 0.0f, 0.0f);
 
-        private static int prevPointerRadius = 0;
-        private static List<Point2D> _pointerPoints = new List<Point2D>();
-        private static void RecalculatePointerPoints(int radius)
-        {
-            if (radius == prevPointerRadius)
-                return;
+            bool isBrushTool = (MainForm.Instance.enumTool == EnumTool.BRUSH ||
+                                MainForm.Instance.enumTool == EnumTool.ERASER);
 
-            prevPointerRadius = radius;
-            _pointerPoints = new List<Point2D>();
+            if (isBrushTool && BrushManager.TryGetBrush(MainForm.Instance.ComboBox_Tool_Parameter.Text, out var brush))
+            {
+                if (brush.OriginalWidth % 2 != 0)
+                    snappedCenterPos.x = Math.Floor(rawMapX);
+                else
+                    snappedCenterPos.x = Math.Round(rawMapX);
 
-            int diameter = radius * radius;
-            bool[,] pixels = new bool[diameter + 1, diameter + 1];
+                if (brush.OriginalHeight % 2 != 0)
+                    snappedCenterPos.y = Math.Floor(rawMapY);
+                else
+                    snappedCenterPos.y = Math.Round(rawMapY);
 
-            for (int x = 0; x < diameter; x++)
-                for (int y = 0; y < diameter; y++)
-                    pixels[x, y] = (radius - x) * (radius - x) + (radius - y) * (radius - y) <= radius * radius;
+                foreach (var line in brush.borders)
+                {
+                    if (line == null || line.Count < 2)
+                        continue;
 
+                    GL.Begin(PrimitiveType.LineLoop);
+                    foreach (var pixel in line)
+                    {
+                        GL.Vertex2(
+                            snappedCenterPos.x + (pixel.x + brush.CenterOffsetX),
+                            snappedCenterPos.y + (pixel.y + brush.CenterOffsetY)
+                        );
+                    }
+                    GL.End();
+                }
+            }
+            else
+            {
+                Point2D size = new Point2D
+                {
+                    x = _pointerSize.x / _mapSizeFactor.x,
+                    y = _pointerSize.y / _mapSizeFactor.y,
+                };
 
+                double snappedTopLeftX = Math.Floor(rawMapX);
+                double snappedTopLeftY = Math.Floor(rawMapY);
+
+                GL.Begin(PrimitiveType.LineLoop);
+                GL.Vertex2(snappedTopLeftX, snappedTopLeftY);
+                GL.Vertex2(snappedTopLeftX + size.x, snappedTopLeftY);
+                GL.Vertex2(snappedTopLeftX + size.x, snappedTopLeftY + size.y);
+                GL.Vertex2(snappedTopLeftX, snappedTopLeftY + size.y);
+                GL.End();
+            }
         }
 
         private static void DrawBounds()
@@ -863,7 +879,7 @@ namespace HOI4ModBuilder.managers
                 {
                     selectedTexturedPlane.Move(pos.x - _mousePrevPoint.x, pos.y - _mousePrevPoint.y);
                 }
-                else if (ActionsBatch.Enabled && ((int)_mousePrevPoint.x != (int)pos.x || (int)_mousePrevPoint.y != (int)pos.y))
+                else if (ActionsBatch.Enabled && (_mousePrevPoint.x != pos.x || _mousePrevPoint.y != pos.y))
                 {
                     if (enumTool != EnumTool.BUILDINGS)
                         MapToolsManager.HandleTool(e, _mouseState, pos, enumEditLayer, enumTool, bounds, toolParameter);

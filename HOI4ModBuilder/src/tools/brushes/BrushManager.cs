@@ -12,7 +12,9 @@ namespace HOI4ModBuilder.src.tools.brushes
         private static readonly string _dirPath = Path.Combine("data", "brushes");
         private static readonly string[] _fileFormats = new string[] { "bmp" };
 
-        public static List<string> GetBrushesNames() => new List<string>() { "1" };
+        public static Dictionary<string, Brush>.KeyCollection GetBrushesNames() => _brushes.Keys;
+        public static bool TryGetBrush(string brushName, out Brush brush)
+            => _brushes.TryGetValue(brushName, out brush);
 
         public static void Load()
         {
@@ -21,46 +23,15 @@ namespace HOI4ModBuilder.src.tools.brushes
             if (Directory.Exists(_dirPath))
                 Directory.CreateDirectory(_dirPath);
 
-            foreach (var brushFilePath in Utils.GetFileNamesWithAllFormats(Directory.GetFiles(_dirPath), _fileFormats))
-                LoadBrush(brushFilePath);
+            foreach (var brushFileName in Utils.GetFileNamesWithAllFormats(Directory.GetFiles(_dirPath), _fileFormats))
+                LoadBrush(brushFileName);
         }
 
-        private static void LoadBrush(string brushFilePath)
+        private static void LoadBrush(string brushFileName)
         {
-            var bitmap = new Bitmap(Path.Combine(_dirPath, brushFilePath + ".bmp"));
-
-            var dif = new Point2F(-bitmap.Width / 2f, -bitmap.Height / 2f);
-            var pixels = new List<Value2I>();
-
-            bool[,] boolPixels = new bool[bitmap.Width + 2, bitmap.Height + 2];
-            bool[,] usedPixel = new bool[bitmap.Width + 1, bitmap.Height + 1];
-
-            for (int x = 0; x < bitmap.Width; x++)
-            {
-                for (int y = 0; y < bitmap.Height; y++)
-                {
-                    bool pixel = bitmap.GetPixel(x, y).A > 0;
-                    boolPixels[x + 1, y + 1] = pixel;
-
-                    if (pixel)
-                        pixels.Add(new Value2I() { x = x, y = y });
-                }
-            }
-
-            for (int x = 0; x < bitmap.Width + 1; x++)
-            {
-                for (int y = 0; y < bitmap.Height + 1; y++)
-                {
-                    if (usedPixel[x, y])
-                        continue;
-
-                    bool flag = boolPixels[x, y] != boolPixels[x + 1, y] ||
-                        boolPixels[x, y + 1] != boolPixels[x + 1, y + 1] ||
-                        boolPixels[x + 1, y] != boolPixels[x + 1, y + 1];
-
-
-                }
-            }
+            var bitmap = new Bitmap(Path.Combine(_dirPath, brushFileName + ".bmp"));
+            var brush = new Brush(bitmap);
+            _brushes[brushFileName] = brush;
         }
     }
 }

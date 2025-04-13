@@ -438,7 +438,7 @@
     <Compile Include="src\hoiDataObjects\map\adjacencies\AdjacencyRule.cs" />
     <Compile Include="src\hoiDataObjects\map\MapPositionsManager.cs" />
     <Compile Include="src\hoiDataObjects\map\continents\ContinentManager.cs" />
-    <Compile Include="src\hoiDataObjects\map\provinces\border\ProvinceBorderData.cs" />
+    <Compile Include="src\hoiDataObjects\map\provinces\border\BorderData.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\CheckRegionWithNotNavalTerrain.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerLandProvincesWithNoState.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerProvincesWithMultiRegions.cs" />
@@ -750,6 +750,7 @@
     <Compile Include="src\openTK\TexturedPlane.cs" />
     <Compile Include="src\managers\TextureManager.cs" />
     <Compile Include="src\openTK\TextureTypes.cs" />
+    <Compile Include="src\utils\borders\BordersAssembler.cs" />
     <Compile Include="src\utils\CheckAndLogUnit.cs" />
     <Compile Include="src\utils\Constants.cs" />
     <Compile Include="src\utils\Enums.cs" />

@@ -55,7 +55,7 @@ namespace HOI4ModBuilder
         private Color brushFirstColor, brushSecondColor;
         private ViewportInfo viewportInfo;
         public EnumMainLayer enumMainLayer = EnumMainLayer.PROVINCES_MAP;
-        private EnumTool enumTool = EnumTool.CURSOR;
+        public EnumTool enumTool = EnumTool.CURSOR;
         public EnumEditLayer enumEditLayer = EnumEditLayer.PROVINCES;
         private EnumBordersType enumBordersType = EnumBordersType.PROVINCES_BLACK;
         public EnumBordersType EnumBordersType => enumBordersType;

@@ -8,6 +8,7 @@ using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
+using HOI4ModBuilder.src.tools.brushes;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -24,7 +25,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
         public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
         {
-            int newColor = 0;
+            int newColor;
 
             if (!pos.InboundsPositiveBox(MapManager.MapSize))
                 return;
@@ -40,25 +41,34 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             else
                 return;
 
-            if (!int.TryParse(parameter, out int radius))
+            if (!BrushManager.TryGetBrush(parameter, out var brush))
                 return;
 
-            //pos, byte, color
             List<Action> redoActions = new List<Action>();
             List<Action> undoActions = new List<Action>();
 
-            int centerX = (int)pos.x;
-            int centerY = (int)pos.y;
+            double snappedCenterX;
+            double snappedCenterY;
 
-            for (int x = centerX - radius + 1; x <= centerX + radius - 1; x++)
+            if (brush.OriginalWidth % 2 != 0)
+                snappedCenterX = Math.Floor(pos.x);
+            else
+                snappedCenterX = Math.Round(pos.x);
+
+            if (brush.OriginalHeight % 2 != 0)
+                snappedCenterY = Math.Floor(pos.y);
+            else
+                snappedCenterY = Math.Round(pos.y);
+
+            foreach (var point in brush.pixels)
             {
-                for (int y = centerY - radius + 1; y <= centerY + radius - 1; y++)
+                int targetX = (int)(point.x + snappedCenterX);
+                int targetY = (int)(point.y + snappedCenterY);
+
+                if (HandlePixel(targetX, targetY, enumEditLayer, newColor, out var redo, out var undo))
                 {
-                    if (HandlePixel(x, y, enumEditLayer, newColor, out var redo, out var undo))
-                    {
-                        redoActions.Add(redo);
-                        undoActions.Add(undo);
-                    }
+                    redoActions.Add(redo);
+                    undoActions.Add(undo);
                 }
             }
 
