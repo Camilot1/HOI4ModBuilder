@@ -210,10 +210,10 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (comments.Previous.Length > 0)
                     sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
 
-                sb.Append(outIndent).Append(key).Append(" = {");
+                sb.Append(outIndent).Append(key).Append(" = { ");
 
                 if (comments.Inline.Length > 0)
-                    sb.Append(' ').Append(comments.Inline);
+                    sb.Append(comments.Inline).Append(' ');
 
                 if (!saveParameter.IsForceInline && _dictionary.Count > 1)
                 {
@@ -241,8 +241,6 @@ namespace HOI4ModBuilder.src.newParser.objects
             {
                 if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
                     sb.Append(outIndent);
-                else
-                    sb.Append(' ');
 
                 sb.Append('}');
                 sb.Append(Constants.NEW_LINE);
@@ -261,11 +259,18 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (_valueSaveAdapter != null)
                 tempValue = _valueSaveAdapter.Invoke(value);
 
-            //if (sb.Length > 0 && !char.IsWhiteSpace(sb[sb.Length - 1]))
-            //    sb.Append(Constants.NEW_LINE);
+            if (sb.Length > 0)
+            {
+                var lastChar = sb[sb.Length - 1];
+                if (lastChar == ' ' && _dictionary.Count > 1)
+                    sb.Append(' ').Append(Constants.NEW_LINE);
+            }
 
             if (tempValue is ISaveable saveable)
             {
+                var lastChar = sb[sb.Length - 1];
+                if (lastChar == ' ')
+                    sb.Append(Constants.NEW_LINE);
                 saveable.Save(sb, outIndent, stringKey, saveParameter);
             }
             else
@@ -288,12 +293,14 @@ namespace HOI4ModBuilder.src.newParser.objects
                 }
 
                 var stringValue = ParserUtils.ObjectToSaveString(tempValue);
-                sb.Append(innerIndent).Append(stringKey).Append(' ').Append((char)EnumDemiliter.EQUALS).Append(' ').Append(stringValue);
+
+                if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
+                    sb.Append(innerIndent);
+                sb.Append(stringKey).Append(' ').Append((char)EnumDemiliter.EQUALS).Append(' ').Append(stringValue).Append(' ');
 
                 if (comments.Inline.Length > 0)
                 {
-                    sb.Append(' ').Append(comments.Inline);
-                    sb.Append(Constants.NEW_LINE);
+                    sb.Append(comments.Inline).Append(' ').Append(Constants.NEW_LINE);
                     innerIndent = outIndent + Constants.INDENT;
                 }
                 else if (!saveParameter.IsForceInline && _dictionary.Count > 1)

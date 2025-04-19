@@ -249,10 +249,10 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (comments.Previous.Length > 0)
                     sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
 
-                sb.Append(outIndent).Append(key).Append(" = {");
+                sb.Append(outIndent).Append(key).Append(" = { ");
 
                 if (comments.Inline.Length > 0)
-                    sb.Append(' ').Append(comments.Inline).Append(Constants.NEW_LINE);
+                    sb.Append(comments.Inline).Append(Constants.NEW_LINE);
                 else if (saveParameter.IsForceMultiline || !saveParameter.IsForceInline && _list.Count > 0)
                 {
                     sb.Append(Constants.NEW_LINE);
@@ -272,8 +272,6 @@ namespace HOI4ModBuilder.src.newParser.objects
             {
                 if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
                     sb.Append(outIndent);
-                else
-                    sb.Append(' ');
 
                 sb.Append('}');
                 sb.Append(Constants.NEW_LINE);
@@ -316,12 +314,11 @@ namespace HOI4ModBuilder.src.newParser.objects
                     sb.Append(innerIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
                 }
 
-                sb.Append(innerIndent).Append(tempValue);
+                sb.Append(tempValue).Append(innerIndent);
 
                 if (comments.Inline.Length > 0)
                 {
-                    sb.Append(' ').Append(comments.Inline);
-                    sb.Append(Constants.NEW_LINE);
+                    sb.Append(comments.Inline).Append(' ').Append(Constants.NEW_LINE);
                     innerIndent = outIndent + Constants.INDENT;
                 }
                 else if (saveParameter.IsForceMultiline)

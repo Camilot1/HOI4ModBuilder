@@ -111,9 +111,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
             foreach (var state in _statesById.Values)
             {
-                if (state.IdNew.GetValue() == 415)
+                if (state.IdNew.GetValue() == 50)
                 {
-                    var a = 1;
+                    return;
                 }
 
                 var file = (StateGameFile)state.GetParent().GetParent();

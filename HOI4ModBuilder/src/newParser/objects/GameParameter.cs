@@ -200,8 +200,10 @@ namespace HOI4ModBuilder.src.newParser.objects
             else
                 sb.Append(ParserUtils.ObjectToSaveString(_value));
 
+            sb.Append(' ');
+
             if (comments != null && comments.Inline.Length > 0)
-                sb.Append(' ').Append(comments.Inline).Append(Constants.NEW_LINE);
+                sb.Append(comments.Inline).Append(Constants.NEW_LINE);
             else if (!saveParameter.IsForceInline)
                 sb.Append(Constants.NEW_LINE);
         }
