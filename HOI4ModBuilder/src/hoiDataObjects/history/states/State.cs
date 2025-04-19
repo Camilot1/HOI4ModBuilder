@@ -7,28 +7,111 @@ using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.newParser.interfaces;
+using HOI4ModBuilder.src.newParser.objects;
+using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using static HOI4ModBuilder.utils.Structs;
+using System.IO;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
 {
-    public class State : IParadoxRead, IScriptBlockInfo
+    public class State : AbstractParseObject, IScriptBlockInfo
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
         private static int NextHashCode => _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
         public override int GetHashCode() => _hashCode;
 
-        public FileInfo fileInfo;
+        public int Color { get; private set; }
+
+        public readonly GameParameter<ushort> IdNew = new GameParameter<ushort>()
+            .INIT_SetValueParseAdapter((o, token) =>
+            {
+                var state = (State)((IParentable)o).GetParent();
+                var value = (string)token;
+
+                if (!ushort.TryParse(value, out var _id))
+                    Logger.LogError(
+                        EnumLocKey.ERROR_STATE_INCORRECT_ID_VALUE,
+                        new Dictionary<string, string>
+                        {
+                                { "{filePath}", state.GetGameFile()?.FileInfo?.filePath },
+                                { "{stateId}", value }
+                        }
+                    );
+
+                Random random = new Random(_id);
+                state.Color = Utils.ArgbToInt(
+                    255,
+                    (byte)random.Next(0, 256),
+                    (byte)random.Next(0, 256),
+                    (byte)random.Next(0, 256)
+                );
+
+                return _id;
+            });
+
+        public readonly GameParameter<GameString> Name = new GameParameter<GameString>();
+        public string CurrentName { get; set; }
+
+        public readonly GameParameter<StateCategory> StateCategory = new GameParameter<StateCategory>()
+            .INIT_SetValueParseAdapter((o, token) => StateCategoryManager.GetStateCategory((string)token))
+            .INIT_SetValueSaveAdapter((o) => o.name);
+        public StateCategory CurrentStateCategory { get; set; }
+
+        public readonly GameParameter<int> Manpower = new GameParameter<int>();
+        public int CurrentManpower { get; set; }
+
+        public readonly GameDictionary<Resource, uint> Resources = new GameDictionary<Resource, uint>()
+            .INIT_SetKeyParseAdapter((token) => ResourceManager.GetResource(token))
+            .INIT_SetKeySaveAdapter((resource) => resource.tag);
+
+        public readonly GameList<Province> Provinces = new GameList<Province>()
+            .INIT_SetValueParseAdapter((o, token) =>
+            {
+                if (ushort.TryParse(token, out var provinceId))
+                    return ProvinceManager.GetProvince(provinceId);
+                return null;
+            })
+            .INIT_SetValueSaveAdapter((province) => province.Id);
+
+        public readonly GameParameter<float> BuildingsMaxLevelFactor = new GameParameter<float>();
+        public readonly GameParameter<float> LocalSupplies = new GameParameter<float>();
+        public readonly GameParameter<bool> IsImpassable = new GameParameter<bool>();
+        public bool CurrentIsDemilitarized { get; set; }
+
+        public readonly GameParameter<StateHistory> History = new GameParameter<StateHistory>()
+            .INIT_SetValueParseAdapter((o, token) => new StateHistory((State)o, default));
+
+        private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
+        {
+            { "id", (o) => ((State)o).IdNew }, //TODO
+            { "name", (o) => ((State)o).Name },
+            { "state_category", (o) => ((State)o).StateCategory },
+            { "manpower", (o) => ((State)o).Manpower },
+            { "resources", (o) => ((State)o).Resources },
+            { "provinces", (o) => ((State)o).Provinces },
+            { "buildings_max_level_factor", (o) => ((State)o).BuildingsMaxLevelFactor },
+            { "local_supplies", (o) => ((State)o).LocalSupplies },
+            { "impassable", (o) => ((State)o).IsImpassable },
+            { "history", (o) => ((State)o).History },
+        };
+        public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
+
+        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(new[] { "history", "states" }, "State")
+            .Add(STATIC_ADAPTER.Keys)
+            .Load();
+        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
+
+        public override IParseObject GetEmptyCopy() => new State();
 
         public bool HasChangedId { get; private set; }
 
         private ushort _id;
+        /*
         public ushort Id
         {
             get => _id;
@@ -47,6 +130,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 StateManager.AddState(_id, this);
             }
         }
+        */
         public string GetBlockName() => "" + _id;
         public EnumScope GetInnerScope() => EnumScope.STATE;
         public EnumKeyValueDemiliter[] GetAllowedSpecialDemiliters() => null;
@@ -57,7 +141,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public bool TryGetRegionId(out ushort regionId)
         {
             regionId = 0;
-            foreach (var p in provinces)
+            foreach (var p in Provinces)
             {
                 if (p.Region != null)
                 {
@@ -68,15 +152,10 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return false;
         }
 
-        public string startName, name;
-        public int startManpower, manpower;
-        public StateCategory startStateCategory, stateCategory;
-        public List<Province> provinces = new List<Province>(0);
-        public Dictionary<Resource, uint> resources = new Dictionary<Resource, uint>(0);
         public List<ProvinceBorder> borders = new List<ProvinceBorder>(0);
         public void ForEachAdjacentProvince(Action<Province, Province> action)
         {
-            foreach (var p in provinces)
+            foreach (var p in Provinces)
                 p.ForEachAdjacentProvince((thisProvince, otherProvince) =>
                 {
                     if (thisProvince.State == this)
@@ -86,47 +165,33 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public Country owner;
         public Country controller;
-        public List<Country> coresOf = new List<Country>(0);
-        public List<Country> claimsBy = new List<Country>(0);
-        public bool isImpassible;
-        public bool isDemilitarized;
         public Dictionary<Province, uint> victoryPoints = new Dictionary<Province, uint>(0);
         public void ForEachVictoryPoints(Func<DateTime, StateHistory, Province, uint, bool> action)
         {
-            startHistory?.ForEachVictoryPoints(action);
-            foreach (var sH in stateHistories) sH.Value.ForEachVictoryPoints(action);
+            History.GetValue()?.ForEachVictoryPoints(action);
         }
 
         public Dictionary<Building, uint> stateBuildings = new Dictionary<Building, uint>(0);
         public Dictionary<Province, Dictionary<Building, uint>> provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
 
-        public float localSupplies;
-        public float buildingsMaxLevelFactor = 1f;
-
-        //history
-        public StateHistory startHistory;
-        public Dictionary<DateTime, StateHistory> stateHistories = new Dictionary<DateTime, StateHistory>(0);
-        public StateHistory currentHistory;
-
-        public int color;
         public Point2F center;
         public bool dislayCenter;
         public uint pixelsCount;
 
         public void AddProvince(Province province)
         {
-            provinces.Add(province);
-            provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
+            Provinces.Add(province);
+            Provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
             province.State = this;
-            fileInfo.needToSave = true;
+            SetNeedToSave(true);
         }
 
         public bool RemoveProvince(Province province)
         {
-            if (provinces.Remove(province))
+            if (Provinces.Remove(province))
             {
                 province.State = null;
-                fileInfo.needToSave = true;
+                SetNeedToSave(true);
                 return true;
             }
             return false;
@@ -136,7 +201,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             double sumX = 0, sumY = 0;
             double pixelsCount = 0;
-            foreach (var province in provinces)
+            foreach (var province in Provinces)
             {
                 sumX += province.center.x * province.pixelsCount;
                 sumY += province.center.y * province.pixelsCount;
@@ -152,268 +217,80 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public void SetProvinceBuildingLevel(Province province, Building building, uint newCount)
         {
-            if (currentHistory.SetProvinceBuildingLevel(province, building, newCount))
+            if (History.GetValue() == null)
+                return;
+
+            if (History.GetValue().SetProvinceBuildingLevel(province, building, newCount))
             {
-                fileInfo.needToSave = true;
+                SetNeedToSave(true);
                 UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
             }
         }
 
         public void SetStateBuildingLevel(Building building, uint newCount)
         {
-            if (currentHistory.SetStateBuildingLevel(building, newCount))
+            if (History.GetValue() == null)
+                return;
+
+            if (History.GetValue().SetStateBuildingLevel(building, newCount))
             {
-                fileInfo.needToSave = true;
+                SetNeedToSave(true);
                 UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
             }
         }
 
         public uint GetStateBuildingLevel(Building building)
         {
-            return currentHistory.GetStateBuildingLevel(building);
-        }
+            if (History.GetValue() == null)
+                return 0;
 
-        public void Save(StringBuilder sb)
-        {
-            string tab = "\t";
-            string tab2 = tab + tab;
-
-            sb.Append("state = {").Append(Constants.NEW_LINE);
-            sb.Append(tab).Append("id = ").Append(_id).Append(Constants.NEW_LINE);
-            sb.Append(tab).Append("name = \"").Append(startName).Append("\"").Append(Constants.NEW_LINE);
-            sb.Append(tab).Append("manpower = ").Append(startManpower).Append(Constants.NEW_LINE).Append(Constants.NEW_LINE);
-
-            if (startStateCategory != null) sb.Append(tab).Append("state_category = ").Append(startStateCategory.name).Append(Constants.NEW_LINE).Append(Constants.NEW_LINE);
-
-            sb.Append(tab).Append("provinces = {").Append(Constants.NEW_LINE);
-            sb.Append(tab2);
-            foreach (var province in provinces) sb.Append(province.Id).Append(' ');
-            sb.Append(Constants.NEW_LINE).Append(tab).Append('}').Append(Constants.NEW_LINE).Append(Constants.NEW_LINE);
-
-            if (resources.Count > 0)
-            {
-                sb.Append(tab).Append("resources = {").Append(Constants.NEW_LINE);
-                foreach (Resource resource in resources.Keys)
-                {
-                    sb.Append(tab2).Append(resource.tag).Append(" = ").Append(resources[resource]).Append(Constants.NEW_LINE);
-                }
-                sb.Append(tab).Append('}').Append(Constants.NEW_LINE).Append(Constants.NEW_LINE);
-            }
-
-            startHistory?.Save(sb, "history", tab, tab, stateHistories);
-
-            if (buildingsMaxLevelFactor != 1f) sb.Append(tab).Append("buildings_max_level_factor = ").Append(Utils.FloatToString(buildingsMaxLevelFactor)).Append(Constants.NEW_LINE);
-            if (localSupplies != 0) sb.Append(tab).Append("local_supplies = ").Append(Utils.FloatToString(localSupplies)).Append(Constants.NEW_LINE);
-            sb.Append('}').Append(Constants.NEW_LINE);
+            return History.GetValue().GetStateBuildingLevel(building);
         }
 
         public void UpdateByDateTimeStamp(DateTime dateTime)
         {
             ClearData();
-
-            var dateTimes = new List<DateTime>(stateHistories.Keys);
-            dateTimes.Sort();
-
-            if (startHistory != null)
-            {
-                startHistory.Activate();
-                currentHistory = startHistory;
-            }
-            foreach (DateTime dt in dateTimes)
-            {
-                if (dt < dateTime)
-                {
-                    currentHistory = stateHistories[dt];
-                    currentHistory.Activate();
-                }
-            }
-
+            History?.GetValue().Activate(dateTime, this);
             AddData();
         }
 
         public void ClearData()
         {
-            name = startName;
-            manpower = startManpower;
-            stateCategory = startStateCategory;
+            CurrentName = Name.GetValue().stringValue;
+            CurrentManpower = Manpower.GetValue();
+            CurrentStateCategory = StateCategory.GetValue();
 
             owner?.ownStates.Remove(this);
             owner = null;
             controller?.controlsStates.Remove(this);
             controller = null;
 
-            foreach (var c in coresOf) c.hasCoresAtStates.Remove(this);
-            coresOf = new List<Country>(0);
-
-            foreach (var c in claimsBy) c.hasClaimsAtState.Remove(this);
-            coresOf = new List<Country>(0);
-
-            isImpassible = false;
-            isDemilitarized = false;
-
-            foreach (var province in victoryPoints.Keys) province.victoryPoints = 0;
+            foreach (var province in victoryPoints.Keys)
+                province.victoryPoints = 0;
             victoryPoints = new Dictionary<Province, uint>(0);
             stateBuildings = new Dictionary<Building, uint>(0);
-            foreach (var province in provincesBuildings.Keys) province.ClearBuildings();
+
+            foreach (var province in provincesBuildings.Keys)
+                province.ClearBuildings();
             provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
         }
 
         public void AddData()
         {
-            foreach (var province in victoryPoints.Keys) province.victoryPoints = victoryPoints[province];
-            foreach (var province in provincesBuildings.Keys) province.SetBuildings(provincesBuildings[province]);
+            foreach (var province in victoryPoints.Keys)
+                province.victoryPoints = victoryPoints[province];
+            foreach (var province in provincesBuildings.Keys)
+                province.SetBuildings(provincesBuildings[province]);
             owner?.ownStates.Add(this);
             controller?.controlsStates.Add(this);
-            foreach (var country in coresOf) country.hasCoresAtStates.Add(this);
-            foreach (var country in claimsBy) country.hasClaimsAtState.Add(this);
         }
 
-        public void TokenCallback(ParadoxParser parser, string token)
-        {
-            string temp;
-
-            switch (token)
-            {
-                case "id":
-                    temp = parser.ReadString();
-                    if (!ushort.TryParse(temp, out _id))
-                        Logger.LogError(
-                            EnumLocKey.ERROR_STATE_INCORRECT_ID_VALUE,
-                            new Dictionary<string, string>
-                            {
-                                { "{filePath}", fileInfo?.filePath },
-                                { "{stateId}", temp }
-                            }
-                        );
-
-                    Random random = new Random(_id);
-                    color = Utils.ArgbToInt(
-                        255,
-                        (byte)random.Next(0, 256),
-                        (byte)random.Next(0, 256),
-                        (byte)random.Next(0, 256)
-                    );
-                    break;
-                case "name":
-                    startName = parser.ReadString();
-                    name = startName;
-                    break;
-                case "manpower":
-                    temp = parser.ReadString();
-                    if (!int.TryParse(temp, out startManpower))
-                        Logger.LogError(
-                            EnumLocKey.ERROR_STATE_INCORRECT_MANPOWER,
-                            new Dictionary<string, string>
-                            {
-                                { "{stateId}", $"{_id}" },
-                                { "{manpower}", temp }
-                            }
-                        );
-
-                    manpower = startManpower;
-                    break;
-                case "resources":
-                    parser.Parse(new ResourceDictionary(this, resources));
-                    break;
-                case "provinces":
-                    foreach (int provinceId in parser.ReadIntList())
-                    {
-                        if (provinceId < 0 || provinceId > ushort.MaxValue)
-                            Logger.LogError(
-                                EnumLocKey.ERROR_STATE_INCORRECT_PROVINCE_ID,
-                                new Dictionary<string, string>
-                                {
-                                    { "{stateId}", $"{_id}" },
-                                    { "{provinceId}", $"{provinceId}" }
-                                }
-                            );
-                        else if (ProvinceManager.TryGetProvince((ushort)provinceId, out Province province))
-                            provinces.Add(province);
-                        else Logger.LogError(
-                                EnumLocKey.ERROR_STATE_PROVINCE_NOT_FOUND,
-                                new Dictionary<string, string>
-                                {
-                                    { "{stateId}", $"{_id}" },
-                                    { "{provinceId}", $"{provinceId}" }
-                                }
-                            );
-                    }
-                    provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
-                    break;
-                case "buildings_max_level_factor":
-                    temp = parser.ReadString();
-
-                    if (Utils.TryParseFloat(temp, out float value))
-                    {
-                        if (value >= 0) buildingsMaxLevelFactor = value;
-                        else Logger.LogError(
-                                EnumLocKey.ERROR_STATE_INCORRECT_BUILDINGS_MAX_LEVEL_FACTOR_VALUE,
-                                new Dictionary<string, string>
-                                {
-                                    { "{stateId}", $"{_id}" },
-                                    { "{value}", $"{temp}" }
-                                }
-                            );
-                    }
-                    else Logger.LogError(
-                                EnumLocKey.ERROR_STATE_INCORRECT_BUILDINGS_MAX_LEVEL_FACTOR_VALUE,
-                                new Dictionary<string, string>
-                                {
-                                    { "{stateId}", $"{_id}" },
-                                    { "{value}", $"{temp}" }
-                                }
-                            );
-                    break;
-                case "state_category":
-                    temp = parser.ReadString();
-                    if (!StateCategoryManager.TryGetStateCategory(temp, out startStateCategory))
-                        Logger.LogError(
-                            EnumLocKey.ERROR_STATE_STATE_CATEGORY_NOT_FOUND,
-                            new Dictionary<string, string>
-                            {
-                                { "{stateId}", $"{_id}" },
-                                { "{stateCategory}", $"{temp}" }
-                            }
-                        );
-                    stateCategory = startStateCategory;
-                    break;
-                case "history":
-                    if (startHistory == null) startHistory = new StateHistory(default, this);
-                    parser.Parse(startHistory);
-                    startHistory.ExecuteAfterParse();
-                    break;
-                case "local_supplies":
-                    temp = parser.ReadString();
-
-                    if (Utils.TryParseFloat(temp, out value))
-                    {
-                        if (value >= 0) localSupplies = value;
-                        else Logger.LogError(
-                                EnumLocKey.ERROR_STATE_INCORRECT_LOCAL_SUPPLIES_VALUE,
-                                new Dictionary<string, string>
-                                {
-                                    { "{stateId}", $"{_id}" },
-                                    { "{value}", $"{temp}" }
-                                }
-                            );
-                    }
-                    else Logger.LogError(
-                                EnumLocKey.ERROR_STATE_INCORRECT_LOCAL_SUPPLIES_VALUE,
-                                new Dictionary<string, string>
-                                {
-                                    { "{stateId}", $"{_id}" },
-                                    { "{value}", $"{temp}" }
-                                }
-                            );
-                    break;
-            }
-        }
 
         public void InitBorders()
         {
             borders.Clear();
 
-            foreach (var p in provinces)
+            foreach (var p in Provinces)
             {
                 foreach (var b in p.borders)
                 {
@@ -435,16 +312,16 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             hasChanged = false;
 
-            if (!Utils.IsProvincesListSorted(provinces))
+            if (!Utils.IsProvincesListSorted(Provinces))
             {
-                provinces.Sort();
-                fileInfo.needToSave = true;
+                Provinces.Sort();
+                SetNeedToSave(true);
                 hasChanged = true;
             }
 
-            if (Utils.RemoveDuplicateProvinces(provinces))
+            if (Utils.RemoveDuplicateProvinces(Provinces))
             {
-                fileInfo.needToSave = true;
+                SetNeedToSave(true);
                 hasChanged = true;
             }
 
@@ -452,40 +329,38 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             ForEachVictoryPoints((dateTime, stateHistory, province, value) =>
             {
                 if (province.State != this && province.State != null)
-                {
                     vpInfoList.Add(new VPInfo(dateTime, stateHistory, province, value));
-                }
                 return false;
             });
 
+            /*
             foreach (var vpInfo in vpInfoList)
             {
                 if (vpInfo.dateTime == default)
                 {
-                    var newStateHistory = vpInfo.province.State.startHistory;
+                    var newStateHistory = vpInfo.province.State.History.GetValue();
                     if (newStateHistory != null)
                     {
-                        startHistory.victoryPoints.Remove(vpInfo.province);
-                        if (!newStateHistory.victoryPoints.ContainsKey(vpInfo.province))
-                        {
-                            newStateHistory.victoryPoints[vpInfo.province] = vpInfo.value;
-                        }
+                        History.GetValue()._victoryPoints.Remove(vpInfo.province);
+                        if (!newStateHistory._victoryPoints.ContainsKey(vpInfo.province))
+                            newStateHistory._victoryPoints[vpInfo.province] = vpInfo.value;
                         hasChanged = true;
                     }
                 }
                 else if (
-                    stateHistories.TryGetValue(vpInfo.dateTime, out StateHistory stateHistory) &&
-                    vpInfo.province.State.stateHistories.TryGetValue(vpInfo.dateTime, out StateHistory newStateHistory)
+                    History.GetValue().InnerHistories.TryGetValue(vpInfo.dateTime, out StateHistory stateHistory) &&
+                    vpInfo.province.State.History.GetValue().InnerHistories.TryGetValue(vpInfo.dateTime, out StateHistory newStateHistory)
                 )
                 {
-                    stateHistory.victoryPoints.Remove(vpInfo.province);
-                    if (!newStateHistory.victoryPoints.ContainsKey(vpInfo.province))
+                    stateHistory._victoryPoints.Remove(vpInfo.province);
+                    if (!newStateHistory._victoryPoints.ContainsKey(vpInfo.province))
                     {
-                        newStateHistory.victoryPoints[vpInfo.province] = vpInfo.value;
+                        newStateHistory._victoryPoints[vpInfo.province] = vpInfo.value;
                     }
                     hasChanged = true;
                 }
             }
+            */
         }
 
         private struct VPInfo
@@ -502,70 +377,6 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 this.province = province;
                 this.value = value;
             }
-        }
-    }
-
-    class ResourceDictionary : IParadoxRead
-    {
-        public State state;
-        public Dictionary<Resource, uint> stateResources;
-
-        public ResourceDictionary(State state, Dictionary<Resource, uint> stateResources)
-        {
-            this.state = state;
-            this.stateResources = stateResources;
-        }
-
-        public void TokenCallback(ParadoxParser parser, string token)
-        {
-            if (ResourceManager.TryGetResource(token, out Resource resource))
-            {
-                if (stateResources.ContainsKey(resource))
-                    Logger.LogError(
-                        EnumLocKey.ERROR_STATE_DUPLICATE_RESOURCE_STATEMENT,
-                        new Dictionary<string, string>
-                        {
-                            { "{stateId}", $"{state.Id}" },
-                            { "{resourceName}", token }
-                        }
-                    );
-
-                var temp = parser.ReadString();
-                if (uint.TryParse(temp, out uint countUint)) stateResources[resource] = countUint;
-                else if (Utils.TryParseFloat(temp, out float countFloat))
-                {
-                    if (countFloat < 0)
-                        Logger.LogError(
-                            EnumLocKey.ERROR_STATE_INCORRECT_RESOURCE_COUNT,
-                            new Dictionary<string, string>
-                            {
-                                { "{stateId}", $"{state.Id}" },
-                                { "{resourceName}", token },
-                                { "{count}", temp }
-                            }
-                        );
-
-                    stateResources[resource] = (uint)Math.Round(countFloat);
-                }
-                else Logger.LogError(
-                            EnumLocKey.ERROR_STATE_INCORRECT_RESOURCE_COUNT,
-                            new Dictionary<string, string>
-                            {
-                                { "{stateId}", $"{state.Id}" },
-                                { "{resourceName}", token },
-                                { "{count}", temp }
-                            }
-                        );
-
-            }
-            else Logger.LogError(
-                    EnumLocKey.ERROR_STATE_INCORRECT_RESOURCE_NAME,
-                    new Dictionary<string, string>
-                    {
-                        { "{stateId}", $"{state.Id}" },
-                        { "{resourceName}", token }
-                    }
-                );
         }
     }
 }

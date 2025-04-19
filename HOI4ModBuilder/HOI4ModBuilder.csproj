@@ -406,6 +406,9 @@
     <Compile Include="src\hoiDataObjects\gfx\sprites\SpriteTypeManager.cs" />
     <Compile Include="src\hoiDataObjects\history\countries\Country.cs" />
     <Compile Include="src\hoiDataObjects\history\countries\CountryManager.cs" />
+    <Compile Include="src\hoiDataObjects\history\states\ProvinceBuildings.cs" />
+    <Compile Include="src\hoiDataObjects\history\states\StateBuildings.cs" />
+    <Compile Include="src\hoiDataObjects\history\states\StateGameFile.cs" />
     <Compile Include="src\hoiDataObjects\history\states\StateHistory.cs" />
     <Compile Include="src\hoiDataObjects\history\states\StateManager.cs" />
     <Compile Include="src\hoiDataObjects\history\units\air\AirWing.cs" />
@@ -439,6 +442,7 @@
     <Compile Include="src\hoiDataObjects\map\MapPositionsManager.cs" />
     <Compile Include="src\hoiDataObjects\map\continents\ContinentManager.cs" />
     <Compile Include="src\hoiDataObjects\map\provinces\border\BorderData.cs" />
+    <Compile Include="src\hoiDataObjects\history\states\VictoryPoint.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\CheckRegionWithNotNavalTerrain.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerLandProvincesWithNoState.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerProvincesWithMultiRegions.cs" />

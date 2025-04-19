@@ -47,8 +47,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 
         public static Dictionary<string, Building>.KeyCollection GetBuildingNames() => _allBuildings.Keys;
         public static Dictionary<string, Building>.ValueCollection GetBuildings() => _allBuildings.Values;
-        public static bool TryGetBuilding(string name, out Building building) => _allBuildings.TryGetValue(name, out building);
-        public static bool HasBuilding(string name) => _allBuildings.ContainsKey(name);
+        public static bool TryGetBuilding(string name, out Building building)
+            => _allBuildings.TryGetValue(name, out building);
+        public static Building GetBuilding(string name)
+        {
+            if (_allBuildings.TryGetValue(name, out var building))
+                return building;
+            return null;
+        }
+
+        public static bool HasBuilding(string name)
+        {
+            var result = _allBuildings.ContainsKey(name);
+            return result;
+        }
 
         public bool Validate(LinkedLayer prevLayer) => true;
 

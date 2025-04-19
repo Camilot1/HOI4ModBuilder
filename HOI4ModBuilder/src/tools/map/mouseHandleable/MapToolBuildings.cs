@@ -74,7 +74,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     if (b.LevelCap.GetValue().GetSlotCategory() == EnumBuildingSlotCategory.SHARED)
                         currentCount += province.State.stateBuildings[b];
                 }
-                maxCount = (uint)Math.Round(province.State.stateCategory.localBuildingsSlots * province.State.buildingsMaxLevelFactor);
+                maxCount = (uint)Math.Round(province.State.CurrentStateCategory.localBuildingsSlots * province.State.BuildingsMaxLevelFactor.GetValue());
                 freeSlots = maxCount - currentCount;
                 province.State.stateBuildings.TryGetValue(building, out prevCount);
             }

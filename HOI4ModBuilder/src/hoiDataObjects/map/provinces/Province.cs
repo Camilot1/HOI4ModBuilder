@@ -35,7 +35,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             get => _id;
             set
             {
-                if (_id == value) return;
+                if (_id == value)
+                    return;
 
                 if (ProvinceManager.ContainsProvinceIdKey(value))
                     throw new Exception(GuiLocManager.GetLoc(
@@ -57,7 +58,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     if (_adjacencies.Count > 0) AdjacenciesManager.NeedToSaveAdjacencies = true;
                     foreach (var adj in _adjacencies)
                     {
-                        if (adj.HasRuleRequiredProvince(this)) AdjacenciesManager.NeedToSaveAdjacencyRules = true;
+                        if (adj.HasRuleRequiredProvince(this))
+                            AdjacenciesManager.NeedToSaveAdjacencyRules = true;
                     }
                 }
             }
@@ -69,7 +71,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             get => _color;
             set
             {
-                if (_color == value) return;
+                if (_color == value)
+                    return;
 
                 if (ProvinceManager.TryGetProvince(value, out Province p))
                     throw new Exception(GuiLocManager.GetLoc(
@@ -94,7 +97,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             get => _type;
             set
             {
-                if (_type == value) return;
+                if (_type == value)
+                    return;
 
                 _type = value;
                 ProvinceManager.NeedToSave = true;
@@ -108,7 +112,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             get => _isCoastal;
             set
             {
-                if (_isCoastal == value) return;
+                if (_isCoastal == value)
+                    return;
 
                 _isCoastal = value;
                 ProvinceManager.NeedToSave = true;
@@ -121,7 +126,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             get => _terrain;
             set
             {
-                if (_terrain == value) return;
+                if (_terrain == value)
+                    return;
 
                 _terrain = value;
                 ProvinceManager.NeedToSave = true;
@@ -134,7 +140,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             get => _continentId;
             set
             {
-                if (_continentId == value) return;
+                if (_continentId == value)
+                    return;
 
                 _continentId = value;
                 ProvinceManager.NeedToSave = true;
@@ -152,7 +159,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public int GetRailwaysCount()
         {
-            if (_railways == null) return 0;
+            if (_railways == null)
+                return 0;
             return _railways.Count;
         }
 
@@ -173,30 +181,38 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public bool RemoveRailway(Railway railway)
         {
-            if (_railways == null) return false;
-            return _railways.Remove(railway);
+            if (_railways == null)
+                return false;
+            return
+                _railways.Remove(railway);
         }
 
         public bool ContainsRailway(Railway railway)
         {
-            if (_railways == null) return false;
-            return _railways.Contains(railway);
+            if (_railways == null)
+                return false;
+            return
+                _railways.Contains(railway);
         }
 
         public void ForEachRailway(Action<Railway> action)
         {
-            if (_railways == null) return;
-            foreach (var railway in _railways) action(railway);
+            if (_railways == null)
+                return;
+            foreach (var railway in _railways)
+                action(railway);
         }
 
         public T ForEachRailway<T>(Func<Railway, T> func) where T : class
         {
-            if (_railways == null) return null;
+            if (_railways == null)
+                return null;
 
             foreach (var railway in _railways)
             {
                 T product = func(railway);
-                if (product != null) return product;
+                if (product != null)
+                    return product;
             }
 
             return null;
@@ -204,14 +220,18 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public bool HasDirectRailwayConnectionWith(Province p)
         {
-            if (p == null || Id == p.Id) return false;
-            if (GetRailwaysCount() == 0 || p.GetRailwaysCount() == 0) return false;
+            if (p == null || Id == p.Id)
+                return false;
+            if (GetRailwaysCount() == 0 || p.GetRailwaysCount() == 0)
+                return false;
 
             foreach (var railway in _railways)
             {
-                if (!p.ContainsRailway(railway)) continue;
+                if (!p.ContainsRailway(railway))
+                    continue;
 
-                if (!railway.TryGetProvinceIndex(this, out int thisProvinceIndex)) return false;
+                if (!railway.TryGetProvinceIndex(this, out int thisProvinceIndex))
+                    return false;
 
                 return
                     thisProvinceIndex > 0 && railway.GetProvince(thisProvinceIndex - 1).Id == p.Id ||
@@ -223,11 +243,15 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public bool HasRailwayConnectionWith(Province p)
         {
-            if (p == null || Id == p.Id) return false;
-            if (GetRailwaysCount() == 0 || p.GetRailwaysCount() == 0) return false;
+            if (p == null || Id == p.Id)
+                return false;
+
+            if (GetRailwaysCount() == 0 || p.GetRailwaysCount() == 0)
+                return false;
 
             foreach (var railway in _railways)
-                if (p.ContainsRailway(railway)) return true;
+                if (p.ContainsRailway(railway))
+                    return true;
 
             return false;
         }
@@ -235,8 +259,10 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         private List<Adjacency> _adjacencies;
         public int GetAdjacenciesCount()
         {
-            if (_adjacencies == null) return 0;
-            return _adjacencies.Count;
+            if (_adjacencies == null)
+                return 0;
+            return
+                _adjacencies.Count;
         }
 
         public bool AddAdjacency(Adjacency adjacency)
@@ -256,30 +282,38 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public bool RemoveAdjacency(Adjacency adjacency)
         {
-            if (_adjacencies == null) return false;
-            return _adjacencies.Remove(adjacency);
+            if (_adjacencies == null)
+                return false;
+            return
+                _adjacencies.Remove(adjacency);
         }
 
         public bool ContainsAdjacency(Adjacency adjacency)
         {
-            if (_adjacencies == null) return false;
-            return _adjacencies.Contains(adjacency);
+            if (_adjacencies == null)
+                return false;
+            return
+                _adjacencies.Contains(adjacency);
         }
 
         public void ForEachAdjacency(Action<Adjacency> action)
         {
-            if (_adjacencies == null) return;
-            foreach (var adjacency in _adjacencies) action(adjacency);
+            if (_adjacencies == null)
+                return;
+            foreach (var adjacency in _adjacencies)
+                action(adjacency);
         }
 
         public T ForEachAdjacency<T>(Func<Adjacency, T> func) where T : class
         {
-            if (_adjacencies == null) return null;
+            if (_adjacencies == null)
+                return null;
 
             foreach (var adjacency in _adjacencies)
             {
                 T product = func(adjacency);
-                if (product != null) return product;
+                if (product != null)
+                    return product;
             }
 
             return null;
@@ -290,8 +324,10 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             foreach (var b in borders)
             {
-                if (b.provinceA == this) action(this, b.provinceB);
-                else if (b.provinceB == this) action(this, b.provinceA);
+                if (b.provinceA == this)
+                    action(this, b.provinceB);
+                else if (b.provinceB == this)
+                    action(this, b.provinceA);
             }
 
             if (_adjacencies != null)
@@ -301,8 +337,10 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     if (adj.GetEnumType() == EnumAdjaciencyType.IMPASSABLE)
                         continue;
 
-                    if (adj.StartProvince == this) action(this, adj.EndProvince);
-                    if (adj.EndProvince == this) action(this, adj.StartProvince);
+                    if (adj.StartProvince == this)
+                        action(this, adj.EndProvince);
+                    if (adj.EndProvince == this)
+                        action(this, adj.StartProvince);
                 }
             }
         }
@@ -311,52 +349,55 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public int GetBuildingsCount()
         {
-            if (_buildings == null) return 0;
-            return _buildings.Count;
+            if (_buildings == null)
+                return 0;
+            return
+                _buildings.Count;
         }
         public void SetBuilding(Building building, uint count)
         {
-            if (_buildings == null) _buildings = new Dictionary<Building, uint>() { { building, count } };
-            else _buildings[building] = count;
+            if (_buildings == null)
+                _buildings = new Dictionary<Building, uint>() { { building, count } };
+            else
+                _buildings[building] = count;
         }
 
         public bool RemoveBuilding(Building building)
         {
-            if (_buildings == null) return false;
-            return _buildings.Remove(building);
+            if (_buildings == null)
+                return false;
+            return
+                _buildings.Remove(building);
         }
 
         public bool TryGetBuildingCount(Building building, out uint count)
         {
             count = 0;
-            if (_buildings == null) return false;
-            return _buildings.TryGetValue(building, out count);
+            if (_buildings == null)
+                return false;
+            return
+                _buildings.TryGetValue(building, out count);
         }
 
         public void SetBuildings(Dictionary<Building, uint> buildings) => _buildings = buildings;
         public bool HasPort()
         {
-            if (_buildings == null || _buildings.Count == 0) return false;
+            if (_buildings == null || _buildings.Count == 0)
+                return false;
 
             foreach (var building in _buildings.Keys)
-                if (building.IsPort.GetValue()) return true;
+                if (building.IsPort.GetValue())
+                    return true;
 
             return false;
         }
         public bool WillHavePortInHistory()
         {
-            if (State == null || State.startHistory == null) return false;
+            var history = State?.History.GetValue();
+            if (history == null)
+                return false;
 
-            if (State.startHistory.TryGetProvinceBuildings(this, out Dictionary<Building, uint> buildings))
-                foreach (var building in buildings.Keys)
-                    if (building.IsPort.GetValue()) return true;
-
-            foreach (var stateHistory in State.stateHistories.Values)
-                if (stateHistory.TryGetProvinceBuildings(this, out buildings))
-                    foreach (var building in buildings.Keys)
-                        if (building.IsPort.GetValue()) return true;
-
-            return false;
+            return history.WillHavePortInHistory(this);
         }
         public void ClearBuildings() => _buildings = null;
 
@@ -446,20 +487,24 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public bool HasBorderWith(Province province)
         {
-            if (_id == province._id) return false;
+            if (_id == province._id)
+                return false;
             foreach (var border in borders)
             {
-                if (border.provinceA._id == province._id || border.provinceB._id == province._id) return true;
+                if (border.provinceA._id == province._id || border.provinceB._id == province._id)
+                    return true;
             }
             return false;
         }
 
         public ProvinceBorder GetBorderWith(Province province)
         {
-            if (_id == province._id) return null;
+            if (_id == province._id)
+                return null;
             foreach (var border in borders)
             {
-                if (border.provinceA._id == province._id || border.provinceB._id == province._id) return border;
+                if (border.provinceA._id == province._id || border.provinceB._id == province._id)
+                    return border;
             }
             return null;
         }
@@ -469,32 +514,37 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             var borderProvinces = new List<Province>();
             foreach (var b in borders)
             {
-                if (b.provinceA._id == _id) borderProvinces.Add(b.provinceB);
-                else if (b.provinceB._id == _id) borderProvinces.Add(b.provinceA);
+                if (b.provinceA._id == _id)
+                    borderProvinces.Add(b.provinceB);
+                else if (b.provinceB._id == _id)
+                    borderProvinces.Add(b.provinceA);
             }
             return borderProvinces;
         }
 
         public bool HasSeaConnectionWith(Province province)
         {
-            if (_id == province._id) return false;
-            if (_adjacencies == null) return false;
+            if (_id == province._id)
+                return false;
+            if (_adjacencies == null)
+                return false;
             foreach (var adj in _adjacencies)
             {
-                if (adj.HasConnectionWithProvince(province)) return true;
+                if (adj.HasConnectionWithProvince(province))
+                    return true;
             }
             return false;
         }
 
         public override bool Equals(object obj)
-        {
-            return obj is Province province && _id == province._id;
-        }
+            => obj is Province province && _id == province._id;
 
         public int CompareTo(Province other)
         {
-            if (other == null) return 1;
-            return _id - other._id;
+            if (other == null)
+                return 1;
+            return
+                _id - other._id;
         }
 
     }

@@ -17,13 +17,14 @@ namespace HOI4ModBuilder.src.newParser.objects
         private Func<TKey, object> _keySaveAdapter;
         private Func<object, string, TValue> _valueParseAdapter;
         private Func<TValue, object> _valueSaveAdapter;
+        private bool _sortAtSaving;
 
         public GameDictionary<TKey, TValue> INIT_SetKeyParseAdapter(Func<string, TKey> value)
         {
             _keyParseAdapter = value;
             return this;
         }
-        public GameDictionary<TKey, TValue> INIT_SetKeyParseAdapter(Func<TKey, object> value)
+        public GameDictionary<TKey, TValue> INIT_SetKeySaveAdapter(Func<TKey, object> value)
         {
             _keySaveAdapter = value;
             return this;
@@ -34,9 +35,15 @@ namespace HOI4ModBuilder.src.newParser.objects
             _valueParseAdapter = value;
             return this;
         }
-        public GameDictionary<TKey, TValue> INIT_SetValueParseAdapter(Func<TValue, object> value)
+        public GameDictionary<TKey, TValue> INIT_SetValueSaveAdapter(Func<TValue, object> value)
         {
             _valueSaveAdapter = value;
+            return this;
+        }
+
+        public GameDictionary<TKey, TValue> INIT_SetSortAtSaving(bool value)
+        {
+            _sortAtSaving = value;
             return this;
         }
 
@@ -168,7 +175,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             );
         }
 
-        public override void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public override void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
             if (_dictionary.Count == 0)
             {
@@ -185,12 +192,12 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (saveParameter.AddEmptyLineBefore)
                 sb.Append(outIndent).Append(Constants.NEW_LINE);
 
-            EntrySave(parser, sb, outIndent, key, saveParameter);
+            EntrySave(sb, outIndent, key, saveParameter);
 
             return;
         }
 
-        private void EntrySave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        private void EntrySave(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
             string innerIndent = outIndent;
 
@@ -217,54 +224,17 @@ namespace HOI4ModBuilder.src.newParser.objects
                     innerIndent = " ";
             }
 
-            foreach (var entry in _dictionary)
+            if (_sortAtSaving)
             {
-                object tempKey = entry.Key;
-                if (_keySaveAdapter != null)
-                    tempKey = _keySaveAdapter.Invoke(entry.Key);
-
-                string stringKey = ParserUtils.ObjectToSaveString(tempKey);
-
-                object tempValue = entry.Value;
-                if (_valueSaveAdapter != null)
-                    tempValue = _valueSaveAdapter.Invoke(entry.Value);
-
-                if (tempValue is ISaveable saveable)
-                {
-                    innerIndent = outIndent + Constants.INDENT;
-                    saveable.Save(parser, sb, innerIndent, stringKey, saveParameter);
-                }
-                else
-                {
-                    var comments = GameComments.DEFAULT;
-                    if (entry.Key is ICommentable commentable)
-                        comments = commentable.GetComments();
-
-                    if (comments.Previous.Length > 0)
-                    {
-                        if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
-                        {
-                            sb.Append(Constants.NEW_LINE);
-                            innerIndent = outIndent + Constants.INDENT;
-                        }
-                        sb.Append(innerIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
-                    }
-
-                    var stringValue = ParserUtils.ObjectToSaveString(tempValue);
-                    sb.Append(innerIndent).Append(stringKey).Append(' ').Append((char)EnumDemiliter.EQUALS).Append(' ').Append(stringValue);
-
-                    if (comments.Inline.Length > 0)
-                    {
-                        sb.Append(' ').Append(comments.Inline);
-                        sb.Append(Constants.NEW_LINE);
-                        innerIndent = outIndent + Constants.INDENT;
-                    }
-                    else if (!saveParameter.IsForceInline)
-                    {
-                        sb.Append(Constants.NEW_LINE);
-                        innerIndent = outIndent + Constants.INDENT;
-                    }
-                }
+                List<TKey> sortKeys = new List<TKey>(_dictionary.Keys);
+                sortKeys.Sort();
+                foreach (var sortedKey in sortKeys)
+                    SaveKeyValueEntry(sb, outIndent, ref innerIndent, sortedKey, _dictionary[sortedKey], saveParameter);
+            }
+            else
+            {
+                foreach (var entry in _dictionary)
+                    SaveKeyValueEntry(sb, outIndent, ref innerIndent, entry.Key, entry.Value, saveParameter);
             }
 
             if (key != null)
@@ -276,6 +246,60 @@ namespace HOI4ModBuilder.src.newParser.objects
 
                 sb.Append('}');
                 sb.Append(Constants.NEW_LINE);
+            }
+        }
+
+        private void SaveKeyValueEntry(StringBuilder sb, string outIndent, ref string innerIndent, TKey key, TValue value, SaveAdapterParameter saveParameter)
+        {
+            object tempKey = key;
+            if (_keySaveAdapter != null)
+                tempKey = _keySaveAdapter.Invoke(key);
+
+            string stringKey = ParserUtils.ObjectToSaveString(tempKey);
+
+            object tempValue = value;
+            if (_valueSaveAdapter != null)
+                tempValue = _valueSaveAdapter.Invoke(value);
+
+            //if (sb.Length > 0 && !char.IsWhiteSpace(sb[sb.Length - 1]))
+            //    sb.Append(Constants.NEW_LINE);
+
+            if (tempValue is ISaveable saveable)
+            {
+                saveable.Save(sb, outIndent, stringKey, saveParameter);
+            }
+            else
+            {
+                GameComments comments = null;
+                if (key is ICommentable commentable)
+                    comments = commentable.GetComments();
+
+                if (comments == null)
+                    comments = GameComments.DEFAULT;
+
+                if (comments.Previous.Length > 0)
+                {
+                    if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
+                    {
+                        sb.Append(Constants.NEW_LINE);
+                        innerIndent = outIndent + Constants.INDENT;
+                    }
+                    sb.Append(innerIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+                }
+
+                var stringValue = ParserUtils.ObjectToSaveString(tempValue);
+                sb.Append(innerIndent).Append(stringKey).Append(' ').Append((char)EnumDemiliter.EQUALS).Append(' ').Append(stringValue);
+
+                if (comments.Inline.Length > 0)
+                {
+                    sb.Append(' ').Append(comments.Inline);
+                    sb.Append(Constants.NEW_LINE);
+                    innerIndent = outIndent + Constants.INDENT;
+                }
+                else if (!saveParameter.IsForceInline && _dictionary.Count > 1)
+                {
+                    sb.Append(Constants.NEW_LINE);
+                }
             }
         }
 

@@ -28,13 +28,13 @@ namespace HOI4ModBuilder.src.newParser.objects
         public void SaveToFile(GameParser parser)
         {
             StringBuilder sb = new StringBuilder();
-            Save(parser, sb, "", null, default);
+            Save(sb, "", null, default);
         }
 
         public void SaveToFile(GameParser parser, FileInfo fileInfo)
         {
             StringBuilder sb = new StringBuilder();
-            Save(parser, sb, "", null, default);
+            Save(sb, "", null, default);
 
             File.WriteAllText(fileInfo.filePath, sb.ToString());
         }

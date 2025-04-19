@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.provinces.border;
+using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using SharpFont;
@@ -374,17 +375,18 @@ namespace HOI4ModBuilder
             result = sbResult.ToString();
         }
 
-        public static bool IsProvincesListSorted(List<Province> provinces)
+        public static bool IsProvincesListSorted(GameList<Province> provinces)
         {
             if (provinces.Count <= 1) return true;
             for (int i = 1; i < provinces.Count; i++)
             {
-                if (provinces[i - 1].Id > provinces[i].Id) return false;
+                if (provinces[i - 1].Id > provinces[i].Id)
+                    return false;
             }
             return true;
         }
 
-        public static bool RemoveDuplicateProvinces(List<Province> provinces)
+        public static bool RemoveDuplicateProvinces(GameList<Province> provinces)
         {
             bool hasRemovedAny = false;
             var indexes = new List<int>();

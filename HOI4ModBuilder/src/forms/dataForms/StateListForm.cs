@@ -71,11 +71,11 @@ namespace HOI4ModBuilder.src.forms
                         row = new DataGridViewRow();
                         row.CreateCells(data, new object[] {
                             id,
-                            s.name,
-                            s.manpower,
-                            s.stateCategory?.name,
+                            s.CurrentName,
+                            s.CurrentManpower,
+                            s.CurrentStateCategory?.name,
                             s.owner?.Tag,
-                            s.provinces.Count,
+                            s.Provinces.Count,
                             s.pixelsCount
                         });
                         rows[i] = row;
@@ -110,10 +110,10 @@ namespace HOI4ModBuilder.src.forms
                 {
                     currentState = state;
                     var sb = new StringBuilder();
-                    state.Save(sb);
+                    //state.Save(sb); //TODO
                     text = sb.ToString();
                     RichTextBox_StateInfo.Text = text;
-                    TextBox_FileInfo.Text = state.fileInfo.fileName;
+                    //TextBox_FileInfo.Text = state.fileInfo.fileName;
                 }
                 else Logger.LogSingleErrorMessage(
                         EnumLocKey.STATE_NOT_FOUND_BY_ID,
@@ -129,9 +129,9 @@ namespace HOI4ModBuilder.src.forms
                 if (currentState == null) return;
 
                 var sb = new StringBuilder();
-                currentState.Save(sb);
+                //currentState.Save(sb); //TODO
                 RichTextBox_StateInfo.Text = sb.ToString();
-                TextBox_FileInfo.Text = currentState.fileInfo.fileName;
+                //TextBox_FileInfo.Text = currentState.fileInfo.fileName;
 
             });
         }
@@ -145,32 +145,33 @@ namespace HOI4ModBuilder.src.forms
 
                 var state = new State
                 {
-                    fileInfo = currentState.fileInfo,
+                    //fileInfo = currentState.fileInfo,
                     borders = currentState.borders,
                     center = currentState.center,
                     dislayCenter = currentState.dislayCenter,
                     pixelsCount = currentState.pixelsCount
                 };
 
-                ParadoxParser.Parse(Utils.ToStream(RichTextBox_StateInfo.Text), state);
+                //TODO
+                //ParadoxParser.Parse(Utils.ToStream(RichTextBox_StateInfo.Text), state);
 
                 var s = state;
                 currentState.ClearData();
-                StateManager.RemoveState(currentState.Id);
+                StateManager.RemoveState(currentState.IdNew.GetValue());
 
-                foreach (var p in currentState.provinces) p.State = null;
+                foreach (var p in currentState.Provinces) p.State = null;
 
                 currentState = state;
 
-                foreach (var p in state.provinces) p.State = state;
+                foreach (var p in state.Provinces) p.State = state;
 
-                StateManager.AddState(state.Id, state);
+                StateManager.AddState(state.IdNew.GetValue(), state);
 
                 state.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
                 LoadData();
 
                 var sb = new StringBuilder();
-                state.Save(sb);
+                //state.Save(sb); //TODO
                 text = sb.ToString();
                 RichTextBox_StateInfo.Text = text;
 

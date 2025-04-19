@@ -74,7 +74,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             var newOutTab = outTab + tab;
 
             if (_state != null)
-                ParadoxUtils.StartBlock(sb, outTab, $"{_state.Id}");
+                ParadoxUtils.StartBlock(sb, outTab, $"{_state.IdNew.GetValue()}");
             else if (_carrier != null)
                 ParadoxUtils.StartBlock(sb, outTab, $"\"{_carrier.Name}\"");
 
@@ -92,7 +92,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
 
         public void TokenCallback(ParadoxParser parser, LinkedLayer prevLayer, string token)
         {
-            Logger.WrapTokenCallbackExceptions(_state != null ? $"{_state?.Id}" : $"\"{_carrier.Name}\"", () =>
+            Logger.WrapTokenCallbackExceptions(_state != null ? $"{_state?.IdNew.GetValue()}" : $"\"{_carrier.Name}\"", () =>
             {
                 if (token == AirWing.TOKEN_NAME)
                 {

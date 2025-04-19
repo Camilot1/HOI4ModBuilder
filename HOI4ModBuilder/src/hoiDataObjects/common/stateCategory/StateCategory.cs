@@ -23,7 +23,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
         public uint localBuildingsSlots;
         public List<DataArgsBlock> modifiers = new List<DataArgsBlock>(0);
 
-        public StateCategory(string name)
+        public StateCategory() { }
+        public StateCategory(string name) : this()
         {
             this.name = name;
         }

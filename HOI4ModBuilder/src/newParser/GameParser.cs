@@ -358,9 +358,14 @@ namespace HOI4ModBuilder.src.newParser
 
 
             _ignorIndentChange = true;
+
+            _sbData.Append(_currentChar);
             NextChar();
+
             ParseUntil(FLAGS_QUOTED_UNTIL);
             _ignorIndentChange = false;
+
+            _sbData.Append(_currentChar);
             NextChar();
         }
 

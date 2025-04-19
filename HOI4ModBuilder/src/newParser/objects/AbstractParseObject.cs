@@ -218,7 +218,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         private static readonly Dictionary<string, Func<object, object>> _defaultStaticAdapter = new Dictionary<string, Func<object, object>>();
         private static readonly Dictionary<string, DynamicGameParameter> _defaultDynamicAdapter = new Dictionary<string, DynamicGameParameter>();
 
-        public virtual void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public virtual void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
             var saveAdapter = GetSaveAdapter();
 
@@ -259,7 +259,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 isInline = saveParameter.IsForceInline ||
                     comments.Inline.Length == 0 &&
                     (staticAdapter.Count + dynamicAdapter.Count <= 1);
-                innerIndent = isInline ? "" : outIndent + Constants.INDENT;
+                innerIndent = isInline ? " " : outIndent + Constants.INDENT;
 
                 if (!isInline)
                     sb.Append(Constants.NEW_LINE);
@@ -269,18 +269,23 @@ namespace HOI4ModBuilder.src.newParser.objects
             {
                 if (staticAdapter.TryGetValue(parameter.Name, out var staticProvider))
                     ((ISaveable)staticProvider.Invoke(this))
-                        .Save(parser, sb, innerIndent, parameter.Name, parameter);
+                        .Save(sb, innerIndent, parameter.Name, parameter);
                 else if (dynamicAdapter.TryGetValue(parameter.Name, out var dynamicProvider))
                     ((ISaveable)dynamicProvider.provider.Invoke(this))
-                        .Save(parser, sb, innerIndent, null, parameter);
+                        .Save(sb, innerIndent, null, parameter);
             }
 
             if (key != null)
             {
                 //if (!isInline)
                 //    sb.Append(Constants.NEW_LINE);
+                if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
+                    sb.Append(outIndent);
+                else
+                    sb.Append(' ');
 
-                sb.Append(outIndent).Append('}').Append(Constants.NEW_LINE);
+                sb.Append('}');
+                sb.Append(Constants.NEW_LINE);
             }
         }
 
@@ -349,6 +354,30 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (handler is IValidatable validatable)
                     validatable.Validate(new LinkedLayer(layer, entry.Key));
             }
+        }
+
+        public bool TryGetGameFile(out GameFile gameFile)
+        {
+            IParentable temp = this;
+
+            while (temp != null)
+            {
+                if (temp is GameFile)
+                {
+                    gameFile = (GameFile)temp;
+                    return true;
+                }
+                temp = temp.GetParent();
+            }
+            gameFile = null;
+            return false;
+        }
+
+        public GameFile GetGameFile()
+        {
+            if (TryGetGameFile(out var gameFile))
+                return gameFile;
+            return null;
         }
     }
 }

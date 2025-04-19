@@ -4,6 +4,7 @@ using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
+using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using Pdoxcl2Sharp;
@@ -50,15 +51,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             }
         }
 
-        private List<Province> _provinces = new List<Province>();
-        public bool HasProvince(Province province) => _provinces.Contains(province);
+        private GameList<Province> Provinces = new GameList<Province>();
+        public bool HasProvince(Province province) => Provinces.Contains(province);
 
         private List<ProvinceBorder> _borders = new List<ProvinceBorder>(0);
         public List<ProvinceBorder> Borders { get => _borders; }
 
         public void ForEachAdjacentProvince(Action<Province, Province> action)
         {
-            foreach (var p in _provinces)
+            foreach (var p in Provinces)
                 p.ForEachAdjacentProvince((thisProvince, otherProvince) =>
                 {
                     if (thisProvince.Region == this)
@@ -124,15 +125,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
         public void AddProvince(Province province)
         {
-            _provinces.Add(province);
-            _provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
+            Provinces.Add(province);
+            Provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
             province.Region = this;
             needToSave = true;
         }
 
         public bool RemoveProvince(Province province)
         {
-            if (_provinces.Remove(province))
+            if (Provinces.Remove(province))
             {
                 province.Region = null;
                 needToSave = true;
@@ -145,7 +146,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             double sumX = 0, sumY = 0;
             double pixelsCount = 0;
-            foreach (var province in _provinces)
+            foreach (var province in Provinces)
             {
                 sumX += province.center.x * province.pixelsCount;
                 sumY += province.center.y * province.pixelsCount;
@@ -163,11 +164,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             if (value)
             {
-                foreach (var p in _provinces) p.Region = null;
+                foreach (var p in Provinces)
+                    p.Region = null;
             }
             else
             {
-                foreach (var p in _provinces) p.Region = this;
+                foreach (var p in Provinces)
+                    p.Region = this;
                 InitBorders();
                 CalculateCenter();
                 CalculateColor();
@@ -184,12 +187,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public void TransferProvincesFrom(StrategicRegion otherRegion)
         {
 
-            foreach (var p in _provinces) p.Region = null;
+            foreach (var p in Provinces)
+                p.Region = null;
 
-            _provinces = otherRegion._provinces;
-            otherRegion._provinces = new List<Province>();
+            Provinces = otherRegion.Provinces;
+            otherRegion.Provinces = new GameList<Province>();
 
-            foreach (var p in _provinces) p.Region = this;
+            foreach (var p in Provinces)
+                p.Region = this;
             InitBorders();
             CalculateCenter();
 
@@ -206,7 +211,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
             sb.Append(tab).Append("provinces = {").Append(Constants.NEW_LINE);
             sb.Append(tab).Append(tab);
-            foreach (var province in _provinces) sb.Append(province.Id).Append(' ');
+            foreach (var province in Provinces) sb.Append(province.Id).Append(' ');
             sb.Append(Constants.NEW_LINE).Append(tab).Append('}').Append(Constants.NEW_LINE).Append(Constants.NEW_LINE);
 
             _staticModifiers.Save(sb, tab);
@@ -260,10 +265,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                                     { "{provinceId}", $"{provinceId}" }
                                 }
                             );
-                        _provinces.Add(province);
+                        Provinces.Add(province);
                         if (!_silentLoad) province.Region = this;
                     }
-                    _provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
+                    Provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
                     break;
                 case "static_modifiers":
                     parser.Parse(_staticModifiers);
@@ -292,7 +297,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             _borders.Clear();
 
-            foreach (var p in _provinces)
+            foreach (var p in Provinces)
             {
                 foreach (var b in p.borders)
                 {
@@ -335,25 +340,27 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public void ForEachProvince(Action<StrategicRegion, Province> action)
         {
             if (action == null) return;
-            foreach (var p in _provinces) action(this, p);
+            foreach (var p in Provinces)
+                action(this, p);
         }
         public void ForEachProvince(Action<Province> action)
         {
             if (action == null) return;
-            foreach (var p in _provinces) action(p);
+            foreach (var p in Provinces)
+                action(p);
         }
 
         public void Validate(out bool hasChanged)
         {
             hasChanged = false;
-            if (!Utils.IsProvincesListSorted(_provinces))
+            if (!Utils.IsProvincesListSorted(Provinces))
             {
-                _provinces.Sort();
+                Provinces.Sort();
                 needToSave = true;
                 hasChanged = true;
             }
 
-            if (Utils.RemoveDuplicateProvinces(_provinces))
+            if (Utils.RemoveDuplicateProvinces(Provinces))
             {
                 needToSave = true;
                 hasChanged = true;

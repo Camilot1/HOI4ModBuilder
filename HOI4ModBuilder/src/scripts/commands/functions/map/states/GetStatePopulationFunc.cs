@@ -51,7 +51,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
                 if (!StateManager.TryGetState(Convert.ToUInt16(stateId.GetValue()), out State state))
                     throw new ValueNotFoundScriptException(lineIndex, args, stateId.GetValue(), argIndexStateId);
 
-                population.Set(lineIndex, args, new IntObject(state.manpower));
+                population.Set(lineIndex, args, new IntObject(state.CurrentManpower));
             };
         }
     }

@@ -51,7 +51,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.states
                 if (!StateManager.TryGetState(Convert.ToUInt16(stateId.GetValue()), out var state))
                     throw new ValueNotFoundScriptException(lineIndex, args, stateId.GetValue(), argIndexStateId);
 
-                stateCategory.Set(lineIndex, args, new StringObject(state.stateCategory?.name));
+                stateCategory.Set(lineIndex, args, new StringObject(state.CurrentStateCategory?.name));
             };
         }
     }

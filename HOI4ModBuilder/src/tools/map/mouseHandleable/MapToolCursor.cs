@@ -116,7 +116,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             if (selectedProvince != null)
                 MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedProvince.Id;
             else if (selectedState != null)
-                MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedState.Id;
+                MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedState.IdNew.GetValue();
             else if (selectedRegion != null)
                 MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedRegion.Id;
 

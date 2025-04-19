@@ -6,7 +6,7 @@ namespace HOI4ModBuilder.src.newParser.interfaces
 {
     public interface ISaveable : ICommentable
     {
-        void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter);
+        void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter);
         SaveAdapter GetSaveAdapter();
     }
 }

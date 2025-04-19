@@ -15,6 +15,8 @@ namespace HOI4ModBuilder.src.newParser.objects
         private bool _forceSeparateLineSave;
         private Func<object, string, T> _valueParseAdapter;
         private Func<T, object> _valueSaveAdapter;
+        private bool _sortAtSaving;
+
         public GameList() : base() { }
         public GameList(bool allowsInlineAdd, bool forceSeparateLineSave) : this()
         {
@@ -39,6 +41,12 @@ namespace HOI4ModBuilder.src.newParser.objects
         public GameList<T> INIT_SetValueSaveAdapter(Func<T, object> value)
         {
             _valueSaveAdapter = value;
+            return this;
+        }
+
+        public GameList<T> INIT_SetSortAtSaving(bool value)
+        {
+            _sortAtSaving = value;
             return this;
         }
 
@@ -139,6 +147,12 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         private List<T> _list = new List<T>();
 
+        public T this[int index]
+        {
+            get { return _list[index]; }
+            set { _list[index] = value; }
+        }
+
         public void Push(object value) => AddSilent((T)value);
         public void AddSilent(T item) => _list.Add(item);
         public void Add(T item)
@@ -146,13 +160,21 @@ namespace HOI4ModBuilder.src.newParser.objects
             _needToSave = true;
             _list.Add(item);
         }
+        public void Sort() => _list.Sort();
+        public void Sort(Comparison<T> comparison) => _list.Sort(comparison);
         public T Get(int index) => _list[index];
         public void RemoveAt(int index)
         {
             _needToSave = true;
             _list.RemoveAt(index);
         }
-        public void Remove(T item) => _needToSave |= _list.Remove(item);
+        public bool Remove(T item)
+        {
+            var result = _list.Remove(item);
+            _needToSave |= result;
+            return result;
+        }
+        public bool Contains(T obj) => _list.Contains(obj);
         public int Count => _list.Count;
 
         public IEnumerator<T> GetEnumerator() => _list.GetEnumerator();
@@ -160,7 +182,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         //TODO impelemnt save
         public override SaveAdapter GetSaveAdapter() => null;
-        public override void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public override void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
             if (_list.Count == 0)
             {
@@ -180,12 +202,12 @@ namespace HOI4ModBuilder.src.newParser.objects
                 sb.Append(outIndent).Append(Constants.NEW_LINE);
 
             if (_forceSeparateLineSave)
-                SeparateLineSave(parser, sb, outIndent, key, saveParameter);
+                SeparateLineSave(sb, outIndent, key, saveParameter);
             else
-                ListSave(parser, sb, outIndent, key, saveParameter);
+                ListSave(sb, outIndent, key, saveParameter);
         }
 
-        private void SeparateLineSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        private void SeparateLineSave(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
             foreach (var value in _list)
             {
@@ -194,7 +216,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     tempValue = _valueSaveAdapter.Invoke(value);
 
                 if (tempValue is ISaveable saveable)
-                    saveable.Save(parser, sb, outIndent, key, saveParameter);
+                    saveable.Save(sb, outIndent, key, saveParameter);
                 else
                 {
                     GameComments comments = null;
@@ -214,7 +236,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
         }
 
-        private void ListSave(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        private void ListSave(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
             string innerIndent = outIndent;
 
@@ -240,57 +262,11 @@ namespace HOI4ModBuilder.src.newParser.objects
                     innerIndent = " ";
             }
 
+            if (_sortAtSaving)
+                _list.Sort();
+
             foreach (var value in _list)
-            {
-                object tempValue = value;
-                if (_valueSaveAdapter != null)
-                    tempValue = _valueSaveAdapter.Invoke(value);
-
-                if (value is ISaveable saveable)
-                {
-                    saveable.Save(parser, sb, innerIndent, key, saveParameter);
-
-                    //TODO Refactor. Временный фикс некорректного переноса строк в случае,
-                    //               если в объекте есть два списка без имени
-                    //  infrastructure = yes (фикс-перенос)
-                    //  infrastructure = yes (фикс-перенос)
-                    //  set_variable = { test1 = 10 }
-                    //  set_variable = { test2 = 14 }
-                    if (value is ScriptBlockParseObject scriptBlockParseObject)
-                        if (!(scriptBlockParseObject.GetValueRaw() is IValuePushable))
-                            sb.Append(Constants.NEW_LINE);
-                }
-                else
-                {
-                    var comments = GameComments.DEFAULT;
-                    if (value is ICommentable commentable)
-                        comments = commentable.GetComments();
-
-                    if (comments.Previous.Length > 0)
-                    {
-                        if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
-                        {
-                            sb.Append(Constants.NEW_LINE);
-                            innerIndent = outIndent + Constants.INDENT;
-                        }
-                        sb.Append(innerIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
-                    }
-
-                    sb.Append(innerIndent).Append(tempValue);
-
-                    if (comments.Inline.Length > 0)
-                    {
-                        sb.Append(' ').Append(comments.Inline);
-                        sb.Append(Constants.NEW_LINE);
-                        innerIndent = outIndent + Constants.INDENT;
-                    }
-                    else if (saveParameter.IsForceMultiline)
-                    {
-                        sb.Append(Constants.NEW_LINE);
-                        innerIndent = outIndent + Constants.INDENT;
-                    }
-                }
-            }
+                SaveListValue(sb, outIndent, ref innerIndent, key, value, saveParameter);
 
             if (key != null)
             {
@@ -303,6 +279,59 @@ namespace HOI4ModBuilder.src.newParser.objects
                 sb.Append(Constants.NEW_LINE);
             }
         }
+
+        private void SaveListValue(StringBuilder sb, string outIndent, ref string innerIndent, string key, T value, SaveAdapterParameter saveParameter)
+        {
+            object tempValue = value;
+            if (_valueSaveAdapter != null)
+                tempValue = _valueSaveAdapter.Invoke(value);
+
+            if (value is ISaveable saveable)
+            {
+                saveable.Save(sb, innerIndent, key, saveParameter);
+
+                //TODO Refactor. Временный фикс некорректного переноса строк в случае,
+                //               если в объекте есть два списка без имени
+                //  infrastructure = yes (фикс-перенос)
+                //  infrastructure = yes (фикс-перенос)
+                //  set_variable = { test1 = 10 }
+                //  set_variable = { test2 = 14 }
+                if (value is ScriptBlockParseObject scriptBlockParseObject)
+                    if (!(scriptBlockParseObject.GetValueRaw() is IValuePushable))
+                        sb.Append(Constants.NEW_LINE);
+            }
+            else
+            {
+                var comments = GameComments.DEFAULT;
+                if (value is ICommentable commentable)
+                    comments = commentable.GetComments();
+
+                if (comments.Previous.Length > 0)
+                {
+                    if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
+                    {
+                        sb.Append(Constants.NEW_LINE);
+                        innerIndent = outIndent + Constants.INDENT;
+                    }
+                    sb.Append(innerIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+                }
+
+                sb.Append(innerIndent).Append(tempValue);
+
+                if (comments.Inline.Length > 0)
+                {
+                    sb.Append(' ').Append(comments.Inline);
+                    sb.Append(Constants.NEW_LINE);
+                    innerIndent = outIndent + Constants.INDENT;
+                }
+                else if (saveParameter.IsForceMultiline)
+                {
+                    sb.Append(Constants.NEW_LINE);
+                    innerIndent = outIndent + Constants.INDENT;
+                }
+            }
+        }
+
         public override void Validate(LinkedLayer layer)
         {
             foreach (var value in _list)

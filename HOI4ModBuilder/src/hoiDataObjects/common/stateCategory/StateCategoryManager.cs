@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
 {
-    class StateCategoryManager : IParadoxRead
+    public class StateCategoryManager : IParadoxRead
     {
         public static StateCategoryManager Instance { get; private set; }
 
@@ -39,8 +39,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
         }
 
         public static bool TryGetStateCategory(string name, out StateCategory stateCategory)
+            => _allStateCategories.TryGetValue(name, out stateCategory);
+
+        public static StateCategory GetStateCategory(string name)
         {
-            return _allStateCategories.TryGetValue(name, out stateCategory);
+            if (_allStateCategories.TryGetValue(name, out var stateCategory))
+                return stateCategory;
+            return null;
         }
 
         public void TokenCallback(ParadoxParser parser, string token)

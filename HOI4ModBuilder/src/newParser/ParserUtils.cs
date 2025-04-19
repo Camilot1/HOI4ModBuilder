@@ -31,8 +31,9 @@ namespace HOI4ModBuilder.src.newParser
             { typeof(uint), (v) => uint.Parse(v) },
             { typeof(float), (v) => Utils.ParseFloat(v) },
             { typeof(double), (v) => double.Parse(v) },
-            { typeof(GameString), (v) => new GameString() { value = v } },
+            { typeof(GameString), (v) => new GameString { stringValue = v } },
             { typeof(GameKeyObject<>), (v) => new GameKeyObject<object>() { key = v } },
+            { typeof(DateTime), (v) => Utils.TryParseDateTimeStamp(v, out var dateTime) ? dateTime : throw new Exception("Invalid DateTime format: " + v) },
             { typeof(string), (v) => v },
         };
 
@@ -72,20 +73,20 @@ namespace HOI4ModBuilder.src.newParser
         {
             if (value is bool valueBool)
                 return valueBool ? "yes" : "no";
-            else if (value is int valueInt)
-                return "" + valueInt;
+            else if (value is short || value is ushort || value is int || value is uint)
+                return "" + value;
             else if (value is float valueFloat)
                 return Utils.FloatToString(valueFloat);
             else if (value is Country valueCountry)
                 return valueCountry.Tag;
             else if (value is State valueState)
-                return "" + valueState.Id;
+                return "" + valueState.IdNew.GetValue();
             else if (value is GameString valueGameString)
-                return valueGameString.value;
+                return valueGameString.stringValue;
             else if (value is string valueString)
                 return valueString;
             else
-                throw new Exception("Unknown value type: " + value);
+                throw new Exception($"Unknown value type: {value} ({value.GetType()})");
         }
 
         public static bool TryParseScope(string value, out IScriptBlockInfo scope)
@@ -121,6 +122,12 @@ namespace HOI4ModBuilder.src.newParser
                 return new ScriptBlockParseObject(parent, infoBlock);
 
             return null;
+        }
+
+        public static object SetParent(IParentable child, IParentable parent)
+        {
+            child.SetParent(parent);
+            return child;
         }
 
 

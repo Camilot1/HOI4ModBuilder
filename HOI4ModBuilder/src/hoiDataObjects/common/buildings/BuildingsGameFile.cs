@@ -1,12 +1,8 @@
-﻿using HOI4ModBuilder.src.newParser;
-using HOI4ModBuilder.src.newParser.interfaces;
+﻿using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
-using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 {
@@ -26,9 +22,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         };
 
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
-        public override SaveAdapter GetSaveAdapter() => new SaveAdapter(new[] { "common", "buildings" }, "BuildingsFile")
+
+        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(new[] { "common", "building" }, "BuildingsFile")
             .Add(STATIC_ADAPTER.Keys)
             .Load();
+        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
 
         public override void Validate(LinkedLayer layer)
         {

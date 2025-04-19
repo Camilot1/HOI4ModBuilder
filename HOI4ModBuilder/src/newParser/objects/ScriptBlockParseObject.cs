@@ -359,11 +359,11 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public override SaveAdapter GetSaveAdapter() => null;
 
-        public override void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public override void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
             if (_value is ISaveable saveable)
             {
-                saveable.Save(parser, sb, outIndent, _scriptBlockInfo.GetBlockName(), default);
+                saveable.Save(sb, outIndent, _scriptBlockInfo.GetBlockName(), default);
                 return;
             }
 

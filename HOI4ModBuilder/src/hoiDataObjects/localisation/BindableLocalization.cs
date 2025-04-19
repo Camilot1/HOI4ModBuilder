@@ -23,7 +23,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.localisation
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
 
         public readonly GameDictionary<GameString, GameString> Parameters = new GameDictionary<GameString, GameString>()
-            .INIT_SetKeyParseAdapter(token => new GameString { value = token });
+            .INIT_SetKeyParseAdapter(token => new GameString { stringValue = token });
 
         private static readonly Dictionary<string, DynamicGameParameter> DYNAMIC_ADAPTER = new Dictionary<string, DynamicGameParameter>
         {
@@ -36,6 +36,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.localisation
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => DYNAMIC_ADAPTER;
 
         public override IParseObject GetEmptyCopy() => new BindableLocalization();
-        public override SaveAdapter GetSaveAdapter() => new SaveAdapter("localization", "BindableLocalization");
+
+        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(new[] { "localization" }, "BindableLocalization")
+            .Add(STATIC_ADAPTER.Keys)
+            .Add(DYNAMIC_ADAPTER.Keys)
+            .Load();
+        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
     }
 }

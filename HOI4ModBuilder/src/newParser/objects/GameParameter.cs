@@ -40,8 +40,8 @@ namespace HOI4ModBuilder.src.newParser.objects
             {
                 if (value is GameConstant valueConstant)
                     _value = valueConstant;
-                else if (value is GameString valueString && valueString.value.StartsWith("@"))
-                    ParseValueConstant(null, valueString.value);
+                else if (value is GameString valueString && valueString.stringValue.StartsWith("@"))
+                    ParseValueConstant(null, valueString.stringValue);
                 else
                     _value = value;
 
@@ -50,6 +50,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         }
         public void SetSilentValue(T value) => _value = value;
 
+        //obj, value, result
         private Func<object, object, T> _valueParseAdapter;
         private Func<T, object> _valueSaveAdapter;
         public GameParameter<T> INIT_SetValueParseAdapter(Func<object, object, T> value)
@@ -63,15 +64,18 @@ namespace HOI4ModBuilder.src.newParser.objects
             return this;
         }
 
+        private bool _isProhibitedOverwriting;
+        public GameParameter<T> INIT_ProhibitOverwriting(bool flag)
+        {
+            _isProhibitedOverwriting = flag;
+            return this;
+        }
+
         public void InitValue()
         {
             _value = new T();
             if (_value is IParentable parentable)
                 parentable.SetParent(this);
-        }
-        public void InitValueIfNull()
-        {
-            if (_value == null) InitValue();
         }
 
         public string AssemblePath() => ParserUtils.AsseblePath(this);
@@ -95,7 +99,10 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (parser.SkipWhiteSpaces())
                 throw new Exception("Invalid parameter structure: " + parser.GetCursorInfo());
 
-            InitValueIfNull();
+            if (_value == null)
+                InitValue();
+            else if (_isProhibitedOverwriting)
+                throw new Exception("Value cannot be overriden: " + parser.GetCursorInfo());
 
             if (_value is IParseObject obj)
             {
@@ -159,7 +166,9 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             try
             {
-                _value = _valueParseAdapter != null ? _valueParseAdapter.Invoke(this, rawValue) : ParserUtils.Parse<T>(rawValue);
+                _value = _valueParseAdapter != null ?
+                    _valueParseAdapter.Invoke(this, rawValue) :
+                    ParserUtils.Parse<T>(rawValue);
             }
             catch (Exception ex)
             {
@@ -167,11 +176,11 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
         }
 
-        public virtual void Save(GameParser parser, StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public virtual void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
             if (_value is ISaveable saveable)
             {
-                saveable.Save(parser, sb, outIndent, key, saveParameter);
+                saveable.Save(sb, outIndent, key, saveParameter);
                 return;
             }
             else if (_value == null)
@@ -204,6 +213,28 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (_value is IValidatable validatable)
                 validatable.Validate(layer);
         }
+        public bool TryGetGameFile(out GameFile gameFile)
+        {
+            IParentable temp = this;
 
+            while (temp != null)
+            {
+                if (temp is GameFile)
+                {
+                    gameFile = (GameFile)temp;
+                    return true;
+                }
+                temp = temp.GetParent();
+            }
+            gameFile = null;
+            return false;
+        }
+
+        public GameFile GetGameFile()
+        {
+            if (TryGetGameFile(out var gameFile))
+                return gameFile;
+            return null;
+        }
     }
 }

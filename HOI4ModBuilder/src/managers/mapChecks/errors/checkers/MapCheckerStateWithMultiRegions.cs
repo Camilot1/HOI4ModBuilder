@@ -11,7 +11,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
                 foreach (var s in StateManager.GetStates())
                 {
                     int regionId = -1;
-                    foreach (var p in s.provinces)
+                    foreach (var p in s.Provinces)
                     {
                         if (p.Region == null) continue;
                         if (regionId == -1)

@@ -412,7 +412,8 @@ namespace HOI4ModBuilder.managers
 
         public static void HandleMapMainLayerChange(EnumMainLayer enumMainLayer, string parameter)
         {
-            if (ProvincesPixels == null) return;
+            if (ProvincesPixels == null)
+                return;
 
             Func<Province, int> func = (p) => Utils.ArgbToInt(255, 0, 0, 0);
 
@@ -444,14 +445,16 @@ namespace HOI4ModBuilder.managers
                 case EnumMainLayer.STATES:
                     func = (p) =>
                     {
-                        if (p.State == null) return Utils.ArgbToInt(255, 0, 0, 0);
-                        else return p.State.color;
+                        if (p.State == null)
+                            return Utils.ArgbToInt(255, 0, 0, 0);
+                        else return p.State.Color;
                     };
                     break;
                 case EnumMainLayer.STRATEGIC_REGIONS:
                     func = (p) =>
                     {
-                        if (p.Region == null) return Utils.ArgbToInt(255, 0, 0, 0);
+                        if (p.Region == null)
+                            return Utils.ArgbToInt(255, 0, 0, 0);
                         else return p.Region.color;
                     };
                     break;
@@ -556,10 +559,10 @@ namespace HOI4ModBuilder.managers
                             return Utils.ArgbToInt(255, 127, 255, 255);
                         else if (p.State == null)
                             return Utils.ArgbToInt(255, 255, 0, 0);
-                        else if (p.State.manpower < 1)
+                        else if (p.State.CurrentManpower < 1)
                             return Utils.ArgbToInt(255, 255, 106, 0);
 
-                        byte value = (byte)(255 * p.State.manpower / maxManpower);
+                        byte value = (byte)(255 * p.State.CurrentManpower / maxManpower);
                         return Utils.ArgbToInt(255, value, value, value);
                     };
                     break;
@@ -588,10 +591,10 @@ namespace HOI4ModBuilder.managers
                     {
                         if (p.State == null)
                             return Utils.ArgbToInt(255, 0, 0, 0);
-                        else if (p.State.startStateCategory == null)
+                        else if (p.State.StateCategory.GetValue() == null)
                             return Utils.ArgbToInt(255, 255, 0, 0);
                         else
-                            return p.State.startStateCategory.color;
+                            return p.State.StateCategory.GetValue().color;
                     };
                     break;
                 case EnumMainLayer.BUILDINGS:

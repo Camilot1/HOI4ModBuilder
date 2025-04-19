@@ -53,7 +53,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.states
 
                 int sumPixelsCount = 0;
 
-                foreach (var province in state.provinces)
+                foreach (var province in state.Provinces)
                     sumPixelsCount += province.pixelsCount;
 
                 pixelsCount.Set(lineIndex, args, new IntObject(sumPixelsCount));

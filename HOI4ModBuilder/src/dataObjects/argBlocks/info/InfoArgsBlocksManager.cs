@@ -373,7 +373,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                     List<EnumScope> scopes = new List<EnumScope>();
                     foreach (var scope in obj.Categories)
                     {
-                        var key = scope.value;
+                        var key = scope.stringValue;
 
                         var uppedScope = key.ToUpper();
                         if (!Enum.TryParse(uppedScope, out EnumScope enumScope))
@@ -397,7 +397,9 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
                     var valueType = obj.ValueType.GetValue();
 
-                    string valueTypeString = valueType is GameString gameString ? gameString.value : "" + valueType;
+                    string valueTypeString = valueType is GameString gameString ?
+                        gameString.stringValue :
+                        "" + valueType;
 
                     if (valueTypeString == "number" || valueTypeString == "percentage" || valueTypeString == "percentage_in_hundred")
                     {

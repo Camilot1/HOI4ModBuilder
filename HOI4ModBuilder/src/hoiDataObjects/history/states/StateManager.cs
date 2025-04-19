@@ -1,24 +1,23 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
-using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.newParser;
+using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using OpenTK.Graphics.OpenGL;
-using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 {
-    class StateManager : IParadoxRead
+    public class StateManager
     {
         public static StateManager Instance { get; private set; }
 
@@ -27,7 +26,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         private static Dictionary<ushort, State> _statesById = new Dictionary<ushort, State>();
         public static void ForEachState(Action<State> action)
         {
-            foreach (var s in _statesById.Values) action(s);
+            foreach (var s in _statesById.Values)
+                action(s);
         }
 
         public static State SelectedState { get; set; }
@@ -49,14 +49,60 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
             var fileInfosPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
+            var parser = new GameParser();
             Logger.Log("Loading of States started");
             foreach (var fileInfo in fileInfosPairs.Values)
             {
+
                 _currentFile = fileInfo;
-                using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
-                    ParadoxParser.Parse(fs, Instance);
+                var stateFile = new StateGameFile(fileInfo);
+                LoadStateFile(parser, stateFile);
             }
             Logger.Log("Loading of States finished");
+        }
+
+        private static void LoadStateFile(GameParser parser, StateGameFile stateFile)
+        {
+            try
+            {
+                parser.ParseFile(stateFile);
+
+                var state = stateFile.State.GetValue();
+                if (state == null)
+                    return;
+
+                if (!_statesById.ContainsKey(state.IdNew.GetValue()))
+                    _statesById[state.IdNew.GetValue()] = state;
+                else Logger.LogError(
+                        EnumLocKey.ERROR_STATE_DUPLICATE_ID,
+                        new Dictionary<string, string>
+                        {
+                                { "{filePath}", state.GetGameFile().FileInfo?.filePath },
+                                { "{stateId}", $"{state.IdNew.GetValue()}" },
+                                { "{otherFilePath}", _statesById[state.IdNew.GetValue()].GetGameFile().FileInfo?.filePath }
+                        }
+                    );
+            }
+            catch (Exception ex)
+            {
+                int id = 0;
+
+                var state = stateFile.State.GetValue();
+                if (state != null)
+                    id = state.IdNew.GetValue();
+
+                string idString = id == 0 ?
+                    GuiLocManager.GetLoc(EnumLocKey.ERROR_STATE_UNSUCCESSFUL_STATE_ID_PARSE_RESULT) : $"{id}";
+                Logger.LogExceptionAsError(
+                    EnumLocKey.ERROR_WHILE_STATE_LOADING,
+                    new Dictionary<string, string>
+                    {
+                            { "{stateId}", idString },
+                            { "{filePath}", _currentFile.filePath }
+                    },
+                    ex
+                );
+            }
         }
 
         public static void Save(Settings settings)
@@ -65,23 +111,29 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
             foreach (var state in _statesById.Values)
             {
-                if (state.fileInfo.needToSave)
+                if (state.IdNew.GetValue() == 415)
+                {
+                    var a = 1;
+                }
+
+                var file = (StateGameFile)state.GetParent().GetParent();
+                if (file.FileInfo.needToSave)
                 {
                     Logger.TryOrCatch(
-                        () => state.Save(sb),
+                        () => file.Save(sb, "", null, default),
                         (ex) =>
                             throw new Exception(GuiLocManager.GetLoc(
                                 EnumLocKey.EXCEPTION_WHILE_STATE_SAVING,
-                                new Dictionary<string, string> { { "{stateId}", $"{state.Id}" } }
+                                new Dictionary<string, string> { { "{stateId}", $"{state.IdNew.GetValue()}" } }
                             ), ex)
                     );
 
-                    File.WriteAllText(settings.modDirectory + FOLDER_PATH + state.fileInfo.fileName, sb.ToString());
+                    File.WriteAllText(settings.modDirectory + FOLDER_PATH + file.FileInfo.fileName, sb.ToString());
                     sb.Length = 0;
                 }
 
-                if (state.fileInfo.needToDelete)
-                    File.Delete(settings.modDirectory + FOLDER_PATH + state.fileInfo.fileName);
+                if (file.FileInfo.needToDelete)
+                    File.Delete(settings.modDirectory + FOLDER_PATH + file.FileInfo.fileName);
             }
         }
 
@@ -139,31 +191,39 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public static bool TransferProvince(Province province, State src, State dest)
         {
-            if (province == null || src == null && dest == null) return false;
-            if (src != null && dest != null && src.Equals(dest)) return false;
-            if (province != null && dest != null && province.State == dest) return false;
+            /*
+            if (province == null || src == null && dest == null)
+                return false;
+            if (src != null && dest != null && src.Equals(dest))
+                return false;
+            if (province != null && dest != null && province.State == dest)
+                return false;
 
             src?.RemoveProvince(province);
             dest?.AddProvince(province);
 
-            if (src == null || dest == null) return true;
+            if (src == null || dest == null)
+                return true;
 
-            TransferProvinceHistory(province, src.startHistory, dest.startHistory);
+            TransferProvinceHistory(province, src.History.GetValue(), dest.History.GetValue());
 
-            foreach (DateTime dateStamp in src.stateHistories.Keys)
+            var srcInnerHistories = src.History.GetValue().InnerHistories;
+            var destInnerHistories = dest.History.GetValue().InnerHistories;
+
+            foreach (DateTime dateStamp in srcInnerHistories.Keys)
             {
-                var srcHistory = src.stateHistories[dateStamp];
+                var srcHistory = srcInnerHistories[dateStamp];
                 bool tempDestHistory = true;
-                if (!dest.stateHistories.TryGetValue(dateStamp, out StateHistory destHistory))
+                if (!destInnerHistories.TryGetValue(dateStamp, out StateHistory destHistory))
                 {
-                    destHistory = new StateHistory(dateStamp, dest);
+                    destHistory = new StateHistory(dest, dateStamp);
                     tempDestHistory = true;
                 }
 
                 if (TransferProvinceHistory(province, srcHistory, destHistory))
                 {
-                    if (tempDestHistory) dest.stateHistories[dateStamp] = destHistory;
-                    if (!srcHistory.HasAnyData()) src.stateHistories.Remove(dateStamp);
+                    if (tempDestHistory)
+                        destInnerHistories[dateStamp] = destHistory;
                 }
             }
 
@@ -174,16 +234,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
 
             return true;
+            */
+            return false;
         }
 
         private static bool TransferProvinceHistory(Province province, StateHistory src, StateHistory dest)
         {
             bool result = false;
 
-            if (src.victoryPoints.TryGetValue(province, out uint value))
+            /*
+            if (src._victoryPoints.TryGetValue(province, out uint value))
             {
-                dest.victoryPoints[province] = value;
-                src.victoryPoints.Remove(province);
+                dest._victoryPoints[province] = value;
+                src._victoryPoints.Remove(province);
                 result = true;
             }
 
@@ -193,6 +256,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 src.RemoveProvinceBuildings(province);
                 result = true;
             }
+            */
             return result;
         }
 
@@ -209,24 +273,26 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
             foreach (var state in _statesById.Values)
             {
-                min = state.manpower;
-                max = state.manpower;
+                min = state.CurrentManpower;
+                max = state.CurrentManpower;
                 break;
             }
 
             foreach (var state in _statesById.Values)
             {
-                if (state.manpower > max) max = state.manpower;
-                else if (state.manpower < min) min = state.manpower;
+                if (state.CurrentManpower > max)
+                    max = state.CurrentManpower;
+                else if (state.CurrentManpower < min)
+                    min = state.CurrentManpower;
             }
         }
 
         public static bool TryAddState(string fileName, State state)
         {
-            if (!_statesById.ContainsKey(state.Id))
+            if (!_statesById.ContainsKey(state.IdNew.GetValue()))
             {
-                _statesById[state.Id] = state;
-                state.fileInfo.needToSave = true;
+                _statesById[state.IdNew.GetValue()] = state;
+                state.SetNeedToSave(true);
                 return true;
             }
             else return false;
@@ -241,7 +307,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         public static void AddState(ushort id, State state)
         {
             _statesById[id] = state;
-            state.fileInfo.needToSave = true;
+            state.SetNeedToSave(true);
         }
 
         public static void RemoveState(ushort id)
@@ -250,64 +316,29 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             if (state != null)
             {
                 _statesById.Remove(id);
-                state.fileInfo.needToSave = true;
+                state.SetNeedToSave(true);
             }
         }
 
-        public void TokenCallback(ParadoxParser parser, string token)
-        {
-            if (token == "state")
-            {
-                var state = new State { fileInfo = _currentFile };
-
-                try
-                {
-                    parser.Parse(state);
-
-                    foreach (var p in state.provinces) p.State = state;
-
-                    if (!_statesById.ContainsKey(state.Id)) _statesById[state.Id] = state;
-                    else Logger.LogError(
-                            EnumLocKey.ERROR_STATE_DUPLICATE_ID,
-                            new Dictionary<string, string>
-                            {
-                                { "{filePath}", state.fileInfo?.filePath },
-                                { "{stateId}", $"{state.Id}" },
-                                { "{otherFilePath}", _statesById[state.Id].fileInfo?.filePath }
-                            }
-                        );
-                }
-                catch (Exception ex)
-                {
-                    string idString = state.Id == 0 ? GuiLocManager.GetLoc(EnumLocKey.ERROR_STATE_UNSUCCESSFUL_STATE_ID_PARSE_RESULT) : $"{state.Id}";
-                    Logger.LogExceptionAsError(
-                        EnumLocKey.ERROR_WHILE_STATE_LOADING,
-                        new Dictionary<string, string>
-                        {
-                            { "{stateId}", idString },
-                            { "{filePath}", _currentFile.filePath }
-                        },
-                        ex
-                    );
-                }
-            }
-        }
 
         public static void InitStatesBorders()
         {
             _statesBorders = new HashSet<ProvinceBorder>(0);
-            foreach (var state in _statesById.Values) state.InitBorders();
+            foreach (var state in _statesById.Values)
+                state.InitBorders();
             TextureManager.InitStateBordersMap(_statesBorders);
         }
 
         public static void CalculateCenters()
         {
-            foreach (var state in _statesById.Values) state.CalculateCenter();
+            foreach (var state in _statesById.Values)
+                state.CalculateCenter();
         }
 
         public static State SelectState(int color)
         {
-            if (ProvinceManager.TryGetProvince(color, out Province province) && province.State != null) SelectedState = province.State;
+            if (ProvinceManager.TryGetProvince(color, out Province province) && province.State != null)
+                SelectedState = province.State;
             else SelectedState = null;
 
             ProvinceManager.SelectedProvince = null;
@@ -317,7 +348,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public static State SelectRMBState(int color)
         {
-            if (ProvinceManager.TryGetProvince(color, out Province province) && province.State != null) RMBState = province.State;
+            if (ProvinceManager.TryGetProvince(color, out Province province) && province.State != null)
+                RMBState = province.State;
             else RMBState = null;
 
             ProvinceManager.RMBProvince = null;

@@ -31,8 +31,12 @@ namespace HOI4ModBuilder.hoiDataObjects.common.resources
         }
 
         public static bool TryGetResource(string tag, out Resource resource)
+            => _allResources.TryGetValue(tag, out resource);
+        public static Resource GetResource(string tag)
         {
-            return _allResources.TryGetValue(tag, out resource);
+            if (TryGetResource(tag, out var resource))
+                return resource;
+            return null;
         }
 
         public void TokenCallback(ParadoxParser parser, string token)

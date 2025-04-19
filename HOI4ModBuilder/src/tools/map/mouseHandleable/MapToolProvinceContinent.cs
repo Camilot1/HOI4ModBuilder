@@ -47,7 +47,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     case EnumEditLayer.STATES:
                         if (province.State != null)
                         {
-                            foreach (var p in province.State.provinces)
+                            foreach (var p in province.State.Provinces)
                             {
                                 if (p.ContinentId != newContinentId)
                                     tuples.Add(new Tuple<int, int, Province>(p.ContinentId, newContinentId, p));
