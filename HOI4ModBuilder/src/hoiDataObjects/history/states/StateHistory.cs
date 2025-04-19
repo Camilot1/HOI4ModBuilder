@@ -59,7 +59,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             { "dynamicInnerHistories", new DynamicGameParameter {
                 parseInnerBlock = true,
                 provider = o => ((StateHistory)o).InnerHistories,
-                factory = (o, key) => new StateHistory((State)o, ParserUtils.Parse<DateTime>(key))
+                factory = (o, key) => new StateHistory((IParentable)o, ParserUtils.Parse<DateTime>(key))
             } },
         };
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => DYNAMIC_ADAPTER;
@@ -128,7 +128,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public StateHistory() { }
 
-        public StateHistory(State parent, DateTime dateTime)
+        public StateHistory(IParentable parent, DateTime dateTime)
         {
             SetParent(parent);
             this.dateTime = dateTime;

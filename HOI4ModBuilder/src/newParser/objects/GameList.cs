@@ -9,7 +9,7 @@ using HOI4ModBuilder.src.utils;
 
 namespace HOI4ModBuilder.src.newParser.objects
 {
-    public class GameList<T> : AbstractParseObject, IValuePushable, IEnumerable<T> where T : new()
+    public class GameList<T> : AbstractParseObject, IValuePushable, ISizable, IEnumerable<T> where T : new()
     {
         private bool _allowsInlineAdd;
         private bool _forceSeparateLineSave;
@@ -67,8 +67,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => null;
         public override void ParseCallback(GameParser parser)
         {
-            if (parser.SkipWhiteSpaces())
-                throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+            parser.SkipWhiteSpaces();
 
             parser.ParseDemiliters();
             var demiliters = parser.PullParsedDataString();
@@ -76,8 +75,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (demiliters.Length != 1 || demiliters[0] != '=')
                 throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
-            if (parser.SkipWhiteSpaces())
-                throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+            parser.SkipWhiteSpaces();
 
             if (parser.CurrentToken == Token.LEFT_CURLY)
                 TryParseBlockValue(parser);
@@ -146,6 +144,8 @@ namespace HOI4ModBuilder.src.newParser.objects
 
 
         private List<T> _list = new List<T>();
+
+        public int GetSize() => _list.Count;
 
         public T this[int index]
         {
@@ -288,15 +288,12 @@ namespace HOI4ModBuilder.src.newParser.objects
             {
                 saveable.Save(sb, innerIndent, key, saveParameter);
 
-                //TODO Refactor. Временный фикс некорректного переноса строк в случае,
-                //               если в объекте есть два списка без имени
-                //  infrastructure = yes (фикс-перенос)
-                //  infrastructure = yes (фикс-перенос)
-                //  set_variable = { test1 = 10 }
-                //  set_variable = { test2 = 14 }
-                if (value is ScriptBlockParseObject scriptBlockParseObject)
-                    if (!(scriptBlockParseObject.GetValueRaw() is IValuePushable))
+                if (sb.Length > 0)
+                {
+                    var lastChar = sb[sb.Length - 1];
+                    if (lastChar == ' ' && !saveParameter.IsForceInline)
                         sb.Append(Constants.NEW_LINE);
+                }
             }
             else
             {

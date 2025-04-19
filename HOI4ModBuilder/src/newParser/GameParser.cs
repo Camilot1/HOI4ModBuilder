@@ -228,6 +228,10 @@ namespace HOI4ModBuilder.src.newParser
         {
             _prevChar = _currentChar;
             _index++;
+
+            if (_index == _dataLength)
+                return;
+
             _currentChar = _data[_index];
             _lineCharIndex++;
 
@@ -421,10 +425,17 @@ namespace HOI4ModBuilder.src.newParser
             }
         }
 
+        /*
         private static readonly int FLAGS_UNQUOTED_UNTIL = (int)(
             Token.EQUALS | Token.LESS_THAN | Token.GREATER_THAN | Token.QUOTE |
             Token.LEFT_CURLY | Token.RIGHT_CURLY | Token.LEFT_PARANTHESIS | Token.RIGHT_PARANTHESIS |
             Token.COMMENT | Token.MINUS | Token.PLUS | Token.DOT | Token.SLASH | Token.BACK_SLASH |
+            Token.SPACE | Token.NEW_LINE | Token.SHIELDED_QUOTE | Token.SEMICOLON
+            ); */
+        private static readonly int FLAGS_UNQUOTED_UNTIL = (int)(
+            Token.EQUALS | Token.LESS_THAN | Token.GREATER_THAN | Token.QUOTE |
+            Token.LEFT_CURLY | Token.RIGHT_CURLY | Token.LEFT_PARANTHESIS | Token.RIGHT_PARANTHESIS |
+            Token.COMMENT | Token.PLUS | Token.SLASH | Token.BACK_SLASH |
             Token.SPACE | Token.NEW_LINE | Token.SHIELDED_QUOTE | Token.SEMICOLON
             );
         public void ParseUnquoted() => ParseUntil(FLAGS_UNQUOTED_UNTIL);

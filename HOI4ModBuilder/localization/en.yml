@@ -210,7 +210,7 @@ ERROR_STATE_STATE_CATEGORY_NOT_FOUND: "The state with id = {stateId} has unknown
 ERROR_STATE_INCORRECT_LOCAL_SUPPLIES_VALUE: "The state with id = {stateId} has incorrect value \"{value}\" for \"local_supplies\" parameter."
 
 ERROR_STATE_UNSUCCESSFUL_STATE_ID_PARSE_RESULT: "[Could not parse state id]"
-ERROR_WHILE_STATE_LOADING: "Could not load State with id = {stateId} from file {filePath}."
+ERROR_WHILE_STATE_LOADING: "Could not load State with id = {stateId} from file {filePath}. Parser pointer: {parserCursorInfo}"
 
 ERROR_STATE_HISTORY_OWNER_COUNTRY_NOT_FOUND: "The state with id = {stateId} in \"history\" block has unknown country tag value \"{countryTag}\" for \"owner\" parameter."
 ERROR_STATE_HISTORY_CONTROLLER_COUNTRY_NOT_FOUND: "The state with id = {stateId} in \"history\" block has unknown country tag value \"{countryTag}\" for \"controller\" parameter."

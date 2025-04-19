@@ -82,8 +82,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public virtual void ParseCallback(GameParser parser)
         {
-            if (parser.SkipWhiteSpaces())
-                throw new Exception("Invalid parameter structure: " + parser.GetCursorInfo());
+            parser.SkipWhiteSpaces();
 
             parser.ParseDemiliters();
             var demiliter = parser.PullParsedDataString();
@@ -96,8 +95,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             else
                 _enumDemiliter = (EnumDemiliter)demiliter[0];
 
-            if (parser.SkipWhiteSpaces())
-                throw new Exception("Invalid parameter structure: " + parser.GetCursorInfo());
+            parser.SkipWhiteSpaces();
 
             if (_value == null)
                 InitValue();

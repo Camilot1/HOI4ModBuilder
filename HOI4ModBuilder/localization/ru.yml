@@ -212,7 +212,7 @@ ERROR_STATE_STATE_CATEGORY_NOT_FOUND: "У области с id = {stateId} ук�
 ERROR_STATE_INCORRECT_LOCAL_SUPPLIES_VALUE: "У области с id = {stateId} у параметра local_supplies указано некорректное значение {value}"
 
 ERROR_STATE_UNSUCCESSFUL_STATE_ID_PARSE_RESULT: "[Не удалось распарсить id области]"
-ERROR_WHILE_STATE_LOADING: "Не удалось загрузить область с id = {stateId} из файла {filePath}."
+ERROR_WHILE_STATE_LOADING: "Не удалось загрузить область с id = {stateId} из файла {filePath}. Указатель парсера: {parserCursorInfo}."
 
 ERROR_STATE_HISTORY_OWNER_COUNTRY_NOT_FOUND: "У области id = {stateId} в блоке \"history\" не найдена страна с тегом \"{countryTag}\" для параметра \"owner\"."
 ERROR_STATE_HISTORY_CONTROLLER_COUNTRY_NOT_FOUND: "У области id = {stateId} в блоке \"history\" не найдена страна с тегом \"{countryTag}\" для параметра \"controller\"."

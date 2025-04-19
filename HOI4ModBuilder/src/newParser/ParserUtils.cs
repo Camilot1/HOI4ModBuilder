@@ -24,11 +24,61 @@ namespace HOI4ModBuilder.src.newParser
                 else if (val == "no") return false;
                 else throw new FormatException(val);
             } },
-            { typeof(byte), (v) => byte.Parse(v) },
-            { typeof(ushort), (v) => ushort.Parse(v) },
-            { typeof(short), (v) => short.Parse(v) },
-            { typeof(int), (v) => int.Parse(v) },
-            { typeof(uint), (v) => uint.Parse(v) },
+            { typeof(byte), (v) => {
+                if (byte.TryParse(v, out var parsedValue))
+                    return parsedValue;
+                else if (Utils.TryParseFloat(v, out var floatValue)) {
+                    if ((byte)floatValue != floatValue || floatValue < byte.MinValue || floatValue > byte.MaxValue)
+                        throw new FormatException();
+                    else
+                        return (byte)floatValue;
+                }
+                else throw new FormatException();
+            } },
+            { typeof(ushort), (v) => {
+                if (ushort.TryParse(v, out var parsedValue))
+                    return parsedValue;
+                else if (Utils.TryParseFloat(v, out var floatValue)) {
+                    if ((ushort)floatValue != floatValue || floatValue < ushort.MinValue || floatValue > ushort.MaxValue)
+                        throw new FormatException();
+                    else
+                        return (ushort)floatValue;
+                }
+                else throw new FormatException();
+            } },
+            { typeof(short), (v) => {
+                if (short.TryParse(v, out var parsedValue))
+                    return parsedValue;
+                else if (Utils.TryParseFloat(v, out var floatValue)) {
+                    if ((short)floatValue != floatValue || floatValue < short.MinValue || floatValue > short.MaxValue)
+                        throw new FormatException();
+                    else
+                        return (short)floatValue;
+                }
+                else throw new FormatException();
+            } },
+            { typeof(int), (v) => {
+                if (int.TryParse(v, out var parsedValue))
+                    return parsedValue;
+                else if (Utils.TryParseFloat(v, out var floatValue)) {
+                    if ((int)floatValue != floatValue || floatValue < int.MinValue || floatValue > int.MaxValue)
+                        throw new FormatException();
+                    else
+                        return (int)floatValue;
+                }
+                else throw new FormatException();
+            } },
+            { typeof(uint), (v) => {
+                if (uint.TryParse(v, out var parsedValue))
+                    return parsedValue;
+                else if (Utils.TryParseFloat(v, out var floatValue)) {
+                    if ((uint)floatValue != floatValue || floatValue < uint.MinValue || floatValue > uint.MaxValue)
+                        throw new FormatException();
+                    else
+                        return (uint)floatValue;
+                }
+                else throw new FormatException();
+            } },
             { typeof(float), (v) => Utils.ParseFloat(v) },
             { typeof(double), (v) => double.Parse(v) },
             { typeof(GameString), (v) => new GameString { stringValue = v } },

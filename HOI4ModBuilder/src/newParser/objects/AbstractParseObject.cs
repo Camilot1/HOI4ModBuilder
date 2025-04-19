@@ -135,8 +135,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             {
                 if (parseInnerBlock)
                 {
-                    if (parser.SkipWhiteSpaces())
-                        throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+                    parser.SkipWhiteSpaces();
 
                     parser.ParseDemiliters();
                     var demiliters = parser.PullParsedDataString();
@@ -144,8 +143,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     if (demiliters.Length != 1 || demiliters[0] != '=')
                         throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
-                    if (parser.SkipWhiteSpaces())
-                        throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+                    parser.SkipWhiteSpaces();
 
                     if (parser.CurrentToken != Token.LEFT_CURLY)
                         throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
@@ -172,8 +170,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
             else
             {
-                if (parser.SkipWhiteSpaces())
-                    throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+                parser.SkipWhiteSpaces();
 
                 parser.ParseDemiliters();
                 var demiliters = parser.PullParsedDataString();
@@ -181,8 +178,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (demiliters.Length != 1 || demiliters[0] != '=')
                     throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
-                if (parser.SkipWhiteSpaces())
-                    throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+                parser.SkipWhiteSpaces();
 
                 if (parser.CurrentToken == Token.QUOTE)
                     parser.ParseQuoted();

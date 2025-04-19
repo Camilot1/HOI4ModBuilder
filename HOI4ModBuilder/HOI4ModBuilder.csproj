@@ -482,6 +482,7 @@
     <Compile Include="src\newParser\interfaces\IPostParseCallbackable.cs" />
     <Compile Include="src\newParser\interfaces\ISaveable.cs" />
     <Compile Include="src\newParser\interfaces\IScriptBlockInfo.cs" />
+    <Compile Include="src\newParser\interfaces\ISizable.cs" />
     <Compile Include="src\newParser\interfaces\IValidatable.cs" />
     <Compile Include="src\newParser\interfaces\IValuePushable.cs" />
     <Compile Include="src\newParser\objects\AbstractParseObject.cs" />

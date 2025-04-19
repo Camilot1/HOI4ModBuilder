@@ -53,7 +53,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             Logger.Log("Loading of States started");
             foreach (var fileInfo in fileInfosPairs.Values)
             {
-
                 _currentFile = fileInfo;
                 var stateFile = new StateGameFile(fileInfo);
                 LoadStateFile(parser, stateFile);
@@ -98,6 +97,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     new Dictionary<string, string>
                     {
                             { "{stateId}", idString },
+                            { "{parserCursorInfo}", $"{parser.GetCursorInfo()}" },
                             { "{filePath}", _currentFile.filePath }
                     },
                     ex
@@ -109,13 +109,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         {
             var sb = new StringBuilder();
 
+            int index = 0;
             foreach (var state in _statesById.Values)
             {
-                if (state.IdNew.GetValue() == 50)
-                {
-                    return;
-                }
-
                 var file = (StateGameFile)state.GetParent().GetParent();
                 if (file.FileInfo.needToSave)
                 {
@@ -134,6 +130,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
                 if (file.FileInfo.needToDelete)
                     File.Delete(settings.modDirectory + FOLDER_PATH + file.FileInfo.fileName);
+
+                index++;
+                if (index == 50)
+                    return;
             }
         }
 

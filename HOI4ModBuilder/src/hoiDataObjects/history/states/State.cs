@@ -84,7 +84,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public bool CurrentIsDemilitarized { get; set; }
 
         public readonly GameParameter<StateHistory> History = new GameParameter<StateHistory>()
-            .INIT_SetValueParseAdapter((o, token) => new StateHistory((State)o, default));
+            .INIT_SetValueParseAdapter((o, token) => new StateHistory((IParentable)o, default));
 
         private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
         {

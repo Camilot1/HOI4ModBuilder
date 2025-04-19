@@ -66,8 +66,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public override void ParseCallback(GameParser parser)
         {
-            if (parser.SkipWhiteSpaces())
-                throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+            parser.SkipWhiteSpaces();
 
             parser.ParseDemiliters();
             var demiliters = parser.PullParsedDataString();
@@ -75,8 +74,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (demiliters.Length != 1 || demiliters[0] != '=')
                 throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
-            if (parser.SkipWhiteSpaces())
-                throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+            parser.SkipWhiteSpaces();
 
             if (parser.CurrentToken == Token.LEFT_CURLY)
                 TryParseBlockKeys(parser);
@@ -97,8 +95,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     if (keyObj is IParentable keyParentable)
                         keyParentable.SetParent(this);
 
-                    if (parser.SkipWhiteSpaces())
-                        throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+                    parser.SkipWhiteSpaces();
 
                     parser.ParseDemiliters();
                     var demiliters = parser.PullParsedDataString();
@@ -109,8 +106,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     if (demiliters[0] != '=')
                         throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
-                    if (parser.SkipWhiteSpaces())
-                        throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+                    parser.SkipWhiteSpaces();
 
                     if (parser.CurrentToken == Token.LEFT_CURLY)
                     {
@@ -242,8 +238,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
                     sb.Append(outIndent);
 
-                sb.Append('}');
-                sb.Append(Constants.NEW_LINE);
+                sb.Append("} ").Append(Constants.NEW_LINE);
             }
         }
 

@@ -5,15 +5,15 @@ namespace HOI4ModBuilder.src.newParser.structs
     public struct SaveAdapterParameter
     {
         [JsonProperty("Name")]
-        public string Name { get; private set; }
+        public string Name { get; set; }
         [JsonProperty("SaveIfEmpty")]
-        public bool SaveIfEmpty { get; private set; }
+        public bool SaveIfEmpty { get; set; }
         [JsonProperty("IsForceInline")]
-        public bool IsForceInline { get; private set; }
+        public bool IsForceInline { get; set; }
         [JsonProperty("IsForceMultiline")]
-        public bool IsForceMultiline { get; private set; }
+        public bool IsForceMultiline { get; set; }
         [JsonProperty("AddEmptyLineBefore")]
-        public bool AddEmptyLineBefore { get; private set; }
+        public bool AddEmptyLineBefore { get; set; }
 
         public SaveAdapterParameter(string name, bool saveIfEmpty, bool isForceInline, bool isForceMultiline, bool addEmptyLineBefore)
         {

@@ -52,8 +52,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public override void ParseCallback(GameParser parser)
         {
-            if (parser.SkipWhiteSpaces())
-                throw new Exception("Invalid data structure: " + parser.GetCursorInfo());
+            parser.SkipWhiteSpaces();
 
             //Парсим символ-разделитель после ключа
             parser.ParseDemiliters();
@@ -85,8 +84,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             else
                 throw new Exception("Invalid data structure (demiliter): " + parser.GetCursorInfo());
 
-            if (parser.SkipWhiteSpaces())
-                throw new Exception("Invalid data structure: " + parser.GetCursorInfo());
+            parser.SkipWhiteSpaces();
 
             if (_scriptBlockInfo == null)
                 throw new Exception("_scriptBlockInfo is null: " + parser.GetCursorInfo());
@@ -363,7 +361,11 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             if (_value is ISaveable saveable)
             {
-                saveable.Save(sb, outIndent, _scriptBlockInfo.GetBlockName(), default);
+                SaveAdapterParameter innerSaveParameter = default;
+                if (_value is ISizable sizable && sizable.GetSize() <= 1)
+                    innerSaveParameter.IsForceInline = true;
+
+                saveable.Save(sb, outIndent, _scriptBlockInfo.GetBlockName(), innerSaveParameter);
                 return;
             }
 
@@ -374,14 +376,21 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (comments == null)
                 comments = GameComments.DEFAULT;
 
-            if (comments.Previous.Length > 0)
-                sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+            if (sb.Length > 0)
+            {
+                var lastChar = sb[sb.Length - 1];
+                if (lastChar == '\n')
+                    sb.Append(outIndent);
+            }
 
-            sb.Append(outIndent).Append(_scriptBlockInfo.GetBlockName()).Append(' ').Append((char)_demiliter)
-                .Append(' ').Append(ParserUtils.ObjectToSaveString(_value));
+            if (comments.Previous.Length > 0)
+                sb.Append(comments.Previous).Append(' ').Append(Constants.NEW_LINE);
+
+            sb.Append(_scriptBlockInfo.GetBlockName()).Append(' ').Append((char)_demiliter)
+                .Append(' ').Append(ParserUtils.ObjectToSaveString(_value)).Append(' ');
 
             if (comments.Inline.Length > 0)
-                sb.Append(outIndent).Append(comments.Inline);
+                sb.Append(outIndent).Append(comments.Inline).Append(' ').Append(Constants.NEW_LINE);
         }
     }
 }
