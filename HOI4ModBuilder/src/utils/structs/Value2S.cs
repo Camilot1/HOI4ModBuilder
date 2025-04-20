@@ -16,20 +16,12 @@ namespace HOI4ModBuilder.src.utils.structs
         }
 
         public override bool Equals(object obj)
-        {
-            return obj is Value2S uS &&
-                   x == uS.x &&
-                   y == uS.y;
-        }
+            => obj is Value2S uS && x == uS.x && y == uS.y;
 
-        public override int GetHashCode()
-        {
-            return x << 16 | y;
-        }
+        public int GetSquareDistanceTo(Value2S other)
+            => (x - other.x) * (x - other.x) + (y - other.y) * (y - other.y);
 
-        public override string ToString()
-        {
-            return $"Value2S(x = {x}; y = {y})";
-        }
+        public override int GetHashCode() => x << 16 | y;
+        public override string ToString() => $"Value2S(x = {x}; y = {y})";
     }
 }

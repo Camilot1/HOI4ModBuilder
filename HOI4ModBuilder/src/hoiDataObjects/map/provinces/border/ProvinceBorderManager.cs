@@ -106,13 +106,14 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         private static void AssembleBorderTask()
         {
+            var mapSize = MapManager.MapSize;
             foreach (var entry in _bordersAssembler.BordersData)
             {
                 Province minProvince = ProvinceManager.GetProvince(entry.Key);
 
                 foreach (var data in entry.Value)
                 {
-                    var pixelsLists = data.AssembleBorders();
+                    var pixelsLists = data.AssembleBorders((short)mapSize.x);
 
                     var maxProvince = ProvinceManager.GetProvince(data.provinceMaxColor);
 

@@ -71,11 +71,13 @@ namespace HOI4ModBuilder.src.tools.brushes
             {
                 foreach (var data in entry.Value)
                 {
-                    var pixelsLists = data.AssembleBorders();
+                    var pixelsLists = data.AssembleBorders((short)bitmap.Width);
                     if (pixelsLists != null)
                         borders.AddRange(pixelsLists);
                 }
             }
+
+            bordersAssembler.Reset();
         }
     }
 }

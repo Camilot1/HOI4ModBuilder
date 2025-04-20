@@ -912,11 +912,14 @@ namespace HOI4ModBuilder
 
             byte[] newValues = new byte[pixelCount];
 
+            short mapWidth = (short)MapManager.MapSize.x;
+
             foreach (var b in borders)
             {
                 foreach (var p in b.pixels)
                 {
-                    if (p.x == 0 || p.y == 0) continue;
+                    if (p.x == 0 || p.x == mapWidth || p.y == 0)
+                        continue;
                     newValues[(p.y - 1) * width + p.x - 1] = 127;
                 }
             }

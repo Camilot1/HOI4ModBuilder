@@ -22,7 +22,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
             return this;
         }
 
-        public List<List<Value2S>> AssembleBorders()
+        public List<List<Value2S>> AssembleBorders(short width)
         {
             var linkedDataDictionary = new Dictionary<Value2S, LinkedData<ValueDirectionalPos>>(points.Count);
 
@@ -37,6 +37,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
                 Value2S up = new Value2S(point.pos.x, (short)(point.pos.y - 1));
                 Value2S right = new Value2S((short)(point.pos.x + 1), point.pos.y);
                 Value2S down = new Value2S(point.pos.x, (short)(point.pos.y + 1));
+
+                if (right.x == width)
+                    right.x = 0;
 
                 if (((point.flags & 0b1000) != 0) && linkedDataDictionary.TryGetValue(left, out var data))
                     TryConnect(linkedData, data);
@@ -83,8 +86,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
             }
 
             var result = new List<List<Value2S>>();
+            Value2S tempPos = default;
 
-            bool hasUsedAny = false;
             foreach (var linkedData in linkedDataDictionary.Values)
             {
                 if (linkedData.data.isUsed)
@@ -96,48 +99,55 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
                 AcceptLinkedData(linkedData);
             }
 
-            if (!hasUsedAny)
+            foreach (var linkedData in linkedDataDictionary.Values)
             {
-                foreach (var linkedData in linkedDataDictionary.Values)
+                if (linkedData.data.isUsed)
+                    continue;
+
+                linkedData.data.isUsed = true;
+                var pixels = new List<Value2S> { linkedData.data.pos };
+                tempPos = linkedData.data.pos;
+
+                var temp = linkedData.next;
+                while (temp != null && !temp.data.isUsed)
                 {
-                    if (linkedData.data.isUsed)
-                        continue;
-
-                    linkedData.data.isUsed = true;
-                    var pixels = new List<Value2S>
+                    if (tempPos.GetSquareDistanceTo(temp.data.pos) > 1)
                     {
-                        linkedData.data.pos
-                    };
-
-                    var temp = linkedData.next;
-                    while (temp != null && !temp.data.isUsed)
-                    {
-                        pixels.Add(temp.data.pos);
-                        temp.data.isUsed = true;
-                        temp = temp.next;
+                        if (pixels.Count == 1 && pixels[0].x == 0)
+                            pixels[0] = new Value2S { x = width, y = pixels[0].y };
                     }
+                    pixels.Add(temp.data.pos);
 
-                    result.Add(pixels);
+                    tempPos = temp.data.pos;
+
+                    temp.data.isUsed = true;
+                    temp = temp.next;
                 }
-            }
 
+                result.Add(pixels);
+            }
 
             void AcceptLinkedData(LinkedData<ValueDirectionalPos> linkedData)
             {
                 linkedData.data.isUsed = true;
-                hasUsedAny = true;
 
-                var pixels = new List<Value2S>
-                {
-                    linkedData.data.pos
-                };
+                var pixels = new List<Value2S> { linkedData.data.pos };
+                tempPos = linkedData.data.pos;
 
                 if (linkedData.prev == null)
                 {
                     var temp = linkedData.next;
                     while (temp != null)
                     {
+                        if (tempPos.GetSquareDistanceTo(temp.data.pos) > 1)
+                        {
+                            if (pixels.Count == 1 && pixels[0].x == 0)
+                                pixels[0] = new Value2S { x = width, y = pixels[0].y };
+                        }
                         pixels.Add(temp.data.pos);
+
+                        tempPos = temp.data.pos;
+
                         temp.data.isUsed = true;
                         temp = temp.next;
                     }
@@ -147,7 +157,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
                     var temp = linkedData.prev;
                     while (temp != null)
                     {
+                        if (tempPos.GetSquareDistanceTo(temp.data.pos) > 1)
+                        {
+                            if (pixels.Count == 1 && pixels[0].x == 0)
+                                pixels[0] = new Value2S { x = width, y = pixels[0].y };
+                        }
                         pixels.Add(temp.data.pos);
+
+                        tempPos = temp.data.pos;
                         temp.data.isUsed = true;
                         temp = temp.prev;
                     }
