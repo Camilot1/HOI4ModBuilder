@@ -137,7 +137,7 @@ MAP_TAB_PROGRESSBAR_SAVING_UNITS: "Сохранение юнитов: "
 MAP_TAB_PROGRESSBAR_SAVING_DIVISION_NAMES_GROUPS: "Сохранение групп названий дивизий: "
 MAP_TAB_PROGRESSBAR_SAVING_OOBS: "Сохранение OOBs: "
 MAP_TAB_PROGRESSBAR_SAVING_EQUPMENTS: "Сохранение снаряжения: "
-MAP_TAB_PROGRESSBAR_SAVING_TEXTURE_MAPS: "Сохранение текстурных карт"
+MAP_TAB_PROGRESSBAR_SAVING_TEXTURE_MAPS: "Сохранение текстурных карт: "
 
 MAP_TAB_PROGRESSBAR_MAP_ADDITIONAL_TEXTURE_LOADING: "Загрузка {fileName}: {progress}"
 MAP_TAB_PROGRESSBAR_MAP_ADDITIONAL_TEXTURE_LOADED: "Загрузка {fileName}: завершена."
