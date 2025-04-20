@@ -11,6 +11,7 @@ namespace HOI4ModBuilder
 
     class Texture2D : IDisposable
     {
+        public bool isDisposed;
         public int ID { get; private set; }
         public Value2I size;
         private int BufferID { get; set; }
@@ -153,8 +154,12 @@ namespace HOI4ModBuilder
 
         public void Dispose()
         {
-            GL.DeleteBuffer(BufferID);
-            GL.DeleteTexture(ID);
+            if (!isDisposed)
+            {
+                GL.DeleteBuffer(BufferID);
+                GL.DeleteTexture(ID);
+                isDisposed = true;
+            }
             TextureManager.RemoveTexture(this);
         }
 

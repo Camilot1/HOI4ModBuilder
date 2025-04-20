@@ -12,7 +12,6 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder
 {
@@ -57,6 +56,7 @@ namespace HOI4ModBuilder
         private static Dictionary<int, byte> _riverColorsMap = new Dictionary<int, byte>();
         private static readonly int[] _indexesToColors = new int[256];
 
+        private static HashSet<Texture2D> _mapPairTextures = new HashSet<Texture2D>();
         private static HashSet<Texture2D> _textures = new HashSet<Texture2D>();
         private static HashSet<SDFTextBundle> _sdfTextBundles = new HashSet<SDFTextBundle>();
 
@@ -71,6 +71,7 @@ namespace HOI4ModBuilder
                 this.needToSave = needToSave;
                 this.bitmap = bitmap;
                 this.texture = texture;
+                _mapPairTextures.Add(texture);
             }
 
             public void SetColor(int x, int y, int color)
@@ -136,10 +137,7 @@ namespace HOI4ModBuilder
                 return false;
             }
 
-            public Bitmap GetBitmap()
-            {
-                return bitmap;
-            }
+            public Bitmap GetBitmap() => bitmap;
 
             public void RGBFill(int[] pixels, HashSet<Value2US> positions, int fillColor)
             {
@@ -212,17 +210,22 @@ namespace HOI4ModBuilder
 
         }
 
+        public static void DisposeMapTextures()
+        {
+            foreach (var mapPairTexture in _mapPairTextures)
+                mapPairTexture.Dispose();
+            _mapPairTextures.Clear();
+        }
+
         public static void DisposeAllTextures()
         {
+            _mapPairTextures.Clear();
+
             foreach (var texture in new HashSet<Texture2D>(_textures))
-            {
                 texture.Dispose();
-            }
 
             foreach (var sdfTextBundle in new HashSet<SDFTextBundle>(_sdfTextBundles))
-            {
                 sdfTextBundle.Dispose();
-            }
         }
 
         public static void AddTexture(Texture2D texture)
@@ -247,6 +250,7 @@ namespace HOI4ModBuilder
 
         public static void LoadTextures(Settings settings)
         {
+            DisposeMapTextures();
             LoadMapPairs(settings);
             LoadBorders();
             LoadAdditionalLayers(settings);

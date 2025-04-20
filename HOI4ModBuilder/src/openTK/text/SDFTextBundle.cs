@@ -88,7 +88,8 @@ namespace HOI4ModBuilder.src.openTK.text
 
         public void Clear()
         {
-            foreach (Info info in infosByFonts.Values) info.Dispose();
+            foreach (Info info in infosByFonts.Values)
+                info.Dispose();
             infosByFonts = new Dictionary<Font, Info>(0);
         }
 
