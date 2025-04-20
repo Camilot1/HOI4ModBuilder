@@ -109,7 +109,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         {
             var sb = new StringBuilder();
 
-            int index = 0;
             foreach (var state in _statesById.Values)
             {
                 var file = (StateGameFile)state.GetParent().GetParent();
@@ -130,10 +129,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
                 if (file.FileInfo.needToDelete)
                     File.Delete(settings.modDirectory + FOLDER_PATH + file.FileInfo.fileName);
-
-                index++;
-                if (index == 50)
-                    return;
             }
         }
 
