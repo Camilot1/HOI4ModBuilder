@@ -201,7 +201,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             {
                 var comments = GetComments();
                 if (comments == null)
-                    comments = GameComments.DEFAULT;
+                    comments = new GameComments();
 
                 if (comments.Previous.Length > 0)
                     sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
@@ -275,7 +275,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     comments = commentable.GetComments();
 
                 if (comments == null)
-                    comments = GameComments.DEFAULT;
+                    comments = new GameComments();
 
                 if (comments.Previous.Length > 0)
                 {

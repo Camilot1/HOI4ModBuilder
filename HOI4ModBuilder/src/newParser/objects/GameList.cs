@@ -244,7 +244,20 @@ namespace HOI4ModBuilder.src.newParser.objects
             {
                 var comments = GetComments();
                 if (comments == null)
-                    comments = GameComments.DEFAULT;
+                    comments = new GameComments();
+
+                var parent = GetParent();
+                if (parent is ICommentable parentCommentable)
+                {
+                    var innerComments = parentCommentable.GetComments();
+                    if (innerComments == null)
+                        innerComments = new GameComments();
+
+                    if (innerComments.Previous.Length > 0)
+                        comments.Previous = innerComments.Previous;
+                    if (innerComments.Inline.Length > 0)
+                        comments.Inline = innerComments.Inline;
+                }
 
                 if (comments.Previous.Length > 0)
                     sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
@@ -252,7 +265,10 @@ namespace HOI4ModBuilder.src.newParser.objects
                 sb.Append(outIndent).Append(key).Append(" = { ");
 
                 if (comments.Inline.Length > 0)
-                    sb.Append(comments.Inline).Append(Constants.NEW_LINE);
+                {
+                    sb.Append(comments.Inline).Append(Constants.NEW_LINE); 
+                    innerIndent = outIndent + Constants.INDENT;
+                }
                 else if (saveParameter.IsForceMultiline || !saveParameter.IsForceInline && _list.Count > 0)
                 {
                     sb.Append(Constants.NEW_LINE);
@@ -297,7 +313,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
             else
             {
-                var comments = GameComments.DEFAULT;
+                var comments = new GameComments();
                 if (value is ICommentable commentable)
                     comments = commentable.GetComments();
 

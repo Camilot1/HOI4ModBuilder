@@ -343,7 +343,7 @@ namespace HOI4ModBuilder.src.newParser
             var nextLine = SkipWhiteSpaces();
             if (_token == Token.COMMENT && !nextLine)
             {
-                ParseComments();
+                ParseComment();
                 inlineComments = PullParsedCommentsString();
             }
 
@@ -383,6 +383,25 @@ namespace HOI4ModBuilder.src.newParser
             SkipUntil(FLAGS_QUOTED_UNTIL);
             _ignorIndentChange = false;
             NextChar();
+        }
+
+        public void ParseComment()
+        {
+            if (_token != Token.COMMENT)
+                return;
+
+            _ignorIndentChange = true;
+            while (_index < _dataLength)
+            {
+                if (((int)_token & (int)Token.NEW_LINE) != 0)
+                    break;
+
+                _sbComments.Append(_currentChar);
+                NextChar();
+            }
+            _ignorIndentChange = false;
+
+            SkipWhiteSpaces();
         }
 
         public void ParseComments()

@@ -29,8 +29,11 @@ namespace HOI4ModBuilder.src.newParser.objects
                     _value = valueConstant;
                 else if (value is string valueString && valueString.StartsWith("@"))
                     ParseValueConstant(null, valueString);
-                else
-                    _value = value;
+                else if (value is IParentable parentableValue)
+                {
+                    parentableValue.SetParent(this);
+                }
+                _value = value;
 
                 _needToSave = true;
             }
@@ -117,7 +120,10 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         private void ParseBlockValue(GameParser parser)
         {
-            _value = new GameList<ScriptBlockParseObject>();
+            var list = new GameList<ScriptBlockParseObject>();
+            list.SetParent(this);
+            _value = list;
+
             if (_scriptBlockInfo is InfoArgsBlock infoArgsBlock)
             {
                 if (infoArgsBlock.SkipAnyInnerBlocks)
@@ -359,6 +365,8 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public override void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
         {
+            var comments = GetComments();
+
             if (_value is ISaveable saveable)
             {
                 SaveAdapterParameter innerSaveParameter = default;
@@ -372,9 +380,8 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (_value == null)
                 return;
 
-            var comments = GetComments();
             if (comments == null)
-                comments = GameComments.DEFAULT;
+                comments = new GameComments();
 
             if (sb.Length > 0)
             {
@@ -384,13 +391,13 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
 
             if (comments.Previous.Length > 0)
-                sb.Append(comments.Previous).Append(' ').Append(Constants.NEW_LINE);
+                sb.Append(comments.Previous).Append(' ').Append(Constants.NEW_LINE).Append(outIndent);
 
             sb.Append(_scriptBlockInfo.GetBlockName()).Append(' ').Append((char)_demiliter)
                 .Append(' ').Append(ParserUtils.ObjectToSaveString(_value)).Append(' ');
 
             if (comments.Inline.Length > 0)
-                sb.Append(outIndent).Append(comments.Inline).Append(' ').Append(Constants.NEW_LINE);
+                sb.Append(comments.Inline).Append(' ').Append(Constants.NEW_LINE);
         }
     }
 }

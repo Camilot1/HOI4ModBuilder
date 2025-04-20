@@ -34,7 +34,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         private GameComments _comments;
         public GameComments GetComments() => _comments;
-        public void SetComments(GameComments comments) => Utils.Setter(ref _comments, ref comments, ref _needToSave);
+        public void SetComments(GameComments comments) => _comments = comments;
 
         protected bool _needToSave;
 
@@ -237,7 +237,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     comments = commentable.GetComments();
             }
             if (comments == null)
-                comments = GameComments.DEFAULT;
+                comments = new GameComments();
 
             if (comments.Previous.Length > 0)
                 sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
