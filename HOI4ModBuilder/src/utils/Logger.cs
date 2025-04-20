@@ -184,6 +184,12 @@ namespace HOI4ModBuilder.src.utils
             Log($"WARNING: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}");
         }
 
+        public static void LogWarning(string message)
+        {
+            _warnings.Add(message);
+            Log($"WARNING: {message}");
+        }
+
         public static void LogError(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
         {
             _errors.Add(GuiLocManager.GetLoc(enumLocKey, replaceValues));

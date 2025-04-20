@@ -157,7 +157,7 @@ namespace HOI4ModBuilder.src.forms
 
                 var s = state;
                 currentState.ClearData();
-                StateManager.RemoveState(currentState.IdNew.GetValue());
+                StateManager.RemoveState(currentState.Id.GetValue());
 
                 foreach (var p in currentState.Provinces) p.State = null;
 
@@ -165,7 +165,7 @@ namespace HOI4ModBuilder.src.forms
 
                 foreach (var p in state.Provinces) p.State = state;
 
-                StateManager.AddState(state.IdNew.GetValue(), state);
+                StateManager.AddState(state.Id.GetValue(), state);
 
                 state.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
                 LoadData();

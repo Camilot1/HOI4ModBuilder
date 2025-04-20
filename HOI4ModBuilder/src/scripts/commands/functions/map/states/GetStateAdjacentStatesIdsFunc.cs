@@ -55,7 +55,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.states
                 state.ForEachAdjacentProvince((thisProvince, otherProvince) =>
                 {
                     if (otherProvince.State != null)
-                        hashSetAdjacentStatesIds.Add(otherProvince.State.IdNew.GetValue());
+                        hashSetAdjacentStatesIds.Add(otherProvince.State.Id.GetValue());
                 });
 
                 var listSetAdjacentStatesIds = new List<ushort>(hashSetAdjacentStatesIds);

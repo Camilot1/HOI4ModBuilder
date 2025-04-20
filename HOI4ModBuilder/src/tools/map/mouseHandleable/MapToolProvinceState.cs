@@ -48,7 +48,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             }
             else if (mouseEventArgs.Button == MouseButtons.Right && province.State != null)
             {
-                MainForm.Instance.ComboBox_Tool_Parameter.Text = "" + province.State.IdNew.GetValue();
+                MainForm.Instance.ComboBox_Tool_Parameter.Text = "" + province.State.Id.GetValue();
                 MainForm.Instance.ComboBox_Tool_Parameter.Refresh();
             }
         }

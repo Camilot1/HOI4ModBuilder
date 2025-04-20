@@ -81,7 +81,7 @@ namespace HOI4ModBuilder.src.forms
                             p.IsCoastal,
                             p.Terrain == null ? "unknown" : p.Terrain.name,
                             p.ContinentId,
-                            p.State == null ? -1 : p.State.IdNew.GetValue(),
+                            p.State == null ? -1 : p.State.Id.GetValue(),
                             p.Region == null ? -1 : p.Region.Id,
                             p.pixelsCount,
                             p.borders.Count

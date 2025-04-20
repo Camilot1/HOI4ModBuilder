@@ -85,11 +85,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             return false;
         }
 
-        public bool ForEachVictoryPoints(Func<DateTime, StateHistory, Province, uint, bool> action)
+        public bool ForEachVictoryPoints(Func<DateTime, StateHistory, VictoryPoint, bool> action)
         {
             foreach (var vp in VictoryPoints)
             {
-                var result = action(dateTime, this, vp.province, vp.value);
+                var result = action(dateTime, this, vp);
                 if (result)
                     return true;
             }

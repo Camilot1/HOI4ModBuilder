@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
+using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.newParser;
@@ -70,15 +71,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 if (state == null)
                     return;
 
-                if (!_statesById.ContainsKey(state.IdNew.GetValue()))
-                    _statesById[state.IdNew.GetValue()] = state;
+                if (!_statesById.ContainsKey(state.Id.GetValue()))
+                    _statesById[state.Id.GetValue()] = state;
                 else Logger.LogError(
                         EnumLocKey.ERROR_STATE_DUPLICATE_ID,
                         new Dictionary<string, string>
                         {
                                 { "{filePath}", state.GetGameFile().FileInfo?.filePath },
-                                { "{stateId}", $"{state.IdNew.GetValue()}" },
-                                { "{otherFilePath}", _statesById[state.IdNew.GetValue()].GetGameFile().FileInfo?.filePath }
+                                { "{stateId}", $"{state.Id.GetValue()}" },
+                                { "{otherFilePath}", _statesById[state.Id.GetValue()].GetGameFile().FileInfo?.filePath }
                         }
                     );
             }
@@ -88,7 +89,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
                 var state = stateFile.State.GetValue();
                 if (state != null)
-                    id = state.IdNew.GetValue();
+                    id = state.Id.GetValue();
 
                 string idString = id == 0 ?
                     GuiLocManager.GetLoc(EnumLocKey.ERROR_STATE_UNSUCCESSFUL_STATE_ID_PARSE_RESULT) : $"{id}";
@@ -119,7 +120,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                         (ex) =>
                             throw new Exception(GuiLocManager.GetLoc(
                                 EnumLocKey.EXCEPTION_WHILE_STATE_SAVING,
-                                new Dictionary<string, string> { { "{stateId}", $"{state.IdNew.GetValue()}" } }
+                                new Dictionary<string, string> { { "{stateId}", $"{state.Id.GetValue()}" } }
                             ), ex)
                     );
 
@@ -186,7 +187,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public static bool TransferProvince(Province province, State src, State dest)
         {
-            /*
             if (province == null || src == null && dest == null)
                 return false;
             if (src != null && dest != null && src.Equals(dest))
@@ -229,29 +229,36 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
 
             return true;
-            */
-            return false;
         }
 
         private static bool TransferProvinceHistory(Province province, StateHistory src, StateHistory dest)
         {
             bool result = false;
 
-            /*
-            if (src._victoryPoints.TryGetValue(province, out uint value))
+            VictoryPoint victoryPoint = null;
+
+            foreach (var vp in src.VictoryPoints)
             {
-                dest._victoryPoints[province] = value;
-                src._victoryPoints.Remove(province);
+                if (vp.province == province)
+                {
+                    victoryPoint = vp;
+                    break;
+                }
+            }
+
+            if (victoryPoint != null)
+            {
+                src.VictoryPoints.Remove(victoryPoint);
+                dest.VictoryPoints.Add(victoryPoint);
                 result = true;
             }
 
-            if (src.TryGetProvinceBuildings(province, out Dictionary<Building, uint> dictionary))
+            if (src.TryGetProvinceBuildings(province, out var provinceBuildings))
             {
-                dest.SetProvinceBuildings(province, dictionary);
+                dest.SetProvinceBuildings(province, provinceBuildings);
                 src.RemoveProvinceBuildings(province);
                 result = true;
             }
-            */
             return result;
         }
 
@@ -284,9 +291,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public static bool TryAddState(string fileName, State state)
         {
-            if (!_statesById.ContainsKey(state.IdNew.GetValue()))
+            if (!_statesById.ContainsKey(state.Id.GetValue()))
             {
-                _statesById[state.IdNew.GetValue()] = state;
+                _statesById[state.Id.GetValue()] = state;
                 state.SetNeedToSave(true);
                 return true;
             }

@@ -6,15 +6,15 @@ using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
-using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Security.Cryptography;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
 {
@@ -27,7 +27,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public int Color { get; private set; }
 
-        public readonly GameParameter<ushort> IdNew = new GameParameter<ushort>()
+        public readonly GameParameter<ushort> Id = new GameParameter<ushort>()
             .INIT_SetValueParseAdapter((o, token) =>
             {
                 var state = (State)((IParentable)o).GetParent();
@@ -50,6 +50,22 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     (byte)random.Next(0, 256),
                     (byte)random.Next(0, 256)
                 );
+
+                return _id;
+            })
+            .INIT_SetValueSetAdapter((o, value) =>
+            {
+                var _id = (ushort)value;
+                if (StateManager.ContainsStateIdKey(_id))
+                    throw new Exception(GuiLocManager.GetLoc(
+                        EnumLocKey.EXCEPTION_STATE_ID_UPDATE_VALUE_IS_USED,
+                        new Dictionary<string, string> { { "{id}", $"{value}" } }
+                    ));
+                else StateManager.RemoveState(_id);
+                var parameter = (GameParameter<ushort>)o;
+                parameter.SetNeedToSave(true);
+                var state = (State)parameter.GetParent();
+                StateManager.AddState(_id, state);
 
                 return _id;
             });
@@ -88,7 +104,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
         {
-            { "id", (o) => ((State)o).IdNew }, //TODO
+            { "id", (o) => ((State)o).Id },
             { "name", (o) => ((State)o).Name },
             { "state_category", (o) => ((State)o).StateCategory },
             { "manpower", (o) => ((State)o).Manpower },
@@ -110,28 +126,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public bool HasChangedId { get; private set; }
 
-        private ushort _id;
-        /*
-        public ushort Id
-        {
-            get => _id;
-            set
-            {
-                if (_id == value) return;
-
-                if (StateManager.ContainsStateIdKey(value))
-                    throw new Exception(GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_STATE_ID_UPDATE_VALUE_IS_USED,
-                        new Dictionary<string, string> { { "{id}", $"{value}" } }
-                    ));
-                else StateManager.RemoveState(_id);
-                _id = value;
-                HasChangedId = true;
-                StateManager.AddState(_id, this);
-            }
-        }
-        */
-        public string GetBlockName() => "" + _id;
+        public string GetBlockName() => "" + Id.GetValue();
         public EnumScope GetInnerScope() => EnumScope.STATE;
         public EnumKeyValueDemiliter[] GetAllowedSpecialDemiliters() => null;
         public bool IsAllowsInlineValue() => false;
@@ -166,10 +161,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public Country owner;
         public Country controller;
         public Dictionary<Province, uint> victoryPoints = new Dictionary<Province, uint>(0);
-        public void ForEachVictoryPoints(Func<DateTime, StateHistory, Province, uint, bool> action)
-        {
-            History.GetValue()?.ForEachVictoryPoints(action);
-        }
+        public void ForEachVictoryPoints(Func<DateTime, StateHistory, VictoryPoint, bool> action)
+            => History.GetValue()?.ForEachVictoryPoints(action);
 
         public Dictionary<Building, uint> stateBuildings = new Dictionary<Building, uint>(0);
         public Dictionary<Province, Dictionary<Building, uint>> provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
@@ -305,13 +298,14 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public override bool Equals(object obj)
         {
-            return obj is State state && _id == state._id;
+            return obj is State state && Id.GetValue() == state.Id.GetValue();
         }
 
         public void Validate(out bool hasChanged)
         {
             hasChanged = false;
 
+            //Проверяем и сортируем провинции в стейте
             if (!Utils.IsProvincesListSorted(Provinces))
             {
                 Provinces.Sort();
@@ -319,63 +313,85 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 hasChanged = true;
             }
 
+            //Удаляем дубликаты провинций в стейте
             if (Utils.RemoveDuplicateProvinces(Provinces))
             {
                 SetNeedToSave(true);
                 hasChanged = true;
             }
 
+            //
             var vpInfoList = new List<VPInfo>();
-            ForEachVictoryPoints((dateTime, stateHistory, province, value) =>
+            ForEachVictoryPoints((dateTime, stateHistory, victoryPoint) =>
             {
-                if (province.State != this && province.State != null)
-                    vpInfoList.Add(new VPInfo(dateTime, stateHistory, province, value));
+                if (victoryPoint.province != null && victoryPoint.province.State != this)
+                    vpInfoList.Add(new VPInfo(dateTime, stateHistory, victoryPoint));
                 return false;
             });
 
-            /*
             foreach (var vpInfo in vpInfoList)
             {
                 if (vpInfo.dateTime == default)
                 {
-                    var newStateHistory = vpInfo.province.State.History.GetValue();
+                    var newStateHistory = vpInfo.victoryPoint.province.State.History.GetValue();
                     if (newStateHistory != null)
                     {
-                        History.GetValue()._victoryPoints.Remove(vpInfo.province);
-                        if (!newStateHistory._victoryPoints.ContainsKey(vpInfo.province))
-                            newStateHistory._victoryPoints[vpInfo.province] = vpInfo.value;
+                        History.GetValue().VictoryPoints.Remove(vpInfo.victoryPoint);
+                        VictoryPoint tempVP = null;
+                        foreach (var vp in newStateHistory.VictoryPoints)
+                        {
+                            if (vp.province == vpInfo.victoryPoint.province)
+                            {
+                                tempVP = vp;
+                                break;
+                            }
+                        }
+
+                        if (tempVP != null)
+                            tempVP.value = vpInfo.victoryPoint.value;
+                        else
+                            newStateHistory.VictoryPoints.Add(vpInfo.victoryPoint);
+
                         hasChanged = true;
                     }
                 }
                 else if (
                     History.GetValue().InnerHistories.TryGetValue(vpInfo.dateTime, out StateHistory stateHistory) &&
-                    vpInfo.province.State.History.GetValue().InnerHistories.TryGetValue(vpInfo.dateTime, out StateHistory newStateHistory)
+                    vpInfo.victoryPoint.province.State.History.GetValue().InnerHistories.TryGetValue(vpInfo.dateTime, out StateHistory newStateHistory)
                 )
                 {
-                    stateHistory._victoryPoints.Remove(vpInfo.province);
-                    if (!newStateHistory._victoryPoints.ContainsKey(vpInfo.province))
+                    stateHistory.VictoryPoints.Remove(vpInfo.victoryPoint);
+                    VictoryPoint tempVP = null;
+                    foreach (var vp in newStateHistory.VictoryPoints)
                     {
-                        newStateHistory._victoryPoints[vpInfo.province] = vpInfo.value;
+                        if (vp.province == vpInfo.victoryPoint.province)
+                        {
+                            tempVP = vp;
+                            break;
+                        }
                     }
+
+                    if (tempVP != null)
+                        tempVP.value = vpInfo.victoryPoint.value;
+                    else
+                        newStateHistory.VictoryPoints.Add(vpInfo.victoryPoint);
+
                     hasChanged = true;
                 }
             }
-            */
         }
 
         private struct VPInfo
         {
             public DateTime dateTime;
             public StateHistory stateHistory;
-            public Province province;
-            public uint value;
+            public VictoryPoint victoryPoint;
 
-            public VPInfo(DateTime dateTime, StateHistory stateHistory, Province province, uint value)
+            public VPInfo(DateTime dateTime, StateHistory stateHistory, VictoryPoint victoryPoint)
             {
                 this.dateTime = dateTime;
                 this.stateHistory = stateHistory;
-                this.province = province;
-                this.value = value;
+                this.victoryPoint = victoryPoint;
             }
         }
     }

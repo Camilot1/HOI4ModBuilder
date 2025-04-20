@@ -38,6 +38,8 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             if (_value == null && value != null || !_value.Equals(value))
             {
+                if (_valueSetAdapter != null)
+                    _value = _valueSetAdapter(this, value);
                 if (value is GameConstant valueConstant)
                     _value = valueConstant;
                 else if (value is GameString valueString && valueString.stringValue.StartsWith("@"))
@@ -52,12 +54,19 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         //obj, value, result
         private Func<object, object, T> _valueParseAdapter;
+        private Func<object, object, T> _valueSetAdapter;
         private Func<T, object> _valueSaveAdapter;
         public GameParameter<T> INIT_SetValueParseAdapter(Func<object, object, T> value)
         {
             _valueParseAdapter = value;
             return this;
         }
+        public GameParameter<T> INIT_SetValueSetAdapter(Func<object, object, T> value)
+        {
+            _valueSetAdapter = value;
+            return this;
+        }
+
         public GameParameter<T> INIT_SetValueSaveAdapter(Func<T, object> value)
         {
             _valueSaveAdapter = value;

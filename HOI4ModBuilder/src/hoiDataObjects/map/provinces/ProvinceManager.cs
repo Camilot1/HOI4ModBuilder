@@ -603,7 +603,7 @@ namespace HOI4ModBuilder.managers
             int i;
             foreach (var state in StateManager.GetStates())
             {
-                int stateId = state.IdNew.GetValue();
+                int stateId = state.Id.GetValue();
                 if (state.pixelsCount == 0 && stateId != 0)
                 {
                     Logger.LogWarning(

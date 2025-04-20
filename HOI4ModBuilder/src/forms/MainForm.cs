@@ -1465,7 +1465,7 @@ namespace HOI4ModBuilder
                 else stateListForm = StateListForm.instance;
 
                 stateListForm.Focus();
-                stateListForm.FindState(ProvinceManager.RMBProvince.State.IdNew.GetValue());
+                stateListForm.FindState(ProvinceManager.RMBProvince.State.Id.GetValue());
             });
         }
 

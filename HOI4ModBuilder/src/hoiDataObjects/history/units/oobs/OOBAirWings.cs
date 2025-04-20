@@ -47,7 +47,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             bool result = false;
 
             List<State> states = new List<State>(_stateAirWingsGroup.Keys);
-            states.Sort((x, y) => x.IdNew.GetValue().CompareTo(y.IdNew.GetValue()));
+            states.Sort((x, y) => x.Id.GetValue().CompareTo(y.Id.GetValue()));
             foreach (var state in states)
             {
                 ParadoxUtils.NewLineIfNeeded(sb, newOutTab, ref newParagraphFlag);

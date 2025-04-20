@@ -12,7 +12,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
                 {
                     foreach (var p in s.Provinces)
                     {
-                        if (p.State.IdNew.GetValue() != s.IdNew.GetValue())
+                        if (p.State.Id.GetValue() != s.Id.GetValue())
                             list.Add(new MapCheckData(p.center, (int)EnumMapErrorCode.PROVINCE_MULTI_STATES));
                     }
                 }

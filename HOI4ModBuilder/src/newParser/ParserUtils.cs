@@ -130,7 +130,7 @@ namespace HOI4ModBuilder.src.newParser
             else if (value is Country valueCountry)
                 return valueCountry.Tag;
             else if (value is State valueState)
-                return "" + valueState.IdNew.GetValue();
+                return "" + valueState.Id.GetValue();
             else if (value is GameString valueGameString)
                 return valueGameString.stringValue;
             else if (value is string valueString)

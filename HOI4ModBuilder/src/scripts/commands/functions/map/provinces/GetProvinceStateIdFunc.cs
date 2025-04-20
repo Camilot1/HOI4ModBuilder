@@ -50,7 +50,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.provinces
                 if (!ProvinceManager.TryGetProvince(Convert.ToUInt16(provinceId.GetValue()), out var province))
                     throw new ValueNotFoundScriptException(lineIndex, args, provinceId.GetValue(), argIndexProvinceId);
 
-                var stateId = province.State != null ? province.State.IdNew.GetValue() : 0;
+                var stateId = province.State != null ? province.State.Id.GetValue() : 0;
                 provinceStateId.Set(lineIndex, args, new IntObject(stateId));
             };
         }

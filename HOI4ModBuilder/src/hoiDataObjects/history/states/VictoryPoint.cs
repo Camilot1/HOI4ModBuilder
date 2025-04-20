@@ -5,6 +5,7 @@ using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
+using System.Collections.Generic;
 using System.Text;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map
@@ -43,6 +44,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             sb.Append(outIndent).Append(key).Append(" = { ")
                 .Append(province.Id).Append(' ').Append(value)
                 .Append(" }").Append(Constants.NEW_LINE);
+        }
+
+        public override string ToString() => $"VictoryPoint( province = {province?.Id}; value = {value} )";
+
+        public override bool Equals(object obj)
+        {
+            return obj is VictoryPoint point &&
+                   EqualityComparer<Province>.Default.Equals(province, point.province) &&
+                   value == point.value;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 1838666069;
+            hashCode = hashCode * -1521134295 + EqualityComparer<Province>.Default.GetHashCode(province);
+            hashCode = hashCode * -1521134295 + value.GetHashCode();
+            return hashCode;
         }
     }
 }
