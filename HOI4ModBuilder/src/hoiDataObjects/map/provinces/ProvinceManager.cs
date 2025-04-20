@@ -32,7 +32,9 @@ namespace HOI4ModBuilder.managers
         private static Dictionary<int, Province> _provincesByColor = new Dictionary<int, Province>();
         public static void ForEachProvince(Action<Province> action)
         {
-            foreach (var p in _provincesById) action(p);
+            foreach (var p in _provincesById)
+                if (p != null)
+                    action(p);
         }
 
         public static void Init()
