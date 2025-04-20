@@ -113,7 +113,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             foreach (var state in _statesById.Values)
             {
                 var file = (StateGameFile)state.GetParent().GetParent();
-                if (file.FileInfo.needToSave)
+                if (file.IsNeedToSave())
                 {
                     Logger.TryOrCatch(
                         () => file.Save(sb, "", null, default),

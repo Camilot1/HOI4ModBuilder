@@ -25,13 +25,16 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (_allowsConstants) InitConstantsIfNull();
         }
 
-        public void SaveToFile(GameParser parser)
+        public override bool IsNeedToSave()
+            => FileInfo.needToSave || base.IsNeedToSave();
+
+        public void SaveToFile()
         {
             StringBuilder sb = new StringBuilder();
             Save(sb, "", null, default);
         }
 
-        public void SaveToFile(GameParser parser, FileInfo fileInfo)
+        public void SaveToFile(FileInfo fileInfo)
         {
             StringBuilder sb = new StringBuilder();
             Save(sb, "", null, default);

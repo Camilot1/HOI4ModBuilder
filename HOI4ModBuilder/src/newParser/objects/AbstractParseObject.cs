@@ -39,7 +39,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         protected bool _needToSave;
 
         public void SetNeedToSave(bool needToSave) => _needToSave = needToSave;
-        public bool IsNeedToSave()
+        public virtual bool IsNeedToSave()
         {
             if (_needToSave)
                 return true;
