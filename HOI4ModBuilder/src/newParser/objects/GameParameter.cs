@@ -188,8 +188,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 sb.Append(outIndent).Append(Constants.NEW_LINE);
 
             var comments = GetComments();
-            if (comments != null && comments.Previous.Length > 0)
-                sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+            comments?.SavePrevComments(sb, outIndent);
 
             sb.Append(outIndent).Append(key).Append(' ').Append((char)_enumDemiliter).Append(' ');
 

@@ -239,8 +239,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (comments == null)
                 comments = new GameComments();
 
-            if (comments.Previous.Length > 0)
-                sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+            comments.SavePrevComments(sb, outIndent);
 
             bool isInline = false;
             string innerIndent = outIndent;

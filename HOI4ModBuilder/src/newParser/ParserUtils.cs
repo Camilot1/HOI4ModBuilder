@@ -8,9 +8,7 @@ using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 
 namespace HOI4ModBuilder.src.newParser
 {
@@ -127,6 +125,8 @@ namespace HOI4ModBuilder.src.newParser
                 return "" + value;
             else if (value is float valueFloat)
                 return Utils.FloatToString(valueFloat);
+            else if (value is DateTime dateTime)
+                return $"{dateTime.Year}.{dateTime.Month}.{dateTime.Day}";
             else if (value is Country valueCountry)
                 return valueCountry.Tag;
             else if (value is State valueState)

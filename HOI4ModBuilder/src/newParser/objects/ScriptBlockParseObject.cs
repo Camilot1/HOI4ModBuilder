@@ -187,11 +187,13 @@ namespace HOI4ModBuilder.src.newParser.objects
 
                 innerBlock3.ParseCallback(parser);
 
+                /*
                 var comments = innerBlock3.GetComments();
                 if (comments != null)
                     comments.Previous = keyComments != null ? keyComments.Previous + comments.Previous : comments.Previous;
                 else
-                    innerBlock3.SetComments(keyComments);
+                */
+                innerBlock3.SetComments(keyComments);
 
                 innerList.AddSilent(innerBlock3);
             }
@@ -206,11 +208,13 @@ namespace HOI4ModBuilder.src.newParser.objects
             var innerBlock = new ScriptBlockParseObject(this, innerInfo);
             innerBlock.ParseCallback(parser);
 
+            /*
             var comments = innerBlock.GetComments();
             if (comments != null)
                 comments.Previous = keyComments != null ? keyComments.Previous + comments.Previous : comments.Previous;
             else
-                innerBlock.SetComments(keyComments);
+            */
+            innerBlock.SetComments(keyComments);
 
             innerList.AddSilent(innerBlock);
         }
@@ -382,6 +386,8 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (comments == null)
                 comments = new GameComments();
+            
+            comments?.SavePrevComments(sb, outIndent);
 
             if (sb.Length > 0)
             {
@@ -389,9 +395,6 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (lastChar == '\n')
                     sb.Append(outIndent);
             }
-
-            if (comments.Previous.Length > 0)
-                sb.Append(comments.Previous).Append(' ').Append(Constants.NEW_LINE).Append(outIndent);
 
             sb.Append(_scriptBlockInfo.GetBlockName()).Append(' ').Append((char)_demiliter)
                 .Append(' ').Append(ParserUtils.ObjectToSaveString(_value)).Append(' ');

@@ -8,6 +8,7 @@ using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
+using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
 
@@ -48,7 +49,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
 
         public readonly GameList<ScriptBlockParseObject> DynamicScriptBlocks = new GameList<ScriptBlockParseObject>();
-        public readonly GameList<StateHistory> InnerHistories = new GameList<StateHistory>();
+        public readonly GameDictionary<DateTime, StateHistory> InnerHistories = new GameDictionary<DateTime, StateHistory>();
 
         private static readonly Dictionary<string, DynamicGameParameter> DYNAMIC_ADAPTER = new Dictionary<string, DynamicGameParameter>()
         {
@@ -76,7 +77,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             if (stateBuildings != null && stateBuildings.WillHavePortInHistory(province))
                 return true;
 
-            foreach (var innerHistory in InnerHistories)
+            foreach (var innerHistory in InnerHistories.Values)
             {
                 if (innerHistory.WillHavePortInHistory(province))
                     return true;
@@ -93,7 +94,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     return true;
             }
 
-            foreach (var innerStateHistory in InnerHistories)
+            foreach (var innerStateHistory in InnerHistories.Values)
                 if (innerStateHistory.ForEachVictoryPoints(action))
                     return true;
 
@@ -182,8 +183,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 //TODO add resources and victory points effects support
             }
 
-            InnerHistories.Sort();
-            foreach (var innerHistory in InnerHistories)
+            foreach (var innerHistory in InnerHistories.Values)
             {
                 if (innerHistory.dateTime > dateTime)
                     break;
@@ -191,6 +191,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 innerHistory.Activate(dateTime, state);
             }
         }
+
+        public override void Validate(LinkedLayer layer)
+        {
+            InnerHistories.SortIfNeeded();
+            base.Validate(layer);
+        }
+
+        public bool SortInnerHistoriesIfNeeded() => InnerHistories.SortIfNeeded();
 
         public int CompareTo(StateHistory other)
             => dateTime.CompareTo(other.dateTime);

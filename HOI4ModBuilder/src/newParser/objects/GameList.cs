@@ -223,8 +223,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     if (value is ICommentable commentable)
                         comments = commentable.GetComments();
 
-                    if (comments != null && comments.Previous.Length > 0)
-                        sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+                    comments?.SavePrevComments(sb, outIndent);
 
                     sb.Append(outIndent).Append(key).Append(" = ").Append(tempValue);
 
@@ -259,14 +258,13 @@ namespace HOI4ModBuilder.src.newParser.objects
                         comments.Inline = innerComments.Inline;
                 }
 
-                if (comments.Previous.Length > 0)
-                    sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+                comments.SavePrevComments(sb, outIndent);
 
                 sb.Append(outIndent).Append(key).Append(" = { ");
 
                 if (comments.Inline.Length > 0)
                 {
-                    sb.Append(comments.Inline).Append(Constants.NEW_LINE); 
+                    sb.Append(comments.Inline).Append(Constants.NEW_LINE);
                     innerIndent = outIndent + Constants.INDENT;
                 }
                 else if (saveParameter.IsForceMultiline || !saveParameter.IsForceInline && _list.Count > 0)
@@ -324,7 +322,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                         sb.Append(Constants.NEW_LINE);
                         innerIndent = outIndent + Constants.INDENT;
                     }
-                    sb.Append(innerIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+                    comments.SavePrevComments(sb, innerIndent);
                 }
 
                 sb.Append(tempValue).Append(innerIndent);

@@ -203,8 +203,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (comments == null)
                     comments = new GameComments();
 
-                if (comments.Previous.Length > 0)
-                    sb.Append(outIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+                comments.SavePrevComments(sb, outIndent);
 
                 sb.Append(outIndent).Append(key).Append(" = { ");
 
@@ -284,7 +283,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                         sb.Append(Constants.NEW_LINE);
                         innerIndent = outIndent + Constants.INDENT;
                     }
-                    sb.Append(innerIndent).Append(comments.Previous).Append(Constants.NEW_LINE);
+                    comments.SavePrevComments(sb, innerIndent);
                 }
 
                 var stringValue = ParserUtils.ObjectToSaveString(tempValue);
@@ -355,11 +354,58 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         IEnumerator IEnumerable.GetEnumerator() => _dictionary.GetEnumerator();
 
+        public bool SortIfNeeded()
+        {
+            bool needToSort = false;
+
+            if (_dictionary.Count < 2)
+                return needToSort;
+
+            bool firstIsSet = false;
+            TKey tempKey = default;
+
+            foreach (var key in _dictionary.Keys)
+            {
+                if (!firstIsSet)
+                {
+                    tempKey = key;
+                    if (!(tempKey is IComparable))
+                        return needToSort;
+                    firstIsSet = true;
+                }
+                else if ((tempKey as IComparable).CompareTo(key) > 0)
+                {
+                    needToSort = true;
+                    break;
+                }
+            }
+
+            if (needToSort)
+            {
+                var keys = new List<TKey>(_dictionary.Keys);
+                keys.Sort();
+
+                var values = new List<TValue>(_dictionary.Count);
+
+                foreach (var sortedKey in keys)
+                    values.Add(_dictionary[sortedKey]);
+
+                _dictionary.Clear();
+
+                for (int i = 0; i < keys.Count; i++)
+                    _dictionary[keys[i]] = values[i];
+            }
+
+            return needToSort;
+        }
+
         public void Push(string key, object value)
         {
             object tempKey = key;
             if (_keyParseAdapter != null)
                 tempKey = _keyParseAdapter.Invoke(key);
+            else
+                tempKey = ParserUtils.Parse<TKey>(key);
 
             Logger.TryOrCatch(
                 () => _dictionary[(TKey)tempKey] = (TValue)value,

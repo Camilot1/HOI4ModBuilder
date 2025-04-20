@@ -269,6 +269,7 @@ namespace HOI4ModBuilder.src.newParser
                 case '#': _token = Token.COMMENT; break;
                 case '@': _token = Token.CONSTANT; break;
                 case '-': _token = Token.MINUS; break;
+                case '+': _token = Token.PLUS; break;
                 case ',':
                 case '.': _token = Token.DOT; break;
                 case '\\': _token = Token.BACK_SLASH; break;
@@ -337,7 +338,8 @@ namespace HOI4ModBuilder.src.newParser
 
         public GameComments ParseAndPullComments()
         {
-            var prevComments = PullParsedCommentsString();
+            var prevCommentsString = PullParsedCommentsString();
+            var prevComments = prevCommentsString.Length > 0 ? prevCommentsString.Split('\n') : new string[0];
             var inlineComments = "";
 
             var nextLine = SkipWhiteSpaces();
@@ -410,7 +412,7 @@ namespace HOI4ModBuilder.src.newParser
             {
                 _ignorIndentChange = true;
                 if (_sbComments.Length > 0 && _sbComments[_sbComments.Length - 1] != '\n')
-                    _sbComments.Append(Constants.NEW_LINE);
+                    _sbComments.Append('\n');
 
                 while (_index < _dataLength)
                 {
