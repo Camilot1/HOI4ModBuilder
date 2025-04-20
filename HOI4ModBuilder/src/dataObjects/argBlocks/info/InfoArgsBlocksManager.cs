@@ -263,7 +263,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                 currentLoadingFilePath = fileInfoPair.Value.filePath;
                 Logger.TryOrCatch(
                     () => LoadDefinedModifiersFile(fileInfoPair),
-                    (ex) => Logger.LogExceptionAsError(
+                    (ex) => Logger.LogExceptionAsWarning(
                         EnumLocKey.ERROR_COULD_NOT_LOAD_DEFINED_MODIFIERS_FILE,
                         new Dictionary<string, string>
                         {
@@ -283,7 +283,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
                 Logger.TryOrCatch(
                     () => LoadScriptedModifiersFile(fileInfoPair),
-                    (ex) => Logger.LogExceptionAsError(
+                    (ex) => Logger.LogExceptionAsWarning(
                         EnumLocKey.ERROR_COULD_NOT_LOAD_SCRIPTED_MODIFIERS_FILE,
                         new Dictionary<string, string>
                         {
@@ -305,7 +305,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
                 Logger.TryOrCatch(
                     () => LoadScriptedEffectsFile(fileInfoPair),
-                    (ex) => Logger.LogExceptionAsError(
+                    (ex) => Logger.LogExceptionAsWarning(
                         EnumLocKey.ERROR_COULD_NOT_LOAD_SCRIPTED_EFFECTS_FILE,
                         new Dictionary<string, string>
                         {
@@ -326,7 +326,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                 currentLoadingFilePath = fileInfoPair.Value.filePath;
                 Logger.TryOrCatch(
                     () => LoadScriptedTriggersFile(fileInfoPair),
-                    (ex) => Logger.LogExceptionAsError(
+                    (ex) => Logger.LogExceptionAsWarning(
                         EnumLocKey.ERROR_COULD_NOT_LOAD_SCRIPTED_TRIGGERS_FILE,
                         new Dictionary<string, string>
                         {

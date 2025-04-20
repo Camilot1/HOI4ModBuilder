@@ -201,6 +201,11 @@ namespace HOI4ModBuilder.src.utils
             _errors.Add($"{GuiLocManager.GetLoc(enumLocKey, replaceValues)} {additionalText}");
             Log($"ERROR: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}");
         }
+        public static void LogWarning(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues, string additionalText)
+        {
+            _warnings.Add($"{GuiLocManager.GetLoc(enumLocKey, replaceValues)} {additionalText}");
+            Log($"WARNING: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}");
+        }
 
         public static void LogExceptionAsError(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues, Exception ex)
         {
@@ -215,6 +220,21 @@ namespace HOI4ModBuilder.src.utils
 
             LogError(enumLocKey, replaceValues, message);
             Log($"EXCEPTION AS ERROR: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}, Exception: {ex}\n");
+        }
+
+        public static void LogExceptionAsWarning(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues, Exception ex)
+        {
+            string message = ex.Message;
+            var tempEx = ex.InnerException;
+
+            while (tempEx != null)
+            {
+                message += " " + tempEx.Message;
+                tempEx = tempEx.InnerException;
+            }
+
+            LogWarning(enumLocKey, replaceValues, message);
+            Log($"EXCEPTION AS WARNING: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}, Exception: {ex}\n");
         }
 
         public static void LogException(Exception ex)
