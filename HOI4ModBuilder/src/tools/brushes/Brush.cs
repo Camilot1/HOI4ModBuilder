@@ -71,7 +71,7 @@ namespace HOI4ModBuilder.src.tools.brushes
             {
                 foreach (var data in entry.Value)
                 {
-                    var pixelsLists = data.AssembleBorders((short)bitmap.Width);
+                    var pixelsLists = data.AssembleBorders((short)(bitmap.Width + 1));
                     if (pixelsLists != null)
                         borders.AddRange(pixelsLists);
                 }
