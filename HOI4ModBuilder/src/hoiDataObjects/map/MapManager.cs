@@ -27,6 +27,8 @@ using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.tools.brushes;
 using System.Drawing.Imaging;
 using System.Drawing;
+using System.Diagnostics;
+using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.managers
 {
@@ -57,7 +59,7 @@ namespace HOI4ModBuilder.managers
         public static double zoomFactor = 0.0004f;
         public static double mapDifX, mapDifY;
 
-        public static bool isHandlingMapMainLayerChange = false;
+        public static bool[] isHandlingMapMainLayerChange = new bool[1];
 
         public static ActionHistoryManager ActionHistory { get; private set; }
         public static ActionsBatch ActionsBatch { get; private set; }
@@ -234,41 +236,31 @@ namespace HOI4ModBuilder.managers
             double rawMapX = _mousePrevPoint.x / _mapSizeFactor.x;
             double rawMapY = _mousePrevPoint.y / _mapSizeFactor.y;
 
-            Point2D snappedCenterPos = new Point2D();
-
             GL.LineWidth(1f);
             GL.Color3(0.0f, 0.0f, 0.0f);
 
             bool isBrushTool = (MainForm.Instance.enumTool == EnumTool.BRUSH ||
                                 MainForm.Instance.enumTool == EnumTool.ERASER);
 
-            if (isBrushTool && BrushManager.TryGetBrush(MainForm.Instance.ComboBox_Tool_Parameter.Text, out var brush))
+            if (isBrushTool &&
+                BrushManager.TryGetBrush(
+                    SettingsManager.Settings,
+                    MainForm.Instance.ComboBox_Tool_Parameter.Text,
+                    out var brush
+                )
+            )
             {
-                if (brush.OriginalWidth % 2 != 0)
-                    snappedCenterPos.x = Math.Floor(rawMapX);
-                else
-                    snappedCenterPos.x = Math.Round(rawMapX);
-
-                if (brush.OriginalHeight % 2 != 0)
-                    snappedCenterPos.y = Math.Floor(rawMapY);
-                else
-                    snappedCenterPos.y = Math.Round(rawMapY);
-
-                foreach (var line in brush.borders)
+                brush.ForEachLineStrip(
+                    MainForm.Instance.ComboBox_Tool_Parameter_Value.Text, rawMapX, rawMapY, (line, xOffset, yOffset) =>
                 {
                     if (line == null || line.Count < 2)
-                        continue;
+                        return;
 
                     GL.Begin(PrimitiveType.LineLoop);
                     foreach (var pixel in line)
-                    {
-                        GL.Vertex2(
-                            snappedCenterPos.x + (pixel.x + brush.CenterOffsetX),
-                            snappedCenterPos.y + (pixel.y + brush.CenterOffsetY)
-                        );
-                    }
+                        GL.Vertex2(pixel.x + xOffset, pixel.y + yOffset);
                     GL.End();
-                }
+                });
             }
             else
             {
@@ -326,93 +318,12 @@ namespace HOI4ModBuilder.managers
             GL.End();
         }
 
-        private static void DrawTest()
-        {
-            float[][] data = new float[][]
-            {
-                new float[] { 5923f, 0f, 4482.00f, 10.30f, 1266.00f, 0.00f, 0.12f },
-                new float[] { 5923f, 1f, 4481.50f, 10.30f, 1265.00f, -0.46f, 0.12f },
-                new float[] { 5923f, 2f, 4482.50f, 10.30f, 1264.50f, 0.32f, 0.12f },
-                new float[] { 5923f, 3f, 4483.50f, 10.30f, 1266.00f, 1.57f, 0.12f },
-                new float[] { 5923f, 4f, 4481.00f, 10.30f, 1267.00f, 3.92f, 0.12f },
-                new float[] { 5923f, 5f, 4483.00f, 10.30f, 1267.50f, 2.55f, 0.12f },
-            };
-            /*
-            float[][] data = new float[][]
-            {
-                new float[] { 15389f, 0f, 4453.00f, 10.30f, 1256.00f, 0.00f, 0.08f },
-                new float[] { 15389f, 1f, 4452.50f, 10.30f, 1255.00f, -0.46f, 0.08f },
-                new float[] { 15389f, 2f, 4454.00f, 10.30f, 1255.00f, 0.78f, 0.08f },
-                new float[] { 15389f, 3f, 4452.00f, 10.30f, 1256.00f, 4.71f, 0.08f },
-                new float[] { 15389f, 4f, 4455.00f, 10.30f, 1256.00f, 1.57f, 0.08f },
-                new float[] { 15389f, 5f, 4452.50f, 10.30f, 1257.00f, 3.60f, 0.08f },
-                new float[] { 15389f, 6f, 4454.00f, 10.30f, 1256.50f, 2.03f, 0.08f },
-            };
-            */
-
-            GL.LineWidth(2f);
-            GL.Translate(0.5f, -MapSize.y, 0f);
-            ProvinceManager.TryGetProvince((ushort)data[0][0], out Province p);
-            foreach (float[] arr in data)
-            {
-                if (p != null)
-                {
-                    byte r = 0;
-                    byte g = (byte)(40 + 40 * arr[1]);
-                    byte b = (byte)(215 - 40 * arr[1]);
-                    float x = arr[2];
-                    float y = arr[4];
-
-                    GL.Color3(r, g, b);
-                    GL.Begin(PrimitiveType.Points);
-                    GL.Vertex2(x, y);
-                    GL.End();
-
-                    //double angle = (180 / Math.PI) * arr[5];
-                    if (arr[1] != 0)
-                    {
-                        GL.Begin(PrimitiveType.Lines);
-                        GL.Vertex2(x, y);
-                        GL.Vertex2(x + 5 * Math.Sin(arr[5]), y - 5 * Math.Cos(arr[5]));
-                        GL.End();
-                    }
-                }
-            }
-            GL.Translate(-0.5f, MapSize.y, 0f);
-            GL.Translate(0f, -MapSize.y, 0f);
-
-            if (p != null)
-            {
-                foreach (ProvinceBorder b in p.borders)
-                {
-                    int count = b.pixels.Count();
-                    if (count > 1)
-                    {
-                        GL.Color3(1f, 0f, 0f);
-                        GL.Begin(PrimitiveType.LineStrip);
-                        Value2F medium = new Value2F();
-                        foreach (Value2S pos in b.pixels)
-                        {
-                            medium.x += pos.x;
-                            medium.y += MapSize.y - pos.y;
-                            GL.Vertex2(pos.x, MapSize.y - pos.y);
-                        }
-                        medium.x /= count;
-                        medium.y /= count;
-                        GL.End();
-
-                        GL.Begin(PrimitiveType.Points);
-                        GL.Vertex2(medium.x, medium.y);
-                        GL.End();
-                    }
-                }
-            }
-            GL.Translate(0f, MapSize.y, 0f);
-        }
-
         public static void HandleMapMainLayerChange(EnumMainLayer enumMainLayer, string parameter)
         {
             if (ProvincesPixels == null)
+                return;
+
+            if (!MainForm.firstLoad)
                 return;
 
             Func<Province, int> func = (p) => Utils.ArgbToInt(255, 0, 0, 0);
@@ -420,9 +331,8 @@ namespace HOI4ModBuilder.managers
             switch (enumMainLayer)
             {
                 case EnumMainLayer.PROVINCES_MAP:
-                    _mapMainLayer.Texture = TextureManager.provinces.texture;
-                    TextureManager.provinces.texture.Update(TextureManager._24bppRgb, 0, 0, MapSize.x, MapSize.y, ProvincesPixels);
-                    return;
+                    func = null;
+                    break;
                 case EnumMainLayer.TERRAIN_MAP:
                     _mapMainLayer.Texture = TextureManager.terrain.texture;
                     return;
@@ -613,13 +523,13 @@ namespace HOI4ModBuilder.managers
                         break;
                     }
 
-                    uint count = 0;
-
                     var buildingLevelCap = building.LevelCap.GetValue();
                     var buildingSlotCategory = buildingLevelCap.GetSlotCategory();
 
                     if (buildingSlotCategory == EnumBuildingSlotCategory.PROVINCIAL)
                     {
+                        float maxLevel = buildingLevelCap.GetProvinceMaxCount();
+
                         func = (p) =>
                         {
                             var type = p.Type;
@@ -628,10 +538,10 @@ namespace HOI4ModBuilder.managers
                             else if (type == EnumProvinceType.LAKE)
                                 return Utils.ArgbToInt(255, 127, 255, 255);
 
-                            if (!p.TryGetBuildingCount(building, out count))
+                            if (!p.TryGetBuildingCount(building, out uint count))
                                 return Utils.ArgbToInt(255, 0, 0, 0);
 
-                            float factor = count / (float)buildingLevelCap.GetProvinceMaxCount();
+                            float factor = count / maxLevel;
                             if (factor > 1)
                                 return Utils.ArgbToInt(255, 255, 0, 0);
                             else
@@ -661,7 +571,7 @@ namespace HOI4ModBuilder.managers
                                 return Utils.ArgbToInt(255, 0, 0, 0);
                             else
                             {
-                                p.State.stateBuildings.TryGetValue(building, out count);
+                                p.State.stateBuildings.TryGetValue(building, out uint count);
 
                                 float factor = count / (float)maxCount;
                                 if (factor > 1)
@@ -676,6 +586,7 @@ namespace HOI4ModBuilder.managers
                     }
                     else //NON_SHARED
                     {
+                        float maxCount = buildingLevelCap.GetStateMaxCount();
                         func = (p) =>
                         {
                             var type = p.Type;
@@ -687,9 +598,9 @@ namespace HOI4ModBuilder.managers
                                 return Utils.ArgbToInt(255, 0, 0, 0);
                             else
                             {
-                                p.State.stateBuildings.TryGetValue(building, out count);
+                                p.State.stateBuildings.TryGetValue(building, out uint count);
 
-                                float factor = count / (float)buildingLevelCap.GetStateMaxCount();
+                                float factor = count / maxCount;
                                 if (factor > 1)
                                     return Utils.ArgbToInt(255, 255, 0, 0);
                                 else
@@ -701,17 +612,15 @@ namespace HOI4ModBuilder.managers
                         };
                     }
                     break;
-
             }
 
-            if (!isHandlingMapMainLayerChange)
+            if (!isHandlingMapMainLayerChange[0])
             {
-                var assembleTask = new Task<int[]>(
-                    () =>
-                    {
-                        isHandlingMapMainLayerChange = true;
-                        return AssembleBitmap(func);
-                    }
+                isHandlingMapMainLayerChange[0] = true;
+                var assembleTask = new Task<byte[]>(
+                    () => func != null ?
+                        AssembleBitmapBytes(func) :
+                        AssembleBitmapBytes()
                 );
 
                 assembleTask.ContinueWith(
@@ -719,7 +628,7 @@ namespace HOI4ModBuilder.managers
                     {
                         _mapMainLayer.Texture = TextureManager.provinces.texture;
                         TextureManager.provinces.texture.Update(TextureManager._24bppRgb, 0, 0, MapSize.x, MapSize.y, task.Result);
-                        isHandlingMapMainLayerChange = false;
+                        isHandlingMapMainLayerChange[0] = false;
                     },
                     TaskScheduler.FromCurrentSynchronizationContext()
                 );
@@ -727,9 +636,37 @@ namespace HOI4ModBuilder.managers
             }
         }
 
-        public static int[] AssembleBitmap(Func<Province, int> func)
+        public static byte[] AssembleBitmapBytes()
         {
-            int[] pixels = new int[ProvincesPixels.Length];
+            byte[] values = new byte[ProvincesPixels.Length * 3];
+
+            Parallel.For(0, MapSize.y, (row) =>
+            {
+                int color = 0;
+
+                int start = row * MapSize.x;
+                int end = start + MapSize.x;
+
+                int byteIndex = start * 3;
+
+                for (int i = start; i < end; i++)
+                {
+                    color = ProvincesPixels[i];
+
+                    values[byteIndex] = (byte)color;
+                    values[byteIndex + 1] = (byte)(color >> 8);
+                    values[byteIndex + 2] = (byte)(color >> 16);
+
+                    byteIndex += 3;
+                }
+            });
+
+            return values;
+        }
+
+        public static byte[] AssembleBitmapBytes(Func<Province, int> func)
+        {
+            byte[] values = new byte[ProvincesPixels.Length * 3];
 
             Parallel.For(0, MapSize.y, (row) =>
             {
@@ -739,21 +676,29 @@ namespace HOI4ModBuilder.managers
                 int start = row * MapSize.x;
                 int end = start + MapSize.x;
 
+                int byteIndex = start * 3;
+
                 for (int i = start; i < end; i++)
                 {
                     if (color != ProvincesPixels[i])
                     {
                         color = ProvincesPixels[i];
                         ProvinceManager.TryGetProvince(color, out Province province);
-                        if (province != null) newColor = func(province);
-                        else newColor = 0;
+                        if (province != null)
+                            newColor = func(province);
+                        else
+                            newColor = 0;
                     }
 
-                    pixels[i] = newColor;
+                    values[byteIndex] = (byte)newColor;
+                    values[byteIndex + 1] = (byte)(newColor >> 8);
+                    values[byteIndex + 2] = (byte)(newColor >> 16);
+
+                    byteIndex += 3;
                 }
             });
 
-            return pixels;
+            return values;
         }
 
         public static void UpdateMapInfo()
@@ -804,13 +749,24 @@ namespace HOI4ModBuilder.managers
         {
             if (selectedTexturedPlane != null)
             {
-                if (e.Delta > 0) selectedTexturedPlane.Scale(1.001f);
-                else if (e.Delta < 0) selectedTexturedPlane.Scale(0.999f);
+                if (e.Delta > 0)
+                    selectedTexturedPlane.Scale(1.001f);
+                else if (e.Delta < 0)
+                    selectedTexturedPlane.Scale(0.999f);
+            }
+            else if (/*MainForm.Instance.IsParameterValueVisible() &&*/ MainForm.Instance.IsShiftPressed())
+            {
+                if (e.Delta > 0)
+                    MainForm.Instance.IncreaseParameterValue();
+                else if (e.Delta < 0)
+                    MainForm.Instance.DecreaseParameterValue();
             }
             else
             {
-                if (e.Delta > 0 && zoomFactor < 0.1f) zoomFactor *= 1.2f;
-                else if (e.Delta < 0 && zoomFactor > 0.0004f) zoomFactor *= 0.8f;
+                if (e.Delta > 0 && zoomFactor < 0.1f)
+                    zoomFactor *= 1.2f;
+                else if (e.Delta < 0 && zoomFactor > 0.0004f)
+                    zoomFactor *= 0.8f;
             }
             _mousePrevPoint = CalculateMapPos(e.X, e.Y, viewportInfo);
         }
@@ -834,15 +790,16 @@ namespace HOI4ModBuilder.managers
         }
 
 
-        public static void HandleMouseDown(MouseEventArgs e, ViewportInfo viewportInfo, EnumEditLayer enumEditLayer, EnumTool enumTool, string toolParameter)
+        public static void HandleMouseDown(MouseEventArgs e, ViewportInfo viewportInfo, EnumEditLayer enumEditLayer, EnumTool enumTool, string parameter, string value)
         {
             Point2D pos = CalculateMapPos(e.X, e.Y, viewportInfo);
             _mousePrevPoint = pos;
             _mouseState = EnumMouseState.DOWN;
 
-            if (enumTool != EnumTool.CURSOR) ActionsBatch.Enabled = true;
+            if (enumTool != EnumTool.CURSOR)
+                ActionsBatch.Enabled = true;
 
-            MapToolsManager.HandleTool(e, _mouseState, pos, enumEditLayer, enumTool, bounds, toolParameter);
+            MapToolsManager.HandleTool(e, _mouseState, pos, enumEditLayer, enumTool, bounds, parameter, value);
 
             if (e.Button == MouseButtons.Middle)
                 _isMapDragged = true;
@@ -866,7 +823,7 @@ namespace HOI4ModBuilder.managers
             _mouseState = EnumMouseState.NONE;
         }
 
-        public static void HandleMouseMoved(MouseEventArgs e, ViewportInfo viewportInfo, EnumTool enumTool, EnumEditLayer enumEditLayer, string toolParameter)
+        public static void HandleMouseMoved(MouseEventArgs e, ViewportInfo viewportInfo, EnumTool enumTool, EnumEditLayer enumEditLayer, string parameter, string value)
         {
             var pos = CalculateMapPos(e.X, e.Y, viewportInfo);
             _mouseState = EnumMouseState.MOVE;
@@ -885,7 +842,7 @@ namespace HOI4ModBuilder.managers
                 else if (ActionsBatch.Enabled && (_mousePrevPoint.x != pos.x || _mousePrevPoint.y != pos.y))
                 {
                     if (enumTool != EnumTool.BUILDINGS)
-                        MapToolsManager.HandleTool(e, _mouseState, pos, enumEditLayer, enumTool, bounds, toolParameter);
+                        MapToolsManager.HandleTool(e, _mouseState, pos, enumEditLayer, enumTool, bounds, parameter, value);
                 }
                 _mousePrevPoint = pos;
             }

@@ -5,6 +5,9 @@ using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.utils.structs;
+using HOI4ModBuilder.src.tools.brushes;
+using HOI4ModBuilder.hoiDataObjects.map;
+using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -19,9 +22,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(
+            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos,
+            EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
+        )
         {
-            int prevColor = 0, newColor;
+            int newColor;
             if (!pos.InboundsPositiveBox(MapManager.MapSize))
                 return;
             if (Control.ModifierKeys == Keys.Shift)
@@ -34,50 +40,120 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             else
                 return;
 
-            Action<Point2D, int> action = null;
+            if (!BrushManager.TryGetBrush(SettingsManager.Settings, parameter, out var brush))
+                return;
+
+            List<Action> redoActions = new List<Action>();
+            List<Action> undoActions = new List<Action>();
+
+            brush.ForEachPixel(value, pos, (x, y) =>
+            {
+                if (HandlePixel(x, y, enumEditLayer, newColor, out var redo, out var undo))
+                {
+                    redoActions.Add(redo);
+                    undoActions.Add(undo);
+                }
+            });
+
+            MapManager.ActionsBatch.AddWithExecute(redoActions, undoActions);
+        }
+
+        private bool HandlePixel(int x, int y, EnumEditLayer enumEditLayer, int newColor, out Action redo, out Action undo)
+        {
+            redo = null;
+            undo = null;
+
+            if (x < 0 || x >= MapManager.MapSize.x || y < 0 || y >= MapManager.MapSize.y)
+                return false;
 
             switch (enumEditLayer)
             {
                 case EnumEditLayer.PROVINCES:
-                    prevColor = TextureManager.provinces.GetColor(pos);
-
-                    action = (p, c) =>
-                    {
-                        TextureManager.provinces.SetColor(p, c);
-                        byte[] data = { (byte)c, (byte)(c >> 8), (byte)(c >> 16) }; //BGR
-                        TextureManager.provinces.texture.Update(TextureManager._24bppRgb, (int)p.x, (int)p.y, 1, 1, data);
-                    };
-                    break;
-
+                    return HandlePixelProvinces(x, y, newColor, out redo, out undo);
                 case EnumEditLayer.RIVERS:
-                    prevColor = TextureManager.rivers.GetColor(pos);
-
-                    action = (p, c) =>
-                    {
-                        TextureManager.rivers.SetColor(p, c);
-                        byte[] data = { (byte)c, (byte)(c >> 8), (byte)(c >> 16), 0 }; //BGRA
-                        TextureManager.rivers.texture.Update(TextureManager._32bppArgb, (int)p.x, (int)p.y, 1, 1, data);
-                    };
-                    break;
-
+                    return HandlePixelRivers(x, y, newColor, out redo, out undo);
                 case EnumEditLayer.HEIGHT_MAP:
-                    prevColor = TextureManager.height.GetColor(pos);
-
-                    action = (p, c) =>
-                    {
-                        TextureManager.height.WriteByte(p, (byte)c);
-                        TextureManager.height.texture.Update(TextureManager._8bppIndexed, (int)p.x, (int)p.y, 1, 1, new byte[] { (byte)c });
-                    };
-                    break;
+                    return HandlePixelHeightMap(x, y, newColor, out redo, out undo);
             }
 
-            if (action != null)
+            return false;
+        }
+
+        private bool HandlePixelProvinces(int x, int y, int newColor, out Action redo, out Action undo)
+        {
+            redo = null; undo = null;
+            int i = x + y * MapManager.MapSize.x;
+
+            int[] pixels = MapManager.ProvincesPixels;
+            int prevColor = pixels[i];
+            if (prevColor == newColor)
+                return false;
+
+            redo = () =>
             {
-                MapManager.ActionsBatch.AddWithExecute(
-                    () => action(pos, newColor),
-                    () => action(pos, prevColor)
-                );
-            }
+                pixels[i] = newColor;
+                TextureManager.provinces.SetColor(x, y, newColor);
+                byte[] data = { (byte)newColor, (byte)(newColor >> 8), (byte)(newColor >> 16) }; //BGR
+                TextureManager.provinces.texture.Update(TextureManager._24bppRgb, x, y, 1, 1, data);
+            };
+            undo = () =>
+            {
+                pixels[i] = prevColor;
+                TextureManager.provinces.SetColor(x, y, prevColor);
+                byte[] data = { (byte)prevColor, (byte)(prevColor >> 8), (byte)(prevColor >> 16) }; //BGR
+                TextureManager.provinces.texture.Update(TextureManager._24bppRgb, x, y, 1, 1, data);
+            };
+            return true;
+        }
+
+        private bool HandlePixelRivers(int x, int y, int newColor, out Action redo, out Action undo)
+        {
+            redo = null; undo = null;
+
+            int prevColor = TextureManager.rivers.GetColor(x, y);
+            if (prevColor == newColor)
+                return false;
+
+            redo = () =>
+            {
+                TextureManager.rivers.SetColor(x, y, newColor);
+                byte[] data = { (byte)newColor, (byte)(newColor >> 8), (byte)(newColor >> 16), (byte)(newColor >> 24) }; //BGRA
+                TextureManager.rivers.texture.Update(TextureManager._32bppArgb, x, y, 1, 1, data);
+            };
+            undo = () =>
+            {
+                TextureManager.rivers.SetColor(x, y, prevColor);
+                byte[] data = { (byte)prevColor, (byte)(prevColor >> 8), (byte)(prevColor >> 16), (byte)(prevColor >> 24) }; //BGRA
+                TextureManager.rivers.texture.Update(TextureManager._32bppArgb, x, y, 1, 1, data);
+            };
+            return true;
+        }
+
+        private bool HandlePixelHeightMap(int x, int y, int newColor, out Action redo, out Action undo)
+        {
+            redo = null; undo = null;
+
+            byte prevByte = TextureManager.terrain.GetByte(x, y);
+            int prevColor = TextureManager.terrain.GetColor(x, y);
+            if (prevColor == newColor)
+                return false;
+
+            if (!TextureManager.terrain.GetIndex(newColor, out var newByte))
+                return false;
+
+            redo = () =>
+            {
+                TextureManager.terrain.WriteByte(x, y, newByte);
+                byte[] data = { (byte)newColor, (byte)(newColor >> 8), (byte)(newColor >> 16) }; //BGR
+                TextureManager.terrain.texture.Update(TextureManager._8bppIndexed, x, y, 1, 1, data);
+            };
+            undo = () =>
+            {
+                TextureManager.terrain.WriteByte(x, y, prevByte);
+                byte[] data = { (byte)prevColor, (byte)(prevColor >> 8), (byte)(prevColor >> 16) }; //BGR
+                TextureManager.terrain.texture.Update(TextureManager._8bppIndexed, x, y, 1, 1, data);
+            };
+            return true;
         }
     }
 }

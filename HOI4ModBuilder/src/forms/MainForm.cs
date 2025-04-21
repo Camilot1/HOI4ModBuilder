@@ -69,7 +69,6 @@ namespace HOI4ModBuilder
 
         public MainForm()
         {
-            Init();
             AfterFirstInit();
         }
 
@@ -408,6 +407,26 @@ namespace HOI4ModBuilder
             });
         }
 
+        public bool IsParameterValueVisible()
+            => GroupBox_Tool_Parameter_Value.Visible;
+        public string IncreaseParameterValue()
+        {
+            var maxIndex = ComboBox_Tool_Parameter_Value.Items.Count - 1;
+            if (ComboBox_Tool_Parameter_Value.SelectedIndex < maxIndex)
+                ComboBox_Tool_Parameter_Value.SelectedIndex++;
+
+            return ComboBox_Tool_Parameter_Value.Text;
+        }
+
+        public string DecreaseParameterValue()
+        {
+            if (ComboBox_Tool_Parameter_Value.SelectedIndex > 0)
+                ComboBox_Tool_Parameter_Value.SelectedIndex--;
+
+            return ComboBox_Tool_Parameter_Value.Text;
+        }
+
+
         public static void PauseGLControl()
         {
             updateGLControl = false;
@@ -534,7 +553,8 @@ namespace HOI4ModBuilder
 
         private void GLControl_Paint(object sender, PaintEventArgs e)
         {
-            if (!updateGLControl) return;
+            if (!updateGLControl)
+                return;
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
@@ -739,7 +759,7 @@ namespace HOI4ModBuilder
                 {
                     case EnumTool.BRUSH:
                     case EnumTool.ERASER:
-                        UpdateToolParameterComboBox(enumTool, BrushManager.GetBrushesNames().GetEnumerator(), null);
+                        UpdateToolParameterComboBox(enumTool, BrushManager.GetBrushesNames(SettingsManager.Settings), null);
                         break;
                     case EnumTool.CURSOR:
                     case EnumTool.RECTANGLE:
@@ -752,35 +772,35 @@ namespace HOI4ModBuilder
                         break;
 
                     case EnumTool.PROVINCE_TYPE:
-                        UpdateToolParameterComboBox(enumTool, ToolStripComboBox_Map_Province_Type.Items.GetEnumerator(), null);
+                        UpdateToolParameterComboBox(enumTool, ToolStripComboBox_Map_Province_Type.Items, null);
                         break;
                     case EnumTool.TERRAIN:
-                        UpdateToolParameterComboBox(enumTool, ToolStripComboBox_Map_Province_Terrain.Items.GetEnumerator(), null);
+                        UpdateToolParameterComboBox(enumTool, ToolStripComboBox_Map_Province_Terrain.Items, null);
                         break;
                     case EnumTool.PROVINCE_CONTINENT:
-                        UpdateToolParameterComboBox(enumTool, ToolStripComboBox_Map_Province_Continent.Items.GetEnumerator(), null);
+                        UpdateToolParameterComboBox(enumTool, ToolStripComboBox_Map_Province_Continent.Items, null);
                         break;
                     case EnumTool.PROVINCE_STATE:
                         var stateIds = new List<ushort>(StateManager.GetStatesIds());
                         stateIds.Sort();
-                        UpdateToolParameterComboBox(enumTool, stateIds.GetEnumerator(), null);
+                        UpdateToolParameterComboBox(enumTool, stateIds, null);
                         break;
                     case EnumTool.PROVINCE_REGION:
                         var regionsIds = new List<ushort>(StrategicRegionManager.GetRegionsIds());
                         regionsIds.Sort();
-                        UpdateToolParameterComboBox(enumTool, regionsIds.GetEnumerator(), null);
+                        UpdateToolParameterComboBox(enumTool, regionsIds, null);
                         break;
                     case EnumTool.STATE_CATEGORY:
                         var stateCategories = new List<string>(StateCategoryManager.GetStateCategoriesNames());
-                        UpdateToolParameterComboBox(enumTool, stateCategories.GetEnumerator(), null);
+                        UpdateToolParameterComboBox(enumTool, stateCategories, null);
                         break;
                     case EnumTool.BUILDINGS:
                         if (!BuildingManager.HasBuilding(ComboBox_Tool_Parameter.Text))
-                            UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames().GetEnumerator(), null);
+                            UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
                         break;
                     case EnumTool.AI_AREAS:
                         if (!AiAreaManager.HasAiArea(ComboBox_Tool_Parameter.Text))
-                            UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas().GetEnumerator(), null);
+                            UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas(), null);
                         break;
                 }
 
@@ -794,13 +814,21 @@ namespace HOI4ModBuilder
         private static readonly string[] preferedParameter = new string[Enum.GetValues(typeof(EnumTool)).Length];
         private static readonly string[] preferedParameterValue = new string[Enum.GetValues(typeof(EnumTool)).Length];
 
-        private void UpdateToolParameterComboBox(EnumTool tool, IEnumerator parameterItems, IEnumerator parameterValueItems)
+        private void UpdateToolParameterComboBox(EnumTool tool, ICollection parameterItems, ICollection parameterValueItems)
         {
             UpdateComboBoxValues(GroupBox_Tool_Parameter, ComboBox_Tool_Parameter, parameterItems, preferedParameter, tool);
+
+            if (parameterValueItems == null && (tool == EnumTool.BRUSH || tool == EnumTool.ERASER))
+            {
+                var brushName = ComboBox_Tool_Parameter.Text;
+                if (BrushManager.TryGetBrush(SettingsManager.Settings, brushName, out var brush))
+                    parameterValueItems = brush.SortedVariantKeys;
+            }
+
             UpdateComboBoxValues(GroupBox_Tool_Parameter_Value, ComboBox_Tool_Parameter_Value, parameterValueItems, preferedParameterValue, tool);
         }
 
-        private void UpdateComboBoxValues(GroupBox groupBox, ComboBox comboBox, IEnumerator items, string[] prefereds, EnumTool tool)
+        private void UpdateComboBoxValues(GroupBox groupBox, ComboBox comboBox, ICollection items, string[] prefereds, EnumTool tool)
         {
             if (items != null)
             {
@@ -814,9 +842,9 @@ namespace HOI4ModBuilder
                 int indexToSelect = -1;
                 int index = 0;
 
-                while (items.MoveNext())
+                foreach (var itemObj in items)
                 {
-                    var item = items.Current.ToString();
+                    var item = itemObj.ToString();
                     if (prefered == item)
                         indexToSelect = index;
                     index++;
@@ -849,11 +877,11 @@ namespace HOI4ModBuilder
         public bool IsAltPressed() => ModifierKeys == Keys.Alt;
 
         private void Panel1_MouseDown(object sender, MouseEventArgs e)
-            => Logger.TryOrLog(() => MapManager.HandleMouseDown(e, viewportInfo, enumEditLayer, enumTool, ComboBox_Tool_Parameter.Text));
+            => Logger.TryOrLog(() => MapManager.HandleMouseDown(e, viewportInfo, enumEditLayer, enumTool, ComboBox_Tool_Parameter.Text, ComboBox_Tool_Parameter_Value.Text));
         private void Panel1_MouseUp(object sender, MouseEventArgs e)
             => Logger.TryOrLog(() => MapManager.HandleMouseUp(e, viewportInfo, enumTool, enumEditLayer));
         private void Panel1_MouseMove(object sender, MouseEventArgs e)
-            => Logger.TryOrLog(() => MapManager.HandleMouseMoved(e, viewportInfo, enumTool, enumEditLayer, ComboBox_Tool_Parameter.Text));
+            => Logger.TryOrLog(() => MapManager.HandleMouseMoved(e, viewportInfo, enumTool, enumEditLayer, ComboBox_Tool_Parameter.Text, ComboBox_Tool_Parameter_Value.Text));
         private void ToolStripMenuItem_Exit_Click(object sender, EventArgs e)
             => Application.Exit();
         private void ToolStripMenuItem_Save_Maps_Provinces_Click(object sender, EventArgs e)
@@ -1082,15 +1110,18 @@ namespace HOI4ModBuilder
 
         private void ToolStripMenuItem_Edit_Undo_Click(object sender, EventArgs e)
         {
-            if (TabControl_Main.SelectedTab == TabPage_Map) MapManager.ActionHistory.Undo();
+            if (TabControl_Main.SelectedTab == TabPage_Map)
+                MapManager.ActionHistory.Undo();
         }
 
         private void ToolStripMenuItem_Edit_Redo_Click(object sender, EventArgs e)
         {
-            if (TabControl_Main.SelectedTab == TabPage_Map) MapManager.ActionHistory.Redo();
+            if (TabControl_Main.SelectedTab == TabPage_Map)
+                MapManager.ActionHistory.Redo();
         }
 
-        private void ToolStripMenuItem_SaveAll_Click(object sender, EventArgs e) => Logger.TryOrLog(() => SaveAll());
+        private void ToolStripMenuItem_SaveAll_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => SaveAll());
 
         private void ToolStripMenuItem_Map_Railway_DropDownOpened(object sender, EventArgs e)
         {
@@ -1250,7 +1281,8 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Save_Maps_Cities_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => TextureManager.SaveCitiesMap());
 
-        private void ComboBox_BordersType_SelectedIndexChanged(object sender, EventArgs e) => UpdateBordersType();
+        private void ComboBox_BordersType_SelectedIndexChanged(object sender, EventArgs e)
+            => UpdateBordersType();
 
         private void UpdateBordersType()
         {
@@ -1272,7 +1304,8 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                if (StateListForm.Instance == null) Task.Run(() => new StateListForm().ShowDialog());
+                if (StateListForm.Instance == null)
+                    Task.Run(() => new StateListForm().ShowDialog());
             });
         }
 
@@ -1430,7 +1463,8 @@ namespace HOI4ModBuilder
         public void SetMapTextures(List<TextureInfo> mapTextures)
         {
             ListBox_Textures.Items.Clear();
-            foreach (var texture in mapTextures) ListBox_Textures.Items.Add(texture.fileName);
+            foreach (var texture in mapTextures)
+                ListBox_Textures.Items.Add(texture.fileName);
         }
 
         private void Button_OpenSearchWarningsSettings_Click(object sender, EventArgs e)
@@ -1507,9 +1541,9 @@ namespace HOI4ModBuilder
             {
                 enumMainLayer = (EnumMainLayer)СomboBox_MapMainLayer.SelectedIndex;
                 if (enumMainLayer == EnumMainLayer.BUILDINGS && !BuildingManager.HasBuilding(ComboBox_Tool_Parameter.Text))
-                    UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames().GetEnumerator(), null);
+                    UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
                 else if (enumMainLayer == EnumMainLayer.AI_AREAS && !AiAreaManager.HasAiArea(ComboBox_Tool_Parameter.Text))
-                    UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas().GetEnumerator(), null);
+                    UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas(), null);
 
                 MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
             });

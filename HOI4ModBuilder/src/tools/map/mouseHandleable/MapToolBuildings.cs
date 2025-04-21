@@ -21,7 +21,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(
+            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos,
+            EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
+        )
         {
             if (enumEditLayer != EnumEditLayer.BUILDINGS)
                 return;

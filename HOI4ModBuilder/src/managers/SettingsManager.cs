@@ -16,6 +16,8 @@ namespace HOI4ModBuilder.src
         public static readonly string SETTINGS_FILENAME = "settings.json";
         public static readonly string SETTINGS_FILEPATH = CONFIGS_DIRECTORY + SETTINGS_FILENAME;
 
+        public static readonly string[] SUPPORTED_LANGUAGES = new string[] { "ru", "en" };
+
         public static Settings Settings { get; private set; }
         public static void Init()
         {

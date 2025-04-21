@@ -15,6 +15,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
     class MapToolBrush : MapTool
     {
         private static readonly EnumTool enumTool = EnumTool.BRUSH;
+        private static bool[] _isInDialog = new bool[1];
 
         public MapToolBrush(Dictionary<EnumTool, MapTool> mapTools)
             : base(
@@ -23,8 +24,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
-        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(
+            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos,
+            EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
+        )
         {
+            if (_isInDialog[0])
+                return;
+
             int newColor;
 
             if (!pos.InboundsPositiveBox(MapManager.MapSize))
@@ -41,52 +48,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             else
                 return;
 
-            if (!BrushManager.TryGetBrush(parameter, out var brush))
+            if (!BrushManager.TryGetBrush(SettingsManager.Settings, parameter, out var brush))
                 return;
 
             List<Action> redoActions = new List<Action>();
             List<Action> undoActions = new List<Action>();
 
-            double snappedCenterX;
-            double snappedCenterY;
-
-            if (brush.OriginalWidth % 2 != 0)
-                snappedCenterX = Math.Floor(pos.x);
-            else
-                snappedCenterX = Math.Round(pos.x);
-
-            if (brush.OriginalHeight % 2 != 0)
-                snappedCenterY = Math.Floor(pos.y);
-            else
-                snappedCenterY = Math.Round(pos.y);
-
-            foreach (var point in brush.pixels)
+            brush.ForEachPixel(value, pos, (x, y) =>
             {
-                int targetX = (int)(point.x + snappedCenterX);
-                int targetY = (int)(point.y + snappedCenterY);
-
-                if (HandlePixel(targetX, targetY, enumEditLayer, newColor, out var redo, out var undo))
+                if (!_isInDialog[0] && HandlePixel(x, y, enumEditLayer, newColor, out var redo, out var undo))
                 {
                     redoActions.Add(redo);
                     undoActions.Add(undo);
                 }
-            }
+            });
 
-            if (redoActions.Count > 0)
-            {
-                MapManager.ActionsBatch.AddWithExecute(
-                    () =>
-                    {
-                        foreach (var redo in redoActions)
-                            redo();
-                    },
-                    () =>
-                    {
-                        foreach (var undo in undoActions)
-                            undo();
-                    }
-                );
-            }
+            MapManager.ActionsBatch.AddWithExecute(redoActions, undoActions);
         }
 
         private bool HandlePixel(int x, int y, EnumEditLayer enumEditLayer, int newColor, out Action redo, out Action undo)
@@ -94,7 +71,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             redo = null;
             undo = null;
 
-            if (x < 0 || x > MapManager.MapSize.x || y < 0 || y > MapManager.MapSize.y)
+            if (x < 0 || x >= MapManager.MapSize.x || y < 0 || y >= MapManager.MapSize.y)
                 return false;
 
             switch (enumEditLayer)
@@ -123,6 +100,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (!ProvinceManager.TryGetProvince(newColor, out Province province))
             {
+                _isInDialog[0] = true;
                 Task.Run(() =>
                 {
                     var title = GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION);
@@ -133,6 +111,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
                     if (MessageBox.Show(text, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                         ProvinceManager.CreateNewProvince(newColor);
+                    _isInDialog[0] = false;
                 });
                 return false;
             }

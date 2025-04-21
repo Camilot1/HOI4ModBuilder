@@ -96,6 +96,7 @@ namespace HOI4ModBuilder
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
+        /** Deprecated **/
         public void Update(in TextureType textureType, int x, int y, int width, int height, int[] data)
         {
             byte bytesPerPixel = textureType.bytesPerPixel;

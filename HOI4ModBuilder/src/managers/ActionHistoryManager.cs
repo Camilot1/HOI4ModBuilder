@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.src.utils;
+﻿using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.exceptions;
 using System;
 using System.Collections.Generic;
@@ -103,6 +104,24 @@ namespace HOI4ModBuilder.src.managers
                 _pairs = new List<ActionPair>();
             }
 
+            public void AddWithExecute(List<Action> redoActions, List<Action> undoActions)
+            {
+                if (redoActions.Count > 0)
+                {
+                    AddWithExecute(
+                        () =>
+                        {
+                            foreach (var redo in redoActions)
+                                redo();
+                        },
+                        () =>
+                        {
+                            foreach (var undo in undoActions)
+                                undo();
+                        }
+                    );
+                }
+            }
             public void AddWithExecute(Action redo, Action undo)
             {
                 if (Enabled)

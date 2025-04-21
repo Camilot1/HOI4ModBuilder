@@ -684,7 +684,9 @@
     <Compile Include="src\scripts\VarsScope.cs" />
     <Compile Include="src\tools\AutoTools.cs" />
     <Compile Include="src\tools\brushes\Brush.cs" />
+    <Compile Include="src\tools\brushes\BrushInfo.cs" />
     <Compile Include="src\tools\brushes\BrushManager.cs" />
+    <Compile Include="src\tools\brushes\BrushVariant.cs" />
     <Compile Include="src\tools\map\advanced\MergeProvincesTool.cs" />
     <Compile Include="src\tools\map\advanced\RailwayTool.cs" />
     <Compile Include="src\tools\dataRecovery\StrategicRegionsDataRecoveryTool.cs" />
@@ -770,6 +772,7 @@
     <Compile Include="src\utils\LocalizedAction.cs" />
     <Compile Include="src\utils\Logger.cs" />
     <Compile Include="src\utils\ImageUtils.cs" />
+    <Compile Include="src\utils\MathUtils.cs" />
     <Compile Include="src\utils\NormalMapGenerator.cs" />
     <Compile Include="src\utils\ParadoxUtils.cs" />
     <Compile Include="src\utils\Structs.cs" />

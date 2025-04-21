@@ -1870,8 +1870,8 @@
         private System.Windows.Forms.Button Button_OpenSearchWarningsSettings;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_GitHub;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Telegram;
-        private System.Windows.Forms.GroupBox GroupBox_Tool_Parameter_Value;
         public System.Windows.Forms.ComboBox ComboBox_Tool_Parameter_Value;
+        public System.Windows.Forms.GroupBox GroupBox_Tool_Parameter_Value;
     }
 }
 

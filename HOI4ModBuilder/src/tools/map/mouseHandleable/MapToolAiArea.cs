@@ -21,7 +21,10 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
               )
         { }
 
-        public override void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter)
+        public override void Handle(
+            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos,
+            EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
+        )
         {
             if (!pos.InboundsPositiveBox(MapManager.MapSize))
                 return;
