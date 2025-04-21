@@ -1,8 +1,8 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.utils;
-using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,15 +15,15 @@ namespace HOI4ModBuilder.src.forms
 {
     partial class StateListForm : Form
     {
-        public static StateListForm instance;
+        public static StateListForm Instance { get; private set; }
         public static State currentState;
         public static string text = null;
 
         public StateListForm()
         {
             InitializeComponent();
-            instance?.Invoke((MethodInvoker)delegate { instance?.Close(); });
-            instance = this;
+            Instance?.Invoke((MethodInvoker)delegate { Instance?.Close(); });
+            Instance = this;
         }
 
         protected override void OnShown(EventArgs e)
@@ -44,13 +44,13 @@ namespace HOI4ModBuilder.src.forms
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            instance = null;
+            Instance = null;
             GuiLocManager.formsReinitEvents.Remove(this);
         }
 
         private void LoadData()
         {
-            var data = instance.DataGridView_States;
+            var data = Instance.DataGridView_States;
             data.Rows.Clear();
 
             var assembleTask = new Task<DataGridViewRow[]>(
@@ -110,10 +110,13 @@ namespace HOI4ModBuilder.src.forms
                 {
                     currentState = state;
                     var sb = new StringBuilder();
-                    //state.Save(sb); //TODO
+
+                    var stateGameFile = (StateGameFile)state.GetParent().GetParent();
+
+                    stateGameFile.Save(sb, "", null, default);
                     text = sb.ToString();
                     RichTextBox_StateInfo.Text = text;
-                    //TextBox_FileInfo.Text = state.fileInfo.fileName;
+                    TextBox_FileInfo.Text = stateGameFile.FileInfo.fileName;
                 }
                 else Logger.LogSingleErrorMessage(
                         EnumLocKey.STATE_NOT_FOUND_BY_ID,
@@ -126,22 +129,34 @@ namespace HOI4ModBuilder.src.forms
         {
             Logger.TryOrLog(() =>
             {
-                if (currentState == null) return;
+                if (currentState == null)
+                    return;
 
+                var stateGameFile = (StateGameFile)currentState.GetParent().GetParent();
                 var sb = new StringBuilder();
-                //currentState.Save(sb); //TODO
+                stateGameFile.Save(sb, "", null, default);
                 RichTextBox_StateInfo.Text = sb.ToString();
-                //TextBox_FileInfo.Text = currentState.fileInfo.fileName;
-
+                TextBox_FileInfo.Text = stateGameFile.FileInfo.fileName;
             });
         }
 
         private void Button_Save_Click(object sender, EventArgs e)
         {
+            //TODO reimplement
+            if (true)
+                return;
+
             Logger.TryOrLog(() =>
             {
-                if (currentState == null) return;
-                if (text.Equals(RichTextBox_StateInfo.Text)) return;
+                if (currentState == null)
+                    return;
+                if (text.Equals(RichTextBox_StateInfo.Text))
+                    return;
+
+                var newStateGameFile = new StateGameFile();
+                var parser = new GameParser();
+
+                parser.ParseFileFromString(newStateGameFile, RichTextBox_StateInfo.Text);
 
                 var state = new State
                 {
@@ -159,11 +174,13 @@ namespace HOI4ModBuilder.src.forms
                 currentState.ClearData();
                 StateManager.RemoveState(currentState.Id.GetValue());
 
-                foreach (var p in currentState.Provinces) p.State = null;
+                foreach (var p in currentState.Provinces)
+                    p.State = null;
 
                 currentState = state;
 
-                foreach (var p in state.Provinces) p.State = state;
+                foreach (var p in state.Provinces)
+                    p.State = state;
 
                 StateManager.AddState(state.Id.GetValue(), state);
 

@@ -147,6 +147,28 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return false;
         }
 
+        public Country owner;
+        public Country controller;
+        public Dictionary<Province, uint> victoryPoints = new Dictionary<Province, uint>(0);
+        public void ForEachVictoryPoints(Func<DateTime, StateHistory, VictoryPoint, bool> action)
+            => History.GetValue()?.ForEachVictoryPoints(action);
+
+        public Dictionary<Building, uint> stateBuildings = new Dictionary<Building, uint>(0);
+        public Dictionary<Province, Dictionary<Building, uint>> provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
+
+
+        public void TransferDataFrom(State state)
+        {
+            center = state.center;
+            dislayCenter = state.dislayCenter;
+            pixelsCount = state.pixelsCount;
+            borders = state.borders;
+        }
+
+        public Point2F center;
+        public bool dislayCenter;
+        public uint pixelsCount;
+
         public List<ProvinceBorder> borders = new List<ProvinceBorder>(0);
         public void ForEachAdjacentProvince(Action<Province, Province> action)
         {
@@ -157,19 +179,6 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                         action(thisProvince, otherProvince);
                 });
         }
-
-        public Country owner;
-        public Country controller;
-        public Dictionary<Province, uint> victoryPoints = new Dictionary<Province, uint>(0);
-        public void ForEachVictoryPoints(Func<DateTime, StateHistory, VictoryPoint, bool> action)
-            => History.GetValue()?.ForEachVictoryPoints(action);
-
-        public Dictionary<Building, uint> stateBuildings = new Dictionary<Building, uint>(0);
-        public Dictionary<Province, Dictionary<Building, uint>> provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
-
-        public Point2F center;
-        public bool dislayCenter;
-        public uint pixelsCount;
 
         public void AddProvince(Province province)
         {

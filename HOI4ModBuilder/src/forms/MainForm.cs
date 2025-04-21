@@ -1254,7 +1254,7 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                if (StateListForm.instance == null) Task.Run(() => new StateListForm().ShowDialog());
+                if (StateListForm.Instance == null) Task.Run(() => new StateListForm().ShowDialog());
             });
         }
 
@@ -1457,12 +1457,12 @@ namespace HOI4ModBuilder
                 if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.State == null) return;
 
                 StateListForm stateListForm;
-                if (StateListForm.instance == null)
+                if (StateListForm.Instance == null)
                 {
                     stateListForm = new StateListForm();
                     stateListForm.Show();
                 }
-                else stateListForm = StateListForm.instance;
+                else stateListForm = StateListForm.Instance;
 
                 stateListForm.Focus();
                 stateListForm.FindState(ProvinceManager.RMBProvince.State.Id.GetValue());

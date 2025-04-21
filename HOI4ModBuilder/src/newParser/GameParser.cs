@@ -2,6 +2,7 @@
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
+using SharpFont;
 using System;
 using System.IO;
 using System.Text;
@@ -70,8 +71,14 @@ namespace HOI4ModBuilder.src.newParser
         /** Метод считывания данных из указанного файла */
         public void ParseFile(GameFile file)
         {
-            _file = file;
             var data = File.ReadAllText(file.FilePath);
+            ParseFileFromString(file, data);
+        }
+
+        public void ParseFileFromString(GameFile file, string data)
+        {
+            _file = file;
+
             _data = data.ToCharArray();
             _dataLength = data.Length;
             _prevChar = default;
