@@ -125,7 +125,7 @@
   <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 34</value>
   </data>
-  <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="GroupBox_Script.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="RichTextBox_Script.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -151,33 +151,33 @@
     <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;RichTextBox_Script.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>GroupBox_Script</value>
   </data>
   <data name="&gt;&gt;RichTextBox_Script.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="GroupBox_Script.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="GroupBox_Script.Size" type="System.Drawing.Size, System.Drawing">
     <value>382, 522</value>
   </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="GroupBox_Script.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
+  <data name="GroupBox_Script.Text" xml:space="preserve">
     <value>Файл не выбран</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
+  <data name="&gt;&gt;GroupBox_Script.Name" xml:space="preserve">
+    <value>GroupBox_Script</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;GroupBox_Script.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;GroupBox_Script.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
   </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;GroupBox_Script.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Panel1.Name" xml:space="preserve">
@@ -459,6 +459,9 @@
   <data name="Button_Save.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
+  <data name="Button_Save.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="Button_Save.Location" type="System.Drawing.Point, System.Drawing">
     <value>522, 5</value>
   </data>
@@ -485,6 +488,9 @@
   </data>
   <data name="Button_Load.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
+  </data>
+  <data name="Button_Load.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="Button_Load.Location" type="System.Drawing.Point, System.Drawing">
     <value>618, 5</value>

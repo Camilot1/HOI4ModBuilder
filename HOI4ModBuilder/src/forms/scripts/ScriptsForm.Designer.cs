@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScriptsForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.GroupBox_Script = new System.Windows.Forms.GroupBox();
             this.RichTextBox_Script = new System.Windows.Forms.RichTextBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.GroupBox_Debug = new System.Windows.Forms.GroupBox();
@@ -48,7 +48,7 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.GroupBox_Script.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -63,24 +63,27 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.GroupBox_Script);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             // 
-            // groupBox1
+            // GroupBox_Script
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Controls.Add(this.RichTextBox_Script);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
+            resources.ApplyResources(this.GroupBox_Script, "GroupBox_Script");
+            this.GroupBox_Script.Controls.Add(this.RichTextBox_Script);
+            this.GroupBox_Script.Name = "GroupBox_Script";
+            this.GroupBox_Script.TabStop = false;
+            this.GroupBox_Script.Resize += new System.EventHandler(this.GroupBox_Script_Resize);
             // 
             // RichTextBox_Script
             // 
+            this.RichTextBox_Script.AcceptsTab = true;
             resources.ApplyResources(this.RichTextBox_Script, "RichTextBox_Script");
             this.RichTextBox_Script.Name = "RichTextBox_Script";
             this.RichTextBox_Script.TextChanged += new System.EventHandler(this.RichTextBox_Script_TextChanged);
+            this.RichTextBox_Script.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RichTextBox_Script_KeyDown);
             // 
             // splitContainer2
             // 
@@ -184,7 +187,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
+            this.GroupBox_Script.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -202,7 +205,7 @@
         private System.Windows.Forms.Button Button_Load;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button Button_Execute;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox GroupBox_Script;
         private System.Windows.Forms.RichTextBox RichTextBox_Script;
         private System.Windows.Forms.GroupBox GroupBox_Debug;
         private System.Windows.Forms.RichTextBox RichTextBox_Debug;

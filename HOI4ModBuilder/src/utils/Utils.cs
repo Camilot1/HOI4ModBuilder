@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -307,6 +308,39 @@ namespace HOI4ModBuilder
             if (entry[0] == "h") return new Tuple<EnumFileScale, int>(EnumFileScale.HEIGHT, int.Parse(entry[1]));
             else if (entry[0] == "z") return new Tuple<EnumFileScale, int>(EnumFileScale.HEIGHT, int.Parse(entry[1]));
             else throw new InvalidDataException("Неподдерживаемый ключ размерности \"" + entry[0] + "\"");
+        }
+        public static string TruncatePath(string fullPath, Font font, int maxWidth)
+        {
+            if (fullPath == null || fullPath.Length == 0)
+                return fullPath;
+
+            var fullSize = TextRenderer.MeasureText(fullPath, font, new Size(int.MaxValue, int.MaxValue),
+                                                   TextFormatFlags.SingleLine | TextFormatFlags.NoPadding);
+            if (fullSize.Width <= maxWidth)
+                return fullPath;
+
+            var parts = fullPath.Split('\\');
+
+            for (int cut = 1; cut < parts.Length; cut++)
+            {
+                string candidate = @"..\" + string.Join("\\", parts.Skip(cut));
+                var size = TextRenderer.MeasureText(candidate, font, new Size(int.MaxValue, int.MaxValue),
+                                                    TextFormatFlags.SingleLine | TextFormatFlags.NoPadding);
+                if (size.Width <= maxWidth)
+                    return candidate;
+            }
+
+            string last = parts.Last();
+            for (int len = last.Length; len > 0; len--)
+            {
+                string candidate = @"..\" + last.Substring(last.Length - len);
+                var size = TextRenderer.MeasureText(candidate, font, new Size(int.MaxValue, int.MaxValue),
+                                                    TextFormatFlags.SingleLine | TextFormatFlags.NoPadding);
+                if (size.Width <= maxWidth)
+                    return candidate;
+            }
+
+            return last;
         }
 
         public static FolderBrowserDialog PrepareFolderDialog(string dirPath)

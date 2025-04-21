@@ -6,23 +6,30 @@ using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.LinkLabel;
 
 namespace HOI4ModBuilder.src.forms.scripts
 {
     public partial class ScriptsForm : Form
     {
-        public static ScriptsForm instance;
-
+        public static ScriptsForm Instance { get; private set; }
+        private string _filePath;
         private string[] _scriptLines;
 
         public ScriptsForm()
         {
             InitializeComponent();
-            instance?.Invoke((MethodInvoker)delegate { instance?.Close(); });
-            instance = this;
+
+            RichTextBox_Script.AllowDrop = true;
+            RichTextBox_Script.DragEnter += RichTextBox_Script_DragEnter;
+            RichTextBox_Script.DragDrop += RichTextBox_Script_DragDrop;
+
+            Instance?.Invoke((MethodInvoker)delegate { Instance?.Close(); });
+            Instance = this;
         }
 
         protected override void OnShown(EventArgs e)
@@ -43,7 +50,7 @@ namespace HOI4ModBuilder.src.forms.scripts
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            instance = null;
+            Instance = null;
             GuiLocManager.formsReinitEvents.Remove(this);
         }
 
@@ -57,9 +64,14 @@ namespace HOI4ModBuilder.src.forms.scripts
                 var fd = new OpenFileDialog();
                 var dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "scripts" });
                 Utils.PrepareFileDialog(fd, GuiLocManager.GetLoc(EnumLocKey.SCRIPTS_CHOOSE_FILE), dialogPath, "TXT files (*.txt)|*.txt");
-                if (fd.ShowDialog() == DialogResult.OK) filePath = fd.FileName;
-                else return;
+                if (fd.ShowDialog() == DialogResult.OK)
+                    filePath = fd.FileName;
+                else
+                    return;
 
+                textBox1.Text = filePath;
+                _filePath = filePath;
+                UpdateFilePathRender();
                 _scriptLines = File.ReadAllLines(filePath);
                 RefreshData();
             });
@@ -74,6 +86,43 @@ namespace HOI4ModBuilder.src.forms.scripts
 
         }
 
+        private void RichTextBox_Script_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                bool allTxt = files.All(f =>
+                    Path.GetExtension(f)
+                        .Equals(".txt", StringComparison.OrdinalIgnoreCase));
+
+                e.Effect = allTxt
+                    ? DragDropEffects.Copy
+                    : DragDropEffects.None;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void RichTextBox_Script_DragDrop(object sender, DragEventArgs e)
+        {
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            foreach (var file in files)
+            {
+                if (Path.GetExtension(file).Equals(".txt", StringComparison.OrdinalIgnoreCase))
+                {
+                    textBox1.Text = file;
+                    _filePath = file;
+                    UpdateFilePathRender();
+                    _scriptLines = File.ReadAllLines(file);
+                    RefreshData();
+                }
+            }
+        }
+
         private void ChangeExecutionState(bool flag)
         {
             Button_Execute.Enabled = flag;
@@ -83,7 +132,7 @@ namespace HOI4ModBuilder.src.forms.scripts
         {
             Logger.TryOrCatch(() =>
             {
-                RichTextBox_Console.Clear();
+                ClearConsole();
                 var executeTask = new Task(() =>
                 {
                     Logger.TryOrCatch(() =>
@@ -195,5 +244,67 @@ namespace HOI4ModBuilder.src.forms.scripts
                 ScriptParser.IsTerminated = true;
                 GroupBox_Debug.Text = "Debug: " + ScriptParser.IsDebug;
             });
+
+        private void RichTextBox_Script_KeyDown(object sender, KeyEventArgs e)
+        {
+            var rtb = RichTextBox_Script;
+
+            if (e.Control && e.KeyCode == Keys.D)
+            {
+                e.SuppressKeyPress = true;
+
+                int lineIndex = rtb.GetLineFromCharIndex(rtb.SelectionStart);
+                int lineStart = rtb.GetFirstCharIndexFromLine(lineIndex);
+                string lineText = rtb.Lines[lineIndex];
+
+                rtb.SelectionStart = lineStart + lineText.Length;
+                rtb.SelectionLength = 0;
+
+                rtb.SelectedText = Environment.NewLine + lineText;
+
+                int newLineStart = rtb.GetFirstCharIndexFromLine(lineIndex + 1);
+                rtb.SelectionStart = newLineStart + lineText.Length;
+            }
+
+            if (e.Control && e.KeyCode == Keys.X)
+            {
+                e.SuppressKeyPress = true;
+
+                int lineIndex = rtb.GetLineFromCharIndex(rtb.SelectionStart);
+                int lineStart = rtb.GetFirstCharIndexFromLine(lineIndex);
+                string textOfLine = rtb.Lines[lineIndex];
+
+                bool isLastLine = lineIndex == rtb.Lines.Length - 1;
+                int nextLineStart = isLastLine
+                    ? lineStart + textOfLine.Length
+                    : rtb.GetFirstCharIndexFromLine(lineIndex + 1);
+
+                int selLength = nextLineStart - lineStart;
+
+                rtb.SelectionStart = lineStart;
+                rtb.SelectionLength = selLength;
+                Clipboard.SetText('\n' + rtb.SelectedText);
+
+                rtb.SelectedText = "";
+
+                int prevLine = Math.Max(0, lineIndex - 1);
+                int prevStart = rtb.GetFirstCharIndexFromLine(prevLine);
+                rtb.SelectionStart = prevStart + rtb.Lines[prevLine].Length;
+            }
+        }
+
+        private void GroupBox_Script_Resize(object sender, EventArgs e)
+        {
+            UpdateFilePathRender();
+        }
+
+        private void UpdateFilePathRender()
+        {
+            GroupBox_Script.Text = Utils.TruncatePath(_filePath, GroupBox_Script.Font, GroupBox_Script.Width - 12);
+            textBox1.SelectionStart = 0; 
+            textBox1.ScrollToCaret();
+            textBox1.SelectionStart = textBox1.Text.Length;
+            textBox1.ScrollToCaret();
+        }
     }
 }

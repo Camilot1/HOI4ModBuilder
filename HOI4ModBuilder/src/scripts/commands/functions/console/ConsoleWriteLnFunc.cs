@@ -33,7 +33,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.console
                     (o) => o is IScriptObject
                 );
 
-                ScriptsForm.instance?.PrintToConsole(ScriptParser.FormatToString(value) + "\n");
+                ScriptsForm.Instance?.PrintToConsole(ScriptParser.FormatToString(value) + "\n");
             };
         }
     }
