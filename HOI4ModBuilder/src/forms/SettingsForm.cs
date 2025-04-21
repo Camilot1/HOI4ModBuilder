@@ -270,29 +270,26 @@ namespace HOI4ModBuilder.src.forms
                 }
 
                 settings.gameDirectory = TextBox_GameDirectory.Text;
-                if (settings.gameDirectory[settings.gameDirectory.Length - 1] != '\\')
-                {
+                if (PathCheck(settings.gameDirectory))
                     settings.gameDirectory += '\\';
-                }
 
                 settings.gameTempDirectory = TextBox_GameTempDirectory.Text;
-                if (settings.gameTempDirectory[settings.gameTempDirectory.Length - 1] != '\\')
-                {
+                if (PathCheck(settings.gameTempDirectory))
                     settings.gameTempDirectory += '\\';
-                }
 
                 settings.modDirectory = TextBox_ModDirectory.Text;
-                if (settings.modDirectory[settings.modDirectory.Length - 1] != '\\')
-                {
+                if (PathCheck(settings.modDirectory))
                     settings.modDirectory += '\\';
-                }
 
                 settings.actionHistorySize = int.Parse(TextBox_ActionHistorySize.Text);
 
                 double textureOpacity = Utils.ParseFloat(TextBox_Textures_Opacity.Text) / 100d;
-                if (textureOpacity < 0) settings.textureOpacity = 0;
-                else if (textureOpacity > 1) settings.textureOpacity = 255;
-                else settings.textureOpacity = (byte)Math.Round(textureOpacity * 255);
+                if (textureOpacity < 0)
+                    settings.textureOpacity = 0;
+                else if (textureOpacity > 1)
+                    settings.textureOpacity = 255;
+                else
+                    settings.textureOpacity = (byte)Math.Round(textureOpacity * 255);
 
                 settings.MAP_VIEWPORT_HEIGHT = Utils.ParseFloat(TextBox_MAP_VIEWPORT_HEIGHT.Text);
                 settings.maxAdditionalTextureSize = int.Parse(ComboBox_MaxAdditionalTextureSize.Text);
@@ -346,6 +343,14 @@ namespace HOI4ModBuilder.src.forms
                     LoadData();
 
             });
+
+            bool PathCheck(string path)
+            {
+                if (path == null || path.Length == 0)
+                    return false;
+
+                return path[path.Length - 1] != '\\';
+            }
         }
 
         private void ComboBox_UsingSettingsType_SelectedIndexChanged(object sender, EventArgs e)
