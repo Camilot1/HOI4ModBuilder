@@ -60,9 +60,9 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
             index++;
             int innerIndent = indent + 1;
             var innerVarsScope = new VarsScope(varsScope, EnumVarsScopeType.BRANCH);
-            var commands = ScriptParser.Parse(lines, ref index, indent + 1, innerVarsScope);
+            var commands = ScriptParser.Parse(lines, ref index, innerIndent, innerVarsScope);
 
-            if (index < lines.Length) //TODO Пофиксить ELSE случай
+            if (index < lines.Length)
             {
                 var line = lines[index];
                 var chainArgs = ScriptParser.GetStringArgs(lineIndex, line);
@@ -71,12 +71,13 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
                     if (chainArgs[0] == _else_if_keyword || chainArgs[0] == _else_keyword)
                     {
                         _next = new BranchDeclarator() { _prev = this };
-                        _next.Parse(lines, ref index, innerIndent, varsScope, chainArgs);
+                        _next.Parse(lines, ref index, indent, varsScope, chainArgs);
                     }
                 }
             }
 
-            index--;
+            if (args[0] == _if_keyword)
+                index--;
 
             _varsScope = innerVarsScope;
             _action = delegate ()

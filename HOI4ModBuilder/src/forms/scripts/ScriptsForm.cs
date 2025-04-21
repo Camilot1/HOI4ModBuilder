@@ -83,6 +83,7 @@ namespace HOI4ModBuilder.src.forms.scripts
         {
             Logger.TryOrCatch(() =>
             {
+                RichTextBox_Console.Clear();
                 var executeTask = new Task(() =>
                 {
                     Logger.TryOrCatch(() =>
