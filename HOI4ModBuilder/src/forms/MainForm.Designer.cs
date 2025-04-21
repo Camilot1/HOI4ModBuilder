@@ -34,14 +34,16 @@
             this.TabPage_Map = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.FlowLayoutPanel_ToolBar = new System.Windows.Forms.FlowLayoutPanel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.GroupBox_Main_Layer = new System.Windows.Forms.GroupBox();
             this.СomboBox_MapMainLayer = new System.Windows.Forms.ComboBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.GroupBox_Edit_Layer = new System.Windows.Forms.GroupBox();
             this.ComboBox_EditLayer = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.GroupBox_Tool = new System.Windows.Forms.GroupBox();
             this.ComboBox_Tool = new System.Windows.Forms.ComboBox();
             this.GroupBox_Tool_Parameter = new System.Windows.Forms.GroupBox();
             this.ComboBox_Tool_Parameter = new System.Windows.Forms.ComboBox();
+            this.GroupBox_Tool_Parameter_Value = new System.Windows.Forms.GroupBox();
+            this.ComboBox_Tool_Parameter_Value = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.Panel_SecondColor = new System.Windows.Forms.Panel();
             this.Panel_FirstColor = new System.Windows.Forms.Panel();
@@ -225,10 +227,11 @@
             this.TabPage_Map.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.FlowLayoutPanel_ToolBar.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.GroupBox_Main_Layer.SuspendLayout();
+            this.GroupBox_Edit_Layer.SuspendLayout();
+            this.GroupBox_Tool.SuspendLayout();
             this.GroupBox_Tool_Parameter.SuspendLayout();
+            this.GroupBox_Tool_Parameter_Value.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.GroupBox_GenerateColor.SuspendLayout();
             this.GroupBox_Palette.SuspendLayout();
@@ -276,22 +279,23 @@
             // 
             resources.ApplyResources(this.FlowLayoutPanel_ToolBar, "FlowLayoutPanel_ToolBar");
             this.tableLayoutPanel1.SetColumnSpan(this.FlowLayoutPanel_ToolBar, 2);
-            this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox1);
-            this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox6);
-            this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox2);
+            this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Main_Layer);
+            this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Edit_Layer);
+            this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Tool);
             this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Tool_Parameter);
+            this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Tool_Parameter_Value);
             this.FlowLayoutPanel_ToolBar.Controls.Add(this.groupBox3);
             this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_GenerateColor);
             this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Palette);
             this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Progress);
             this.FlowLayoutPanel_ToolBar.Name = "FlowLayoutPanel_ToolBar";
             // 
-            // groupBox1
+            // GroupBox_Main_Layer
             // 
-            this.groupBox1.Controls.Add(this.СomboBox_MapMainLayer);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
+            resources.ApplyResources(this.GroupBox_Main_Layer, "GroupBox_Main_Layer");
+            this.GroupBox_Main_Layer.Controls.Add(this.СomboBox_MapMainLayer);
+            this.GroupBox_Main_Layer.Name = "GroupBox_Main_Layer";
+            this.GroupBox_Main_Layer.TabStop = false;
             // 
             // СomboBox_MapMainLayer
             // 
@@ -301,12 +305,12 @@
             this.СomboBox_MapMainLayer.Name = "СomboBox_MapMainLayer";
             this.СomboBox_MapMainLayer.SelectedIndexChanged += new System.EventHandler(this.СomboBox_MapMainLayer_SelectedIndexChanged);
             // 
-            // groupBox6
+            // GroupBox_Edit_Layer
             // 
-            this.groupBox6.Controls.Add(this.ComboBox_EditLayer);
-            resources.ApplyResources(this.groupBox6, "groupBox6");
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.TabStop = false;
+            resources.ApplyResources(this.GroupBox_Edit_Layer, "GroupBox_Edit_Layer");
+            this.GroupBox_Edit_Layer.Controls.Add(this.ComboBox_EditLayer);
+            this.GroupBox_Edit_Layer.Name = "GroupBox_Edit_Layer";
+            this.GroupBox_Edit_Layer.TabStop = false;
             // 
             // ComboBox_EditLayer
             // 
@@ -316,12 +320,12 @@
             this.ComboBox_EditLayer.Name = "ComboBox_EditLayer";
             this.ComboBox_EditLayer.SelectedIndexChanged += new System.EventHandler(this.ComboBox_EditLayer_SelectedIndexChanged);
             // 
-            // groupBox2
+            // GroupBox_Tool
             // 
-            this.groupBox2.Controls.Add(this.ComboBox_Tool);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.TabStop = false;
+            resources.ApplyResources(this.GroupBox_Tool, "GroupBox_Tool");
+            this.GroupBox_Tool.Controls.Add(this.ComboBox_Tool);
+            this.GroupBox_Tool.Name = "GroupBox_Tool";
+            this.GroupBox_Tool.TabStop = false;
             // 
             // ComboBox_Tool
             // 
@@ -333,8 +337,8 @@
             // 
             // GroupBox_Tool_Parameter
             // 
-            this.GroupBox_Tool_Parameter.Controls.Add(this.ComboBox_Tool_Parameter);
             resources.ApplyResources(this.GroupBox_Tool_Parameter, "GroupBox_Tool_Parameter");
+            this.GroupBox_Tool_Parameter.Controls.Add(this.ComboBox_Tool_Parameter);
             this.GroupBox_Tool_Parameter.Name = "GroupBox_Tool_Parameter";
             this.GroupBox_Tool_Parameter.TabStop = false;
             // 
@@ -345,6 +349,21 @@
             resources.ApplyResources(this.ComboBox_Tool_Parameter, "ComboBox_Tool_Parameter");
             this.ComboBox_Tool_Parameter.Name = "ComboBox_Tool_Parameter";
             this.ComboBox_Tool_Parameter.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Tool_Parameter_SelectedIndexChanged);
+            // 
+            // GroupBox_Tool_Parameter_Value
+            // 
+            resources.ApplyResources(this.GroupBox_Tool_Parameter_Value, "GroupBox_Tool_Parameter_Value");
+            this.GroupBox_Tool_Parameter_Value.Controls.Add(this.ComboBox_Tool_Parameter_Value);
+            this.GroupBox_Tool_Parameter_Value.Name = "GroupBox_Tool_Parameter_Value";
+            this.GroupBox_Tool_Parameter_Value.TabStop = false;
+            // 
+            // ComboBox_Tool_Parameter_Value
+            // 
+            this.ComboBox_Tool_Parameter_Value.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBox_Tool_Parameter_Value.FormattingEnabled = true;
+            resources.ApplyResources(this.ComboBox_Tool_Parameter_Value, "ComboBox_Tool_Parameter_Value");
+            this.ComboBox_Tool_Parameter_Value.Name = "ComboBox_Tool_Parameter_Value";
+            this.ComboBox_Tool_Parameter_Value.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Tool_Parameter_Value_SelectedIndexChanged);
             // 
             // groupBox3
             // 
@@ -1629,10 +1648,11 @@
             this.tableLayoutPanel1.PerformLayout();
             this.FlowLayoutPanel_ToolBar.ResumeLayout(false);
             this.FlowLayoutPanel_ToolBar.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
+            this.GroupBox_Main_Layer.ResumeLayout(false);
+            this.GroupBox_Edit_Layer.ResumeLayout(false);
+            this.GroupBox_Tool.ResumeLayout(false);
             this.GroupBox_Tool_Parameter.ResumeLayout(false);
+            this.GroupBox_Tool_Parameter_Value.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.GroupBox_GenerateColor.ResumeLayout(false);
             this.GroupBox_Palette.ResumeLayout(false);
@@ -1669,15 +1689,15 @@
         private System.Windows.Forms.Button Button_TextureAdd;
         private System.Windows.Forms.ListBox ListBox_Textures;
         private System.Windows.Forms.ComboBox ComboBox_Tool;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox GroupBox_Tool;
+        private System.Windows.Forms.GroupBox GroupBox_Main_Layer;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button Button_TexturesLoad;
         private System.Windows.Forms.Button Button_TexturesSave;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel_ToolBar;
-        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.GroupBox GroupBox_Edit_Layer;
         private System.Windows.Forms.ComboBox ComboBox_EditLayer;
         private System.Windows.Forms.GroupBox groupBox3;
         public System.Windows.Forms.Panel Panel_SecondColor;
@@ -1850,6 +1870,8 @@
         private System.Windows.Forms.Button Button_OpenSearchWarningsSettings;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_GitHub;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Telegram;
+        private System.Windows.Forms.GroupBox GroupBox_Tool_Parameter_Value;
+        public System.Windows.Forms.ComboBox ComboBox_Tool_Parameter_Value;
     }
 }
 

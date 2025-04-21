@@ -131,6 +131,12 @@
   <data name="FlowLayoutPanel_ToolBar.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
   </data>
+  <data name="GroupBox_Main_Layer.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="GroupBox_Main_Layer.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="СomboBox_MapMainLayer.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 15</value>
@@ -148,40 +154,52 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;СomboBox_MapMainLayer.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>GroupBox_Main_Layer</value>
   </data>
   <data name="&gt;&gt;СomboBox_MapMainLayer.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="GroupBox_Main_Layer.Location" type="System.Drawing.Point, System.Drawing">
     <value>2, 0</value>
   </data>
-  <data name="groupBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="GroupBox_Main_Layer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
-  <data name="groupBox1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="GroupBox_Main_Layer.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 37</value>
+  </data>
+  <data name="GroupBox_Main_Layer.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 37</value>
+  </data>
+  <data name="GroupBox_Main_Layer.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 37</value>
+  <data name="GroupBox_Main_Layer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 37</value>
   </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="GroupBox_Main_Layer.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
+  <data name="GroupBox_Main_Layer.Text" xml:space="preserve">
     <value>Основной слой</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
+  <data name="&gt;&gt;GroupBox_Main_Layer.Name" xml:space="preserve">
+    <value>GroupBox_Main_Layer</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;GroupBox_Main_Layer.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;GroupBox_Main_Layer.Parent" xml:space="preserve">
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;GroupBox_Main_Layer.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="GroupBox_Edit_Layer.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="GroupBox_Edit_Layer.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
   </data>
   <data name="ComboBox_EditLayer.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 15</value>
@@ -199,40 +217,52 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ComboBox_EditLayer.Parent" xml:space="preserve">
-    <value>groupBox6</value>
+    <value>GroupBox_Edit_Layer</value>
   </data>
   <data name="&gt;&gt;ComboBox_EditLayer.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="groupBox6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>146, 0</value>
+  <data name="GroupBox_Edit_Layer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>149, 0</value>
   </data>
-  <data name="groupBox6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="GroupBox_Edit_Layer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
-  <data name="groupBox6.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="GroupBox_Edit_Layer.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 37</value>
+  </data>
+  <data name="GroupBox_Edit_Layer.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 37</value>
+  </data>
+  <data name="GroupBox_Edit_Layer.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="groupBox6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 37</value>
+  <data name="GroupBox_Edit_Layer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 37</value>
   </data>
-  <data name="groupBox6.TabIndex" type="System.Int32, mscorlib">
+  <data name="GroupBox_Edit_Layer.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
   </data>
-  <data name="groupBox6.Text" xml:space="preserve">
+  <data name="GroupBox_Edit_Layer.Text" xml:space="preserve">
     <value>Рабочий слой</value>
   </data>
-  <data name="&gt;&gt;groupBox6.Name" xml:space="preserve">
-    <value>groupBox6</value>
+  <data name="&gt;&gt;GroupBox_Edit_Layer.Name" xml:space="preserve">
+    <value>GroupBox_Edit_Layer</value>
   </data>
-  <data name="&gt;&gt;groupBox6.Type" xml:space="preserve">
+  <data name="&gt;&gt;GroupBox_Edit_Layer.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox6.Parent" xml:space="preserve">
+  <data name="&gt;&gt;GroupBox_Edit_Layer.Parent" xml:space="preserve">
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
-  <data name="&gt;&gt;groupBox6.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;GroupBox_Edit_Layer.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="GroupBox_Tool.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="GroupBox_Tool.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
   </data>
   <data name="ComboBox_Tool.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 15</value>
@@ -250,46 +280,58 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ComboBox_Tool.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>GroupBox_Tool</value>
   </data>
   <data name="&gt;&gt;ComboBox_Tool.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>254, 0</value>
+  <data name="GroupBox_Tool.Location" type="System.Drawing.Point, System.Drawing">
+    <value>260, 0</value>
   </data>
-  <data name="groupBox2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="GroupBox_Tool.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
-  <data name="groupBox2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="GroupBox_Tool.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 37</value>
+  </data>
+  <data name="GroupBox_Tool.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 37</value>
+  </data>
+  <data name="GroupBox_Tool.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 37</value>
+  <data name="GroupBox_Tool.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 37</value>
   </data>
-  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+  <data name="GroupBox_Tool.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
+  <data name="GroupBox_Tool.Text" xml:space="preserve">
     <value>Инструмент</value>
   </data>
-  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
-    <value>groupBox2</value>
+  <data name="&gt;&gt;GroupBox_Tool.Name" xml:space="preserve">
+    <value>GroupBox_Tool</value>
   </data>
-  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+  <data name="&gt;&gt;GroupBox_Tool.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;GroupBox_Tool.Parent" xml:space="preserve">
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
-  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;GroupBox_Tool.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
   </data>
   <data name="ComboBox_Tool_Parameter.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 15</value>
   </data>
   <data name="ComboBox_Tool_Parameter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 21</value>
+    <value>80, 21</value>
   </data>
   <data name="ComboBox_Tool_Parameter.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -307,22 +349,31 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Tool_Parameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>378, 0</value>
+    <value>387, 0</value>
   </data>
   <data name="GroupBox_Tool_Parameter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 37</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 37</value>
   </data>
   <data name="GroupBox_Tool_Parameter.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="GroupBox_Tool_Parameter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 37</value>
+    <value>83, 37</value>
   </data>
   <data name="GroupBox_Tool_Parameter.TabIndex" type="System.Int32, mscorlib">
     <value>29</value>
   </data>
   <data name="GroupBox_Tool_Parameter.Text" xml:space="preserve">
     <value>Параметр</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;GroupBox_Tool_Parameter.Name" xml:space="preserve">
     <value>GroupBox_Tool_Parameter</value>
@@ -335,6 +386,72 @@
   </data>
   <data name="&gt;&gt;GroupBox_Tool_Parameter.ZOrder" xml:space="preserve">
     <value>3</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter_Value.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter_Value.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="ComboBox_Tool_Parameter_Value.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 15</value>
+  </data>
+  <data name="ComboBox_Tool_Parameter_Value.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="ComboBox_Tool_Parameter_Value.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_Tool_Parameter_Value.Name" xml:space="preserve">
+    <value>ComboBox_Tool_Parameter_Value</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_Tool_Parameter_Value.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_Tool_Parameter_Value.Parent" xml:space="preserve">
+    <value>GroupBox_Tool_Parameter_Value</value>
+  </data>
+  <data name="&gt;&gt;ComboBox_Tool_Parameter_Value.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter_Value.Location" type="System.Drawing.Point, System.Drawing">
+    <value>474, 0</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter_Value.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter_Value.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 37</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter_Value.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 37</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter_Value.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter_Value.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 37</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter_Value.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter_Value.Text" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter_Value.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;GroupBox_Tool_Parameter_Value.Name" xml:space="preserve">
+    <value>GroupBox_Tool_Parameter_Value</value>
+  </data>
+  <data name="&gt;&gt;GroupBox_Tool_Parameter_Value.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox_Tool_Parameter_Value.Parent" xml:space="preserve">
+    <value>FlowLayoutPanel_ToolBar</value>
+  </data>
+  <data name="&gt;&gt;GroupBox_Tool_Parameter_Value.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="Panel_SecondColor.Location" type="System.Drawing.Point, System.Drawing">
     <value>31, 14</value>
@@ -379,7 +496,7 @@
     <value>1</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>522, 0</value>
+    <value>561, 0</value>
   </data>
   <data name="groupBox3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -406,7 +523,7 @@
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="Button_GenerateColor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -469,7 +586,7 @@
     <value>1</value>
   </data>
   <data name="GroupBox_GenerateColor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>582, 0</value>
+    <value>621, 0</value>
   </data>
   <data name="GroupBox_GenerateColor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -496,7 +613,7 @@
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
   <data name="&gt;&gt;GroupBox_GenerateColor.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="GroupBox_Palette.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -544,7 +661,7 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Palette.Location" type="System.Drawing.Point, System.Drawing">
-    <value>713, 0</value>
+    <value>752, 0</value>
   </data>
   <data name="GroupBox_Palette.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -577,7 +694,7 @@
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
   <data name="&gt;&gt;GroupBox_Palette.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="GroupBox_Progress.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -610,7 +727,7 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Progress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>837, 0</value>
+    <value>876, 0</value>
   </data>
   <data name="GroupBox_Progress.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -634,7 +751,7 @@
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
   <data name="&gt;&gt;GroupBox_Progress.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="FlowLayoutPanel_ToolBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
