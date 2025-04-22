@@ -2,13 +2,12 @@
 
 <!-- NAV-START -->
 Navigation:\
-← [Documentation](../Documentation.md)\
 → [inner](inner/inner.md)\
-→ [inner2](inner2/inner2.md)
+→ [test](test/test.md)
 <!-- NAV-END -->
 
 <!-- OTHER-LANGS-START -->
-Other languages: [RU](тест.md)
+Other languages: [RU](Документация.md)
 <!-- OTHER-LANGS-END -->
 
-test
+Welcome to the HOI4ModBuilder wiki!
