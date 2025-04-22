@@ -1,7 +1,8 @@
 <!-- META lang=en -->
 
 <!-- NAV-START -->
-→ [inner](inner/inner.md)
+Navigation:\
+→ [inner](inner/inner.md)\
 → [inner2](inner2/inner2.md)
 <!-- NAV-END -->
 
