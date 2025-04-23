@@ -117,7 +117,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             redo = () =>
             {
                 TextureManager.rivers.SetColor(x, y, newColor);
-                byte[] data = { (byte)newColor, (byte)(newColor >> 8), (byte)(newColor >> 16), (byte)(newColor >> 24) }; //BGRA
+                byte[] data = { (byte)newColor, (byte)(newColor >> 8), (byte)(newColor >> 16), 0 }; //BGRA
                 TextureManager.rivers.texture.Update(TextureManager._32bppArgb, x, y, 1, 1, data);
             };
             undo = () =>
