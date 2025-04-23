@@ -27,6 +27,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
+            if (_isInDialog[0])
+                return;
+
             int prevColor = 0, newColor = 0;
             if (!pos.InboundsPositiveBox(MapManager.MapSize))
                 return;
@@ -50,6 +53,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
                     if (!ProvinceManager.TryGetProvince(newColor, out Province province))
                     {
+                        _isInDialog[0] = true;
                         Task.Run(() =>
                         {
                             var title = GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION);
@@ -60,6 +64,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
                             if (MessageBox.Show(text, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                                 ProvinceManager.CreateNewProvince(newColor);
+                            _isInDialog[0] = false;
                         }); ;
                         return;
                     }

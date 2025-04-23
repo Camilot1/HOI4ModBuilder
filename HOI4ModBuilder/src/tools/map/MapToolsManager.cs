@@ -69,6 +69,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public EnumTool EnumToolType { get; private set; }
         public HotKey HotKey { get; private set; }
         private readonly KeyEventHandler _hotKeyEvent;
+        protected static bool[] _isInDialog = new bool[1];
 
         public MapTool(Dictionary<EnumTool, MapTool> mapTools, EnumTool enumTool, HotKey hotKey, Action<KeyEventArgs> hotKeyEvent)
         {

@@ -15,7 +15,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
     class MapToolBrush : MapTool
     {
         private static readonly EnumTool enumTool = EnumTool.BRUSH;
-        private static bool[] _isInDialog = new bool[1];
 
         public MapToolBrush(Dictionary<EnumTool, MapTool> mapTools)
             : base(
