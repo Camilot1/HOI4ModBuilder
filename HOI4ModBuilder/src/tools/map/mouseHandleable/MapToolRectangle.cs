@@ -13,7 +13,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
         public MapToolRectangle(Dictionary<EnumTool, MapTool> mapTools)
             : base(
-                  mapTools, enumTool, new HotKey { key = Keys.S },
+                  mapTools, enumTool, new HotKey { },
                   (e) =>
                   {
                       EnumTool currentTool = MainForm.Instance.SelectedTool;
