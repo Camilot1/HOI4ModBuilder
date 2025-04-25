@@ -16,7 +16,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
         public MapToolProvinceRegion(Dictionary<EnumTool, MapTool> mapTools)
             : base(
-                  mapTools, enumTool, new HotKey { key = Keys.R },
+                  mapTools, enumTool, new HotKey { shift = true, key = Keys.R },
                   (e) => MainForm.Instance.SetSelectedTool(enumTool)
               )
         { }

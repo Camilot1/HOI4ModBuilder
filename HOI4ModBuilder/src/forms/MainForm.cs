@@ -1582,7 +1582,7 @@ namespace HOI4ModBuilder
                     comboBoxTextWidth = tempComboBoxTextWidth;
             }
 
-            comboBoxTextWidth += SystemInformation.VerticalScrollBarWidth;
+            comboBoxTextWidth += SystemInformation.VerticalScrollBarWidth + 15;
 
             if (comboBoxTextWidth < groupBoxTextWidth)
                 comboBoxTextWidth = groupBoxTextWidth;
