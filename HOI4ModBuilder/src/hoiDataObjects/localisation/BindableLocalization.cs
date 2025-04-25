@@ -37,10 +37,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.localisation
 
         public override IParseObject GetEmptyCopy() => new BindableLocalization();
 
-        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(new[] { "localization" }, "BindableLocalization")
+        private static readonly SavePattern SAVE_PATTERN = new SavePattern(new[] { "localization" }, "BindableLocalization")
             .Add(STATIC_ADAPTER.Keys)
             .Add(DYNAMIC_ADAPTER.Keys)
             .Load();
-        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
+        public override SavePattern GetSavePattern() => SAVE_PATTERN;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace HOI4ModBuilder.src.newParser.structs
 {
-    public struct SaveAdapterParameter
+    public struct SavePatternParameter
     {
         [JsonProperty("Name")]
         public string Name { get; set; }
@@ -15,7 +15,7 @@ namespace HOI4ModBuilder.src.newParser.structs
         [JsonProperty("AddEmptyLineBefore")]
         public bool AddEmptyLineBefore { get; set; }
 
-        public SaveAdapterParameter(string name, bool saveIfEmpty, bool isForceInline, bool isForceMultiline, bool addEmptyLineBefore)
+        public SavePatternParameter(string name, bool saveIfEmpty, bool isForceInline, bool isForceMultiline, bool addEmptyLineBefore)
         {
             Name = name;
             SaveIfEmpty = saveIfEmpty;

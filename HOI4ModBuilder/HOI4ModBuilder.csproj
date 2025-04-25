@@ -492,13 +492,13 @@
     <Compile Include="src\newParser\objects\GameFile.cs" />
     <Compile Include="src\newParser\objects\GameList.cs" />
     <Compile Include="src\newParser\objects\GameParameter.cs" />
-    <Compile Include="src\newParser\objects\SaveAdapter.cs" />
+    <Compile Include="src\newParser\objects\SavePattern.cs" />
     <Compile Include="src\newParser\objects\ScriptBlockParseObject.cs" />
     <Compile Include="src\newParser\ParserUtils.cs" />
     <Compile Include="src\newParser\structs\DynamicGameParameter.cs" />
     <Compile Include="src\newParser\structs\GameKeyObject.cs" />
     <Compile Include="src\newParser\structs\GameString.cs" />
-    <Compile Include="src\newParser\structs\SaveAdapterParameter.cs" />
+    <Compile Include="src\newParser\structs\SavePatternParameter.cs" />
     <Compile Include="src\newParser\test\TestGameFile.cs" />
     <Compile Include="src\newParser\test\TestObject.cs" />
     <Compile Include="src\newParser\interfaces\INeedToSave.cs" />

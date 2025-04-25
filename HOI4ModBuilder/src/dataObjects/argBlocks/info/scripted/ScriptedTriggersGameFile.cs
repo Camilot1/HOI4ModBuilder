@@ -23,7 +23,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks.info
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => DYNAMIC_ADAPTER;
         public override IParseObject GetEmptyCopy() => new ScriptedTriggersGameFile();
 
-        public override SaveAdapter GetSaveAdapter() => null;
+        public override SavePattern GetSavePattern() => null;
         public ScriptedTriggersGameFile() { }
         public ScriptedTriggersGameFile(FileInfo fileInfo) : base(fileInfo) { }
         public ScriptedTriggersGameFile(FileInfo fileInfo, bool allowsConstants) : base(fileInfo, allowsConstants) { }

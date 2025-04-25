@@ -183,17 +183,17 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
         }
 
-        public virtual void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public virtual void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
             if (_value is ISaveable saveable)
             {
-                saveable.Save(sb, outIndent, key, saveParameter);
+                saveable.Save(sb, outIndent, key, savePatternParameter);
                 return;
             }
             else if (_value == null)
                 return;
 
-            if (saveParameter.AddEmptyLineBefore)
+            if (savePatternParameter.AddEmptyLineBefore)
                 sb.Append(outIndent).Append(Constants.NEW_LINE);
 
             var comments = GetComments();
@@ -210,11 +210,11 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (comments != null && comments.Inline.Length > 0)
                 sb.Append(comments.Inline).Append(Constants.NEW_LINE);
-            else if (!saveParameter.IsForceInline)
+            else if (!savePatternParameter.IsForceInline)
                 sb.Append(Constants.NEW_LINE);
         }
 
-        public SaveAdapter GetSaveAdapter() => null;
+        public SavePattern GetSavePattern() => null;
 
         public virtual void Validate(LinkedLayer layer)
         {

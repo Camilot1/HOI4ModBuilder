@@ -6,9 +6,9 @@ using System.IO;
 
 namespace HOI4ModBuilder.src.newParser.objects
 {
-    public class SaveAdapter
+    public class SavePattern
     {
-        private static readonly Dictionary<string, SaveAdapter> _adapters = new Dictionary<string, SaveAdapter>();
+        private static readonly Dictionary<string, SavePattern> _adapters = new Dictionary<string, SavePattern>();
         public static void LoadAll()
         {
             foreach (var adapter in _adapters.Values)
@@ -18,40 +18,40 @@ namespace HOI4ModBuilder.src.newParser.objects
         private readonly string _fullPath;
         private readonly string _directoryPath;
         private readonly string _fileName;
-        private List<SaveAdapterParameter> _parameters;
-        private List<SaveAdapterParameter> _defaultParameters;
-        private List<SaveAdapterParameter> _customParameters;
-        public List<SaveAdapterParameter> Parameters
+        private List<SavePatternParameter> _parameters;
+        private List<SavePatternParameter> _defaultParameters;
+        private List<SavePatternParameter> _customParameters;
+        public List<SavePatternParameter> Parameters
             => _customParameters != null ?
                 _customParameters :
                 _defaultParameters != null ?
                     _defaultParameters :
                     _parameters;
 
-        public SaveAdapter(string directoryPath, string fileName)
+        public SavePattern(string directoryPath, string fileName)
         {
             _directoryPath = directoryPath;
             _fileName = fileName + ".json";
             _fullPath = Path.Combine(_directoryPath, _fileName);
 
-            _parameters = new List<SaveAdapterParameter>();
+            _parameters = new List<SavePatternParameter>();
 
             if (_adapters.TryGetValue(_fullPath, out var _))
-                throw new Exception("SaveAdapter with path " + _fullPath + " already registered");
+                throw new Exception("SavePattern with path " + _fullPath + " already registered");
 
             _adapters[_fullPath] = this;
         }
-        public SaveAdapter(string[] directoryPath, string fileName) : this(Path.Combine(directoryPath), fileName)
+        public SavePattern(string[] directoryPath, string fileName) : this(Path.Combine(directoryPath), fileName)
         { }
 
-        public SaveAdapter Load()
+        public SavePattern Load()
         {
-            Load(Path.Combine("data", "saveAdapters"), ref _defaultParameters);
-            Load(Path.Combine("data", "custom", "saveAdapters"), ref _customParameters);
+            Load(Path.Combine("data", "savePatterns"), ref _defaultParameters);
+            Load(Path.Combine("data", "custom", "savePatterns"), ref _customParameters);
             return this;
         }
 
-        private void Load(string pathPrefix, ref List<SaveAdapterParameter> list)
+        private void Load(string pathPrefix, ref List<SavePatternParameter> list)
         {
             string directoryPath = Path.Combine(pathPrefix, _directoryPath);
             string filePath = Path.Combine(directoryPath, _fileName);
@@ -60,9 +60,9 @@ namespace HOI4ModBuilder.src.newParser.objects
                 Directory.CreateDirectory(directoryPath);
 
             if (File.Exists(filePath))
-                list = JsonConvert.DeserializeObject<List<SaveAdapterParameter>>(File.ReadAllText(filePath));
+                list = JsonConvert.DeserializeObject<List<SavePatternParameter>>(File.ReadAllText(filePath));
             else
-                list = new List<SaveAdapterParameter>();
+                list = new List<SavePatternParameter>();
 
             var usedNames = new HashSet<string>();
             foreach (var parameter in list)
@@ -80,16 +80,16 @@ namespace HOI4ModBuilder.src.newParser.objects
             File.WriteAllText(filePath, JsonConvert.SerializeObject(list, Formatting.Indented));
         }
 
-        public SaveAdapter(string directoryPath, string fileName, string[] parameters) : this(directoryPath, fileName)
+        public SavePattern(string directoryPath, string fileName, string[] parameters) : this(directoryPath, fileName)
         {
             foreach (var parameter in parameters)
-                _parameters.Add(new SaveAdapterParameter(parameter, false, false, false, false));
+                _parameters.Add(new SavePatternParameter(parameter, false, false, false, false));
         }
 
-        public SaveAdapter Add(IEnumerable<string> parameters)
+        public SavePattern Add(IEnumerable<string> parameters)
         {
             foreach (var parameter in parameters)
-                _parameters.Add(new SaveAdapterParameter(parameter, false, false, false, false));
+                _parameters.Add(new SavePatternParameter(parameter, false, false, false, false));
             return this;
         }
     }

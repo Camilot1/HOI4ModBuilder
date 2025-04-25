@@ -65,11 +65,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         };
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => DYNAMIC_ADAPTER;
 
-        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(new[] { "history", "states" }, "StateHistory")
+        private static readonly SavePattern SAVE_PATTERN = new SavePattern(new[] { "history", "states" }, "StateHistory")
             .Add(STATIC_ADAPTER.Keys)
             .Add(DYNAMIC_ADAPTER.Keys)
             .Load();
-        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
+        public override SavePattern GetSavePattern() => SAVE_PATTERN;
 
         public bool WillHavePortInHistory(Province province)
         {

@@ -17,7 +17,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
         public override IParseObject GetEmptyCopy() => new VictoryPoint();
 
-        public override SaveAdapter GetSaveAdapter() => null;
+        public override SavePattern GetSavePattern() => null;
 
         public VictoryPoint() { }
         public VictoryPoint(ushort provinceId)
@@ -36,7 +36,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             this.value = ParserUtils.Parse<uint>(value);
         }
 
-        public override void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public override void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
             if (province == null || value == 0)
                 return;

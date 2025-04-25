@@ -23,7 +23,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks.info
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => DYNAMIC_ADAPTER;
         public override IParseObject GetEmptyCopy() => new DefinedModifiersGameFile();
 
-        public override SaveAdapter GetSaveAdapter() => null;
+        public override SavePattern GetSavePattern() => null;
         public DefinedModifiersGameFile() { }
         public DefinedModifiersGameFile(FileInfo fileInfo) : base(fileInfo) { }
         public DefinedModifiersGameFile(FileInfo fileInfo, bool allowsConstants) : base(fileInfo, allowsConstants) { }
@@ -50,7 +50,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks.info
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
 
         public override IParseObject GetEmptyCopy() => new DefinedModifier();
-        public override SaveAdapter GetSaveAdapter() => null;
+        public override SavePattern GetSavePattern() => null;
 
         public DefinedModifier() { }
         public DefinedModifier(string name)

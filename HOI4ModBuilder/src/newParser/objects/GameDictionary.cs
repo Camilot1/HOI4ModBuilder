@@ -171,29 +171,29 @@ namespace HOI4ModBuilder.src.newParser.objects
             );
         }
 
-        public override void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public override void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
             if (_dictionary.Count == 0)
             {
-                if (!saveParameter.SaveIfEmpty)
+                if (!savePatternParameter.SaveIfEmpty)
                     return;
 
-                if (saveParameter.AddEmptyLineBefore)
+                if (savePatternParameter.AddEmptyLineBefore)
                     sb.Append(outIndent).Append(Constants.NEW_LINE);
 
                 sb.Append(outIndent).Append(key).Append(" = {}").Append(Constants.NEW_LINE);
                 return;
             }
 
-            if (saveParameter.AddEmptyLineBefore)
+            if (savePatternParameter.AddEmptyLineBefore)
                 sb.Append(outIndent).Append(Constants.NEW_LINE);
 
-            EntrySave(sb, outIndent, key, saveParameter);
+            EntrySave(sb, outIndent, key, savePatternParameter);
 
             return;
         }
 
-        private void EntrySave(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        private void EntrySave(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
             string innerIndent = outIndent;
 
@@ -210,7 +210,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (comments.Inline.Length > 0)
                     sb.Append(comments.Inline).Append(' ');
 
-                if (!saveParameter.IsForceInline && _dictionary.Count > 1)
+                if (!savePatternParameter.IsForceInline && _dictionary.Count > 1)
                 {
                     sb.Append(Constants.NEW_LINE);
                     innerIndent = outIndent + Constants.INDENT;
@@ -224,12 +224,12 @@ namespace HOI4ModBuilder.src.newParser.objects
                 List<TKey> sortKeys = new List<TKey>(_dictionary.Keys);
                 sortKeys.Sort();
                 foreach (var sortedKey in sortKeys)
-                    SaveKeyValueEntry(sb, outIndent, ref innerIndent, sortedKey, _dictionary[sortedKey], saveParameter);
+                    SaveKeyValueEntry(sb, outIndent, ref innerIndent, sortedKey, _dictionary[sortedKey], savePatternParameter);
             }
             else
             {
                 foreach (var entry in _dictionary)
-                    SaveKeyValueEntry(sb, outIndent, ref innerIndent, entry.Key, entry.Value, saveParameter);
+                    SaveKeyValueEntry(sb, outIndent, ref innerIndent, entry.Key, entry.Value, savePatternParameter);
             }
 
             if (key != null)
@@ -241,7 +241,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
         }
 
-        private void SaveKeyValueEntry(StringBuilder sb, string outIndent, ref string innerIndent, TKey key, TValue value, SaveAdapterParameter saveParameter)
+        private void SaveKeyValueEntry(StringBuilder sb, string outIndent, ref string innerIndent, TKey key, TValue value, SavePatternParameter savePatternParameter)
         {
             object tempKey = key;
             if (_keySaveAdapter != null)
@@ -265,7 +265,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 var lastChar = sb[sb.Length - 1];
                 if (lastChar == ' ')
                     sb.Append(Constants.NEW_LINE);
-                saveable.Save(sb, outIndent, stringKey, saveParameter);
+                saveable.Save(sb, outIndent, stringKey, savePatternParameter);
             }
             else
             {
@@ -297,14 +297,14 @@ namespace HOI4ModBuilder.src.newParser.objects
                     sb.Append(comments.Inline).Append(' ').Append(Constants.NEW_LINE);
                     innerIndent = outIndent + Constants.INDENT;
                 }
-                else if (!saveParameter.IsForceInline && _dictionary.Count > 1)
+                else if (!savePatternParameter.IsForceInline && _dictionary.Count > 1)
                 {
                     sb.Append(Constants.NEW_LINE);
                 }
             }
         }
 
-        public override SaveAdapter GetSaveAdapter() => null;
+        public override SavePattern GetSavePattern() => null;
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => null;
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => null;
 

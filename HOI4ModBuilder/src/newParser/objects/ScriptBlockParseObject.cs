@@ -365,15 +365,15 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public override IParseObject GetEmptyCopy() => new ScriptBlockParseObject();
 
-        public override SaveAdapter GetSaveAdapter() => null;
+        public override SavePattern GetSavePattern() => null;
 
-        public override void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public override void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
             var comments = GetComments();
 
             if (_value is ISaveable saveable)
             {
-                SaveAdapterParameter innerSaveParameter = default;
+                SavePatternParameter innerSaveParameter = default;
                 if (_value is ISizable sizable && sizable.GetSize() <= 1)
                     innerSaveParameter.IsForceInline = true;
 
@@ -386,7 +386,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (comments == null)
                 comments = new GameComments();
-            
+
             comments?.SavePrevComments(sb, outIndent);
 
             if (sb.Length > 0)
