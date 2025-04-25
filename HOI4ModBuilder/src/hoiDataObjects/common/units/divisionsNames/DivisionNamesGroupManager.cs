@@ -14,7 +14,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames
 
         public static void Load(Settings settings)
         {
-            if (!SettingsManager.Settings.isWipEnabled(EnumWips.DIVISIONS_NAMES_GROUPS))
+            if (!SettingsManager.Settings.IsWipEnabled(EnumWips.DIVISIONS_NAMES_GROUPS))
                 return;
 
             _divisionNamesGroups = new Dictionary<string, DivisionNamesGroup>();
@@ -30,7 +30,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames
         }
         public static void Save(Settings settings)
         {
-            if (!SettingsManager.Settings.isWipEnabled(EnumWips.DIVISIONS_NAMES_GROUPS))
+            if (!SettingsManager.Settings.IsWipEnabled(EnumWips.DIVISIONS_NAMES_GROUPS))
                 return;
 
             foreach (var file in _divisionNamesGroupFiles.Values)

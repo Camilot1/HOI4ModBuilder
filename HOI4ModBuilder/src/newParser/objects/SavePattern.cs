@@ -8,21 +8,22 @@ namespace HOI4ModBuilder.src.newParser.objects
 {
     public class SavePattern
     {
-        private static readonly Dictionary<string, SavePattern> _adapters = new Dictionary<string, SavePattern>();
+        private static readonly Dictionary<string, SavePattern> _savePatterns = new Dictionary<string, SavePattern>();
         public static void LoadAll()
         {
-            foreach (var adapter in _adapters.Values)
-                adapter.Load();
+            foreach (var savePattern in _savePatterns.Values)
+                savePattern.Load();
         }
 
         private readonly string _fullPath;
         private readonly string _directoryPath;
         private readonly string _fileName;
+
         private List<SavePatternParameter> _parameters;
         private List<SavePatternParameter> _defaultParameters;
         private List<SavePatternParameter> _customParameters;
         public List<SavePatternParameter> Parameters
-            => _customParameters != null ?
+            => _customParameters != null && SettingsManager.Settings.IsUseCustomSavePatterns() ?
                 _customParameters :
                 _defaultParameters != null ?
                     _defaultParameters :
@@ -36,22 +37,24 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             _parameters = new List<SavePatternParameter>();
 
-            if (_adapters.TryGetValue(_fullPath, out var _))
+            if (_savePatterns.TryGetValue(_fullPath, out var _))
                 throw new Exception("SavePattern with path " + _fullPath + " already registered");
 
-            _adapters[_fullPath] = this;
+            _savePatterns[_fullPath] = this;
         }
         public SavePattern(string[] directoryPath, string fileName) : this(Path.Combine(directoryPath), fileName)
         { }
 
         public SavePattern Load()
         {
-            Load(Path.Combine("data", "savePatterns"), ref _defaultParameters);
-            Load(Path.Combine("data", "custom", "savePatterns"), ref _customParameters);
+            _defaultParameters = null;
+            _customParameters = null;
+            Load(false, Path.Combine("data", "savePatterns"), ref _defaultParameters);
+            Load(true, Path.Combine("data", "custom", "savePatterns"), ref _customParameters);
             return this;
         }
 
-        private void Load(string pathPrefix, ref List<SavePatternParameter> list)
+        private void Load(bool isCustom, string pathPrefix, ref List<SavePatternParameter> list)
         {
             string directoryPath = Path.Combine(pathPrefix, _directoryPath);
             string filePath = Path.Combine(directoryPath, _fileName);
@@ -61,8 +64,10 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (File.Exists(filePath))
                 list = JsonConvert.DeserializeObject<List<SavePatternParameter>>(File.ReadAllText(filePath));
-            else
+            else if (!isCustom)
                 list = new List<SavePatternParameter>();
+            else
+                return;
 
             var usedNames = new HashSet<string>();
             foreach (var parameter in list)
@@ -77,7 +82,8 @@ namespace HOI4ModBuilder.src.newParser.objects
                 list.Add(parameter);
             }
 
-            File.WriteAllText(filePath, JsonConvert.SerializeObject(list, Formatting.Indented));
+            if (!isCustom || isCustom && SettingsManager.Settings.IsUseCustomSavePatterns())
+                File.WriteAllText(filePath, JsonConvert.SerializeObject(list, Formatting.Indented));
         }
 
         public SavePattern(string directoryPath, string fileName, string[] parameters) : this(directoryPath, fileName)

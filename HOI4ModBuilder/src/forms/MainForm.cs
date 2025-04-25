@@ -37,6 +37,7 @@ using HOI4ModBuilder.src.forms.scripts;
 using HOI4ModBuilder.src.scripts;
 using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.tools.brushes;
+using HOI4ModBuilder.src.newParser.objects;
 
 namespace HOI4ModBuilder
 {
@@ -187,15 +188,18 @@ namespace HOI4ModBuilder
 
                 SubscribeGlobalKeyEvent(Keys.S, (sender, e) =>
                 {
-                    if (e.Modifiers == Keys.Control) SaveAll();
+                    if (e.Modifiers == Keys.Control)
+                        SaveAll();
                 });
                 SubscribeGlobalKeyEvent(Keys.L, (sender, e) =>
                 {
-                    if (e.Modifiers == Keys.Control) LoadAll();
+                    if (e.Modifiers == Keys.Control)
+                        LoadAll();
                 });
                 SubscribeGlobalKeyEvent(Keys.U, (sender, e) =>
                 {
-                    if (e.Modifiers == Keys.Control) UpdateAll();
+                    if (e.Modifiers == Keys.Control)
+                        UpdateAll();
                 });
             });
         }
@@ -459,6 +463,7 @@ namespace HOI4ModBuilder
         private void LoadAllData(Settings settings)
         {
             LocalModDataManager.Load(settings);
+            SavePattern.LoadAll();
 
             isMapMainLayerChangeEnabled = false;
 
@@ -1312,7 +1317,11 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_UpdateAll_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => UpdateAll());
         private void UpdateAll()
-            => Logger.TryOrLog(() => MapManager.UpdateMapInfo());
+            => Logger.TryOrLog(() =>
+            {
+                SavePattern.LoadAll();
+                MapManager.UpdateMapInfo();
+            });
 
         private void Button_GenerateColor_MouseDown(object sender, MouseEventArgs e)
         {

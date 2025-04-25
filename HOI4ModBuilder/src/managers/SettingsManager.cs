@@ -136,8 +136,11 @@ namespace HOI4ModBuilder.src
             else return true;
         }
 
-        public bool isWipEnabled(EnumWips enumWip)
+        public bool IsWipEnabled(EnumWips enumWip)
             => useModSettings ? currentModSettings.CheckWips(enumWip) : defaultModSettings.CheckWips(enumWip);
+
+        public bool IsUseCustomSavePatterns()
+            => useModSettings ? currentModSettings.useCustomSavePatterns : defaultModSettings.useCustomSavePatterns;
 
         public bool CheckNewWarningCodes()
         {
@@ -253,6 +256,7 @@ namespace HOI4ModBuilder.src
 
     public class ModSettings
     {
+        public bool useCustomSavePatterns = true;
         public bool exportRiversMapWithWaterPixels = true;
         public bool generateNormalMap = false;
 
