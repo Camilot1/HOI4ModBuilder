@@ -16,7 +16,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
         public MapToolBuildings(Dictionary<EnumTool, MapTool> mapTools)
             : base(
-                  mapTools, enumTool, new HotKey { },
+                  mapTools, enumTool, new HotKey { shift = true, key = Keys.B },
                   (e) => MainForm.Instance.SetSelectedTool(enumTool)
               )
         { }
