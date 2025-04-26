@@ -84,6 +84,8 @@
             this.CheckedListBox_SaveSettings_Current = new System.Windows.Forms.CheckedListBox();
             this.label11 = new System.Windows.Forms.Label();
             this.TextBox_NormalMapStrength_Current = new System.Windows.Forms.TextBox();
+            this.CheckBox_IgnoreUpdateVersion = new System.Windows.Forms.CheckBox();
+            this.TextBox_IgnoreUpdateVersion = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -475,10 +477,23 @@
             resources.ApplyResources(this.TextBox_NormalMapStrength_Current, "TextBox_NormalMapStrength_Current");
             this.TextBox_NormalMapStrength_Current.Name = "TextBox_NormalMapStrength_Current";
             // 
+            // CheckBox_IgnoreUpdateVersion
+            // 
+            resources.ApplyResources(this.CheckBox_IgnoreUpdateVersion, "CheckBox_IgnoreUpdateVersion");
+            this.CheckBox_IgnoreUpdateVersion.Name = "CheckBox_IgnoreUpdateVersion";
+            this.CheckBox_IgnoreUpdateVersion.UseVisualStyleBackColor = true;
+            // 
+            // TextBox_IgnoreUpdateVersion
+            // 
+            resources.ApplyResources(this.TextBox_IgnoreUpdateVersion, "TextBox_IgnoreUpdateVersion");
+            this.TextBox_IgnoreUpdateVersion.Name = "TextBox_IgnoreUpdateVersion";
+            // 
             // SettingsForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.TextBox_IgnoreUpdateVersion);
+            this.Controls.Add(this.CheckBox_IgnoreUpdateVersion);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.ComboBox_MaxAdditionalTextureSize);
@@ -575,5 +590,7 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.CheckBox CheckBox_UseCustomSavePatterns_Default;
         private System.Windows.Forms.CheckBox CheckBox_UseCustomSavePatterns_Current;
+        private System.Windows.Forms.CheckBox CheckBox_IgnoreUpdateVersion;
+        private System.Windows.Forms.TextBox TextBox_IgnoreUpdateVersion;
     }
 }

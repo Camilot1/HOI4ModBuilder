@@ -68,6 +68,9 @@ namespace HOI4ModBuilder.src.forms
             TextBox_MAP_VIEWPORT_HEIGHT.Text = "" + settings.MAP_VIEWPORT_HEIGHT;
             ComboBox_MaxAdditionalTextureSize.Text = "" + settings.maxAdditionalTextureSize;
 
+            TextBox_IgnoreUpdateVersion.Text = settings.ignoreUpdateCheckVersion;
+            CheckBox_IgnoreUpdateVersion.Checked = settings.ignoreUpdateChecks;
+
             if (settings.defaultModSettings != null)
             {
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Text = "" + settings.defaultModSettings.MAP_SCALE_PIXEL_TO_KM;
@@ -299,6 +302,9 @@ namespace HOI4ModBuilder.src.forms
                     settings.textureOpacity = 255;
                 else
                     settings.textureOpacity = (byte)Math.Round(textureOpacity * 255);
+
+                settings.ignoreUpdateCheckVersion = TextBox_IgnoreUpdateVersion.Text;
+                settings.ignoreUpdateChecks = CheckBox_IgnoreUpdateVersion.Checked;
 
                 settings.MAP_VIEWPORT_HEIGHT = Utils.ParseFloat(TextBox_MAP_VIEWPORT_HEIGHT.Text);
                 settings.maxAdditionalTextureSize = int.Parse(ComboBox_MaxAdditionalTextureSize.Text);

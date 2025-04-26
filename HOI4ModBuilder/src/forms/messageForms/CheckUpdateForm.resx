@@ -117,161 +117,147 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ComboBox_Language.Items" xml:space="preserve">
-    <value>Russian (ru)</value>
-  </data>
-  <data name="ComboBox_Language.Items1" xml:space="preserve">
-    <value>English (en)</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 13</value>
+  <data name="Label_Status.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 13</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Lang:</value>
+  <data name="RichTexBox_Description.Text" xml:space="preserve">
+    <value />
   </data>
-  <data name="Button_GameDirectory.Text" xml:space="preserve">
-    <value>Game Directory</value>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>409, 286</value>
   </data>
-  <data name="Button_GameTempDirectory.Text" xml:space="preserve">
-    <value>Directory in Documents</value>
+  <data name="&gt;&gt;Button_IgnoreRelease.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="Button_ModDirectory.Text" xml:space="preserve">
-    <value>Directory of Mod</value>
+  <data name="&gt;&gt;Button_GoToRelease.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="Button_Save.Text" xml:space="preserve">
-    <value>Save</value>
+  <data name="Button_Close.Text" xml:space="preserve">
+    <value>Закрыть окно</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 13</value>
+  <data name="RichTexBox_Description.Size" type="System.Drawing.Size, System.Drawing">
+    <value>387, 208</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>        Action History Length:</value>
+  <data name="&gt;&gt;Button_GoToRelease.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Additional Textures Opacity(%):</value>
+  <data name="&gt;&gt;Button_IgnoreRelease.Name" xml:space="preserve">
+    <value>Button_IgnoreRelease</value>
   </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>339, 13</value>
+  <data name="&gt;&gt;Label_Status.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>                                         Max resolution of additional texture segment:</value>
+  <data name="Button_Close.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 23</value>
   </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 13</value>
+  <data name="Button_Close.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 251</value>
   </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>World normal map strength:</value>
+  <data name="&gt;&gt;Button_IgnoreRelease.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CheckBox_UseCustomSavePatterns_Default.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 17</value>
-  </data>
-  <data name="CheckBox_UseCustomSavePatterns_Default.Text" xml:space="preserve">
-    <value>Use custom Save Patterns</value>
-  </data>
-  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 13</value>
-  </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>World normal map blur:</value>
-  </data>
-  <data name="CheckedListBox_SaveSettings_Default.Items" xml:space="preserve">
-    <value>Draw water pixel on rivers map</value>
-  </data>
-  <data name="CheckedListBox_SaveSettings_Default.Items1" xml:space="preserve">
-    <value>Generate world normal map</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Data Export Settings:</value>
-  </data>
-  <data name="Button_CreateModSettings.Text" xml:space="preserve">
-    <value>Create Mod Related Settings File</value>
-  </data>
-  <data name="ComboBox_UsingSettingsType.Items" xml:space="preserve">
-    <value>Basic Settings</value>
-  </data>
-  <data name="ComboBox_UsingSettingsType.Items1" xml:space="preserve">
-    <value>Mod Related Settings</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Active Settings File:</value>
-  </data>
-  <data name="CheckedListBox_Wips_Default.Items" xml:space="preserve">
-    <value>Sub Units (beta)</value>
-  </data>
-  <data name="CheckedListBox_Wips_Default.Items1" xml:space="preserve">
-    <value>Divisions Names Groups (beta)</value>
-  </data>
-  <data name="CheckedListBox_Wips_Default.Items2" xml:space="preserve">
-    <value>OOBs (beta)</value>
-  </data>
-  <data name="CheckedListBox_Wips_Default.Items3" xml:space="preserve">
-    <value>Equipments (alpha)</value>
-  </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>Features in Development (WIP):</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Parameters:</value>
-  </data>
-  <data name="TabPage_DefaultModSettings.Text" xml:space="preserve">
-    <value>Basic Settings</value>
-  </data>
-  <data name="CheckedListBox_Wips_Current.Items" xml:space="preserve">
-    <value>Sub Units (beta)</value>
-  </data>
-  <data name="CheckedListBox_Wips_Current.Items1" xml:space="preserve">
-    <value>Divisions Names Groups (beta)</value>
-  </data>
-  <data name="CheckedListBox_Wips_Current.Items2" xml:space="preserve">
-    <value>OOBs (beta)</value>
-  </data>
-  <data name="CheckedListBox_Wips_Current.Items3" xml:space="preserve">
-    <value>Equipments (alpha)</value>
-  </data>
-  <data name="groupBox7.Text" xml:space="preserve">
-    <value>Features in development (WIP):</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Parameters:</value>
-  </data>
-  <data name="CheckBox_UseCustomSavePatterns_Current.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 17</value>
-  </data>
-  <data name="CheckBox_UseCustomSavePatterns_Current.Text" xml:space="preserve">
-    <value>Use custom Save Patterns</value>
-  </data>
-  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 13</value>
-  </data>
-  <data name="label17.Text" xml:space="preserve">
-    <value>World normal map blur:</value>
-  </data>
-  <data name="CheckedListBox_SaveSettings_Current.Items" xml:space="preserve">
-    <value>Draw water pixel on rivers map</value>
-  </data>
-  <data name="CheckedListBox_SaveSettings_Current.Items1" xml:space="preserve">
-    <value>Generate world normal map</value>
-  </data>
-  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 13</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>World normal map strength:</value>
-  </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>Data Export Settings:</value>
-  </data>
-  <data name="TabPage_CurrentModSettings.Text" xml:space="preserve">
-    <value>Current Mod Related Settings</value>
-  </data>
-  <data name="CheckBox_IgnoreUpdateVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 17</value>
-  </data>
-  <data name="CheckBox_IgnoreUpdateVersion.Text" xml:space="preserve">
-    <value>Ignore Update Check</value>
+  <data name="&gt;&gt;RichTexBox_Description.Name" xml:space="preserve">
+    <value>RichTexBox_Description</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Settings</value>
+    <value>Проверка обновлений</value>
   </data>
+  <data name="&gt;&gt;Button_Close.Name" xml:space="preserve">
+    <value>Button_Close</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>CheckUpdateForm</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Button_Close.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Button_GoToRelease.Name" xml:space="preserve">
+    <value>Button_GoToRelease</value>
+  </data>
+  <data name="Label_Status.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="RichTexBox_Description.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 30</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label_Status.Name" xml:space="preserve">
+    <value>Label_Status</value>
+  </data>
+  <data name="&gt;&gt;Button_GoToRelease.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Button_GoToRelease.Text" xml:space="preserve">
+    <value>Перейти к Релизу</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="&gt;&gt;RichTexBox_Description.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Button_GoToRelease.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 251</value>
+  </data>
+  <data name="Button_IgnoreRelease.Location" type="System.Drawing.Point, System.Drawing">
+    <value>143, 251</value>
+  </data>
+  <data name="Label_Status.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 9</value>
+  </data>
+  <data name="Button_IgnoreRelease.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 23</value>
+  </data>
+  <data name="Button_GoToRelease.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="Button_GoToRelease.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 23</value>
+  </data>
+  <data name="&gt;&gt;RichTexBox_Description.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Button_IgnoreRelease.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Button_Close.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="Label_Status.Text" xml:space="preserve">
+    <value>Вышло новое обновление:</value>
+  </data>
+  <data name="&gt;&gt;Button_IgnoreRelease.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;Label_Status.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="RichTexBox_Description.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Button_Close.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;RichTexBox_Description.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="Label_Status.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;Button_Close.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label_Status.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Button_IgnoreRelease.Text" xml:space="preserve">
+    <value>Игнорировать Релиз</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>

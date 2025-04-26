@@ -317,6 +317,12 @@
     <Compile Include="src\forms\messageForms\AboutProgramForm.Designer.cs">
       <DependentUpon>AboutProgramForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\forms\messageForms\CheckUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\forms\messageForms\CheckUpdateForm.Designer.cs">
+      <DependentUpon>CheckUpdateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\forms\recoveryForms\StrategicRegionsDataRecoveryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -471,6 +477,8 @@
     <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerSupplyHubHasNoConnections.cs" />
     <Compile Include="src\managers\mapChecks\warnings\EnumMapWarningCode.cs" />
     <Compile Include="src\managers\mapChecks\warnings\WarningsManager.cs" />
+    <Compile Include="src\network\NetworkManager.cs" />
+    <Compile Include="src\network\SyncInfo.cs" />
     <Compile Include="src\newParser\GameParser.cs" />
     <Compile Include="src\newParser\interfaces\ICommentable.cs" />
     <Compile Include="src\newParser\interfaces\IConstantable.cs" />
@@ -768,7 +776,6 @@
     <Compile Include="src\utils\exceptions\UnknownTokenException.cs" />
     <Compile Include="src\utils\json\EnumArrayToStringConverter.cs" />
     <Compile Include="src\managers\GuiLocManager.cs" />
-    <Compile Include="src\utils\LinksUtils.cs" />
     <Compile Include="src\utils\LocalizedAction.cs" />
     <Compile Include="src\utils\Logger.cs" />
     <Compile Include="src\utils\ImageUtils.cs" />
@@ -811,6 +818,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\forms\messageForms\AboutProgramForm.resx">
       <DependentUpon>AboutProgramForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\forms\messageForms\CheckUpdateForm.en.resx">
+      <DependentUpon>CheckUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\forms\messageForms\CheckUpdateForm.resx">
+      <DependentUpon>CheckUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\forms\recoveryForms\StrategicRegionsDataRecoveryForm.en.resx">
       <DependentUpon>StrategicRegionsDataRecoveryForm.cs</DependentUpon>

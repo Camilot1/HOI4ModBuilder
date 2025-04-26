@@ -201,6 +201,8 @@ namespace HOI4ModBuilder
                     if (e.Modifiers == Keys.Control)
                         UpdateAll();
                 });
+
+                NetworkManager.SyncGithubInfo();
             });
         }
 
@@ -1365,9 +1367,7 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() => AutoTools.RemoveSeaAndLakesContinents());
-        }
+            => Logger.TryOrLog(() => AutoTools.RemoveSeaAndLakesContinents());
 
         private void ToolStripMenuItem_Map_Adjacency_DropDownOpened(object sender, EventArgs e)
         {
@@ -1497,7 +1497,7 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Help_Documentation_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                using (Process.Start(AboutProgramForm.DiscordDocumentationURL)) { }
+                using (Process.Start(NetworkManager.DocumentationURL)) { }
             });
 
         private void ToolStripMenuItem_Map_Railway_Split_Click(object sender, EventArgs e)
@@ -1537,11 +1537,11 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() => new ScriptsForm().ShowDialog());
 
         private void ToolStripMenuItem_GitHub_Click(object sender, EventArgs e)
-            => LinksUtils.OpenLink(AboutProgramForm.GitHubRepoURL);
+            => NetworkManager.OpenLink(NetworkManager.GitHubRepoURL);
         private void ToolStripMenuItem_Discord_Click(object sender, EventArgs e)
-            => LinksUtils.OpenLink(AboutProgramForm.DiscordServerURL);
+            => NetworkManager.OpenLink(NetworkManager.DiscordServerURL);
         private void ToolStripMenuItem_Telegram_Click(object sender, EventArgs e)
-            => LinksUtils.OpenLink(AboutProgramForm.TelegramURL);
+            => NetworkManager.OpenLink(NetworkManager.TelegramURL);
 
 
         private void СomboBox_MapMainLayer_SelectedIndexChanged(object sender, EventArgs e)
