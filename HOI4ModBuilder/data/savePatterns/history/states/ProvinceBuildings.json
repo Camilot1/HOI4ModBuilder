@@ -1,0 +1,9 @@
+[
+  {
+    "Name": "dynamicBuildings",
+    "SaveIfEmpty": false,
+    "IsForceInline": true,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  }
+]
