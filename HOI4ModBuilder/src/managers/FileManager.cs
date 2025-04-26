@@ -161,6 +161,25 @@ namespace HOI4ModBuilder.src.managers
                 File.Copy(file, destFilePath);
             }
         }
+        public static void CopyDirectoryRecursive(string sourceDir, string destDir, bool overwrite = true)
+        {
+            if (!Directory.Exists(sourceDir))
+                throw new DirectoryNotFoundException(sourceDir);
+
+            Directory.CreateDirectory(destDir);
+
+            foreach (var file in Directory.GetFiles(sourceDir))
+            {
+                var targetFile = Path.Combine(destDir, Path.GetFileName(file));
+                File.Copy(file, targetFile, overwrite);
+            }
+
+            foreach (var subDir in Directory.GetDirectories(sourceDir))
+            {
+                var nextDest = Path.Combine(destDir, Path.GetFileName(subDir));
+                CopyDirectoryRecursive(subDir, nextDest, overwrite);
+            }
+        }
     }
 
     public struct RecursiveFileData
