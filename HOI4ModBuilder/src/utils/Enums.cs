@@ -45,6 +45,7 @@ namespace HOI4ModBuilder.utils
             COUNTRIES,
             PROVINCES_TYPES,
             PROVINCES_TERRAINS,
+            PROVINCES_SIZES,
             REGIONS_TERRAINS,
             CONTINENTS,
             MANPOWER,

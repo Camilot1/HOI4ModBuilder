@@ -16,7 +16,6 @@ using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
@@ -27,8 +26,6 @@ using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.tools.brushes;
 using System.Drawing.Imaging;
 using System.Drawing;
-using System.Diagnostics;
-using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.managers
 {
@@ -327,6 +324,7 @@ namespace HOI4ModBuilder.managers
                 return;
 
             Func<Province, int> func = (p) => Utils.ArgbToInt(255, 0, 0, 0);
+            LogScaleData logScaleData = default;
 
             switch (enumMainLayer)
             {
@@ -438,6 +436,15 @@ namespace HOI4ModBuilder.managers
                             return p.Terrain.color;
                     };
                     break;
+                case EnumMainLayer.PROVINCES_SIZES:
+                    ProvinceManager.GetMinMaxMapProvinceSizes(out int minPixelsCount, out int maxPixelsCount);
+                    logScaleData = new LogScaleData(minPixelsCount, maxPixelsCount);
+                    func = (p) =>
+                    {
+                        var value = (byte)logScaleData.CalculateInverted(p.pixelsCount, 255d);
+                        return Utils.ArgbToInt(255, value, value, value);
+                    };
+                    break;
                 case EnumMainLayer.REGIONS_TERRAINS:
                     func = (p) =>
                     {
@@ -451,8 +458,8 @@ namespace HOI4ModBuilder.managers
                     func = (p) => ContinentManager.GetColorById(p.ContinentId);
                     break;
                 case EnumMainLayer.MANPOWER:
-                    StateManager.GetMinMaxManpower(out int manpowerMin, out int manpowerMax);
-                    double maxManpower = manpowerMax;
+                    StateManager.GetMinMaxWeightedManpower(out double manpowerWeightedMin, out double manpowerWeightedMax);
+                    logScaleData = new LogScaleData(manpowerWeightedMin, manpowerWeightedMax);
 
                     func = (p) =>
                     {
@@ -472,13 +479,14 @@ namespace HOI4ModBuilder.managers
                         else if (p.State.CurrentManpower < 1)
                             return Utils.ArgbToInt(255, 255, 106, 0);
 
-                        byte value = (byte)(255 * p.State.CurrentManpower / maxManpower);
+                        var valueFactor = p.State.CurrentManpower / (double)p.State.pixelsCount;
+                        var value = (byte)logScaleData.CalculateInverted(valueFactor, 255d);
                         return Utils.ArgbToInt(255, value, value, value);
                     };
                     break;
                 case EnumMainLayer.VICTORY_POINTS:
                     ProvinceManager.GetMinMaxVictoryPoints(out uint victoryPointsMin, out uint victoryPointsMax);
-                    double maxVictoryPoints = victoryPointsMax;
+                    logScaleData = new LogScaleData(victoryPointsMin, victoryPointsMax);
 
                     func = (p) =>
                     {
@@ -492,7 +500,7 @@ namespace HOI4ModBuilder.managers
                                 return Utils.ArgbToInt(255, 255, 0, 255);
                         }
 
-                        byte value = (byte)(255 * p.victoryPoints / maxVictoryPoints);
+                        byte value = (byte)logScaleData.CalculateInverted(p.victoryPoints, 255d);
                         return Utils.ArgbToInt(255, value, value, value);
                     };
                     break;

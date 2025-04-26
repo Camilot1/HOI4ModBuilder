@@ -790,6 +790,7 @@
     <Compile Include="src\utils\structs\Color3B.cs" />
     <Compile Include="src\utils\structs\Color3F.cs" />
     <Compile Include="src\utils\structs\LinkedData.cs" />
+    <Compile Include="src\utils\structs\LogScaleData.cs" />
     <Compile Include="src\utils\structs\Point2D.cs" />
     <Compile Include="src\utils\structs\Point2F.cs" />
     <Compile Include="src\utils\structs\Value2B.cs" />

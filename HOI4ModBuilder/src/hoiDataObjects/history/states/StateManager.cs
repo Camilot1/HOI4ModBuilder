@@ -289,6 +289,28 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
         }
 
+        public static void GetMinMaxWeightedManpower(out double min, out double max)
+        {
+            min = 0;
+            max = 0;
+
+            foreach (var state in _statesById.Values)
+            {
+                min = state.CurrentManpower / (double)state.pixelsCount;
+                max = state.CurrentManpower / (double)state.pixelsCount;
+                break;
+            }
+
+            foreach (var state in _statesById.Values)
+            {
+                double weightedManpower = state.CurrentManpower / (double)state.pixelsCount;
+                if (weightedManpower > max)
+                    max = weightedManpower;
+                else if (weightedManpower < min)
+                    min = weightedManpower;
+            }
+        }
+
         public static bool TryAddState(string fileName, State state)
         {
             if (!_statesById.ContainsKey(state.Id.GetValue()))

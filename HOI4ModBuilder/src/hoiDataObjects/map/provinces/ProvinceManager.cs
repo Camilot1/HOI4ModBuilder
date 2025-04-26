@@ -93,6 +93,26 @@ namespace HOI4ModBuilder.managers
             }
         }
 
+        public static void GetMinMaxMapProvinceSizes(out int minCount, out int maxCount)
+        {
+            minCount = 0;
+            maxCount = 0;
+            foreach (var province in _provincesByColor.Values)
+            {
+                minCount = province.pixelsCount;
+                maxCount = province.pixelsCount;
+                break;
+            }
+
+            foreach (var province in _provincesByColor.Values)
+            {
+                if (province.pixelsCount < minCount)
+                    minCount = province.pixelsCount;
+                else if (province.pixelsCount > maxCount)
+                    maxCount = province.pixelsCount;
+            }
+        }
+
         public static Color3B GetNewLandColor()
         {
             Color3B color = Color3B.GetRandowColor();
