@@ -64,8 +64,8 @@ public static class NetworkManager
             var localFilePath = Path.Combine("configs", "local_sync.json");
             SyncInfo localSyncInfo = null;
 
-            if (!Directory.Exists("config"))
-                Directory.CreateDirectory("config");
+            if (!Directory.Exists("configs"))
+                Directory.CreateDirectory("configs");
 
             if (File.Exists(localFilePath))
                 localSyncInfo = JsonConvert.DeserializeObject<SyncInfo>(File.ReadAllText(localFilePath));
