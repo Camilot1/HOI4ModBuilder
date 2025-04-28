@@ -87,6 +87,13 @@ namespace HOI4ModBuilder.src.newParser.objects
                 parentable.SetParent(this);
         }
 
+        public void InitValueIfNull()
+        {
+            if (_value != null)
+                return;
+            InitValue();
+        }
+
         public string AssemblePath() => ParserUtils.AsseblePath(this);
 
         public virtual void ParseCallback(GameParser parser)

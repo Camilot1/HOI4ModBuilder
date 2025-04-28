@@ -112,20 +112,26 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             return false;
         }
         public bool SetProvinceBuildings(Province province, ProvinceBuildings buildings)
-            => StateBuildings.GetValue() != null &&
-            StateBuildings.GetValue().SetProvinceBuildings(province, buildings);
+        {
+            StateBuildings.InitValueIfNull();
+            return StateBuildings.GetValue().SetProvinceBuildings(province, buildings);
+        }
 
         public bool SetProvinceBuildingLevel(Province province, Building building, uint newCount)
-            => StateBuildings.GetValue() != null &&
-            StateBuildings.GetValue().SetProvinceBuildingLevel(province, building, newCount);
+        {
+            StateBuildings.InitValueIfNull();
+            return StateBuildings.GetValue().SetProvinceBuildingLevel(province, building, newCount);
+        }
 
         public bool SetStateBuildingLevel(Building building, uint newCount)
-            => StateBuildings.GetValue() != null &&
-            StateBuildings.GetValue().SetStateBuildingLevel(building, newCount);
+        {
+            StateBuildings.InitValueIfNull();
+            return StateBuildings.GetValue().SetStateBuildingLevel(building, newCount);
+        }
 
         public bool RemoveProvinceBuildings(Province province)
-            => StateBuildings.GetValue() != null &&
-            StateBuildings.GetValue().RemoveProvinceBuildings(province);
+        => StateBuildings.GetValue() != null &&
+        StateBuildings.GetValue().RemoveProvinceBuildings(province);
 
         public StateHistory() { }
 
