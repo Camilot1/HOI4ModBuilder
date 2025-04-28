@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.tools.brushes;
+using HOI4ModBuilder.src.managers.mapChecks.warnings.checkers;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -59,8 +60,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 {
                     redoActions.Add(redo);
                     undoActions.Add(undo);
+
+                    if (enumEditLayer == EnumEditLayer.HEIGHT_MAP)
+                    {
+                        redoActions.Add(() => MapCheckerHeightMapMismatches.HandlePixel(x, y));
+                        undoActions.Add(() => MapCheckerHeightMapMismatches.HandlePixel(x, y));
+                    }
                 }
             });
+
 
             MapManager.ActionsBatch.AddWithExecute(redoActions, undoActions);
         }
@@ -238,19 +246,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         private bool HandlePixelHeightMap(int x, int y, int newColor, out Action redo, out Action undo)
         {
             redo = null; undo = null;
+            int i = x + y * MapManager.MapSize.x;
 
             byte prevByte = TextureManager.height.GetByte(x, y);
             byte newByte = (byte)newColor;
             if (prevByte == newByte)
                 return false;
 
+            byte[] pixels = MapManager.HeightsPixels;
             redo = () =>
             {
+                pixels[i] = newByte;
                 TextureManager.height.WriteByte(x, y, newByte);
                 TextureManager.height.texture.Update(TextureManager._8bppGrayscale, x, y, 1, 1, new byte[] { newByte });
             };
             undo = () =>
             {
+                pixels[i] = prevByte;
                 TextureManager.height.WriteByte(x, y, prevByte);
                 TextureManager.height.texture.Update(TextureManager._8bppGrayscale, x, y, 1, 1, new byte[] { prevByte });
             };
