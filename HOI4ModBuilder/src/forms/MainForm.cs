@@ -802,12 +802,10 @@ namespace HOI4ModBuilder
                         UpdateToolParameterComboBox(enumTool, stateCategories, null);
                         break;
                     case EnumTool.BUILDINGS:
-                        if (!BuildingManager.HasBuilding(ComboBox_Tool_Parameter.Text))
-                            UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
+                        UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
                         break;
                     case EnumTool.AI_AREAS:
-                        if (!AiAreaManager.HasAiArea(ComboBox_Tool_Parameter.Text))
-                            UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas(), null);
+                        UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas(), null);
                         break;
                 }
 
