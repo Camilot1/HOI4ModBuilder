@@ -46,7 +46,7 @@ namespace HOI4ModBuilder.src.tools.auto
         {
             ProvinceManager.ForEachProvince((p) =>
             {
-                if (p.Type != EnumProvinceType.LAND)
+                if (p.Type != EnumProvinceType.LAND && p.ContinentId != 0)
                 {
                     _changesCounter[0]++;
                     p.ContinentId = 0;
