@@ -116,16 +116,43 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             if (MapManager.displayLayers[(int)EnumAdditionalLayers.RAILWAYS])
                 SupplyManager.HandleCursor(mouseEventArgs.Button, pos);
 
-            if (selectedProvince != null)
-                MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedProvince.Id;
-            else if (selectedState != null)
-                MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedState.Id.GetValue();
-            else if (selectedRegion != null)
-                MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedRegion.Id;
+            if (mouseEventArgs.Button == MouseButtons.Left)
+            {
+                var selectedIds = new List<ushort>();
+                if (selectedProvince != null)
+                {
+                    foreach (var obj in ProvinceManager.GroupSelectedProvinces)
+                        selectedIds.Add(obj.Id);
 
+                    if (selectedIds.Count == 0)
+                        selectedIds.Add(selectedProvince.Id);
+                }
+                else if (selectedState != null)
+                {
+                    foreach (var obj in StateManager.GroupSelectedStates)
+                        selectedIds.Add(obj.Id.GetValue());
+
+                    if (selectedIds.Count == 0)
+                        selectedIds.Add(selectedState.Id.GetValue());
+                }
+                else if (selectedRegion != null)
+                {
+                    foreach (var obj in StrategicRegionManager.GroupSelectedRegions)
+                        selectedIds.Add(obj.Id);
+
+                    if (selectedIds.Count == 0)
+                        selectedIds.Add(selectedRegion.Id);
+                }
+
+                selectedIds.Sort();
+                var sbIds = new StringBuilder();
+                foreach (var id in selectedIds)
+                    sbIds.Append(id).Append(' ');
+                MainForm.Instance.textBox_SelectedObjectId.Text = sbIds.ToString();
+
+            }
             MainForm.Instance.textBox_PixelPos.Text = (int)pos.x + "; " + (int)pos.y;
             MainForm.Instance.textBox_HOI4PixelPos.Text = (int)pos.x + "; " + (MapManager.MapSize.y - (int)pos.y);
-
         }
     }
 }

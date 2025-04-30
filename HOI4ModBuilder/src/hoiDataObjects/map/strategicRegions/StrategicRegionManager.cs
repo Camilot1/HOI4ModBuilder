@@ -27,6 +27,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
         }
         private static HashSet<ProvinceBorder> _regionsBorders = new HashSet<ProvinceBorder>();
 
+        public static HashSet<StrategicRegion> GroupSelectedRegions { get; private set; } = new HashSet<StrategicRegion>();
         public static StrategicRegion SelectedRegion { get; set; }
         public static StrategicRegion RMBRegion { get; set; }
 
@@ -38,6 +39,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
         public static void Load(Settings settings)
         {
+            DeselectRegions();
+
             _regions = new Dictionary<ushort, StrategicRegion>();
             _regionsBorders = new HashSet<ProvinceBorder>();
 
@@ -91,6 +94,34 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 GL.End();
             }
 
+            if (GroupSelectedRegions != null && GroupSelectedRegions.Count > 0)
+            {
+                GL.Color4(1f, 0f, 0f, 1f);
+                GL.LineWidth(8f);
+
+                foreach (var region in GroupSelectedRegions)
+                {
+                    foreach (var border in region.Borders)
+                    {
+                        if (border.pixels.Length == 1)
+                            continue;
+
+                        if (border.provinceA.Region.Id == region.Id &&
+                            GroupSelectedRegions.Contains(border.provinceB.Region)
+                            ||
+                            border.provinceB.Region.Id == region.Id &&
+                            GroupSelectedRegions.Contains(border.provinceA.Region))
+                            continue;
+
+                        GL.Begin(PrimitiveType.LineStrip);
+                        foreach (Value2S vertex in border.pixels)
+                        {
+                            GL.Vertex2(vertex.x, vertex.y);
+                        }
+                        GL.End();
+                    }
+                }
+            }
 
             if (SelectedRegion != null)
             {
@@ -185,15 +216,47 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             foreach (var region in _regions.Values) region.InitBorders();
             TextureManager.InitRegionsBordersMap(_regionsBorders);
         }
+
+        private static void HandleDelete()
+        {
+
+        }
+
+        private static void HandleEscape() => DeselectRegions();
+
+        public static void DeselectRegions()
+        {
+            GroupSelectedRegions.Clear();
+            SelectedRegion = null;
+            RMBRegion = null;
+        }
+
         public static StrategicRegion SelectRegion(int color)
         {
             if (ProvinceManager.TryGetProvince(color, out Province province) && province.Region != null)
             {
-                SelectedRegion = province.Region;
+                if (MainForm.Instance.IsShiftPressed())
+                {
+                    if (SelectedRegion != null)
+                        GroupSelectedRegions.Add(SelectedRegion);
+                    GroupSelectedRegions.Add(province.Region);
+
+                    SelectedRegion = null;
+                    return province.Region;
+                }
+                else
+                {
+                    GroupSelectedRegions.Clear();
+                    SelectedRegion = province.Region;
+                }
             }
-            else SelectedRegion = null;
-            ProvinceManager.SelectedProvince = null;
-            StateManager.SelectedState = null;
+            else
+            {
+                SelectedRegion = null;
+                GroupSelectedRegions.Clear();
+            }
+            ProvinceManager.DeselectProvinces();
+            StateManager.DeselectStates();
             return SelectedRegion;
         }
 
@@ -204,20 +267,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 RMBRegion = province.Region;
             }
             else RMBRegion = null;
-            ProvinceManager.RMBProvince = null;
-            StateManager.RMBState = null;
+            ProvinceManager.DeselectProvinces();
+            StateManager.DeselectStates();
             return RMBRegion;
-        }
-
-        private static void HandleDelete()
-        {
-
-        }
-
-        private static void HandleEscape()
-        {
-            SelectedRegion = null;
-            RMBRegion = null;
         }
     }
 }
