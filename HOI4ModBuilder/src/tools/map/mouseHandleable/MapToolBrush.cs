@@ -25,7 +25,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         { }
 
         public override void Handle(
-            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos,
+            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
@@ -34,7 +34,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             int newColor;
 
-            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+            if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
                 return;
             if (Control.ModifierKeys == Keys.Shift)
                 return;

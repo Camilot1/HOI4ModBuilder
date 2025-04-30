@@ -16,14 +16,16 @@ namespace HOI4ModBuilder.src.utils.structs
             y *= factor;
         }
 
-        public bool InboundsPositiveBox(Value2I value2I)
+        public static Point2D operator *(Point2D a, Point2D b) => new Point2D { x = a.x * b.x, y = a.y * b.y };
+
+        public bool InboundsPositiveBox(Value2I value2I, Point2D sizeFactor)
         {
-            return InboundsPositiveBox(value2I.x, value2I.y);
+            return InboundsPositiveBox(value2I.x, value2I.y, sizeFactor.x, sizeFactor.y);
         }
 
-        public bool InboundsPositiveBox(double width, double height)
+        public bool InboundsPositiveBox(double width, double height, double factorX, double factorY)
         {
-            return x >= 0 && x <= width && y >= 0 && y <= height;
+            return x >= 0 && x <= width * factorX && y >= 0 && y <= height * factorY;
         }
 
         public bool Inbounds(double minX, double minY, double maxX, double maxY)

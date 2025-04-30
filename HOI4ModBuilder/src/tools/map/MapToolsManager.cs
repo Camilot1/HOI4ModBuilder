@@ -41,7 +41,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         }
 
         public static void HandleTool(
-            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos,
+            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, EnumTool enumTool, Bounds4US bounds, string parameter, string value
         )
         {
@@ -50,7 +50,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                 if (!MainForm.firstLoad)
                     return;
                 if (_mapTools.TryGetValue(enumTool, out MapTool mapTool))
-                    mapTool.Handle(mouseEventArgs, mouseState, pos, enumEditLayer, bounds, parameter, value);
+                    mapTool.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value);
 
                 switch (enumTool)
                 {
@@ -93,11 +93,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             }
         }
 
-        public abstract void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value);
+        public abstract void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value);
     }
 
     public interface IMouseHandleableMapTool
     {
-        void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value);
+        void Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value);
     }
 }

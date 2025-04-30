@@ -35,6 +35,7 @@ namespace HOI4ModBuilder.managers
         public static Value2I MapSize { get; private set; }
         private static Point2D _mousePrevPoint;
         private static Point2D _mapSizeFactor;
+        public static Point2D MapSizeFactor { get => _mapSizeFactor; private set => _mapSizeFactor = value; }
         private static Point2D _pointerSize = new Point2D { x = 1, y = 1 };
         private static EnumMouseState _mouseState = EnumMouseState.NONE;
         public static Bounds4US bounds;
@@ -249,14 +250,15 @@ namespace HOI4ModBuilder.managers
             )
             {
                 brush.ForEachLineStrip(
-                    MainForm.Instance.ComboBox_Tool_Parameter_Value.Text, rawMapX, rawMapY, (line, xOffset, yOffset) =>
+                    MainForm.Instance.ComboBox_Tool_Parameter_Value.Text, rawMapX, rawMapY, _mapSizeFactor.x, _mapSizeFactor.y,
+                    (line, xOffset, yOffset) =>
                 {
                     if (line == null || line.Count < 2)
                         return;
 
                     GL.Begin(PrimitiveType.LineLoop);
                     foreach (var pixel in line)
-                        GL.Vertex2(pixel.x + xOffset, pixel.y + yOffset);
+                        GL.Vertex2(pixel.x / _mapSizeFactor.x + xOffset, pixel.y / _mapSizeFactor.y + yOffset);
                     GL.End();
                 });
             }
@@ -268,8 +270,8 @@ namespace HOI4ModBuilder.managers
                     y = _pointerSize.y / _mapSizeFactor.y,
                 };
 
-                double snappedTopLeftX = Math.Floor(rawMapX);
-                double snappedTopLeftY = Math.Floor(rawMapY);
+                double snappedTopLeftX = Math.Floor(rawMapX * _mapSizeFactor.x) / _mapSizeFactor.x;
+                double snappedTopLeftY = Math.Floor(rawMapY * _mapSizeFactor.y) / _mapSizeFactor.y;
 
                 GL.Begin(PrimitiveType.LineLoop);
                 GL.Vertex2(snappedTopLeftX, snappedTopLeftY);
@@ -819,7 +821,7 @@ namespace HOI4ModBuilder.managers
             if (enumTool != EnumTool.CURSOR)
                 ActionsBatch.Enabled = true;
 
-            MapToolsManager.HandleTool(e, _mouseState, pos, enumEditLayer, enumTool, bounds, parameter, value);
+            MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, bounds, parameter, value);
 
             if (e.Button == MouseButtons.Middle)
                 _isMapDragged = true;
@@ -862,7 +864,7 @@ namespace HOI4ModBuilder.managers
                 else if (ActionsBatch.Enabled && (_mousePrevPoint.x != pos.x || _mousePrevPoint.y != pos.y))
                 {
                     if (enumTool != EnumTool.BUILDINGS)
-                        MapToolsManager.HandleTool(e, _mouseState, pos, enumEditLayer, enumTool, bounds, parameter, value);
+                        MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, bounds, parameter, value);
                 }
                 _mousePrevPoint = pos;
             }
