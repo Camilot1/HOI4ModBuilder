@@ -42,52 +42,29 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public bool SetProvinceBuildingLevel(Building building, uint newCount)
         {
-            /*
-            if (!Provinces.TryGetValue(province, out ProvinceBuildings buildings))
-            { //Если для указанной провинции ещё нет построек
-                if (newCount != 0)
-                {
-                    //Создаём словарь построек
-                    buildings = new ProvinceBuildings(this, province);
-                    Provinces[province] = buildings;
+            if (newCount == 0)
+                return Buildings.Remove(building);
 
-                    //Обновляем количество постройки в словаре
-                    buildings.Buildings[building] = newCount;
-                    province.SetBuilding(building, newCount);
-                    return true;
-                }
-                else return false;
-            }
-            else if (!buildings.TryGetValue(building, out uint count))
-            { //Если в словаре ещё нет постройки
-                if (newCount != 0)
-                { //И число новой постройки не равно 0
-                    //Добавляем постройку в словари
-                    buildings[building] = newCount;
-                    province.SetBuilding(building, newCount);
-                    return true;
-                }
-                else return false;
-            }
-            else if (count != newCount)
-            { //Если в словаре уже есть эта постройка
-                //Меняем число постройки в области
-                if (newCount == 0 && dateTime == default)
-                {
-                    buildings.Remove(building);
-                    if (buildings.Count == 0)
-                        Provinces.Remove(province);
-                }
-                else buildings[building] = newCount;
+            if (Buildings.TryGetValue(building, out var result))
+            {
+                if (result == newCount)
+                    return false;
 
-                //Если в провинции 0 построек этого типа, то удаляем постройку из списка построек провинций
-                if (newCount == 0) province.RemoveBuilding(building);
-                //Иначе меняем число постройки в провинции на 0
-                else province.SetBuilding(building, newCount);
+                if (newCount == 0)
+                    Buildings.Remove(building);
+                else
+                    Buildings[building] = newCount;
+
                 return true;
             }
-            */
-            return false;
+            else
+            {
+                if (newCount == 0)
+                    return false;
+
+                Buildings[building] = result;
+                return true;
+            }
         }
 
         public void Activate(State state, Province province)

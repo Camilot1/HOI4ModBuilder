@@ -89,9 +89,8 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public void InitValueIfNull()
         {
-            if (_value != null)
-                return;
-            InitValue();
+            if (_value == null)
+                InitValue();
         }
 
         public string AssemblePath() => ParserUtils.AsseblePath(this);
