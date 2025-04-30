@@ -57,6 +57,7 @@ namespace HOI4ModBuilder.managers
         public static double mapDifX, mapDifY;
 
         public static bool[] isHandlingMapMainLayerChange = new bool[1];
+        public static bool[] isWaitingHandlingMapMainLayerChange = new bool[1];
 
         public static ActionHistoryManager ActionHistory { get; private set; }
         public static ActionsBatch ActionsBatch { get; private set; }
@@ -622,7 +623,12 @@ namespace HOI4ModBuilder.managers
                     break;
             }
 
-            if (!isHandlingMapMainLayerChange[0])
+            if (isHandlingMapMainLayerChange[0])
+                isWaitingHandlingMapMainLayerChange[0] = true;
+            else
+                UpdateTask();
+
+            void UpdateTask()
             {
                 isHandlingMapMainLayerChange[0] = true;
                 var assembleTask = new Task<byte[]>(
@@ -637,6 +643,12 @@ namespace HOI4ModBuilder.managers
                         _mapMainLayer.Texture = TextureManager.provinces.texture;
                         TextureManager.provinces.texture.Update(TextureManager._24bppRgb, 0, 0, MapSize.x, MapSize.y, task.Result);
                         isHandlingMapMainLayerChange[0] = false;
+
+                        if (isWaitingHandlingMapMainLayerChange[0])
+                        {
+                            isWaitingHandlingMapMainLayerChange[0] = false;
+                            UpdateTask();
+                        }
                     },
                     TaskScheduler.FromCurrentSynchronizationContext()
                 );
