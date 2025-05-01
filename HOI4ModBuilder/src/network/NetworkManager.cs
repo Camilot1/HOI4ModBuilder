@@ -91,7 +91,7 @@ public static class NetworkManager
                     settings.ignoreUpdateCheckVersion == syncInfo.LastVersion
                 );
 
-            if (syncInfo != null && Logger.version != syncInfo.LastVersion &&
+            if (syncInfo != null && Logger.versionId < syncInfo.LastVersionId &&
                 (!isIgnoreUpdateChecks || isIgnoreUpdateChecks && !isSameIgnoreUpdateCheckVersion))
             {
                 CheckUpdateForm.Create(syncInfo);

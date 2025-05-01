@@ -34,6 +34,7 @@
             this.Button_Close = new System.Windows.Forms.Button();
             this.Label_Status = new System.Windows.Forms.Label();
             this.RichTexBox_Description = new System.Windows.Forms.RichTextBox();
+            this.Label_VersionID = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Button_GoToRelease
@@ -66,11 +67,18 @@
             // 
             resources.ApplyResources(this.RichTexBox_Description, "RichTexBox_Description");
             this.RichTexBox_Description.Name = "RichTexBox_Description";
+            this.RichTexBox_Description.ReadOnly = true;
+            // 
+            // Label_VersionID
+            // 
+            resources.ApplyResources(this.Label_VersionID, "Label_VersionID");
+            this.Label_VersionID.Name = "Label_VersionID";
             // 
             // CheckUpdateForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Label_VersionID);
             this.Controls.Add(this.RichTexBox_Description);
             this.Controls.Add(this.Label_Status);
             this.Controls.Add(this.Button_Close);
@@ -89,5 +97,6 @@
         private System.Windows.Forms.Button Button_Close;
         private System.Windows.Forms.Label Label_Status;
         private System.Windows.Forms.RichTextBox RichTexBox_Description;
+        private System.Windows.Forms.Label Label_VersionID;
     }
 }

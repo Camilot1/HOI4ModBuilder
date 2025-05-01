@@ -7,6 +7,8 @@ namespace HOI4ModBuilder.src.network
     {
         [JsonProperty("lastVersion")]
         public string LastVersion { get; set; }
+        [JsonProperty("lastVersionId")]
+        public int LastVersionId { get; set; }
         [JsonProperty("shortDescription")]
         public Dictionary<string, string> ShortDescription { get; set; }
         [JsonProperty("links")]

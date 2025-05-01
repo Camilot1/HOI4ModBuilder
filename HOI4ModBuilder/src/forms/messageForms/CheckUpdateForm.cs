@@ -15,10 +15,15 @@ namespace HOI4ModBuilder.src.forms.messageForms
         public static CheckUpdateForm Instance { get; private set; }
 
 
-        private static readonly Dictionary<string, string> _localization = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> _locVersionName = new Dictionary<string, string>
         {
             { "ru", "Вышло новое обновление: " },
             { "en", "The new update has been released: " },
+        };
+        private static readonly Dictionary<string, string> _locVersionId = new Dictionary<string, string>
+        {
+            { "ru", "ID версии: " },
+            { "en", "Version ID: " },
         };
 
         public static void Create(SyncInfo syncInfo)
@@ -82,13 +87,12 @@ namespace HOI4ModBuilder.src.forms.messageForms
                 switch (GuiLocManager.GetCurrentParentLanguageName)
                 {
                     case "ru":
-                        Label_Status.Text = _localization["ru"] + SyncInfo.LastVersion;
-                        break;
-                    case "en":
-                        Label_Status.Text = _localization["en"] + SyncInfo.LastVersion;
+                        Label_Status.Text = _locVersionName["ru"] + SyncInfo.LastVersion;
+                        Label_VersionID.Text = _locVersionId["ru"] + SyncInfo.LastVersionId;
                         break;
                     default:
-                        Label_Status.Text = _localization["en"] + SyncInfo.LastVersion;
+                        Label_Status.Text = _locVersionName["en"] + SyncInfo.LastVersion;
+                        Label_VersionID.Text = _locVersionId["en"] + SyncInfo.LastVersionId;
                         break;
                 }
 
