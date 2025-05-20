@@ -132,17 +132,20 @@
   <data name="TabPage_Home.Text" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Main layer</value>
+  <data name="GroupBox_Main_Layer.Text" xml:space="preserve">
+    <value>Main Layer</value>
   </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>Edit layer</value>
+  <data name="GroupBox_Edit_Layer.Text" xml:space="preserve">
+    <value>Edit Layer</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
+  <data name="GroupBox_Tool.Text" xml:space="preserve">
     <value>Tool</value>
   </data>
   <data name="GroupBox_Tool_Parameter.Text" xml:space="preserve">
     <value>Parameter</value>
+  </data>
+  <data name="GroupBox_Tool_Parameter_Value.Text" xml:space="preserve">
+    <value>Value</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Colors</value>
