@@ -36,6 +36,8 @@
             this.FlowLayoutPanel_ToolBar = new System.Windows.Forms.FlowLayoutPanel();
             this.GroupBox_Main_Layer = new System.Windows.Forms.GroupBox();
             this.СomboBox_MapMainLayer = new System.Windows.Forms.ComboBox();
+            this.GroupBox_Main_Layer_Parameter = new System.Windows.Forms.GroupBox();
+            this.Button_MapMainLayer_Parameter = new System.Windows.Forms.Button();
             this.GroupBox_Edit_Layer = new System.Windows.Forms.GroupBox();
             this.ComboBox_EditLayer = new System.Windows.Forms.ComboBox();
             this.GroupBox_Tool = new System.Windows.Forms.GroupBox();
@@ -228,6 +230,7 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.FlowLayoutPanel_ToolBar.SuspendLayout();
             this.GroupBox_Main_Layer.SuspendLayout();
+            this.GroupBox_Main_Layer_Parameter.SuspendLayout();
             this.GroupBox_Edit_Layer.SuspendLayout();
             this.GroupBox_Tool.SuspendLayout();
             this.GroupBox_Tool_Parameter.SuspendLayout();
@@ -280,6 +283,7 @@
             resources.ApplyResources(this.FlowLayoutPanel_ToolBar, "FlowLayoutPanel_ToolBar");
             this.tableLayoutPanel1.SetColumnSpan(this.FlowLayoutPanel_ToolBar, 2);
             this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Main_Layer);
+            this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Main_Layer_Parameter);
             this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Edit_Layer);
             this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Tool);
             this.FlowLayoutPanel_ToolBar.Controls.Add(this.GroupBox_Tool_Parameter);
@@ -304,6 +308,20 @@
             resources.ApplyResources(this.СomboBox_MapMainLayer, "СomboBox_MapMainLayer");
             this.СomboBox_MapMainLayer.Name = "СomboBox_MapMainLayer";
             this.СomboBox_MapMainLayer.SelectedIndexChanged += new System.EventHandler(this.СomboBox_MapMainLayer_SelectedIndexChanged);
+            // 
+            // GroupBox_Main_Layer_Parameter
+            // 
+            resources.ApplyResources(this.GroupBox_Main_Layer_Parameter, "GroupBox_Main_Layer_Parameter");
+            this.GroupBox_Main_Layer_Parameter.Controls.Add(this.Button_MapMainLayer_Parameter);
+            this.GroupBox_Main_Layer_Parameter.Name = "GroupBox_Main_Layer_Parameter";
+            this.GroupBox_Main_Layer_Parameter.TabStop = false;
+            // 
+            // Button_MapMainLayer_Parameter
+            // 
+            resources.ApplyResources(this.Button_MapMainLayer_Parameter, "Button_MapMainLayer_Parameter");
+            this.Button_MapMainLayer_Parameter.Name = "Button_MapMainLayer_Parameter";
+            this.Button_MapMainLayer_Parameter.UseVisualStyleBackColor = true;
+            this.Button_MapMainLayer_Parameter.Click += new System.EventHandler(this.Button_MapMainLayer_Parameter_Click);
             // 
             // GroupBox_Edit_Layer
             // 
@@ -1649,6 +1667,7 @@
             this.FlowLayoutPanel_ToolBar.ResumeLayout(false);
             this.FlowLayoutPanel_ToolBar.PerformLayout();
             this.GroupBox_Main_Layer.ResumeLayout(false);
+            this.GroupBox_Main_Layer_Parameter.ResumeLayout(false);
             this.GroupBox_Edit_Layer.ResumeLayout(false);
             this.GroupBox_Tool.ResumeLayout(false);
             this.GroupBox_Tool_Parameter.ResumeLayout(false);
@@ -1872,6 +1891,8 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Telegram;
         public System.Windows.Forms.ComboBox ComboBox_Tool_Parameter_Value;
         public System.Windows.Forms.GroupBox GroupBox_Tool_Parameter_Value;
+        private System.Windows.Forms.GroupBox GroupBox_Main_Layer_Parameter;
+        private System.Windows.Forms.Button Button_MapMainLayer_Parameter;
     }
 }
 

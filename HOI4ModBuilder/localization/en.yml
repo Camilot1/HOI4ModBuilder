@@ -20,6 +20,7 @@ TREES_MAP: "Trees Map"
 CITIES_MAP: "Cities Map"
 HEIGHT_MAP: "Heights Map"
 NORMAL_MAP: "Normals Map"
+CUSTOM_SCRIPT: "Custom Script"
 
 CENTERS: "Centers"
 BORDERS: "Borders"
@@ -55,6 +56,8 @@ STATES_BLACK: "States (w)"
 STATES_WHITE: "States (b)"
 STRATEGIC_REGIONS_BLACK: "Regions (b)"
 STRATEGIC_REGIONS_WHITE: "Regions (w)"
+
+NOT_SELECTED: "Not Selected"
 
 PROGRESSBAR_LOADED: "Loading is completed. [W: {warningsCount}; ER: {errorsCount}; EX: {exceptionsCount}]"
 PROGRESSBAR_LOADING_FAILED: "Loading is failed. [W: {warningsCount}; ER: {errorsCount}; EX: {exceptionsCount}]"

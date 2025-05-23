@@ -26,6 +26,12 @@ using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.tools.brushes;
 using System.Drawing.Imaging;
 using System.Drawing;
+using System.Threading;
+using HOI4ModBuilder.src.scripts;
+using HOI4ModBuilder.src.scripts.objects;
+using HOI4ModBuilder.src.scripts.objects.interfaces;
+using System.Collections.Concurrent;
+using System.Linq;
 
 namespace HOI4ModBuilder.managers
 {
@@ -327,6 +333,7 @@ namespace HOI4ModBuilder.managers
                 return;
 
             Func<Province, int> func = (p) => Utils.ArgbToInt(255, 0, 0, 0);
+            Func<Province, int, int> customFunc = null;
             LogScaleData logScaleData = default;
 
             switch (enumMainLayer)
@@ -623,6 +630,43 @@ namespace HOI4ModBuilder.managers
                         };
                     }
                     break;
+
+                case EnumMainLayer.CUSTOM_SCRIPT:
+                    if (ScriptParser.MapMainLayerCustomScriptName == null)
+                    {
+                        func = null;
+                        return;
+                    }
+
+                    customFunc = (p, idx) =>
+                    {
+                        if (idx >= ScriptParser.MapMainLayerCustomScriptTasks)
+                        {
+                            return Utils.ArgbToInt(255, 0, 0, 0);
+                        }
+
+                        var action = ScriptParser.MapMainLayerCustomScriptActions[idx];
+                        var varsScope = ScriptParser.MapMainLayerCustomScriptMainVarsScopes[idx];
+
+                        varsScope.PutLocalVariable("province_id", new IntObject(p.Id));
+                        varsScope.PutLocalVariable("red", new IntObject());
+                        varsScope.PutLocalVariable("green", new IntObject());
+                        varsScope.PutLocalVariable("blue", new IntObject());
+                        action();
+                        byte r = 0, g = 0, b = 0;
+
+                        if (varsScope.TryGetLocalValue("red", out var variable) && variable is INumberObject redObj)
+                            r = Convert.ToByte(redObj.GetValue());
+                        if (varsScope.TryGetLocalValue("green", out variable) && variable is INumberObject greenObj)
+                            g = Convert.ToByte(greenObj.GetValue());
+                        if (varsScope.TryGetLocalValue("blue", out variable) && variable is INumberObject blueObj)
+                            b = Convert.ToByte(blueObj.GetValue());
+
+                        varsScope.ClearLocalVars();
+
+                        return Utils.ArgbToInt(255, r, g, b);
+                    };
+                    break;
             }
 
             if (isHandlingMapMainLayerChange[0])
@@ -634,9 +678,12 @@ namespace HOI4ModBuilder.managers
             {
                 isHandlingMapMainLayerChange[0] = true;
                 var assembleTask = new Task<byte[]>(
-                    () => func != null ?
-                        AssembleBitmapBytes(func) :
-                        AssembleBitmapBytes()
+                    () =>
+                    customFunc != null ?
+                        AssembleBitmapBytesByCustomScript(customFunc) :
+                        func != null ?
+                            AssembleBitmapBytes(func) :
+                            AssembleBitmapBytes()
                 );
 
                 assembleTask.ContinueWith(
@@ -682,6 +729,61 @@ namespace HOI4ModBuilder.managers
                     byteIndex += 3;
                 }
             });
+
+            return values;
+        }
+
+        public static byte[] AssembleBitmapBytesByCustomScript(Func<Province, int, int> func)
+        {
+            byte[] values = new byte[ProvincesPixels.Length * 3];
+
+            var freeIndices = new ConcurrentQueue<int>(Enumerable.Range(0, ScriptParser.MapMainLayerCustomScriptTasks));
+            var options = new ParallelOptions { MaxDegreeOfParallelism = ScriptParser.MapMainLayerCustomScriptTasks - 1 };
+
+            Parallel.For(
+                0,
+                MapSize.y,
+                options,
+                () =>
+                {
+                    int idx;
+                    while (!freeIndices.TryDequeue(out idx))
+                        Thread.SpinWait(1);          // ждём, пока освободится индекс
+                    return idx;
+                },
+                (row, loopState, idx) =>
+                {
+                    int color = 0;
+                    int newColor = 0;
+
+                    int start = (int)(row * MapSize.x);
+                    int end = start + MapSize.x;
+
+                    int byteIndex = start * 3;
+
+                    for (int i = start; i < end; i++)
+                    {
+                        if (color != ProvincesPixels[i])
+                        {
+                            color = ProvincesPixels[i];
+                            ProvinceManager.TryGetProvince(color, out Province province);
+                            if (province != null)
+                                newColor = func(province, idx);
+                            else
+                                newColor = 0;
+                        }
+
+                        values[byteIndex] = (byte)newColor;
+                        values[byteIndex + 1] = (byte)(newColor >> 8);
+                        values[byteIndex + 2] = (byte)(newColor >> 16);
+
+                        byteIndex += 3;
+                    }
+
+                    return idx;
+                },
+                idx => freeIndices.Enqueue(idx)
+            );
 
             return values;
         }

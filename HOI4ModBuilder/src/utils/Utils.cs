@@ -343,6 +343,28 @@ namespace HOI4ModBuilder
             return last;
         }
 
+        public static string TruncateText(string text, Font font, int maxWidth)
+        {
+            if (text == null || text.Length == 0)
+                return text;
+
+            var fullSize = TextRenderer.MeasureText(text, font, new Size(int.MaxValue, int.MaxValue),
+                                                   TextFormatFlags.SingleLine | TextFormatFlags.NoPadding);
+            if (fullSize.Width <= maxWidth)
+                return text;
+
+            for (int len = text.Length; len > 0; len--)
+            {
+                string candidate = @".." + text.Substring(text.Length - len);
+                var size = TextRenderer.MeasureText(candidate, font, new Size(int.MaxValue, int.MaxValue),
+                                                    TextFormatFlags.SingleLine | TextFormatFlags.NoPadding);
+                if (size.Width <= maxWidth)
+                    return candidate;
+            }
+
+            return text;
+        }
+
         public static FolderBrowserDialog PrepareFolderDialog(string dirPath)
         {
             if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);

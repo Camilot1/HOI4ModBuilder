@@ -137,7 +137,7 @@ namespace HOI4ModBuilder.src.forms.scripts
                 {
                     Logger.TryOrCatch(() =>
                     {
-                        var action = ScriptParser.Parse(_scriptLines);
+                        var action = ScriptParser.Parse(_scriptLines, out var _);
                         action?.Invoke();
                     },
                     (ex) =>
@@ -301,7 +301,7 @@ namespace HOI4ModBuilder.src.forms.scripts
         private void UpdateFilePathRender()
         {
             GroupBox_Script.Text = Utils.TruncatePath(_filePath, GroupBox_Script.Font, GroupBox_Script.Width - 12);
-            textBox1.SelectionStart = 0; 
+            textBox1.SelectionStart = 0;
             textBox1.ScrollToCaret();
             textBox1.SelectionStart = textBox1.Text.Length;
             textBox1.ScrollToCaret();

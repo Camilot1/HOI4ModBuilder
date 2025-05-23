@@ -25,6 +25,11 @@ namespace HOI4ModBuilder.src.scripts
         public static bool IsTerminated { get; set; }
         public static Action<ScriptCommand, int, VarsScope> DebugConsumer { set; get; }
 
+        public static int MapMainLayerCustomScriptTasks { get; private set; } = 32;
+        public static string MapMainLayerCustomScriptName { get; private set; }
+        public static Action[] MapMainLayerCustomScriptActions { get; private set; }
+        public static VarsScope[] MapMainLayerCustomScriptMainVarsScopes { get; private set; }
+
         private static bool Init()
         {
             if (_isInited) return true;
@@ -56,23 +61,40 @@ namespace HOI4ModBuilder.src.scripts
             return obj;
         }
 
-        public static Action Parse(string filePath)
+        public static void CompileMapMainLayerCustomScript(string filePath)
         {
+            Utils.GetFileNameAndFormat(filePath, out var fileName, out var fileFormat);
+            MapMainLayerCustomScriptName = fileName + "." + fileFormat;
+            MapMainLayerCustomScriptActions = new Action[MapMainLayerCustomScriptTasks];
+            MapMainLayerCustomScriptMainVarsScopes = new VarsScope[MapMainLayerCustomScriptTasks];
+
+            for (int i = 0; i < MapMainLayerCustomScriptTasks; i++)
+            {
+                MapMainLayerCustomScriptActions[i] = Parse(filePath, out var varsScope);
+                MapMainLayerCustomScriptMainVarsScopes[i] = varsScope;
+            }
+        }
+
+        public static Action Parse(string filePath, out VarsScope mainVarsScope)
+        {
+            mainVarsScope = null;
             if (File.Exists(filePath))
             {
                 var lines = File.ReadAllLines(filePath);
-                return Parse(lines);
+                return Parse(lines, out mainVarsScope);
             }
             else return null;
         }
 
-        public static Action Parse(string[] lines)
+        public static Action Parse(string[] lines, out VarsScope mainVarsScope)
         {
-            if (lines == null) return null;
+            mainVarsScope = null;
+            if (lines == null)
+                return null;
 
             int index = 0;
             int indent = 0;
-            var commands = Parse(lines, ref index, indent, new VarsScope(EnumVarsScopeType.MAIN));
+            var commands = Parse(lines, ref index, indent, mainVarsScope = new VarsScope(EnumVarsScopeType.MAIN));
 
             return new Action(() => commands.ForEach(command => command.Execute()));
         }

@@ -20,6 +20,7 @@ TREES_MAP: "Карта деревьев"
 CITIES_MAP: "Карта городов"
 HEIGHT_MAP: "Карта высот"
 NORMAL_MAP: "Карта нормалей"
+CUSTOM_SCRIPT: "Кастомный скрипт"
 
 CENTERS: "Центры"
 BORDERS: "Границы"
@@ -55,6 +56,8 @@ STATES_BLACK: "Области (ч)"
 STATES_WHITE: "Области (б)"
 STRATEGIC_REGIONS_BLACK: "Регионы (ч)"
 STRATEGIC_REGIONS_WHITE: "Регионы (б)"
+
+NOT_SELECTED: "Не выбрано"
 
 WARNING_LOCALIZATION_KEY_NOT_FOUND: "В файле {filePath} не найден ключ локализации \"{locKey}\"."
 

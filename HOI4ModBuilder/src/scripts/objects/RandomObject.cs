@@ -25,8 +25,10 @@ namespace HOI4ModBuilder.src.scripts.objects
 
         public void Set(int lineIndex, string[] args, IScriptObject value)
         {
-            if (value is RandomObject obj)
-                Value = obj.Value;
+            if (value is RandomObject randomObj)
+                Value = randomObj.Value;
+            if (value is INumberObject numberObj)
+                Value = new Random((int)numberObj.GetValue());
             else
                 throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }

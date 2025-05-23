@@ -821,7 +821,7 @@ namespace HOI4ModBuilder
 
         private void UpdateToolParameterComboBox(EnumTool tool, ICollection parameterItems, ICollection parameterValueItems)
         {
-            UpdateComboBoxValues(GroupBox_Tool_Parameter, ComboBox_Tool_Parameter, parameterItems, preferedParameter, tool);
+            UpdateComboBoxToolValues(GroupBox_Tool_Parameter, ComboBox_Tool_Parameter, parameterItems, preferedParameter, tool);
 
             if (parameterValueItems == null && (tool == EnumTool.BRUSH || tool == EnumTool.ERASER))
             {
@@ -830,17 +830,104 @@ namespace HOI4ModBuilder
                     parameterValueItems = brush.SortedVariantKeys;
             }
 
-            UpdateComboBoxValues(GroupBox_Tool_Parameter_Value, ComboBox_Tool_Parameter_Value, parameterValueItems, preferedParameterValue, tool);
+            UpdateComboBoxToolValues(GroupBox_Tool_Parameter_Value, ComboBox_Tool_Parameter_Value, parameterValueItems, preferedParameterValue, tool);
         }
 
-        private void UpdateComboBoxValues(GroupBox groupBox, ComboBox comboBox, ICollection items, string[] prefereds, EnumTool tool)
+        private void UpdateMainLayerParameterButton(EnumMainLayer mainLayer)
+        {
+            if (mainLayer == EnumMainLayer.CUSTOM_SCRIPT)
+            {
+                Button_MapMainLayer_Parameter.Text =
+                    ScriptParser.MapMainLayerCustomScriptActions == null ?
+                    GuiLocManager.GetLoc(EnumLocKey.NOT_SELECTED) :
+                    ScriptParser.MapMainLayerCustomScriptName;
+
+                GroupBox_Main_Layer_Parameter.Visible = true;
+                ResizeButton(GroupBox_Main_Layer_Parameter, Button_MapMainLayer_Parameter, 150);
+            }
+            else GroupBox_Main_Layer_Parameter.Visible = false;
+        }
+
+
+        private void СomboBox_MapMainLayer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                enumMainLayer = (EnumMainLayer)СomboBox_MapMainLayer.SelectedIndex;
+
+                UpdateMainLayerParameterButton(enumMainLayer);
+
+                if (enumMainLayer == EnumMainLayer.BUILDINGS && !BuildingManager.HasBuilding(ComboBox_Tool_Parameter.Text))
+                    UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
+                else if (enumMainLayer == EnumMainLayer.AI_AREAS && !AiAreaManager.HasAiArea(ComboBox_Tool_Parameter.Text))
+                    UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas(), null);
+
+                MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
+            });
+        }
+
+        private void Button_MapMainLayer_Parameter_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                string filePath;
+                var fd = new OpenFileDialog();
+                var dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "scripts" });
+                Utils.PrepareFileDialog(fd, GuiLocManager.GetLoc(EnumLocKey.SCRIPTS_CHOOSE_FILE), dialogPath, "MAP MODE TXT files (*.mm.txt)|*.mm.txt");
+                if (fd.ShowDialog() == DialogResult.OK)
+                    filePath = fd.FileName;
+                else
+                    return;
+
+                ScriptParser.CompileMapMainLayerCustomScript(filePath);
+
+                UpdateMainLayerParameterButton(enumMainLayer);
+
+                MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
+            });
+
+        private void UpdateComboBoxValues(GroupBox groupBox, ComboBox comboBox, ICollection items)
         {
             if (items != null)
             {
                 groupBox.Visible = true;
                 comboBox.Items.Clear();
 
-                var values = new List<string>();
+                var values = new string[items.Count];
+                int index = 0;
+
+                foreach (var itemObj in items)
+                {
+                    values[index] = itemObj.ToString();
+                }
+
+                comboBox.Items.AddRange(values);
+
+                if (comboBox.Items.Count > 0)
+                    comboBox.SelectedIndex = 0;
+
+            }
+            else groupBox.Visible = false;
+
+            groupBox.Refresh();
+
+            int itemHeight = comboBox.GetItemHeight(0);
+            int visibleItems = Math.Min(comboBox.Items.Count, 30);
+            int dropDownHeight = itemHeight * visibleItems + SystemInformation.BorderSize.Height * 2;
+            comboBox.DropDownHeight = dropDownHeight;
+
+            comboBox.Refresh();
+
+            ResizeComboBox(groupBox, comboBox);
+        }
+
+        private void UpdateComboBoxToolValues(GroupBox groupBox, ComboBox comboBox, ICollection items, string[] prefereds, EnumTool tool)
+        {
+            if (items != null)
+            {
+                groupBox.Visible = true;
+                comboBox.Items.Clear();
+
+                var values = new string[items.Count];
 
                 var prefered = prefereds[(int)tool];
 
@@ -850,13 +937,13 @@ namespace HOI4ModBuilder
                 foreach (var itemObj in items)
                 {
                     var item = itemObj.ToString();
+                    values[index] = item;
                     if (prefered == item)
                         indexToSelect = index;
                     index++;
-                    values.Add(item);
                 }
 
-                comboBox.Items.AddRange(values.ToArray());
+                comboBox.Items.AddRange(values);
 
                 if (indexToSelect >= 0)
                     comboBox.SelectedIndex = indexToSelect;
@@ -1542,17 +1629,18 @@ namespace HOI4ModBuilder
             => NetworkManager.OpenLink(NetworkManager.TelegramURL);
 
 
-        private void СomboBox_MapMainLayer_SelectedIndexChanged(object sender, EventArgs e)
+
+
+        public void SetAdjacencyRules(Dictionary<string, AdjacencyRule>.KeyCollection rules)
         {
             Logger.TryOrLog(() =>
             {
-                enumMainLayer = (EnumMainLayer)СomboBox_MapMainLayer.SelectedIndex;
-                if (enumMainLayer == EnumMainLayer.BUILDINGS && !BuildingManager.HasBuilding(ComboBox_Tool_Parameter.Text))
-                    UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
-                else if (enumMainLayer == EnumMainLayer.AI_AREAS && !AiAreaManager.HasAiArea(ComboBox_Tool_Parameter.Text))
-                    UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas(), null);
-
-                MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
+                InvokeAction(() =>
+                {
+                    ToolStripComboBox_Map_Adjacency_Rule.Items.Clear();
+                    ToolStripComboBox_Map_Adjacency_Rule.Items.Add("");
+                    foreach (string name in rules) ToolStripComboBox_Map_Adjacency_Rule.Items.Add(name);
+                });
             });
         }
 
@@ -1570,6 +1658,28 @@ namespace HOI4ModBuilder
             });
         private void ComboBox_Tool_Parameter_Value_SelectedIndexChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() => preferedParameterValue[(int)enumTool] = ComboBox_Tool_Parameter_Value.Text);
+
+        private void ResizeButton(GroupBox groupBox, Button button, int maxWidth)
+        {
+            int groupBoxTextWidth = TextRenderer.MeasureText(groupBox.Text, groupBox.Font, Size.Empty, TextFormatFlags.SingleLine).Width;
+            groupBoxTextWidth += 20;
+
+            if (maxWidth > 0)
+                button.Text = Utils.TruncateText(button.Text, button.Font, maxWidth);
+
+            int buttonWidth = TextRenderer.MeasureText(button.Text, button.Font, Size.Empty, TextFormatFlags.SingleLine).Width;
+
+            buttonWidth += SystemInformation.VerticalScrollBarWidth;
+
+            if (buttonWidth < groupBoxTextWidth)
+                buttonWidth = groupBoxTextWidth;
+
+            if (button.Width != buttonWidth)
+            {
+                button.Width = buttonWidth;
+                button.Parent?.PerformLayout();
+            }
+        }
 
         private void ResizeComboBox(GroupBox groupBox, ComboBox comboBox)
         {
@@ -1601,17 +1711,5 @@ namespace HOI4ModBuilder
             }
         }
 
-        public void SetAdjacencyRules(Dictionary<string, AdjacencyRule>.KeyCollection rules)
-        {
-            Logger.TryOrLog(() =>
-            {
-                InvokeAction(() =>
-                {
-                    ToolStripComboBox_Map_Adjacency_Rule.Items.Clear();
-                    ToolStripComboBox_Map_Adjacency_Rule.Items.Add("");
-                    foreach (string name in rules) ToolStripComboBox_Map_Adjacency_Rule.Items.Add(name);
-                });
-            });
-        }
     }
 }

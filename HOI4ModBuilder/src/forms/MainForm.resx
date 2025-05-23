@@ -195,6 +195,72 @@
   <data name="&gt;&gt;GroupBox_Main_Layer.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="GroupBox_Main_Layer_Parameter.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="GroupBox_Main_Layer_Parameter.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="Button_MapMainLayer_Parameter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1, 13</value>
+  </data>
+  <data name="Button_MapMainLayer_Parameter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 23</value>
+  </data>
+  <data name="Button_MapMainLayer_Parameter.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;Button_MapMainLayer_Parameter.Name" xml:space="preserve">
+    <value>Button_MapMainLayer_Parameter</value>
+  </data>
+  <data name="&gt;&gt;Button_MapMainLayer_Parameter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_MapMainLayer_Parameter.Parent" xml:space="preserve">
+    <value>GroupBox_Main_Layer_Parameter</value>
+  </data>
+  <data name="&gt;&gt;Button_MapMainLayer_Parameter.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="GroupBox_Main_Layer_Parameter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>149, 0</value>
+  </data>
+  <data name="GroupBox_Main_Layer_Parameter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="GroupBox_Main_Layer_Parameter.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 37</value>
+  </data>
+  <data name="GroupBox_Main_Layer_Parameter.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 37</value>
+  </data>
+  <data name="GroupBox_Main_Layer_Parameter.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="GroupBox_Main_Layer_Parameter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 37</value>
+  </data>
+  <data name="GroupBox_Main_Layer_Parameter.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="GroupBox_Main_Layer_Parameter.Text" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="GroupBox_Main_Layer_Parameter.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;GroupBox_Main_Layer_Parameter.Name" xml:space="preserve">
+    <value>GroupBox_Main_Layer_Parameter</value>
+  </data>
+  <data name="&gt;&gt;GroupBox_Main_Layer_Parameter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox_Main_Layer_Parameter.Parent" xml:space="preserve">
+    <value>FlowLayoutPanel_ToolBar</value>
+  </data>
+  <data name="&gt;&gt;GroupBox_Main_Layer_Parameter.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="GroupBox_Edit_Layer.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -223,7 +289,7 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Edit_Layer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>149, 0</value>
+    <value>234, 0</value>
   </data>
   <data name="GroupBox_Edit_Layer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -256,7 +322,7 @@
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
   <data name="&gt;&gt;GroupBox_Edit_Layer.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="GroupBox_Tool.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -286,7 +352,7 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Tool.Location" type="System.Drawing.Point, System.Drawing">
-    <value>260, 0</value>
+    <value>345, 0</value>
   </data>
   <data name="GroupBox_Tool.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -319,7 +385,7 @@
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
   <data name="&gt;&gt;GroupBox_Tool.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="GroupBox_Tool_Parameter.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -349,7 +415,7 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Tool_Parameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>387, 0</value>
+    <value>472, 0</value>
   </data>
   <data name="GroupBox_Tool_Parameter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -385,7 +451,7 @@
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
   <data name="&gt;&gt;GroupBox_Tool_Parameter.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="GroupBox_Tool_Parameter_Value.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -415,7 +481,7 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Tool_Parameter_Value.Location" type="System.Drawing.Point, System.Drawing">
-    <value>474, 0</value>
+    <value>559, 0</value>
   </data>
   <data name="GroupBox_Tool_Parameter_Value.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -451,7 +517,7 @@
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
   <data name="&gt;&gt;GroupBox_Tool_Parameter_Value.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="Panel_SecondColor.Location" type="System.Drawing.Point, System.Drawing">
     <value>31, 14</value>
@@ -496,7 +562,7 @@
     <value>1</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>561, 0</value>
+    <value>646, 0</value>
   </data>
   <data name="groupBox3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -523,7 +589,7 @@
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="Button_GenerateColor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -586,7 +652,7 @@
     <value>1</value>
   </data>
   <data name="GroupBox_GenerateColor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>621, 0</value>
+    <value>706, 0</value>
   </data>
   <data name="GroupBox_GenerateColor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -613,7 +679,7 @@
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
   <data name="&gt;&gt;GroupBox_GenerateColor.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="GroupBox_Palette.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -661,7 +727,7 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Palette.Location" type="System.Drawing.Point, System.Drawing">
-    <value>752, 0</value>
+    <value>837, 0</value>
   </data>
   <data name="GroupBox_Palette.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -694,7 +760,7 @@
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
   <data name="&gt;&gt;GroupBox_Palette.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="GroupBox_Progress.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -727,7 +793,7 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Progress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>876, 0</value>
+    <value>961, 0</value>
   </data>
   <data name="GroupBox_Progress.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -751,7 +817,7 @@
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
   <data name="&gt;&gt;GroupBox_Progress.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="FlowLayoutPanel_ToolBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>

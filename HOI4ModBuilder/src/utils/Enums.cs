@@ -57,6 +57,7 @@ namespace HOI4ModBuilder.utils
             CITIES_MAP,
             HEIGHT_MAP,
             NORMAL_MAP,
+            CUSTOM_SCRIPT,
             NONE
         }
 
