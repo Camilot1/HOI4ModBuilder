@@ -23,7 +23,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         private EnumAdjaciencyType _enumType;
         private Province _throughProvince;
         public Province ThroughProvince { get => _throughProvince; }
-        private Value2I _start, _end;
+        private Value2S _start, _end;
         private AdjacencyRule _adjacencyRule;
         public AdjacencyRule AdjacencyRule { get => _adjacencyRule; }
         private string _comment;
@@ -35,7 +35,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
         }
 
-        public Adjacency(ushort id, bool isNormal, Province startProvince, Province endProvince, EnumAdjaciencyType enumType, Value2I start, Value2I end)
+        public Adjacency(ushort id, bool isNormal, Province startProvince, Province endProvince, EnumAdjaciencyType enumType, Value2S start, Value2S end)
         {
             this.id = id;
             this.isNormal = isNormal;
@@ -175,12 +175,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
                     );
 
             //Стартовая точка
-            if (!int.TryParse(data[4], out _start.x)) _start.x = -1;
-            if (!int.TryParse(data[5], out _start.y)) _start.y = -1;
+            if (!short.TryParse(data[4], out _start.x)) _start.x = -1;
+            if (!short.TryParse(data[5], out _start.y)) _start.y = -1;
 
             //Конечная точка
-            if (!int.TryParse(data[6], out _end.x)) _end.x = -1;
-            if (!int.TryParse(data[7], out _end.y)) _end.y = -1;
+            if (!short.TryParse(data[6], out _end.x)) _end.x = -1;
+            if (!short.TryParse(data[7], out _end.y)) _end.y = -1;
 
             //Правило смежности
             if (data[8].Length > 0)
@@ -208,7 +208,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             through = _throughProvince;
         }
 
-        public void GetDisplayData(out EnumAdjaciencyType enumType, out int startId, out int endId, out int throughId, out Value2I startPos, out Value2I endPos, out string adjacencyRuleName, out string comment)
+        public void GetDisplayData(out EnumAdjaciencyType enumType, out int startId, out int endId, out int throughId, out Value2S startPos, out Value2S endPos, out string adjacencyRuleName, out string comment)
         {
             enumType = _enumType;
             startId = _startProvince == null ? -1 : _startProvince.Id;
@@ -223,27 +223,32 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
         public bool HasConnectionWithProvince(Province province)
         {
-            if (_enumType == EnumAdjaciencyType.IMPASSABLE) return false;
-            if (_startProvince != null && _startProvince == province) return true;
-            if (_endProvince != null && _endProvince == province) return true;
+            if (_enumType == EnumAdjaciencyType.IMPASSABLE)
+                return false;
+            if (_startProvince != null && _startProvince == province)
+                return true;
+            if (_endProvince != null && _endProvince == province)
+                return true;
             return false;
         }
 
         public bool CanBeDrawn()
         {
-            if (_startProvince == null || _endProvince == null) return false;
-            else return true;
+            if (_startProvince == null || _endProvince == null)
+                return false;
+            else
+                return true;
         }
 
         public void AddToProvinces()
         {
             _startProvince?.AddAdjacency(this);
             _endProvince?.AddAdjacency(this);
+
             if (_enumType == EnumAdjaciencyType.IMPASSABLE && _startProvince != null && _endProvince != null)
-            {
                 provinceBorder = _startProvince.GetBorderWith(_endProvince);
-            }
-            else _throughProvince?.AddAdjacency(this);
+            else
+                _throughProvince?.AddAdjacency(this);
         }
 
         public void RemoveFromProvinces()
@@ -292,7 +297,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
                 return false;
             }
 
-            if (_start.x < 0f || _start.y < 0f)
+            bool startIsDefault = _start.x < 0f || _start.y < 0f;
+            bool endIsDefault = _end.x < 0f || _end.y < 0f;
+
+            if (startIsDefault)
             {
                 s.x = _startProvince.center.x;
                 s.y = _startProvince.center.y;
@@ -303,7 +311,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
                 s.y = MapManager.MapSize.y - _start.y;
             }
 
-            if (_end.x < 0f || _end.y < 0f)
+            if (endIsDefault)
             {
                 e.x = _endProvince.center.x;
                 e.y = _endProvince.center.y;
@@ -313,45 +321,51 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
                 e.x = _end.x;
                 e.y = MapManager.MapSize.y - _end.y;
             }
+
             return true;
         }
 
         public void SetStartPos(string str)
         {
-            if (Utils.ParseIntPositionFromString(str, out int x, out int y))
-            {
+            if (Utils.ParseShortPositionFromString(str, out short x, out short y))
                 SetStartPos(x, y);
-            }
         }
 
         public void SetEndPos(string str)
         {
-            if (Utils.ParseIntPositionFromString(str, out int x, out int y))
-            {
+            if (Utils.ParseShortPositionFromString(str, out short x, out short y))
                 SetEndPos(x, y);
-            }
         }
 
-        public void SetStartPos(int x, int y)
+        public void SetStartPos(short x, short y)
         {
-            if (x < 0 || x > MapManager.MapSize.x) _start.x = -1;
-            else _start.x = x;
-            if (y < 0 || y > MapManager.MapSize.y) _start.y = -1;
-            else _start.y = y;
+            if (x < 0 || x > MapManager.MapSize.x)
+                _start.x = -1;
+            else
+                _start.x = x;
+            if (y < 0 || y > MapManager.MapSize.y)
+                _start.y = -1;
+            else
+                _start.y = y;
             AdjacenciesManager.NeedToSaveAdjacencies = true;
         }
-        public void SetEndPos(int x, int y)
+        public void SetEndPos(short x, short y)
         {
-            if (x < 0 || x > MapManager.MapSize.x) _end.x = -1;
-            else _end.x = x;
-            if (y < 0 || y > MapManager.MapSize.y) _end.y = -1;
-            else _end.y = y;
+            if (x < 0 || x > MapManager.MapSize.x)
+                _end.x = -1;
+            else
+                _end.x = x;
+            if (y < 0 || y > MapManager.MapSize.y)
+                _end.y = -1;
+            else
+                _end.y = y;
             AdjacenciesManager.NeedToSaveAdjacencies = true;
         }
 
         public void SetStartProvince(Province province)
         {
-            if (province == null || _endProvince == province || _throughProvince == province) return;
+            if (province == null || _endProvince == province || _throughProvince == province)
+                return;
 
             _startProvince?.RemoveAdjacency(this);
             _startProvince = province;
@@ -361,7 +375,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
         public void SetEndProvince(Province province)
         {
-            if (province == null || _startProvince == province || _throughProvince == province) return;
+            if (province == null || _startProvince == province || _throughProvince == province)
+                return;
 
             _endProvince?.RemoveAdjacency(this);
             _endProvince = province;
@@ -371,7 +386,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
         public void SetThroughProvince(Province province)
         {
-            if (province == null || _startProvince == province || _endProvince == province) return;
+            if (province == null || _startProvince == province || _endProvince == province)
+                return;
 
             _throughProvince?.RemoveAdjacency(this);
             _throughProvince = province;
@@ -381,8 +397,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
         public bool HasRuleRequiredProvince(Province province)
         {
-            if (_adjacencyRule == null) return false;
-            return _adjacencyRule.requiredProvinces.Contains(province);
+            if (_adjacencyRule == null)
+                return false;
+            return
+                _adjacencyRule.requiredProvinces.Contains(province);
         }
 
         public void AddRuleRequiredProvince(Province province)
@@ -405,14 +423,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
         public List<Province> GetRuleRequiredProvinces()
         {
-            if (_adjacencyRule == null) return null;
-            else return _adjacencyRule.requiredProvinces;
+            if (_adjacencyRule == null)
+                return null;
+            else
+                return _adjacencyRule.requiredProvinces;
         }
 
-        public EnumAdjaciencyType GetEnumType()
-        {
-            return _enumType;
-        }
+        public EnumAdjaciencyType GetEnumType() => _enumType;
 
         public void SetComment(string text)
         {
@@ -429,8 +446,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
                    EqualityComparer<Province>.Default.Equals(_endProvince, adjacency._endProvince) &&
                    _enumType == adjacency._enumType &&
                    EqualityComparer<Province>.Default.Equals(_throughProvince, adjacency._throughProvince) &&
-                   EqualityComparer<Value2I>.Default.Equals(_start, adjacency._start) &&
-                   EqualityComparer<Value2I>.Default.Equals(_end, adjacency._end) &&
+                   EqualityComparer<Value2S>.Default.Equals(_start, adjacency._start) &&
+                   EqualityComparer<Value2S>.Default.Equals(_end, adjacency._end) &&
                    EqualityComparer<AdjacencyRule>.Default.Equals(_adjacencyRule, adjacency._adjacencyRule) &&
                    _comment == adjacency._comment &&
                    EqualityComparer<ProvinceBorder>.Default.Equals(provinceBorder, adjacency.provinceBorder);

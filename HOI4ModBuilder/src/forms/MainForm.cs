@@ -1373,7 +1373,7 @@ namespace HOI4ModBuilder
             {
                 if (adj != null)
                 {
-                    adj.GetDisplayData(out EnumAdjaciencyType enumType, out int startId, out int endId, out int throughId, out Value2I startPos, out Value2I endPos, out string adjacencyRuleName, out string comment);
+                    adj.GetDisplayData(out EnumAdjaciencyType enumType, out int startId, out int endId, out int throughId, out Value2S startPos, out Value2S endPos, out string adjacencyRuleName, out string comment);
 
                     ToolStripComboBox_Map_Adjacency_Type.Text = enumType.ToString();
 

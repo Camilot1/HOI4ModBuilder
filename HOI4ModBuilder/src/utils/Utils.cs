@@ -473,6 +473,19 @@ namespace HOI4ModBuilder
             return true;
         }
 
+        public static bool ParseShortPositionFromString(string str, out short x, out short y)
+        {
+            x = -1;
+            y = -1;
+            string[] data = str.Split(';');
+            if (data.Length != 2) return false;
+
+            if (!short.TryParse(data[0].Trim(), out x)) return false;
+            if (!short.TryParse(data[1].Trim(), out y)) return false;
+
+            return true;
+        }
+
         public static void HsvToRgb(double h, double S, double V, out byte r, out byte g, out byte b)
         {
             double H = h;

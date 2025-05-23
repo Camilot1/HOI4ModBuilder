@@ -82,6 +82,70 @@ namespace HOI4ModBuilder.managers
             File.WriteAllText(filePath, sb.ToString());
         }
 
+        public static bool GetClosestPoint(Province provinceA, Value2S posB, out Value2S posA)
+        {
+            posA = default;
+
+            if (provinceA == null || provinceA.borders.Count == 0)
+                return false;
+
+            posA = provinceA.borders[0].pixels[0];
+            var closestSq = posA.GetSquareDistanceTo(posB);
+
+            foreach (var borderA in provinceA.borders)
+            {
+                foreach (var pixelA in borderA.pixels)
+                {
+                    int distance = pixelA.GetSquareDistanceTo(posB);
+                    if (distance < closestSq)
+                    {
+                        closestSq = distance;
+                        posA = pixelA;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public static bool GetClosestPoints(Province provinceA, Province provinceB, out Value2S posA, out Value2S posB)
+        {
+            posA = default;
+            posB = default;
+
+            if (provinceA == null || provinceA.borders.Count == 0 ||
+                provinceB == null || provinceB.borders.Count == 0)
+                return false;
+
+            posA = provinceA.borders[0].pixels[0];
+            posB = provinceB.borders[0].pixels[0];
+
+            var closestSq = posA.GetSquareDistanceTo(posB);
+
+            foreach (var borderA in provinceA.borders)
+            {
+                foreach (var borderB in provinceB.borders)
+                {
+                    foreach (var pixelA in borderA.pixels)
+                    {
+                        foreach (var pixelB in borderB.pixels)
+                        {
+                            int distance = pixelA.GetSquareDistanceTo(pixelB);
+                            if (distance < closestSq)
+                            {
+                                closestSq = distance;
+                                posA = pixelA;
+                                posB = pixelB;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return true;
+
+        }
+
         public static void AddProvince(Province province, out bool canAddById, out bool canAddByColor)
         {
             ushort id = province.Id;
@@ -267,17 +331,15 @@ namespace HOI4ModBuilder.managers
             {
                 GL.Color3(1f, 0f, 0f);
                 GL.PointSize(5f);
-                GL.Translate(0f, 1f, 0f);
                 GL.Begin(PrimitiveType.Points);
 
                 foreach (var province in _provincesByColor.Values)
                 {
                     if (province.dislayCenter)
-                        GL.Vertex2(province.center.x, province.center.y);
+                        GL.Vertex2(province.center.x + 0.5f, province.center.y + 0.5f);
                 }
 
                 GL.End();
-                GL.Translate(0f, -1f, 0f);
             }
 
             if (GroupSelectedProvinces != null && GroupSelectedProvinces.Count > 0)
