@@ -2310,6 +2310,24 @@
   <data name="ToolStripMenuItem_UpdateAll.Text" xml:space="preserve">
     <value>Обновить всё</value>
   </data>
+  <data name="ToolStripMenuItem_Export_MainLayer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>190, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Export_MainLayer.Text" xml:space="preserve">
+    <value>Основной слой</value>
+  </data>
+  <data name="ToolStripMenuItem_Export_SelectedBorders.Size" type="System.Drawing.Size, System.Drawing">
+    <value>190, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Export_SelectedBorders.Text" xml:space="preserve">
+    <value>Выбранные границы</value>
+  </data>
+  <data name="ToolStripMenuItem_Export.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Export.Text" xml:space="preserve">
+    <value>Экспорт</value>
+  </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>191, 6</value>
   </data>
@@ -3163,6 +3181,24 @@
     <value>ToolStripMenuItem_UpdateAll</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_UpdateAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Export.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Export</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Export.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Export_MainLayer.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Export_MainLayer</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Export_MainLayer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Export_SelectedBorders.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Export_SelectedBorders</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Export_SelectedBorders.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">

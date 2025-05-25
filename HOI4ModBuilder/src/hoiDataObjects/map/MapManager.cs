@@ -49,7 +49,7 @@ namespace HOI4ModBuilder.managers
         public static int[] ProvincesPixels { get; set; } //RGBA
         public static byte[] HeightsPixels { get; set; }
 
-        private static TexturedPlane _mapMainLayer, _bordersMapPlane, _riversMapPlane;
+        public static TexturedPlane MapMainLayer, BordersMapPlane, RiversMapPlane;
         public static List<TextureInfo> additionalMapTextures = new List<TextureInfo>();
         public static TexturedPlane selectedTexturedPlane;
         public static SDFTextBundle sdfTextBundle;
@@ -105,15 +105,15 @@ namespace HOI4ModBuilder.managers
 
         private static void LoadTextureMaps()
         {
-            MapSize = TextureManager.provinces.texture.GetSize();
-            _mapMainLayer = new TexturedPlane(TextureManager.provinces.texture, MapSize.x, MapSize.y);
-            _bordersMapPlane = new TexturedPlane(TextureManager.provincesBorders.texture, MapSize.x, MapSize.y);
-            _riversMapPlane = new TexturedPlane(TextureManager.rivers.texture, MapSize.x, MapSize.y);
+            MapSize = TextureManager.provinces.texture.Size;
+            MapMainLayer = new TexturedPlane(TextureManager.provinces.texture, MapSize.x, MapSize.y);
+            BordersMapPlane = new TexturedPlane(TextureManager.provincesBorders.texture, MapSize.x, MapSize.y);
+            RiversMapPlane = new TexturedPlane(TextureManager.rivers.texture, MapSize.x, MapSize.y);
 
             if (mapDifX == 0 && mapDifY == 0)
             {
-                mapDifX = -_mapMainLayer.size.x / 2f;
-                mapDifY = _mapMainLayer.size.y / 2f;
+                mapDifX = -MapMainLayer.size.x / 2f;
+                mapDifY = MapMainLayer.size.y / 2f;
             }
         }
 
@@ -141,29 +141,29 @@ namespace HOI4ModBuilder.managers
 
         public static void Draw()
         {
-            if (_mapMainLayer == null) return;
+            if (MapMainLayer == null) return;
 
             GL.LoadIdentity();
             GL.PushMatrix();
             GL.Scale(zoomFactor, zoomFactor, zoomFactor);
             GL.Translate(mapDifX, -mapDifY, 0); // перемещение
 
-            if (showMainLayer) _mapMainLayer.Draw();
+            if (showMainLayer) MapMainLayer.Draw();
 
             if (displayLayers[(int)EnumAdditionalLayers.BORDERS])
             {
                 GL.Translate(0.5f, -0.5f, 0f);
                 if (blackBorders) GL.Color3(0f, 0f, 0f);
-                _bordersMapPlane.Draw();
+                BordersMapPlane.Draw();
                 GL.Color3(1f, 1f, 1f);
                 GL.Translate(-0.5f, 0.5f, 0f);
             }
 
             if (displayLayers[(int)EnumAdditionalLayers.RIVERS])
-                _riversMapPlane.Draw();
+                RiversMapPlane.Draw();
 
             GL.Scale(1f, -1f, 1f);
-            GL.Translate(0, -_mapMainLayer.size.y, 0);
+            GL.Translate(0, -MapMainLayer.size.y, 0);
 
             ProvinceManager.Draw(displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.PROVINCES_MAP));
             StateManager.Draw(displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.STATES));
@@ -342,22 +342,22 @@ namespace HOI4ModBuilder.managers
                     func = null;
                     break;
                 case EnumMainLayer.TERRAIN_MAP:
-                    _mapMainLayer.Texture = TextureManager.terrain.texture;
+                    MapMainLayer.Texture = TextureManager.terrain.texture;
                     return;
                 case EnumMainLayer.TREES_MAP:
-                    _mapMainLayer.Texture = TextureManager.trees.texture;
+                    MapMainLayer.Texture = TextureManager.trees.texture;
                     return;
                 case EnumMainLayer.CITIES_MAP:
-                    _mapMainLayer.Texture = TextureManager.cities.texture;
+                    MapMainLayer.Texture = TextureManager.cities.texture;
                     return;
                 case EnumMainLayer.HEIGHT_MAP:
-                    _mapMainLayer.Texture = TextureManager.height.texture;
+                    MapMainLayer.Texture = TextureManager.height.texture;
                     return;
                 case EnumMainLayer.NORMAL_MAP:
-                    _mapMainLayer.Texture = TextureManager.normal.texture;
+                    MapMainLayer.Texture = TextureManager.normal.texture;
                     return;
                 case EnumMainLayer.NONE:
-                    _mapMainLayer.Texture = TextureManager.none.texture;
+                    MapMainLayer.Texture = TextureManager.none.texture;
                     return;
 
                 case EnumMainLayer.STATES:
@@ -689,7 +689,7 @@ namespace HOI4ModBuilder.managers
                 assembleTask.ContinueWith(
                     task =>
                     {
-                        _mapMainLayer.Texture = TextureManager.provinces.texture;
+                        MapMainLayer.Texture = TextureManager.provinces.texture;
                         TextureManager.provinces.texture.Update(TextureManager._24bppRgb, 0, 0, MapSize.x, MapSize.y, task.Result);
                         isHandlingMapMainLayerChange[0] = false;
 
@@ -900,12 +900,12 @@ namespace HOI4ModBuilder.managers
             Point2D point;
             Point2D mapSize = new Point2D();
 
-            if (_mapMainLayer != null)
+            if (MapMainLayer != null)
             {
-                mapSize.y = _mapMainLayer == null ? 0 : _mapMainLayer.size.y;
-                mapSize.x = _mapMainLayer == null ? 0 : _mapMainLayer.size.x;
-                _mapSizeFactor.x = _mapMainLayer.Texture.size.x / mapSize.x;
-                _mapSizeFactor.y = _mapMainLayer.Texture.size.y / mapSize.y;
+                mapSize.y = MapMainLayer == null ? 0 : MapMainLayer.size.y;
+                mapSize.x = MapMainLayer == null ? 0 : MapMainLayer.size.x;
+                _mapSizeFactor.x = MapMainLayer.Texture.Size.x / mapSize.x;
+                _mapSizeFactor.y = MapMainLayer.Texture.Size.y / mapSize.y;
             }
 
             point.x = ((2 * eX - viewportInfo.width) / (viewportInfo.max * zoomFactor) - mapDifX) * _mapSizeFactor.x;
@@ -1185,27 +1185,27 @@ namespace HOI4ModBuilder.managers
             switch (MainForm.Instance.EnumBordersType)
             {
                 case EnumBordersType.PROVINCES_BLACK:
-                    if (TextureManager.provincesBorders.texture != null) _bordersMapPlane.Texture = TextureManager.provincesBorders.texture;
+                    if (TextureManager.provincesBorders.texture != null) BordersMapPlane.Texture = TextureManager.provincesBorders.texture;
                     blackBorders = true;
                     break;
                 case EnumBordersType.PROVINCES_WHITE:
-                    if (TextureManager.provincesBorders.texture != null) _bordersMapPlane.Texture = TextureManager.provincesBorders.texture;
+                    if (TextureManager.provincesBorders.texture != null) BordersMapPlane.Texture = TextureManager.provincesBorders.texture;
                     blackBorders = false;
                     break;
                 case EnumBordersType.STATES_BLACK:
-                    if (TextureManager.statesBorders.texture != null) _bordersMapPlane.Texture = TextureManager.statesBorders.texture;
+                    if (TextureManager.statesBorders.texture != null) BordersMapPlane.Texture = TextureManager.statesBorders.texture;
                     blackBorders = true;
                     break;
                 case EnumBordersType.STATES_WHITE:
-                    if (TextureManager.statesBorders.texture != null) _bordersMapPlane.Texture = TextureManager.statesBorders.texture;
+                    if (TextureManager.statesBorders.texture != null) BordersMapPlane.Texture = TextureManager.statesBorders.texture;
                     blackBorders = false;
                     break;
                 case EnumBordersType.STRATEGIC_REGIONS_BLACK:
-                    if (TextureManager.regionsBorders.texture != null) _bordersMapPlane.Texture = TextureManager.regionsBorders.texture;
+                    if (TextureManager.regionsBorders.texture != null) BordersMapPlane.Texture = TextureManager.regionsBorders.texture;
                     blackBorders = true;
                     break;
                 case EnumBordersType.STRATEGIC_REGIONS_WHITE:
-                    if (TextureManager.regionsBorders.texture != null) _bordersMapPlane.Texture = TextureManager.regionsBorders.texture;
+                    if (TextureManager.regionsBorders.texture != null) BordersMapPlane.Texture = TextureManager.regionsBorders.texture;
                     blackBorders = false;
                     break;
             }

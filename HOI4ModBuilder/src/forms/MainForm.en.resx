@@ -506,13 +506,13 @@
     <value>Regions</value>
   </data>
   <data name="ToolStripMenuItem_Save.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Save.Text" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="ToolStripMenuItem_SaveAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_SaveAll.Text" xml:space="preserve">
     <value>Save All</value>
@@ -587,43 +587,61 @@
     <value>Supply</value>
   </data>
   <data name="ToolStripMenuItem_Load.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Load.Text" xml:space="preserve">
     <value>Load</value>
   </data>
   <data name="ToolStripMenuItem_LoadAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_LoadAll.Text" xml:space="preserve">
     <value>Load All</value>
   </data>
   <data name="ToolStripMenuItem_Update.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Update.Text" xml:space="preserve">
     <value>Update</value>
   </data>
   <data name="ToolStripMenuItem_UpdateAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_UpdateAll.Text" xml:space="preserve">
     <value>Update all</value>
   </data>
+  <data name="ToolStripMenuItem_Export_MainLayer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Export_MainLayer.Text" xml:space="preserve">
+    <value>Main Layer</value>
+  </data>
+  <data name="ToolStripMenuItem_Export_SelectedBorders.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Export_SelectedBorders.Text" xml:space="preserve">
+    <value>Selected Borders</value>
+  </data>
+  <data name="ToolStripMenuItem_Export.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Export.Text" xml:space="preserve">
+    <value>Export</value>
+  </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 6</value>
+    <value>177, 6</value>
   </data>
   <data name="ToolStripMenuItem_Settings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Settings.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 6</value>
+    <value>177, 6</value>
   </data>
   <data name="ToolStripMenuItem_Exit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Exit.Text" xml:space="preserve">
     <value>Exit</value>

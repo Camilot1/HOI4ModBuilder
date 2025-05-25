@@ -74,9 +74,6 @@ namespace HOI4ModBuilder
             return textureTypes;
         }
 
-        public static TextureType Get(EnumTextureType textureType)
-        {
-            return _textureTypes[textureType];
-        }
+        public static TextureType Get(EnumTextureType textureType) => _textureTypes[textureType];
     }
 }

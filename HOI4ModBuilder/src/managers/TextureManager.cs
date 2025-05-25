@@ -63,13 +63,15 @@ namespace HOI4ModBuilder
         public struct MapPair
         {
             public bool needToSave;
-            private Bitmap bitmap;
             public Texture2D texture;
+            private Bitmap _bitmap;
+            public Bitmap GetBitmap() => _bitmap;
+
 
             public MapPair(bool needToSave, Bitmap bitmap, Texture2D texture)
             {
                 this.needToSave = needToSave;
-                this.bitmap = bitmap;
+                this._bitmap = bitmap;
                 this.texture = texture;
                 _mapPairTextures.Add(texture);
             }
@@ -78,7 +80,7 @@ namespace HOI4ModBuilder
             {
                 if (GetColor(x, y) == color)
                     return;
-                bitmap.SetPixel(x, y, Color.FromArgb(color));
+                _bitmap.SetPixel(x, y, Color.FromArgb(color));
                 needToSave = true;
             }
             public void SetColor(Point2D point, int color)
@@ -86,44 +88,40 @@ namespace HOI4ModBuilder
 
             public void WriteByte(int x, int y, byte value)
             {
-                var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
+                var bitmapData = _bitmap.LockBits(new Rectangle(0, 0, _bitmap.Width, _bitmap.Height), ImageLockMode.ReadWrite, _bitmap.PixelFormat);
                 var scan0 = bitmapData.Scan0;
 
                 byte prevValue = Marshal.ReadByte(scan0, y * bitmapData.Stride + x);
                 if (prevValue == value)
                 {
-                    bitmap.UnlockBits(bitmapData);
+                    _bitmap.UnlockBits(bitmapData);
                     return;
                 }
                 Marshal.WriteByte(scan0, y * bitmapData.Stride + x, value);
-                bitmap.UnlockBits(bitmapData);
+                _bitmap.UnlockBits(bitmapData);
                 needToSave = true;
             }
-            public void WriteByte(Point2D point, byte value)
-                => WriteByte((int)point.x, (int)point.y, value);
+            public void WriteByte(Point2D point, byte value) => WriteByte((int)point.x, (int)point.y, value);
 
-            public byte GetByte(Point2D point)
-                => GetByte((int)point.x, (int)point.y);
+            public byte GetByte(Point2D point) => GetByte((int)point.x, (int)point.y);
 
             public byte GetByte(int x, int y)
             {
-                var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
+                var bitmapData = _bitmap.LockBits(new Rectangle(0, 0, _bitmap.Width, _bitmap.Height), ImageLockMode.ReadWrite, _bitmap.PixelFormat);
                 var scan0 = bitmapData.Scan0;
 
                 byte value = Marshal.ReadByte(scan0, y * bitmapData.Stride + x);
-                bitmap.UnlockBits(bitmapData);
+                _bitmap.UnlockBits(bitmapData);
                 return value;
             }
 
-            public int GetColor(Point2D point)
-                => bitmap.GetPixel((int)point.x, (int)point.y).ToArgb();
-            public int GetColor(int x, int y)
-                => bitmap.GetPixel(x, y).ToArgb();
+            public int GetColor(Point2D point) => _bitmap.GetPixel((int)point.x, (int)point.y).ToArgb();
+            public int GetColor(int x, int y) => _bitmap.GetPixel(x, y).ToArgb();
 
             public bool GetIndex(int color, out byte index)
             {
                 //TODO оптимизировать (сделать через словарь-палитру)
-                Color[] entries = bitmap.Palette.Entries;
+                Color[] entries = _bitmap.Palette.Entries;
                 Color c = Color.FromArgb(color);
                 index = 0;
                 for (byte i = 0; i < entries.Length; i++)
@@ -137,21 +135,19 @@ namespace HOI4ModBuilder
                 return false;
             }
 
-            public Bitmap GetBitmap() => bitmap;
-
             public void RGBFill(int[] pixels, HashSet<Value2US> positions, int fillColor)
             {
                 if (positions.Count == 0) return;
 
-                if (bitmap.PixelFormat != _24bppRgb.imagePixelFormat)
+                if (_bitmap.PixelFormat != _24bppRgb.imagePixelFormat)
                 {
-                    throw new Exception($"Can't use RGBFill with Bitmap {bitmap.PixelFormat}");
+                    throw new Exception($"Can't use RGBFill with Bitmap {_bitmap.PixelFormat}");
                 }
 
-                int width = bitmap.Width;
-                int height = bitmap.Height;
+                int width = _bitmap.Width;
+                int height = _bitmap.Height;
 
-                byte[] values = Utils.BitmapToArray(bitmap, ImageLockMode.ReadOnly, _24bppRgb);
+                byte[] values = Utils.BitmapToArray(_bitmap, ImageLockMode.ReadOnly, _24bppRgb);
 
                 foreach (var pos in positions)
                 {
@@ -163,7 +159,7 @@ namespace HOI4ModBuilder
                     values[byteI + 2] = (byte)(fillColor >> 16);
                 }
 
-                Utils.ArrayToBitmap(values, bitmap, ImageLockMode.WriteOnly, width, height, _24bppRgb);
+                Utils.ArrayToBitmap(values, _bitmap, ImageLockMode.WriteOnly, width, height, _24bppRgb);
 
                 texture.Update(_24bppRgb, 0, 0, width, height, values);
 
@@ -174,17 +170,17 @@ namespace HOI4ModBuilder
             {
                 var poses = new HashSet<Value2US>();
                 var nextPoses = new Queue<Value2US>();
-                int width = bitmap.Width;
-                int height = bitmap.Height;
+                int width = _bitmap.Width;
+                int height = _bitmap.Height;
 
                 //Проверять x < 0 && y < 0 нет смысла, т.к. они они ushort и будут x > width или y > height
                 if (x >= width || y >= height) return poses;
 
-                var color = bitmap.GetPixel(x, y);
+                var color = _bitmap.GetPixel(x, y);
                 var pos = new Value2US(x, y);
                 nextPoses.Enqueue(pos);
 
-                byte[] values = Utils.BitmapToArray(bitmap, ImageLockMode.ReadOnly, _24bppRgb);
+                byte[] values = Utils.BitmapToArray(_bitmap, ImageLockMode.ReadOnly, _24bppRgb);
 
                 while (nextPoses.Count > 0)
                 {
@@ -228,25 +224,10 @@ namespace HOI4ModBuilder
                 sdfTextBundle.Dispose();
         }
 
-        public static void AddTexture(Texture2D texture)
-        {
-            _textures.Add(texture);
-        }
-
-        public static void RemoveTexture(Texture2D texture)
-        {
-            _textures.Remove(texture);
-        }
-
-        public static void AddSDFTextBundle(SDFTextBundle sdfTextBundle)
-        {
-            _sdfTextBundles.Add(sdfTextBundle);
-        }
-
-        public static void RemoveSDFTextBundle(SDFTextBundle sdfTextBundle)
-        {
-            _sdfTextBundles.Remove(sdfTextBundle);
-        }
+        public static void AddTexture(Texture2D texture) => _textures.Add(texture);
+        public static void RemoveTexture(Texture2D texture) => _textures.Remove(texture);
+        public static void AddSDFTextBundle(SDFTextBundle sdfTextBundle) => _sdfTextBundles.Add(sdfTextBundle);
+        public static void RemoveSDFTextBundle(SDFTextBundle sdfTextBundle) => _sdfTextBundles.Remove(sdfTextBundle);
 
         public static void LoadTextures(Settings settings)
         {
@@ -314,16 +295,12 @@ namespace HOI4ModBuilder
                 tempBitmap.Dispose();
             }
 
+            Texture2D texture;
             if (textureType == _8bppIndexed)
-            {
-                var texture = new Texture2D(Transfer8bbpIndexedTo24bpp(bitmap), _24bppRgb, false);
-                return new MapPair(fileInfo.needToSave, bitmap, texture);
-            }
+                texture = new Texture2D(Transfer8bbpIndexedTo24bpp(bitmap), _24bppRgb, false);
             else
-            {
-                var texture = new Texture2D(bitmap, textureType, false);
-                return new MapPair(fileInfo.needToSave, bitmap, texture);
-            }
+                texture = new Texture2D(bitmap, textureType, false);
+            return new MapPair(fileInfo.needToSave, bitmap, texture);
         }
 
         public static void LoadBorders()
@@ -448,13 +425,9 @@ namespace HOI4ModBuilder
         private static void PalleteColorMouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-            {
                 MainForm.SetBrushColor(0, ((Panel)sender).BackColor);
-            }
             else if (e.Button == MouseButtons.Right)
-            {
                 MainForm.SetBrushColor(1, ((Panel)sender).BackColor);
-            }
         }
 
         private static void LoadRiverMap(Bitmap inputBitmap, out Bitmap outputBitmap, out BitmapData outputData)
@@ -514,7 +487,8 @@ namespace HOI4ModBuilder
 
         public static void SaveProvincesMap()
         {
-            if (provinces.needToSave) SaveProvincesMap(provinces.GetBitmap());
+            if (provinces.needToSave)
+                SaveProvincesMap(provinces.GetBitmap());
         }
 
         public static void SaveTerrainMap()
@@ -547,7 +521,7 @@ namespace HOI4ModBuilder
                         height.GetBitmap(),
                         SettingsManager.Settings.GetNormalMapStrength(),
                         SettingsManager.Settings.GetNormalMapBlur()
-                        ));
+                    ));
                 }
             }
         }
@@ -583,7 +557,8 @@ namespace HOI4ModBuilder
 
         public static void SaveRiversMap(Settings settings)
         {
-            if (rivers.needToSave) SaveRiversMap(settings, rivers.GetBitmap());
+            if (rivers.needToSave)
+                SaveRiversMap(settings, rivers.GetBitmap());
         }
 
         public static void SaveRiversMap(Settings settings, Bitmap inputBitmap)
@@ -788,7 +763,8 @@ namespace HOI4ModBuilder
 
         public static Texture2D LoadTexture(string filePath, byte alpha)
         {
-            if (!File.Exists(filePath)) return null;
+            if (!File.Exists(filePath))
+                return null;
 
             var inputBitmap = new Bitmap(filePath);
             int width = inputBitmap.Width;
@@ -891,15 +867,8 @@ namespace HOI4ModBuilder
             }
         }
 
-        public static void InitRegionsBordersMap(HashSet<ProvinceBorder> borders)
-        {
-            regionsBorders = InitBordersMapPair(borders);
-        }
-
-        public static void InitStateBordersMap(HashSet<ProvinceBorder> borders)
-        {
-            statesBorders = InitBordersMapPair(borders);
-        }
+        public static void InitRegionsBordersMap(HashSet<ProvinceBorder> borders) => regionsBorders = InitBordersMapPair(borders);
+        public static void InitStateBordersMap(HashSet<ProvinceBorder> borders) => statesBorders = InitBordersMapPair(borders);
 
         private static MapPair InitBordersMapPair(HashSet<ProvinceBorder> borders)
         {

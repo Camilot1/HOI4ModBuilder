@@ -1681,6 +1681,33 @@ namespace HOI4ModBuilder
             }
         }
 
+        private void ToolStripMenuItem_Export_MainLayer_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => ExportTexturePlane(MapManager.MapMainLayer, "main_layer"));
+
+        private void ToolStripMenuItem_Export_SelectedBorders_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => ExportTexturePlane(MapManager.MapMainLayer, "selected_borders"));
+
+        private void ExportTexturePlane(TexturedPlane plane, string fileNamePrefix)
+        {
+            if (plane == null || plane.Texture == null)
+                return;
+
+            if (!Directory.Exists(@"data\images"))
+                Directory.CreateDirectory(@"data\images");
+
+            var filePath = @"data\images\" + fileNamePrefix + " " + DateTime.Now.ToString().Replace('.', '-').Replace(':', '-') + ".bmp";
+            plane.Texture.Save(filePath);
+
+            MessageBox.Show(
+                GuiLocManager.GetLoc(
+                    EnumLocKey.EXPORT_TEXTURE_RESULT,
+                    new Dictionary<string, string> { { "{filePath}", filePath } }
+                ),
+                GuiLocManager.GetLoc(EnumLocKey.EXPORT_TEXTURE_TITLE),
+                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
+            );
+        }
+
         private void ResizeComboBox(GroupBox groupBox, ComboBox comboBox)
         {
             int groupBoxTextWidth = TextRenderer.MeasureText(

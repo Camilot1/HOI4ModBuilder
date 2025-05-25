@@ -189,6 +189,9 @@
             this.ToolStripMenuItem_LoadAll = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Update = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_UpdateAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Export = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Export_MainLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Export_SelectedBorders = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Settings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -1139,6 +1142,7 @@
             this.ToolStripMenuItem_LoadAll,
             this.ToolStripMenuItem_Update,
             this.ToolStripMenuItem_UpdateAll,
+            this.ToolStripMenuItem_Export,
             this.toolStripSeparator2,
             this.ToolStripMenuItem_Settings,
             this.toolStripSeparator4,
@@ -1408,6 +1412,26 @@
             this.ToolStripMenuItem_UpdateAll.Name = "ToolStripMenuItem_UpdateAll";
             resources.ApplyResources(this.ToolStripMenuItem_UpdateAll, "ToolStripMenuItem_UpdateAll");
             this.ToolStripMenuItem_UpdateAll.Click += new System.EventHandler(this.ToolStripMenuItem_UpdateAll_Click);
+            // 
+            // ToolStripMenuItem_Export
+            // 
+            this.ToolStripMenuItem_Export.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_Export_MainLayer,
+            this.ToolStripMenuItem_Export_SelectedBorders});
+            this.ToolStripMenuItem_Export.Name = "ToolStripMenuItem_Export";
+            resources.ApplyResources(this.ToolStripMenuItem_Export, "ToolStripMenuItem_Export");
+            // 
+            // ToolStripMenuItem_Export_MainLayer
+            // 
+            this.ToolStripMenuItem_Export_MainLayer.Name = "ToolStripMenuItem_Export_MainLayer";
+            resources.ApplyResources(this.ToolStripMenuItem_Export_MainLayer, "ToolStripMenuItem_Export_MainLayer");
+            this.ToolStripMenuItem_Export_MainLayer.Click += new System.EventHandler(this.ToolStripMenuItem_Export_MainLayer_Click);
+            // 
+            // ToolStripMenuItem_Export_SelectedBorders
+            // 
+            this.ToolStripMenuItem_Export_SelectedBorders.Name = "ToolStripMenuItem_Export_SelectedBorders";
+            resources.ApplyResources(this.ToolStripMenuItem_Export_SelectedBorders, "ToolStripMenuItem_Export_SelectedBorders");
+            this.ToolStripMenuItem_Export_SelectedBorders.Click += new System.EventHandler(this.ToolStripMenuItem_Export_SelectedBorders_Click);
             // 
             // toolStripSeparator2
             // 
@@ -1893,6 +1917,9 @@
         public System.Windows.Forms.GroupBox GroupBox_Tool_Parameter_Value;
         private System.Windows.Forms.GroupBox GroupBox_Main_Layer_Parameter;
         private System.Windows.Forms.Button Button_MapMainLayer_Parameter;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Export;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Export_MainLayer;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Export_SelectedBorders;
     }
 }
 

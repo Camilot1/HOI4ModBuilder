@@ -2,8 +2,6 @@
 using System.Drawing.Imaging;
 using System.Drawing;
 using OpenTK.Graphics.OpenGL;
-using static HOI4ModBuilder.utils.Structs;
-using System.Runtime.InteropServices;
 using HOI4ModBuilder.src.utils.structs;
 
 namespace HOI4ModBuilder
@@ -11,19 +9,20 @@ namespace HOI4ModBuilder
 
     class Texture2D : IDisposable
     {
-        public bool isDisposed;
-        public int ID { get; private set; }
-        public Value2I size;
+        public bool IsDisposed { get; private set; }
+        public int TextureId { get; private set; }
+        private Value2I _size;
+        public Value2I Size => _size;
         private int BufferID { get; set; }
         private float[] Coordinates { get; set; }
+        public TextureType TextureType { get; private set; }
 
 
         public Texture2D(Bitmap bitmap, TextureType textureType, bool linear)
         {
-            size.x = bitmap.Width;
-            size.y = bitmap.Height;
+            _size.Set(bitmap.Width, bitmap.Height);
 
-            BitmapData data = bitmap.LockBits(new Rectangle(0, 0, size.x, size.y), ImageLockMode.ReadOnly, textureType.imagePixelFormat);
+            BitmapData data = bitmap.LockBits(new Rectangle(0, 0, _size.x, _size.y), ImageLockMode.ReadOnly, textureType.imagePixelFormat);
 
             Init(data, textureType, linear, null);
             bitmap.UnlockBits(data);
@@ -32,8 +31,7 @@ namespace HOI4ModBuilder
 
         public Texture2D(Bitmap bitmap, BitmapData data, TextureType textureType, bool linear)
         {
-            size.x = bitmap.Width;
-            size.y = bitmap.Height;
+            _size.Set(bitmap.Width, bitmap.Height);
             Init(data, textureType, linear, null);
             bitmap.UnlockBits(data);
             TextureManager.AddTexture(this);
@@ -41,25 +39,28 @@ namespace HOI4ModBuilder
 
         public Texture2D(TextureType textureType, bool linear, float[] coordinates, int width, int height, byte[] data)
         {
-            size.x = width;
-            size.y = height;
+            _size.Set(width, height);
             Init(null, textureType, linear, coordinates);
-            Set(textureType, 0, 0, size.x, size.y, data);
+            Set(textureType, 0, 0, _size.x, _size.y, data);
             TextureManager.AddTexture(this);
         }
 
         private void Init(in BitmapData data, in TextureType textureType, bool linear, float[] coordinates)
         {
-            ID = GL.GenTexture();
+            TextureType = textureType;
 
-            if (ID == 0) throw new Exception("Can't generate ID for Texture2D");
+            TextureId = GL.GenTexture();
 
-            GL.BindTexture(TextureTarget.Texture2D, ID);
+            if (TextureId == 0)
+                throw new Exception("Can't generate ID for Texture2D");
+
+            GL.BindTexture(TextureTarget.Texture2D, TextureId);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToBorder);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToBorder);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, linear ? (int)TextureMinFilter.Linear : (int)TextureMinFilter.Nearest);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, linear ? (int)TextureMagFilter.Linear : (int)TextureMagFilter.Nearest);
-            if (data != null) Update(data, textureType);
+            if (data != null)
+                Update(data, textureType);
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
             Coordinates = coordinates != null ? coordinates : new float[]
@@ -78,12 +79,12 @@ namespace HOI4ModBuilder
 
         private void Update(in BitmapData data, in TextureType textureType)
         {
-            GL.TexImage2D(TextureTarget.Texture2D, 0, textureType.pixelInternalFormat, size.x, size.y, 0, textureType.openGLPixelFormat, PixelType.UnsignedByte, data.Scan0);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, textureType.pixelInternalFormat, _size.x, _size.y, 0, textureType.openGLPixelFormat, PixelType.UnsignedByte, data.Scan0);
         }
 
         public void Set(in TextureType textureType, int x, int y, int width, int height, byte[] data)
         {
-            GL.BindTexture(TextureTarget.Texture2D, ID);
+            GL.BindTexture(TextureTarget.Texture2D, TextureId);
             GL.TexImage2D(TextureTarget.Texture2D, 0, textureType.pixelInternalFormat, width, height, 0, textureType.openGLPixelFormat, PixelType.UnsignedByte, IntPtr.Zero);
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, x, y, width, height, textureType.openGLPixelFormat, PixelType.UnsignedByte, data);
             GL.BindTexture(TextureTarget.Texture2D, 0);
@@ -91,7 +92,7 @@ namespace HOI4ModBuilder
 
         public void Update(in TextureType textureType, int x, int y, int width, int height, byte[] data)
         {
-            GL.BindTexture(TextureTarget.Texture2D, ID);
+            GL.BindTexture(TextureTarget.Texture2D, TextureId);
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, x, y, width, height, textureType.openGLPixelFormat, PixelType.UnsignedByte, data);
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
@@ -142,7 +143,7 @@ namespace HOI4ModBuilder
 
         public void Bind()
         {
-            GL.BindTexture(TextureTarget.Texture2D, ID);
+            GL.BindTexture(TextureTarget.Texture2D, TextureId);
             GL.BindBuffer(BufferTarget.ArrayBuffer, BufferID);
             GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, 0);
         }
@@ -153,20 +154,29 @@ namespace HOI4ModBuilder
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
 
+        public void Save(string fileName)
+        {
+            Bitmap bitmap = new Bitmap(_size.x, _size.y, TextureType.imagePixelFormat);
+            var bytes = new byte[_size.x * _size.y * TextureType.bytesPerPixel];
+            GL.BindTexture(TextureTarget.Texture2D, TextureId);
+            GL.PixelStore(PixelStoreParameter.PackAlignment, 1);
+            GL.GetTexImage(TextureTarget.Texture2D, 0, TextureType.openGLPixelFormat, PixelType.UnsignedByte, bytes);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            Utils.ArrayToBitmap(bytes, bitmap, ImageLockMode.WriteOnly, _size.x, _size.y, TextureType);
+            bitmap.Save(fileName);
+            bitmap.Dispose();
+        }
+
         public void Dispose()
         {
-            if (!isDisposed)
+            if (!IsDisposed)
             {
                 GL.DeleteBuffer(BufferID);
-                GL.DeleteTexture(ID);
-                isDisposed = true;
+                GL.DeleteTexture(TextureId);
+                IsDisposed = true;
             }
             TextureManager.RemoveTexture(this);
         }
 
-        public Value2I GetSize()
-        {
-            return size;
-        }
     }
 }

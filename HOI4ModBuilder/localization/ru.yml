@@ -425,6 +425,9 @@ PROVINCE_CANT_BE_A_NAVAL_BASE_FOR_SHIPS: "Провинция с id = {provinceId
 AUTOTOOL_RESULT_MESSAGE_BOX_TITLE: "Результат выполнения авторасчёта"
 AUTOTOOL_RESULT_MESSAGE_BOX_TEXT: "Внесено изменений: {count}"
 
+EXPORT_TEXTURE_TITLE: "Экспорт текстуры"
+EXPORT_TEXTURE_RESULT: "Текстура сохранена по пути: {filePath}"
+
 EXCEPTION_UML_LINE_KEY_IS_NULL: "На строке {lineIndex} отсутствует ключ"
 EXCEPTION_UML_LINE_VALUE_IS_NULL: "На строке {lineIndex} отсутствует значение"
 EXCEPTION_UML_LINE_CHARACTER_IS_NOT_ALLOWED_IN_KEY: "На строке {lineIndex} в ключе обнаружен запрещённый символ \"{character}\""

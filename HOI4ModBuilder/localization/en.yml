@@ -423,6 +423,9 @@ PROVINCE_CANT_BE_A_NAVAL_BASE_FOR_SHIPS: "The province with id = {provinceId} ca
 AUTOTOOL_RESULT_MESSAGE_BOX_TITLE: "Autotool execution result"
 AUTOTOOL_RESULT_MESSAGE_BOX_TEXT: "Changes: {count}"
 
+EXPORT_TEXTURE_TITLE: "Texture Export"
+EXPORT_TEXTURE_RESULT: "The texture has been saved to: {filePath}"
+
 EXCEPTION_UML_LINE_KEY_IS_NULL: "No key found at line {lineIndex}"
 EXCEPTION_UML_LINE_VALUE_IS_NULL: "No value found at {lineIndex}"
 EXCEPTION_UML_LINE_CHARACTER_IS_NOT_ALLOWED_IN_KEY: "Invalid character \"{character}\" found in key on line {lineIndex}"
