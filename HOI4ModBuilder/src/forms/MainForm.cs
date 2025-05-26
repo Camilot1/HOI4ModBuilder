@@ -1685,7 +1685,7 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() => ExportTexturePlane(MapManager.MapMainLayer, "main_layer"));
 
         private void ToolStripMenuItem_Export_SelectedBorders_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => ExportTexturePlane(MapManager.MapMainLayer, "selected_borders"));
+            => Logger.TryOrLog(() => ExportTexturePlane(MapManager.BordersMapPlane, "selected_borders"));
 
         private void ExportTexturePlane(TexturedPlane plane, string fileNamePrefix)
         {
