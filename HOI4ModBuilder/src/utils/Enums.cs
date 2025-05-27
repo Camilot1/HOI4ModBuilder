@@ -93,6 +93,8 @@ namespace HOI4ModBuilder.utils
             PROVINCE_STATE,
             PROVINCE_REGION,
             STATE_CATEGORY,
+            STATE_OWNER,
+            STATE_CONTROLLER,
             BUILDINGS,
             AI_AREAS
         }

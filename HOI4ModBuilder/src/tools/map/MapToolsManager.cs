@@ -32,6 +32,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             new MapToolProvinceState(_mapTools);
             new MapToolProvinceRegion(_mapTools);
             new MapToolStateCategory(_mapTools);
+            new MapToolStateOwner(_mapTools);
+            new MapToolStateController(_mapTools);
             new MapToolBuildings(_mapTools);
             new MapToolAiArea(_mapTools);
 

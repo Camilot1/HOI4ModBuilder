@@ -49,6 +49,8 @@ PROVINCE_CONTINENT: "Continent"
 PROVINCE_STATE: "State"
 PROVINCE_REGION: "Region"
 STATE_CATEGORY: "State Category"
+STATE_OWNER: "State Owner"
+STATE_CONTROLLER: "State Controller"
 
 PROVINCES_BLACK: "Provinces (b)"
 PROVINCES_WHITE: "Provinces (w)"

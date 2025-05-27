@@ -49,6 +49,8 @@ PROVINCE_CONTINENT: "Континент"
 PROVINCE_STATE: "Область"
 PROVINCE_REGION: "Регион"
 STATE_CATEGORY: "Категория области"
+STATE_OWNER: "Владелец области"
+STATE_CONTROLLER: "Контроль области"
 
 PROVINCES_BLACK: "Провинции (ч)"
 PROVINCES_WHITE: "Провинции (б)"

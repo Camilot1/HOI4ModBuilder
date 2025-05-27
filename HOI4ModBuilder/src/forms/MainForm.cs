@@ -801,6 +801,16 @@ namespace HOI4ModBuilder
                         var stateCategories = new List<string>(StateCategoryManager.GetStateCategoriesNames());
                         UpdateToolParameterComboBox(enumTool, stateCategories, null);
                         break;
+                    case EnumTool.STATE_OWNER:
+                        var countriesTags = new List<string>(CountryManager.GetCountriesTags());
+                        countriesTags.Insert(0, "");
+                        UpdateToolParameterComboBox(enumTool, countriesTags, null);
+                        break;
+                    case EnumTool.STATE_CONTROLLER:
+                        countriesTags = new List<string>(CountryManager.GetCountriesTags());
+                        countriesTags.Insert(0, "");
+                        UpdateToolParameterComboBox(enumTool, countriesTags, null);
+                        break;
                     case EnumTool.BUILDINGS:
                         UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
                         break;
