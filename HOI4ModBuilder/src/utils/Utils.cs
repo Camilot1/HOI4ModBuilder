@@ -82,7 +82,8 @@ namespace HOI4ModBuilder
 
         public static void Setter<T>(ref T parameter, ref T value, ref bool needToSave)
         {
-            if (parameter != null && parameter.Equals(value) || parameter == null && value == null) return;
+            if (parameter != null && parameter.Equals(value) || parameter == null && value == null)
+                return;
 
             parameter = value;
             needToSave = true;

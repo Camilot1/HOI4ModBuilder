@@ -21,11 +21,30 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         public Province StartProvince { get => _startProvince; }
         public Province EndProvince { get => _endProvince; }
         private EnumAdjaciencyType _enumType;
+        public EnumAdjaciencyType EnumType
+        {
+            get => _enumType;
+            set
+            {
+                var isChanged = false;
+                Utils.Setter(ref _enumType, ref value, ref isChanged);
+                AdjacenciesManager.NeedToSaveAdjacencies |= isChanged;
+            }
+        }
         private Province _throughProvince;
         public Province ThroughProvince { get => _throughProvince; }
         private Value2S _start, _end;
         private AdjacencyRule _adjacencyRule;
-        public AdjacencyRule AdjacencyRule { get => _adjacencyRule; }
+        public AdjacencyRule AdjacencyRule
+        {
+            get => _adjacencyRule;
+            set
+            {
+                var isChanged = false;
+                Utils.Setter(ref _adjacencyRule, ref value, ref isChanged);
+                AdjacenciesManager.NeedToSaveAdjacencies |= isChanged;
+            }
+        }
         private string _comment;
 
         public ProvinceBorder provinceBorder;
@@ -41,7 +60,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             this.isNormal = isNormal;
             _startProvince = startProvince;
             _endProvince = endProvince;
-            _enumType = enumType;
+            EnumType = enumType;
             _start = start;
             _end = end;
         }
@@ -132,10 +151,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             }
 
             //Тип
-            if (data[2] == "") _enumType = EnumAdjaciencyType.NONE;
-            else if (data[2] == "sea") _enumType = EnumAdjaciencyType.SEA;
-            else if (data[2] == "lake") _enumType = EnumAdjaciencyType.LAKE;
-            else if (data[2] == "impassable") _enumType = EnumAdjaciencyType.IMPASSABLE;
+            if (data[2] == "") EnumType = EnumAdjaciencyType.NONE;
+            else if (data[2] == "sea") EnumType = EnumAdjaciencyType.SEA;
+            else if (data[2] == "lake") EnumType = EnumAdjaciencyType.LAKE;
+            else if (data[2] == "impassable") EnumType = EnumAdjaciencyType.IMPASSABLE;
             else Logger.LogError(
                     EnumLocKey.ERROR_ADJACENCY_LOADING_INCORRECT_TYPE,
                     new Dictionary<string, string> {

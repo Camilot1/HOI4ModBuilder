@@ -239,10 +239,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
         }
 
-        public static Adjacency GetSelectedSeaCross()
-        {
-            return _selectedSeaCross;
-        }
+        public static Adjacency GetSelectedSeaCross() => _selectedSeaCross;
+        public static bool TryGetAdjacencyRule(string name, out AdjacencyRule rule)
+            => _adjacencyRules.TryGetValue(name, out rule);
 
 
         public static Adjacency SelectSeaCross(Point2D point)

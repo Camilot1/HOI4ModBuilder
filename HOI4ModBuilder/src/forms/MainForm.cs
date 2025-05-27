@@ -1718,6 +1718,24 @@ namespace HOI4ModBuilder
             );
         }
 
+        private void ToolStripComboBox_Map_Adjacency_Type_SelectedIndexChanged(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                if (AdjacenciesManager.GetSelectedSeaCross() == null)
+                    return;
+                AdjacenciesManager.GetSelectedSeaCross().EnumType = (EnumAdjaciencyType)(ToolStripComboBox_Map_Adjacency_Type.SelectedIndex);
+            });
+
+        private void ToolStripComboBox_Map_Adjacency_Rule_SelectedIndexChanged(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                if (AdjacenciesManager.GetSelectedSeaCross() == null)
+                    return;
+
+                AdjacenciesManager.TryGetAdjacencyRule(ToolStripComboBox_Map_Adjacency_Rule.Text, out var rule);
+                AdjacenciesManager.GetSelectedSeaCross().AdjacencyRule = rule;
+            });
+
         private void ResizeComboBox(GroupBox groupBox, ComboBox comboBox)
         {
             int groupBoxTextWidth = TextRenderer.MeasureText(

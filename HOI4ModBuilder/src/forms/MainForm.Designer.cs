@@ -813,6 +813,7 @@
             this.ToolStripComboBox_Map_Adjacency_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ToolStripComboBox_Map_Adjacency_Type.Name = "ToolStripComboBox_Map_Adjacency_Type";
             resources.ApplyResources(this.ToolStripComboBox_Map_Adjacency_Type, "ToolStripComboBox_Map_Adjacency_Type");
+            this.ToolStripComboBox_Map_Adjacency_Type.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBox_Map_Adjacency_Type_SelectedIndexChanged);
             // 
             // ToolStripMenuItem_Map_Adjacency_Remove
             // 
@@ -929,6 +930,7 @@
             this.ToolStripComboBox_Map_Adjacency_Rule.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ToolStripComboBox_Map_Adjacency_Rule.Name = "ToolStripComboBox_Map_Adjacency_Rule";
             resources.ApplyResources(this.ToolStripComboBox_Map_Adjacency_Rule, "ToolStripComboBox_Map_Adjacency_Rule");
+            this.ToolStripComboBox_Map_Adjacency_Rule.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBox_Map_Adjacency_Rule_SelectedIndexChanged);
             // 
             // toolStripSeparator15
             // 
