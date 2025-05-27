@@ -36,7 +36,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         public T GetValue() => _value is GameConstant gameConstant ? gameConstant.GetValue<T>() : (_value != null ? (T)_value : default);
         public void SetValue(T value)
         {
-            if (_value == null && value != null || !_value.Equals(value))
+            if (_value == null && value != null || _value != null && !_value.Equals(value))
             {
                 if (_valueSetAdapter != null)
                     _value = _valueSetAdapter(this, value);
