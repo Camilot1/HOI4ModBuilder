@@ -458,7 +458,7 @@
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerSeaProvincesWithState.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerProvincesCoastalMismatches.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerStateWithMultiRegions.cs" />
-    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerSeaCrosses.cs" />
+    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerAdjacencies.cs" />
     <Compile Include="src\managers\mapChecks\errors\EnumMapErrorCode.cs" />
     <Compile Include="src\managers\mapChecks\MapChecker.cs" />
     <Compile Include="src\managers\mapChecks\MapCheckerManager.cs" />
