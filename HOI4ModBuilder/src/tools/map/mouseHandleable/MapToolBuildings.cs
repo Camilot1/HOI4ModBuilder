@@ -17,30 +17,30 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolBuildings(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { shift = true, key = Keys.B },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  new[] { EnumEditLayer.PROVINCES, EnumEditLayer.STATES, EnumEditLayer.BUILDINGS },
+                  (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
 
-        public override void Handle(
+        public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
-            if (enumEditLayer != EnumEditLayer.BUILDINGS)
-                return;
-            if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
-                return;
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
 
             if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
-                return;
+                return false;
 
             if (province.State == null)
-                return;
+                return false;
 
             int changeCount = 0;
 
             if (!BuildingManager.TryGetBuilding(parameter, out Building building))
-                return;
+                return false;
 
             if (mouseEventArgs.Button == MouseButtons.Left)
                 changeCount = 1;
@@ -51,7 +51,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 changeCount *= 10;
 
             if (changeCount == 0)
-                return;
+                return false;
 
             //TODO в state постройках currentCount обозначает общее количество всех построек, а не прошлое выбранной постройки
             // нужно исправить
@@ -97,7 +97,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 newCount = (int)maxCount;
 
             if (prevCount == newCount)
-                return;
+                return false;
 
             Action<uint> action;
 
@@ -122,6 +122,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 () => action((uint)newCount),
                 () => action(prevCount)
             );
+
+            return true;
         }
     }
 }

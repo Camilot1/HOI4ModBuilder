@@ -24,15 +24,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolCursor(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { key = Keys.C },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  null,
+                  0
               )
         { }
 
-        public override void Handle(
+        public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
+
             Province selectedProvince = null;
             State selectedState = null;
             StrategicRegion selectedRegion = null;
@@ -45,7 +50,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     if (info.plane.Inbounds(pos))
                     {
                         MapManager.selectedTexturedPlane = info.plane;
-                        return;
+                        return true;
                     }
                 }
             }
@@ -76,7 +81,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                             sb.Append("    ").Append(code.ToString()).Append('\n');
                     }
                     Logger.LogSingleErrorMessage(sb.ToString());
-                    return;
+                    return true;
                 }
             }
 
@@ -84,7 +89,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             {
                 if (mouseEventArgs.Button == MouseButtons.Right)
                     ProvinceManager.RMBProvince = null;
-                return;
+                return true;
             }
 
             int color = MapManager.GetColor(pos);
@@ -153,6 +158,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             }
             MainForm.Instance.textBox_PixelPos.Text = (int)pos.x + "; " + (int)pos.y;
             MainForm.Instance.textBox_HOI4PixelPos.Text = (int)pos.x + "; " + (MapManager.MapSize.y - (int)pos.y);
+
+            return true;
         }
     }
 }

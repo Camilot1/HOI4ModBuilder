@@ -23,35 +23,35 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
         public MapToolStateController(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  new[] { EnumEditLayer.STATES },
+                  (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
 
-        public override void Handle(
+        public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
-            if (enumEditLayer != EnumEditLayer.STATES)
-                return;
-            if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
-                return;
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
 
             CountryManager.TryGetCountry(parameter, out var newStateController);
 
             if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
-                return;
+                return false;
 
             if (mouseEventArgs.Button == MouseButtons.Left)
             {
                 if (province.State == null)
-                    return;
+                    return false;
 
                 var history = province.State.History.GetValue();
                 var prevStateController = history.Controller.GetValue();
 
                 if (prevStateController == newStateController)
-                    return;
+                    return false;
 
                 Action<StateHistory, Country> action = (stateHistory, stateController) =>
                 {
@@ -74,6 +74,8 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                 MainForm.Instance.ComboBox_Tool_Parameter.Text = newParameter;
                 MainForm.Instance.ComboBox_Tool_Parameter.Refresh();
             }
+
+            return true;
         }
     }
 }

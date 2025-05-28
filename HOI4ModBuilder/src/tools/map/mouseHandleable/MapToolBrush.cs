@@ -20,36 +20,36 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolBrush(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { key = Keys.B },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  new[] {
+                      EnumEditLayer.PROVINCES, EnumEditLayer.RIVERS, EnumEditLayer.TERRAIN_MAP,
+                      EnumEditLayer.TREES_MAP, EnumEditLayer.CITIES_MAP, EnumEditLayer.HEIGHT_MAP
+                  },
+                  (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX | (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_SELECTED_BOUND
               )
         { }
 
-        public override void Handle(
+        public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
-            if (_isInDialog[0])
-                return;
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
 
             int newColor;
 
-            if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
-                return;
             if (Control.ModifierKeys == Keys.Shift)
-                return;
-            if (bounds.HasSpace() && !bounds.Inbounds(pos))
-                return;
+                return false;
 
             if (mouseEventArgs.Button == MouseButtons.Left)
                 newColor = MainForm.Instance.GetBrushFirstColor().ToArgb();
             else if (mouseEventArgs.Button == MouseButtons.Right)
                 newColor = MainForm.Instance.GetBrushSecondColor().ToArgb();
-            else
-                return;
+            else return false;
 
             if (!BrushManager.TryGetBrush(SettingsManager.Settings, parameter, out var brush))
-                return;
+                return false;
 
             List<Action> redoActions = new List<Action>();
             List<Action> undoActions = new List<Action>();
@@ -71,6 +71,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
 
             MapManager.ActionsBatch.AddWithExecute(redoActions, undoActions);
+            return true;
         }
 
         private bool HandlePixel(int x, int y, EnumEditLayer enumEditLayer, int newColor, out Action redo, out Action undo)

@@ -18,32 +18,30 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolFill(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { key = Keys.F },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  new[] { EnumEditLayer.PROVINCES },
+                  (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX | (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_SELECTED_BOUND
               )
         { }
 
-        public override void Handle(
+        public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
-            if (_isInDialog[0])
-                return;
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
 
             int prevColor = 0, newColor = 0;
-            if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
-                return;
             if (Control.ModifierKeys == Keys.Shift)
-                return;
-            if (bounds.HasSpace() && !bounds.Inbounds(pos))
-                return;
+                return false;
 
             if (mouseEventArgs.Button == MouseButtons.Left)
                 newColor = MainForm.Instance.GetBrushFirstColor().ToArgb();
             else if (mouseEventArgs.Button == MouseButtons.Right)
                 newColor = MainForm.Instance.GetBrushSecondColor().ToArgb();
             else
-                return;
+                return false;
 
             Action<int, int> action;
 
@@ -66,19 +64,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                                 ProvinceManager.CreateNewProvince(newColor);
                             _isInDialog[0] = false;
                         }); ;
-                        return;
+                        return false;
                     }
 
                     HashSet<Value2US> positions = null;
 
+                    prevColor = TextureManager.provinces.GetColor(pos);
+
                     if (bounds.HasSpace())
                         positions = bounds.ToPositions((ushort)MapManager.MapSize.x, (ushort)MapManager.MapSize.y);
-                    else
+                    else if (newColor != prevColor)
                         positions = TextureManager.provinces.NewGetRGBPositions((ushort)pos.x, (ushort)pos.y);
                     if (positions == null || positions.Count == 0)
-                        return;
+                        return false;
 
-                    prevColor = TextureManager.provinces.GetColor(pos);
 
                     action = (p, n) =>
                     {
@@ -93,6 +92,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     );
                     break;
             }
+
+            return true;
         }
     }
 }

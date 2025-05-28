@@ -16,21 +16,27 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolPipette(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { key = Keys.K },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  new[]
+                  {
+                      EnumEditLayer.PROVINCES, EnumEditLayer.RIVERS, EnumEditLayer.TERRAIN_MAP,
+                      EnumEditLayer.TREES_MAP, EnumEditLayer.CITIES_MAP, EnumEditLayer.HEIGHT_MAP
+                  },
+                  (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
 
-        public override void Handle(
+        public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
-            if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
-                return;
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
             if (Control.ModifierKeys == Keys.Shift)
-                return;
+                return false;
 
-            int prevColor, newColor;
+            int prevColor, newColor = 0;
             Action<int> action;
 
             switch (enumEditLayer)
@@ -41,8 +47,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 case EnumEditLayer.TREES_MAP: newColor = TextureManager.trees.GetColor(pos); break;
                 case EnumEditLayer.CITIES_MAP: newColor = TextureManager.cities.GetColor(pos); break;
                 case EnumEditLayer.HEIGHT_MAP: newColor = TextureManager.height.GetColor(pos); break;
-                default:
-                    return;
             }
 
             if (mouseEventArgs.Button == MouseButtons.Left)
@@ -65,6 +69,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     () => action(prevColor)
                 );
             }
+
+            return true;
         }
     }
 }

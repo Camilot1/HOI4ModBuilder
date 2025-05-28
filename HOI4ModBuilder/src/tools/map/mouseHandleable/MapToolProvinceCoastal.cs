@@ -16,20 +16,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolProvinceCoastal(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  new[] { EnumEditLayer.PROVINCES },
+                  (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
 
 
-        public override void Handle(
+        public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
-            if (enumEditLayer != EnumEditLayer.PROVINCES)
-                return;
-            if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
-                return;
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
 
             ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province);
             bool prevCoastal = province.IsCoastal;
@@ -59,6 +59,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     () => action(prevCoastal)
                 );
             }
+
+            return true;
         }
     }
 }

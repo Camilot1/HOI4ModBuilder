@@ -16,25 +16,25 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolProvinceType(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  new[] { EnumEditLayer.PROVINCES },
+                  (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
 
-        public override void Handle(
+        public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
-            if (enumEditLayer != EnumEditLayer.PROVINCES)
-                return;
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
 
-            Enum.TryParse(parameter.ToUpper(), out EnumProvinceType newType);
-
-            if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
-                return;
+            if (!Enum.TryParse(parameter.ToUpper(), out EnumProvinceType newType))
+                return false;
 
             if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
-                return;
+                return false;
 
             var prevType = province.Type;
 
@@ -57,7 +57,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 int newSelectedIndex = (int)province.Type;
 
                 if (prevSelectedIndex == newSelectedIndex)
-                    return;
+                    return false;
 
                 void action(int i)
                 {
@@ -70,6 +70,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     () => action(prevSelectedIndex)
                 );
             }
+
+            return true;
         }
     }
 }

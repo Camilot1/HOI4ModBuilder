@@ -17,20 +17,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolProvinceContinent(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { shift = true, key = Keys.C },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  new[] { EnumEditLayer.PROVINCES, EnumEditLayer.STATES, EnumEditLayer.STRATEGIC_REGIONS },
+                  (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
 
-        public override void Handle(
+        public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
-            if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
-                return;
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
 
             if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
-                return;
+                return false;
 
             if (mouseEventArgs.Button == MouseButtons.Left)
             {
@@ -97,7 +99,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 int newSelectedIndex = province.ContinentId;
 
                 if (prevSelectedIndex == newSelectedIndex)
-                    return;
+                    return false;
 
                 void action(int i)
                 {
@@ -110,6 +112,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     () => action(prevSelectedIndex)
                 );
             }
+
+            return true;
         }
     }
 }

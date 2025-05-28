@@ -17,21 +17,24 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
         public MapToolAiArea(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { shift = true, key = Keys.A },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  new[] { EnumEditLayer.CONTINENTS, EnumEditLayer.STRATEGIC_REGIONS },
+                  (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
 
-        public override void Handle(
+        public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
-            if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
-                return;
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
+
             if (!AiAreaManager.TryGetAiArea(parameter, out AiArea aiArea))
-                return;
+                return false;
             if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
-                return;
+                return false;
 
             int i = (int)pos.x + (int)pos.y * MapManager.MapSize.x;
 
@@ -67,7 +70,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                     break;
                 case EnumEditLayer.STRATEGIC_REGIONS:
                     if (province.Region == null)
-                        return;
+                        return false;
 
                     if (mouseEventArgs.Button == MouseButtons.Left && !aiArea.HasRegion(province.Region))
                         MapManager.ActionsBatch.AddWithExecute(() => AddRegion(), () => RemoveRegion());
@@ -75,6 +78,8 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                         MapManager.ActionsBatch.AddWithExecute(() => RemoveRegion(), () => AddRegion());
                     break;
             }
+
+            return true;
         }
     }
 }
