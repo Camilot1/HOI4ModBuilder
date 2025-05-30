@@ -102,6 +102,9 @@ CANT_SAVE_BECAUSE_HOI4MODBUILDER_DIRECTORY_DOESNT_EXISTS: "The saving process ca
 CANT_LOAD_BECAUSE_ALREADY_SAVING_OR_LOADING: "The loading process cannot be started because the saving or loading is already in progress."
 CANT_LOAD_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS: "The loading process cannot be started because the directory of the mod is not seleted or do not exists."
 
+CANT_UPDATE_BECAUSE_NO_DATA_WAS_LOADED: "The updating process cannot be started because no data has been loaded yet."
+CANT_UPDATE_BECAUSE_ALREADY_SAVING_OR_LOADING: "The updating process cannot be started because the saving or loading is already in progress."
+
 ALL_EDIT_LAYERS_IS_ALLOWED: "All Edit Layers are allowed to be used"
 MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED: "This Tool can not be used on current Edit Layer \"{currentEditLayer}\". To be able to use the Selected Tool you need to change the Edit Layer to one of these: {allowedEditLayers}"
 MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED_TITLE: "Select allowed Edit Layer"

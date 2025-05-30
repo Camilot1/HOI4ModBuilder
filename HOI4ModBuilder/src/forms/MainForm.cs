@@ -1416,8 +1416,23 @@ namespace HOI4ModBuilder
         private void UpdateAll()
             => Logger.TryOrLog(() =>
             {
+                if (!firstLoad)
+                {
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_UPDATE_BECAUSE_NO_DATA_WAS_LOADED);
+                    return;
+                }
+                else if (isLoadingOrSaving[0])
+                {
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_UPDATE_BECAUSE_ALREADY_SAVING_OR_LOADING);
+                    return;
+                }
+
+                isLoadingOrSaving[0] = true;
+
                 SavePattern.LoadAll();
                 MapManager.UpdateMapInfo();
+
+                isLoadingOrSaving[0] = false;
             });
 
         private void Button_GenerateColor_MouseDown(object sender, MouseEventArgs e)

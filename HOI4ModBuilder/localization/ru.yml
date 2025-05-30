@@ -104,6 +104,9 @@ CANT_SAVE_BECAUSE_HOI4MODBUILDER_DIRECTORY_DOESNT_EXISTS: "Сохранение 
 CANT_LOAD_BECAUSE_ALREADY_SAVING_OR_LOADING: "Не удалось начать загрузку данных, поскольку в данный момент уже идёт процесс сохранения или загрузки."
 CANT_LOAD_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS: "Не удалось начать загрузку данных, поскольку в настройках программы не выбрана папка мода или она не существует."
 
+CANT_UPDATE_BECAUSE_NO_DATA_WAS_LOADED: "Не удалось начать обновление данных, поскольку никакие данные ещё не были загружены."
+CANT_UPDATE_BECAUSE_ALREADY_SAVING_OR_LOADING: "Не удалось начать обновление данных, поскольку в данный момент уже идёт процесс сохранения или загрузки."
+
 ALL_EDIT_LAYERS_IS_ALLOWED: "Разрешено использование всех рабочих слоёв"
 MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED: "Этот инструмент не может быть использован на текущем рабочем слое \"{currentEditLayer}\". Для продолжения работы выберите один из разрешённых рабочих слоёв: {allowedEditLayers}"
 MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED_TITLE: "Выберите другой рабочий слой"
