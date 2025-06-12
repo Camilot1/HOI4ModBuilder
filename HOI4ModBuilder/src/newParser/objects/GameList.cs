@@ -145,6 +145,47 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         private List<T> _list = new List<T>();
 
+        public int RemoveIf(Func<T, bool> predicate)
+        {
+            int count = 0;
+            for (int i = _list.Count - 1; i >= 0; i--)
+            {
+                if (predicate(_list[i]))
+                {
+                    _list.RemoveAt(i);
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public bool RemoveFirstFromEndIf(Func<T, bool> predicate)
+        {
+            for (int i = _list.Count - 1; i >= 0; i--)
+            {
+                if (predicate(_list[i]))
+                {
+                    _list.RemoveAt(i);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool TryGetFirstFromEndIf(Func<T, bool> predicate, out T result)
+        {
+            for (int i = _list.Count - 1; i >= 0; i--)
+            {
+                if (predicate(_list[i]))
+                {
+                    result = _list[i];
+                    return true;
+                }
+            }
+            result = default;
+            return false;
+        }
+
         public int GetSize() => _list.Count;
 
         public T this[int index]

@@ -197,8 +197,29 @@ namespace HOI4ModBuilder.src.newParser.objects
 
                 innerList.AddSilent(innerBlock3);
             }
+            else if (infoArgsBlock.CanHaveAnyInnerBlocks)
+            {
+                var info = new InfoArgsBlock(key, null)
+                {
+                    CanHaveAnyInlineValue = true,
+                    CanHaveAnyInnerBlocks = true
+                };
+                var innerBlock3 = new ScriptBlockParseObject(this, info);
+
+                innerBlock3.ParseCallback(parser);
+
+                /*
+                var comments = innerBlock3.GetComments();
+                if (comments != null)
+                    comments.Previous = keyComments != null ? keyComments.Previous + comments.Previous : comments.Previous;
+                else
+                */
+                innerBlock3.SetComments(keyComments);
+
+                innerList.AddSilent(innerBlock3);
+            }
             else
-                throw new Exception("Unknown token: " + parser.GetCursorInfo());
+                throw new Exception("Unknown token: " + key + " " + parser.GetCursorInfo());
 
 
         }
@@ -333,6 +354,11 @@ namespace HOI4ModBuilder.src.newParser.objects
                     }
                     if (hasParsedValue) break;
                 }
+            }
+            else if (_scriptBlockInfo is InfoArgsBlock infoBlock && infoBlock.CanHaveAnyInlineValue)
+            {
+                _value = ParserUtils.ParseObject(value);
+                hasParsedValue = true;
             }
 
             if (!hasParsedValue && canAcceptVars)
