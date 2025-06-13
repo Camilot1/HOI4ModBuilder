@@ -1621,25 +1621,6 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Map_Railway_RemoveProvince_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => RailwayTool.RemoveProvinceFromRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
 
-        private void ToolStripMenuItem_Map_Province_OpenStateFile_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.State == null) return;
-
-                StateListForm stateListForm;
-                if (StateListForm.Instance == null)
-                {
-                    stateListForm = new StateListForm();
-                    stateListForm.Show();
-                }
-                else stateListForm = StateListForm.Instance;
-
-                stateListForm.Focus();
-                stateListForm.FindState(ProvinceManager.RMBProvince.State.Id.GetValue());
-            });
-        }
-
         private void ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AutoTools.RemoveSeaProvincesFromStates());
 
@@ -1750,6 +1731,65 @@ namespace HOI4ModBuilder
                 AdjacenciesManager.TryGetAdjacencyRule(ToolStripComboBox_Map_Adjacency_Rule.Text, out var rule);
                 AdjacenciesManager.GetSelectedSeaCross().AdjacencyRule = rule;
             });
+
+        private void ToolStripMenuItem_Map_Province_OpenStateFile_InEditor_Click(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.State == null)
+                    return;
+
+                StateListForm stateListForm;
+                if (StateListForm.Instance == null)
+                {
+                    stateListForm = new StateListForm();
+                    stateListForm.Show();
+                }
+                else stateListForm = StateListForm.Instance;
+
+                stateListForm.Focus();
+                stateListForm.FindState(ProvinceManager.RMBProvince.State.Id.GetValue());
+            });
+        }
+
+        private void ToolStripMenuItem_Map_Province_OpenStateFile_InExplorer_Click(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.State == null)
+                    return;
+
+                if (!StateManager.TryGetState(ProvinceManager.RMBProvince.State.Id.GetValue(), out var state))
+                    return;
+
+                if (!state.TryGetGameFile(out var file))
+                    return;
+
+                NetworkManager.OpenLink(file.FilePath);
+            });
+        }
+
+        private void ToolStripMenuItem_Map_Province_OpenRegionFile_InEditor_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem_Map_Province_OpenRegionFile_InExplorer_Click(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.Region == null)
+                    return;
+
+                if (!StrategicRegionManager.TryGetRegion(ProvinceManager.RMBProvince.Region.Id, out var region))
+                    return;
+
+                if (region.FileInfo == null)
+                    return;
+
+                NetworkManager.OpenLink(region.FileInfo.filePath);
+            });
+        }
 
         private void ResizeComboBox(GroupBox groupBox, ComboBox comboBox)
         {

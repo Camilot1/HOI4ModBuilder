@@ -96,7 +96,11 @@
             this.ToolStripComboBox_Map_Province_Continent = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Map_Province_OpenStateFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Map_Province_OpenStateFile_InEditor = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Map_Province_OpenStateFile_InExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Province_OpenRegionFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Map_Province_OpenRegionFile_InEditor = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Map_Province_OpenRegionFile_InExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Map_Adjacency = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Adjacency_Create = new System.Windows.Forms.ToolStripMenuItem();
@@ -756,14 +760,43 @@
             // 
             // ToolStripMenuItem_Map_Province_OpenStateFile
             // 
+            this.ToolStripMenuItem_Map_Province_OpenStateFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_Map_Province_OpenStateFile_InEditor,
+            this.ToolStripMenuItem_Map_Province_OpenStateFile_InExplorer});
             this.ToolStripMenuItem_Map_Province_OpenStateFile.Name = "ToolStripMenuItem_Map_Province_OpenStateFile";
             resources.ApplyResources(this.ToolStripMenuItem_Map_Province_OpenStateFile, "ToolStripMenuItem_Map_Province_OpenStateFile");
-            this.ToolStripMenuItem_Map_Province_OpenStateFile.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Province_OpenStateFile_Click);
+            // 
+            // ToolStripMenuItem_Map_Province_OpenStateFile_InEditor
+            // 
+            this.ToolStripMenuItem_Map_Province_OpenStateFile_InEditor.Name = "ToolStripMenuItem_Map_Province_OpenStateFile_InEditor";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Province_OpenStateFile_InEditor, "ToolStripMenuItem_Map_Province_OpenStateFile_InEditor");
+            this.ToolStripMenuItem_Map_Province_OpenStateFile_InEditor.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Province_OpenStateFile_InEditor_Click);
+            // 
+            // ToolStripMenuItem_Map_Province_OpenStateFile_InExplorer
+            // 
+            this.ToolStripMenuItem_Map_Province_OpenStateFile_InExplorer.Name = "ToolStripMenuItem_Map_Province_OpenStateFile_InExplorer";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Province_OpenStateFile_InExplorer, "ToolStripMenuItem_Map_Province_OpenStateFile_InExplorer");
+            this.ToolStripMenuItem_Map_Province_OpenStateFile_InExplorer.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Province_OpenStateFile_InExplorer_Click);
             // 
             // ToolStripMenuItem_Map_Province_OpenRegionFile
             // 
-            resources.ApplyResources(this.ToolStripMenuItem_Map_Province_OpenRegionFile, "ToolStripMenuItem_Map_Province_OpenRegionFile");
+            this.ToolStripMenuItem_Map_Province_OpenRegionFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_Map_Province_OpenRegionFile_InEditor,
+            this.ToolStripMenuItem_Map_Province_OpenRegionFile_InExplorer});
             this.ToolStripMenuItem_Map_Province_OpenRegionFile.Name = "ToolStripMenuItem_Map_Province_OpenRegionFile";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Province_OpenRegionFile, "ToolStripMenuItem_Map_Province_OpenRegionFile");
+            // 
+            // ToolStripMenuItem_Map_Province_OpenRegionFile_InEditor
+            // 
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Province_OpenRegionFile_InEditor, "ToolStripMenuItem_Map_Province_OpenRegionFile_InEditor");
+            this.ToolStripMenuItem_Map_Province_OpenRegionFile_InEditor.Name = "ToolStripMenuItem_Map_Province_OpenRegionFile_InEditor";
+            this.ToolStripMenuItem_Map_Province_OpenRegionFile_InEditor.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Province_OpenRegionFile_InEditor_Click);
+            // 
+            // ToolStripMenuItem_Map_Province_OpenRegionFile_InExplorer
+            // 
+            this.ToolStripMenuItem_Map_Province_OpenRegionFile_InExplorer.Name = "ToolStripMenuItem_Map_Province_OpenRegionFile_InExplorer";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Province_OpenRegionFile_InExplorer, "ToolStripMenuItem_Map_Province_OpenRegionFile_InExplorer");
+            this.ToolStripMenuItem_Map_Province_OpenRegionFile_InExplorer.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Province_OpenRegionFile_InExplorer_Click);
             // 
             // toolStripSeparator7
             // 
@@ -1922,6 +1955,10 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Export;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Export_MainLayer;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Export_SelectedBorders;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_OpenStateFile_InEditor;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_OpenStateFile_InExplorer;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_OpenRegionFile_InEditor;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_OpenRegionFile_InExplorer;
     }
 }
 
