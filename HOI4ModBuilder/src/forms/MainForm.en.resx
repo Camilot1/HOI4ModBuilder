@@ -214,44 +214,44 @@
   <data name="toolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 6</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Province_IsCoastal.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripMenuItem_Map_Province_Info.Text" xml:space="preserve">
+    <value>Province:</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
     <value>181, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Text" xml:space="preserve">
+    <value>Open in Editor</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer.Text" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_State_Info.Text" xml:space="preserve">
+    <value>State:</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor.Text" xml:space="preserve">
+    <value>Open in Editor</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Text" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_Region_Info.Text" xml:space="preserve">
+    <value>Region:</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province_IsCoastal.Text" xml:space="preserve">
     <value>IsCoastal</value>
   </data>
-  <data name="toolStripSeparator24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>178, 6</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_OpenStateFile_InEditor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_OpenStateFile_InEditor.Text" xml:space="preserve">
-    <value>In Editor</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_OpenStateFile_InExplorer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_OpenStateFile_InExplorer.Text" xml:space="preserve">
-    <value>In Explorer</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_OpenStateFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_OpenStateFile.Text" xml:space="preserve">
-    <value>Open State File</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_OpenRegionFile_InEditor.Text" xml:space="preserve">
-    <value>In Editor</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_OpenRegionFile_InExplorer.Text" xml:space="preserve">
-    <value>In Explorer</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_OpenRegionFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_OpenRegionFile.Text" xml:space="preserve">
-    <value>Open Region File</value>
+  <data name="ToolStripMenuItem_Map_Province_VictoryPoints_Info.Text" xml:space="preserve">
+    <value>Victory Points:</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 22</value>

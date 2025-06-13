@@ -34,6 +34,10 @@ ERRORS: "Errors"
 EXCEPTIONS: "Exceptions"
 OVERLAY_TEXTURES: "Additional Textures"
 
+PROVINCE: "Province"
+STATE: "State"
+REGION: "Region"
+
 CURSOR: "Cursor"
 RECTANGLE: "Rectangle"
 ELLIPSE: "Ellipse"

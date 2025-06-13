@@ -242,6 +242,9 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (savePatternParameter.AddEmptyLineBefore)
                 sb.Append(outIndent).Append(Constants.NEW_LINE);
 
+            if (_sortAtSaving)
+                _list.Sort();
+
             if (_forceSeparateLineSave)
                 SeparateLineSave(sb, outIndent, key, savePatternParameter);
             else

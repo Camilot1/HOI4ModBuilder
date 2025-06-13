@@ -53,8 +53,10 @@ namespace HOI4ModBuilder.src.utils
 
         public static string GetLoc(EnumLocKey key)
         {
-            if (_locKeys.TryGetValue(key, out var value)) return value;
-            else return key.ToString();
+            if (_locKeys.TryGetValue(key, out var value)) 
+                return value;
+            else 
+                return key.ToString();
         }
 
         public static string GetLoc(EnumLocKey key, Dictionary<string, string> replaceValues, string additionalText)
@@ -527,5 +529,9 @@ namespace HOI4ModBuilder.src.utils
         ALL_EDIT_LAYERS_IS_ALLOWED,
         MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED,
         MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED_TITLE,
+        PROVINCE,
+        STATE,
+        REGION,
+        VICTORY_POINTS,
     }
 }
