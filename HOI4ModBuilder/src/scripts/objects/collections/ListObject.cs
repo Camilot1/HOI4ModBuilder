@@ -8,7 +8,7 @@ using System.Text;
 
 namespace HOI4ModBuilder.src.scripts.objects
 {
-    internal class ListObject : IScriptObject, IListObject
+    public class ListObject : IScriptObject, IListObject
     {
         public IScriptObject ValueType;
         private List<IScriptObject> _list;
@@ -75,14 +75,22 @@ namespace HOI4ModBuilder.src.scripts.objects
 
         public void Add(int lineIndex, string[] args, IScriptObject value)
         {
+            if (!Add(value))
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
+        }
+
+        public bool Add(IScriptObject value)
+        {
             if (ValueType.IsSameType(value))
             {
                 if (value is IPrimitiveObject)
                     _list.Add(value.GetCopy());
                 else
                     _list.Add(value);
+
+                return true;
             }
-            else throw new InvalidValueTypeScriptException(lineIndex, args, value);
+            return false;
         }
 
         public void Clear(int lineIndex, string[] args)

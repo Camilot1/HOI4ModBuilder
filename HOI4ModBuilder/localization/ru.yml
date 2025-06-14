@@ -468,7 +468,7 @@ SCRIPT_EXCEPTION_INVALID_KEY_TYPE_INTERNAL: "Некорректный тип д�
 SCRIPT_EXCEPTION_INVALID_KEY_TYPE: "Некорректный тип данных ключа {value} в аргументе под номером {argIndex}. \nСтрока: {lineIndex}. \nАргументы: {args}"
 SCRIPT_EXCEPTION_INVALID_TYPE: "Некорректный тип данных {value} в аргументе под номером {argIndex}. \nСтрока: {lineIndex} \nАргументы: {args}"
 SCRIPT_EXCEPTION_VARIABLE_IS_ALREADY_DECLARED: "Переменная {value} в аргументе под номером {argIndex} уже определена. \nСтрока: {lineIndex}. \nАргументы: {args}"
-SCRIPT_EXCEPTION_INVALID_ARGS_COUNT: "Некорректное количество аргументов. Требуемое количество: {allowedCounts}. \nСтрока: {lineIndex}. \nАргументы: {args}"
+SCRIPT_EXCEPTION_INVALID_ARGS_COUNT: "Некорректное количество аргументов. \nСтрока: {lineIndex}. \nАргументы: {args}"
 SCRIPT_EXCEPTION_VALUE_NOT_FOUND: "Значение {value} в аргументе под номером {argIndex} не найдено. \nСтрока: {lineIndex}. \nАргументы: {args}"
 SCRIPT_EXCEPTION_UNKNOWN_COMMAND: "Неизвестная команда \"{value}\". \nСтрока: {lineIndex}. \nАргументы: {args}"
 SCRIPT_EXCEPTION_INVALID_COMMAND_ARGS: "Некорректный аргумент {value} команды под номером {argIndex}. \nСтрока: {lineIndex}. \nАргументы: {args}"

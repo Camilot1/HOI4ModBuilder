@@ -10,6 +10,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
+using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using System;
@@ -247,6 +248,26 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 return 0;
 
             return History.GetValue().GetStateBuildingLevel(building);
+        }
+
+        public ListObject GetHistoryScriptBlocks(DateTime dateTime)
+        {
+            var list = new ListObject();
+
+            if (dateTime != default)
+                throw new NotImplementedException();
+
+            if (History.GetValue() == null)
+                return list;
+
+            var history = History.GetValue();
+
+            foreach (var block in history.DynamicScriptBlocks)
+            {
+                block.SaveToListObject(list);
+            }
+
+            return list;
         }
 
         public void UpdateByDateTimeStamp(DateTime dateTime)

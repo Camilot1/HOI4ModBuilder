@@ -5,22 +5,22 @@ using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.declarators
 {
-    public class IntDeclarator : VarDeclarator
+    public class FloatDeclarator : VarDeclarator
     {
-        private static readonly string _keyword = "INT";
+        private static readonly string _keyword = "FLOAT";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.vars." + _keyword;
+        public override string GetPath() => "commands.declarators.vars.primitives." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <{_keyword}:var_name> [OPTIONAL]<{BooleanDeclarator.GetKeyword()}|INUMBER:other_value>",
+            $"{_keyword} <{_keyword}:var_name> [OPTIONAL]<IBOOLEAN|INUMBER:other_value>",
             "======== OR ========",
             $"{_keyword} (",
             $"\tOUT <{_keyword}:var_name>",
-            $"\t[OPTIONAL]<{BooleanDeclarator.GetKeyword()}|INUMBER:other_value>",
+            $"\t[OPTIONAL]<IBOOLEAN|INUMBER:other_value>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new IntDeclarator();
+        public override ScriptCommand CreateEmptyCopy() => new FloatDeclarator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -39,7 +39,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
                 var name = args[argIndexName];
 
                 var rawValue = args.Length > 2 ? args[2] : null;
-                var obj = new IntObject();
+                var obj = new FloatObject();
 
                 if (!varsScope.TryDeclareVar(name, obj))
                     throw new VariableIsAlreadyDeclaredScriptException(lineIndex, args, name, argIndexName);

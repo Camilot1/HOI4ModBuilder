@@ -31,79 +31,103 @@ namespace HOI4ModBuilder.src.scripts.objects
         {
             if (value is BooleanObject booleanObject)
                 Value = booleanObject.Value ? 1 : 0;
+            else if (value is ByteObject byteObject)
+                Value = byteObject.Value;
             else if (value is CharObject charObject)
                 Value = charObject.Value;
             else if (value is IntObject intObject)
                 Value = intObject.Value;
             else if (value is FloatObject floatObject)
                 Value = floatObject.Value;
-            else throw new InvalidValueTypeScriptException(lineIndex, args, value);
+            else
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void Add(int lineIndex, string[] args, IScriptObject value)
         {
             if (value is BooleanObject booleanObject)
                 Value += booleanObject.Value ? 1 : 0;
+            else if (value is ByteObject byteObject)
+                Value += byteObject.Value;
             else if (value is CharObject charObject)
                 Value += charObject.Value;
             else if (value is IntObject intObject)
                 Value += intObject.Value;
             else if (value is FloatObject floatObject)
                 Value += floatObject.Value;
-            else throw new InvalidValueTypeScriptException(lineIndex, args, value);
+            else
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
         public void Subtract(int lineIndex, string[] args, IScriptObject value)
         {
             if (value is BooleanObject booleanObject)
                 Value -= booleanObject.Value ? 1 : 0;
+            else if (value is ByteObject byteObject)
+                Value -= byteObject.Value;
             else if (value is CharObject charObject)
                 Value -= charObject.Value;
             else if (value is IntObject intObject)
                 Value -= intObject.Value;
             else if (value is FloatObject floatObject)
                 Value -= floatObject.Value;
-            else throw new InvalidValueTypeScriptException(lineIndex, args, value);
+            else
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void Multiply(int lineIndex, string[] args, IScriptObject value)
         {
             if (value is BooleanObject booleanObject)
                 Value *= booleanObject.Value ? 1 : 0;
+            else if (value is ByteObject byteObject)
+                Value *= byteObject.Value;
             else if (value is CharObject charObject)
                 Value *= charObject.Value;
             else if (value is IntObject intObject)
                 Value *= intObject.Value;
             else if (value is FloatObject floatObject)
                 Value *= floatObject.Value;
-            else throw new InvalidValueTypeScriptException(lineIndex, args, value);
+            else
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void Divide(int lineIndex, string[] args, IScriptObject value)
         {
-            if (value is CharObject charObject)
+            if (value is BooleanObject booleanObject)
+                Value /= booleanObject.Value ? 1 : 0;
+            else if (value is ByteObject byteObject)
+                Value /= byteObject.Value;
+            else if (value is CharObject charObject)
                 Value /= charObject.Value;
             else if (value is IntObject intObject)
                 Value /= intObject.Value;
             else if (value is FloatObject floatObject)
                 Value /= floatObject.Value;
-            else throw new InvalidValueTypeScriptException(lineIndex, args, value);
+            else
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public void Modulo(int lineIndex, string[] args, IScriptObject value)
         {
-            if (value is CharObject charObject)
+            if (value is BooleanObject booleanObject)
+                Value %= booleanObject.Value ? 1 : 0;
+            else if (value is ByteObject byteObject)
+                Value %= byteObject.Value;
+            else if (value is CharObject charObject)
                 Value %= charObject.Value;
             else if (value is IntObject intObject)
                 Value %= intObject.Value;
             else if (value is FloatObject floatObject)
                 Value %= floatObject.Value;
-            else throw new InvalidValueTypeScriptException(lineIndex, args, value);
+            else
+                throw new InvalidValueTypeScriptException(lineIndex, args, value);
         }
 
         public bool IsGreaterThan(int lineIndex, string[] args, IRelativeObject relativeObject, BooleanObject result)
         {
             if (relativeObject is BooleanObject booleanObject)
                 result.Value = booleanObject.Value ? (Value > 1) : (Value > 0);
+            else if (relativeObject is ByteObject byteObject)
+                result.Value = Value > byteObject.Value;
             else if (relativeObject is CharObject charObject)
                 result.Value = Value > charObject.Value;
             else if (relativeObject is IntObject intObject)
@@ -119,6 +143,8 @@ namespace HOI4ModBuilder.src.scripts.objects
         {
             if (relativeObject is BooleanObject booleanObject)
                 result.Value = booleanObject.Value ? (Value >= 1) : (Value >= 0);
+            else if (relativeObject is ByteObject byteObject)
+                result.Value = Value >= byteObject.Value;
             else if (relativeObject is CharObject charObject)
                 result.Value = Value >= charObject.Value;
             else if (relativeObject is IntObject intObject)
@@ -134,6 +160,8 @@ namespace HOI4ModBuilder.src.scripts.objects
         {
             if (relativeObject is BooleanObject booleanObject)
                 result.Value = booleanObject.Value ? (Value < 1) : (Value < 0);
+            else if (relativeObject is ByteObject byteObject)
+                result.Value = Value < byteObject.Value;
             else if (relativeObject is CharObject charObject)
                 result.Value = Value < charObject.Value;
             else if (relativeObject is IntObject intObject)
@@ -149,6 +177,8 @@ namespace HOI4ModBuilder.src.scripts.objects
         {
             if (relativeObject is BooleanObject booleanObject)
                 result.Value = booleanObject.Value ? (Value <= 1) : (Value <= 0);
+            else if (relativeObject is ByteObject byteObject)
+                result.Value = Value <= byteObject.Value;
             else if (relativeObject is CharObject charObject)
                 result.Value = Value <= charObject.Value;
             else if (relativeObject is IntObject intObject)
@@ -164,6 +194,8 @@ namespace HOI4ModBuilder.src.scripts.objects
         {
             if (relativeObject is BooleanObject booleanObject)
                 result.Value = booleanObject.Value ? (Value == 1) : (Value == 0);
+            else if (relativeObject is ByteObject byteObject)
+                result.Value = Value == byteObject.Value;
             else if (relativeObject is CharObject charObject)
                 result.Value = Value == charObject.Value;
             else if (relativeObject is IntObject intObject)
@@ -179,6 +211,8 @@ namespace HOI4ModBuilder.src.scripts.objects
         {
             if (relativeObject is BooleanObject booleanObject)
                 result.Value = booleanObject.Value ? (Value != 1) : (Value != 0);
+            else if (relativeObject is ByteObject byteObject)
+                result.Value = Value != byteObject.Value;
             else if (relativeObject is CharObject charObject)
                 result.Value = Value != charObject.Value;
             else if (relativeObject is IntObject intObject)

@@ -1,25 +1,24 @@
 ﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
-using HOI4ModBuilder.src.scripts.objects.interfaces;
-using HOI4ModBuilder.src.newParser.interfaces;
+using HOI4ModBuilder.src.utils;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {
-    public class ReadMethod : ScriptCommand
+    public class GetKeyMethod : ScriptCommand
     {
-        private static readonly string _keyword = "READ";
+        private static readonly string _keyword = "GET_KEY";
         public static new string GetKeyword() => _keyword;
         public override string GetPath() => "commands.declarators.methods." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <ANY|ILIST<ANY>:to> <IREAD:from>",
+            $"{_keyword} <KEY_TYPE:to> <IGETKEY<KEY_TYPE>:from>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <ANY|ILIST<ANY>:to>",
-            $"\t<IREAD:from>",
+            $"\tOUT <KEY_TYPE>:to>",
+            $"\t<IGETKEY<KEY_TYPE>:from>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new ReadMethod();
+        public override ScriptCommand CreateEmptyCopy() => new GetKeyMethod();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -34,21 +33,17 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             _varsScope = varsScope;
             _action = delegate ()
             {
+                var from = (IGetKeyObject)ScriptParser.GetValue(
+                    varsScope, args[2], lineIndex, args,
+                    (o) => o is IGetKeyObject
+                );
+
                 var to = ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o is IStringObject ||
-                    o is IListObject listObj && listObj.GetValueType() is IStringObject
+                    (o) => o.IsSameType(from.GetKeyType())
                 );
 
-                var from = (IReadObject)ScriptParser.ParseValue(
-                    varsScope, args[2], lineIndex, args,
-                    (o) => o is IReadObject
-                );
-
-                if (to is IListObject @list)
-                    from.ReadRange(lineIndex, args, @list);
-                else if (to is ISetObject setObject)
-                    from.Read(lineIndex, args, setObject);
+                from.GetKey(lineIndex, args, to);
             };
         }
     }

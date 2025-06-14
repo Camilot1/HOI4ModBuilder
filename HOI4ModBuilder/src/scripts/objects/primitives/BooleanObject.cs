@@ -35,6 +35,8 @@ namespace HOI4ModBuilder.src.scripts.objects
         {
             if (relativeObject is BooleanObject booleanObject)
                 result.Value = (Value ? 1 : 0) > (booleanObject.Value ? 1 : 0);
+            else if (relativeObject is ByteObject byteObject)
+                result.Value = (byte)(Value ? 1 : 0) > byteObject.Value;
             else if (relativeObject is CharObject charObject)
                 result.Value = (char)(Value ? 1 : 0) > charObject.Value;
             else if (relativeObject is IntObject intObject)
@@ -50,6 +52,8 @@ namespace HOI4ModBuilder.src.scripts.objects
         {
             if (relativeObject is BooleanObject booleanObject)
                 result.Value = (Value ? 1 : 0) >= (booleanObject.Value ? 1 : 0);
+            else if (relativeObject is ByteObject byteObject)
+                result.Value = (byte)(Value ? 1 : 0) >= byteObject.Value;
             else if (relativeObject is CharObject charObject)
                 result.Value = (char)(Value ? 1 : 0) >= charObject.Value;
             else if (relativeObject is IntObject intObject)
@@ -65,6 +69,8 @@ namespace HOI4ModBuilder.src.scripts.objects
         {
             if (relativeObject is BooleanObject booleanObject)
                 result.Value = (Value ? 1 : 0) < (booleanObject.Value ? 1 : 0);
+            else if (relativeObject is ByteObject byteObject)
+                result.Value = (byte)(Value ? 1 : 0) < byteObject.Value;
             else if (relativeObject is CharObject charObject)
                 result.Value = (char)(Value ? 1 : 0) < charObject.Value;
             else if (relativeObject is IntObject intObject)
@@ -80,6 +86,8 @@ namespace HOI4ModBuilder.src.scripts.objects
         {
             if (relativeObject is BooleanObject booleanObject)
                 result.Value = (Value ? 1 : 0) <= (booleanObject.Value ? 1 : 0);
+            else if (relativeObject is ByteObject byteObject)
+                result.Value = (byte)(Value ? 1 : 0) <= byteObject.Value;
             else if (relativeObject is CharObject charObject)
                 result.Value = (char)(Value ? 1 : 0) <= charObject.Value;
             else if (relativeObject is IntObject intObject)
@@ -95,6 +103,8 @@ namespace HOI4ModBuilder.src.scripts.objects
         {
             if (relativeObject is BooleanObject booleanObject)
                 result.Value = Value == booleanObject.Value;
+            else if (relativeObject is ByteObject byteObject)
+                result.Value = (byte)(Value ? 1 : 0) == byteObject.Value;
             else if (relativeObject is CharObject charObject)
                 result.Value = (char)(Value ? 1 : 0) == charObject.Value;
             else if (relativeObject is IntObject intObject)
@@ -110,6 +120,8 @@ namespace HOI4ModBuilder.src.scripts.objects
         {
             if (relativeObject is BooleanObject booleanObject)
                 result.Value = Value != booleanObject.Value;
+            else if (relativeObject is ByteObject byteObject)
+                result.Value = (byte)(Value ? 1 : 0) != byteObject.Value;
             else if (relativeObject is CharObject charObject)
                 result.Value = (char)(Value ? 1 : 0) != charObject.Value;
             else if (relativeObject is IntObject intObject)

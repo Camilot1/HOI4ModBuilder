@@ -2,6 +2,8 @@
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.structs;
+using HOI4ModBuilder.src.scripts;
+using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
@@ -427,6 +429,47 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (comments.Inline.Length > 0)
                 sb.Append(comments.Inline).Append(' ').Append(Constants.NEW_LINE);
+        }
+
+        public void SaveToListObject(ListObject list)
+        {
+            if (_value is GameList<ScriptBlockParseObject> listValue)
+            {
+                var innerPair = new PairObject(new StringObject(), new ListObject());
+                list.Add(innerPair);
+
+                innerPair.SetKey(new StringObject(_scriptBlockInfo.GetBlockName()));
+
+                var innerList = new ListObject();
+                innerPair.SetValue(innerList);
+
+                foreach (var innerValue in listValue)
+                {
+                    innerValue.SaveToListObject(innerList);
+                }
+
+                list.Add(innerPair);
+            }
+            else
+            {
+                var value = ScriptParser.ParseValue(GetValue().ToString());
+
+                if (value == null)
+                {
+                    var tempValue = ParserUtils.ObjectToSaveString(GetValue());
+                    value = ScriptParser.ParseValue(tempValue);
+
+                    if (value == null)
+                        value = new StringObject(tempValue);
+                }
+
+                var pair = new PairObject(new StringObject(), value.GetEmptyCopy());
+
+                list.Add(pair);
+
+                pair.SetKey(new StringObject(_scriptBlockInfo.GetBlockName()));
+                pair.SetValue(value);
+            }
         }
     }
 }

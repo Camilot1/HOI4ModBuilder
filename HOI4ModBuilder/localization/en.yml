@@ -466,7 +466,7 @@ SCRIPT_EXCEPTION_INVALID_KEY_TYPE_INTERNAL: "Invalid key data type {value}. \nLi
 SCRIPT_EXCEPTION_INVALID_KEY_TYPE: "Invalid key data type {value} in argument number {argIndex}. \nLine: {lineIndex}. \nArgs: {args}"
 SCRIPT_EXCEPTION_INVALID_TYPE: "Invalid data type {value} in argument number {argIndex}. \nLine: {lineIndex}. \nArgs: {args}"
 SCRIPT_EXCEPTION_VARIABLE_IS_ALREADY_DECLARED: "The variable {value} in argument number {argIndex} is already declared. \nLine: {lineIndex}. \nArgs: {args}"
-SCRIPT_EXCEPTION_INVALID_ARGS_COUNT: "Incorrect number of arguments. Required number: {allowedCounts}. \nLine: {lineIndex}. \nArgs: {args}"
+SCRIPT_EXCEPTION_INVALID_ARGS_COUNT: "Incorrect number of arguments. \nLine: {lineIndex}. \nArgs: {args}"
 SCRIPT_EXCEPTION_VALUE_NOT_FOUND: "The value {value} in argument number {argIndex} not found. \nLine: {lineIndex}. \nArgs: {args}"
 SCRIPT_EXCEPTION_UNKNOWN_COMMAND: "Unknow command \"{value}\". \nLine: {lineIndex}. \nArgs: {args}"
 SCRIPT_EXCEPTION_INVALID_COMMAND_ARGS: "Invalid argument number {argIndex} with value. \nLine: {lineIndex}. \nArgs: {args}"

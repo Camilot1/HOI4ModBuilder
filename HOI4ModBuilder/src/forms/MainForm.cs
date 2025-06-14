@@ -1650,9 +1650,6 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Telegram_Click(object sender, EventArgs e)
             => NetworkManager.OpenLink(NetworkManager.TelegramURL);
 
-
-
-
         public void SetAdjacencyRules(Dictionary<string, AdjacencyRule>.KeyCollection rules)
         {
             Logger.TryOrLog(() =>
@@ -1661,7 +1658,8 @@ namespace HOI4ModBuilder
                 {
                     ToolStripComboBox_Map_Adjacency_Rule.Items.Clear();
                     ToolStripComboBox_Map_Adjacency_Rule.Items.Add("");
-                    foreach (string name in rules) ToolStripComboBox_Map_Adjacency_Rule.Items.Add(name);
+                    foreach (string name in rules)
+                        ToolStripComboBox_Map_Adjacency_Rule.Items.Add(name);
                 });
             });
         }
@@ -1739,14 +1737,14 @@ namespace HOI4ModBuilder
             });
 
         private void ToolStripComboBox_Map_Adjacency_Rule_SelectedIndexChanged(object sender, EventArgs e)
-        => Logger.TryOrLog(() =>
-        {
-            if (AdjacenciesManager.GetSelectedSeaCross() == null)
-                return;
+            => Logger.TryOrLog(() =>
+            {
+                if (AdjacenciesManager.GetSelectedSeaCross() == null)
+                    return;
 
-            AdjacenciesManager.TryGetAdjacencyRule(ToolStripComboBox_Map_Adjacency_Rule.Text, out var rule);
-            AdjacenciesManager.GetSelectedSeaCross().AdjacencyRule = rule;
-        });
+                AdjacenciesManager.TryGetAdjacencyRule(ToolStripComboBox_Map_Adjacency_Rule.Text, out var rule);
+                AdjacenciesManager.GetSelectedSeaCross().AdjacencyRule = rule;
+            });
 
         private void ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>

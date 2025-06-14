@@ -1,27 +1,26 @@
-﻿using HOI4ModBuilder.src.scripts.commands.declarators.vars;
+﻿
+using HOI4ModBuilder.src.scripts.commands.declarators.vars;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;
-using HOI4ModBuilder.src.scripts.objects.interfaces;
-using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.declarators
 {
-    public class FileDeclarator : VarDeclarator
+    public class BooleanDeclarator : VarDeclarator
     {
-        private static readonly string _keyword = "FILE";
+        private static readonly string _keyword = "BOOLEAN";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.vars." + _keyword;
+        public override string GetPath() => "commands.declarators.vars.primitives." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <{_keyword}:var_name> [OPTIONAL]<ISTRING|{_keyword}:other_value>",
+            $"{_keyword} <{_keyword}:var_name> [OPTIONAL]<{_keyword}:other_value>",
             "======== OR ========",
             $"{_keyword} (",
             $"\tOUT <{_keyword}:var_name>",
-            $"\t[OPTIONAL]<ISTRING|{_keyword}:other_value>",
+            $"\t[OPTIONAL]<{_keyword}:other_value>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new FileDeclarator();
+        public override ScriptCommand CreateEmptyCopy() => new BooleanDeclarator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -40,7 +39,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
                 var name = args[argIndexName];
 
                 var rawValue = args.Length > 2 ? args[2] : null;
-                var obj = new FileObject();
+                var obj = new BooleanObject();
 
                 if (!varsScope.TryDeclareVar(name, obj))
                     throw new VariableIsAlreadyDeclaredScriptException(lineIndex, args, name, argIndexName);

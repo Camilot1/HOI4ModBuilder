@@ -8,7 +8,7 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
     {
         private static readonly string _keyword = "CEIL";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.methods." + _keyword;
+        public override string GetPath() => "commands.declarators.methods.math." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {

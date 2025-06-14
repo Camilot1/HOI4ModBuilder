@@ -9,7 +9,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
     {
         private static readonly string _keyword = "LIST";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.vars." + _keyword;
+        public override string GetPath() => "commands.declarators.vars.collections." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {

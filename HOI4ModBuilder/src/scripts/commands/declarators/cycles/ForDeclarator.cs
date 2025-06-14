@@ -122,10 +122,15 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
 
                 iterationList.ForEach(iteratorValue =>
                 {
+
                     if (CheckExitScope())
+                    {
+                        innerVarsScope.ClearLocalVars();
                         return;
+                    }
 
                     innerVarsScope.ClearLocalVars();
+
                     innerVarsScope.PutLocalVariable(iterator, iteratorValue);
 
                     foreach (var command in commands)

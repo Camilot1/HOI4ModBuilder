@@ -1,25 +1,23 @@
 ﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
-using HOI4ModBuilder.src.scripts.objects.interfaces;
-using HOI4ModBuilder.src.newParser.interfaces;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {
-    public class ReadMethod : ScriptCommand
+    public class SetValueMethod : ScriptCommand
     {
-        private static readonly string _keyword = "READ";
+        private static readonly string _keyword = "SET_VALUE";
         public static new string GetKeyword() => _keyword;
         public override string GetPath() => "commands.declarators.methods." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <ANY|ILIST<ANY>:to> <IREAD:from>",
+            $"{_keyword} <ISETVALUE<VALUE_TYPE>:to> <VALUE_TYPE:from>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <ANY|ILIST<ANY>:to>",
-            $"\t<IREAD:from>",
+            $"\tOUT <ISETVALUE<VALUE_TYPE>>:to>",
+            $"\t<VALUE_TYPE:from>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new ReadMethod();
+        public override ScriptCommand CreateEmptyCopy() => new GetValueMethod();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -34,21 +32,17 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var to = ScriptParser.GetValue(
-                    varsScope, args[1], lineIndex, args,
-                    (o) => o is IStringObject ||
-                    o is IListObject listObj && listObj.GetValueType() is IStringObject
-                );
-
-                var from = (IReadObject)ScriptParser.ParseValue(
+                var to = (ISetValueObject)ScriptParser.GetValue(
                     varsScope, args[2], lineIndex, args,
-                    (o) => o is IReadObject
+                    (o) => o is ISetValueObject
                 );
 
-                if (to is IListObject @list)
-                    from.ReadRange(lineIndex, args, @list);
-                else if (to is ISetObject setObject)
-                    from.Read(lineIndex, args, setObject);
+                var from = ScriptParser.GetValue(
+                    varsScope, args[1], lineIndex, args,
+                    (o) => o.IsSameType(to.GetValueType())
+                );
+
+                to.SetValue(lineIndex, args, from);
             };
         }
     }

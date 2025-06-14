@@ -137,12 +137,17 @@ namespace HOI4ModBuilder
 
         public static byte[] BitmapToArray(Bitmap bitmap, ImageLockMode lockMode, TextureType textureType)
         {
+            return BitmapToArray(bitmap, lockMode, textureType.imagePixelFormat);
+        }
+
+        public static byte[] BitmapToArray(Bitmap bitmap, ImageLockMode lockMode, PixelFormat pixelFormat)
+        {
             int width = bitmap.Width;
             int height = bitmap.Height;
 
             var data = bitmap.LockBits(
                 new Rectangle(0, 0, width, height),
-                lockMode, textureType.imagePixelFormat
+                lockMode, pixelFormat
             );
 
             int bytesCount = height * data.Stride;

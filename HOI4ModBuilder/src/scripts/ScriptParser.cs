@@ -5,6 +5,7 @@ using HOI4ModBuilder.src.scripts.commands.declarators.vars;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
+using HOI4ModBuilder.src.scripts.objects.primitives;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -202,13 +203,51 @@ namespace HOI4ModBuilder.src.scripts
             return args.ToArray();
         }
 
-        public static IScriptObject ParseValue(VarsScope varsScope, string value)
+        public static IScriptObject ParseValue(string value)
         {
             if (value == null || value.Length == 0)
                 return null;
 
-            if (varsScope.TryGetValue(value, out IScriptObject scriptObject))
-                return scriptObject;
+            if (value.StartsWith("COLOR(") && value.EndsWith(")"))
+            {
+                var subValue = value.Substring(6, value.Length - 7);
+                var subValues = subValue.Split(';');
+
+                int argb = 0;
+                foreach (var channel in subValues)
+                {
+                    var pair = channel.Split('=');
+                    if (pair.Length != 2)
+                        return null;
+
+                    var pairKey = pair[0];
+                    if (!byte.TryParse(pair[1], out var pairValue))
+                        return null;
+
+                    if (pairKey == "a" || pairKey == "alpha")
+                    {
+                        argb = (int)(argb & 0x00FFFFFF);
+                        argb |= pairValue << 24;
+                    }
+                    else if (pairKey == "r" || pairKey == "red")
+                    {
+                        argb = (int)(argb & 0xFF00FFFF);
+                        argb |= pairValue << 16;
+                    }
+                    else if (pairKey == "g" || pairKey == "green")
+                    {
+                        argb = (int)(argb & 0xFFFF00FF);
+                        argb |= pairValue << 8;
+                    }
+                    else if (pairKey == "b" || pairKey == "blue")
+                    {
+                        argb = (int)(argb & 0xFFFFFF00);
+                        argb |= pairValue;
+                    }
+                }
+
+                return new ColorObject(argb);
+            }
             else if (value.StartsWith("\"") && value.EndsWith("\""))
                 return new StringObject(value.Substring(1, value.Length - 2));
             else if (value.StartsWith("'") && value.EndsWith("'") && value.Length == 3)
@@ -223,6 +262,17 @@ namespace HOI4ModBuilder.src.scripts
                 return new BooleanObject(false);
             else
                 return null;
+        }
+
+        public static IScriptObject ParseValue(VarsScope varsScope, string value)
+        {
+            if (value == null || value.Length == 0)
+                return null;
+
+            if (varsScope.TryGetValue(value, out IScriptObject scriptObject))
+                return scriptObject;
+            else
+                return ParseValue(value);
         }
 
         public static string FormatToString(IScriptObject obj)
