@@ -638,6 +638,8 @@ namespace HOI4ModBuilder.managers
                         return;
                     }
 
+                    ScriptParser.IsDebug = false;
+
                     customFunc = (p, idx) =>
                     {
                         if (idx >= ScriptParser.MapMainLayerCustomScriptTasks)
