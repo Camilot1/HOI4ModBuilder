@@ -145,6 +145,47 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         private List<T> _list = new List<T>();
 
+        public int RemoveIf(Func<T, bool> predicate)
+        {
+            int count = 0;
+            for (int i = _list.Count - 1; i >= 0; i--)
+            {
+                if (predicate(_list[i]))
+                {
+                    _list.RemoveAt(i);
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public bool RemoveFirstFromEndIf(Func<T, bool> predicate)
+        {
+            for (int i = _list.Count - 1; i >= 0; i--)
+            {
+                if (predicate(_list[i]))
+                {
+                    _list.RemoveAt(i);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool TryGetFirstFromEndIf(Func<T, bool> predicate, out T result)
+        {
+            for (int i = _list.Count - 1; i >= 0; i--)
+            {
+                if (predicate(_list[i]))
+                {
+                    result = _list[i];
+                    return true;
+                }
+            }
+            result = default;
+            return false;
+        }
+
         public int GetSize() => _list.Count;
 
         public T this[int index]
@@ -181,33 +222,36 @@ namespace HOI4ModBuilder.src.newParser.objects
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         //TODO impelemnt save
-        public override SaveAdapter GetSaveAdapter() => null;
-        public override void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public override SavePattern GetSavePattern() => null;
+        public override void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
             if (_list.Count == 0)
             {
                 if (_forceSeparateLineSave)
                     return;
-                if (!saveParameter.SaveIfEmpty)
+                if (!savePatternParameter.SaveIfEmpty)
                     return;
 
-                if (saveParameter.AddEmptyLineBefore)
+                if (savePatternParameter.AddEmptyLineBefore)
                     sb.Append(outIndent).Append(Constants.NEW_LINE);
 
                 sb.Append(outIndent).Append(key).Append(" = {}").Append(Constants.NEW_LINE);
                 return;
             }
 
-            if (saveParameter.AddEmptyLineBefore)
+            if (savePatternParameter.AddEmptyLineBefore)
                 sb.Append(outIndent).Append(Constants.NEW_LINE);
 
+            if (_sortAtSaving)
+                _list.Sort();
+
             if (_forceSeparateLineSave)
-                SeparateLineSave(sb, outIndent, key, saveParameter);
+                SeparateLineSave(sb, outIndent, key, savePatternParameter);
             else
-                ListSave(sb, outIndent, key, saveParameter);
+                ListSave(sb, outIndent, key, savePatternParameter);
         }
 
-        private void SeparateLineSave(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        private void SeparateLineSave(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
             foreach (var value in _list)
             {
@@ -216,7 +260,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     tempValue = _valueSaveAdapter.Invoke(value);
 
                 if (tempValue is ISaveable saveable)
-                    saveable.Save(sb, outIndent, key, saveParameter);
+                    saveable.Save(sb, outIndent, key, savePatternParameter);
                 else
                 {
                     GameComments comments = null;
@@ -235,7 +279,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
         }
 
-        private void ListSave(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        private void ListSave(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
             string innerIndent = outIndent;
 
@@ -267,7 +311,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     sb.Append(comments.Inline).Append(Constants.NEW_LINE);
                     innerIndent = outIndent + Constants.INDENT;
                 }
-                else if (saveParameter.IsForceMultiline || !saveParameter.IsForceInline && _list.Count > 0)
+                else if (savePatternParameter.IsForceMultiline || !savePatternParameter.IsForceInline && _list.Count > 0)
                 {
                     sb.Append(Constants.NEW_LINE);
                     innerIndent = outIndent + Constants.INDENT;
@@ -280,7 +324,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 _list.Sort();
 
             foreach (var value in _list)
-                SaveListValue(sb, outIndent, ref innerIndent, key, value, saveParameter);
+                SaveListValue(sb, outIndent, ref innerIndent, key, value, savePatternParameter);
 
             if (key != null)
             {
@@ -292,7 +336,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
         }
 
-        private void SaveListValue(StringBuilder sb, string outIndent, ref string innerIndent, string key, T value, SaveAdapterParameter saveParameter)
+        private void SaveListValue(StringBuilder sb, string outIndent, ref string innerIndent, string key, T value, SavePatternParameter savePatternParameter)
         {
             object tempValue = value;
             if (_valueSaveAdapter != null)
@@ -300,12 +344,12 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (value is ISaveable saveable)
             {
-                saveable.Save(sb, innerIndent, key, saveParameter);
+                saveable.Save(sb, innerIndent, key, savePatternParameter);
 
                 if (sb.Length > 0)
                 {
                     var lastChar = sb[sb.Length - 1];
-                    if (lastChar == ' ' && !saveParameter.IsForceInline)
+                    if (lastChar == ' ' && !savePatternParameter.IsForceInline)
                         sb.Append(Constants.NEW_LINE);
                 }
             }
@@ -332,7 +376,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     sb.Append(comments.Inline).Append(' ').Append(Constants.NEW_LINE);
                     innerIndent = outIndent + Constants.INDENT;
                 }
-                else if (saveParameter.IsForceMultiline)
+                else if (savePatternParameter.IsForceMultiline)
                 {
                     sb.Append(Constants.NEW_LINE);
                     innerIndent = outIndent + Constants.INDENT;

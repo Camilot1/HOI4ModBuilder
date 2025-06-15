@@ -12,35 +12,30 @@ namespace HOI4ModBuilder.src.forms.messageForms
         public bool IsClosed { get; private set; }
         public static AboutProgramForm Instance { get; private set; }
 
-        public static readonly string GitHubReleasesURL = "https://github.com/Camilot1/HOI4ModBuilder/releases";
-        public static readonly string GitHubRepoURL = "https://github.com/Camilot1/HOI4ModBuilder";
-        public static readonly string DiscordServerURL = "https://discord.gg/bc4wF8PMhb";
-        public static readonly string DiscordDocumentationURL = "https://discord.gg/9Y5K4v85wd";
-        public static readonly string TelegramURL = "https://t.me/hoi4modbuilder";
-
-        private static readonly Dictionary<string, string> localization = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> _localization = new Dictionary<string, string>
         {
             { "ru",
                 $"Версия приложения: {Logger.version}\n" +
                 $"Автор приложения: Camilot\n\n" +
-                $"GitHub Релизы: {GitHubReleasesURL}\n" +
-                $"GitHub Репозиторий: {GitHubRepoURL}\n" +
-                $"Discord сервер: {DiscordServerURL}\n" +
-                $"Telegram канал: {TelegramURL}"
+                $"GitHub Релизы: {NetworkManager.GitHubReleasesURL}\n" +
+                $"GitHub Репозиторий: {NetworkManager.GitHubRepoURL}\n" +
+                $"Discord сервер: {NetworkManager.DiscordServerURL}\n" +
+                $"Telegram канал: {NetworkManager.TelegramURL}"
             },
             { "en",
                 $"Application version: {Logger.version}\n" +
                 $"Application creator: Camilot\n\n" +
-                $"GitHub Releases: {GitHubReleasesURL}\n" +
-                $"GitHub Repository: {GitHubRepoURL}\n" +
-                $"Discord server: {DiscordServerURL}\n" +
-                $"Telegram channel: {TelegramURL}"
+                $"GitHub Releases: {NetworkManager.GitHubReleasesURL}\n" +
+                $"GitHub Repository: {NetworkManager.GitHubRepoURL}\n" +
+                $"Discord server: {NetworkManager.DiscordServerURL}\n" +
+                $"Telegram channel: {NetworkManager.TelegramURL}"
             }
         };
 
         public static void CreateTasked()
         {
-            if (Instance != null) return;
+            if (Instance != null)
+                return;
             Task.Run(() => new AboutProgramForm().ShowDialog());
             SystemSounds.Exclamation.Play();
         }
@@ -89,23 +84,23 @@ namespace HOI4ModBuilder.src.forms.messageForms
 
                 switch (GuiLocManager.GetCurrentParentLanguageName)
                 {
-                    case "ru": RichTextBox1.Text = localization["ru"]; break;
-                    case "en": RichTextBox1.Text = localization["en"]; break;
-                    default: RichTextBox1.Text = localization["en"]; break;
+                    case "ru": RichTextBox1.Text = _localization["ru"]; break;
+                    case "en": RichTextBox1.Text = _localization["en"]; break;
+                    default: RichTextBox1.Text = _localization["en"]; break;
                 }
             });
         }
 
         private void Button_GitHubReleases_Click(object sender, EventArgs e)
-            => LinksUtils.OpenLink(GitHubReleasesURL);
+            => NetworkManager.OpenLink(NetworkManager.GitHubReleasesURL);
         private void Button_GitHubRepo_Click(object sender, EventArgs e)
-            => LinksUtils.OpenLink(GitHubRepoURL);
+            => NetworkManager.OpenLink(NetworkManager.GitHubRepoURL);
         private void Button_Discord_Click(object sender, EventArgs e)
-            => LinksUtils.OpenLink(DiscordServerURL);
+            => NetworkManager.OpenLink(NetworkManager.DiscordServerURL);
         private void Button_Telegram_Click(object sender, EventArgs e)
-            => LinksUtils.OpenLink(TelegramURL);
+            => NetworkManager.OpenLink(NetworkManager.TelegramURL);
 
         private void RichTextBox1_LinkClicked(object sender, LinkClickedEventArgs e)
-            => LinksUtils.OpenLink(e.LinkText);
+            => NetworkManager.OpenLink(e.LinkText);
     }
 }

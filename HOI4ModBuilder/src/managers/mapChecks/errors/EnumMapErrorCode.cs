@@ -19,6 +19,10 @@
         RIVER_FLOW_IN_OR_OUT_ERROR, //
         RIVER_MULTI_START_POINTS, //Несколько стартовых точек у реки
 
-        SEA_CROSS_HAS_NO_RULE_NOR_SEA_PROVINCE, //Морской переход не имеет ни правила, ни морской провинции
+        ADJACENCY_SEA_CROSS_HAS_NO_RULE_NOR_SEA_PROVINCE, //Морской переход не имеет ни правила, ни морской провинции
+        ADJACENCY_CONNECTS_DIFFERENT_TYPES_PROVINCES,
+        ADJACENCY_ONE_OF_THE_PROVINCES_IS_A_LAKE,
+        ADJACENCY_THAT_CONNECTS_SEA_PROVINCES_MUST_HAVE_TYPE_NONE,
+        ADJACENCY_START_OR_END_PROVINCE_IS_NULL,
     }
 }

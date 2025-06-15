@@ -24,7 +24,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks.info
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => DYNAMIC_ADAPTER;
         public override IParseObject GetEmptyCopy() => new ScriptedEffectsGameFile();
 
-        public override SaveAdapter GetSaveAdapter() => null;
+        public override SavePattern GetSavePattern() => null;
         public ScriptedEffectsGameFile() { }
         public ScriptedEffectsGameFile(FileInfo fileInfo) : base(fileInfo) { }
         public ScriptedEffectsGameFile(FileInfo fileInfo, bool allowsConstants) : base(fileInfo, allowsConstants) { }

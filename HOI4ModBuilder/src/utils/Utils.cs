@@ -82,7 +82,8 @@ namespace HOI4ModBuilder
 
         public static void Setter<T>(ref T parameter, ref T value, ref bool needToSave)
         {
-            if (parameter != null && parameter.Equals(value) || parameter == null && value == null) return;
+            if (parameter != null && parameter.Equals(value) || parameter == null && value == null)
+                return;
 
             parameter = value;
             needToSave = true;
@@ -136,12 +137,17 @@ namespace HOI4ModBuilder
 
         public static byte[] BitmapToArray(Bitmap bitmap, ImageLockMode lockMode, TextureType textureType)
         {
+            return BitmapToArray(bitmap, lockMode, textureType.imagePixelFormat);
+        }
+
+        public static byte[] BitmapToArray(Bitmap bitmap, ImageLockMode lockMode, PixelFormat pixelFormat)
+        {
             int width = bitmap.Width;
             int height = bitmap.Height;
 
             var data = bitmap.LockBits(
                 new Rectangle(0, 0, width, height),
-                lockMode, textureType.imagePixelFormat
+                lockMode, pixelFormat
             );
 
             int bytesCount = height * data.Stride;
@@ -343,6 +349,28 @@ namespace HOI4ModBuilder
             return last;
         }
 
+        public static string TruncateText(string text, Font font, int maxWidth)
+        {
+            if (text == null || text.Length == 0)
+                return text;
+
+            var fullSize = TextRenderer.MeasureText(text, font, new Size(int.MaxValue, int.MaxValue),
+                                                   TextFormatFlags.SingleLine | TextFormatFlags.NoPadding);
+            if (fullSize.Width <= maxWidth)
+                return text;
+
+            for (int len = text.Length; len > 0; len--)
+            {
+                string candidate = @".." + text.Substring(text.Length - len);
+                var size = TextRenderer.MeasureText(candidate, font, new Size(int.MaxValue, int.MaxValue),
+                                                    TextFormatFlags.SingleLine | TextFormatFlags.NoPadding);
+                if (size.Width <= maxWidth)
+                    return candidate;
+            }
+
+            return text;
+        }
+
         public static FolderBrowserDialog PrepareFolderDialog(string dirPath)
         {
             if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
@@ -469,6 +497,19 @@ namespace HOI4ModBuilder
 
             if (!int.TryParse(data[0].Trim(), out x)) return false;
             if (!int.TryParse(data[1].Trim(), out y)) return false;
+
+            return true;
+        }
+
+        public static bool ParseShortPositionFromString(string str, out short x, out short y)
+        {
+            x = -1;
+            y = -1;
+            string[] data = str.Split(';');
+            if (data.Length != 2) return false;
+
+            if (!short.TryParse(data[0].Trim(), out x)) return false;
+            if (!short.TryParse(data[1].Trim(), out y)) return false;
 
             return true;
         }

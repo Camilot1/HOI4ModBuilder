@@ -40,15 +40,15 @@ namespace HOI4ModBuilder.src.tools.brushes
             variant.ForEachPixel(x, y, action);
         }
 
-        public void ForEachLineStrip(string variantName, Point2D center, Action<List<Value2S>, double, double> action)
-            => ForEachLineStrip(variantName, center.x, center.y, action);
+        public void ForEachLineStrip(string variantName, Point2D center, Point2D sizeFactor, Action<List<Value2S>, double, double> action)
+            => ForEachLineStrip(variantName, center.x, center.y, sizeFactor.x, sizeFactor.y, action);
 
-        public void ForEachLineStrip(string variantName, double x, double y, Action<List<Value2S>, double, double> action)
+        public void ForEachLineStrip(string variantName, double x, double y, double sizeFactorX, double sizeFactorY, Action<List<Value2S>, double, double> action)
         {
             if (!Variants.TryGetValue(variantName, out var variant))
                 return;
 
-            variant.ForEachLineStrip(x, y, action);
+            variant.ForEachLineStrip(x, y, sizeFactorX, sizeFactorY, action);
         }
     }
 }

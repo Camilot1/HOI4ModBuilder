@@ -19,6 +19,7 @@ namespace HOI4ModBuilder.src.forms.scripts
         public static ScriptsForm Instance { get; private set; }
         private string _filePath;
         private string[] _scriptLines;
+        private static readonly string currentLineMark = ">>>";
 
         public ScriptsForm()
         {
@@ -137,7 +138,15 @@ namespace HOI4ModBuilder.src.forms.scripts
                 {
                     Logger.TryOrCatch(() =>
                     {
-                        var action = ScriptParser.Parse(_scriptLines);
+                        for (int i = 0; i < _scriptLines.Length; i++)
+                        {
+                            var line = _scriptLines[i];
+                            if (line.StartsWith(currentLineMark))
+                            {
+                                _scriptLines[i] = line.Substring(currentLineMark.Length);
+                            }
+                        }
+                        var action = ScriptParser.Parse(_scriptLines, out var _);
                         action?.Invoke();
                     },
                     (ex) =>
@@ -203,7 +212,7 @@ namespace HOI4ModBuilder.src.forms.scripts
             GroupBox_Debug.Text = $"Debug: {ScriptParser.IsDebug}; Line: {lineIndex + 1}";
 
             var scriptLines = RichTextBox_Script.Text.Split('\n');
-            var currentLineMark = ">>>";
+
             for (int i = 0; i < scriptLines.Length; i++)
             {
                 var scriptLine = scriptLines[i];
@@ -301,7 +310,7 @@ namespace HOI4ModBuilder.src.forms.scripts
         private void UpdateFilePathRender()
         {
             GroupBox_Script.Text = Utils.TruncatePath(_filePath, GroupBox_Script.Font, GroupBox_Script.Width - 12);
-            textBox1.SelectionStart = 0; 
+            textBox1.SelectionStart = 0;
             textBox1.ScrollToCaret();
             textBox1.SelectionStart = textBox1.Text.Length;
             textBox1.ScrollToCaret();

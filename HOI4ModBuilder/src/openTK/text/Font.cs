@@ -34,7 +34,7 @@ namespace HOI4ModBuilder.src.openTK.text
 
             foreach (FontGlyphData glyphData in data.glyphs)
             {
-                Value2I size = atlas.GetSize();
+                Value2I size = atlas.Size;
 
                 Bounds4F textureBounds = new Bounds4F(glyphData.atlasBounds);
                 textureBounds.left /= (float)size.x;

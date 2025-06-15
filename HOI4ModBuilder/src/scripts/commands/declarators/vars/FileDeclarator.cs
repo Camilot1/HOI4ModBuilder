@@ -14,11 +14,11 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <{_keyword}:var_name> [OPTIONAL]<{StringDeclarator.GetKeyword()}|{_keyword}:other_value>",
+            $"{_keyword} <{_keyword}:var_name> [OPTIONAL]<ISTRING|{_keyword}:other_value>",
             "======== OR ========",
             $"{_keyword} (",
             $"\tOUT <{_keyword}:var_name>",
-            $"\t[OPTIONAL]<{StringDeclarator.GetKeyword()}|{_keyword}:other_value>",
+            $"\t[OPTIONAL]<ISTRING|{_keyword}:other_value>",
             ")"
         };
         public override ScriptCommand CreateEmptyCopy() => new FileDeclarator();

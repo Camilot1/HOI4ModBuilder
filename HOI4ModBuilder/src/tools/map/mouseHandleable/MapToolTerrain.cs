@@ -17,23 +17,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
         public MapToolTerrain(Dictionary<EnumTool, MapTool> mapTools)
             : base(
-                  mapTools, enumTool, new HotKey { },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  mapTools, enumTool, new HotKey { shift = true, key = Keys.T },
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  new[] { EnumEditLayer.PROVINCES, EnumEditLayer.STRATEGIC_REGIONS },
+                  (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
 
-        public override void Handle(
-            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos,
+        public override bool Handle(
+            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
-            if (!(enumEditLayer == EnumEditLayer.PROVINCES || enumEditLayer == EnumEditLayer.STRATEGIC_REGIONS))
-                return;
-            if (!pos.InboundsPositiveBox(MapManager.MapSize))
-                return;
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
 
             if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
-                return;
+                return false;
 
             if (mouseEventArgs.Button == MouseButtons.Left && parameter != null)
             {
@@ -69,7 +69,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                                 MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                         };
                     }
-                    else return;
+                    else return false;
 
                     MapManager.ActionsBatch.AddWithExecute(
                         () => action(newProvincialTerrain),
@@ -88,12 +88,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     newTerrainObj = province.Region.Terrain;
 
                 if (newTerrainObj == null)
-                    return;
+                    return false;
 
                 string newTerrain = newTerrainObj.name;
 
                 if (prevTerrain == newTerrain)
-                    return;
+                    return false;
 
                 void action(string t)
                 {
@@ -106,6 +106,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     () => action(prevTerrain)
                 );
             }
+
+            return true;
         }
     }
 }

@@ -45,7 +45,8 @@ namespace HOI4ModBuilder.src.managers
 
         public static void SaveLocalSettings(Settings settings)
         {
-            if (!settings.IsModDirectorySelected() || !settings.useModSettings) return;
+            if (!settings.IsModDirectorySelected() || !settings.useModSettings)
+                return;
 
             if (!settings.IsModSettingsDirectoryExists())
             {
@@ -60,8 +61,10 @@ namespace HOI4ModBuilder.src.managers
                 );
 
                 var dialogResult = MessageBox.Show(text, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
-                if (dialogResult == DialogResult.OK) Directory.CreateDirectory(settings.GetModSettingsDirectoryPath());
-                else throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_SAVING_PROCESS_ABORTED));
+                if (dialogResult == DialogResult.OK)
+                    Directory.CreateDirectory(settings.GetModSettingsDirectoryPath());
+                else
+                    throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_SAVING_PROCESS_ABORTED));
             }
 
             File.WriteAllText(

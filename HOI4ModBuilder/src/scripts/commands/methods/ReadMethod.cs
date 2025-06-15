@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
+using HOI4ModBuilder.src.newParser.interfaces;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {
@@ -11,10 +12,10 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <ISTRING|ILIST<ISTRING>:to> <IREAD:from>",
+            $"{_keyword} <ANY|ILIST<ANY>:to> <IREAD:from>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <ISTRING|ILIST<ISTRING>:to>",
+            $"\tOUT <ANY|ILIST<ANY>:to>",
             $"\t<IREAD:from>",
             ")"
         };
@@ -46,8 +47,8 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
 
                 if (to is IListObject @list)
                     from.ReadRange(lineIndex, args, @list);
-                else if (to is IStringObject @string)
-                    from.Read(lineIndex, args, @string);
+                else if (to is ISetObject setObject)
+                    from.Read(lineIndex, args, setObject);
             };
         }
     }

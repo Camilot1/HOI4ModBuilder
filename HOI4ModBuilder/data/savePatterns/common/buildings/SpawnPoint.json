@@ -1,0 +1,44 @@
+[
+  {
+    "Name": "type",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "max",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "onlyCoastal",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "disableAutoNudging",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "only_costal",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "disable_auto_nudging",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  }
+]

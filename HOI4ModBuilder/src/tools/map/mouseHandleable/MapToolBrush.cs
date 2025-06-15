@@ -9,47 +9,47 @@ using System.Windows.Forms;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.tools.brushes;
+using HOI4ModBuilder.src.managers.mapChecks.warnings.checkers;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
     class MapToolBrush : MapTool
     {
         private static readonly EnumTool enumTool = EnumTool.BRUSH;
-        private static bool[] _isInDialog = new bool[1];
 
         public MapToolBrush(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { key = Keys.B },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  new[] {
+                      EnumEditLayer.PROVINCES, EnumEditLayer.RIVERS, EnumEditLayer.TERRAIN_MAP,
+                      EnumEditLayer.TREES_MAP, EnumEditLayer.CITIES_MAP, EnumEditLayer.HEIGHT_MAP
+                  },
+                  (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX | (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_SELECTED_BOUND
               )
         { }
 
-        public override void Handle(
-            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos,
+        public override bool Handle(
+            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
-            if (_isInDialog[0])
-                return;
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
 
             int newColor;
 
-            if (!pos.InboundsPositiveBox(MapManager.MapSize))
-                return;
             if (Control.ModifierKeys == Keys.Shift)
-                return;
-            if (bounds.HasSpace() && !bounds.Inbounds(pos))
-                return;
+                return false;
 
             if (mouseEventArgs.Button == MouseButtons.Left)
                 newColor = MainForm.Instance.GetBrushFirstColor().ToArgb();
             else if (mouseEventArgs.Button == MouseButtons.Right)
                 newColor = MainForm.Instance.GetBrushSecondColor().ToArgb();
-            else
-                return;
+            else return false;
 
             if (!BrushManager.TryGetBrush(SettingsManager.Settings, parameter, out var brush))
-                return;
+                return false;
 
             List<Action> redoActions = new List<Action>();
             List<Action> undoActions = new List<Action>();
@@ -60,10 +60,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 {
                     redoActions.Add(redo);
                     undoActions.Add(undo);
+
+                    if (enumEditLayer == EnumEditLayer.HEIGHT_MAP)
+                    {
+                        redoActions.Add(() => MapCheckerHeightMapMismatches.HandlePixel(x, y));
+                        undoActions.Add(() => MapCheckerHeightMapMismatches.HandlePixel(x, y));
+                    }
                 }
             });
 
+
             MapManager.ActionsBatch.AddWithExecute(redoActions, undoActions);
+            return true;
         }
 
         private bool HandlePixel(int x, int y, EnumEditLayer enumEditLayer, int newColor, out Action redo, out Action undo)
@@ -239,19 +247,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         private bool HandlePixelHeightMap(int x, int y, int newColor, out Action redo, out Action undo)
         {
             redo = null; undo = null;
+            int i = x + y * MapManager.MapSize.x;
 
             byte prevByte = TextureManager.height.GetByte(x, y);
             byte newByte = (byte)newColor;
             if (prevByte == newByte)
                 return false;
 
+            byte[] pixels = MapManager.HeightsPixels;
             redo = () =>
             {
+                pixels[i] = newByte;
                 TextureManager.height.WriteByte(x, y, newByte);
                 TextureManager.height.texture.Update(TextureManager._8bppGrayscale, x, y, 1, 1, new byte[] { newByte });
             };
             undo = () =>
             {
+                pixels[i] = prevByte;
                 TextureManager.height.WriteByte(x, y, prevByte);
                 TextureManager.height.texture.Update(TextureManager._8bppGrayscale, x, y, 1, 1, new byte[] { prevByte });
             };

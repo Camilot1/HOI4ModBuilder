@@ -14,7 +14,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         [JsonProperty("specificScopes")] private EnumScope[] _specificScopes;
         [JsonProperty("innerScope")] public EnumScope InnerScope { get; private set; }
         public EnumScope GetInnerScope() => InnerScope;
-        public bool IsAllowsInlineValue() => AllowedValueTypes != null && AllowedValueTypes.Length != 0;
+        [JsonProperty("canHaveAnyInlineValue")] public bool CanHaveAnyInlineValue { get; set; }
+        public bool IsAllowsInlineValue() => CanHaveAnyInlineValue || AllowedValueTypes != null && AllowedValueTypes.Length != 0;
         public bool IsAllowsBlockValue() =>
             CanHaveAnyInnerBlocks ||
             MandatoryInnerArgsBlocks != null && MandatoryInnerArgsBlocks.Count > 0 ||
@@ -34,7 +35,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         public EnumValueType[] GetAllowedValueTypes() => AllowedValueTypes;
         [JsonProperty("defaultValueType")] public EnumValueType DefaultValueType { get; private set; }
         [JsonProperty("defaultValue")] public object DefaultValue { get; private set; }
-        [JsonProperty("canHaveAnyInnerBlocks")] public bool CanHaveAnyInnerBlocks { get; private set; }
+        [JsonProperty("canHaveAnyInnerBlocks")] public bool CanHaveAnyInnerBlocks { get; set; }
 
         [JsonConverter(typeof(EnumArrayToStringConverter<EnumKeyValueDemiliter>))]
         [JsonProperty("allowedSpecialDemiliters")] public EnumKeyValueDemiliter[] AllowedSpecialDemiliters { get; private set; }
@@ -66,13 +67,25 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         }
 
         public InfoArgsBlock(InfoArgsBlock other)
-            : this(other.Name, other.InnerScope, other._specificScopes, other.AllowedValueTypes)
         {
+            Name = other.Name;
+            InnerScope = other.InnerScope;
+            _specificScopes = other._specificScopes;
+
+            MandatoryInnerArgsBlocks = other.MandatoryInnerArgsBlocks;
+            AllowedInnerArgsBlocks = other.AllowedInnerArgsBlocks;
+            AllowedUniversalParamsInfo = other.AllowedUniversalParamsInfo;
+
+            CanHaveAnyInlineValue = other.CanHaveAnyInlineValue;
+            AllowedValueTypes = other.AllowedValueTypes;
             DefaultValueType = other.DefaultValueType;
             DefaultValue = other.DefaultValue;
 
             _functions = other._functions;
-            AllowedInnerArgsBlocks = other.AllowedInnerArgsBlocks;
+
+            CanHaveAnyInnerBlocks = other.CanHaveAnyInnerBlocks;
+            AllowedSpecialDemiliters = other.AllowedSpecialDemiliters;
+            SkipAnyInnerBlocks = other.SkipAnyInnerBlocks;
         }
 
         public InfoArgsBlock(string name, EnumValueType[] allowedValueTypes)

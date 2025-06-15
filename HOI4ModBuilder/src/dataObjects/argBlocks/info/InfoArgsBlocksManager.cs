@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src.dataObjects.argBlocks.info;
 using HOI4ModBuilder.src.dataObjects.argBlocks.info.scripted;
+using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
@@ -8,6 +9,7 @@ using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
@@ -32,6 +34,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         private static readonly string DEFINED_MODIFIERS_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "modifier_definitions" });
         private static readonly string SCRIPTED_TRIGGERS_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "scripted_triggers" });
 
+        private static readonly string BUILDINGS_CUSTOM_ARGS_BLOCKS = FileManager.AssembleFilePath(new[] { "data", "buildings_custom_args_blocks.json" });
+
         private static Dictionary<string, InfoArgsBlock> _allInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
 
         private static Dictionary<string, InfoArgsBlock> _scopesInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
@@ -43,6 +47,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
         private static Dictionary<string, InfoArgsBlock> _scriptedModifiersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
         private static Dictionary<string, InfoArgsBlock> _definedModifiersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
         private static Dictionary<string, InfoArgsBlock> _scriptedTriggersArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+
+        private static Dictionary<Building, InfoArgsBlock> _buildingsCustomArgsBlocks = new Dictionary<Building, InfoArgsBlock>();
 
         private static Dictionary<string, string> _definitionFiles = new Dictionary<string, string>();
 
@@ -128,6 +134,19 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             return false;
         }
 
+        public static bool TryGetBuildingCustomArgsBlock(string token, out InfoArgsBlock infoArgsBlock)
+        {
+            infoArgsBlock = null;
+            if (!BuildingManager.TryGetBuilding(token, out var building))
+                return false;
+
+            if (_buildingsCustomArgsBlocks.TryGetValue(building, out infoArgsBlock))
+                return true;
+
+            return false;
+
+        }
+
         private static void ClearDictionaryData()
         {
             _definitionFiles = new Dictionary<string, string>();
@@ -143,6 +162,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             _scriptedModifiersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
             _definedModifiersInfoArgsBlocks = new Dictionary<string, InfoArgsBlock>();
             _scriptedTriggersArgsBlocks = new Dictionary<string, InfoArgsBlock>();
+
         }
 
         private static void LoadGameInfoArgsBlocks()
@@ -173,16 +193,55 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             LoadInfoArgsBlocks(CUSTOM_TRIGGERS_FILE_PATH, EnumScope.TRIGGER, _triggersInfoArgsBlocks);
         }
 
+        public static void LoadBuildingsCustomArgsBlocks()
+        {
+            _buildingsCustomArgsBlocks = new Dictionary<Building, InfoArgsBlock>();
+            LoadBuildingsCustomArgsBlocks(BUILDINGS_CUSTOM_ARGS_BLOCKS, EnumScope.BUILDING, _buildingsCustomArgsBlocks);
+        }
+
         private static void CleanUpAfterLoading()
         {
             currentLoadingFilePath = null;
             _definitionFiles = null;
         }
 
+        private static void LoadBuildingsCustomArgsBlocks(string filePath, EnumScope enumScope, Dictionary<Building, InfoArgsBlock> dictionary)
+        {
+            if (!File.Exists(filePath))
+            {
+                File.WriteAllText(filePath, "{}");
+            }
+
+
+            var block = JsonConvert.DeserializeObject<InfoArgsBlock>(File.ReadAllText(filePath));
+
+            if (block.IsDisabled)
+                return;
+
+            block.Init(enumScope);
+
+            var newBlocks = block.GetReplaceTagCopies();
+            if (newBlocks.Count > 0)
+            {
+                foreach (var newBlock in newBlocks)
+                {
+                    var name = newBlock.Name;
+                    if (!BuildingManager.TryGetBuilding(name, out var building))
+                        throw new Exception("Unknown building \"" + name + "\" in InfoArgsBlocksManager");
+
+                    dictionary[building] = newBlock;
+                }
+            }
+
+        }
+
         private static void LoadInfoArgsBlocks(string filePath, EnumScope enumScope, Dictionary<string, InfoArgsBlock> dictionary)
         {
             currentLoadingFilePath = filePath;
-            if (!File.Exists(filePath)) File.WriteAllText(filePath, "[]");
+            if (!File.Exists(filePath))
+            {
+                File.WriteAllText(filePath, "[]");
+            }
 
             foreach (var block in JsonConvert.DeserializeObject<List<InfoArgsBlock>>(File.ReadAllText(filePath)))
             {

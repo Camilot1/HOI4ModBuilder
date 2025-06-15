@@ -5,6 +5,7 @@ using HOI4ModBuilder.src.scripts.commands.declarators.vars;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
+using HOI4ModBuilder.src.scripts.objects.primitives;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +25,11 @@ namespace HOI4ModBuilder.src.scripts
         public static bool NextStep { get; set; }
         public static bool IsTerminated { get; set; }
         public static Action<ScriptCommand, int, VarsScope> DebugConsumer { set; get; }
+
+        public static int MapMainLayerCustomScriptTasks { get; private set; } = 32;
+        public static string MapMainLayerCustomScriptName { get; private set; }
+        public static Action[] MapMainLayerCustomScriptActions { get; private set; }
+        public static VarsScope[] MapMainLayerCustomScriptMainVarsScopes { get; private set; }
 
         private static bool Init()
         {
@@ -56,23 +62,40 @@ namespace HOI4ModBuilder.src.scripts
             return obj;
         }
 
-        public static Action Parse(string filePath)
+        public static void CompileMapMainLayerCustomScript(string filePath)
         {
+            Utils.GetFileNameAndFormat(filePath, out var fileName, out var fileFormat);
+            MapMainLayerCustomScriptName = fileName + "." + fileFormat;
+            MapMainLayerCustomScriptActions = new Action[MapMainLayerCustomScriptTasks];
+            MapMainLayerCustomScriptMainVarsScopes = new VarsScope[MapMainLayerCustomScriptTasks];
+
+            for (int i = 0; i < MapMainLayerCustomScriptTasks; i++)
+            {
+                MapMainLayerCustomScriptActions[i] = Parse(filePath, out var varsScope);
+                MapMainLayerCustomScriptMainVarsScopes[i] = varsScope;
+            }
+        }
+
+        public static Action Parse(string filePath, out VarsScope mainVarsScope)
+        {
+            mainVarsScope = null;
             if (File.Exists(filePath))
             {
                 var lines = File.ReadAllLines(filePath);
-                return Parse(lines);
+                return Parse(lines, out mainVarsScope);
             }
             else return null;
         }
 
-        public static Action Parse(string[] lines)
+        public static Action Parse(string[] lines, out VarsScope mainVarsScope)
         {
-            if (lines == null) return null;
+            mainVarsScope = null;
+            if (lines == null)
+                return null;
 
             int index = 0;
             int indent = 0;
-            var commands = Parse(lines, ref index, indent, new VarsScope(EnumVarsScopeType.MAIN));
+            var commands = Parse(lines, ref index, indent, mainVarsScope = new VarsScope(EnumVarsScopeType.MAIN));
 
             return new Action(() => commands.ForEach(command => command.Execute()));
         }
@@ -180,13 +203,51 @@ namespace HOI4ModBuilder.src.scripts
             return args.ToArray();
         }
 
-        public static IScriptObject ParseValue(VarsScope varsScope, string value)
+        public static IScriptObject ParseValue(string value)
         {
             if (value == null || value.Length == 0)
                 return null;
 
-            if (varsScope.TryGetValue(value, out IScriptObject scriptObject))
-                return scriptObject;
+            if (value.StartsWith("COLOR(") && value.EndsWith(")"))
+            {
+                var subValue = value.Substring(6, value.Length - 7);
+                var subValues = subValue.Split(';');
+
+                int argb = 0;
+                foreach (var channel in subValues)
+                {
+                    var pair = channel.Split('=');
+                    if (pair.Length != 2)
+                        return null;
+
+                    var pairKey = pair[0];
+                    if (!byte.TryParse(pair[1], out var pairValue))
+                        return null;
+
+                    if (pairKey == "a" || pairKey == "alpha")
+                    {
+                        argb = (int)(argb & 0x00FFFFFF);
+                        argb |= pairValue << 24;
+                    }
+                    else if (pairKey == "r" || pairKey == "red")
+                    {
+                        argb = (int)(argb & 0xFF00FFFF);
+                        argb |= pairValue << 16;
+                    }
+                    else if (pairKey == "g" || pairKey == "green")
+                    {
+                        argb = (int)(argb & 0xFFFF00FF);
+                        argb |= pairValue << 8;
+                    }
+                    else if (pairKey == "b" || pairKey == "blue")
+                    {
+                        argb = (int)(argb & 0xFFFFFF00);
+                        argb |= pairValue;
+                    }
+                }
+
+                return new ColorObject(argb);
+            }
             else if (value.StartsWith("\"") && value.EndsWith("\""))
                 return new StringObject(value.Substring(1, value.Length - 2));
             else if (value.StartsWith("'") && value.EndsWith("'") && value.Length == 3)
@@ -201,6 +262,17 @@ namespace HOI4ModBuilder.src.scripts
                 return new BooleanObject(false);
             else
                 return null;
+        }
+
+        public static IScriptObject ParseValue(VarsScope varsScope, string value)
+        {
+            if (value == null || value.Length == 0)
+                return null;
+
+            if (varsScope.TryGetValue(value, out IScriptObject scriptObject))
+                return scriptObject;
+            else
+                return ParseValue(value);
         }
 
         public static string FormatToString(IScriptObject obj)

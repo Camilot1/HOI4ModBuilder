@@ -53,8 +53,10 @@ namespace HOI4ModBuilder.src.utils
 
         public static string GetLoc(EnumLocKey key)
         {
-            if (_locKeys.TryGetValue(key, out var value)) return value;
-            else return key.ToString();
+            if (_locKeys.TryGetValue(key, out var value)) 
+                return value;
+            else 
+                return key.ToString();
         }
 
         public static string GetLoc(EnumLocKey key, Dictionary<string, string> replaceValues, string additionalText)
@@ -172,6 +174,9 @@ namespace HOI4ModBuilder.src.utils
 
         CANT_LOAD_BECAUSE_ALREADY_SAVING_OR_LOADING,
         CANT_LOAD_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS,
+
+        CANT_UPDATE_BECAUSE_NO_DATA_WAS_LOADED,
+        CANT_UPDATE_BECAUSE_ALREADY_SAVING_OR_LOADING,
 
         FOUND_WARNINGS_FORM_TITLE,
         FOUND_WARNINGS_COUNT,
@@ -517,6 +522,16 @@ namespace HOI4ModBuilder.src.utils
         EXCEPTION_INVALID_BLUR_SIGMA_VALUE,
         ERROR_COULD_NOT_LOAD_SCRIPTED_MODIFIERS_FILE,
         EXCEPTION_SCRIPTED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_SCRIPTED_MODIFIER_IN_FILE,
-        EXCEPTION_SCRIPTED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE
+        EXCEPTION_SCRIPTED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE,
+        NOT_SELECTED,
+        EXPORT_TEXTURE_TITLE,
+        EXPORT_TEXTURE_RESULT,
+        ALL_EDIT_LAYERS_IS_ALLOWED,
+        MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED,
+        MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED_TITLE,
+        PROVINCE,
+        STATE,
+        REGION,
+        VICTORY_POINTS,
     }
 }

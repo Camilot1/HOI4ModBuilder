@@ -542,7 +542,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public int CompareTo(Province other)
         {
             if (other == null)
-                return 1;
+                return 0;
             return
                 _id - other._id;
         }

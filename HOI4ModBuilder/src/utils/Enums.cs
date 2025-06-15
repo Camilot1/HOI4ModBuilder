@@ -45,6 +45,7 @@ namespace HOI4ModBuilder.utils
             COUNTRIES,
             PROVINCES_TYPES,
             PROVINCES_TERRAINS,
+            PROVINCES_SIZES,
             REGIONS_TERRAINS,
             CONTINENTS,
             MANPOWER,
@@ -56,6 +57,7 @@ namespace HOI4ModBuilder.utils
             CITIES_MAP,
             HEIGHT_MAP,
             NORMAL_MAP,
+            CUSTOM_SCRIPT,
             NONE
         }
 
@@ -91,6 +93,8 @@ namespace HOI4ModBuilder.utils
             PROVINCE_STATE,
             PROVINCE_REGION,
             STATE_CATEGORY,
+            STATE_OWNER,
+            STATE_CONTROLLER,
             BUILDINGS,
             AI_AREAS
         }

@@ -44,28 +44,28 @@ namespace HOI4ModBuilder.src.tools.brushes
             }
         }
 
-        public void ForEachLineStrip(Point2D center, Action<List<Value2S>, double, double> action)
-            => ForEachLineStrip(center.x, center.y, action);
+        public void ForEachLineStrip(Point2D center, Point2D sizeFactor, Action<List<Value2S>, double, double> action)
+            => ForEachLineStrip(center.x, center.y, sizeFactor.x, sizeFactor.y, action);
 
-        public void ForEachLineStrip(double x, double y, Action<List<Value2S>, double, double> action)
+        public void ForEachLineStrip(double x, double y, double sizeFactorX, double sizeFactorY, Action<List<Value2S>, double, double> action)
         {
             double snappedCenterX;
             double snappedCenterY;
 
             if (OriginalWidth % 2 != 0)
-                snappedCenterX = Math.Floor(x);
+                snappedCenterX = Math.Floor(x * sizeFactorX);
             else
-                snappedCenterX = Math.Round(x);
+                snappedCenterX = Math.Round(x * sizeFactorX);
 
             if (OriginalHeight % 2 != 0)
-                snappedCenterY = Math.Floor(y);
+                snappedCenterY = Math.Floor(y * sizeFactorY);
             else
-                snappedCenterY = Math.Round(y);
+                snappedCenterY = Math.Round(y * sizeFactorY);
 
             foreach (var line in lineStrips)
             {
-                double xOffset = snappedCenterX + CenterOffsetX;
-                double yOffset = snappedCenterY + CenterOffsetY;
+                double xOffset = (snappedCenterX + CenterOffsetX) / sizeFactorX;
+                double yOffset = (snappedCenterY + CenterOffsetY) / sizeFactorY;
 
                 action(line, xOffset, yOffset);
             }

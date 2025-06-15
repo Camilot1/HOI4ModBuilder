@@ -23,7 +23,9 @@ namespace HOI4ModBuilder.src
         {
             try
             {
-                if (!Directory.Exists(CONFIGS_DIRECTORY)) Directory.CreateDirectory(CONFIGS_DIRECTORY);
+                if (!Directory.Exists(CONFIGS_DIRECTORY))
+                    Directory.CreateDirectory(CONFIGS_DIRECTORY);
+
                 if (!File.Exists(SETTINGS_FILEPATH))
                 {
                     Settings = new Settings { language = GuiLocManager.GetCurrentParentLanguageName };
@@ -36,7 +38,8 @@ namespace HOI4ModBuilder.src
                 var needToSave = Settings.CheckNewWarningCodes();
                 needToSave |= Settings.CheckNewErrorCodes();
 
-                if (needToSave) SaveSettings();
+                if (needToSave)
+                    SaveSettings();
             }
             catch (Exception ex)
             {
@@ -57,7 +60,8 @@ namespace HOI4ModBuilder.src
         public static void SaveSettings()
         {
             File.WriteAllText(SETTINGS_FILEPATH, JsonConvert.SerializeObject(Settings, Formatting.Indented));
-            if (Settings.currentModSettings != null) LocalModDataManager.SaveLocalSettings(Settings);
+            if (Settings.currentModSettings != null)
+                LocalModDataManager.SaveLocalSettings(Settings);
             Settings.LoadModDescriptors();
         }
 
@@ -82,6 +86,9 @@ namespace HOI4ModBuilder.src
         public byte textureOpacity = 180;
         public float MAP_VIEWPORT_HEIGHT = 1004;
         public int maxAdditionalTextureSize = 2048;
+
+        public bool ignoreUpdateChecks;
+        public string ignoreUpdateCheckVersion;
 
         public MapCheckerInfo searchWarningsSettings = new MapCheckerInfo();
         public MapCheckerInfo searchErrorsSettings = new MapCheckerInfo();
@@ -136,8 +143,11 @@ namespace HOI4ModBuilder.src
             else return true;
         }
 
-        public bool isWipEnabled(EnumWips enumWip)
+        public bool IsWipEnabled(EnumWips enumWip)
             => useModSettings ? currentModSettings.CheckWips(enumWip) : defaultModSettings.CheckWips(enumWip);
+
+        public bool IsUseCustomSavePatterns()
+            => useModSettings ? currentModSettings.useCustomSavePatterns : defaultModSettings.useCustomSavePatterns;
 
         public bool CheckNewWarningCodes()
         {
@@ -253,6 +263,7 @@ namespace HOI4ModBuilder.src
 
     public class ModSettings
     {
+        public bool useCustomSavePatterns = true;
         public bool exportRiversMapWithWaterPixels = true;
         public bool generateNormalMap = false;
 

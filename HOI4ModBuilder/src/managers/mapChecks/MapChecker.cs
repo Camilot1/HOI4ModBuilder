@@ -1,7 +1,6 @@
 ﻿using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.managers.mapChecks
 {

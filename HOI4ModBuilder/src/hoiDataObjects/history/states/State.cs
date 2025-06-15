@@ -10,6 +10,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
+using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using System;
@@ -117,10 +118,10 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         };
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
 
-        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(new[] { "history", "states" }, "State")
+        private static readonly SavePattern SAVE_PATTERN = new SavePattern(new[] { "history", "states" }, "State")
             .Add(STATIC_ADAPTER.Keys)
             .Load();
-        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
+        public override SavePattern GetSavePattern() => SAVE_PATTERN;
 
         public override IParseObject GetEmptyCopy() => new State();
 
@@ -247,6 +248,26 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 return 0;
 
             return History.GetValue().GetStateBuildingLevel(building);
+        }
+
+        public ListObject GetHistoryScriptBlocks(DateTime dateTime)
+        {
+            var list = new ListObject();
+
+            if (dateTime != default)
+                throw new NotImplementedException();
+
+            if (History.GetValue() == null)
+                return list;
+
+            var history = History.GetValue();
+
+            foreach (var block in history.DynamicScriptBlocks)
+            {
+                block.SaveToListObject(list);
+            }
+
+            return list;
         }
 
         public void UpdateByDateTimeStamp(DateTime dateTime)

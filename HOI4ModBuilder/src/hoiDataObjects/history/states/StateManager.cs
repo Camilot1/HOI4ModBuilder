@@ -31,6 +31,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 action(s);
         }
 
+        public static HashSet<State> GroupSelectedStates { get; private set; } = new HashSet<State>();
         public static State SelectedState { get; set; }
         public static State RMBState { get; set; }
 
@@ -45,6 +46,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         public static void Load(Settings settings)
         {
             Instance = new StateManager();
+
+            DeselectStates();
+
             _statesById = new Dictionary<ushort, State>();
             _statesBorders = new HashSet<ProvinceBorder>();
 
@@ -146,6 +150,35 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     if (state.dislayCenter) GL.Vertex2(state.center.x, state.center.y);
                 }
                 GL.End();
+            }
+
+            if (GroupSelectedStates != null && GroupSelectedStates.Count > 0)
+            {
+                GL.Color4(1f, 0f, 0f, 1f);
+                GL.LineWidth(8f);
+
+                foreach (var state in GroupSelectedStates)
+                {
+                    foreach (var border in state.borders)
+                    {
+                        if (border.pixels.Length == 1)
+                            continue;
+
+                        if (border.provinceA.State.Id.GetValue() == state.Id.GetValue() &&
+                            GroupSelectedStates.Contains(border.provinceB.State)
+                            ||
+                            border.provinceB.State.Id.GetValue() == state.Id.GetValue() &&
+                            GroupSelectedStates.Contains(border.provinceA.State))
+                            continue;
+
+                        GL.Begin(PrimitiveType.LineStrip);
+                        foreach (Value2S vertex in border.pixels)
+                        {
+                            GL.Vertex2(vertex.x, vertex.y);
+                        }
+                        GL.End();
+                    }
+                }
             }
 
             if (SelectedState != null)
@@ -289,6 +322,28 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
         }
 
+        public static void GetMinMaxWeightedManpower(out double min, out double max)
+        {
+            min = 0;
+            max = 0;
+
+            foreach (var state in _statesById.Values)
+            {
+                min = state.CurrentManpower / (double)state.pixelsCount;
+                max = state.CurrentManpower / (double)state.pixelsCount;
+                break;
+            }
+
+            foreach (var state in _statesById.Values)
+            {
+                double weightedManpower = state.CurrentManpower / (double)state.pixelsCount;
+                if (weightedManpower > max)
+                    max = weightedManpower;
+                else if (weightedManpower < min)
+                    min = weightedManpower;
+            }
+        }
+
         public static bool TryAddState(string fileName, State state)
         {
             if (!_statesById.ContainsKey(state.Id.GetValue()))
@@ -337,14 +392,50 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 state.CalculateCenter();
         }
 
+
+
+        private static void HandleDelete()
+        {
+
+        }
+
+        private static void HandleEscape() => DeselectStates();
+
+        public static void DeselectStates()
+        {
+            GroupSelectedStates.Clear();
+            SelectedState = null;
+            RMBState = null;
+        }
+
+
         public static State SelectState(int color)
         {
             if (ProvinceManager.TryGetProvince(color, out Province province) && province.State != null)
-                SelectedState = province.State;
-            else SelectedState = null;
+            {
+                if (MainForm.Instance.IsShiftPressed())
+                {
+                    if (SelectedState != null)
+                        GroupSelectedStates.Add(SelectedState);
+                    GroupSelectedStates.Add(province.State);
 
-            ProvinceManager.SelectedProvince = null;
-            StrategicRegionManager.SelectedRegion = null;
+                    SelectedState = null;
+                    return province.State;
+                }
+                else
+                {
+                    GroupSelectedStates.Clear();
+                    SelectedState = province.State;
+                }
+            }
+            else
+            {
+                SelectedState = null;
+                GroupSelectedStates.Clear();
+            }
+
+            ProvinceManager.DeselectProvinces();
+            StrategicRegionManager.DeselectRegions();
             return SelectedState;
         }
 
@@ -352,22 +443,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         {
             if (ProvinceManager.TryGetProvince(color, out Province province) && province.State != null)
                 RMBState = province.State;
-            else RMBState = null;
+            else
+                RMBState = null;
 
-            ProvinceManager.RMBProvince = null;
-            StrategicRegionManager.RMBRegion = null;
+            ProvinceManager.DeselectProvinces();
+            StrategicRegionManager.DeselectRegions();
             return RMBState;
-        }
-
-        private static void HandleDelete()
-        {
-
-        }
-
-        private static void HandleEscape()
-        {
-            SelectedState = null;
-            RMBState = null;
         }
     }
 }

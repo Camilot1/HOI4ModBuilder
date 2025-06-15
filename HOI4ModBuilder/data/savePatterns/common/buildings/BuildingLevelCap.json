@@ -1,0 +1,44 @@
+[
+  {
+    "Name": "shared_slots",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "state_max",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "province_max",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "group_by",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "exclusive_with",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "shares_slots",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "buildings",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "spawn_points",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  }
+]

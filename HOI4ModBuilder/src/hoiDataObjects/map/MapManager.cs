@@ -16,7 +16,6 @@ using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
@@ -27,8 +26,12 @@ using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.tools.brushes;
 using System.Drawing.Imaging;
 using System.Drawing;
-using System.Diagnostics;
-using YamlDotNet.Core.Tokens;
+using System.Threading;
+using HOI4ModBuilder.src.scripts;
+using HOI4ModBuilder.src.scripts.objects;
+using HOI4ModBuilder.src.scripts.objects.interfaces;
+using System.Collections.Concurrent;
+using System.Linq;
 
 namespace HOI4ModBuilder.managers
 {
@@ -38,6 +41,7 @@ namespace HOI4ModBuilder.managers
         public static Value2I MapSize { get; private set; }
         private static Point2D _mousePrevPoint;
         private static Point2D _mapSizeFactor;
+        public static Point2D MapSizeFactor { get => _mapSizeFactor; private set => _mapSizeFactor = value; }
         private static Point2D _pointerSize = new Point2D { x = 1, y = 1 };
         private static EnumMouseState _mouseState = EnumMouseState.NONE;
         public static Bounds4US bounds;
@@ -45,7 +49,7 @@ namespace HOI4ModBuilder.managers
         public static int[] ProvincesPixels { get; set; } //RGBA
         public static byte[] HeightsPixels { get; set; }
 
-        private static TexturedPlane _mapMainLayer, _bordersMapPlane, _riversMapPlane;
+        public static TexturedPlane MapMainLayer, BordersMapPlane, RiversMapPlane;
         public static List<TextureInfo> additionalMapTextures = new List<TextureInfo>();
         public static TexturedPlane selectedTexturedPlane;
         public static SDFTextBundle sdfTextBundle;
@@ -60,6 +64,7 @@ namespace HOI4ModBuilder.managers
         public static double mapDifX, mapDifY;
 
         public static bool[] isHandlingMapMainLayerChange = new bool[1];
+        public static bool[] isWaitingHandlingMapMainLayerChange = new bool[1];
 
         public static ActionHistoryManager ActionHistory { get; private set; }
         public static ActionsBatch ActionsBatch { get; private set; }
@@ -100,15 +105,15 @@ namespace HOI4ModBuilder.managers
 
         private static void LoadTextureMaps()
         {
-            MapSize = TextureManager.provinces.texture.GetSize();
-            _mapMainLayer = new TexturedPlane(TextureManager.provinces.texture, MapSize.x, MapSize.y);
-            _bordersMapPlane = new TexturedPlane(TextureManager.provincesBorders.texture, MapSize.x, MapSize.y);
-            _riversMapPlane = new TexturedPlane(TextureManager.rivers.texture, MapSize.x, MapSize.y);
+            MapSize = TextureManager.provinces.texture.Size;
+            MapMainLayer = new TexturedPlane(TextureManager.provinces.texture, MapSize.x, MapSize.y);
+            BordersMapPlane = new TexturedPlane(TextureManager.provincesBorders.texture, MapSize.x, MapSize.y);
+            RiversMapPlane = new TexturedPlane(TextureManager.rivers.texture, MapSize.x, MapSize.y);
 
             if (mapDifX == 0 && mapDifY == 0)
             {
-                mapDifX = -_mapMainLayer.size.x / 2f;
-                mapDifY = _mapMainLayer.size.y / 2f;
+                mapDifX = -MapMainLayer.size.x / 2f;
+                mapDifY = MapMainLayer.size.y / 2f;
             }
         }
 
@@ -136,29 +141,29 @@ namespace HOI4ModBuilder.managers
 
         public static void Draw()
         {
-            if (_mapMainLayer == null) return;
+            if (MapMainLayer == null) return;
 
             GL.LoadIdentity();
             GL.PushMatrix();
             GL.Scale(zoomFactor, zoomFactor, zoomFactor);
             GL.Translate(mapDifX, -mapDifY, 0); // перемещение
 
-            if (showMainLayer) _mapMainLayer.Draw();
+            if (showMainLayer) MapMainLayer.Draw();
 
             if (displayLayers[(int)EnumAdditionalLayers.BORDERS])
             {
                 GL.Translate(0.5f, -0.5f, 0f);
                 if (blackBorders) GL.Color3(0f, 0f, 0f);
-                _bordersMapPlane.Draw();
+                BordersMapPlane.Draw();
                 GL.Color3(1f, 1f, 1f);
                 GL.Translate(-0.5f, 0.5f, 0f);
             }
 
             if (displayLayers[(int)EnumAdditionalLayers.RIVERS])
-                _riversMapPlane.Draw();
+                RiversMapPlane.Draw();
 
             GL.Scale(1f, -1f, 1f);
-            GL.Translate(0, -_mapMainLayer.size.y, 0);
+            GL.Translate(0, -MapMainLayer.size.y, 0);
 
             ProvinceManager.Draw(displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.PROVINCES_MAP));
             StateManager.Draw(displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.STATES));
@@ -251,14 +256,15 @@ namespace HOI4ModBuilder.managers
             )
             {
                 brush.ForEachLineStrip(
-                    MainForm.Instance.ComboBox_Tool_Parameter_Value.Text, rawMapX, rawMapY, (line, xOffset, yOffset) =>
+                    MainForm.Instance.ComboBox_Tool_Parameter_Value.Text, rawMapX, rawMapY, _mapSizeFactor.x, _mapSizeFactor.y,
+                    (line, xOffset, yOffset) =>
                 {
                     if (line == null || line.Count < 2)
                         return;
 
                     GL.Begin(PrimitiveType.LineLoop);
                     foreach (var pixel in line)
-                        GL.Vertex2(pixel.x + xOffset, pixel.y + yOffset);
+                        GL.Vertex2(pixel.x / _mapSizeFactor.x + xOffset, pixel.y / _mapSizeFactor.y + yOffset);
                     GL.End();
                 });
             }
@@ -270,8 +276,8 @@ namespace HOI4ModBuilder.managers
                     y = _pointerSize.y / _mapSizeFactor.y,
                 };
 
-                double snappedTopLeftX = Math.Floor(rawMapX);
-                double snappedTopLeftY = Math.Floor(rawMapY);
+                double snappedTopLeftX = Math.Floor(rawMapX * _mapSizeFactor.x) / _mapSizeFactor.x;
+                double snappedTopLeftY = Math.Floor(rawMapY * _mapSizeFactor.y) / _mapSizeFactor.y;
 
                 GL.Begin(PrimitiveType.LineLoop);
                 GL.Vertex2(snappedTopLeftX, snappedTopLeftY);
@@ -327,6 +333,8 @@ namespace HOI4ModBuilder.managers
                 return;
 
             Func<Province, int> func = (p) => Utils.ArgbToInt(255, 0, 0, 0);
+            Func<Province, int, int> customFunc = null;
+            LogScaleData logScaleData = default;
 
             switch (enumMainLayer)
             {
@@ -334,22 +342,22 @@ namespace HOI4ModBuilder.managers
                     func = null;
                     break;
                 case EnumMainLayer.TERRAIN_MAP:
-                    _mapMainLayer.Texture = TextureManager.terrain.texture;
+                    MapMainLayer.Texture = TextureManager.terrain.texture;
                     return;
                 case EnumMainLayer.TREES_MAP:
-                    _mapMainLayer.Texture = TextureManager.trees.texture;
+                    MapMainLayer.Texture = TextureManager.trees.texture;
                     return;
                 case EnumMainLayer.CITIES_MAP:
-                    _mapMainLayer.Texture = TextureManager.cities.texture;
+                    MapMainLayer.Texture = TextureManager.cities.texture;
                     return;
                 case EnumMainLayer.HEIGHT_MAP:
-                    _mapMainLayer.Texture = TextureManager.height.texture;
+                    MapMainLayer.Texture = TextureManager.height.texture;
                     return;
                 case EnumMainLayer.NORMAL_MAP:
-                    _mapMainLayer.Texture = TextureManager.normal.texture;
+                    MapMainLayer.Texture = TextureManager.normal.texture;
                     return;
                 case EnumMainLayer.NONE:
-                    _mapMainLayer.Texture = TextureManager.none.texture;
+                    MapMainLayer.Texture = TextureManager.none.texture;
                     return;
 
                 case EnumMainLayer.STATES:
@@ -438,6 +446,15 @@ namespace HOI4ModBuilder.managers
                             return p.Terrain.color;
                     };
                     break;
+                case EnumMainLayer.PROVINCES_SIZES:
+                    ProvinceManager.GetMinMaxMapProvinceSizes(out int minPixelsCount, out int maxPixelsCount);
+                    logScaleData = new LogScaleData(minPixelsCount, maxPixelsCount);
+                    func = (p) =>
+                    {
+                        var value = (byte)logScaleData.CalculateInverted(p.pixelsCount, 255d);
+                        return Utils.ArgbToInt(255, value, value, value);
+                    };
+                    break;
                 case EnumMainLayer.REGIONS_TERRAINS:
                     func = (p) =>
                     {
@@ -451,8 +468,8 @@ namespace HOI4ModBuilder.managers
                     func = (p) => ContinentManager.GetColorById(p.ContinentId);
                     break;
                 case EnumMainLayer.MANPOWER:
-                    StateManager.GetMinMaxManpower(out int manpowerMin, out int manpowerMax);
-                    double maxManpower = manpowerMax;
+                    StateManager.GetMinMaxWeightedManpower(out double manpowerWeightedMin, out double manpowerWeightedMax);
+                    logScaleData = new LogScaleData(manpowerWeightedMin, manpowerWeightedMax);
 
                     func = (p) =>
                     {
@@ -472,13 +489,14 @@ namespace HOI4ModBuilder.managers
                         else if (p.State.CurrentManpower < 1)
                             return Utils.ArgbToInt(255, 255, 106, 0);
 
-                        byte value = (byte)(255 * p.State.CurrentManpower / maxManpower);
+                        var valueFactor = p.State.CurrentManpower / (double)p.State.pixelsCount;
+                        var value = (byte)logScaleData.CalculateInverted(valueFactor, 255d);
                         return Utils.ArgbToInt(255, value, value, value);
                     };
                     break;
                 case EnumMainLayer.VICTORY_POINTS:
                     ProvinceManager.GetMinMaxVictoryPoints(out uint victoryPointsMin, out uint victoryPointsMax);
-                    double maxVictoryPoints = victoryPointsMax;
+                    logScaleData = new LogScaleData(victoryPointsMin, victoryPointsMax);
 
                     func = (p) =>
                     {
@@ -492,7 +510,7 @@ namespace HOI4ModBuilder.managers
                                 return Utils.ArgbToInt(255, 255, 0, 255);
                         }
 
-                        byte value = (byte)(255 * p.victoryPoints / maxVictoryPoints);
+                        byte value = (byte)logScaleData.CalculateInverted(p.victoryPoints, 255d);
                         return Utils.ArgbToInt(255, value, value, value);
                     };
                     break;
@@ -612,23 +630,76 @@ namespace HOI4ModBuilder.managers
                         };
                     }
                     break;
+
+                case EnumMainLayer.CUSTOM_SCRIPT:
+                    if (ScriptParser.MapMainLayerCustomScriptName == null)
+                    {
+                        func = null;
+                        return;
+                    }
+
+                    ScriptParser.IsDebug = false;
+
+                    customFunc = (p, idx) =>
+                    {
+                        if (idx >= ScriptParser.MapMainLayerCustomScriptTasks)
+                        {
+                            return Utils.ArgbToInt(255, 0, 0, 0);
+                        }
+
+                        var action = ScriptParser.MapMainLayerCustomScriptActions[idx];
+                        var varsScope = ScriptParser.MapMainLayerCustomScriptMainVarsScopes[idx];
+
+                        varsScope.PutLocalVariable("province_id", new IntObject(p.Id));
+                        varsScope.PutLocalVariable("red", new IntObject());
+                        varsScope.PutLocalVariable("green", new IntObject());
+                        varsScope.PutLocalVariable("blue", new IntObject());
+                        action();
+                        byte r = 0, g = 0, b = 0;
+
+                        if (varsScope.TryGetLocalValue("red", out var variable) && variable is INumberObject redObj)
+                            r = Convert.ToByte(redObj.GetValue());
+                        if (varsScope.TryGetLocalValue("green", out variable) && variable is INumberObject greenObj)
+                            g = Convert.ToByte(greenObj.GetValue());
+                        if (varsScope.TryGetLocalValue("blue", out variable) && variable is INumberObject blueObj)
+                            b = Convert.ToByte(blueObj.GetValue());
+
+                        varsScope.ClearLocalVars();
+
+                        return Utils.ArgbToInt(255, r, g, b);
+                    };
+                    break;
             }
 
-            if (!isHandlingMapMainLayerChange[0])
+            if (isHandlingMapMainLayerChange[0])
+                isWaitingHandlingMapMainLayerChange[0] = true;
+            else
+                UpdateTask();
+
+            void UpdateTask()
             {
                 isHandlingMapMainLayerChange[0] = true;
                 var assembleTask = new Task<byte[]>(
-                    () => func != null ?
-                        AssembleBitmapBytes(func) :
-                        AssembleBitmapBytes()
+                    () =>
+                    customFunc != null ?
+                        AssembleBitmapBytesByCustomScript(customFunc) :
+                        func != null ?
+                            AssembleBitmapBytes(func) :
+                            AssembleBitmapBytes()
                 );
 
                 assembleTask.ContinueWith(
                     task =>
                     {
-                        _mapMainLayer.Texture = TextureManager.provinces.texture;
+                        MapMainLayer.Texture = TextureManager.provinces.texture;
                         TextureManager.provinces.texture.Update(TextureManager._24bppRgb, 0, 0, MapSize.x, MapSize.y, task.Result);
                         isHandlingMapMainLayerChange[0] = false;
+
+                        if (isWaitingHandlingMapMainLayerChange[0])
+                        {
+                            isWaitingHandlingMapMainLayerChange[0] = false;
+                            UpdateTask();
+                        }
                     },
                     TaskScheduler.FromCurrentSynchronizationContext()
                 );
@@ -660,6 +731,61 @@ namespace HOI4ModBuilder.managers
                     byteIndex += 3;
                 }
             });
+
+            return values;
+        }
+
+        public static byte[] AssembleBitmapBytesByCustomScript(Func<Province, int, int> func)
+        {
+            byte[] values = new byte[ProvincesPixels.Length * 3];
+
+            var freeIndices = new ConcurrentQueue<int>(Enumerable.Range(0, ScriptParser.MapMainLayerCustomScriptTasks));
+            var options = new ParallelOptions { MaxDegreeOfParallelism = ScriptParser.MapMainLayerCustomScriptTasks - 1 };
+
+            Parallel.For(
+                0,
+                MapSize.y,
+                options,
+                () =>
+                {
+                    int idx;
+                    while (!freeIndices.TryDequeue(out idx))
+                        Thread.SpinWait(1);          // ждём, пока освободится индекс
+                    return idx;
+                },
+                (row, loopState, idx) =>
+                {
+                    int color = 0;
+                    int newColor = 0;
+
+                    int start = (int)(row * MapSize.x);
+                    int end = start + MapSize.x;
+
+                    int byteIndex = start * 3;
+
+                    for (int i = start; i < end; i++)
+                    {
+                        if (color != ProvincesPixels[i])
+                        {
+                            color = ProvincesPixels[i];
+                            ProvinceManager.TryGetProvince(color, out Province province);
+                            if (province != null)
+                                newColor = func(province, idx);
+                            else
+                                newColor = 0;
+                        }
+
+                        values[byteIndex] = (byte)newColor;
+                        values[byteIndex + 1] = (byte)(newColor >> 8);
+                        values[byteIndex + 2] = (byte)(newColor >> 16);
+
+                        byteIndex += 3;
+                    }
+
+                    return idx;
+                },
+                idx => freeIndices.Enqueue(idx)
+            );
 
             return values;
         }
@@ -776,12 +902,12 @@ namespace HOI4ModBuilder.managers
             Point2D point;
             Point2D mapSize = new Point2D();
 
-            if (_mapMainLayer != null)
+            if (MapMainLayer != null)
             {
-                mapSize.y = _mapMainLayer == null ? 0 : _mapMainLayer.size.y;
-                mapSize.x = _mapMainLayer == null ? 0 : _mapMainLayer.size.x;
-                _mapSizeFactor.x = _mapMainLayer.Texture.size.x / mapSize.x;
-                _mapSizeFactor.y = _mapMainLayer.Texture.size.y / mapSize.y;
+                mapSize.y = MapMainLayer == null ? 0 : MapMainLayer.size.y;
+                mapSize.x = MapMainLayer == null ? 0 : MapMainLayer.size.x;
+                _mapSizeFactor.x = MapMainLayer.Texture.Size.x / mapSize.x;
+                _mapSizeFactor.y = MapMainLayer.Texture.Size.y / mapSize.y;
             }
 
             point.x = ((2 * eX - viewportInfo.width) / (viewportInfo.max * zoomFactor) - mapDifX) * _mapSizeFactor.x;
@@ -799,7 +925,7 @@ namespace HOI4ModBuilder.managers
             if (enumTool != EnumTool.CURSOR)
                 ActionsBatch.Enabled = true;
 
-            MapToolsManager.HandleTool(e, _mouseState, pos, enumEditLayer, enumTool, bounds, parameter, value);
+            MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, bounds, parameter, value);
 
             if (e.Button == MouseButtons.Middle)
                 _isMapDragged = true;
@@ -842,7 +968,7 @@ namespace HOI4ModBuilder.managers
                 else if (ActionsBatch.Enabled && (_mousePrevPoint.x != pos.x || _mousePrevPoint.y != pos.y))
                 {
                     if (enumTool != EnumTool.BUILDINGS)
-                        MapToolsManager.HandleTool(e, _mouseState, pos, enumEditLayer, enumTool, bounds, parameter, value);
+                        MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, bounds, parameter, value);
                 }
                 _mousePrevPoint = pos;
             }
@@ -1061,27 +1187,27 @@ namespace HOI4ModBuilder.managers
             switch (MainForm.Instance.EnumBordersType)
             {
                 case EnumBordersType.PROVINCES_BLACK:
-                    if (TextureManager.provincesBorders.texture != null) _bordersMapPlane.Texture = TextureManager.provincesBorders.texture;
+                    if (TextureManager.provincesBorders.texture != null) BordersMapPlane.Texture = TextureManager.provincesBorders.texture;
                     blackBorders = true;
                     break;
                 case EnumBordersType.PROVINCES_WHITE:
-                    if (TextureManager.provincesBorders.texture != null) _bordersMapPlane.Texture = TextureManager.provincesBorders.texture;
+                    if (TextureManager.provincesBorders.texture != null) BordersMapPlane.Texture = TextureManager.provincesBorders.texture;
                     blackBorders = false;
                     break;
                 case EnumBordersType.STATES_BLACK:
-                    if (TextureManager.statesBorders.texture != null) _bordersMapPlane.Texture = TextureManager.statesBorders.texture;
+                    if (TextureManager.statesBorders.texture != null) BordersMapPlane.Texture = TextureManager.statesBorders.texture;
                     blackBorders = true;
                     break;
                 case EnumBordersType.STATES_WHITE:
-                    if (TextureManager.statesBorders.texture != null) _bordersMapPlane.Texture = TextureManager.statesBorders.texture;
+                    if (TextureManager.statesBorders.texture != null) BordersMapPlane.Texture = TextureManager.statesBorders.texture;
                     blackBorders = false;
                     break;
                 case EnumBordersType.STRATEGIC_REGIONS_BLACK:
-                    if (TextureManager.regionsBorders.texture != null) _bordersMapPlane.Texture = TextureManager.regionsBorders.texture;
+                    if (TextureManager.regionsBorders.texture != null) BordersMapPlane.Texture = TextureManager.regionsBorders.texture;
                     blackBorders = true;
                     break;
                 case EnumBordersType.STRATEGIC_REGIONS_WHITE:
-                    if (TextureManager.regionsBorders.texture != null) _bordersMapPlane.Texture = TextureManager.regionsBorders.texture;
+                    if (TextureManager.regionsBorders.texture != null) BordersMapPlane.Texture = TextureManager.regionsBorders.texture;
                     blackBorders = false;
                     break;
             }

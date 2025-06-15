@@ -24,10 +24,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         };
 
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
-        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(new[] { "common", "building" }, "SpawnPoint")
+        private static readonly SavePattern SAVE_PATTERN = new SavePattern(new[] { "common", "buildings" }, "SpawnPoint")
             .Add(STATIC_ADAPTER.Keys)
             .Load();
-        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
+        public override SavePattern GetSavePattern() => SAVE_PATTERN;
 
         public override IParseObject GetEmptyCopy() => new SpawnPoint();
 

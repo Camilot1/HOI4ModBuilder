@@ -1,0 +1,44 @@
+[
+  {
+    "Name": "owner",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "controller",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "victory_points",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": true
+  },
+  {
+    "Name": "buildings",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": true
+  },
+  {
+    "Name": "dynamicScriptBlocks",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": true
+  },
+  {
+    "Name": "dynamicInnerHistories",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": true
+  }
+]

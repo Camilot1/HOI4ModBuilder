@@ -53,6 +53,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.TextBox_NormalMapStrength_Default = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CheckBox_UseCustomSavePatterns_Default = new System.Windows.Forms.CheckBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.TextBox_NormalMapBlur_Default = new System.Windows.Forms.TextBox();
@@ -75,6 +76,7 @@
             this.TextBox_MAP_SCALE_PIXEL_TO_KM_Current = new System.Windows.Forms.TextBox();
             this.TextBox_WATER_HEIGHT_Current = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.CheckBox_UseCustomSavePatterns_Current = new System.Windows.Forms.CheckBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.TextBox_NormalMapBlur_Current = new System.Windows.Forms.TextBox();
@@ -82,6 +84,8 @@
             this.CheckedListBox_SaveSettings_Current = new System.Windows.Forms.CheckedListBox();
             this.label11 = new System.Windows.Forms.Label();
             this.TextBox_NormalMapStrength_Current = new System.Windows.Forms.TextBox();
+            this.CheckBox_IgnoreUpdateVersion = new System.Windows.Forms.CheckBox();
+            this.TextBox_IgnoreUpdateVersion = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -236,6 +240,7 @@
             // groupBox1
             // 
             resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.CheckBox_UseCustomSavePatterns_Default);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.TextBox_NormalMapBlur_Default);
@@ -245,6 +250,12 @@
             this.groupBox1.Controls.Add(this.TextBox_NormalMapStrength_Default);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            // 
+            // CheckBox_UseCustomSavePatterns_Default
+            // 
+            resources.ApplyResources(this.CheckBox_UseCustomSavePatterns_Default, "CheckBox_UseCustomSavePatterns_Default");
+            this.CheckBox_UseCustomSavePatterns_Default.Name = "CheckBox_UseCustomSavePatterns_Default";
+            this.CheckBox_UseCustomSavePatterns_Default.UseVisualStyleBackColor = true;
             // 
             // label14
             // 
@@ -409,6 +420,7 @@
             // groupBox5
             // 
             resources.ApplyResources(this.groupBox5, "groupBox5");
+            this.groupBox5.Controls.Add(this.CheckBox_UseCustomSavePatterns_Current);
             this.groupBox5.Controls.Add(this.label17);
             this.groupBox5.Controls.Add(this.label16);
             this.groupBox5.Controls.Add(this.TextBox_NormalMapBlur_Current);
@@ -418,6 +430,12 @@
             this.groupBox5.Controls.Add(this.TextBox_NormalMapStrength_Current);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
+            // 
+            // CheckBox_UseCustomSavePatterns_Current
+            // 
+            resources.ApplyResources(this.CheckBox_UseCustomSavePatterns_Current, "CheckBox_UseCustomSavePatterns_Current");
+            this.CheckBox_UseCustomSavePatterns_Current.Name = "CheckBox_UseCustomSavePatterns_Current";
+            this.CheckBox_UseCustomSavePatterns_Current.UseVisualStyleBackColor = true;
             // 
             // label17
             // 
@@ -459,10 +477,23 @@
             resources.ApplyResources(this.TextBox_NormalMapStrength_Current, "TextBox_NormalMapStrength_Current");
             this.TextBox_NormalMapStrength_Current.Name = "TextBox_NormalMapStrength_Current";
             // 
+            // CheckBox_IgnoreUpdateVersion
+            // 
+            resources.ApplyResources(this.CheckBox_IgnoreUpdateVersion, "CheckBox_IgnoreUpdateVersion");
+            this.CheckBox_IgnoreUpdateVersion.Name = "CheckBox_IgnoreUpdateVersion";
+            this.CheckBox_IgnoreUpdateVersion.UseVisualStyleBackColor = true;
+            // 
+            // TextBox_IgnoreUpdateVersion
+            // 
+            resources.ApplyResources(this.TextBox_IgnoreUpdateVersion, "TextBox_IgnoreUpdateVersion");
+            this.TextBox_IgnoreUpdateVersion.Name = "TextBox_IgnoreUpdateVersion";
+            // 
             // SettingsForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.TextBox_IgnoreUpdateVersion);
+            this.Controls.Add(this.CheckBox_IgnoreUpdateVersion);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.ComboBox_MaxAdditionalTextureSize);
@@ -557,5 +588,9 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox TextBox_NormalMapBlur_Current;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.CheckBox CheckBox_UseCustomSavePatterns_Default;
+        private System.Windows.Forms.CheckBox CheckBox_UseCustomSavePatterns_Current;
+        private System.Windows.Forms.CheckBox CheckBox_IgnoreUpdateVersion;
+        private System.Windows.Forms.TextBox TextBox_IgnoreUpdateVersion;
     }
 }

@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "localization_key",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  },
+  {
+    "Name": "dynamicParameters",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  }
+]

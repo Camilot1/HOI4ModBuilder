@@ -51,7 +51,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         public void Draw()
         {
             foreach (Province province in _provinces)
-                GL.Vertex2(province.center.x, province.center.y);
+                GL.Vertex2(province.center.x + 0.5f, province.center.y + 0.5f);
         }
 
         public int ProvincesCount => _provinces.Count;

@@ -1,0 +1,8 @@
+{
+    "name": "<building>",
+    "specificScopes": [ "ALL" ],
+    "allowedValueTypes": [ "INT" ],
+    "defaultValueType": "INT",
+    "defaultValue": null,
+    "canHaveAnyInnerBlocks": true
+}

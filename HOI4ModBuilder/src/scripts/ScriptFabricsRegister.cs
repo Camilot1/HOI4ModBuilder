@@ -25,6 +25,7 @@ using System.IO;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 using HOI4ModBuilder.src.scripts.exceptions;
+using HOI4ModBuilder.src.scripts.objects.primitives;
 
 namespace HOI4ModBuilder.src.scripts
 {
@@ -64,15 +65,21 @@ namespace HOI4ModBuilder.src.scripts
 
             RegisterFabric(ForDeclarator.GetKeyword(), () => new ForDeclarator());
 
-            RegisterFabric(BooleanDeclarator.GetKeyword(), () => new BooleanDeclarator(), () => new BooleanObject());
-            RegisterFabric(CharDeclarator.GetKeyword(), () => new CharDeclarator(), () => new CharObject());
-            RegisterFabric(FileDeclarator.GetKeyword(), () => new FileDeclarator(), () => new FileObject());
-            RegisterFabric(FloatDeclarator.GetKeyword(), () => new FloatDeclarator(), () => new FloatObject());
-            RegisterFabric(IntDeclarator.GetKeyword(), () => new IntDeclarator(), () => new IntObject());
             RegisterFabric(ListDeclarator.GetKeyword(), () => new ListDeclarator(), () => new ListObject());
             RegisterFabric(MapDeclarator.GetKeyword(), () => new MapDeclarator(), () => new MapObject());
-            RegisterFabric(RandomDeclarator.GetKeyword(), () => new RandomDeclarator(), () => new RandomObject());
+
+            RegisterFabric(BooleanDeclarator.GetKeyword(), () => new BooleanDeclarator(), () => new BooleanObject());
+            RegisterFabric(ByteDeclarator.GetKeyword(), () => new ByteDeclarator(), () => new ByteObject());
+            RegisterFabric(CharDeclarator.GetKeyword(), () => new CharDeclarator(), () => new CharObject());
+            RegisterFabric(ColorDeclarator.GetKeyword(), () => new ColorDeclarator(), () => new ColorObject());
+            RegisterFabric(FloatDeclarator.GetKeyword(), () => new FloatDeclarator(), () => new FloatObject());
+            RegisterFabric(IntDeclarator.GetKeyword(), () => new IntDeclarator(), () => new IntObject());
             RegisterFabric(StringDeclarator.GetKeyword(), () => new StringDeclarator(), () => new StringObject());
+
+            //RegisterFabric(BitmapDeclarator.GetKeyword(), () => new BitmapDeclarator(), () => new BitmapObject());
+            RegisterFabric(FileDeclarator.GetKeyword(), () => new FileDeclarator(), () => new FileObject());
+            RegisterFabric(PairDeclarator.GetKeyword(), () => new PairDeclarator(), () => new PairObject());
+            RegisterFabric(RandomDeclarator.GetKeyword(), () => new RandomDeclarator(), () => new RandomObject());
 
             RegisterFabric(ConsoleClearFunc.GetKeyword(), () => new ConsoleClearFunc());
             RegisterFabric(ConsoleWriteFunc.GetKeyword(), () => new ConsoleWriteFunc());
@@ -120,6 +127,7 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(GetStateProvincesIdsFunc.GetKeyword(), () => new GetStateProvincesIdsFunc());
             RegisterFabric(GetStatePopulationFunc.GetKeyword(), () => new GetStatePopulationFunc());
             RegisterFabric(GetStateRegionIdFunc.GetKeyword(), () => new GetStateRegionIdFunc());
+            RegisterFabric(GetStateScriptBlocksFunc.GetKeyword(), () => new GetStateScriptBlocksFunc());
             RegisterFabric(SetStateBuildingLevelFunc.GetKeyword(), () => new SetStateBuildingLevelFunc());
 
             RegisterFabric(GetMapSizeFunc.GetKeyword(), () => new GetMapSizeFunc());
@@ -132,27 +140,32 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(BreakKeyword.GetKeyword(), () => new BreakKeyword());
             RegisterFabric(ContinueKeyword.GetKeyword(), () => new ContinueKeyword());
 
-            RegisterFabric(AppendMethod.GetKeyword(), () => new AppendMethod());
             RegisterFabric(CeilMethod.GetKeyword(), () => new CeilMethod());
             RegisterFabric(ClampMethod.GetKeyword(), () => new ClampMethod());
+            RegisterFabric(FloorMethod.GetKeyword(), () => new FloorMethod());
+            RegisterFabric(MaxMethod.GetKeyword(), () => new MaxMethod());
+            RegisterFabric(MinMethod.GetKeyword(), () => new MinMethod());
+            RegisterFabric(RoundMethod.GetKeyword(), () => new RoundMethod());
+
+            RegisterFabric(AppendMethod.GetKeyword(), () => new AppendMethod());
             RegisterFabric(ClearMethod.GetKeyword(), () => new ClearMethod());
             RegisterFabric(DeleteMethod.GetKeyword(), () => new DeleteMethod());
-            RegisterFabric(FloorMethod.GetKeyword(), () => new FloorMethod());
             RegisterFabric(FormatMethod.GetKeyword(), () => new FormatMethod());
+            RegisterFabric(GetKeyMethod.GetKeyword(), () => new GetKeyMethod());
             RegisterFabric(GetKeysMethod.GetKeyword(), () => new GetKeysMethod());
             RegisterFabric(GetMethod.GetKeyword(), () => new GetMethod());
             RegisterFabric(GetSizeMethod.GetKeyword(), () => new GetSizeMethod());
+            RegisterFabric(GetValueMethod.GetKeyword(), () => new GetValueMethod());
             RegisterFabric(HasKeyMethod.GetKeyword(), () => new HasKeyMethod());
             RegisterFabric(IsExistsMethod.GetKeyword(), () => new IsExistsMethod());
-            RegisterFabric(MaxMethod.GetKeyword(), () => new MaxMethod());
-            RegisterFabric(MinMethod.GetKeyword(), () => new MinMethod());
             RegisterFabric(NextFloatMethod.GetKeyword(), () => new NextFloatMethod());
             RegisterFabric(NextIntMethod.GetKeyword(), () => new NextIntMethod());
             RegisterFabric(PutMethod.GetKeyword(), () => new PutMethod());
             RegisterFabric(ReadMethod.GetKeyword(), () => new ReadMethod());
             RegisterFabric(ReverseMethod.GetKeyword(), () => new ReverseMethod());
-            RegisterFabric(RoundMethod.GetKeyword(), () => new RoundMethod());
+            RegisterFabric(SetKeyMethod.GetKeyword(), () => new SetKeyMethod());
             RegisterFabric(SetSeedMethod.GetKeyword(), () => new SetSeedMethod());
+            RegisterFabric(SetValueMethod.GetKeyword(), () => new SetValueMethod());
             RegisterFabric(SetSizeMethod.GetKeyword(), () => new SetSizeMethod());
             RegisterFabric(ShuffleMethod.GetKeyword(), () => new ShuffleMethod());
             RegisterFabric(SortMethod.GetKeyword(), () => new SortMethod());
@@ -237,6 +250,7 @@ namespace HOI4ModBuilder.src.scripts
         {
             if (obj is IScriptObject) sb.Append("ISCRIPTOBJECT ");
 
+            if (obj is IBitmapObject) sb.Append("IBITMAP ");
             if (obj is ICollectionObject) sb.Append("ICOLLECTION ");
             if (obj is IFileObject) sb.Append("IFILE ");
             if (obj is IFuncObject) sb.Append("IFUNC ");
@@ -244,6 +258,7 @@ namespace HOI4ModBuilder.src.scripts
             if (obj is ILogicalObject) sb.Append("ILOGICAL ");
             if (obj is IMapObject) sb.Append("IMAP ");
             if (obj is INumberObject) sb.Append("INUMBER ");
+            if (obj is IPairObject) sb.Append("IPAIR ");
             if (obj is IRandomObject) sb.Append("IRANDOM ");
             if (obj is IRelativeObject) sb.Append("IRELATIVE ");
             if (obj is IStringObject) sb.Append("ISTRING ");
@@ -254,9 +269,12 @@ namespace HOI4ModBuilder.src.scripts
             if (obj is IAppendObject) sb.Append("IAPPEND ");
             if (obj is IClearObject) sb.Append("ICLEAR ");
             if (obj is IDivideObject) sb.Append("IDIVIDE ");
+            if (obj is IGetKeyObject) sb.Append("IGETKEY ");
             if (obj is IGetObject) sb.Append("IGET ");
             if (obj is IGetSizeObject) sb.Append("IGETSIZE ");
+            if (obj is IGetValueObject) sb.Append("IGETVALUE ");
             if (obj is IInsertObject) sb.Append("IINSERT ");
+            if (obj is ILoadObject) sb.Append("ILOAD ");
             if (obj is IModuloObject) sb.Append("IMODULO ");
             if (obj is IMultiplyObject) sb.Append("IMULTIPLY ");
             if (obj is INextFloatObject) sb.Append("INEXTFLOAT ");
@@ -269,9 +287,12 @@ namespace HOI4ModBuilder.src.scripts
             if (obj is IRemoveAtObject) sb.Append("IREMOVEAT ");
             if (obj is IRemoveObject) sb.Append("IREMOVE ");
             if (obj is IReverseObject) sb.Append("IREVERSE ");
+            if (obj is ISaveObject) sb.Append("ISAVE ");
+            if (obj is ISetKeyObject) sb.Append("ISETKEY ");
             if (obj is ISetObject) sb.Append("ISET ");
             if (obj is ISetSeedObject) sb.Append("ISETSEED ");
             if (obj is ISetSizeObject) sb.Append("ISETSIZE ");
+            if (obj is ISetValueObject) sb.Append("ISETVALUE ");
             if (obj is IShuffleObject) sb.Append("ISHUFFLE ");
             if (obj is ISortObject) sb.Append("ISORT ");
             if (obj is ISplitObject) sb.Append("ISPLIT ");

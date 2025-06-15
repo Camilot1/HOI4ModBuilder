@@ -51,7 +51,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
                             EnumLocKey.EXCEPTION_WHILE_STATE_CATEGORY_LOADING,
                             new Dictionary<string, string>
                             {
-                                { "{categoryName}", name },
+                                { "{name}", name },
                                 { "{token}", token }
                             }
                         ), ex);

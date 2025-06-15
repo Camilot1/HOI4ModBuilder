@@ -74,7 +74,7 @@ namespace HOI4ModBuilder.src.openTK.text
         {
             foreach (Font font in infosByFonts.Keys)
             {
-                GL.BindTexture(TextureTarget.Texture2D, font.atlas.ID);
+                GL.BindTexture(TextureTarget.Texture2D, font.atlas.TextureId);
                 infosByFonts[font].Draw();
                 GL.BindTexture(TextureTarget.Texture2D, 0);
             }

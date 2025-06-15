@@ -18,30 +18,31 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolEraser(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { key = Keys.E },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  new[] { EnumEditLayer.PROVINCES, EnumEditLayer.RIVERS, EnumEditLayer.HEIGHT_MAP },
+                  (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX | (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_SELECTED_BOUND
               )
         { }
 
-        public override void Handle(
-            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos,
+        public override bool Handle(
+            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
+
             int newColor;
-            if (!pos.InboundsPositiveBox(MapManager.MapSize))
-                return;
             if (Control.ModifierKeys == Keys.Shift)
-                return;
-            if (bounds.HasSpace() && !bounds.Inbounds(pos))
-                return;
+                return false;
 
             if (mouseEventArgs.Button == MouseButtons.Left)
                 newColor = Utils.ArgbToInt(255, 255, 255, 255);
             else
-                return;
+                return false;
 
             if (!BrushManager.TryGetBrush(SettingsManager.Settings, parameter, out var brush))
-                return;
+                return false;
 
             List<Action> redoActions = new List<Action>();
             List<Action> undoActions = new List<Action>();
@@ -56,6 +57,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             });
 
             MapManager.ActionsBatch.AddWithExecute(redoActions, undoActions);
+
+            return true;
         }
 
         private bool HandlePixel(int x, int y, EnumEditLayer enumEditLayer, int newColor, out Action redo, out Action undo)
@@ -117,7 +120,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             redo = () =>
             {
                 TextureManager.rivers.SetColor(x, y, newColor);
-                byte[] data = { (byte)newColor, (byte)(newColor >> 8), (byte)(newColor >> 16), (byte)(newColor >> 24) }; //BGRA
+                byte[] data = { (byte)newColor, (byte)(newColor >> 8), (byte)(newColor >> 16), 0 }; //BGRA
                 TextureManager.rivers.texture.Update(TextureManager._32bppArgb, x, y, 1, 1, data);
             };
             undo = () =>

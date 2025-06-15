@@ -317,6 +317,12 @@
     <Compile Include="src\forms\messageForms\AboutProgramForm.Designer.cs">
       <DependentUpon>AboutProgramForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\forms\messageForms\CheckUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\forms\messageForms\CheckUpdateForm.Designer.cs">
+      <DependentUpon>CheckUpdateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\forms\recoveryForms\StrategicRegionsDataRecoveryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -452,7 +458,7 @@
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerSeaProvincesWithState.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerProvincesCoastalMismatches.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerStateWithMultiRegions.cs" />
-    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerSeaCrosses.cs" />
+    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerAdjacencies.cs" />
     <Compile Include="src\managers\mapChecks\errors\EnumMapErrorCode.cs" />
     <Compile Include="src\managers\mapChecks\MapChecker.cs" />
     <Compile Include="src\managers\mapChecks\MapCheckerManager.cs" />
@@ -471,6 +477,8 @@
     <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerSupplyHubHasNoConnections.cs" />
     <Compile Include="src\managers\mapChecks\warnings\EnumMapWarningCode.cs" />
     <Compile Include="src\managers\mapChecks\warnings\WarningsManager.cs" />
+    <Compile Include="src\network\NetworkManager.cs" />
+    <Compile Include="src\network\SyncInfo.cs" />
     <Compile Include="src\newParser\GameParser.cs" />
     <Compile Include="src\newParser\interfaces\ICommentable.cs" />
     <Compile Include="src\newParser\interfaces\IConstantable.cs" />
@@ -492,26 +500,30 @@
     <Compile Include="src\newParser\objects\GameFile.cs" />
     <Compile Include="src\newParser\objects\GameList.cs" />
     <Compile Include="src\newParser\objects\GameParameter.cs" />
-    <Compile Include="src\newParser\objects\SaveAdapter.cs" />
+    <Compile Include="src\newParser\objects\SavePattern.cs" />
     <Compile Include="src\newParser\objects\ScriptBlockParseObject.cs" />
     <Compile Include="src\newParser\ParserUtils.cs" />
     <Compile Include="src\newParser\structs\DynamicGameParameter.cs" />
     <Compile Include="src\newParser\structs\GameKeyObject.cs" />
     <Compile Include="src\newParser\structs\GameString.cs" />
-    <Compile Include="src\newParser\structs\SaveAdapterParameter.cs" />
+    <Compile Include="src\newParser\structs\SavePatternParameter.cs" />
     <Compile Include="src\newParser\test\TestGameFile.cs" />
     <Compile Include="src\newParser\test\TestObject.cs" />
     <Compile Include="src\newParser\interfaces\INeedToSave.cs" />
     <Compile Include="src\newParser\test\TestMain.cs" />
     <Compile Include="src\Pdoxcl2Sharp\INeedToSave.cs" />
     <Compile Include="src\scripts\commands\declarators\funcs\FuncDeclarator.cs" />
-    <Compile Include="src\scripts\commands\declarators\vars\BooleanDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\BitmapDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\PairDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\primitives\BooleanDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\branches\BranchDeclarator.cs" />
-    <Compile Include="src\scripts\commands\declarators\vars\CharDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\primitives\ByteDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\primitives\CharDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\primitives\ColorDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\FileDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\cycles\ForDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\RandomDeclarator.cs" />
-    <Compile Include="src\scripts\commands\declarators\vars\StringDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\primitives\StringDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\VarDeclarator.cs" />
     <Compile Include="src\scripts\commands\functions\console\ConsoleClearFunc.cs" />
     <Compile Include="src\scripts\commands\functions\console\ConsoleWriteFunc.cs" />
@@ -555,6 +567,7 @@
     <Compile Include="src\scripts\commands\functions\map\states\GetStatePopulationFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateProvincesIdsFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateRegionIdFunc.cs" />
+    <Compile Include="src\scripts\commands\functions\map\states\GetStateScriptBlocksFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\SetStateBuildingLevelFunc.cs" />
     <Compile Include="src\scripts\commands\functions\time\GetDaysSinceYearStartFunc.cs" />
     <Compile Include="src\scripts\commands\functions\time\GetWeeksSinceYearStartFunc.cs" />
@@ -562,30 +575,35 @@
     <Compile Include="src\scripts\commands\keywords\BreakKeyword.cs" />
     <Compile Include="src\scripts\commands\keywords\ContinueKeyword.cs" />
     <Compile Include="src\scripts\commands\methods\AppendMethod.cs" />
-    <Compile Include="src\scripts\commands\methods\CeilMethod.cs" />
-    <Compile Include="src\scripts\commands\methods\ClampMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\bitmaps\GetPixelMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\GetKeyMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\GetValueMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\math\CeilMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\math\ClampMethod.cs" />
     <Compile Include="src\scripts\commands\methods\ClearMethod.cs" />
     <Compile Include="src\scripts\commands\methods\DeleteMethod.cs" />
-    <Compile Include="src\scripts\commands\methods\FloorMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\math\FloorMethod.cs" />
     <Compile Include="src\scripts\commands\methods\FormatMethod.cs" />
     <Compile Include="src\scripts\commands\methods\GetKeysMethod.cs" />
     <Compile Include="src\scripts\commands\methods\GetSizeMethod.cs" />
     <Compile Include="src\scripts\commands\methods\GetMethod.cs" />
     <Compile Include="src\scripts\commands\methods\HasKeyMethod.cs" />
     <Compile Include="src\scripts\commands\methods\IsExistsMethod.cs" />
-    <Compile Include="src\scripts\commands\methods\MaxMethod.cs" />
-    <Compile Include="src\scripts\commands\methods\MinMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\math\MaxMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\math\MinMethod.cs" />
     <Compile Include="src\scripts\commands\methods\NextFloatMethod.cs" />
     <Compile Include="src\scripts\commands\methods\NextIntMethod.cs" />
     <Compile Include="src\scripts\commands\methods\PutMethod.cs" />
-    <Compile Include="src\scripts\commands\declarators\vars\FloatDeclarator.cs" />
-    <Compile Include="src\scripts\commands\declarators\vars\IntDeclarator.cs" />
-    <Compile Include="src\scripts\commands\declarators\vars\ListDeclarator.cs" />
-    <Compile Include="src\scripts\commands\declarators\vars\MapDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\primitives\FloatDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\primitives\IntDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\collections\ListDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\collections\MapDeclarator.cs" />
     <Compile Include="src\scripts\commands\methods\ReadMethod.cs" />
     <Compile Include="src\scripts\commands\methods\ReverseMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\SetKeyMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSeedMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSizeMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\SetValueMethod.cs" />
     <Compile Include="src\scripts\commands\methods\ShuffleMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SortMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SplitMethod.cs" />
@@ -596,7 +614,7 @@
     <Compile Include="src\scripts\commands\operators\arithmetical\DivideOperator.cs" />
     <Compile Include="src\scripts\commands\operators\arithmetical\ModuloOperator.cs" />
     <Compile Include="src\scripts\commands\operators\arithmetical\MultiplyOperator.cs" />
-    <Compile Include="src\scripts\commands\methods\RoundMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\math\RoundMethod.cs" />
     <Compile Include="src\scripts\commands\operators\arithmetical\SetOperator.cs" />
     <Compile Include="src\scripts\commands\operators\arithmetical\SubtractOperator.cs" />
     <Compile Include="src\scripts\commands\ScopeScriptCommand.cs" />
@@ -625,9 +643,21 @@
     <Compile Include="src\scripts\exceptions\VariableIsNotDeclaredScriptException.cs" />
     <Compile Include="src\scripts\exceptions\VariableValueIsNotSetScriptException.cs" />
     <Compile Include="src\scripts\objects\AnyObject.cs" />
-    <Compile Include="src\scripts\objects\BooleanObject.cs" />
-    <Compile Include="src\scripts\objects\CharObject.cs" />
-    <Compile Include="src\scripts\objects\FloatObject.cs" />
+    <Compile Include="src\scripts\objects\BitmapObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IGetKeyObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\IGetValueObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\ILoadObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\ISaveObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\ISetKeyObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\ISetValueObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\IBitmapObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\IPairObject.cs" />
+    <Compile Include="src\scripts\objects\PairObject.cs" />
+    <Compile Include="src\scripts\objects\primitives\BooleanObject.cs" />
+    <Compile Include="src\scripts\objects\primitives\ByteObject.cs" />
+    <Compile Include="src\scripts\objects\primitives\CharObject.cs" />
+    <Compile Include="src\scripts\objects\primitives\ColorObject.cs" />
+    <Compile Include="src\scripts\objects\primitives\FloatObject.cs" />
     <Compile Include="src\scripts\objects\FuncObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\IAddObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\IAddRangeObject.cs" />
@@ -673,11 +703,11 @@
     <Compile Include="src\scripts\objects\interfaces\IRelativeObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\IScriptObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\IStringObject.cs" />
-    <Compile Include="src\scripts\objects\IntObject.cs" />
-    <Compile Include="src\scripts\objects\ListObject.cs" />
-    <Compile Include="src\scripts\objects\MapObject.cs" />
+    <Compile Include="src\scripts\objects\primitives\IntObject.cs" />
+    <Compile Include="src\scripts\objects\collections\ListObject.cs" />
+    <Compile Include="src\scripts\objects\collections\MapObject.cs" />
     <Compile Include="src\scripts\objects\RandomObject.cs" />
-    <Compile Include="src\scripts\objects\StringObject.cs" />
+    <Compile Include="src\scripts\objects\primitives\StringObject.cs" />
     <Compile Include="src\scripts\ScriptParser.cs" />
     <Compile Include="src\scripts\ScriptFabricsRegister.cs" />
     <Compile Include="src\scripts\utils\ScriptUtils.cs" />
@@ -694,6 +724,8 @@
     <Compile Include="src\tools\map\mouseHandleable\MapToolAiArea.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolBrush.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolBuildings.cs" />
+    <Compile Include="src\tools\map\mouseHandleable\MapToolStateController.cs" />
+    <Compile Include="src\tools\map\mouseHandleable\MapToolStateOwner.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolCursor.cs" />
     <Compile Include="src\tools\map\MapToolsManager.cs" />
     <Compile Include="src\hoiDataObjects\map\provinces\Province.cs" />
@@ -768,7 +800,6 @@
     <Compile Include="src\utils\exceptions\UnknownTokenException.cs" />
     <Compile Include="src\utils\json\EnumArrayToStringConverter.cs" />
     <Compile Include="src\managers\GuiLocManager.cs" />
-    <Compile Include="src\utils\LinksUtils.cs" />
     <Compile Include="src\utils\LocalizedAction.cs" />
     <Compile Include="src\utils\Logger.cs" />
     <Compile Include="src\utils\ImageUtils.cs" />
@@ -783,6 +814,7 @@
     <Compile Include="src\utils\structs\Color3B.cs" />
     <Compile Include="src\utils\structs\Color3F.cs" />
     <Compile Include="src\utils\structs\LinkedData.cs" />
+    <Compile Include="src\utils\structs\LogScaleData.cs" />
     <Compile Include="src\utils\structs\Point2D.cs" />
     <Compile Include="src\utils\structs\Point2F.cs" />
     <Compile Include="src\utils\structs\Value2B.cs" />
@@ -811,6 +843,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\forms\messageForms\AboutProgramForm.resx">
       <DependentUpon>AboutProgramForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\forms\messageForms\CheckUpdateForm.en.resx">
+      <DependentUpon>CheckUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\forms\messageForms\CheckUpdateForm.resx">
+      <DependentUpon>CheckUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\forms\recoveryForms\StrategicRegionsDataRecoveryForm.en.resx">
       <DependentUpon>StrategicRegionsDataRecoveryForm.cs</DependentUpon>

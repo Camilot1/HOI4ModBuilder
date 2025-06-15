@@ -23,7 +23,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
 
         public static void Load(Settings settings)
         {
-            if (!SettingsManager.Settings.isWipEnabled(EnumWips.EQUIPMENTS))
+            if (!SettingsManager.Settings.IsWipEnabled(EnumWips.EQUIPMENTS))
                 return;
 
             _equipmentsByFiles = new Dictionary<FileInfo, EquipmentsFile>();
@@ -55,7 +55,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
         {
             return; //TODO Implement saving
 
-            if (!SettingsManager.Settings.isWipEnabled(EnumWips.EQUIPMENTS))
+            if (!SettingsManager.Settings.IsWipEnabled(EnumWips.EQUIPMENTS))
                 return;
 
             foreach (var equipmentsFile in _equipmentsByFiles.Values)

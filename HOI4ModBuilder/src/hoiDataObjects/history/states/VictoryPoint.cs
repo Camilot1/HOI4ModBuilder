@@ -5,19 +5,21 @@ using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
+using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map
 {
-    public class VictoryPoint : AbstractParseObject
+    public class VictoryPoint : AbstractParseObject, IComparable<VictoryPoint>
     {
         public Province province;
         public uint value;
 
         public override IParseObject GetEmptyCopy() => new VictoryPoint();
 
-        public override SaveAdapter GetSaveAdapter() => null;
+        public override SavePattern GetSavePattern() => null;
 
         public VictoryPoint() { }
         public VictoryPoint(ushort provinceId)
@@ -36,7 +38,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             this.value = ParserUtils.Parse<uint>(value);
         }
 
-        public override void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public override void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
             if (province == null || value == 0)
                 return;
@@ -61,6 +63,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             hashCode = hashCode * -1521134295 + EqualityComparer<Province>.Default.GetHashCode(province);
             hashCode = hashCode * -1521134295 + value.GetHashCode();
             return hashCode;
+        }
+
+        public int CompareTo(VictoryPoint other)
+        {
+            if (other == null)
+                return 0;
+            return
+                province.Id - other.province.Id;
         }
     }
 }

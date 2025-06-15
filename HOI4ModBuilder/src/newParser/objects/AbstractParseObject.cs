@@ -24,7 +24,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public virtual Dictionary<string, Func<object, object>> GetStaticAdapter() => null;
         public virtual Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => null;
-        public abstract SaveAdapter GetSaveAdapter();
+        public abstract SavePattern GetSavePattern();
         public abstract IParseObject GetEmptyCopy();
         public AbstractParseObject GetThis() => this;
 
@@ -214,9 +214,9 @@ namespace HOI4ModBuilder.src.newParser.objects
         private static readonly Dictionary<string, Func<object, object>> _defaultStaticAdapter = new Dictionary<string, Func<object, object>>();
         private static readonly Dictionary<string, DynamicGameParameter> _defaultDynamicAdapter = new Dictionary<string, DynamicGameParameter>();
 
-        public virtual void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public virtual void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
-            var saveAdapter = GetSaveAdapter();
+            var savePattern = GetSavePattern();
 
             var staticAdapter = GetStaticAdapter();
             if (staticAdapter == null)
@@ -226,7 +226,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (dynamicAdapter == null)
                 dynamicAdapter = _defaultDynamicAdapter;
 
-            if (saveParameter.AddEmptyLineBefore)
+            if (savePatternParameter.AddEmptyLineBefore)
                 sb.Append(outIndent).Append(Constants.NEW_LINE);
 
             var comments = GetComments();
@@ -251,7 +251,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (comments.Inline.Length > 0)
                     sb.Append(comments.Inline).Append(' ');
 
-                isInline = saveParameter.IsForceInline ||
+                isInline = savePatternParameter.IsForceInline ||
                     comments.Inline.Length == 0 &&
                     (staticAdapter.Count + dynamicAdapter.Count <= 1);
                 innerIndent = isInline ? " " : outIndent + Constants.INDENT;
@@ -260,7 +260,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     sb.Append(Constants.NEW_LINE);
             }
 
-            foreach (var parameter in saveAdapter.Parameters)
+            foreach (var parameter in savePattern.Parameters)
             {
                 if (staticAdapter.TryGetValue(parameter.Name, out var staticProvider))
                     ((ISaveable)staticProvider.Invoke(this))

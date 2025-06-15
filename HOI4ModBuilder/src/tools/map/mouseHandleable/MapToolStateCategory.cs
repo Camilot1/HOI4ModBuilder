@@ -17,33 +17,35 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolStateCategory(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  new[] { EnumEditLayer.STATES },
+                  (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
 
-        public override void Handle(
-            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos,
+        public override bool Handle(
+            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
-            if (enumEditLayer != EnumEditLayer.STATES)
-                return;
-            if (!pos.InboundsPositiveBox(MapManager.MapSize))
-                return;
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
 
             StateCategoryManager.TryGetStateCategory(parameter, out StateCategory newCategory);
 
             if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
-                return;
+                return false;
 
             if (mouseEventArgs.Button == MouseButtons.Left)
             {
-                if (province.State == null) return;
+                if (province.State == null)
+                    return false;
                 StateCategory prevCategory = province.State.StateCategory.GetValue();
 
                 //TODO Добавить поддержку корректного изменения категории с учётом текущей букмарки
 
-                if (prevCategory == newCategory) return;
+                if (prevCategory == newCategory)
+                    return false;
 
                 Action<State, StateCategory> action = (state, stateCategory) =>
                 {
@@ -65,6 +67,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 MainForm.Instance.ComboBox_Tool_Parameter.Text = newParameter;
                 MainForm.Instance.ComboBox_Tool_Parameter.Refresh();
             }
+
+            return true;
         }
     }
 }

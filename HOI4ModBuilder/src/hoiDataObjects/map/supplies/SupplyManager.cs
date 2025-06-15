@@ -136,7 +136,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                 foreach (var supplyNode in SupplyNodes)
                 {
                     var province = supplyNode.GetProvince();
-                    GL.Vertex2(province.center.x, province.center.y);
+                    GL.Vertex2(province.center.x + 0.5f, province.center.y + 0.5f);
                 }
                 GL.End();
             }
@@ -147,13 +147,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                 GL.Color4(1f, 0f, 0f, 1f);
                 GL.PointSize(19f);
                 GL.Begin(PrimitiveType.Points);
-                GL.Vertex2(province.center.x, province.center.y);
+                GL.Vertex2(province.center.x + 0.5f, province.center.y + 0.5f);
                 GL.End();
 
                 GL.Color4(0f, 0f, 1f, 1f);
                 GL.PointSize(16f);
                 GL.Begin(PrimitiveType.Points);
-                GL.Vertex2(province.center.x, province.center.y);
+                GL.Vertex2(province.center.x + 0.5f, province.center.y + 0.5f);
                 GL.End();
             }
         }
@@ -166,9 +166,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                 return null;
             }
 
+            Point2D movedPoint = new Point2D { x = point.x - 0.5d, y = point.y - 0.5d };
+
             var product = p.ForEachRailway((railway) =>
             {
-                if (railway.IsOnRailway(point))
+                if (railway.IsOnRailway(movedPoint))
                 {
                     SelectedRailway = railway;
                     return railway;
@@ -187,9 +189,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                 return null;
             }
 
+            Point2D movedPoint = new Point2D { x = point.x - 0.5d, y = point.y - 0.5d };
+
             var result = p.ForEachRailway((railway) =>
             {
-                if (railway.IsOnRailway(point))
+                if (railway.IsOnRailway(movedPoint))
                 {
                     RMBRailway = railway;
                     return railway;
@@ -205,7 +209,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             if (ProvinceManager.SelectedProvince == null || ProvinceManager.SelectedProvince.SupplyNode == null)
                 return false;
 
-            double distance = ProvinceManager.SelectedProvince.center.GetDistanceTo(point);
+            Point2D movedPoint = new Point2D { x = point.x - 0.5d, y = point.y - 0.5d};
+
+            double distance = ProvinceManager.SelectedProvince.center.GetDistanceTo(movedPoint);
 
             if (distance <= 18f / MapManager.zoomFactor / 1000f)
             {
@@ -307,10 +313,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                 {
                     SelectRailway(pos);
 
-                    if (SelectSupplyNode(pos)) SelectedRailway = null;
+                    if (SelectSupplyNode(pos))
+                        SelectedRailway = null;
                 }
             }
-            else if (button == MouseButtons.Right) SelectRMBRailway(pos);
+            else if (button == MouseButtons.Right)
+                SelectRMBRailway(pos);
         }
 
         private static void HandleEscape()

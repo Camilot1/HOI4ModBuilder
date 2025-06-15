@@ -21,7 +21,14 @@ namespace HOI4ModBuilder.src.utils.structs
         public int GetSquareDistanceTo(Value2S other)
             => (x - other.x) * (x - other.x) + (y - other.y) * (y - other.y);
 
+        public int GetLengthSquare() => x * x + y * y;
+
         public override int GetHashCode() => x << 16 | y;
         public override string ToString() => $"Value2S(x = {x}; y = {y})";
+
+        public string ToPositionString()
+        {
+            return $"{x}; {y}";
+        }
     }
 }

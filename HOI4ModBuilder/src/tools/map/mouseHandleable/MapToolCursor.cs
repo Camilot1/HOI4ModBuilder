@@ -24,15 +24,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolCursor(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new HotKey { key = Keys.C },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool)
+                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
+                  null,
+                  0
               )
         { }
 
-        public override void Handle(
-            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos,
+        public override bool Handle(
+            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
+
             Province selectedProvince = null;
             State selectedState = null;
             StrategicRegion selectedRegion = null;
@@ -45,7 +50,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     if (info.plane.Inbounds(pos))
                     {
                         MapManager.selectedTexturedPlane = info.plane;
-                        return;
+                        return true;
                     }
                 }
             }
@@ -76,15 +81,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                             sb.Append("    ").Append(code.ToString()).Append('\n');
                     }
                     Logger.LogSingleErrorMessage(sb.ToString());
-                    return;
+                    return true;
                 }
             }
 
-            if (!pos.InboundsPositiveBox(MapManager.MapSize))
+            if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
             {
                 if (mouseEventArgs.Button == MouseButtons.Right)
                     ProvinceManager.RMBProvince = null;
-                return;
+                return true;
             }
 
             int color = MapManager.GetColor(pos);
@@ -116,16 +121,45 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             if (MapManager.displayLayers[(int)EnumAdditionalLayers.RAILWAYS])
                 SupplyManager.HandleCursor(mouseEventArgs.Button, pos);
 
-            if (selectedProvince != null)
-                MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedProvince.Id;
-            else if (selectedState != null)
-                MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedState.Id.GetValue();
-            else if (selectedRegion != null)
-                MainForm.Instance.textBox_SelectedObjectId.Text = "" + selectedRegion.Id;
+            if (mouseEventArgs.Button == MouseButtons.Left)
+            {
+                var selectedIds = new List<ushort>();
+                if (selectedProvince != null)
+                {
+                    foreach (var obj in ProvinceManager.GroupSelectedProvinces)
+                        selectedIds.Add(obj.Id);
 
+                    if (selectedIds.Count == 0)
+                        selectedIds.Add(selectedProvince.Id);
+                }
+                else if (selectedState != null)
+                {
+                    foreach (var obj in StateManager.GroupSelectedStates)
+                        selectedIds.Add(obj.Id.GetValue());
+
+                    if (selectedIds.Count == 0)
+                        selectedIds.Add(selectedState.Id.GetValue());
+                }
+                else if (selectedRegion != null)
+                {
+                    foreach (var obj in StrategicRegionManager.GroupSelectedRegions)
+                        selectedIds.Add(obj.Id);
+
+                    if (selectedIds.Count == 0)
+                        selectedIds.Add(selectedRegion.Id);
+                }
+
+                selectedIds.Sort();
+                var sbIds = new StringBuilder();
+                foreach (var id in selectedIds)
+                    sbIds.Append(id).Append(' ');
+                MainForm.Instance.textBox_SelectedObjectId.Text = sbIds.ToString();
+
+            }
             MainForm.Instance.textBox_PixelPos.Text = (int)pos.x + "; " + (int)pos.y;
             MainForm.Instance.textBox_HOI4PixelPos.Text = (int)pos.x + "; " + (MapManager.MapSize.y - (int)pos.y);
 
+            return true;
         }
     }
 }

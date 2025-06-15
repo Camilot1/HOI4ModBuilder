@@ -239,10 +239,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
         }
 
-        public static Adjacency GetSelectedSeaCross()
-        {
-            return _selectedSeaCross;
-        }
+        public static Adjacency GetSelectedSeaCross() => _selectedSeaCross;
+        public static bool TryGetAdjacencyRule(string name, out AdjacencyRule rule)
+            => _adjacencyRules.TryGetValue(name, out rule);
 
 
         public static Adjacency SelectSeaCross(Point2D point)
@@ -279,7 +278,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             NeedToSaveAdjacencies = true;
 
             ushort lastId = (ushort)_adjacencies.Count;
-            var adjacency = new Adjacency(lastId, true, start, end, type, new Value2I() { x = -1, y = -1 }, new Value2I() { x = -1, y = -1 });
+            var adjacency = new Adjacency(lastId, true, start, end, type, new Value2S() { x = -1, y = -1 }, new Value2S() { x = -1, y = -1 });
             adjacency.AddToProvinces();
 
             _adjacencies.Add(adjacency);

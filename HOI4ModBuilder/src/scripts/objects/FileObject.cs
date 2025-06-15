@@ -1,5 +1,7 @@
-﻿using HOI4ModBuilder.src.scripts.commands.declarators;
+﻿using HOI4ModBuilder.src.newParser.interfaces;
+using HOI4ModBuilder.src.scripts.commands.declarators;
 using HOI4ModBuilder.src.scripts.exceptions;
+using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.IO;
@@ -117,7 +119,7 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
             return text;
         }
 
-        public void Read(int lineIndex, string[] args, IStringObject result)
+        public void Read(int lineIndex, string[] args, ISetObject result)
         {
             if (!File.Exists(FilePath))
                 throw new FileNotFoundException(FilePath);

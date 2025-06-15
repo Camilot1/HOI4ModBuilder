@@ -36,7 +36,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         public T GetValue() => _value is GameConstant gameConstant ? gameConstant.GetValue<T>() : (_value != null ? (T)_value : default);
         public void SetValue(T value)
         {
-            if (_value == null && value != null || !_value.Equals(value))
+            if (_value == null && value != null || _value != null && !_value.Equals(value))
             {
                 if (_valueSetAdapter != null)
                     _value = _valueSetAdapter(this, value);
@@ -85,6 +85,12 @@ namespace HOI4ModBuilder.src.newParser.objects
             _value = new T();
             if (_value is IParentable parentable)
                 parentable.SetParent(this);
+        }
+
+        public void InitValueIfNull()
+        {
+            if (_value == null)
+                InitValue();
         }
 
         public string AssemblePath() => ParserUtils.AsseblePath(this);
@@ -183,17 +189,17 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
         }
 
-        public virtual void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public virtual void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
             if (_value is ISaveable saveable)
             {
-                saveable.Save(sb, outIndent, key, saveParameter);
+                saveable.Save(sb, outIndent, key, savePatternParameter);
                 return;
             }
             else if (_value == null)
                 return;
 
-            if (saveParameter.AddEmptyLineBefore)
+            if (savePatternParameter.AddEmptyLineBefore)
                 sb.Append(outIndent).Append(Constants.NEW_LINE);
 
             var comments = GetComments();
@@ -210,11 +216,11 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (comments != null && comments.Inline.Length > 0)
                 sb.Append(comments.Inline).Append(Constants.NEW_LINE);
-            else if (!saveParameter.IsForceInline)
+            else if (!savePatternParameter.IsForceInline)
                 sb.Append(Constants.NEW_LINE);
         }
 
-        public SaveAdapter GetSaveAdapter() => null;
+        public SavePattern GetSavePattern() => null;
 
         public virtual void Validate(LinkedLayer layer)
         {

@@ -2,6 +2,8 @@
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.structs;
+using HOI4ModBuilder.src.scripts;
+using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
@@ -197,8 +199,29 @@ namespace HOI4ModBuilder.src.newParser.objects
 
                 innerList.AddSilent(innerBlock3);
             }
+            else if (infoArgsBlock.CanHaveAnyInnerBlocks)
+            {
+                var info = new InfoArgsBlock(key, null)
+                {
+                    CanHaveAnyInlineValue = true,
+                    CanHaveAnyInnerBlocks = true
+                };
+                var innerBlock3 = new ScriptBlockParseObject(this, info);
+
+                innerBlock3.ParseCallback(parser);
+
+                /*
+                var comments = innerBlock3.GetComments();
+                if (comments != null)
+                    comments.Previous = keyComments != null ? keyComments.Previous + comments.Previous : comments.Previous;
+                else
+                */
+                innerBlock3.SetComments(keyComments);
+
+                innerList.AddSilent(innerBlock3);
+            }
             else
-                throw new Exception("Unknown token: " + parser.GetCursorInfo());
+                throw new Exception("Unknown token: " + key + " " + parser.GetCursorInfo());
 
 
         }
@@ -334,6 +357,11 @@ namespace HOI4ModBuilder.src.newParser.objects
                     if (hasParsedValue) break;
                 }
             }
+            else if (_scriptBlockInfo is InfoArgsBlock infoBlock && infoBlock.CanHaveAnyInlineValue)
+            {
+                _value = ParserUtils.ParseObject(value);
+                hasParsedValue = true;
+            }
 
             if (!hasParsedValue && canAcceptVars)
             {
@@ -365,15 +393,15 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public override IParseObject GetEmptyCopy() => new ScriptBlockParseObject();
 
-        public override SaveAdapter GetSaveAdapter() => null;
+        public override SavePattern GetSavePattern() => null;
 
-        public override void Save(StringBuilder sb, string outIndent, string key, SaveAdapterParameter saveParameter)
+        public override void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
             var comments = GetComments();
 
             if (_value is ISaveable saveable)
             {
-                SaveAdapterParameter innerSaveParameter = default;
+                SavePatternParameter innerSaveParameter = default;
                 if (_value is ISizable sizable && sizable.GetSize() <= 1)
                     innerSaveParameter.IsForceInline = true;
 
@@ -386,7 +414,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (comments == null)
                 comments = new GameComments();
-            
+
             comments?.SavePrevComments(sb, outIndent);
 
             if (sb.Length > 0)
@@ -401,6 +429,47 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (comments.Inline.Length > 0)
                 sb.Append(comments.Inline).Append(' ').Append(Constants.NEW_LINE);
+        }
+
+        public void SaveToListObject(ListObject list)
+        {
+            if (_value is GameList<ScriptBlockParseObject> listValue)
+            {
+                var innerPair = new PairObject(new StringObject(), new ListObject());
+                list.Add(innerPair);
+
+                innerPair.SetKey(new StringObject(_scriptBlockInfo.GetBlockName()));
+
+                var innerList = new ListObject();
+                innerPair.SetValue(innerList);
+
+                foreach (var innerValue in listValue)
+                {
+                    innerValue.SaveToListObject(innerList);
+                }
+
+                list.Add(innerPair);
+            }
+            else
+            {
+                var value = ScriptParser.ParseValue(GetValue().ToString());
+
+                if (value == null)
+                {
+                    var tempValue = ParserUtils.ObjectToSaveString(GetValue());
+                    value = ScriptParser.ParseValue(tempValue);
+
+                    if (value == null)
+                        value = new StringObject(tempValue);
+                }
+
+                var pair = new PairObject(new StringObject(), value.GetEmptyCopy());
+
+                list.Add(pair);
+
+                pair.SetKey(new StringObject(_scriptBlockInfo.GetBlockName()));
+                pair.SetValue(value);
+            }
         }
     }
 }

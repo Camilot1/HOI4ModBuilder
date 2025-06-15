@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.history.countries;
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.src.dataObjects.argBlocks;
+using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.newParser.interfaces;
@@ -170,6 +171,14 @@ namespace HOI4ModBuilder.src.newParser
 
             if (InfoArgsBlocksManager.TryGetInfoArgsBlock(token, out var infoBlock))
                 return new ScriptBlockParseObject(parent, infoBlock);
+
+            return null;
+        }
+
+        public static ScriptBlockParseObject GetBuildingCustomBlockParseObject(IParentable parentable, string token)
+        {
+            if (InfoArgsBlocksManager.TryGetBuildingCustomArgsBlock(token, out var infoBlock))
+                return new ScriptBlockParseObject(parentable, infoBlock);
 
             return null;
         }

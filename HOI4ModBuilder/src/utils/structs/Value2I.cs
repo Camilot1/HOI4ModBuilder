@@ -17,6 +17,12 @@ namespace HOI4ModBuilder.src.utils.structs
                    y == i.y;
         }
 
+        public void Set(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
         public override int GetHashCode()
         {
             int hashCode = 1502939027;

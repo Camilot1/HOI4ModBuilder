@@ -1,0 +1,9 @@
+[
+  {
+    "Name": "state",
+    "SaveIfEmpty": false,
+    "IsForceInline": false,
+    "IsForceMultiline": false,
+    "AddEmptyLineBefore": false
+  }
+]

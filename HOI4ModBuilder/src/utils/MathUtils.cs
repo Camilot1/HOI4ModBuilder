@@ -23,5 +23,6 @@ namespace HOI4ModBuilder.src.utils
         {
             return x >= minX && x <= maxX && y >= minY && y <= maxY;
         }
+
     }
 }

@@ -19,10 +19,10 @@ namespace HOI4ModBuilder.src.newParser.test
 
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
 
-        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter("test", "TestGameFile")
+        private static readonly SavePattern SAVE_PATTERN = new SavePattern("test", "TestGameFile")
             .Add(STATIC_ADAPTER.Keys)
             .Load();
-        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
+        public override SavePattern GetSavePattern() => SAVE_PATTERN;
 
         public TestGameFile() { }
         public TestGameFile(FileInfo fileInfo) : base(fileInfo) { }

@@ -37,6 +37,8 @@ using HOI4ModBuilder.src.forms.scripts;
 using HOI4ModBuilder.src.scripts;
 using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.tools.brushes;
+using HOI4ModBuilder.src.newParser.objects;
+using System.Linq;
 
 namespace HOI4ModBuilder
 {
@@ -187,16 +189,21 @@ namespace HOI4ModBuilder
 
                 SubscribeGlobalKeyEvent(Keys.S, (sender, e) =>
                 {
-                    if (e.Modifiers == Keys.Control) SaveAll();
+                    if (e.Modifiers == Keys.Control)
+                        SaveAll();
                 });
                 SubscribeGlobalKeyEvent(Keys.L, (sender, e) =>
                 {
-                    if (e.Modifiers == Keys.Control) LoadAll();
+                    if (e.Modifiers == Keys.Control)
+                        LoadAll();
                 });
                 SubscribeGlobalKeyEvent(Keys.U, (sender, e) =>
                 {
-                    if (e.Modifiers == Keys.Control) UpdateAll();
+                    if (e.Modifiers == Keys.Control)
+                        UpdateAll();
                 });
+
+                NetworkManager.SyncGithubInfo();
             });
         }
 
@@ -459,6 +466,7 @@ namespace HOI4ModBuilder
         private void LoadAllData(Settings settings)
         {
             LocalModDataManager.Load(settings);
+            SavePattern.LoadAll();
 
             isMapMainLayerChangeEnabled = false;
 
@@ -794,13 +802,21 @@ namespace HOI4ModBuilder
                         var stateCategories = new List<string>(StateCategoryManager.GetStateCategoriesNames());
                         UpdateToolParameterComboBox(enumTool, stateCategories, null);
                         break;
+                    case EnumTool.STATE_OWNER:
+                        var countriesTags = new List<string>(CountryManager.GetCountriesTags());
+                        countriesTags.Insert(0, "");
+                        UpdateToolParameterComboBox(enumTool, countriesTags, null);
+                        break;
+                    case EnumTool.STATE_CONTROLLER:
+                        countriesTags = new List<string>(CountryManager.GetCountriesTags());
+                        countriesTags.Insert(0, "");
+                        UpdateToolParameterComboBox(enumTool, countriesTags, null);
+                        break;
                     case EnumTool.BUILDINGS:
-                        if (!BuildingManager.HasBuilding(ComboBox_Tool_Parameter.Text))
-                            UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
+                        UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
                         break;
                     case EnumTool.AI_AREAS:
-                        if (!AiAreaManager.HasAiArea(ComboBox_Tool_Parameter.Text))
-                            UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas(), null);
+                        UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas(), null);
                         break;
                 }
 
@@ -816,7 +832,7 @@ namespace HOI4ModBuilder
 
         private void UpdateToolParameterComboBox(EnumTool tool, ICollection parameterItems, ICollection parameterValueItems)
         {
-            UpdateComboBoxValues(GroupBox_Tool_Parameter, ComboBox_Tool_Parameter, parameterItems, preferedParameter, tool);
+            UpdateComboBoxToolValues(GroupBox_Tool_Parameter, ComboBox_Tool_Parameter, parameterItems, preferedParameter, tool);
 
             if (parameterValueItems == null && (tool == EnumTool.BRUSH || tool == EnumTool.ERASER))
             {
@@ -825,17 +841,104 @@ namespace HOI4ModBuilder
                     parameterValueItems = brush.SortedVariantKeys;
             }
 
-            UpdateComboBoxValues(GroupBox_Tool_Parameter_Value, ComboBox_Tool_Parameter_Value, parameterValueItems, preferedParameterValue, tool);
+            UpdateComboBoxToolValues(GroupBox_Tool_Parameter_Value, ComboBox_Tool_Parameter_Value, parameterValueItems, preferedParameterValue, tool);
         }
 
-        private void UpdateComboBoxValues(GroupBox groupBox, ComboBox comboBox, ICollection items, string[] prefereds, EnumTool tool)
+        private void UpdateMainLayerParameterButton(EnumMainLayer mainLayer)
+        {
+            if (mainLayer == EnumMainLayer.CUSTOM_SCRIPT)
+            {
+                Button_MapMainLayer_Parameter.Text =
+                    ScriptParser.MapMainLayerCustomScriptActions == null ?
+                    GuiLocManager.GetLoc(EnumLocKey.NOT_SELECTED) :
+                    ScriptParser.MapMainLayerCustomScriptName;
+
+                GroupBox_Main_Layer_Parameter.Visible = true;
+                ResizeButton(GroupBox_Main_Layer_Parameter, Button_MapMainLayer_Parameter, 150);
+            }
+            else GroupBox_Main_Layer_Parameter.Visible = false;
+        }
+
+
+        private void СomboBox_MapMainLayer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                enumMainLayer = (EnumMainLayer)СomboBox_MapMainLayer.SelectedIndex;
+
+                UpdateMainLayerParameterButton(enumMainLayer);
+
+                if (enumMainLayer == EnumMainLayer.BUILDINGS && !BuildingManager.HasBuilding(ComboBox_Tool_Parameter.Text))
+                    UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
+                else if (enumMainLayer == EnumMainLayer.AI_AREAS && !AiAreaManager.HasAiArea(ComboBox_Tool_Parameter.Text))
+                    UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas(), null);
+
+                MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
+            });
+        }
+
+        private void Button_MapMainLayer_Parameter_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                string filePath;
+                var fd = new OpenFileDialog();
+                var dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "scripts" });
+                Utils.PrepareFileDialog(fd, GuiLocManager.GetLoc(EnumLocKey.SCRIPTS_CHOOSE_FILE), dialogPath, "MAP MODE TXT files (*.mm.txt)|*.mm.txt");
+                if (fd.ShowDialog() == DialogResult.OK)
+                    filePath = fd.FileName;
+                else
+                    return;
+
+                ScriptParser.CompileMapMainLayerCustomScript(filePath);
+
+                UpdateMainLayerParameterButton(enumMainLayer);
+
+                MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
+            });
+
+        private void UpdateComboBoxValues(GroupBox groupBox, ComboBox comboBox, ICollection items)
         {
             if (items != null)
             {
                 groupBox.Visible = true;
                 comboBox.Items.Clear();
 
-                var values = new List<string>();
+                var values = new string[items.Count];
+                int index = 0;
+
+                foreach (var itemObj in items)
+                {
+                    values[index] = itemObj.ToString();
+                }
+
+                comboBox.Items.AddRange(values);
+
+                if (comboBox.Items.Count > 0)
+                    comboBox.SelectedIndex = 0;
+
+            }
+            else groupBox.Visible = false;
+
+            groupBox.Refresh();
+
+            int itemHeight = comboBox.GetItemHeight(0);
+            int visibleItems = Math.Min(comboBox.Items.Count, 30);
+            int dropDownHeight = itemHeight * visibleItems + SystemInformation.BorderSize.Height * 2;
+            comboBox.DropDownHeight = dropDownHeight;
+
+            comboBox.Refresh();
+
+            ResizeComboBox(groupBox, comboBox);
+        }
+
+        private void UpdateComboBoxToolValues(GroupBox groupBox, ComboBox comboBox, ICollection items, string[] prefereds, EnumTool tool)
+        {
+            if (items != null)
+            {
+                groupBox.Visible = true;
+                comboBox.Items.Clear();
+
+                var values = new string[items.Count];
 
                 var prefered = prefereds[(int)tool];
 
@@ -845,13 +948,13 @@ namespace HOI4ModBuilder
                 foreach (var itemObj in items)
                 {
                     var item = itemObj.ToString();
+                    values[index] = item;
                     if (prefered == item)
                         indexToSelect = index;
                     index++;
-                    values.Add(item);
                 }
 
-                comboBox.Items.AddRange(values.ToArray());
+                comboBox.Items.AddRange(values);
 
                 if (indexToSelect >= 0)
                     comboBox.SelectedIndex = indexToSelect;
@@ -1013,18 +1116,33 @@ namespace HOI4ModBuilder
                 Province p = ProvinceManager.RMBProvince;
                 if (p != null)
                 {
+                    Update_ToolStripMenuItem_Map_Province_Items(p);
+
                     ToolStripComboBox_Map_Province_Type.Text = p.GetTypeString();
                     ToolStripMenuItem_Map_Province_IsCoastal.Checked = p.IsCoastal;
                     ToolStripComboBox_Map_Province_Terrain.Text = p.Terrain == null ? "unknown" : p.Terrain.name;
                     ToolStripComboBox_Map_Province_Continent.Text = ContinentManager.GetContinentById(p.ContinentId);
                 }
 
-                ToolStripMenuItem_Map_Province_OpenStateFile.Enabled = p != null && p.State != null;
+                //ToolStripMenuItem_Map_Province_OpenStateFile.Enabled = p != null && p.State != null;
                 //TODO
                 //ToolStripMenuItem_Map_Province_OpenRegionFile.Enabled = p != null && p.Region != null;
 
                 isMapMainLayerChangeEnabled = true;
             });
+        }
+
+        private void Update_ToolStripMenuItem_Map_Province_Items(Province p)
+        {
+            ToolStripMenuItem_Map_Province_Info.Text =
+                GuiLocManager.GetLoc(EnumLocKey.PROVINCE) + ": " + p.Id;
+            ToolStripMenuItem_Map_Province_State_Info.Text =
+                GuiLocManager.GetLoc(EnumLocKey.STATE) + ": " + (p.State != null ? "" + p.State.Id.GetValue() : GuiLocManager.GetLoc(EnumLocKey.NONE));
+            ToolStripMenuItem_Map_Province_Region_Info.Text =
+                GuiLocManager.GetLoc(EnumLocKey.REGION) + ": " + (p.Region != null ? "" + p.Region.Id : GuiLocManager.GetLoc(EnumLocKey.NONE));
+
+            ToolStripMenuItem_Map_Province_VictoryPoints_Info.Text =
+                GuiLocManager.GetLoc(EnumLocKey.VICTORY_POINTS) + ": " + p.victoryPoints;
         }
 
         private void ToolStripComboBox_Map_Province_Type_SelectedIndexChanged(object sender, EventArgs e)
@@ -1312,7 +1430,26 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_UpdateAll_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => UpdateAll());
         private void UpdateAll()
-            => Logger.TryOrLog(() => MapManager.UpdateMapInfo());
+            => Logger.TryOrLog(() =>
+            {
+                if (!firstLoad)
+                {
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_UPDATE_BECAUSE_NO_DATA_WAS_LOADED);
+                    return;
+                }
+                else if (isLoadingOrSaving[0])
+                {
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_UPDATE_BECAUSE_ALREADY_SAVING_OR_LOADING);
+                    return;
+                }
+
+                isLoadingOrSaving[0] = true;
+
+                SavePattern.LoadAll();
+                MapManager.UpdateMapInfo();
+
+                isLoadingOrSaving[0] = false;
+            });
 
         private void Button_GenerateColor_MouseDown(object sender, MouseEventArgs e)
         {
@@ -1356,9 +1493,7 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() => AutoTools.RemoveSeaAndLakesContinents());
-        }
+            => Logger.TryOrLog(() => AutoTools.RemoveSeaAndLakesContinents());
 
         private void ToolStripMenuItem_Map_Adjacency_DropDownOpened(object sender, EventArgs e)
         {
@@ -1366,7 +1501,7 @@ namespace HOI4ModBuilder
             {
                 if (adj != null)
                 {
-                    adj.GetDisplayData(out EnumAdjaciencyType enumType, out int startId, out int endId, out int throughId, out Value2I startPos, out Value2I endPos, out string adjacencyRuleName, out string comment);
+                    adj.GetDisplayData(out EnumAdjaciencyType enumType, out int startId, out int endId, out int throughId, out Value2S startPos, out Value2S endPos, out string adjacencyRuleName, out string comment);
 
                     ToolStripComboBox_Map_Adjacency_Type.Text = enumType.ToString();
 
@@ -1488,7 +1623,7 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Help_Documentation_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                using (Process.Start(AboutProgramForm.DiscordDocumentationURL)) { }
+                using (Process.Start(NetworkManager.DocumentationURL)) { }
             });
 
         private void ToolStripMenuItem_Map_Railway_Split_Click(object sender, EventArgs e)
@@ -1502,25 +1637,6 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Map_Railway_RemoveProvince_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => RailwayTool.RemoveProvinceFromRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
 
-        private void ToolStripMenuItem_Map_Province_OpenStateFile_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.State == null) return;
-
-                StateListForm stateListForm;
-                if (StateListForm.Instance == null)
-                {
-                    stateListForm = new StateListForm();
-                    stateListForm.Show();
-                }
-                else stateListForm = StateListForm.Instance;
-
-                stateListForm.Focus();
-                stateListForm.FindState(ProvinceManager.RMBProvince.State.Id.GetValue());
-            });
-        }
-
         private void ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AutoTools.RemoveSeaProvincesFromStates());
 
@@ -1528,24 +1644,23 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() => new ScriptsForm().ShowDialog());
 
         private void ToolStripMenuItem_GitHub_Click(object sender, EventArgs e)
-            => LinksUtils.OpenLink(AboutProgramForm.GitHubRepoURL);
+            => NetworkManager.OpenLink(NetworkManager.GitHubRepoURL);
         private void ToolStripMenuItem_Discord_Click(object sender, EventArgs e)
-            => LinksUtils.OpenLink(AboutProgramForm.DiscordServerURL);
+            => NetworkManager.OpenLink(NetworkManager.DiscordServerURL);
         private void ToolStripMenuItem_Telegram_Click(object sender, EventArgs e)
-            => LinksUtils.OpenLink(AboutProgramForm.TelegramURL);
+            => NetworkManager.OpenLink(NetworkManager.TelegramURL);
 
-
-        private void СomboBox_MapMainLayer_SelectedIndexChanged(object sender, EventArgs e)
+        public void SetAdjacencyRules(Dictionary<string, AdjacencyRule>.KeyCollection rules)
         {
             Logger.TryOrLog(() =>
             {
-                enumMainLayer = (EnumMainLayer)СomboBox_MapMainLayer.SelectedIndex;
-                if (enumMainLayer == EnumMainLayer.BUILDINGS && !BuildingManager.HasBuilding(ComboBox_Tool_Parameter.Text))
-                    UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
-                else if (enumMainLayer == EnumMainLayer.AI_AREAS && !AiAreaManager.HasAiArea(ComboBox_Tool_Parameter.Text))
-                    UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas(), null);
-
-                MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
+                InvokeAction(() =>
+                {
+                    ToolStripComboBox_Map_Adjacency_Rule.Items.Clear();
+                    ToolStripComboBox_Map_Adjacency_Rule.Items.Add("");
+                    foreach (string name in rules)
+                        ToolStripComboBox_Map_Adjacency_Rule.Items.Add(name);
+                });
             });
         }
 
@@ -1563,6 +1678,289 @@ namespace HOI4ModBuilder
             });
         private void ComboBox_Tool_Parameter_Value_SelectedIndexChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() => preferedParameterValue[(int)enumTool] = ComboBox_Tool_Parameter_Value.Text);
+
+        private void ResizeButton(GroupBox groupBox, Button button, int maxWidth)
+        {
+            int groupBoxTextWidth = TextRenderer.MeasureText(groupBox.Text, groupBox.Font, Size.Empty, TextFormatFlags.SingleLine).Width;
+            groupBoxTextWidth += 20;
+
+            if (maxWidth > 0)
+                button.Text = Utils.TruncateText(button.Text, button.Font, maxWidth);
+
+            int buttonWidth = TextRenderer.MeasureText(button.Text, button.Font, Size.Empty, TextFormatFlags.SingleLine).Width;
+
+            buttonWidth += SystemInformation.VerticalScrollBarWidth;
+
+            if (buttonWidth < groupBoxTextWidth)
+                buttonWidth = groupBoxTextWidth;
+
+            if (button.Width != buttonWidth)
+            {
+                button.Width = buttonWidth;
+                button.Parent?.PerformLayout();
+            }
+        }
+
+        private void ToolStripMenuItem_Export_MainLayer_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => ExportTexturePlane(MapManager.MapMainLayer, "main_layer"));
+
+        private void ToolStripMenuItem_Export_SelectedBorders_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => ExportTexturePlane(MapManager.BordersMapPlane, "selected_borders"));
+
+        private void ExportTexturePlane(TexturedPlane plane, string fileNamePrefix)
+        {
+            if (plane == null || plane.Texture == null)
+                return;
+
+            if (!Directory.Exists(@"data\images"))
+                Directory.CreateDirectory(@"data\images");
+
+            var filePath = @"data\images\" + fileNamePrefix + " " + DateTime.Now.ToString().Replace('.', '-').Replace(':', '-') + ".bmp";
+            plane.Texture.Save(filePath);
+
+            MessageBox.Show(
+                GuiLocManager.GetLoc(
+                    EnumLocKey.EXPORT_TEXTURE_RESULT,
+                    new Dictionary<string, string> { { "{filePath}", filePath } }
+                ),
+                GuiLocManager.GetLoc(EnumLocKey.EXPORT_TEXTURE_TITLE),
+                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
+            );
+        }
+
+        private void ToolStripComboBox_Map_Adjacency_Type_SelectedIndexChanged(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                if (AdjacenciesManager.GetSelectedSeaCross() == null)
+                    return;
+                AdjacenciesManager.GetSelectedSeaCross().EnumType = (EnumAdjaciencyType)(ToolStripComboBox_Map_Adjacency_Type.SelectedIndex);
+            });
+
+        private void ToolStripComboBox_Map_Adjacency_Rule_SelectedIndexChanged(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                if (AdjacenciesManager.GetSelectedSeaCross() == null)
+                    return;
+
+                AdjacenciesManager.TryGetAdjacencyRule(ToolStripComboBox_Map_Adjacency_Rule.Text, out var rule);
+                AdjacenciesManager.GetSelectedSeaCross().AdjacencyRule = rule;
+            });
+
+        private void ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.State == null)
+                    return;
+
+                StateListForm stateListForm;
+                if (StateListForm.Instance == null)
+                {
+                    stateListForm = new StateListForm();
+                    stateListForm.Show();
+                }
+                else stateListForm = StateListForm.Instance;
+
+                stateListForm.Focus();
+                stateListForm.FindState(ProvinceManager.RMBProvince.State.Id.GetValue());
+            });
+
+        private void ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.State == null)
+                    return;
+
+                if (!StateManager.TryGetState(ProvinceManager.RMBProvince.State.Id.GetValue(), out var state))
+                    return;
+
+                if (!state.TryGetGameFile(out var file))
+                    return;
+
+                NetworkManager.OpenLink(file.FilePath);
+            });
+
+        private void ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.Region == null)
+                    return;
+
+                if (!StrategicRegionManager.TryGetRegion(ProvinceManager.RMBProvince.Region.Id, out var region))
+                    return;
+
+                if (region.FileInfo == null)
+                    return;
+
+                NetworkManager.OpenLink(region.FileInfo.filePath);
+            });
+
+        private void ToolStripMenuItem_Map_Province_State_Info_DropDownOpened(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                ToolStripComboBox_Map_Province_State_Info_Id.Items.Clear();
+                ToolStripComboBox_Map_Province_State_Info_Id.Items.Add("");
+
+                ushort[] ids = StateManager.GetStatesIds().OrderBy(x => x).ToArray();
+                object[] objIds = new object[ids.Length];
+
+                ushort? currentId = ProvinceManager.RMBProvince?.State?.Id.GetValue();
+                int? index = null;
+
+                for (int i = 0; i < ids.Length; i++)
+                {
+                    objIds[i] = ids[i];
+                    if (ids[i] == currentId)
+                        index = i + 1;
+                }
+
+                ToolStripComboBox_Map_Province_State_Info_Id.Items.AddRange(objIds);
+
+                if (index != null)
+                    ToolStripComboBox_Map_Province_State_Info_Id.SelectedIndex = (int)index;
+
+                ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Enabled = index != null;
+                ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer.Enabled = index != null;
+            });
+        }
+
+        private void ToolStripMenuItem_Map_Province_Region_Info_DropDownOpened(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                ToolStripComboBox_Map_Province_Region_Info_Id.Items.Clear();
+                ToolStripComboBox_Map_Province_Region_Info_Id.Items.Add("");
+
+                ushort[] ids = StrategicRegionManager.GetRegionsIds().OrderBy(x => x).ToArray();
+                object[] objIds = new object[ids.Length];
+
+                ushort? currentId = ProvinceManager.RMBProvince?.Region?.Id;
+                int? index = null;
+
+                for (int i = 0; i < ids.Length; i++)
+                {
+                    objIds[i] = ids[i];
+                    if (ids[i] == currentId)
+                        index = i + 1;
+                }
+
+                ToolStripComboBox_Map_Province_Region_Info_Id.Items.AddRange(objIds);
+
+                if (index != null)
+                    ToolStripComboBox_Map_Province_Region_Info_Id.SelectedIndex = (int)index;
+
+                ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Enabled = index != null;
+            });
+        }
+
+        private void ToolStripComboBox_Map_Province_State_Info_Id_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                State newState = null;
+
+                if (ushort.TryParse(ToolStripComboBox_Map_Province_State_Info_Id.Text, out var id))
+                    StateManager.TryGetState(id, out newState);
+
+                if (ProvinceManager.RMBProvince == null)
+                    return;
+
+                State currentState = ProvinceManager.RMBProvince?.State;
+
+                if (StateManager.TransferProvince(ProvinceManager.RMBProvince, currentState, newState))
+                {
+                    Update_ToolStripMenuItem_Map_Province_Items(ProvinceManager.RMBProvince);
+                    MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
+                }
+
+                ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Enabled = newState != null;
+                ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer.Enabled = newState != null;
+            });
+        }
+
+        private void ToolStripComboBox_Map_Province_Region_Info_Id_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                StrategicRegion newRegion = null;
+
+                if (ushort.TryParse(ToolStripComboBox_Map_Province_Region_Info_Id.Text, out var id))
+                    StrategicRegionManager.TryGetRegion(id, out newRegion);
+
+                if (ProvinceManager.RMBProvince == null)
+                    return;
+
+                StrategicRegion currentRegion = ProvinceManager.RMBProvince?.Region;
+
+                if (StrategicRegionManager.TransferProvince(ProvinceManager.RMBProvince, currentRegion, newRegion))
+                {
+                    Update_ToolStripMenuItem_Map_Province_Items(ProvinceManager.RMBProvince);
+                    MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
+                }
+
+                ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Enabled = newRegion != null;
+            });
+        }
+
+        private void ToolStripMenuItem_Map_Province_VictoryPoints_Info_DropDownOpened(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.State == null)
+                {
+                    ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Text = "0";
+                    ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Enabled = false;
+                    return;
+                }
+                else ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Enabled = true;
+
+                ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Text = "" + ProvinceManager.RMBProvince.victoryPoints;
+            });
+
+        private void ToolStripTextBox_Map_Province_VictoryPoints_Info_Value_TextChanged(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.State == null)
+                    return;
+
+                if (!uint.TryParse(ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Text, out var newValue))
+                    return;
+
+                var history = ProvinceManager.RMBProvince.State.History.GetValue();
+                if (history == null)
+                    return;
+
+                bool found = false;
+                foreach (var vp in history.VictoryPoints)
+                {
+                    if (vp.province == ProvinceManager.RMBProvince)
+                    {
+                        if (newValue == 0)
+                            history.VictoryPoints.Remove(vp);
+                        else
+                            vp.value = newValue;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    history.VictoryPoints.Add(new VictoryPoint()
+                    {
+                        province = ProvinceManager.RMBProvince,
+                        value = newValue
+                    });
+                }
+
+                ProvinceManager.RMBProvince.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
+                Update_ToolStripMenuItem_Map_Province_Items(ProvinceManager.RMBProvince);
+                MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
+            });
 
         private void ResizeComboBox(GroupBox groupBox, ComboBox comboBox)
         {
@@ -1582,7 +1980,7 @@ namespace HOI4ModBuilder
                     comboBoxTextWidth = tempComboBoxTextWidth;
             }
 
-            comboBoxTextWidth += SystemInformation.VerticalScrollBarWidth;
+            comboBoxTextWidth += SystemInformation.VerticalScrollBarWidth + 15;
 
             if (comboBoxTextWidth < groupBoxTextWidth)
                 comboBoxTextWidth = groupBoxTextWidth;
@@ -1594,17 +1992,5 @@ namespace HOI4ModBuilder
             }
         }
 
-        public void SetAdjacencyRules(Dictionary<string, AdjacencyRule>.KeyCollection rules)
-        {
-            Logger.TryOrLog(() =>
-            {
-                InvokeAction(() =>
-                {
-                    ToolStripComboBox_Map_Adjacency_Rule.Items.Clear();
-                    ToolStripComboBox_Map_Adjacency_Rule.Items.Add("");
-                    foreach (string name in rules) ToolStripComboBox_Map_Adjacency_Rule.Items.Add(name);
-                });
-            });
-        }
     }
 }

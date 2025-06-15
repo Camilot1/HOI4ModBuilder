@@ -126,5 +126,20 @@ namespace HOI4ModBuilder.src.managers.mapChecks
             _poses[pos] = errorCode;
         }
 
+        public ulong GetErrorInfo(Point2F pos)
+        {
+            if (_poses.TryGetValue(pos, out var code))
+                return code;
+            return 0;
+        }
+
+        public void SetErrorInfo(Point2F pos, ulong code)
+        {
+            if (code == 0)
+                _poses.Remove(pos);
+            else
+                _poses[pos] = code;
+        }
+
     }
 }

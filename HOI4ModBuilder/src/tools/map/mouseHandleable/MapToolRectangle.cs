@@ -13,24 +13,29 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
         public MapToolRectangle(Dictionary<EnumTool, MapTool> mapTools)
             : base(
-                  mapTools, enumTool, new HotKey { key = Keys.S },
+                  mapTools, enumTool, new HotKey { },
                   (e) =>
                   {
                       EnumTool currentTool = MainForm.Instance.SelectedTool;
                       if (e.Modifiers != Keys.Control && currentTool < EnumTool.RECTANGLE || currentTool > EnumTool.MAGIC_WAND)
                           MainForm.Instance.SetSelectedTool(enumTool);
-                  }
+                  },
+                  null,
+                  0
               )
         { }
 
 
-        public override void Handle(
-            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos,
+        public override bool Handle(
+            MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
         )
         {
+            if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
+                return false;
+
             if (mouseEventArgs.Button != MouseButtons.Left)
-                return;
+                return false;
 
             ushort x = (ushort)pos.x;
             ushort y = (ushort)pos.y;
@@ -56,6 +61,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     MapManager.bounds.FixDimensions();
                     break;
             }
+
+            return true;
         }
     }
 }

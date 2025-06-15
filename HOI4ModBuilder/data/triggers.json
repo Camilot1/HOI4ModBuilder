@@ -308,6 +308,57 @@
     },
     "allowedValueTypes": [ "STRING" ]
   },
+  {
+    "name": "has_cosmetic_tag",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "STRING" ]
+  },
+  {
+    "name": "has_event_target",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "STRING" ]
+  },
+  {
+    "name": "has_decision",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "STRING" ]
+  },
+  {
+    "name": "has_dynamic_modifier",
+    "specificScopes": [ "COUNTRY" ],
+    "mandatoryInnerBlocks": {
+      "modifier": {
+        "name": "modifier",
+        "allowedValueTypes": [ "STRING" ]
+      }
+    },
+    "allowedInnerBlocks": {
+      "scope": {
+        "name": "scope",
+        "allowedValueTypes": [ "COUNTRY", "STRING" ]
+	  }
+    }
+  },
+  {
+    "name": "has_active_mission",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "STRING" ]
+  },
+  {
+    "name": "has_country_custom_difficulty_setting",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "BOOLEAN" ]
+  },
+  {
+    "name": "has_terrain",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "STRING" ]
+  },
+  {
+    "name": "is_dynamic_country",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "BOOLEAN" ]
+  },
 
 
 

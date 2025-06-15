@@ -1,12 +1,10 @@
 ﻿using HOI4ModBuilder.src.managers.errors;
 using HOI4ModBuilder.src.managers.mapChecks;
 using HOI4ModBuilder.src.managers.mapChecks.errors.checkers;
-using HOI4ModBuilder.src.managers.warnings;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.managers
 {
@@ -31,7 +29,7 @@ namespace HOI4ModBuilder.src.managers
                       new MapCheckerProvincesWithMultiRegions(),
                       new MapCheckerStateWithMultiRegions(),
                       new CheckRegionWithNotNavalTerrain(),
-                      new MapCheckerSeaCrosses(),
+                      new MapCheckerAdjacencies(),
                       new MapCheckerRiversMismatches()
                   }
               )
@@ -52,7 +50,8 @@ namespace HOI4ModBuilder.src.managers
                 _enabledCodes[i] = false;
 
             var filter = SettingsManager.Settings.GetErrorsFilter();
-            if (filter == null) return;
+            if (filter == null)
+                return;
 
             foreach (var enumObj in Enum.GetValues(typeof(EnumMapErrorCode)))
             {

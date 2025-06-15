@@ -1,36 +1,33 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
+using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
+using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 {
 
     public class ProvinceBuildings : AbstractParseObject
     {
-        public readonly GameDictionary<Building, uint> Buildings = new GameDictionary<Building, uint>()
-            .INIT_SetKeyParseAdapter(token => BuildingManager.GetBuilding(token))
-            .INIT_SetKeySaveAdapter(building => building?.Name);
+        public readonly GameList<ScriptBlockParseObject> Buildings = new GameList<ScriptBlockParseObject>();
 
         private static readonly Dictionary<string, DynamicGameParameter> DYNAMIC_ADAPTER = new Dictionary<string, DynamicGameParameter>()
         {
             { "dynamicBuildings", new DynamicGameParameter {
                 provider = o => ((ProvinceBuildings)o).Buildings,
-                factory = (o, key) => new uint()
+                factory = (o, key) => ParserUtils.GetBuildingCustomBlockParseObject((IParentable)o, key)
             } },
         };
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => DYNAMIC_ADAPTER;
 
-        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(new[] { "history", "states" }, "ProvinceBuildings")
+        private static readonly SavePattern SAVE_PATTERN = new SavePattern(new[] { "history", "states" }, "ProvinceBuildings")
             .Add(DYNAMIC_ADAPTER.Keys)
             .Load();
-        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
+        public override SavePattern GetSavePattern() => SAVE_PATTERN;
 
         public override IParseObject GetEmptyCopy() => new ProvinceBuildings();
 
@@ -42,52 +39,78 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public bool SetProvinceBuildingLevel(Building building, uint newCount)
         {
-            /*
-            if (!Provinces.TryGetValue(province, out ProvinceBuildings buildings))
-            { //Если для указанной провинции ещё нет построек
-                if (newCount != 0)
-                {
-                    //Создаём словарь построек
-                    buildings = new ProvinceBuildings(this, province);
-                    Provinces[province] = buildings;
+            if (newCount == 0)
+                return Buildings.RemoveFirstFromEndIf((o) => o.ScriptBlockInfo.GetBlockName() == building.Name);
 
-                    //Обновляем количество постройки в словаре
-                    buildings.Buildings[building] = newCount;
-                    province.SetBuilding(building, newCount);
-                    return true;
-                }
-                else return false;
-            }
-            else if (!buildings.TryGetValue(building, out uint count))
-            { //Если в словаре ещё нет постройки
-                if (newCount != 0)
-                { //И число новой постройки не равно 0
-                    //Добавляем постройку в словари
-                    buildings[building] = newCount;
-                    province.SetBuilding(building, newCount);
-                    return true;
-                }
-                else return false;
-            }
-            else if (count != newCount)
-            { //Если в словаре уже есть эта постройка
-                //Меняем число постройки в области
-                if (newCount == 0 && dateTime == default)
-                {
-                    buildings.Remove(building);
-                    if (buildings.Count == 0)
-                        Provinces.Remove(province);
-                }
-                else buildings[building] = newCount;
+            if (Buildings.TryGetFirstFromEndIf((o) => o.ScriptBlockInfo.GetBlockName() == building.Name, out var result))
+            {
 
-                //Если в провинции 0 построек этого типа, то удаляем постройку из списка построек провинций
-                if (newCount == 0) province.RemoveBuilding(building);
-                //Иначе меняем число постройки в провинции на 0
-                else province.SetBuilding(building, newCount);
+                uint resultCount = GetBuildingLevel(result, building);
+
+                if (resultCount == newCount)
+                    return false;
+
+                if (newCount == 0)
+                    Buildings.RemoveFirstFromEndIf((o) => o.ScriptBlockInfo.GetBlockName() == building.Name);
+                else
+                    SetBuildingLevel(result, building, (int)newCount);
+
                 return true;
             }
-            */
-            return false;
+            else
+            {
+                if (newCount == 0)
+                    return false;
+
+                var newObj = ParserUtils.GetBuildingCustomBlockParseObject(this, building.Name);
+                newObj.SetValue(newCount);
+                Buildings.Add(newObj);
+                return true;
+            }
+        }
+
+        private uint GetBuildingLevel(ScriptBlockParseObject block, Building building)
+        {
+            var value = block.GetValueRaw();
+
+            if (value is int intValue)
+                return (uint)intValue;
+
+            if (!(value is GameList<ScriptBlockParseObject> innerList))
+                throw new Exception("Building \"" + building.Name + "\" invalid definition of value");
+
+            if (!innerList.TryGetFirstFromEndIf((o) => o.ScriptBlockInfo.GetBlockName() == "level", out var levelBlock))
+                throw new Exception("Building \"" + building.Name + "\" definition does not contain level value");
+
+            value = levelBlock.GetValueRaw();
+            if (!(value is int intValueInner))
+                throw new Exception("Building \"" + building.Name + "\" invalid definition of level value");
+
+            return (uint)intValueInner;
+        }
+
+        private void SetBuildingLevel(ScriptBlockParseObject block, Building building, int value)
+        {
+            var rawValue = block.GetValueRaw();
+
+            if (rawValue is int intValue)
+            {
+                block.SetValue(value);
+                return;
+            }
+
+            if (!(rawValue is GameList<ScriptBlockParseObject> innerList))
+                throw new Exception("Building \"" + building.Name + "\" invalid definition of value");
+
+            if (!innerList.TryGetFirstFromEndIf((o) => o.ScriptBlockInfo.GetBlockName() == "level", out var levelBlock))
+                throw new Exception("Building \"" + building.Name + "\" definition does not contain level value");
+
+            rawValue = levelBlock.GetValueRaw();
+            if (!(rawValue is int))
+                throw new Exception("Building \"" + building.Name + "\" invalid definition of level value");
+
+            levelBlock.SetValue(value);
+            return;
         }
 
         public void Activate(State state, Province province)
@@ -99,15 +122,40 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
 
             foreach (var entry in Buildings)
-                buildings[entry.Key] = entry.Value;
+            {
+                if (BuildingManager.TryGetBuilding(entry.ScriptBlockInfo.GetBlockName(), out var building))
+                    buildings[building] = GetBuildingLevel(entry, building);
+            }
         }
 
         public bool WillHavePortInHistory()
         {
             foreach (var entry in Buildings)
-                if (entry.Key.IsPort.GetValue())
+            {
+                if (!BuildingManager.TryGetBuilding(entry.ScriptBlockInfo.GetBlockName(), out var building))
+                    continue;
+
+                if (building.IsPort.GetValue())
                     return true;
+            }
             return false;
+        }
+
+        public override void Validate(LinkedLayer layer)
+        {
+            HashSet<string> definedBuildings = new HashSet<string>();
+
+            Buildings.RemoveFirstFromEndIf(o =>
+            {
+                var buildingName = o.ScriptBlockInfo.GetBlockName();
+                if (definedBuildings.Contains(buildingName))
+                    return true;
+
+                definedBuildings.Add(buildingName);
+                return false;
+            });
+
+            base.Validate(layer);
         }
 
     }

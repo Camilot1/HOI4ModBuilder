@@ -22,10 +22,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
 
-        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(new[] { "history", "states" }, "StateFile")
+        private static readonly SavePattern SAVE_PATTERN = new SavePattern(new[] { "history", "states" }, "StateFile")
             .Add(STATIC_ADAPTER.Keys)
             .Load();
-        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
+        public override SavePattern GetSavePattern() => SAVE_PATTERN;
 
         public override void Validate(LinkedLayer layer)
         {

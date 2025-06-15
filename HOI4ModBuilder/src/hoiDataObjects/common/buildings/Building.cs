@@ -131,11 +131,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 
         public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => DYNAMIC_ADAPTER;
 
-        private static readonly SaveAdapter SAVE_ADAPTER = new SaveAdapter(new[] { "common", "buildings" }, "Building")
+        private static readonly SavePattern SAVE_PATTERN = new SavePattern(new[] { "common", "buildings" }, "Building")
             .Add(STATIC_ADAPTER.Keys)
             .Add(DYNAMIC_ADAPTER.Keys)
             .Load();
-        public override SaveAdapter GetSaveAdapter() => SAVE_ADAPTER;
+        public override SavePattern GetSavePattern() => SAVE_PATTERN;
 
         public override IParseObject GetEmptyCopy() => new Building();
 

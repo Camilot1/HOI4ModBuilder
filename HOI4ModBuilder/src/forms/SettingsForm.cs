@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
 using System;
@@ -67,12 +68,16 @@ namespace HOI4ModBuilder.src.forms
             TextBox_MAP_VIEWPORT_HEIGHT.Text = "" + settings.MAP_VIEWPORT_HEIGHT;
             ComboBox_MaxAdditionalTextureSize.Text = "" + settings.maxAdditionalTextureSize;
 
+            TextBox_IgnoreUpdateVersion.Text = settings.ignoreUpdateCheckVersion;
+            CheckBox_IgnoreUpdateVersion.Checked = settings.ignoreUpdateChecks;
+
             if (settings.defaultModSettings != null)
             {
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Text = "" + settings.defaultModSettings.MAP_SCALE_PIXEL_TO_KM;
                 TextBox_WATER_HEIGHT_Default.Text = "" + settings.defaultModSettings.WATER_HEIGHT;
                 TextBox_NormalMapStrength_Default.Text = "" + settings.defaultModSettings.normalMapStrength;
                 TextBox_NormalMapBlur_Default.Text = "" + settings.defaultModSettings.normalMapBlur;
+                CheckBox_UseCustomSavePatterns_Default.Checked = settings.defaultModSettings.useCustomSavePatterns;
 
                 CheckedListBox_SaveSettings_Default.SetItemChecked(0, settings.defaultModSettings.exportRiversMapWithWaterPixels);
                 CheckedListBox_SaveSettings_Default.SetItemChecked(1, settings.defaultModSettings.generateNormalMap);
@@ -91,6 +96,7 @@ namespace HOI4ModBuilder.src.forms
                 TextBox_NormalMapBlur_Default.Enabled = true;
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Enabled = true;
                 CheckedListBox_SaveSettings_Default.Enabled = true;
+                CheckBox_UseCustomSavePatterns_Default.Enabled = true;
             }
             else
             {
@@ -110,6 +116,7 @@ namespace HOI4ModBuilder.src.forms
                 TextBox_NormalMapBlur_Default.Enabled = false;
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Enabled = false;
                 CheckedListBox_SaveSettings_Default.Enabled = false;
+                CheckBox_UseCustomSavePatterns_Default.Enabled = false;
             }
 
             if (settings.currentModSettings != null)
@@ -118,6 +125,7 @@ namespace HOI4ModBuilder.src.forms
                 TextBox_WATER_HEIGHT_Current.Text = "" + settings.currentModSettings.WATER_HEIGHT;
                 TextBox_NormalMapStrength_Current.Text = "" + settings.currentModSettings.normalMapStrength;
                 TextBox_NormalMapBlur_Current.Text = "" + settings.currentModSettings.normalMapBlur;
+                CheckBox_UseCustomSavePatterns_Current.Checked = settings.currentModSettings.useCustomSavePatterns;
 
                 CheckedListBox_SaveSettings_Current.SetItemChecked(0, settings.currentModSettings.exportRiversMapWithWaterPixels);
                 CheckedListBox_SaveSettings_Current.SetItemChecked(1, settings.currentModSettings.generateNormalMap);
@@ -136,6 +144,7 @@ namespace HOI4ModBuilder.src.forms
                 TextBox_NormalMapBlur_Current.Enabled = true;
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Enabled = true;
                 CheckedListBox_SaveSettings_Current.Enabled = true;
+                CheckBox_UseCustomSavePatterns_Current.Enabled = true;
             }
             else
             {
@@ -155,7 +164,10 @@ namespace HOI4ModBuilder.src.forms
                 TextBox_NormalMapBlur_Current.Enabled = false;
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Enabled = false;
                 CheckedListBox_SaveSettings_Current.Enabled = false;
+                CheckBox_UseCustomSavePatterns_Current.Enabled = false;
             }
+
+            SavePattern.LoadAll();
 
             isLoading = false;
         }
@@ -291,6 +303,9 @@ namespace HOI4ModBuilder.src.forms
                 else
                     settings.textureOpacity = (byte)Math.Round(textureOpacity * 255);
 
+                settings.ignoreUpdateCheckVersion = TextBox_IgnoreUpdateVersion.Text;
+                settings.ignoreUpdateChecks = CheckBox_IgnoreUpdateVersion.Checked;
+
                 settings.MAP_VIEWPORT_HEIGHT = Utils.ParseFloat(TextBox_MAP_VIEWPORT_HEIGHT.Text);
                 settings.maxAdditionalTextureSize = int.Parse(ComboBox_MaxAdditionalTextureSize.Text);
 
@@ -301,6 +316,7 @@ namespace HOI4ModBuilder.src.forms
                 modSettings.normalMapStrength = Utils.ParseFloat(TextBox_NormalMapStrength_Default.Text);
                 modSettings.normalMapBlur = Utils.ParseFloat(TextBox_NormalMapBlur_Default.Text);
 
+                modSettings.useCustomSavePatterns = CheckBox_UseCustomSavePatterns_Default.Checked;
                 modSettings.exportRiversMapWithWaterPixels = CheckedListBox_SaveSettings_Default.GetItemChecked(0);
                 modSettings.generateNormalMap = CheckedListBox_SaveSettings_Default.GetItemChecked(1);
 
@@ -323,6 +339,7 @@ namespace HOI4ModBuilder.src.forms
                     modSettings.normalMapStrength = Utils.ParseFloat(TextBox_NormalMapStrength_Current.Text);
                     modSettings.normalMapBlur = Utils.ParseFloat(TextBox_NormalMapBlur_Current.Text);
 
+                    modSettings.useCustomSavePatterns = CheckBox_UseCustomSavePatterns_Current.Checked;
                     modSettings.exportRiversMapWithWaterPixels = CheckedListBox_SaveSettings_Current.GetItemChecked(0);
                     modSettings.generateNormalMap = CheckedListBox_SaveSettings_Current.GetItemChecked(1);
 
