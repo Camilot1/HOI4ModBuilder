@@ -40,7 +40,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
                     list.Add(new MapCheckData(x, y, (int)EnumMapErrorCode.ADJACENCY_ONE_OF_THE_PROVINCES_IS_A_LAKE));
 
                 if (ErrorManager.Instance.CheckFilter((int)EnumMapErrorCode.ADJACENCY_THAT_CONNECTS_SEA_PROVINCES_MUST_HAVE_TYPE_NONE) &&
-                    adj.StartProvince.Type == EnumProvinceType.SEA && adj.EnumType != EnumAdjaciencyType.NONE)
+                    adj.StartProvince.Type == EnumProvinceType.SEA && adj.StartProvince.HasBorderWith(adj.EndProvince) && adj.EnumType != EnumAdjaciencyType.NONE)
                     list.Add(new MapCheckData(x, y, (int)EnumMapErrorCode.ADJACENCY_THAT_CONNECTS_SEA_PROVINCES_MUST_HAVE_TYPE_NONE));
 
                 if (adj.GetEnumType() == EnumAdjaciencyType.IMPASSABLE)
