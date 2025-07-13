@@ -106,9 +106,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                         if (border.pixels.Length == 1)
                             continue;
 
-                        if (border.provinceA.Region.Id == region.Id &&
+                        if (
+                            border.provinceA.Region != null &&
+                            border.provinceA.Region.Id == region.Id &&
                             GroupSelectedRegions.Contains(border.provinceB.Region)
                             ||
+                            border.provinceB.Region != null &&
                             border.provinceB.Region.Id == region.Id &&
                             GroupSelectedRegions.Contains(border.provinceA.Region))
                             continue;

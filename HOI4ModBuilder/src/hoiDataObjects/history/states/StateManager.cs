@@ -164,9 +164,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                         if (border.pixels.Length == 1)
                             continue;
 
-                        if (border.provinceA.State.Id.GetValue() == state.Id.GetValue() &&
+                        if (
+                            border.provinceA.State != null &&
+                            border.provinceA.State.Id.GetValue() == state.Id.GetValue() &&
                             GroupSelectedStates.Contains(border.provinceB.State)
                             ||
+                            border.provinceB.State != null &&
                             border.provinceB.State.Id.GetValue() == state.Id.GetValue() &&
                             GroupSelectedStates.Contains(border.provinceA.State))
                             continue;
