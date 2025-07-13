@@ -646,5 +646,50 @@
     "name": "effect_tooltip",
     "specificScopes": [ "EFFECT" ],
     "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "ROOT",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "THIS",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "PREV",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "FROM",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "overlord",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "faction_leader",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "owner",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "controller",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
+  },
+  {
+    "name": "capital_scope",
+    "specificScopes": [ "ALL" ],
+    "canHaveAnyInnerBlocks": true
   }
 ]

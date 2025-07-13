@@ -469,6 +469,36 @@
     "specificScopes": [ "COUNTRY" ],
     "allowedValueTypes": [ "STRING" ]
   },
+  {
+    "name": "is_exile_host",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "BOOLEAN" ]
+  },
+  {
+    "name": "is_hosting_exile",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
+  },
+  {
+    "name": "is_government_in_exile",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "BOOLEAN" ]
+  },
+  {
+    "name": "is_exiled_in",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
+  },
+  {
+    "name": "is_embargoed_by",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
+  },
+  {
+    "name": "is_embargoing",
+    "specificScopes": [ "COUNTRY" ],
+    "allowedValueTypes": [ "VAR", "COUNTRY" ]
+  },
 
 
 
