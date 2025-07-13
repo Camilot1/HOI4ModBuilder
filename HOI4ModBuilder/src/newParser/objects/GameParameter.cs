@@ -27,7 +27,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         public GameComments GetComments() => _comments;
         public void SetComments(GameComments comments) => _comments = comments;
 
-        private EnumDemiliter _enumDemiliter;
+        private EnumDemiliter _enumDemiliter = EnumDemiliter.EQUALS;
         private bool _isAnyDemiliter;
         public bool IsAnyDemiliter() => _isAnyDemiliter;
 
