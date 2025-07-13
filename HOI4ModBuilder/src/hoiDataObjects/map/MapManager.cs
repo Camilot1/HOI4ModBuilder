@@ -33,6 +33,7 @@ using HOI4ModBuilder.src.scripts.objects.interfaces;
 using System.Collections.Concurrent;
 using System.Linq;
 using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
+using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 
 namespace HOI4ModBuilder.managers
 {
@@ -413,6 +414,50 @@ namespace HOI4ModBuilder.managers
                         else if (p.State.controller != null)
                             return p.State.controller.color;
                         else return p.State.owner.color;
+                    };
+                    break;
+                case EnumMainLayer.CORES_OF:
+                    CountryManager.TryGetCountry(parameter, out var targetCoreOfCountry);
+                    func = (p) =>
+                    {
+                        var type = p.Type;
+                        //Проверка на sea провинции
+                        if (type == EnumProvinceType.SEA)
+                        {
+                            if (p.State == null)
+                                return Utils.ArgbToInt(255, 0, 0, 255);
+                            else
+                                return Utils.ArgbToInt(255, 0, 0, 0);
+                        }
+                        else if (type == EnumProvinceType.LAKE)
+                            return Utils.ArgbToInt(255, 0, 255, 255);
+                        else if (p.State == null || targetCoreOfCountry == null)
+                            return Utils.ArgbToInt(255, 0, 0, 0);
+                        else if (p.State.CurrentCoresOf.Contains(targetCoreOfCountry))
+                            return targetCoreOfCountry.color;
+                        else return Utils.ArgbToInt(255, 0, 0, 0);
+                    };
+                    break;
+                case EnumMainLayer.CLAIMS_BY:
+                    CountryManager.TryGetCountry(parameter, out var targetClaimByCountry);
+                    func = (p) =>
+                    {
+                        var type = p.Type;
+                        //Проверка на sea провинции
+                        if (type == EnumProvinceType.SEA)
+                        {
+                            if (p.State == null)
+                                return Utils.ArgbToInt(255, 0, 0, 255);
+                            else
+                                return Utils.ArgbToInt(255, 0, 0, 0);
+                        }
+                        else if (type == EnumProvinceType.LAKE)
+                            return Utils.ArgbToInt(255, 0, 255, 255);
+                        else if (p.State == null || targetClaimByCountry == null)
+                            return Utils.ArgbToInt(255, 0, 0, 0);
+                        else if (p.State.CurrentClaimsBy.Contains(targetClaimByCountry))
+                            return targetClaimByCountry.color;
+                        else return Utils.ArgbToInt(255, 0, 0, 0);
                     };
                     break;
                 case EnumMainLayer.PROVINCES_TYPES:

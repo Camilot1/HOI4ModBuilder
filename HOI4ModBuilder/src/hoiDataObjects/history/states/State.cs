@@ -99,9 +99,13 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public readonly GameParameter<float> LocalSupplies = new GameParameter<float>();
         public readonly GameParameter<bool> IsImpassable = new GameParameter<bool>();
         public bool CurrentIsDemilitarized { get; set; }
+        public List<Country> CurrentCoresOf { get; set; } = new List<Country>(0);
+        public List<Country> CurrentClaimsBy { get; set; } = new List<Country>(0);
 
         public readonly GameParameter<StateHistory> History = new GameParameter<StateHistory>()
             .INIT_SetValueParseAdapter((o, token) => new StateHistory((IParentable)o, default));
+
+        public StateHistory CurrentHistory { get; set; }
 
         private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
         {
@@ -296,6 +300,17 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             foreach (var province in provincesBuildings.Keys)
                 province.ClearBuildings();
             provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
+
+            foreach (var country in CurrentCoresOf)
+                country.hasCoresAtStates.Remove(this);
+            CurrentCoresOf = new List<Country>(0);
+
+            foreach (var country in CurrentClaimsBy)
+                country.hasClaimsAtState.Remove(this);
+            CurrentClaimsBy = new List<Country>(0);
+
+            CurrentHistory = null;
+
         }
 
         public void AddData()

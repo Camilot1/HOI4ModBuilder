@@ -815,11 +815,19 @@ namespace HOI4ModBuilder
                         countriesTags.Insert(0, "");
                         UpdateToolParameterComboBox(enumTool, countriesTags, null);
                         break;
+                    case EnumTool.STATE_CORE_OF:
+                        countriesTags = new List<string>(CountryManager.GetCountriesTags());
+                        UpdateToolParameterComboBox(enumTool, countriesTags, null);
+                        break;
+                    case EnumTool.STATE_CLAIM_BY:
+                        countriesTags = new List<string>(CountryManager.GetCountriesTags());
+                        UpdateToolParameterComboBox(enumTool, countriesTags, null);
+                        break;
                     case EnumTool.BUILDINGS:
                         UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
                         break;
                     case EnumTool.AI_AREAS:
-                        UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas(), null);
+                        UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreasNames(), null);
                         break;
                 }
 
@@ -874,7 +882,11 @@ namespace HOI4ModBuilder
                 if (enumMainLayer == EnumMainLayer.BUILDINGS && !BuildingManager.HasBuilding(ComboBox_Tool_Parameter.Text))
                     UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
                 else if (enumMainLayer == EnumMainLayer.AI_AREAS && !AiAreaManager.HasAiArea(ComboBox_Tool_Parameter.Text))
-                    UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreas(), null);
+                    UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreasNames(), null);
+                else if (enumMainLayer == EnumMainLayer.CORES_OF && !CountryManager.HasCountry(ComboBox_Tool_Parameter.Text))
+                    UpdateToolParameterComboBox(enumTool, CountryManager.GetCountriesTags(), null);
+                else if (enumMainLayer == EnumMainLayer.CLAIMS_BY && !CountryManager.HasCountry(ComboBox_Tool_Parameter.Text))
+                    UpdateToolParameterComboBox(enumTool, CountryManager.GetCountriesTags(), null);
 
                 MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
             });

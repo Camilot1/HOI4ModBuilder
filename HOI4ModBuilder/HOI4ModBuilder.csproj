@@ -727,7 +727,9 @@
     <Compile Include="src\tools\map\mouseHandleable\MapToolAiArea.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolBrush.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolBuildings.cs" />
+    <Compile Include="src\tools\map\mouseHandleable\MapToolStateClaimBy.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolStateController.cs" />
+    <Compile Include="src\tools\map\mouseHandleable\MapToolStateCoreOf.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolStateOwner.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolCursor.cs" />
     <Compile Include="src\tools\map\MapToolsManager.cs" />

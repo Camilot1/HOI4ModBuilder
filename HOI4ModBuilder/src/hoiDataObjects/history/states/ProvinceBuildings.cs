@@ -40,7 +40,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         public bool SetProvinceBuildingLevel(Building building, uint newCount)
         {
             if (newCount == 0)
-                return Buildings.RemoveFirstFromEndIf((o) => o.ScriptBlockInfo.GetBlockName() == building.Name);
+                return Buildings.RemoveLastIf((o) => o.ScriptBlockInfo.GetBlockName() == building.Name);
 
             if (Buildings.TryGetFirstFromEndIf((o) => o.ScriptBlockInfo.GetBlockName() == building.Name, out var result))
             {
@@ -51,7 +51,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     return false;
 
                 if (newCount == 0)
-                    Buildings.RemoveFirstFromEndIf((o) => o.ScriptBlockInfo.GetBlockName() == building.Name);
+                    Buildings.RemoveLastIf((o) => o.ScriptBlockInfo.GetBlockName() == building.Name);
                 else
                     SetBuildingLevel(result, building, (int)newCount);
 
@@ -145,7 +145,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         {
             HashSet<string> definedBuildings = new HashSet<string>();
 
-            Buildings.RemoveFirstFromEndIf(o =>
+            Buildings.RemoveLastIf(o =>
             {
                 var buildingName = o.ScriptBlockInfo.GetBlockName();
                 if (definedBuildings.Contains(buildingName))

@@ -156,6 +156,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public void Activate(DateTime dateTime, State state)
         {
+            state.CurrentHistory = this;
+
             if (Owner.GetValue() != null)
                 state.owner = Owner.GetValue();
             if (Controller.GetValue() != null)
@@ -186,6 +188,40 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     state.CurrentName = (string)scriptBlock.GetValue();
                 else if (blockName == "reset_state_name" && (bool)scriptBlock.GetValue())
                     state.CurrentName = state.Name.GetValue().stringValue;
+                else if (blockName == "add_core_of")
+                {
+                    if (scriptBlock.GetValue() is Country country)
+                    {
+                        state.CurrentCoresOf.Add(country);
+                        country.hasCoresAtStates.Add(state);
+                    }
+                }
+                else if (blockName == "remove_core_of")
+                {
+                    if (scriptBlock.GetValue() is Country country)
+                    {
+                        state.CurrentCoresOf.Remove(country);
+                        country.hasCoresAtStates.Remove(state);
+                    }
+                }
+                else if (blockName == "add_claim_by")
+                {
+                    if (scriptBlock.GetValue() is Country country)
+                    {
+                        state.CurrentClaimsBy.Add(country);
+                        country.hasClaimsAtState.Add(state);
+                    }
+                }
+                else if (blockName == "remove_claim_by")
+                {
+                    if (scriptBlock.GetValue() is Country country)
+                    {
+                        state.CurrentClaimsBy.Remove(country);
+                        country.hasClaimsAtState.Remove(state);
+                    }
+                }
+
+
                 //TODO add resources and victory points effects support
             }
 

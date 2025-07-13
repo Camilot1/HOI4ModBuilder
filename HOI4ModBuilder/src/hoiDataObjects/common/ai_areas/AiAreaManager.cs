@@ -86,6 +86,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
 
         public static bool HasAiArea(string name) => _allAiAreas.ContainsKey(name);
         public static bool TryGetAiArea(string name, out AiArea aiArea) => _allAiAreas.TryGetValue(name, out aiArea);
-        public static Dictionary<string, AiArea>.KeyCollection GetAiAreas() => _allAiAreas.Keys;
+        public static Dictionary<string, AiArea>.KeyCollection GetAiAreasNames() => _allAiAreas.Keys;
     }
 }

@@ -159,7 +159,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             return count;
         }
 
-        public bool RemoveFirstFromEndIf(Func<T, bool> predicate)
+        public bool RemoveLastIf(Func<T, bool> predicate)
         {
             for (int i = _list.Count - 1; i >= 0; i--)
             {
@@ -184,6 +184,44 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
             result = default;
             return false;
+        }
+
+        public bool HasAny(Func<T, bool> predicate)
+        {
+            foreach (var obj in _list)
+            {
+                if (predicate(obj))
+                    return true;
+            }
+            return false;
+        }
+
+        public bool RemoveAllExceptLast(Func<T, bool> predicate, out int matchCount, out int lastResultIndex)
+        {
+            bool isLast = true;
+            bool isRemovedAny = false;
+            matchCount = 0;
+            lastResultIndex = -1;
+            for (int i = _list.Count - 1; i >= 0; i--)
+            {
+                if (predicate(_list[i]))
+                {
+                    matchCount++;
+                    if (isLast)
+                    {
+                        isLast = false;
+                        lastResultIndex = i;
+                        continue;
+                    }
+                    else
+                    {
+                        _list.RemoveAt(i);
+                        lastResultIndex--;
+                        isRemovedAny = true;
+                    }
+                }
+            }
+            return isRemovedAny;
         }
 
         public int GetSize() => _list.Count;

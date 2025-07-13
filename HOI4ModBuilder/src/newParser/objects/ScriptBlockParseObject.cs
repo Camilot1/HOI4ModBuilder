@@ -16,7 +16,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         private IScriptBlockInfo _scriptBlockInfo;
         public IScriptBlockInfo ScriptBlockInfo => _scriptBlockInfo;
 
-        private EnumDemiliter _demiliter;
+        private EnumDemiliter _demiliter = EnumDemiliter.EQUALS;
         public EnumDemiliter Demiliter { get => _demiliter; set => Utils.Setter(ref _demiliter, ref value, ref _needToSave); }
         public EnumValueType ValueType { get; set; }
 
