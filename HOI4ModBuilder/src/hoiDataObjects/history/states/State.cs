@@ -331,6 +331,16 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return obj is State state && Id.GetValue() == state.Id.GetValue();
         }
 
+        public bool isCoastalState()
+        {
+            foreach (var p in Provinces)
+            {
+                if (p.Type == EnumProvinceType.SEA)
+                    return true;
+            }
+            return false;
+        }
+
         public void Validate(out bool hasChanged)
         {
             hasChanged = false;

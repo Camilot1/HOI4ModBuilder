@@ -32,6 +32,7 @@ using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using System.Collections.Concurrent;
 using System.Linq;
+using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 
 namespace HOI4ModBuilder.managers
 {
@@ -195,6 +196,8 @@ namespace HOI4ModBuilder.managers
             if (displayLayers[(int)EnumAdditionalLayers.ERRORS])
                 ErrorManager.Instance.Draw();
             //DrawTest();
+
+            MapPositionsManager.Draw();
 
             GL.PopMatrix();
 
@@ -976,6 +979,7 @@ namespace HOI4ModBuilder.managers
         }
 
         public static int GetColor(Point2D point) => ProvincesPixels[(int)point.x + (int)point.y * MapSize.x];
+        public static int GetColor(double x, double y) => ProvincesPixels[(int)x + (int)y * MapSize.x];
 
         public static void ClearAdditionalMapTextures()
         {

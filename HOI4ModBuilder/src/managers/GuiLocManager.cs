@@ -53,9 +53,9 @@ namespace HOI4ModBuilder.src.utils
 
         public static string GetLoc(EnumLocKey key)
         {
-            if (_locKeys.TryGetValue(key, out var value)) 
+            if (_locKeys.TryGetValue(key, out var value))
                 return value;
-            else 
+            else
                 return key.ToString();
         }
 
@@ -533,5 +533,6 @@ namespace HOI4ModBuilder.src.utils
         STATE,
         REGION,
         VICTORY_POINTS,
+        BUILDINGS,
     }
 }

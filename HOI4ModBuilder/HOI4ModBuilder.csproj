@@ -445,8 +445,11 @@
     <Compile Include="src\hoiDataObjects\map\adjacencies\Adjacency.cs" />
     <Compile Include="src\hoiDataObjects\map\adjacencies\AdjacenciesManager.cs" />
     <Compile Include="src\hoiDataObjects\map\adjacencies\AdjacencyRule.cs" />
-    <Compile Include="src\hoiDataObjects\map\MapPositionsManager.cs" />
+    <Compile Include="src\hoiDataObjects\map\positions\BuildingInfo.cs" />
+    <Compile Include="src\hoiDataObjects\map\positions\BuildingPosition.cs" />
+    <Compile Include="src\hoiDataObjects\map\positions\MapPositionsManager.cs" />
     <Compile Include="src\hoiDataObjects\map\continents\ContinentManager.cs" />
+    <Compile Include="src\hoiDataObjects\map\positions\BuildingsPositionsData.cs" />
     <Compile Include="src\hoiDataObjects\map\provinces\border\BorderData.cs" />
     <Compile Include="src\hoiDataObjects\history\states\VictoryPoint.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\CheckRegionWithNotNavalTerrain.cs" />

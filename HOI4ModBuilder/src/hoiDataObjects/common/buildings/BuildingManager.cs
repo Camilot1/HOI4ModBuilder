@@ -56,11 +56,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             return null;
         }
 
-        public static bool HasBuilding(string name)
+        public static bool HasBuilding(string name) => _allBuildings.ContainsKey(name);
+        public static bool TryGetSpawnPoint(string name, out SpawnPoint spawnPoint)
+            => _allSpawnPoints.TryGetValue(name, out spawnPoint);
+        public static SpawnPoint GetSpawnPoint(string name)
         {
-            var result = _allBuildings.ContainsKey(name);
-            return result;
+            if (_allSpawnPoints.TryGetValue(name, out var spawnPoint))
+                return spawnPoint;
+            return null;
         }
+
+        public static bool HasSpawnPoint(string name) => _allSpawnPoints.ContainsKey(name);
 
         public bool Validate(LinkedLayer prevLayer) => true;
 

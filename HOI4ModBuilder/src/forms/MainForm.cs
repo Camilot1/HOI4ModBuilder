@@ -39,6 +39,7 @@ using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.tools.brushes;
 using HOI4ModBuilder.src.newParser.objects;
 using System.Linq;
+using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 
 namespace HOI4ModBuilder
 {
@@ -478,6 +479,8 @@ namespace HOI4ModBuilder
             Logger.Log($"Loading mod directory: {SettingsManager.Settings.modDirectory}");
             DataManager.Load(SettingsManager.Settings);
             MapManager.Load(SettingsManager.Settings);
+
+            MapPositionsManager.Load(settings);
 
             WarningsManager.Init();
             ErrorManager.Init();
