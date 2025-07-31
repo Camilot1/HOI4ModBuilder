@@ -69,7 +69,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                     ));
 
             //Проверки на викторипоинты у провинций
-            if (provinceToReplace.victoryPoints != 0 && second.victoryPoints != 0 && MessageBox.Show(
+            if (provinceToReplace.victoryPoints != 0 && second.victoryPoints != 0 && DialogResult.Yes != MessageBox.Show(
                     GuiLocManager.GetLoc(
                         EnumLocKey.MERGE_PROVINCES_TOOL_SECOND_AND_LAST_PROVINCES_HAVE_VICTORY_POINTS,
                         new Dictionary<string, string> {
@@ -79,9 +79,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                             { "{provinceToReplaceVictoryPoints}", $"{provinceToReplace.victoryPoints}" }
                         }
                     ),
-                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION), MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification) != DialogResult.Yes)
+                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION),
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification))
                 return;
-            else if (second.victoryPoints != 0 && MessageBox.Show(
+            else if (second.victoryPoints != 0 && DialogResult.Yes != MessageBox.Show(
                      GuiLocManager.GetLoc(
                         EnumLocKey.MERGE_PROVINCES_TOOL_SECOND_PROVINCE_HAS_VICTORY_POINTS,
                         new Dictionary<string, string> {
@@ -90,9 +91,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                             { "{secondProvinceVictoryPoints}", $"{second.victoryPoints}" }
                         }
                     ),
-                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION), MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification) != DialogResult.Yes)
+                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION),
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification))
                 return;
-            else if (provinceToReplace.victoryPoints != 0 && MessageBox.Show(
+            else if (provinceToReplace.victoryPoints != 0 && DialogResult.Yes != MessageBox.Show(
                     GuiLocManager.GetLoc(
                         EnumLocKey.MERGE_PROVINCES_TOOL_LAST_PROVINCE_HAS_VICTORY_POINTS,
                         new Dictionary<string, string> {
@@ -101,7 +103,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                             { "{provinceToReplaceVictoryPoints}", $"{provinceToReplace.victoryPoints}" }
                         }
                     ),
-                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION), MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification) != DialogResult.Yes)
+                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION),
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification))
                 return;
 
             //Замена цветов на карте
