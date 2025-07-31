@@ -179,7 +179,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
         public void UpdateTerrain(ProvincialTerrain terrain)
         {
-            if (Terrain == terrain || !terrain.isNavalTerrain) 
+            if (Terrain == terrain || !terrain.isNavalTerrain)
                 return;
             Terrain = terrain;
             needToSave = true;
@@ -365,6 +365,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             {
                 needToSave = true;
                 hasChanged = true;
+            }
+
+            // Удаляем провинции, не принадлежащие данному региону
+            for (int i = 0; i < Provinces.Count; i++)
+            {
+                var p = Provinces[i];
+                if (p.Region != this)
+                {
+                    Provinces.RemoveAt(i);
+                    i--;
+                    hasChanged = true;
+                }
             }
         }
     }

@@ -360,7 +360,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             hasChanged = false;
 
-            //Проверяем и сортируем провинции в стейте
+            // Проверяем и сортируем провинции в стейте
             if (!Utils.IsProvincesListSorted(Provinces))
             {
                 Provinces.Sort();
@@ -368,11 +368,23 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 hasChanged = true;
             }
 
-            //Удаляем дубликаты провинций в стейте
+            // Удаляем дубликаты провинций в стейте
             if (Utils.RemoveDuplicateProvinces(Provinces))
             {
                 SetNeedToSave(true);
                 hasChanged = true;
+            }
+
+            // Удаляем провинции, не принадлежащие данному стейту
+            for (int i = 0; i < Provinces.Count; i++)
+            {
+                var p = Provinces[i];
+                if (p.State != this)
+                {
+                    Provinces.RemoveAt(i);
+                    i--;
+                    hasChanged = true;
+                }
             }
 
             //
