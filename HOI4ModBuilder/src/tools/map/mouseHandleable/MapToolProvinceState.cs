@@ -36,6 +36,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (mouseEventArgs.Button == MouseButtons.Left)
             {
+                if (province.Type == EnumProvinceType.SEA)
+                    return false;
+
                 var prevState = province.State;
                 if (!ushort.TryParse(parameter, out var newStateId) ||
                     !StateManager.TryGetState(newStateId, out var newState))
