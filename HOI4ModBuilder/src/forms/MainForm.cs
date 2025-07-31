@@ -1360,7 +1360,7 @@ namespace HOI4ModBuilder
 
         private void ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal_Click(object sender, EventArgs e)
         {
-            Logger.TryOrLog(() => AutoTools.FixProvincesCoastalType());
+            Logger.TryOrLog(() => AutoTools.FixProvincesCoastalType(true));
         }
 
         private void ToolStripComboBox_Data_Bookmark_SelectedIndexChanged(object sender, EventArgs e)
@@ -1427,9 +1427,9 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Edit_AutoTools_StatesValidation_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => AutoTools.ValidateAllStates());
+            => Logger.TryOrLog(() => AutoTools.ValidateAllStates(true));
         private void ToolStripMenuItem_Edit_AutoTools_RegionsValidation_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => AutoTools.ValidateAllRegions());
+            => Logger.TryOrLog(() => AutoTools.ValidateAllRegions(true));
         private void ToolStripMenuItem_Data_Provinces_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => Task.Run(() => new ProvinceListForm().ShowDialog()));
 
@@ -1508,7 +1508,7 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => AutoTools.RemoveSeaAndLakesContinents());
+            => Logger.TryOrLog(() => AutoTools.RemoveSeaAndLakesContinents(true));
 
         private void ToolStripMenuItem_Map_Adjacency_DropDownOpened(object sender, EventArgs e)
         {
@@ -1653,7 +1653,7 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() => RailwayTool.RemoveProvinceFromRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
 
         private void ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => AutoTools.RemoveSeaProvincesFromStates());
+            => Logger.TryOrLog(() => AutoTools.RemoveSeaProvincesFromStates(true));
 
         private void ToolStripMenuItem_Edit_Scripts_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => new ScriptsForm().ShowDialog());

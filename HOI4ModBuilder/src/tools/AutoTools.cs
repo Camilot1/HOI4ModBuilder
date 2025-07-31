@@ -28,7 +28,7 @@ namespace HOI4ModBuilder.src.tools.auto
             _changesCounter[0] = 0;
         }
 
-        public static void FixProvincesCoastalType()
+        public static void FixProvincesCoastalType(bool displayResultMessage)
         {
             ProvinceManager.ForEachProvince((p) =>
             {
@@ -39,10 +39,12 @@ namespace HOI4ModBuilder.src.tools.auto
                     p.IsCoastal = newIsCoastal;
                 }
             });
-            PostAction();
+
+            if (displayResultMessage)
+                PostAction();
         }
 
-        public static void RemoveSeaAndLakesContinents()
+        public static void RemoveSeaAndLakesContinents(bool displayResultMessage)
         {
             ProvinceManager.ForEachProvince((p) =>
             {
@@ -52,10 +54,12 @@ namespace HOI4ModBuilder.src.tools.auto
                     p.ContinentId = 0;
                 }
             });
-            PostAction();
+
+            if (displayResultMessage)
+                PostAction();
         }
 
-        public static void RemoveSeaProvincesFromStates()
+        public static void RemoveSeaProvincesFromStates(bool displayResultMessage)
         {
             ProvinceManager.ForEachProvince((p) =>
             {
@@ -65,10 +69,12 @@ namespace HOI4ModBuilder.src.tools.auto
                     p.State.RemoveProvince(p);
                 }
             });
-            PostAction();
+
+            if (displayResultMessage)
+                PostAction();
         }
 
-        public static void ValidateAllStates()
+        public static void ValidateAllStates(bool displayResultMessage)
         {
             StateManager.ForEachState((s) =>
             {
@@ -76,10 +82,12 @@ namespace HOI4ModBuilder.src.tools.auto
                 if (hasChanged)
                     _changesCounter[0]++;
             });
-            PostAction();
+
+            if (displayResultMessage)
+                PostAction();
         }
 
-        public static void ValidateAllRegions()
+        public static void ValidateAllRegions(bool displayResultMessage)
         {
             StrategicRegionManager.ForEachRegion((r) =>
             {
@@ -87,7 +95,9 @@ namespace HOI4ModBuilder.src.tools.auto
                 if (hasChanged)
                     _changesCounter[0]++;
             });
-            PostAction();
+
+            if (displayResultMessage)
+                PostAction();
         }
     }
 }
