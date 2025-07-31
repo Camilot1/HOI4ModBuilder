@@ -73,8 +73,10 @@ namespace HOI4ModBuilder.src.tools.auto
             StateManager.ForEachState((s) =>
             {
                 s.Validate(out bool hasChanged);
-                if (hasChanged) _changesCounter[0]++;
+                if (hasChanged)
+                    _changesCounter[0]++;
             });
+            PostAction();
         }
 
         public static void ValidateAllRegions()
@@ -82,8 +84,10 @@ namespace HOI4ModBuilder.src.tools.auto
             StrategicRegionManager.ForEachRegion((r) =>
             {
                 r.Validate(out bool hasChanged);
-                if (hasChanged) _changesCounter[0]++;
+                if (hasChanged)
+                    _changesCounter[0]++;
             });
+            PostAction();
         }
     }
 }
