@@ -651,9 +651,15 @@ namespace HOI4ModBuilder.managers
 
             int pixelCount = width * height;
 
-            int color = 0, prevColor = 0;
+            int color, prevColor = 0;
 
             Province province = null;
+
+            foreach (var p in _provincesById)
+            {
+                if (p != null)
+                    p.ResetPixels();
+            }
 
             int x, y;
 

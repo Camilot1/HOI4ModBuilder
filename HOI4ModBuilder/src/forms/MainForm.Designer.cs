@@ -211,6 +211,7 @@
             this.ToolStripMenuItem_Edit_Redo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Edit_AutoTools = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates = new System.Windows.Forms.ToolStripMenuItem();
@@ -1572,6 +1573,7 @@
             // ToolStripMenuItem_Edit_AutoTools
             // 
             this.ToolStripMenuItem_Edit_AutoTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces,
             this.ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal,
             this.ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents,
             this.ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates,
@@ -1583,6 +1585,12 @@
             this.ToolStripMenuItem_Edit_AutoTools_FindMapChanges});
             this.ToolStripMenuItem_Edit_AutoTools.Name = "ToolStripMenuItem_Edit_AutoTools";
             resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools, "ToolStripMenuItem_Edit_AutoTools");
+            // 
+            // ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces
+            // 
+            this.ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Name = "ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces";
+            resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces, "ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces");
+            this.ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces_Click);
             // 
             // ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal
             // 
@@ -2016,6 +2024,7 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces;
     }
 }
 

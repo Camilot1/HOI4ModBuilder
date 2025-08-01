@@ -380,6 +380,13 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         }
 
         public void SetBuildings(Dictionary<Building, uint> buildings) => _buildings = buildings;
+
+        public void ForEachBuilding(Action<Building, uint> action)
+        {
+            foreach (var entry in _buildings)
+                action(entry.Key, entry.Value);
+        }
+
         public bool HasPort()
         {
             if (_buildings == null || _buildings.Count == 0)
@@ -434,6 +441,13 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             pixelsCount++;
             center.x += (x - center.x) / pixelsCount;
             center.y += (y - center.y) / pixelsCount;
+        }
+
+        public void ResetPixels()
+        {
+            pixelsCount = 0;
+            center.x = 0;
+            center.y = 0;
         }
 
         public void AddBorder(ProvinceBorder border) => borders.Add(border);

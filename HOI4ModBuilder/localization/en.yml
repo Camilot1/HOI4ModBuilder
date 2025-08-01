@@ -440,6 +440,9 @@ PROVINCE_CANT_BE_A_NAVAL_BASE_FOR_SHIPS: "The province with id = {provinceId} ca
 AUTOTOOL_RESULT_MESSAGE_BOX_TITLE: "Autotool execution result"
 AUTOTOOL_RESULT_MESSAGE_BOX_TEXT: "Changes: {count}"
 
+AUTOTOOL_RESULT_EXTENDED_MESSAGE_BOX_TITLE: "Autotool execution result"
+AUTOTOOL_RESULT_EXTENDED_MESSAGE_BOX_TEXT: "Found: {count}\nSuccessfully fixed: {success}\nFailed to fix: {unsuccess}\nCause: {unsuccessInfo}"
+
 EXPORT_TEXTURE_TITLE: "Texture Export"
 EXPORT_TEXTURE_RESULT: "The texture has been saved to: {filePath}"
 

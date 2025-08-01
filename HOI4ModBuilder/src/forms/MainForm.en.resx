@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="TabPage_Map.Text" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="TabPage_Buildings.Text" xml:space="preserve">
+    <value>Buildings</value>
+  </data>
+  <data name="TabPage_Resources.Text" xml:space="preserve">
+    <value>Resources</value>
+  </data>
+  <data name="TabPage_Localization.Text" xml:space="preserve">
+    <value>Localization</value>
+  </data>
+  <data name="TabPage_Home.Text" xml:space="preserve">
+    <value>Home</value>
+  </data>
   <data name="GroupBox_Main_Layer.Text" xml:space="preserve">
     <value>Main Layer</value>
   </data>
@@ -138,6 +153,9 @@
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Colors</value>
   </data>
+  <data name="GroupBox_GenerateColor.Text" xml:space="preserve">
+    <value>Generate color:</value>
+  </data>
   <data name="ComboBox_GenerateColor_Type.Items" xml:space="preserve">
     <value>Random color</value>
   </data>
@@ -150,9 +168,6 @@
   <data name="ComboBox_GenerateColor_Type.Items3" xml:space="preserve">
     <value>New lake color</value>
   </data>
-  <data name="GroupBox_GenerateColor.Text" xml:space="preserve">
-    <value>Generate color:</value>
-  </data>
   <data name="GroupBox_Palette.Text" xml:space="preserve">
     <value>Color palette:</value>
   </data>
@@ -162,17 +177,17 @@
   <data name="groupBox8.Text" xml:space="preserve">
     <value>Borders:</value>
   </data>
-  <data name="Button_OpenSearchWarningsSettings.Text" xml:space="preserve">
-    <value>Open Settings</value>
-  </data>
   <data name="groupBox10.Text" xml:space="preserve">
     <value>Warnings Search:</value>
   </data>
-  <data name="Button_OpenSearchErrorsSettings.Text" xml:space="preserve">
+  <data name="Button_OpenSearchWarningsSettings.Text" xml:space="preserve">
     <value>Open Settings</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
     <value>Errors Search:</value>
+  </data>
+  <data name="Button_OpenSearchErrorsSettings.Text" xml:space="preserve">
+    <value>Open Settings</value>
   </data>
   <data name="groupBox5.Text" xml:space="preserve">
     <value>Textured planes</value>
@@ -181,6 +196,15 @@
     <value>Selected province:</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 154</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Search.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Search.Text" xml:space="preserve">
+    <value>Search</value>
+  </data>
   <data name="ToolStripMenuItem_Map_Search_Position.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 22</value>
   </data>
@@ -205,17 +229,20 @@
   <data name="ToolStripMenuItem_Map_Search_Region.Text" xml:space="preserve">
     <value>Find Region</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Search.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Search.Text" xml:space="preserve">
-    <value>Search</value>
-  </data>
   <data name="toolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 6</value>
   </data>
+  <data name="ToolStripMenuItem_Map_Province.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province.Text" xml:space="preserve">
+    <value>Province</value>
+  </data>
   <data name="ToolStripMenuItem_Map_Province_Info.Text" xml:space="preserve">
     <value>Province:</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_State_Info.Text" xml:space="preserve">
+    <value>State:</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
     <value>181, 22</value>
@@ -229,8 +256,8 @@
   <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer.Text" xml:space="preserve">
     <value>Open in Explorer</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Province_State_Info.Text" xml:space="preserve">
-    <value>State:</value>
+  <data name="ToolStripMenuItem_Map_Province_Region_Info.Text" xml:space="preserve">
+    <value>Region:</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
     <value>181, 22</value>
@@ -244,23 +271,20 @@
   <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Text" xml:space="preserve">
     <value>Open in Explorer</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Province_Region_Info.Text" xml:space="preserve">
-    <value>Region:</value>
-  </data>
   <data name="ToolStripMenuItem_Map_Province_IsCoastal.Text" xml:space="preserve">
     <value>IsCoastal</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province_VictoryPoints_Info.Text" xml:space="preserve">
     <value>Victory Points:</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Province.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province.Text" xml:space="preserve">
-    <value>Province</value>
-  </data>
   <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Adjacency.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Adjacency.Text" xml:space="preserve">
+    <value>Adjacency</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_Create.Text" xml:space="preserve">
     <value>Create Adjacency</value>
@@ -295,11 +319,11 @@
   <data name="ToolStripMenuItem_Map_Adjacency_Rule_RemoveRequiredProvince.Text" xml:space="preserve">
     <value>Remove required province</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Adjacency.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripMenuItem_Map_Railway.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 22</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Adjacency.Text" xml:space="preserve">
-    <value>Adjacency</value>
+  <data name="ToolStripMenuItem_Map_Railway.Text" xml:space="preserve">
+    <value>Railway</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Create.Size" type="System.Drawing.Size, System.Drawing">
     <value>181, 22</value>
@@ -361,11 +385,11 @@
   <data name="ToolStripMenuItem_Map_Railway_Remove.Text" xml:space="preserve">
     <value>Remove Railway</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Railway.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripMenuItem_Map_SupplyHub.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 22</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Railway.Text" xml:space="preserve">
-    <value>Railway</value>
+  <data name="ToolStripMenuItem_Map_SupplyHub.Text" xml:space="preserve">
+    <value>Supply hub</value>
   </data>
   <data name="ToolStripMenuItem_Map_SupplyHub_Create.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 22</value>
@@ -379,20 +403,8 @@
   <data name="ToolStripMenuItem_Map_SupplyHub_Remove.Text" xml:space="preserve">
     <value>Remove Hub</value>
   </data>
-  <data name="ToolStripMenuItem_Map_SupplyHub.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_SupplyHub.Text" xml:space="preserve">
-    <value>Supply hub</value>
-  </data>
   <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 6</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Actions_Merge.Size" type="System.Drawing.Size, System.Drawing">
-    <value>231, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Actions_Merge.Text" xml:space="preserve">
-    <value>Merge provinces with id swap</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 22</value>
@@ -400,269 +412,11 @@
   <data name="ToolStripMenuItem_Map_Actions.Text" xml:space="preserve">
     <value>Additional actions</value>
   </data>
-  <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 154</value>
-  </data>
-  <data name="TabPage_Map.Text" xml:space="preserve">
-    <value>Map</value>
-  </data>
-  <data name="TabPage_Buildings.Text" xml:space="preserve">
-    <value>Buildings</value>
-  </data>
-  <data name="TabPage_Resources.Text" xml:space="preserve">
-    <value>Resources</value>
-  </data>
-  <data name="TabPage_Localization.Text" xml:space="preserve">
-    <value>Localization</value>
-  </data>
-  <data name="TabPage_Home.Text" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_All.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_All.Text" xml:space="preserve">
-    <value>All Maps</value>
-  </data>
-  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 6</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_Provinces.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_Provinces.Text" xml:space="preserve">
-    <value>Provinces</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_Rivers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_Rivers.Text" xml:space="preserve">
-    <value>Rivers</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_Terrain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_Terrain.Text" xml:space="preserve">
-    <value>Terrain</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_Trees.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_Trees.Text" xml:space="preserve">
-    <value>Trees</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_Cities.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_Cities.Text" xml:space="preserve">
-    <value>Cities</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_Heights.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps_Heights.Text" xml:space="preserve">
-    <value>Heights</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps.Text" xml:space="preserve">
-    <value>Maps</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Definition.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Definition.Text" xml:space="preserve">
-    <value>Provinces</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Adjacencies.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Adjacencies.Text" xml:space="preserve">
-    <value>Adjacencies</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Supply_All.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Supply_All.Text" xml:space="preserve">
-    <value>All Supply</value>
-  </data>
-  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 6</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Supply_Railways.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Supply_Railways.Text" xml:space="preserve">
-    <value>Railways</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Supply_Hubs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Supply_Hubs.Text" xml:space="preserve">
-    <value>Hubs</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Supply.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Supply.Text" xml:space="preserve">
-    <value>Supply</value>
-  </data>
-  <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 6</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_States.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_States.Text" xml:space="preserve">
-    <value>States</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Regions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Regions.Text" xml:space="preserve">
-    <value>Regions</value>
-  </data>
-  <data name="ToolStripMenuItem_Save.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save.Text" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="ToolStripMenuItem_SaveAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_SaveAll.Text" xml:space="preserve">
-    <value>Save All</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_All.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_All.Text" xml:space="preserve">
-    <value>All Maps</value>
-  </data>
-  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 6</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_Provinces.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_Provinces.Text" xml:space="preserve">
-    <value>Provinces</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_Rivers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_Rivers.Text" xml:space="preserve">
-    <value>Rivers</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_Terrain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_Terrain.Text" xml:space="preserve">
-    <value>Terrain</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_Trees.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_Trees.Text" xml:space="preserve">
-    <value>Trees</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_Cities.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_Cities.Text" xml:space="preserve">
-    <value>Cities</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_Heights.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps_Heights.Text" xml:space="preserve">
-    <value>Heights</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps.Text" xml:space="preserve">
-    <value>Maps</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Definitions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Definitions.Text" xml:space="preserve">
-    <value>Provinces</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Adjacencies.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Adjacencies.Text" xml:space="preserve">
-    <value>Adjacencies</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Supply.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Supply.Text" xml:space="preserve">
-    <value>Supply</value>
-  </data>
-  <data name="ToolStripMenuItem_Load.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load.Text" xml:space="preserve">
-    <value>Load</value>
-  </data>
-  <data name="ToolStripMenuItem_LoadAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_LoadAll.Text" xml:space="preserve">
-    <value>Load All</value>
-  </data>
-  <data name="ToolStripMenuItem_Update.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Update.Text" xml:space="preserve">
-    <value>Update</value>
-  </data>
-  <data name="ToolStripMenuItem_UpdateAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_UpdateAll.Text" xml:space="preserve">
-    <value>Update all</value>
-  </data>
-  <data name="ToolStripMenuItem_Export_MainLayer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Export_MainLayer.Text" xml:space="preserve">
-    <value>Main Layer</value>
-  </data>
-  <data name="ToolStripMenuItem_Export_SelectedBorders.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Export_SelectedBorders.Text" xml:space="preserve">
-    <value>Selected Borders</value>
-  </data>
-  <data name="ToolStripMenuItem_Export.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Export.Text" xml:space="preserve">
-    <value>Export</value>
-  </data>
-  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 6</value>
-  </data>
-  <data name="ToolStripMenuItem_Settings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Settings.Text" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 6</value>
-  </data>
-  <data name="ToolStripMenuItem_Exit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Exit.Text" xml:space="preserve">
-    <value>Exit</value>
+  <data name="ToolStripMenuItem_Map_Actions_Merge.Size" type="System.Drawing.Size, System.Drawing">
+    <value>231, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Actions_Merge.Text" xml:space="preserve">
+    <value>Merge provinces with id swap</value>
   </data>
   <data name="ToolStripMenuItem_File.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 20</value>
@@ -684,6 +438,12 @@
   </data>
   <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
     <value>187, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Size" type="System.Drawing.Size, System.Drawing">
+    <value>282, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Text" xml:space="preserve">
+    <value>Remove provinces with 0 pixels</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal.Size" type="System.Drawing.Size, System.Drawing">
     <value>282, 22</value>
@@ -751,26 +511,284 @@
   <data name="ToolStripMenuItem_Edit.Text" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="ToolStripMenuItem_Data.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 20</value>
+  </data>
+  <data name="ToolStripMenuItem_Data.Text" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="ToolStripMenuItem_Help.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="ToolStripMenuItem_Help.Text" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="ToolStripMenuItem_Language.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 20</value>
+  </data>
+  <data name="ToolStripMenuItem_Language.Text" xml:space="preserve">
+    <value>Russian (RU)</value>
+  </data>
+  <data name="ToolStripMenuItem_Save.Size" type="System.Drawing.Size, System.Drawing">
+    <value>169, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps.Text" xml:space="preserve">
+    <value>Maps</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_All.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_All.Text" xml:space="preserve">
+    <value>All Maps</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_Provinces.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_Provinces.Text" xml:space="preserve">
+    <value>Provinces</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_Rivers.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_Rivers.Text" xml:space="preserve">
+    <value>Rivers</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_Terrain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_Terrain.Text" xml:space="preserve">
+    <value>Terrain</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_Trees.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_Trees.Text" xml:space="preserve">
+    <value>Trees</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_Cities.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_Cities.Text" xml:space="preserve">
+    <value>Cities</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_Heights.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps_Heights.Text" xml:space="preserve">
+    <value>Heights</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Definition.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Definition.Text" xml:space="preserve">
+    <value>Provinces</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Adjacencies.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Adjacencies.Text" xml:space="preserve">
+    <value>Adjacencies</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Supply.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Supply.Text" xml:space="preserve">
+    <value>Supply</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Supply_All.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Supply_All.Text" xml:space="preserve">
+    <value>All Supply</value>
+  </data>
+  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Supply_Railways.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Supply_Railways.Text" xml:space="preserve">
+    <value>Railways</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Supply_Hubs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Supply_Hubs.Text" xml:space="preserve">
+    <value>Hubs</value>
+  </data>
+  <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_States.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_States.Text" xml:space="preserve">
+    <value>States</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Regions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Regions.Text" xml:space="preserve">
+    <value>Regions</value>
+  </data>
+  <data name="ToolStripMenuItem_SaveAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>169, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_SaveAll.Text" xml:space="preserve">
+    <value>Save All</value>
+  </data>
+  <data name="ToolStripMenuItem_Load.Size" type="System.Drawing.Size, System.Drawing">
+    <value>169, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load.Text" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps.Text" xml:space="preserve">
+    <value>Maps</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_All.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_All.Text" xml:space="preserve">
+    <value>All Maps</value>
+  </data>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_Provinces.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_Provinces.Text" xml:space="preserve">
+    <value>Provinces</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_Rivers.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_Rivers.Text" xml:space="preserve">
+    <value>Rivers</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_Terrain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_Terrain.Text" xml:space="preserve">
+    <value>Terrain</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_Trees.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_Trees.Text" xml:space="preserve">
+    <value>Trees</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_Cities.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_Cities.Text" xml:space="preserve">
+    <value>Cities</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_Heights.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps_Heights.Text" xml:space="preserve">
+    <value>Heights</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Definitions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Definitions.Text" xml:space="preserve">
+    <value>Provinces</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Adjacencies.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Adjacencies.Text" xml:space="preserve">
+    <value>Adjacencies</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Supply.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Supply.Text" xml:space="preserve">
+    <value>Supply</value>
+  </data>
+  <data name="ToolStripMenuItem_LoadAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>169, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_LoadAll.Text" xml:space="preserve">
+    <value>Load All</value>
+  </data>
+  <data name="ToolStripMenuItem_Update.Size" type="System.Drawing.Size, System.Drawing">
+    <value>169, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Update.Text" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="ToolStripMenuItem_UpdateAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>169, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_UpdateAll.Text" xml:space="preserve">
+    <value>Update all</value>
+  </data>
+  <data name="ToolStripMenuItem_Export.Size" type="System.Drawing.Size, System.Drawing">
+    <value>169, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Export.Text" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="ToolStripMenuItem_Export_MainLayer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Export_MainLayer.Text" xml:space="preserve">
+    <value>Main Layer</value>
+  </data>
+  <data name="ToolStripMenuItem_Export_SelectedBorders.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Export_SelectedBorders.Text" xml:space="preserve">
+    <value>Selected Borders</value>
+  </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Settings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>169, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Settings.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Exit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>169, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Exit.Text" xml:space="preserve">
+    <value>Exit</value>
+  </data>
   <data name="ToolStripMenuItem_Data_Provinces.Text" xml:space="preserve">
     <value>Provinces</value>
   </data>
   <data name="ToolStripMenuItem_Data_States.Text" xml:space="preserve">
     <value>States</value>
   </data>
+  <data name="ToolStripMenuItem_Data_Recovery.Text" xml:space="preserve">
+    <value>Old Data Recovery</value>
+  </data>
   <data name="ToolStripMenuItem_Data_Recovery_Regions.Size" type="System.Drawing.Size, System.Drawing">
     <value>165, 22</value>
   </data>
   <data name="ToolStripMenuItem_Data_Recovery_Regions.Text" xml:space="preserve">
     <value>Strategic Regions</value>
-  </data>
-  <data name="ToolStripMenuItem_Data_Recovery.Text" xml:space="preserve">
-    <value>Old Data Recovery</value>
-  </data>
-  <data name="ToolStripMenuItem_Data.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 20</value>
-  </data>
-  <data name="ToolStripMenuItem_Data.Text" xml:space="preserve">
-    <value>Data</value>
   </data>
   <data name="ToolStripMenuItem_Help_Documentation.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 22</value>
@@ -784,12 +802,6 @@
   <data name="ToolStripMenuItem_Help_About.Text" xml:space="preserve">
     <value>About Application</value>
   </data>
-  <data name="ToolStripMenuItem_Help.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="ToolStripMenuItem_Help.Text" xml:space="preserve">
-    <value>Help</value>
-  </data>
   <data name="ToolStripMenuItem_Language_RU.Size" type="System.Drawing.Size, System.Drawing">
     <value>140, 22</value>
   </data>
@@ -801,11 +813,5 @@
   </data>
   <data name="ToolStripMenuItem_Language_EN.Text" xml:space="preserve">
     <value>English (EN)</value>
-  </data>
-  <data name="ToolStripMenuItem_Language.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 20</value>
-  </data>
-  <data name="ToolStripMenuItem_Language.Text" xml:space="preserve">
-    <value>Russian (RU)</value>
   </data>
 </root>

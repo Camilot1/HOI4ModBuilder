@@ -1977,6 +1977,9 @@ namespace HOI4ModBuilder
                 MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
             });
 
+        private void ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => AutoTools.RemoveGhostProvinces(true));
+
         private void ResizeComboBox(GroupBox groupBox, ComboBox comboBox)
         {
             int groupBoxTextWidth = TextRenderer.MeasureText(

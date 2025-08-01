@@ -129,6 +129,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             return false;
         }
 
+        public bool RemoveProvince(Province p) => _provinces.Remove(p);
+
         public bool TryRemoveProvince(Province p)
         {
             if (_provinces.Count < 3) return false;

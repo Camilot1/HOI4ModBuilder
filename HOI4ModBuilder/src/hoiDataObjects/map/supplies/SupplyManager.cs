@@ -24,11 +24,25 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         public static SupplyNode SelectedSupplyNode = null;
         public static List<SupplyNode> SupplyNodes { get; private set; }
 
+        public static void RemoveSupplyNode(SupplyNode supplyNode)
+        {
+            SupplyNodes.Remove(supplyNode);
+            supplyNode.RemoveFromProvince();
+            NeedToSaveSupplyNodes = true;
+        }
+
         public static bool NeedToSaveRailways { get; set; }
         public static Railway SelectedRailway { get; set; }
         public static Railway RMBRailway { get; set; }
 
         public static List<Railway> Railways { get; private set; }
+
+        public static void RemoveRailway(Railway railway)
+        {
+            railway.RemoveFromProvinces();
+            Railways.Remove(railway);
+            NeedToSaveRailways = true;
+        }
 
         public static void Init()
         {
@@ -209,7 +223,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             if (ProvinceManager.SelectedProvince == null || ProvinceManager.SelectedProvince.SupplyNode == null)
                 return false;
 
-            Point2D movedPoint = new Point2D { x = point.x - 0.5d, y = point.y - 0.5d};
+            Point2D movedPoint = new Point2D { x = point.x - 0.5d, y = point.y - 0.5d };
 
             double distance = ProvinceManager.SelectedProvince.center.GetDistanceTo(movedPoint);
 

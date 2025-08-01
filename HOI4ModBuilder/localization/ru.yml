@@ -442,6 +442,9 @@ PROVINCE_CANT_BE_A_NAVAL_BASE_FOR_SHIPS: "Провинция с id = {provinceId
 AUTOTOOL_RESULT_MESSAGE_BOX_TITLE: "Результат выполнения авторасчёта"
 AUTOTOOL_RESULT_MESSAGE_BOX_TEXT: "Внесено изменений: {count}"
 
+AUTOTOOL_RESULT_EXTENDED_MESSAGE_BOX_TITLE: "Результат выполнения авторасчёта"
+AUTOTOOL_RESULT_EXTENDED_MESSAGE_BOX_TEXT: "Найдено проблем: {count}\nУспешно исправлено: {success}\nНе удалось исправить: {unsuccess}\nПричина: {unsuccessInfo}"
+
 EXPORT_TEXTURE_TITLE: "Экспорт текстуры"
 EXPORT_TEXTURE_RESULT: "Текстура сохранена по пути: {filePath}"
 
