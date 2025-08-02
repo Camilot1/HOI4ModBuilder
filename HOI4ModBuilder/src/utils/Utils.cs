@@ -1,9 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
-using HOI4ModBuilder.src.hoiDataObjects.map.provinces.border;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
-using SharpFont;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,14 +12,13 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using YamlDotNet.Core.Tokens;
 using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder
 {
-    class Utils
+    static class Utils
     {
-        public static Random random = new Random();
+        public static readonly Random random = new Random();
         private static readonly string[] dateTimeFormats = new string[]
         {
             "y.M.d",
@@ -37,18 +34,12 @@ namespace HOI4ModBuilder
         };
 
         public static bool TryParseDateTimeStamp(string value, out DateTime dateTime)
-        {
-            return DateTime.TryParseExact(value, dateTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime);
-        }
+            => DateTime.TryParseExact(value, dateTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime);
 
         public static int RgbToInt(byte red, byte green, byte blue)
-        {
-            return (red << 16) | (green << 8) | blue;
-        }
+            => (red << 16) | (green << 8) | blue;
         public static int ArgbToInt(byte alpha, byte red, byte green, byte blue)
-        {
-            return (alpha << 24) | (red << 16) | (green << 8) | blue;
-        }
+            => (alpha << 24) | (red << 16) | (green << 8) | blue;
 
         public static void IntToRgb(int argb, out byte r, out byte g, out byte b)
         {
@@ -66,27 +57,27 @@ namespace HOI4ModBuilder
         }
 
         public static string DateStampToString(DateTime date)
-        {
-            return $"{date.Year}.{date.Month}.{date.Day}";
-        }
+            => $"{date.Year}.{date.Month}.{date.Day}";
 
         public static string DateTimeStampToString(DateTime date)
-        {
-            return $"{date.Year}.{date.Month}.{date.Day}.{date.Hour}";
-        }
+            => $"{date.Year}.{date.Month}.{date.Day}.{date.Hour}";
 
         public static Stream ToStream(string text)
+            => new MemoryStream(Encoding.UTF8.GetBytes(text));
+
+        private static bool SetFieldIfChanged<T>(ref T parameter, ref T value)
         {
-            return new MemoryStream(System.Text.Encoding.UTF8.GetBytes(text));
+            if (parameter != null && parameter.Equals(value) || parameter == null && value == null)
+                return false;
+
+            parameter = value;
+            return true;
         }
 
         public static void Setter<T>(ref T parameter, ref T value, ref bool needToSave)
         {
-            if (parameter != null && parameter.Equals(value) || parameter == null && value == null)
-                return;
-
-            parameter = value;
-            needToSave = true;
+            if (SetFieldIfChanged(ref parameter, ref value))
+                needToSave = true;
         }
 
         public static void ReverseLinkedData<T>(LinkedData<T> linkedData)
@@ -117,11 +108,11 @@ namespace HOI4ModBuilder
 
         public static void Setter<T>(ref T parameter, ref T value, ref bool needToSave, ref bool hasChanged)
         {
-            if (parameter != null && parameter.Equals(value) || parameter == null && value == null) return;
-
-            parameter = value;
-            needToSave = true;
-            hasChanged = true;
+            if (SetFieldIfChanged(ref parameter, ref value))
+            {
+                needToSave = true;
+                hasChanged = true;
+            }
         }
 
         public static string DictionaryToString(Dictionary<string, string> dict)
@@ -472,9 +463,7 @@ namespace HOI4ModBuilder
 
 
         public static string FloatToString(float value)
-        {
-            return ("" + value).Replace(',', '.');
-        }
+            => ("" + value).Replace(',', '.');
 
         public static void ListToString(List<object> list, StringBuilder sb)
         {
