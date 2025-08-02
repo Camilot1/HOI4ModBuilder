@@ -418,6 +418,18 @@ namespace HOI4ModBuilder.managers
 
         private static void HandleEscape() => DeselectProvinces();
 
+        public static void SelectProvinces(ushort[] ids)
+        {
+            GroupSelectedProvinces.Clear();
+            foreach (var id in ids)
+            {
+                if (!TryGetProvince(id, out var province))
+                    continue;
+
+                GroupSelectedProvinces.Add(province);
+            }
+        }
+
         public static void DeselectProvinces()
         {
             SelectedProvince = null;
@@ -433,7 +445,11 @@ namespace HOI4ModBuilder.managers
                 {
                     if (SelectedProvince != null)
                         GroupSelectedProvinces.Add(SelectedProvince);
-                    GroupSelectedProvinces.Add(province);
+
+                    if (GroupSelectedProvinces.Contains(province))
+                        GroupSelectedProvinces.Remove(province);
+                    else
+                        GroupSelectedProvinces.Add(province);
 
                     SelectedProvince = null;
                     return province;

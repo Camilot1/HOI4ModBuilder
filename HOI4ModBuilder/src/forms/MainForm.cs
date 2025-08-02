@@ -1980,6 +1980,15 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AutoTools.RemoveGhostProvinces(true));
 
+        private void ToolStripMenuItem_Map_Select_Provinces_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => ProvinceManager.SelectProvinces(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' ')));
+
+        private void ToolStripMenuItem_Map_Select_States_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => StateManager.SelectStates(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' ')));
+
+        private void ToolStripMenuItem_Map_Select_Regions_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => StrategicRegionManager.SelectRegions(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' ')));
+
         private void ResizeComboBox(GroupBox groupBox, ComboBox comboBox)
         {
             int groupBoxTextWidth = TextRenderer.MeasureText(

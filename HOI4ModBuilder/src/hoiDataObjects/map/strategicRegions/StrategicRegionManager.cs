@@ -234,6 +234,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             RMBRegion = null;
         }
 
+
+        public static void SelectRegions(ushort[] ids)
+        {
+            GroupSelectedRegions.Clear();
+            foreach (var id in ids)
+            {
+                if (!TryGetRegion(id, out var region))
+                    continue;
+
+                GroupSelectedRegions.Add(region);
+            }
+        }
+
         public static StrategicRegion SelectRegion(int color)
         {
             if (ProvinceManager.TryGetProvince(color, out Province province) && province.Region != null)
@@ -242,7 +255,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 {
                     if (SelectedRegion != null)
                         GroupSelectedRegions.Add(SelectedRegion);
-                    GroupSelectedRegions.Add(province.Region);
+
+                    if (GroupSelectedRegions.Contains(province.Region))
+                        GroupSelectedRegions.Remove(province.Region);
+                    else
+                        GroupSelectedRegions.Add(province.Region);
 
                     SelectedRegion = null;
                     return province.Region;

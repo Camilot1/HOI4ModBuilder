@@ -1509,6 +1509,36 @@
   <data name="ToolStripMenuItem_Map_Search.Text" xml:space="preserve">
     <value>Поиск</value>
   </data>
+  <data name="ToolStripTextBox_Map_Select_Input.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="ToolStripTextBox_Map_Select_Input.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 23</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_Provinces.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_Provinces.Text" xml:space="preserve">
+    <value>Провинции</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_States.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_States.Text" xml:space="preserve">
+    <value>Области</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_Regions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_Regions.Text" xml:space="preserve">
+    <value>Регионы</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select.Size" type="System.Drawing.Size, System.Drawing">
+    <value>222, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select.Text" xml:space="preserve">
+    <value>Выделение</value>
+  </data>
   <data name="toolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 6</value>
   </data>
@@ -1864,7 +1894,7 @@
     <value>Дополнительные действия</value>
   </data>
   <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 154</value>
+    <value>223, 176</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip_Map.Name" xml:space="preserve">
     <value>ContextMenuStrip_Map</value>
@@ -2668,6 +2698,36 @@
     <value>ToolStripMenuItem_Map_Search_Region</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Map_Search_Region.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Select</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripTextBox_Map_Select_Input.Name" xml:space="preserve">
+    <value>ToolStripTextBox_Map_Select_Input</value>
+  </data>
+  <data name="&gt;&gt;ToolStripTextBox_Map_Select_Input.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select_Provinces.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Select_Provinces</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select_Provinces.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select_States.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Select_States</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select_States.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select_Regions.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Select_Regions</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select_Regions.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator25.Name" xml:space="preserve">

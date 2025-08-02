@@ -465,6 +465,34 @@ namespace HOI4ModBuilder
         public static string FloatToString(float value)
             => ("" + value).Replace(',', '.');
 
+        public static ushort[] ToIdArray(string data, char demiliter)
+        {
+            var strings = data.Split(demiliter);
+            var result = new List<ushort>(strings.Length);
+
+            foreach (var value in strings)
+            {
+                if (ushort.TryParse(value, out var id))
+                    result.Add(id);
+            }
+
+            return result.ToArray();
+        }
+        public static T[] ToArray<T>(string data, char demiliter, Func<string, T> parser)
+        {
+            var strings = data.Split(demiliter);
+            var result = new List<T>(strings.Length);
+
+            foreach (var value in strings)
+            {
+                var product = parser(value);
+                if (product != null)
+                    result.Add(product);
+            }
+
+            return result.ToArray();
+        }
+
         public static void ListToString(List<object> list, StringBuilder sb)
         {
             foreach (object o in list)

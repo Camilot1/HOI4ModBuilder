@@ -411,6 +411,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             RMBState = null;
         }
 
+        public static void SelectStates(ushort[] ids)
+        {
+            GroupSelectedStates.Clear();
+            foreach (var id in ids)
+            {
+                if (!TryGetState(id, out var state))
+                    continue;
+
+                GroupSelectedStates.Add(state);
+            }
+        }
 
         public static State SelectState(int color)
         {
@@ -420,7 +431,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 {
                     if (SelectedState != null)
                         GroupSelectedStates.Add(SelectedState);
-                    GroupSelectedStates.Add(province.State);
+
+                    if (GroupSelectedStates.Contains(province.State))
+                        GroupSelectedStates.Remove(province.State);
+                    else
+                        GroupSelectedStates.Add(province.State);
 
                     SelectedState = null;
                     return province.State;
