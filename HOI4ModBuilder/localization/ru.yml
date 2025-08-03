@@ -489,6 +489,7 @@ SCRIPT_EXCEPTION_ARGUMENT_MUST_BE_VAR_DECLARATOR: "Аргумент под но�
 SCRIPT_EXCEPTION_FILE_NOT_FOUND_INTERNAL: "Файл по пути \"{value}\" не найден. \nСтрока: {lineIndex} \nАргументы: {args}"
 SCRIPT_EXCEPTION_FILE_NOT_FOUND: "Файл по пути в аргументе под номером {argIndex} не найден. \nСтрока: {lineIndex} \nАргументы: {args}"
 SCRIPT_EXCEPTION_INFINITE_CYCLE: "Бесконечный цикл от {start} до {end} с шагом {step}. \nСтрока: {lineIndex} \nАргументы: {args}"
+SCRIPT_EXCEPTION_COMMENT_MUST_START_WITH_COMMENT_CHAR: "Комментарий должен начинаться с символа '#'. \nСтрока: {lineIndex} \nАргументы: {args} \nЗначение: {value}"
 
 SCRIPT_EXCEPTION_PROCESS_TERMINATED: "Выполнение скрипта остановлено. Строка: {lineIndex}"
 

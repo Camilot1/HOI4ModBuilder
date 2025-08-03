@@ -11,6 +11,7 @@ using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.scripts.objects;
+using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using System;
@@ -254,24 +255,57 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return History.GetValue().GetStateBuildingLevel(building);
         }
 
-        public ListObject GetHistoryScriptBlocks(DateTime dateTime)
+        public IListObject GetHistoryScriptBlocks(DateTime dateTime)
         {
             var list = new ListObject();
-
-            if (dateTime != default)
-                throw new NotImplementedException();
 
             if (History.GetValue() == null)
                 return list;
 
             var history = History.GetValue();
 
-            foreach (var block in history.DynamicScriptBlocks)
+            if (dateTime == default)
             {
-                block.SaveToListObject(list);
+                foreach (var block in history.DynamicScriptBlocks)
+                    block.SaveToListObject(list);
+                return list;
+            }
+
+            foreach (var innerHistoryEntry in history.InnerHistories)
+            {
+                if (innerHistoryEntry.Key == dateTime)
+                {
+                    foreach (var block in innerHistoryEntry.Value.DynamicScriptBlocks)
+                        block.SaveToListObject(list);
+                    break;
+                }
             }
 
             return list;
+        }
+
+        public void SetHistoryScriptBlocks(DateTime dateTime, IListObject list)
+        {
+            if (History.GetValue() == null)
+                return;
+
+            var history = History.GetValue();
+
+
+            if (dateTime == default)
+            {
+                ScriptBlockParseObject.LoadFromListObject(history, list, history.DynamicScriptBlocks);
+                return;
+            }
+
+            foreach (var innerHistoryEntry in history.InnerHistories)
+            {
+                if (innerHistoryEntry.Key == dateTime)
+                {
+                    ScriptBlockParseObject.LoadFromListObject(history, list, innerHistoryEntry.Value.DynamicScriptBlocks);
+                    return;
+                }
+            }
         }
 
         public void UpdateByDateTimeStamp(DateTime dateTime)

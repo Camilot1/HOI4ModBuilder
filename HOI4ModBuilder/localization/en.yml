@@ -487,6 +487,7 @@ SCRIPT_EXCEPTION_ARGUMENT_MUST_BE_VAR_DECLARATOR: "The argument number {argIndex
 SCRIPT_EXCEPTION_FILE_NOT_FOUND_INTERNAL: "The file \"{value}\" not found. \nLine: {lineIndex} \nArgs: {args}"
 SCRIPT_EXCEPTION_FILE_NOT_FOUND: "The file from argument number {argIndex} not found. \nLine: {lineIndex} \nArgs: {args}"
 SCRIPT_EXCEPTION_INFINITE_CYCLE: "Infinite cycle from {start} to {end} with step {step}. \nLine: {lineIndex} \nArgs: {args}"
+SCRIPT_EXCEPTION_COMMENT_MUST_START_WITH_COMMENT_CHAR: "Comment must start with character '#'. \nLine: {lineIndex} \nArgs: {args} \nValue: {value}"
 
 SCRIPT_EXCEPTION_PROCESS_TERMINATED: "Script process terminated. Line: {lineIndex}"
 

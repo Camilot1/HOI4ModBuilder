@@ -1,6 +1,4 @@
-﻿using HOI4ModBuilder.src.managers;
-using HOI4ModBuilder.src.scripts.commands;
-using HOI4ModBuilder.src.scripts.commands.declarators.funcs;
+﻿using HOI4ModBuilder.src.scripts.commands;
 using HOI4ModBuilder.src.scripts.commands.declarators.vars;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;

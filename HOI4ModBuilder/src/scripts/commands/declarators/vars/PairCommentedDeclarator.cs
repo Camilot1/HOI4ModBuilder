@@ -3,9 +3,9 @@ using HOI4ModBuilder.src.scripts.objects;
 
 namespace HOI4ModBuilder.src.scripts.commands.declarators.vars
 {
-    public class PairDeclarator : VarDeclarator
+    public class PairCommentedDeclarator : VarDeclarator
     {
-        private static readonly string _keyword = "PAIR";
+        private static readonly string _keyword = "PAIR_COMMENTED";
         public static new string GetKeyword() => _keyword;
         public override string GetPath() => "commands.declarators.vars.collections." + _keyword;
         public override string[] GetDocumentation() => _documentation;
@@ -29,7 +29,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators.vars
             $"\t[OPTIONAL]<VALUE_TYPE>:value>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new PairDeclarator();
+        public override ScriptCommand CreateEmptyCopy() => new PairCommentedDeclarator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
@@ -55,7 +55,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators.vars
                 var valueType = args[argIndexValueType];
                 var valueTypeObj = ScriptFabricsRegister.ProduceNewScriptObject(lineIndex, args, valueType, argIndexValueType);
 
-                var pair = new PairObject(keyTypeObj, valueTypeObj);
+                var pair = new PairCommentedObject(keyTypeObj, valueTypeObj);
 
                 if (!varsScope.TryDeclareVar(name, pair))
                     throw new VariableIsAlreadyDeclaredScriptException(lineIndex, args, name, argIndexName);

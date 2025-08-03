@@ -1,30 +1,31 @@
-﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
+﻿using HOI4ModBuilder.src.scripts.objects.interfaces;
+using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {
-    public class SetValueMethod : ScriptCommand
+    public class GetInlineCommentMethod : ScriptCommand
     {
-        private static readonly string _keyword = "SET_VALUE";
+        private static readonly string _keyword = "GET_INLINE_COMMENT";
         public static new string GetKeyword() => _keyword;
-        public override string GetPath() => "commands.declarators.methods." + _keyword;
+        public override string GetPath() => "commands.declarators.methods.comments." + _keyword;
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <ISETVALUE<VALUE_TYPE>:to> <VALUE_TYPE:from>",
+            $"{_keyword} <ISTRING:to> <ICOMMENTED:from>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\t<ISETVALUE<VALUE_TYPE>>:to>",
-            $"\t<VALUE_TYPE:from>",
+            $"\tOUT <ISTRING:to>",
+            $"\t<ICOMMENTED:from>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new GetValueMethod();
+        public override ScriptCommand CreateEmptyCopy() => new GetKeyMethod();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {
             lineIndex = index;
             args = ScriptParser.ParseCommandCallArgs(
                 (a) => a.Length == 3,
-                new bool[] { },
+                new bool[] { true },
                 out _executeBeforeCall,
                 lines, ref index, indent, varsScope, args
             );
@@ -32,18 +33,19 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             _varsScope = varsScope;
             _action = delegate ()
             {
-                var to = (ISetValueObject)ScriptParser.GetValue(
+                var to = (IStringObject)ScriptParser.GetValue(
                     varsScope, args[1], lineIndex, args,
-                    (o) => o is ISetValueObject
+                    (o) => o is IStringObject
                 );
 
-                var from = ScriptParser.ParseValue(
+                var from = (ICommentedObject)ScriptParser.GetValue(
                     varsScope, args[2], lineIndex, args,
-                    (o) => o.IsSameType(to.GetValueType())
+                    (o) => o is ICommentedObject
                 );
 
-                to.SetValue(lineIndex, args, from);
+                from.GetInlineComment(lineIndex, args, to);
             };
         }
     }
 }
+

@@ -3,8 +3,6 @@ using HOI4ModBuilder.src.scripts.commands.declarators.vars;
 using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
-using OpenTK.Input;
-using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.src.scripts.objects
 {
@@ -31,7 +29,7 @@ namespace HOI4ModBuilder.src.scripts.objects
             ValueType = value;
         }
 
-        public override string ToString() => $"{GetKeyword()}<{KeyType?.GetKeyword()}, {ValueType?.GetKeyword()}>({_key}, {_value})";
+        public override string ToString() => $"{GetKeyword()}<{KeyType?.GetKeyword()}, {ValueType?.GetKeyword()}>(key={_key}, value={_value})";
 
         public bool IsSameType(IScriptObject scriptObject) => scriptObject is PairObject;
 

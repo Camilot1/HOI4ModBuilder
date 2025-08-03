@@ -253,6 +253,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             _needToSave |= result;
             return result;
         }
+        public void Clear() => _list.Clear();
         public bool Contains(T obj) => _list.Contains(obj);
         public int Count => _list.Count;
 

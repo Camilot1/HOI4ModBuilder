@@ -6,5 +6,6 @@ namespace HOI4ModBuilder.src.scripts.objects.interfaces
         : IScriptObject, IAddObject, IGetObject, IPutObject, IInsertObject, IRemoveAtObject, IClearObject,
         IGetSizeObject, ISetSizeObject, ITrimObject, IRelativeObject, ISplitObject
     {
+        string GetString();
     }
 }

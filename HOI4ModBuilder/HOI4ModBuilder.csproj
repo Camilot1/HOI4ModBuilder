@@ -517,6 +517,7 @@
     <Compile Include="src\Pdoxcl2Sharp\INeedToSave.cs" />
     <Compile Include="src\scripts\commands\declarators\funcs\FuncDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\BitmapDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\PairCommentedDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\PairDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\primitives\BooleanDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\branches\BranchDeclarator.cs" />
@@ -572,6 +573,7 @@
     <Compile Include="src\scripts\commands\functions\map\states\GetStateRegionIdFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateScriptBlocksFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\SetStateBuildingLevelFunc.cs" />
+    <Compile Include="src\scripts\commands\functions\map\states\SetStateScriptBlocksFunc.cs" />
     <Compile Include="src\scripts\commands\functions\time\GetDaysSinceYearStartFunc.cs" />
     <Compile Include="src\scripts\commands\functions\time\GetWeeksSinceYearStartFunc.cs" />
     <Compile Include="src\scripts\commands\functions\utils\InterpolateFunc.cs" />
@@ -579,7 +581,9 @@
     <Compile Include="src\scripts\commands\keywords\ContinueKeyword.cs" />
     <Compile Include="src\scripts\commands\methods\AppendMethod.cs" />
     <Compile Include="src\scripts\commands\methods\bitmaps\GetPixelMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\comments\GetInlineCommentMethod.cs" />
     <Compile Include="src\scripts\commands\methods\GetKeyMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\comments\GetPrevCommentsMethod.cs" />
     <Compile Include="src\scripts\commands\methods\GetValueMethod.cs" />
     <Compile Include="src\scripts\commands\methods\math\CeilMethod.cs" />
     <Compile Include="src\scripts\commands\methods\math\ClampMethod.cs" />
@@ -603,7 +607,9 @@
     <Compile Include="src\scripts\commands\declarators\vars\collections\MapDeclarator.cs" />
     <Compile Include="src\scripts\commands\methods\ReadMethod.cs" />
     <Compile Include="src\scripts\commands\methods\ReverseMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\comments\SetInlineCommentMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetKeyMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\comments\SetPrevCommentsMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSeedMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSizeMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetValueMethod.cs" />
@@ -647,6 +653,7 @@
     <Compile Include="src\scripts\exceptions\VariableValueIsNotSetScriptException.cs" />
     <Compile Include="src\scripts\objects\AnyObject.cs" />
     <Compile Include="src\scripts\objects\BitmapObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\ICommentedObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\IGetKeyObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\IGetValueObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ILoadObject.cs" />
@@ -655,6 +662,7 @@
     <Compile Include="src\scripts\objects\interfaces\basic\ISetValueObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\IBitmapObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\IPairObject.cs" />
+    <Compile Include="src\scripts\objects\PairCommentedObject.cs" />
     <Compile Include="src\scripts\objects\PairObject.cs" />
     <Compile Include="src\scripts\objects\primitives\BooleanObject.cs" />
     <Compile Include="src\scripts\objects\primitives\ByteObject.cs" />

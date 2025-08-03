@@ -536,5 +536,6 @@ namespace HOI4ModBuilder.src.utils
         REGION,
         VICTORY_POINTS,
         BUILDINGS,
+        SCRIPT_EXCEPTION_COMMENT_MUST_START_WITH_COMMENT_CHAR,
     }
 }

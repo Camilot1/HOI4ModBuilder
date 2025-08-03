@@ -91,7 +91,8 @@ namespace HOI4ModBuilder.src.scripts
                     enumLoc,
                     new Dictionary<string, string> {
                         { "{lineIndex}", "" + (lineIndex + 1) },
-                        { "{args}", string.Join(" ", args) }
+                        { "{args}", string.Join(" ", args) },
+                        { "{ex}", ex.Message }
                     }
                 ),
                 ex

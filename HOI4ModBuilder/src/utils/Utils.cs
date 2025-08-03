@@ -695,5 +695,13 @@ namespace HOI4ModBuilder
                 throw new FormatException("Input string was not in correct format: " + str);
         }
 
+
+        public static T[] CopyArray<T>(T[] src)
+        {
+            T[] result = new T[src.Length];
+            for (int i = 0; i < src.Length; i++)
+                result[i] = src[i];
+            return result;
+        }
     }
 }
