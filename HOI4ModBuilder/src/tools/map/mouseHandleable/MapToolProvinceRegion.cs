@@ -84,7 +84,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     {
                         bool needToRedraw = false;
                         foreach (var tuple in list)
-                            needToRedraw |= StrategicRegionManager.TransferProvince(tuple.Item3, tuple.Item1, tuple.Item2);
+                            needToRedraw |= StrategicRegionManager.TransferProvince(tuple.Item3, tuple.Item2, tuple.Item1);
                         MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
                     };
                 }
