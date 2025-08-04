@@ -2,7 +2,6 @@
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.managers;
-using HOI4ModBuilder.src.openTK.text;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using System;
@@ -58,7 +57,6 @@ namespace HOI4ModBuilder
 
         private static HashSet<Texture2D> _mapPairTextures = new HashSet<Texture2D>();
         private static HashSet<Texture2D> _textures = new HashSet<Texture2D>();
-        private static HashSet<SDFTextBundle> _sdfTextBundles = new HashSet<SDFTextBundle>();
 
         public struct MapPair
         {
@@ -219,9 +217,6 @@ namespace HOI4ModBuilder
 
             foreach (var texture in new HashSet<Texture2D>(_textures))
                 texture.Dispose();
-
-            foreach (var sdfTextBundle in new HashSet<SDFTextBundle>(_sdfTextBundles))
-                sdfTextBundle.Dispose();
         }
 
         public static void AddTexture(Texture2D texture) => _textures.Add(texture);

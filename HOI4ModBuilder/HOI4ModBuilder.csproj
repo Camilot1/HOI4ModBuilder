@@ -514,6 +514,10 @@
     <Compile Include="src\newParser\test\TestObject.cs" />
     <Compile Include="src\newParser\interfaces\INeedToSave.cs" />
     <Compile Include="src\newParser\test\TestMain.cs" />
+    <Compile Include="src\openTK\text\FontAtlas.cs" />
+    <Compile Include="src\openTK\text\Glyph.cs" />
+    <Compile Include="src\openTK\text\TextObject.cs" />
+    <Compile Include="src\openTK\text\TextRenderer.cs" />
     <Compile Include="src\Pdoxcl2Sharp\INeedToSave.cs" />
     <Compile Include="src\scripts\commands\declarators\funcs\FuncDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\BitmapDeclarator.cs" />
@@ -770,14 +774,8 @@
     <Compile Include="src\managers\mapChecks\errors\ErrorManager.cs" />
     <Compile Include="src\managers\FileManager.cs" />
     <Compile Include="src\managers\LocalModDataManager.cs" />
-    <Compile Include="src\openTK\text\Font.cs" />
-    <Compile Include="src\openTK\text\FontData.cs" />
-    <Compile Include="src\openTK\text\FontManager.cs" />
-    <Compile Include="src\openTK\text\Glyph.cs" />
-    <Compile Include="src\openTK\text\SDFText.cs" />
     <Compile Include="src\openTK\SegmentedTexturedPlane.cs" />
     <Compile Include="src\openTK\Shader.cs" />
-    <Compile Include="src\openTK\text\SDFTextBundle.cs" />
     <Compile Include="src\Pdoxcl2Sharp\AdvancedParadoxSaver.cs" />
     <Compile Include="src\Pdoxcl2Sharp\ConsecutiveElementsAttribute.cs" />
     <Compile Include="src\Pdoxcl2Sharp\Deserializer.cs" />

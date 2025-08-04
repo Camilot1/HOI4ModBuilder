@@ -19,7 +19,6 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
-using HOI4ModBuilder.src.openTK.text;
 using static HOI4ModBuilder.src.managers.ActionHistoryManager;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.utils.structs;
@@ -54,7 +53,6 @@ namespace HOI4ModBuilder.managers
         public static TexturedPlane MapMainLayer, BordersMapPlane, RiversMapPlane;
         public static List<TextureInfo> additionalMapTextures = new List<TextureInfo>();
         public static TexturedPlane selectedTexturedPlane;
-        public static SDFTextBundle sdfTextBundle;
         public static Shader sdfTextShader;
         public static bool showSelectZone;
         public static bool blackBorders;
@@ -118,20 +116,6 @@ namespace HOI4ModBuilder.managers
                 mapDifY = MapMainLayer.size.y / 2f;
             }
         }
-
-        /*
-        public static void LoadSDFThings()
-        {
-            sdfTextBundle?.Dispose();
-            sdfTextBundle = new SDFTextBundle();
-            sdfTextBundle.AddText(new SDFText("aAбб123", new Color3B(255, 0, 0), new Value2F(), new Value2F(1f, 1f), FontManager.fonts["test"]));
-
-            if (sdfTextShader == null)
-            {
-                sdfTextShader = new Shader(@"shaders\sdf_text_shader.vert", @"shaders\sdf_text_shader.frag");
-            }
-        }
-        */
 
         public static void FocusOn(Point2F point) => FocusOn(point.x, point.y);
 
