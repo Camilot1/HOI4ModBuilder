@@ -33,6 +33,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
+using OpenTK;
 
 namespace HOI4ModBuilder.managers
 {
@@ -184,43 +185,15 @@ namespace HOI4ModBuilder.managers
 
             MapPositionsManager.Draw();
 
+            var _projection = Matrix4.CreateOrthographicOffCenter(
+                0, MainForm.Instance.glControl.Width,
+                MainForm.Instance.glControl.Height, 0,
+                -1f, 1f
+            );
+
+            TextManager.Instance.Render(_projection);
+
             GL.PopMatrix();
-
-            /*
-            if (sdfTextShader != null)
-            {
-                GL.LoadIdentity();
-                GL.PushMatrix();
-                GL.Scale(zoomFactor, zoomFactor, zoomFactor);
-                GL.Translate(mapDifX, -mapDifY, 0); // перемещение
-                GL.Color3(1f, 1f, 0f);
-
-                GL.PointSize(10);
-                GL.Begin(PrimitiveType.Points);
-                foreach (SDFText text in sdfTextBundle.GetFontInfo((FontManager.fonts.Values.ToArray())[0]).texts)
-                {
-                    GL.Vertex2(text.position.x, text.position.y);
-                    GL.Vertex2(text.position.x + text.GetWidth(), text.position.y);
-                }
-                GL.End();
-
-                // Проверка местоположения атрибутов
-                int positionLocation = sdfTextShader.GetAttribProgram("inPosition");
-                int colorLocation = sdfTextShader.GetAttribProgram("inColor");
-                int texCoordLocation = sdfTextShader.GetAttribProgram("inTextureCoord");
-
-                sdfTextShader.ActiveProgram();
-
-                positionLocation = sdfTextShader.GetAttribProgram("inPosition");
-                colorLocation = sdfTextShader.GetAttribProgram("inColor");
-                texCoordLocation = sdfTextShader.GetAttribProgram("inTextureCoord");
-
-                sdfTextBundle.Draw();
-                sdfTextShader.DeactiveProgram();
-
-                GL.PopMatrix();
-            }
-            */
 
             GL.Color3(1f, 1f, 1f);
         }

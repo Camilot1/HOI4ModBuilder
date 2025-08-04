@@ -221,8 +221,6 @@ namespace HOI4ModBuilder
 
         public static void AddTexture(Texture2D texture) => _textures.Add(texture);
         public static void RemoveTexture(Texture2D texture) => _textures.Remove(texture);
-        public static void AddSDFTextBundle(SDFTextBundle sdfTextBundle) => _sdfTextBundles.Add(sdfTextBundle);
-        public static void RemoveSDFTextBundle(SDFTextBundle sdfTextBundle) => _sdfTextBundles.Remove(sdfTextBundle);
 
         public static void LoadTextures(Settings settings)
         {

@@ -40,6 +40,7 @@ using HOI4ModBuilder.src.tools.brushes;
 using HOI4ModBuilder.src.newParser.objects;
 using System.Linq;
 using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
+using HOI4ModBuilder.src.openTK;
 
 namespace HOI4ModBuilder
 {
@@ -212,6 +213,7 @@ namespace HOI4ModBuilder
         {
             base.OnFormClosing(e);
             TextureManager.DisposeAllTextures();
+            TextManager.Instance.Dispose();
         }
 
         public void InvokeAction(Action action)
@@ -537,6 +539,8 @@ namespace HOI4ModBuilder
 
                 GL.Enable(EnableCap.CullFace);
                 GL.CullFace(CullFaceMode.Back);
+
+                TextManager.Instance.OnLoad();
             });
         }
 

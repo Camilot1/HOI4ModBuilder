@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Costura.Fody.5.7.0\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.5.7.0\build\Costura.Fody.props')" />
   <Import Project="..\packages\SharpFont.4.0.1\build\SharpFont.props" Condition="Exists('..\packages\SharpFont.4.0.1\build\SharpFont.props')" />
   <Import Project="..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props" Condition="Exists('..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props')" />
+  <Import Project="..\packages\Costura.Fody.5.7.0\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.5.7.0\build\Costura.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -100,9 +100,6 @@
     <Reference Include="Costura, Version=5.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.5.7.0\lib\netstandard1.0\Costura.dll</HintPath>
     </Reference>
-    <Reference Include="FreeTypeSharp, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FreeTypeSharp.1.1.3\lib\netstandard2.0\FreeTypeSharp.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
       <Private>True</Private>
@@ -117,8 +114,8 @@
     <Reference Include="OpenTK.GLControl, Version=3.3.3.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.GLControl.3.3.3\lib\net20\OpenTK.GLControl.dll</HintPath>
     </Reference>
-    <Reference Include="QuickFont, Version=4.5.7053.25687, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\QuickFont.Desktop.4.5.7053.25687\lib\net45\QuickFont.dll</HintPath>
+    <Reference Include="QuickFont.ES20, Version=4.5.7053.25690, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuickFont.ES20.4.5.7053.25690\lib\net45\QuickFont.ES20.dll</HintPath>
     </Reference>
     <Reference Include="SharpFont, Version=4.0.1.200, Culture=neutral, PublicKeyToken=48add4c483071cdf, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpFont.4.0.1\lib\net45\SharpFont.dll</HintPath>
@@ -514,6 +511,7 @@
     <Compile Include="src\newParser\test\TestObject.cs" />
     <Compile Include="src\newParser\interfaces\INeedToSave.cs" />
     <Compile Include="src\newParser\test\TestMain.cs" />
+    <Compile Include="src\openTK\TextManager.cs" />
     <Compile Include="src\openTK\text\FontAtlas.cs" />
     <Compile Include="src\openTK\text\Glyph.cs" />
     <Compile Include="src\openTK\text\TextObject.cs" />
@@ -966,17 +964,15 @@
     <None Include="Resources\icon_telegram.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\FreeTypeSharp.1.1.3\build\net462\FreeTypeSharp.targets" Condition="Exists('..\packages\FreeTypeSharp.1.1.3\build\net462\FreeTypeSharp.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\FreeTypeSharp.1.1.3\build\net462\FreeTypeSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FreeTypeSharp.1.1.3\build\net462\FreeTypeSharp.targets'))" />
-    <Error Condition="!Exists('..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props'))" />
-    <Error Condition="!Exists('..\packages\SharpFont.4.0.1\build\SharpFont.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpFont.4.0.1\build\SharpFont.props'))" />
     <Error Condition="!Exists('..\packages\Fody.6.5.5\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.5.5\build\Fody.targets'))" />
     <Error Condition="!Exists('..\packages\Costura.Fody.5.7.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.5.7.0\build\Costura.Fody.props'))" />
     <Error Condition="!Exists('..\packages\Costura.Fody.5.7.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.5.7.0\build\Costura.Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props'))" />
+    <Error Condition="!Exists('..\packages\SharpFont.4.0.1\build\SharpFont.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpFont.4.0.1\build\SharpFont.props'))" />
   </Target>
   <Import Project="..\packages\Fody.6.5.5\build\Fody.targets" Condition="Exists('..\packages\Fody.6.5.5\build\Fody.targets')" />
   <Import Project="..\packages\Costura.Fody.5.7.0\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.5.7.0\build\Costura.Fody.targets')" />

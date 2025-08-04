@@ -1,5 +1,4 @@
-﻿using FreeTypeSharp.Native;
-using HOI4ModBuilder.hoiDataObjects.common.terrain;
+﻿using HOI4ModBuilder.hoiDataObjects.common.terrain;
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
@@ -11,7 +10,6 @@ using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map
 {
