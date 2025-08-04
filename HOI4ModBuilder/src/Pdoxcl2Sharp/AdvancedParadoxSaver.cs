@@ -1,6 +1,5 @@
 ﻿using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
-using SharpFont;
 using System;
 using System.Collections.Generic;
 using System.Linq;
