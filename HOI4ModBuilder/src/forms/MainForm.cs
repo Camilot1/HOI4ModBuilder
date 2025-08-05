@@ -56,7 +56,7 @@ namespace HOI4ModBuilder
         public static bool isMapMainLayerChangeEnabled = false;
 
         private Color brushFirstColor, brushSecondColor;
-        private ViewportInfo viewportInfo;
+        public ViewportInfo viewportInfo = new ViewportInfo();
         public EnumMainLayer enumMainLayer = EnumMainLayer.PROVINCES_MAP;
         public EnumTool enumTool = EnumTool.CURSOR;
         public EnumEditLayer enumEditLayer = EnumEditLayer.PROVINCES;

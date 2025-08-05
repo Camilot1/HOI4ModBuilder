@@ -34,6 +34,7 @@ using System.Linq;
 using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using OpenTK;
+using System.Numerics;
 
 namespace HOI4ModBuilder.managers
 {
@@ -186,12 +187,33 @@ namespace HOI4ModBuilder.managers
             MapPositionsManager.Draw();
 
             var _projection = Matrix4.CreateOrthographicOffCenter(
-                0, MainForm.Instance.glControl.Width,
-                MainForm.Instance.glControl.Height, 0,
+                MainForm.Instance.viewportInfo.x,
+                -MainForm.Instance.viewportInfo.x + MainForm.Instance.viewportInfo.width,
+                MainForm.Instance.viewportInfo.y,
+                -MainForm.Instance.viewportInfo.y + MainForm.Instance.viewportInfo.height,
                 -1f, 1f
             );
 
-            TextManager.Instance.Render(_projection);
+
+            float factor = (float)(zoomFactor) * MainForm.Instance.viewportInfo.max;
+
+            float scale = 0.5f;
+
+            var viewMatrix =
+                Matrix4.CreateScale(scale, scale, scale) *
+                Matrix4.CreateScale(factor, factor, factor) *
+                Matrix4.CreateTranslation(
+                    MainForm.Instance.viewportInfo.width / 2f,
+                    MainForm.Instance.viewportInfo.height / 2f,
+                    0
+                ) *
+                Matrix4.CreateTranslation(
+                    (float)(mapDifX * factor / 2f),
+                    (float)(-mapDifY * factor / 2f),
+                    0f
+                );
+
+            TextManager.Instance.Render(viewMatrix * _projection);
 
             GL.PopMatrix();
 

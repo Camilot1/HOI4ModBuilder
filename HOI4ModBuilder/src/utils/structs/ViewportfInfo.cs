@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.utils.structs
 {
-    public struct ViewportInfo
+    public class ViewportInfo
     {
         public int x, y, width, height, max;
     }
