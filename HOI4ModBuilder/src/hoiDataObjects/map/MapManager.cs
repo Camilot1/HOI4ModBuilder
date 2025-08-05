@@ -195,25 +195,20 @@ namespace HOI4ModBuilder.managers
             );
 
 
+            var scale = 0.1f;
+            var scaleSq = scale / 2f;
             float factor = (float)(zoomFactor) * MainForm.Instance.viewportInfo.max;
 
-            float scale = 0.5f;
-
             var viewMatrix =
-                Matrix4.CreateScale(scale, scale, scale) *
+                Matrix4.CreateScale(scaleSq, scaleSq, scaleSq) *
                 Matrix4.CreateScale(factor, factor, factor) *
                 Matrix4.CreateTranslation(
-                    MainForm.Instance.viewportInfo.width / 2f,
-                    MainForm.Instance.viewportInfo.height / 2f,
-                    0
-                ) *
-                Matrix4.CreateTranslation(
-                    (float)(mapDifX * factor / 2f),
-                    (float)(-mapDifY * factor / 2f),
+                    MainForm.Instance.viewportInfo.width / 2f + (float)(mapDifX * factor / 2f),
+                    MainForm.Instance.viewportInfo.height / 2f + (float)(-mapDifY * factor / 2f),
                     0f
                 );
 
-            TextManager.Instance.Render(viewMatrix * _projection);
+            TextManager.Instance.Render(viewMatrix * _projection, scale);
 
             GL.PopMatrix();
 

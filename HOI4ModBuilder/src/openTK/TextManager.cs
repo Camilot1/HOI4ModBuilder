@@ -23,10 +23,10 @@ namespace HOI4ModBuilder.src.openTK
             _font = new QFont("data/fonts/HappySans.ttf", 72, new QFontBuilderConfiguration(true));
             _drawing = new QFontDrawing();
 
-            Update();
+            Update(0.5f);
         }
 
-        public void Update()
+        public void Update(float scale)
         {
             _drawing.DrawingPimitiveses.Clear();
             // draw with options
@@ -40,7 +40,7 @@ namespace HOI4ModBuilder.src.openTK
 
             var dp = new QFontDrawingPimitive(_font);
 
-            size = dp.Print("text2", new Vector3(100, 72, 0), new SizeF(300, float.MaxValue), QFontAlignment.Centre);
+            size = dp.Print(".", new Vector3(1000 / scale, 72, 0), new SizeF(300, float.MaxValue), QFontAlignment.Centre);
             _drawing.DrawingPimitiveses.Add(dp);
 
             // after all changes do update buffer data and extend it's size if needed.
@@ -48,12 +48,12 @@ namespace HOI4ModBuilder.src.openTK
 
         }
 
-        public void Render(Matrix4 proj)
+        public void Render(Matrix4 proj, float scale)
         {
             if (_drawing == null)
                 return;
 
-            Update();
+            Update(scale);
 
             _drawing.ProjectionMatrix = proj;
             _drawing.Draw();
