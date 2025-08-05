@@ -1,7 +1,5 @@
-﻿using HOI4ModBuilder.hoiDataObjects;
-using HOI4ModBuilder.hoiDataObjects.map;
+﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.src;
-using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
@@ -20,21 +18,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.src.managers.ActionHistoryManager;
-using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.tools.brushes;
 using System.Drawing.Imaging;
 using System.Drawing;
 using System.Threading;
 using HOI4ModBuilder.src.scripts;
-using HOI4ModBuilder.src.scripts.objects;
-using HOI4ModBuilder.src.scripts.objects.interfaces;
 using System.Collections.Concurrent;
 using System.Linq;
 using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
-using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using OpenTK;
-using System.Numerics;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
 
 namespace HOI4ModBuilder.managers
 {
@@ -62,6 +56,7 @@ namespace HOI4ModBuilder.managers
 
         public static bool[] displayLayers = new bool[Enum.GetValues(typeof(EnumAdditionalLayers)).Length];
 
+        public static float TextScale { get; set; } = 0.1f;
         public static double zoomFactor = 0.0004f;
         public static double mapDifX, mapDifY;
 
@@ -136,7 +131,8 @@ namespace HOI4ModBuilder.managers
             GL.Scale(zoomFactor, zoomFactor, zoomFactor);
             GL.Translate(mapDifX, -mapDifY, 0); // перемещение
 
-            if (showMainLayer) MapMainLayer.Draw();
+            if (showMainLayer)
+                MapMainLayer.Draw();
 
             if (displayLayers[(int)EnumAdditionalLayers.BORDERS])
             {
@@ -194,13 +190,11 @@ namespace HOI4ModBuilder.managers
                 -1f, 1f
             );
 
-
-            var scale = 0.1f;
-            var scaleSq = scale / 2f;
+            var scaleHalf = TextScale / 2f;
             float factor = (float)(zoomFactor) * MainForm.Instance.viewportInfo.max;
 
             var viewMatrix =
-                Matrix4.CreateScale(scaleSq, scaleSq, scaleSq) *
+                Matrix4.CreateScale(scaleHalf, scaleHalf, scaleHalf) *
                 Matrix4.CreateScale(factor, factor, factor) *
                 Matrix4.CreateTranslation(
                     MainForm.Instance.viewportInfo.width / 2f + (float)(mapDifX * factor / 2f),
@@ -208,7 +202,7 @@ namespace HOI4ModBuilder.managers
                     0f
                 );
 
-            TextManager.Instance.Render(viewMatrix * _projection, scale);
+            TextRenderManager.Instance.Render(viewMatrix * _projection, zoomFactor);
 
             GL.PopMatrix();
 
@@ -302,6 +296,39 @@ namespace HOI4ModBuilder.managers
             GL.End();
         }
 
+        private static readonly IMapRenderer[] _mapRenderers = InitMapRenderers();
+
+        private static IMapRenderer[] InitMapRenderers()
+        {
+            var array = new IMapRenderer[Enum.GetValues(typeof(EnumMainLayer)).Length];
+
+            array[(int)EnumMainLayer.PROVINCES_MAP] = new MapRendererProvincesMap();
+            array[(int)EnumMainLayer.STATES] = new MapRendererStates();
+            array[(int)EnumMainLayer.STRATEGIC_REGIONS] = new MapRendererStrategicRegions();
+            array[(int)EnumMainLayer.AI_AREAS] = new MapRendererAiAreas();
+            array[(int)EnumMainLayer.COUNTRIES] = new MapRendererCountries();
+            array[(int)EnumMainLayer.CORES_OF] = new MapRendererCoresOf();
+            array[(int)EnumMainLayer.CLAIMS_BY] = new MapRendererClaimsBy();
+            array[(int)EnumMainLayer.PROVINCES_TYPES] = new MapRendererProvincesTypes();
+            array[(int)EnumMainLayer.PROVINCES_TERRAINS] = new MapRendererProvincesTerrains();
+            array[(int)EnumMainLayer.PROVINCES_SIZES] = new MapRendererProvincesSizes();
+            array[(int)EnumMainLayer.REGIONS_TERRAINS] = new MapRendererRegionsTerrains();
+            array[(int)EnumMainLayer.CONTINENTS] = new MapRendererContinents();
+            array[(int)EnumMainLayer.MANPOWER] = new MapRendererManpower();
+            array[(int)EnumMainLayer.VICTORY_POINTS] = new MapRendererVictoryPoints();
+            array[(int)EnumMainLayer.STATES_CATEGORIES] = new MapRendererStateCategories();
+            array[(int)EnumMainLayer.BUILDINGS] = new MapRendererBuildings();
+            array[(int)EnumMainLayer.TERRAIN_MAP] = new MapRendererTerrainMap();
+            array[(int)EnumMainLayer.TREES_MAP] = new MapRendererTreesMap();
+            array[(int)EnumMainLayer.CITIES_MAP] = new MapRendererCitiesMap();
+            array[(int)EnumMainLayer.HEIGHT_MAP] = new MapRendererHeightMap();
+            array[(int)EnumMainLayer.NORMAL_MAP] = new MapRendererNormalMap();
+            array[(int)EnumMainLayer.CUSTOM_SCRIPT] = new MapRendereCustomScript();
+            array[(int)EnumMainLayer.NONE] = new MapRendererNone();
+
+            return array;
+        }
+
         public static void HandleMapMainLayerChange(EnumMainLayer enumMainLayer, string parameter)
         {
             if (ProvincesPixels == null)
@@ -312,386 +339,14 @@ namespace HOI4ModBuilder.managers
 
             Func<Province, int> func = (p) => Utils.ArgbToInt(255, 0, 0, 0);
             Func<Province, int, int> customFunc = null;
-            LogScaleData logScaleData = default;
 
-            switch (enumMainLayer)
-            {
-                case EnumMainLayer.PROVINCES_MAP:
-                    func = null;
-                    break;
-                case EnumMainLayer.TERRAIN_MAP:
-                    MapMainLayer.Texture = TextureManager.terrain.texture;
-                    return;
-                case EnumMainLayer.TREES_MAP:
-                    MapMainLayer.Texture = TextureManager.trees.texture;
-                    return;
-                case EnumMainLayer.CITIES_MAP:
-                    MapMainLayer.Texture = TextureManager.cities.texture;
-                    return;
-                case EnumMainLayer.HEIGHT_MAP:
-                    MapMainLayer.Texture = TextureManager.height.texture;
-                    return;
-                case EnumMainLayer.NORMAL_MAP:
-                    MapMainLayer.Texture = TextureManager.normal.texture;
-                    return;
-                case EnumMainLayer.NONE:
-                    MapMainLayer.Texture = TextureManager.none.texture;
-                    return;
+            MapRendererResult result = _mapRenderers[(int)enumMainLayer]
+                .Execute(ref func, ref customFunc, parameter);
 
-                case EnumMainLayer.STATES:
-                    func = (p) =>
-                    {
-                        if (p.State == null)
-                            return Utils.ArgbToInt(255, 0, 0, 0);
-                        else return p.State.Color;
-                    };
-                    break;
-                case EnumMainLayer.STRATEGIC_REGIONS:
-                    func = (p) =>
-                    {
-                        if (p.Region == null)
-                            return Utils.ArgbToInt(255, 0, 0, 0);
-                        else return p.Region.color;
-                    };
-                    break;
-                case EnumMainLayer.AI_AREAS:
-                    if (!AiAreaManager.TryGetAiArea(parameter, out AiArea aiArea))
-                    {
-                        func = (p) => Utils.ArgbToInt(255, 0, 0, 0);
-                        break;
-                    }
-
-                    func = (p) =>
-                    {
-                        bool continentFlag = aiArea.HasContinents && aiArea.HasContinentId(p.ContinentId);
-                        bool regionFlag = aiArea.HasRegions && aiArea.HasRegion(p.Region);
-                        return Utils.ArgbToInt(255, 0, continentFlag ? (byte)127 : (byte)0, regionFlag ? (byte)127 : (byte)0);
-                    };
-
-                    break;
-                case EnumMainLayer.COUNTRIES:
-                    func = (p) =>
-                    {
-                        var type = p.Type;
-                        //Проверка на sea провинции
-                        if (type == EnumProvinceType.SEA)
-                        {
-                            if (p.State == null)
-                                return Utils.ArgbToInt(255, 0, 0, 255);
-                            else
-                                return Utils.ArgbToInt(255, 0, 0, 0);
-                        }
-                        else if (type == EnumProvinceType.LAKE)
-                            return Utils.ArgbToInt(255, 0, 255, 255);
-                        else if (p.State == null || (p.State.owner == null && p.State.controller == null))
-                            return Utils.ArgbToInt(255, 0, 0, 0);
-                        else if (p.State.controller != null)
-                            return p.State.controller.color;
-                        else return p.State.owner.color;
-                    };
-                    break;
-                case EnumMainLayer.CORES_OF:
-                    CountryManager.TryGetCountry(parameter, out var targetCoreOfCountry);
-                    func = (p) =>
-                    {
-                        var type = p.Type;
-                        //Проверка на sea провинции
-                        if (type == EnumProvinceType.SEA)
-                        {
-                            if (p.State == null)
-                                return Utils.ArgbToInt(255, 0, 0, 255);
-                            else
-                                return Utils.ArgbToInt(255, 0, 0, 0);
-                        }
-                        else if (type == EnumProvinceType.LAKE)
-                            return Utils.ArgbToInt(255, 0, 255, 255);
-                        else if (p.State == null || targetCoreOfCountry == null)
-                            return Utils.ArgbToInt(255, 0, 0, 0);
-                        else if (p.State.CurrentCoresOf.Contains(targetCoreOfCountry))
-                            return targetCoreOfCountry.color;
-                        else return Utils.ArgbToInt(255, 0, 0, 0);
-                    };
-                    break;
-                case EnumMainLayer.CLAIMS_BY:
-                    CountryManager.TryGetCountry(parameter, out var targetClaimByCountry);
-                    func = (p) =>
-                    {
-                        var type = p.Type;
-                        //Проверка на sea провинции
-                        if (type == EnumProvinceType.SEA)
-                        {
-                            if (p.State == null)
-                                return Utils.ArgbToInt(255, 0, 0, 255);
-                            else
-                                return Utils.ArgbToInt(255, 0, 0, 0);
-                        }
-                        else if (type == EnumProvinceType.LAKE)
-                            return Utils.ArgbToInt(255, 0, 255, 255);
-                        else if (p.State == null || targetClaimByCountry == null)
-                            return Utils.ArgbToInt(255, 0, 0, 0);
-                        else if (p.State.CurrentClaimsBy.Contains(targetClaimByCountry))
-                            return targetClaimByCountry.color;
-                        else return Utils.ArgbToInt(255, 0, 0, 0);
-                    };
-                    break;
-                case EnumMainLayer.PROVINCES_TYPES:
-                    func = (p) =>
-                    {
-                        var type = p.Type;
-                        bool isCoastal = p.IsCoastal;
-                        if (type == EnumProvinceType.LAND)
-                        {
-                            if (isCoastal)
-                                return Utils.ArgbToInt(255, 127, 127, 0);
-                            else
-                                return Utils.ArgbToInt(255, 0, 127, 0);
-                        }
-                        else if (type == EnumProvinceType.SEA)
-                        {
-                            if (isCoastal)
-                                return Utils.ArgbToInt(255, 127, 0, 127);
-                            else
-                                return Utils.ArgbToInt(255, 0, 0, 127);
-                        }
-                        else if (type == EnumProvinceType.LAKE)
-                            return Utils.ArgbToInt(255, 127, 255, 255);
-                        else
-                            return Utils.ArgbToInt(255, 0, 0, 0);
-                    };
-                    break;
-                case EnumMainLayer.PROVINCES_TERRAINS:
-                    func = (p) =>
-                    {
-                        if (p.Terrain == null)
-                            return Utils.ArgbToInt(255, 0, 0, 0);
-                        else
-                            return p.Terrain.color;
-                    };
-                    break;
-                case EnumMainLayer.PROVINCES_SIZES:
-                    ProvinceManager.GetMinMaxMapProvinceSizes(out int minPixelsCount, out int maxPixelsCount);
-                    logScaleData = new LogScaleData(minPixelsCount, maxPixelsCount);
-                    func = (p) =>
-                    {
-                        var value = (byte)logScaleData.CalculateInverted(p.pixelsCount, 255d);
-                        return Utils.ArgbToInt(255, value, value, value);
-                    };
-                    break;
-                case EnumMainLayer.REGIONS_TERRAINS:
-                    func = (p) =>
-                    {
-                        if (p.Region == null || p.Region.Terrain == null)
-                            return Utils.ArgbToInt(255, 0, 0, 0);
-                        else
-                            return p.Region.Terrain.color;
-                    };
-                    break;
-                case EnumMainLayer.CONTINENTS:
-                    func = (p) => ContinentManager.GetColorById(p.ContinentId);
-                    break;
-                case EnumMainLayer.MANPOWER:
-                    StateManager.GetMinMaxWeightedManpower(out double manpowerWeightedMin, out double manpowerWeightedMax);
-                    logScaleData = new LogScaleData(manpowerWeightedMin, manpowerWeightedMax);
-
-                    func = (p) =>
-                    {
-                        var type = p.Type;
-                        //Проверка на sea провинции
-                        if (type == EnumProvinceType.SEA)
-                        {
-                            if (p.State == null)
-                                return Utils.ArgbToInt(255, 0, 0, 255);
-                            else
-                                return Utils.ArgbToInt(255, 255, 0, 255);
-                        }
-                        else if (type == EnumProvinceType.LAKE)
-                            return Utils.ArgbToInt(255, 127, 255, 255);
-                        else if (p.State == null)
-                            return Utils.ArgbToInt(255, 255, 0, 0);
-                        else if (p.State.CurrentManpower < 1)
-                            return Utils.ArgbToInt(255, 255, 106, 0);
-
-                        var valueFactor = p.State.CurrentManpower / (double)p.State.pixelsCount;
-                        var value = (byte)logScaleData.CalculateInverted(valueFactor, 255d);
-                        return Utils.ArgbToInt(255, value, value, value);
-                    };
-                    break;
-                case EnumMainLayer.VICTORY_POINTS:
-                    ProvinceManager.GetMinMaxVictoryPoints(out uint victoryPointsMin, out uint victoryPointsMax);
-                    logScaleData = new LogScaleData(victoryPointsMin, victoryPointsMax);
-
-                    func = (p) =>
-                    {
-                        var type = p.Type;
-                        //Проверка на sea провинции
-                        if (type == EnumProvinceType.SEA)
-                        {
-                            if (p.State == null)
-                                return Utils.ArgbToInt(255, 0, 0, 255);
-                            else
-                                return Utils.ArgbToInt(255, 255, 0, 255);
-                        }
-
-                        byte value = (byte)logScaleData.CalculateInverted(p.victoryPoints, 255d);
-                        return Utils.ArgbToInt(255, value, value, value);
-                    };
-                    break;
-                case EnumMainLayer.STATES_CATEGORIES:
-                    func = (p) =>
-                    {
-                        if (p.State == null)
-                            return Utils.ArgbToInt(255, 0, 0, 0);
-                        else if (p.State.StateCategory.GetValue() == null)
-                            return Utils.ArgbToInt(255, 255, 0, 0);
-                        else
-                            return p.State.StateCategory.GetValue().color;
-                    };
-                    break;
-                case EnumMainLayer.BUILDINGS:
-                    if (!BuildingManager.TryGetBuilding(parameter, out Building building))
-                    {
-                        func = (p) =>
-                        {
-                            var type = p.Type;
-                            if (type == EnumProvinceType.SEA)
-                                return Utils.ArgbToInt(255, 0, 0, 127);
-                            else if (type == EnumProvinceType.LAKE)
-                                return Utils.ArgbToInt(255, 127, 255, 255);
-                            else
-                                return Utils.ArgbToInt(255, 0, 0, 0);
-                        };
-                        break;
-                    }
-
-                    var buildingLevelCap = building.LevelCap.GetValue();
-                    var buildingSlotCategory = buildingLevelCap.GetSlotCategory();
-
-                    if (buildingSlotCategory == EnumBuildingSlotCategory.PROVINCIAL)
-                    {
-                        float maxLevel = buildingLevelCap.GetProvinceMaxCount();
-
-                        func = (p) =>
-                        {
-                            var type = p.Type;
-                            if (type == EnumProvinceType.SEA)
-                                return Utils.ArgbToInt(255, 0, 0, 127);
-                            else if (type == EnumProvinceType.LAKE)
-                                return Utils.ArgbToInt(255, 127, 255, 255);
-
-                            if (!p.TryGetBuildingCount(building, out uint count))
-                                return Utils.ArgbToInt(255, 0, 0, 0);
-
-                            float factor = count / maxLevel;
-                            if (factor > 1)
-                                return Utils.ArgbToInt(255, 255, 0, 0);
-                            else
-                            {
-                                byte value = (byte)(255 * factor);
-                                return Utils.ArgbToInt(255, 0, value, 0);
-                            }
-                        };
-                    }
-                    else if (buildingSlotCategory == EnumBuildingSlotCategory.SHARED)
-                    {
-                        uint maxCount = 0;
-                        foreach (State state in StateManager.GetStates())
-                        {
-                            if (state.stateBuildings.TryGetValue(building, out uint max))
-                                if (max > maxCount) maxCount = max;
-                        }
-
-                        func = (p) =>
-                        {
-                            var type = p.Type;
-                            if (type == EnumProvinceType.SEA)
-                                return Utils.ArgbToInt(255, 0, 0, 127);
-                            else if (type == EnumProvinceType.LAKE)
-                                return Utils.ArgbToInt(255, 127, 255, 255);
-                            else if (p.State == null)
-                                return Utils.ArgbToInt(255, 0, 0, 0);
-                            else
-                            {
-                                p.State.stateBuildings.TryGetValue(building, out uint count);
-
-                                float factor = count / (float)maxCount;
-                                if (factor > 1)
-                                    return Utils.ArgbToInt(255, 255, 0, 0);
-                                else
-                                {
-                                    byte value = (byte)(255 * factor);
-                                    return Utils.ArgbToInt(255, 0, value, 0);
-                                }
-                            }
-                        };
-                    }
-                    else //NON_SHARED
-                    {
-                        float maxCount = buildingLevelCap.GetStateMaxCount();
-                        func = (p) =>
-                        {
-                            var type = p.Type;
-                            if (type == EnumProvinceType.SEA)
-                                return Utils.ArgbToInt(255, 0, 0, 127);
-                            else if (type == EnumProvinceType.LAKE)
-                                return Utils.ArgbToInt(255, 127, 255, 255);
-                            else if (p.State == null)
-                                return Utils.ArgbToInt(255, 0, 0, 0);
-                            else
-                            {
-                                p.State.stateBuildings.TryGetValue(building, out uint count);
-
-                                float factor = count / maxCount;
-                                if (factor > 1)
-                                    return Utils.ArgbToInt(255, 255, 0, 0);
-                                else
-                                {
-                                    byte value = (byte)(255 * factor);
-                                    return Utils.ArgbToInt(255, 0, value, 0);
-                                }
-                            }
-                        };
-                    }
-                    break;
-
-                case EnumMainLayer.CUSTOM_SCRIPT:
-                    if (ScriptParser.MapMainLayerCustomScriptName == null)
-                    {
-                        func = null;
-                        return;
-                    }
-
-                    ScriptParser.IsDebug = false;
-
-                    customFunc = (p, idx) =>
-                    {
-                        if (idx >= ScriptParser.MapMainLayerCustomScriptTasks)
-                        {
-                            return Utils.ArgbToInt(255, 0, 0, 0);
-                        }
-
-                        var action = ScriptParser.MapMainLayerCustomScriptActions[idx];
-                        var varsScope = ScriptParser.MapMainLayerCustomScriptMainVarsScopes[idx];
-
-                        varsScope.PutLocalVariable("province_id", new IntObject(p.Id));
-                        varsScope.PutLocalVariable("red", new IntObject());
-                        varsScope.PutLocalVariable("green", new IntObject());
-                        varsScope.PutLocalVariable("blue", new IntObject());
-                        action();
-                        byte r = 0, g = 0, b = 0;
-
-                        if (varsScope.TryGetLocalValue("red", out var variable) && variable is INumberObject redObj)
-                            r = Convert.ToByte(redObj.GetValue());
-                        if (varsScope.TryGetLocalValue("green", out variable) && variable is INumberObject greenObj)
-                            g = Convert.ToByte(greenObj.GetValue());
-                        if (varsScope.TryGetLocalValue("blue", out variable) && variable is INumberObject blueObj)
-                            b = Convert.ToByte(blueObj.GetValue());
-
-                        varsScope.ClearLocalVars();
-
-                        return Utils.ArgbToInt(255, r, g, b);
-                    };
-                    break;
-            }
+            if (result == MapRendererResult.ABORT)
+                return;
+            else if (result != MapRendererResult.CONTINUE)
+                throw new Exception("Unknown MainLayer renderer: " + enumMainLayer.ToString());
 
             if (isHandlingMapMainLayerChange[0])
                 isWaitingHandlingMapMainLayerChange[0] = true;

@@ -213,7 +213,7 @@ namespace HOI4ModBuilder
         {
             base.OnFormClosing(e);
             TextureManager.DisposeAllTextures();
-            TextManager.Instance.Dispose();
+            TextRenderManager.Instance.Dispose();
         }
 
         public void InvokeAction(Action action)
@@ -540,7 +540,7 @@ namespace HOI4ModBuilder
                 GL.Enable(EnableCap.CullFace);
                 GL.CullFace(CullFaceMode.Back);
 
-                TextManager.Instance.OnLoad();
+                TextRenderManager.Instance.OnLoad();
             });
         }
 
