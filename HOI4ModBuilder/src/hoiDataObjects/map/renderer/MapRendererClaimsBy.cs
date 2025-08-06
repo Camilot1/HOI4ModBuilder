@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.openTK;
@@ -15,18 +16,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         private static readonly Color color = Color.Yellow;
         public MapRendererResult Execute(ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
         {
-            TextRenderManager.Instance.ClearAllMulti();
-            MapManager.TextScale = scale;
+            MapManager.FontRenderController.TryStart(out var result)?
+                .SetScale(scale)
+                .ClearAllMulti()
+                .ForEachState(
+                    (s) => true,
+                    (fontRegion, s, pos) => fontRegion.SetTextMulti(
+                        s.Id.GetValue(), TextRenderManager.Instance.FontData64, scale,
+                        s.Id.GetValue() + "", pos, QFontAlignment.Centre, color, true
+                    ))
+                .EndAssembleParallel();
 
-            StateManager.ForEachState(s =>
-            {
-                TextRenderManager.Instance.SetTextMulti(
-                s.Id.GetValue(), TextRenderManager.Instance.FontData, s.Id.GetValue() + "",
-                    s.center.ToVec3(MapManager.MapSize.y), scale, QFontAlignment.Centre, color, true
-                );
-            });
-
-            TextRenderManager.Instance.RefreshBuffers();
+            if (!result)
+                return MapRendererResult.ABORT;
 
             CountryManager.TryGetCountry(parameter, out var targetClaimByCountry);
             func = (p) =>

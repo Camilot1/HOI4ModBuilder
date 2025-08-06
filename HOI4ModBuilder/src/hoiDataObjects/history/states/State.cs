@@ -162,6 +162,11 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public Dictionary<Building, uint> stateBuildings = new Dictionary<Building, uint>(0);
         public Dictionary<Province, Dictionary<Building, uint>> provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
 
+        public uint GetStateBuildingCount(Building building)
+        {
+            stateBuildings.TryGetValue(building, out uint count);
+            return count;
+        }
 
         public void TransferDataFrom(State state)
         {

@@ -471,6 +471,14 @@ namespace HOI4ModBuilder.src.utils
 
         public static void WrapException<T>(string layerName, T ex) where T : Exception
             => throw new Exception(layerName + " => ", ex);
+
+        public static void MeasureElapsedMS(string prefix, Action action)
+        {
+            var stopwatch = Stopwatch.StartNew();
+            action.Invoke();
+            stopwatch.Stop();
+            Logger.Log(prefix + stopwatch.ElapsedMilliseconds + " ms");
+        }
     }
 
     public class LinkedLayer

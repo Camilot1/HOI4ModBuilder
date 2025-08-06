@@ -112,9 +112,6 @@
     <Reference Include="OpenTK.GLControl, Version=3.3.3.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.GLControl.3.3.3\lib\net20\OpenTK.GLControl.dll</HintPath>
     </Reference>
-    <Reference Include="QuickFont, Version=3.0.2.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\QuickFont.3.0.2.1\lib\net40\QuickFont.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.dll</HintPath>
     </Reference>
@@ -530,8 +527,33 @@
     <Compile Include="src\newParser\test\TestObject.cs" />
     <Compile Include="src\newParser\interfaces\INeedToSave.cs" />
     <Compile Include="src\newParser\test\TestMain.cs" />
-    <Compile Include="src\openTK\TextRenderManager.cs" />
+    <Compile Include="src\openTK\text\FontData.cs" />
+    <Compile Include="src\openTK\text\FontRenderController.cs" />
+    <Compile Include="src\openTK\text\FontRenderRegion.cs" />
+    <Compile Include="src\openTK\text\TextRenderManager.cs" />
     <Compile Include="src\Pdoxcl2Sharp\INeedToSave.cs" />
+    <Compile Include="src\QuickFont\Builder.cs" />
+    <Compile Include="src\QuickFont\Configuration\QFontBuilderConfiguration.cs" />
+    <Compile Include="src\QuickFont\Configuration\QFontConfiguration.cs" />
+    <Compile Include="src\QuickFont\Configuration\QFontKerningConfiguration.cs" />
+    <Compile Include="src\QuickFont\Configuration\QFontShadowConfiguration.cs" />
+    <Compile Include="src\QuickFont\Helper.cs" />
+    <Compile Include="src\QuickFont\JBitmap.cs" />
+    <Compile Include="src\QuickFont\JMath.cs" />
+    <Compile Include="src\QuickFont\JTexture.cs" />
+    <Compile Include="src\QuickFont\JTextureManager.cs" />
+    <Compile Include="src\QuickFont\KerningCalculator.cs" />
+    <Compile Include="src\QuickFont\QBitmap.cs" />
+    <Compile Include="src\QuickFont\QFont.cs" />
+    <Compile Include="src\QuickFont\QFontData.cs" />
+    <Compile Include="src\QuickFont\QFontDrawing.cs" />
+    <Compile Include="src\QuickFont\QFontDrawingPimitive.cs" />
+    <Compile Include="src\QuickFont\QFontGlyph.cs" />
+    <Compile Include="src\QuickFont\QFontRenderOptions.cs" />
+    <Compile Include="src\QuickFont\QVertexArrayObject.cs" />
+    <Compile Include="src\QuickFont\TextNodeList.cs" />
+    <Compile Include="src\QuickFont\TexturePage.cs" />
+    <Compile Include="src\QuickFont\ViewportHelper.cs" />
     <Compile Include="src\scripts\commands\declarators\funcs\FuncDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\BitmapDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\PairCommentedDeclarator.cs" />
@@ -943,6 +965,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="src\Pdoxcl2Sharp\Pdoxcl2Sharp.csproj" />
+    <None Include="src\QuickFont\packages.config" />
+    <None Include="src\QuickFont\QuickFont.csproj" />
+    <None Include="src\QuickFont\QuickFont.nuspec" />
+    <None Include="src\QuickFont\Shader\simple.fs" />
+    <None Include="src\QuickFont\Shader\simple.vs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -977,6 +1004,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon_telegram.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\QuickFont\QuickFont.csproj.user" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

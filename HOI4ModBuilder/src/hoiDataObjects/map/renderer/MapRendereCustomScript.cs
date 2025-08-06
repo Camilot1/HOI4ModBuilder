@@ -3,6 +3,7 @@ using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts;
 using System;
+using HOI4ModBuilder.managers;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 {
@@ -15,6 +16,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                 func = null;
                 return MapRendererResult.ABORT;
             }
+
+            MapManager.FontRenderController.TryStart(out var result)?
+                .ClearAll()
+                .End();
+
+            if (!result)
+                return MapRendererResult.ABORT;
 
             ScriptParser.IsDebug = false;
 

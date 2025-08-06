@@ -29,11 +29,13 @@ using System.Linq;
 using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using OpenTK;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
+using HOI4ModBuilder.src.openTK.text;
 
 namespace HOI4ModBuilder.managers
 {
     class MapManager
     {
+        public static FontRenderController FontRenderController { get; private set; }
         private static bool _isMapDragged = false;
         public static Value2I MapSize { get; private set; }
         private static Point2D _mousePrevPoint;
@@ -96,6 +98,8 @@ namespace HOI4ModBuilder.managers
             MainForm.ExecuteActions(actions);
 
             ProvinceBorderManager.Init(ProvincesPixels, (short)MapSize.x, (short)MapSize.y);
+            FontRenderController?.Dispose();
+            FontRenderController = new FontRenderController(512, 64);
 
             showMainLayer = true;
         }
@@ -182,27 +186,30 @@ namespace HOI4ModBuilder.managers
 
             MapPositionsManager.Draw();
 
-            var _projection = Matrix4.CreateOrthographicOffCenter(
-                MainForm.Instance.viewportInfo.x,
-                -MainForm.Instance.viewportInfo.x + MainForm.Instance.viewportInfo.width,
-                MainForm.Instance.viewportInfo.y,
-                -MainForm.Instance.viewportInfo.y + MainForm.Instance.viewportInfo.height,
-                -1f, 1f
-            );
-
-            var scaleHalf = TextScale / 2f;
-            float factor = (float)(zoomFactor) * MainForm.Instance.viewportInfo.max;
-
-            var viewMatrix =
-                Matrix4.CreateScale(scaleHalf, scaleHalf, scaleHalf) *
-                Matrix4.CreateScale(factor, factor, factor) *
-                Matrix4.CreateTranslation(
-                    MainForm.Instance.viewportInfo.width / 2f + (float)(mapDifX * factor / 2f),
-                    MainForm.Instance.viewportInfo.height / 2f + (float)(-mapDifY * factor / 2f),
-                    0f
+            if (FontRenderController != null)
+            {
+                var _projection = Matrix4.CreateOrthographicOffCenter(
+                    MainForm.Instance.viewportInfo.x,
+                    -MainForm.Instance.viewportInfo.x + MainForm.Instance.viewportInfo.width,
+                    MainForm.Instance.viewportInfo.y,
+                    -MainForm.Instance.viewportInfo.y + MainForm.Instance.viewportInfo.height,
+                    -1f, 1f
                 );
 
-            TextRenderManager.Instance.Render(viewMatrix * _projection, zoomFactor);
+                var scaleHalf = TextScale / 2f;
+                float factor = (float)(zoomFactor) * MainForm.Instance.viewportInfo.max;
+
+                var viewMatrix =
+                    Matrix4.CreateScale(scaleHalf, scaleHalf, scaleHalf) *
+                    Matrix4.CreateScale(factor, factor, factor) *
+                    Matrix4.CreateTranslation(
+                        MainForm.Instance.viewportInfo.width / 2f + (float)(mapDifX * factor / 2f),
+                        MainForm.Instance.viewportInfo.height / 2f + (float)(-mapDifY * factor / 2f),
+                        0f
+                    );
+
+                FontRenderController.Render(viewMatrix * _projection);
+            }
 
             GL.PopMatrix();
 

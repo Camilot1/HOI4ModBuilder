@@ -9,7 +9,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
     {
         public MapRendererResult Execute(ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
         {
-            TextRenderManager.Instance.ClearAll();
+            MapManager.FontRenderController.TryStart(out var result)?
+                .ClearAll()
+                .End();
+
+            if (!result)
+                return MapRendererResult.ABORT;
 
             MapManager.MapMainLayer.Texture = TextureManager.terrain.texture;
 

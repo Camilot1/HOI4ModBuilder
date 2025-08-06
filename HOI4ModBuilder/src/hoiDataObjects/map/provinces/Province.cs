@@ -379,6 +379,15 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 _buildings.TryGetValue(building, out count);
         }
 
+        public uint GetBuildingCount(Building building)
+        {
+            if (_buildings == null)
+                return 0;
+
+            _buildings.TryGetValue(building, out uint count);
+            return count;
+        }
+
         public void SetBuildings(Dictionary<Building, uint> buildings) => _buildings = buildings;
 
         public void ForEachBuilding(Action<Building, uint> action)

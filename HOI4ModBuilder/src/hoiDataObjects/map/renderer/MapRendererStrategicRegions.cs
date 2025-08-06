@@ -20,18 +20,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 
         public MapRendererResult Execute(ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
         {
-            TextRenderManager.Instance.ClearAllMulti();
-            MapManager.TextScale = scale;
+            MapManager.FontRenderController.TryStart(out var result)?
+                .SetScale(scale)
+                .ClearAllMulti()
+                .ForEachRegion(
+                    (p) => true,
+                    (fontRegion, r, pos) => fontRegion.SetTextMulti(
+                        r.Id, TextRenderManager.Instance.FontData64, scale,
+                        r.Id + "", pos, QFontAlignment.Centre, color, true
+                    ))
+                .EndAssembleParallel();
 
-            StrategicRegionManager.ForEachRegion(r =>
-            {
-                TextRenderManager.Instance.SetTextMulti(
-                r.Id, TextRenderManager.Instance.FontData, r.Id + "",
-                    r.center.ToVec3(MapManager.MapSize.y), scale, QFontAlignment.Centre, color, true
-                );
-            });
-
-            TextRenderManager.Instance.RefreshBuffers();
+            if (!result)
+                return MapRendererResult.ABORT;
 
             func = (p) =>
             {

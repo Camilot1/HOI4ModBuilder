@@ -17,9 +17,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 
         public MapRendererResult Execute(ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
         {
-            TextRenderManager.Instance.ClearAllMulti();
             if (!BuildingManager.TryGetBuilding(parameter, out Building building))
             {
+                MapManager.FontRenderController.TryStart(out var result)?
+                    .ClearAll()
+                    .End();
+
+                if (!result)
+                    return MapRendererResult.ABORT;
+
                 func = (p) =>
                 {
                     var type = p.Type;
@@ -38,35 +44,36 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 
             if (buildingSlotCategory == EnumBuildingSlotCategory.PROVINCIAL)
             {
-                MapManager.TextScale = scaleProvince;
-                ProvinceManager.ForEachProvince(p =>
-                {
-                    if (!p.TryGetBuildingCount(building, out uint count))
-                        return;
+                MapManager.FontRenderController.TryStart(out var result)?
+                .SetScale(scaleProvince)
+                .ClearAllMulti()
+                .ForEachProvince(
+                    (p) => p.GetBuildingCount(building) > 0,
+                    (fontRegion, p, pos) => fontRegion.SetTextMulti(
+                        p.Id, TextRenderManager.Instance.FontData64, scaleProvince,
+                        p.GetBuildingCount(building) + "", pos, QFontAlignment.Centre, color, true
+                    ))
+                .EndAssembleParallel();
 
-                    TextRenderManager.Instance.SetTextMulti(
-                        p.Id, TextRenderManager.Instance.FontData, count + "",
-                        p.center.ToVec3(MapManager.MapSize.y), scaleProvince, QFontAlignment.Centre, color, true
-                    );
-                });
+                if (!result)
+                    return MapRendererResult.ABORT;
             }
             else
             {
-                MapManager.TextScale = scaleState;
-                StateManager.ForEachState(s =>
-                {
+                MapManager.FontRenderController.TryStart(out var result)?
+                .SetScale(scaleState)
+                .ClearAllMulti()
+                .ForEachState(
+                    (s) => s.GetStateBuildingCount(building) > 0,
+                    (fontRegion, s, pos) => fontRegion.SetTextMulti(
+                        s.Id.GetValue(), TextRenderManager.Instance.FontData64, scaleState,
+                        s.GetStateBuildingCount(building) + "", pos, QFontAlignment.Centre, color, true
+                    ))
+                .EndAssembleParallel();
 
-                    if (!s.stateBuildings.TryGetValue(building, out uint count))
-                        return;
-
-                    TextRenderManager.Instance.SetTextMulti(
-                    s.Id.GetValue(), TextRenderManager.Instance.FontData, count + "",
-                        s.center.ToVec3(MapManager.MapSize.y), scaleState, QFontAlignment.Centre, color, true
-                    );
-                });
+                if (!result)
+                    return MapRendererResult.ABORT;
             }
-
-            TextRenderManager.Instance.RefreshBuffers();
 
             if (buildingSlotCategory == EnumBuildingSlotCategory.PROVINCIAL)
             {

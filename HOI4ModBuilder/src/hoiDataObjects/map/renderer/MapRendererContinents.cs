@@ -14,21 +14,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         private static readonly Color color = Color.Yellow;
         public MapRendererResult Execute(ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
         {
-            TextRenderManager.Instance.ClearAllMulti();
-            MapManager.TextScale = scale;
+            MapManager.FontRenderController.TryStart(out var result)?
+                .SetScale(scale)
+                .ClearAllMulti()
+                .ForEachProvince(
+                    (p) => true,
+                    (fontRegion, p, pos) => fontRegion.SetTextMulti(
+                        p.Id, TextRenderManager.Instance.FontData64, scale,
+                        p.Id + "", pos, QFontAlignment.Centre, color, true
+                    ))
+                .EndAssembleParallel();
 
-            ProvinceManager.ForEachProvince(p =>
-            {
-                if (p == null)
-                    return;
-
-                TextRenderManager.Instance.SetTextMulti(
-                p.Id, TextRenderManager.Instance.FontData, p.Id + "",
-                    p.center.ToVec3(MapManager.MapSize.y), scale, QFontAlignment.Centre, color, true
-                );
-            });
-
-            TextRenderManager.Instance.RefreshBuffers();
+            if (!result)
+                return MapRendererResult.ABORT;
 
             func = (p) => ContinentManager.GetColorById(p.ContinentId);
 
