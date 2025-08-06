@@ -1384,7 +1384,8 @@ namespace HOI4ModBuilder
                             CountryManager.UpdateByDateTimeStamp(dateTime);
                             StateManager.UpdateByDateTimeStamp(dateTime);
 
-                            MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
+                            if (!isLoadingOrSaving[0])
+                                MapManager.HandleMapMainLayerChange(enumMainLayer, ComboBox_Tool_Parameter.Text);
                         }
                         else throw new Exception(GuiLocManager.GetLoc(
                                 EnumLocKey.EXCEPTION_BOOKMARK_NOT_FOUND,
