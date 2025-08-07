@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using HOI4ModBuilder.src.utils.structs;
+using OpenTK;
 using QuickFont;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,23 @@ namespace HOI4ModBuilder.src.openTK.text
         private Dictionary<object, QFontDrawingPimitive> _primitiveCache = new Dictionary<object, QFontDrawingPimitive>(128);
         private readonly Queue<Action<FontRenderRegion>> _actionQueue = new Queue<Action<FontRenderRegion>>(128);
 
-        public FontRenderRegion()
+        public readonly Value2S Index;
+        public readonly Bounds4F Bounds;
+        public bool IsIntersectsWith(Bounds4F other) => Bounds.IsIntersectsWith(other);
+
+        public FontRenderRegion(Value2S index, int regionSize)
         {
+            Index = index;
             _drawing = new QFontDrawing();
             _drawing.RefreshBuffers_Step1_InitVAO();
+
+            Bounds = new Bounds4F
+            {
+                left = index.x * regionSize,
+                top = index.y * regionSize,
+                right = (index.x + 1) * regionSize,
+                bottom = (index.y + 1) * regionSize,
+            };
         }
 
         public void Dispose()

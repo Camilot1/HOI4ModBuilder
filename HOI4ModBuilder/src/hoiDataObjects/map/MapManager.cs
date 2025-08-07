@@ -43,7 +43,7 @@ namespace HOI4ModBuilder.managers
         public static Point2D MapSizeFactor { get => _mapSizeFactor; private set => _mapSizeFactor = value; }
         private static Point2D _pointerSize = new Point2D { x = 1, y = 1 };
         private static EnumMouseState _mouseState = EnumMouseState.NONE;
-        public static Bounds4US bounds;
+        public static Bounds4US selectBounds;
 
         public static int[] ProvincesPixels { get; set; } //RGBA
         public static byte[] HeightsPixels { get; set; }
@@ -61,6 +61,7 @@ namespace HOI4ModBuilder.managers
         public static float TextScale { get; set; } = 0.1f;
         public static double zoomFactor = 0.0004f;
         public static double mapDifX, mapDifY;
+        public static Bounds4F viewportBounds;
 
         public static bool[] isHandlingMapMainLayerChange = new bool[1];
         public static bool[] isWaitingHandlingMapMainLayerChange = new bool[1];
@@ -128,7 +129,18 @@ namespace HOI4ModBuilder.managers
 
         public static void Draw()
         {
-            if (MapMainLayer == null) return;
+            if (MapMainLayer == null)
+                return;
+
+            var vpi = MainForm.Instance.viewportInfo;
+            var viewportMinPoint = CalculateMapPos(0, 0, vpi);
+            var viewportMaxPoint = CalculateMapPos(vpi.width, vpi.height, vpi);
+            viewportBounds.left = (float)viewportMinPoint.x;
+            viewportBounds.top = MapSize.y - (float)viewportMinPoint.y;
+            viewportBounds.right = (float)viewportMaxPoint.x;
+            viewportBounds.bottom = MapSize.y - (float)viewportMaxPoint.y;
+
+            viewportBounds.FixDimensions();
 
             GL.LoadIdentity();
             GL.PushMatrix();
@@ -169,7 +181,7 @@ namespace HOI4ModBuilder.managers
             SupplyManager.Draw(displayLayers[(int)EnumAdditionalLayers.RAILWAYS], displayLayers[(int)EnumAdditionalLayers.SUPPLY_HUBS]);
 
             DrawPointer();
-            if (bounds.HasSpace())
+            if (selectBounds.HasSpace())
                 DrawBounds();
 
             GL.Scale(1f, -1f, 1f);
@@ -180,6 +192,7 @@ namespace HOI4ModBuilder.managers
                 foreach (TextureInfo info in additionalMapTextures)
                 {
                     SegmentedTexturedPlane plane = info.plane;
+                    //TODO reimplement
                     GL.Translate(plane.pos.x, -plane.pos.y, 0f);
                     plane.Draw();
                     GL.Translate(-plane.pos.x, plane.pos.y, 0f);
@@ -194,6 +207,8 @@ namespace HOI4ModBuilder.managers
             //DrawTest();
 
             MapPositionsManager.Draw();
+
+            //FontRenderController?.RenderDebug();
 
             if (FontRenderController != null && displayLayers[(int)EnumAdditionalLayers.TEXT])
             {
@@ -217,7 +232,8 @@ namespace HOI4ModBuilder.managers
                         0f
                     );
 
-                FontRenderController.Render(viewMatrix * _projection);
+                if (zoomFactor > (1 / TextScale * 0.00015f * (vpi.height / (float)vpi.max)))
+                    FontRenderController.Render(viewMatrix * _projection, viewportBounds);
             }
 
             GL.PopMatrix();
@@ -280,26 +296,26 @@ namespace HOI4ModBuilder.managers
         {
             ushort left, right, top, bottom;
 
-            if (bounds.left < bounds.right)
+            if (selectBounds.left < selectBounds.right)
             {
-                left = bounds.left;
-                right = bounds.right;
+                left = selectBounds.left;
+                right = selectBounds.right;
             }
             else
             {
-                right = bounds.left;
-                left = bounds.right;
+                right = selectBounds.left;
+                left = selectBounds.right;
             }
 
-            if (bounds.top < bounds.bottom)
+            if (selectBounds.top < selectBounds.bottom)
             {
-                top = bounds.top;
-                bottom = bounds.bottom;
+                top = selectBounds.top;
+                bottom = selectBounds.bottom;
             }
             else
             {
-                bottom = bounds.top;
-                top = bounds.bottom;
+                bottom = selectBounds.top;
+                top = selectBounds.bottom;
             }
 
             GL.LineWidth(2f);
@@ -618,7 +634,7 @@ namespace HOI4ModBuilder.managers
             if (enumTool != EnumTool.CURSOR)
                 ActionsBatch.Enabled = true;
 
-            MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, bounds, parameter, value);
+            MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, selectBounds, parameter, value);
 
             if (e.Button == MouseButtons.Middle)
                 _isMapDragged = true;
@@ -661,7 +677,7 @@ namespace HOI4ModBuilder.managers
                 else if (ActionsBatch.Enabled && (_mousePrevPoint.x != pos.x || _mousePrevPoint.y != pos.y))
                 {
                     if (enumTool != EnumTool.BUILDINGS)
-                        MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, bounds, parameter, value);
+                        MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, selectBounds, parameter, value);
                 }
                 _mousePrevPoint = pos;
             }
@@ -853,7 +869,7 @@ namespace HOI4ModBuilder.managers
             MainForm.Instance.textBox_SelectedObjectId.Text = "";
             MainForm.Instance.textBox_PixelPos.Text = "";
             MainForm.Instance.textBox_HOI4PixelPos.Text = "";
-            bounds.Set(0, 0, 0, 0);
+            selectBounds.Set(0, 0, 0, 0);
         }
 
         public static void HandleDelete()

@@ -3,8 +3,10 @@ using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
+using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -60,7 +62,7 @@ namespace HOI4ModBuilder.src.openTK.text
 
             if (!_regions.TryGetValue(key, out var region))
             {
-                region = new FontRenderRegion();
+                region = new FontRenderRegion(key, _regionSize);
                 _regions[key] = region;
             }
             region.PushAction(action);
@@ -120,13 +122,40 @@ namespace HOI4ModBuilder.src.openTK.text
                 action(region);
         }
 
-        public void Render(Matrix4 proj)
+        public void Render(Matrix4 proj, Bounds4F viewportBounds)
         {
             if (_regions == null || _regions.Count == 0 || IsPerforming)
                 return;
 
             foreach (var region in _regions.Values)
-                region.Render(proj);
+            {
+                if (region.IsIntersectsWith(viewportBounds))
+                {
+                    region.Render(proj);
+                }
+            }
+        }
+
+        public void RenderDebug()
+        {
+            foreach (var region in _regions.Values)
+            {
+                var seed = region.Index.GetHashCode();
+                var random = new Random(seed);
+                GL.Color4(
+                    0.25f + random.NextDouble() * 0.75f,
+                    0.25f + random.NextDouble() * 0.75f,
+                    0.25f + random.NextDouble() * 0.75f,
+                    0.25f
+                    );
+
+                GL.Begin(PrimitiveType.Quads);
+                GL.Vertex2(region.Bounds.left, region.Bounds.top);
+                GL.Vertex2(region.Bounds.left, region.Bounds.bottom);
+                GL.Vertex2(region.Bounds.right, region.Bounds.bottom);
+                GL.Vertex2(region.Bounds.right, region.Bounds.top);
+                GL.End();
+            }
         }
 
         public void Dispose()

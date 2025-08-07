@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace HOI4ModBuilder.src.utils.structs
 {
     public struct Bounds4F
@@ -29,20 +24,31 @@ namespace HOI4ModBuilder.src.utils.structs
             bottom = (float)bounds.bottom;
         }
 
-        public bool Inbounds(Point2D pos)
+        public bool IsIntersectsWith(Bounds4F other)
         {
-            return left <= pos.x && pos.x <= right && top <= pos.y && pos.y <= bottom;
+            bool overlapX = left <= other.right && right >= other.left;
+            bool overlapY = top <= other.bottom && bottom >= other.top;
+
+            return overlapX && overlapY;
         }
 
-        public bool HasSpace()
-        {
-            return left != right && top != bottom;
-        }
+        public bool IsInbounds(float x, float y)
+            => left <= x && x <= right && top <= y && y <= bottom;
+
+        public bool IsInbounds(Point2D pos)
+            => IsInbounds((float)pos.x, (float)pos.y);
+
+        public bool HasSpace() => left != right && top != bottom;
 
         public void FixDimensions()
         {
-            if (left > right) right = left;
-            if (top > bottom) bottom = top;
+            if (left > right)
+                (right, left) = (left, right);
+            if (top > bottom)
+                (bottom, top) = (top, bottom);
         }
+
+        public override string ToString()
+            => "Bounds4F { left = " + left + ", top = " + top + ", right = " + right + ", bottom = " + bottom + "}";
     }
 }
