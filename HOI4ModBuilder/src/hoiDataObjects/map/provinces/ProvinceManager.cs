@@ -325,7 +325,7 @@ namespace HOI4ModBuilder.managers
             NeedToSave = true;
         }
 
-        public static void Draw(bool showCenters)
+        public static void Draw(bool showCenters, bool showCollisions)
         {
             if (showCenters)
             {
@@ -386,7 +386,19 @@ namespace HOI4ModBuilder.managers
                     GL.End();
                 }
 
-                GL.Color3(0f, 0f, 1f);
+                if (showCollisions)
+                {
+                    GL.Color4(0f, 0f, 1f, 1f);
+                    GL.LineWidth(3f);
+                    GL.Begin(PrimitiveType.LineLoop);
+                    GL.Vertex2(SelectedProvince.bounds.left, SelectedProvince.bounds.top);
+                    GL.Vertex2(SelectedProvince.bounds.right + 1, SelectedProvince.bounds.top);
+                    GL.Vertex2(SelectedProvince.bounds.right + 1, SelectedProvince.bounds.bottom + 1);
+                    GL.Vertex2(SelectedProvince.bounds.left, SelectedProvince.bounds.bottom + 1);
+                    GL.End();
+                }
+
+                GL.Color4(0f, 0f, 1f, 1f);
                 GL.Begin(PrimitiveType.Points);
                 foreach (var border in SelectedProvince.borders)
                 {

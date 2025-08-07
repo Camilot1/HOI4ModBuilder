@@ -109,6 +109,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public Point2F center;
         public bool dislayCenter;
         public uint pixelsCount;
+        public Bounds4S bounds;
 
         public StrategicRegion(FileInfo fileInfo)
         {
@@ -144,8 +145,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             double sumX = 0, sumY = 0;
             double pixelsCount = 0;
+            bounds.SetZero();
+
             foreach (var province in Provinces)
             {
+                if (pixelsCount == 0)
+                    bounds.Set(province.bounds);
+                else
+                    bounds.ExpandIfNeeded(province.bounds);
+
                 sumX += province.center.x * province.pixelsCount;
                 sumY += province.center.y * province.pixelsCount;
                 pixelsCount += province.pixelsCount;

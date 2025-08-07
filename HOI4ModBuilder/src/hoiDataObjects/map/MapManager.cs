@@ -153,9 +153,18 @@ namespace HOI4ModBuilder.managers
             GL.Scale(1f, -1f, 1f);
             GL.Translate(0, -MapMainLayer.size.y, 0);
 
-            ProvinceManager.Draw(displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.PROVINCES_MAP));
-            StateManager.Draw(displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.STATES));
-            StrategicRegionManager.Draw(displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.STRATEGIC_REGIONS));
+            ProvinceManager.Draw(
+                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.PROVINCES_MAP),
+                displayLayers[(int)EnumAdditionalLayers.COLLISIONS]
+            );
+            StateManager.Draw(
+                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.STATES),
+                displayLayers[(int)EnumAdditionalLayers.COLLISIONS]
+            );
+            StrategicRegionManager.Draw(
+                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.STRATEGIC_REGIONS),
+                displayLayers[(int)EnumAdditionalLayers.COLLISIONS]
+            );
             AdjacenciesManager.Draw(displayLayers[(int)EnumAdditionalLayers.ADJACENCIES], displayLayers[(int)EnumAdditionalLayers.ADJACENCIES]);
             SupplyManager.Draw(displayLayers[(int)EnumAdditionalLayers.RAILWAYS], displayLayers[(int)EnumAdditionalLayers.SUPPLY_HUBS]);
 
@@ -186,7 +195,7 @@ namespace HOI4ModBuilder.managers
 
             MapPositionsManager.Draw();
 
-            if (FontRenderController != null)
+            if (FontRenderController != null && displayLayers[(int)EnumAdditionalLayers.TEXT])
             {
                 var _projection = Matrix4.CreateOrthographicOffCenter(
                     MainForm.Instance.viewportInfo.x,

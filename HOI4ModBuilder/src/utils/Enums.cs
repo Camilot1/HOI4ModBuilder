@@ -124,7 +124,9 @@ namespace HOI4ModBuilder.utils
         public enum EnumAdditionalLayers
         {
             CENTERS,
+            TEXT,
             BORDERS,
+            COLLISIONS,
             RIVERS,
             RAILWAYS,
             SUPPLY_HUBS,

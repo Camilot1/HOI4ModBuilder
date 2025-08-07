@@ -12,7 +12,6 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 {
@@ -23,7 +22,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
         private static Dictionary<ushort, StrategicRegion> _regions = new Dictionary<ushort, StrategicRegion>();
         public static void ForEachRegion(Action<StrategicRegion> action)
         {
-            foreach (var r in _regions.Values) action(r);
+            foreach (var r in _regions.Values)
+                action(r);
         }
         private static HashSet<ProvinceBorder> _regionsBorders = new HashSet<ProvinceBorder>();
 
@@ -60,7 +60,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             {
                 try
                 {
-                    if (!region.needToSave) continue;
+                    if (!region.needToSave)
+                        continue;
 
                     if (string.IsNullOrEmpty(region.FileInfo.fileName))
                         throw new Exception(GuiLocManager.GetLoc(EnumLocKey.ERROR_REGION_HAS_NO_FILE));
@@ -79,7 +80,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             }
         }
 
-        public static void Draw(bool showCenters)
+        public static void Draw(bool showCenters, bool showCollisions)
         {
             if (showCenters)
             {
@@ -89,7 +90,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
                 foreach (var region in _regions.Values)
                 {
-                    if (region.dislayCenter) GL.Vertex2(region.center.x, region.center.y);
+                    if (region.dislayCenter)
+                        GL.Vertex2(region.center.x, region.center.y);
                 }
                 GL.End();
             }
@@ -118,9 +120,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
                         GL.Begin(PrimitiveType.LineStrip);
                         foreach (Value2S vertex in border.pixels)
-                        {
                             GL.Vertex2(vertex.x, vertex.y);
-                        }
                         GL.End();
                     }
                 }
@@ -133,10 +133,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
                 foreach (var border in SelectedRegion.Borders)
                 {
-                    if (border.pixels.Length == 1) continue;
+                    if (border.pixels.Length == 1)
+                        continue;
                     GL.Begin(PrimitiveType.LineStrip);
                     foreach (Value2S vertex in border.pixels)
                         GL.Vertex2(vertex.x, vertex.y);
+                    GL.End();
+                }
+
+                if (showCollisions)
+                {
+                    GL.Color4(0f, 0f, 1f, 1f);
+                    GL.LineWidth(3f);
+                    GL.Begin(PrimitiveType.LineLoop);
+                    GL.Vertex2(SelectedRegion.bounds.left, SelectedRegion.bounds.top);
+                    GL.Vertex2(SelectedRegion.bounds.right + 1, SelectedRegion.bounds.top);
+                    GL.Vertex2(SelectedRegion.bounds.right + 1, SelectedRegion.bounds.bottom + 1);
+                    GL.Vertex2(SelectedRegion.bounds.left, SelectedRegion.bounds.bottom + 1);
                     GL.End();
                 }
             }
@@ -148,7 +161,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
                 foreach (var border in RMBRegion.Borders)
                 {
-                    if (border.pixels.Length == 1) continue;
+                    if (border.pixels.Length == 1)
+                        continue;
                     GL.Begin(PrimitiveType.LineStrip);
                     foreach (Value2S vertex in border.pixels)
                         GL.Vertex2(vertex.x, vertex.y);
@@ -162,14 +176,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
         public static bool TransferProvince(Province province, StrategicRegion src, StrategicRegion dest)
         {
             //Если нет провинции или обоих регионов
-            if (province == null || src == null && dest == null) return false;
+            if (province == null || src == null && dest == null)
+                return false;
             //Если оба региона являются одним и тем же регионом
-            if (src != null && dest != null && src.Equals(dest)) return false;
+            if (src != null && dest != null && src.Equals(dest))
+                return false;
             //Если провинция уже в новом регионе
-            if (province != null && dest != null && province.Region == dest) return false;
+            if (province != null && dest != null && province.Region == dest)
+                return false;
 
-            if (src != null) src.RemoveProvince(province);
-            if (dest != null) dest.AddProvince(province);
+            src?.RemoveProvince(province);
+            dest?.AddProvince(province);
 
             return true;
         }
@@ -209,14 +226,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
         public static void CalculateCenters()
         {
-            foreach (var region in _regions.Values) region.CalculateCenter();
+            foreach (var region in _regions.Values)
+                region.CalculateCenter();
         }
 
 
         public static void InitRegionsBorders()
         {
             _regionsBorders = new HashSet<ProvinceBorder>();
-            foreach (var region in _regions.Values) region.InitBorders();
+            foreach (var region in _regions.Values)
+                region.InitBorders();
             TextureManager.InitRegionsBordersMap(_regionsBorders);
         }
 

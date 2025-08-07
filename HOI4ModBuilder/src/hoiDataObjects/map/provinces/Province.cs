@@ -423,6 +423,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public int pixelsCount;
         public bool dislayCenter;
         public Point2F center;
+        public Bounds4S bounds;
 
         public Province()
         {
@@ -447,6 +448,11 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public void AddPixel(int x, int y)
         {
+            if (pixelsCount == 0)
+                bounds.Set((short)x, (short)y);
+            else
+                bounds.ExpandIfNeeded((short)x, (short)y);
+
             pixelsCount++;
             center.x += (x - center.x) / pixelsCount;
             center.y += (y - center.y) / pixelsCount;
@@ -457,6 +463,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             pixelsCount = 0;
             center.x = 0;
             center.y = 0;
+            bounds.SetZero();
         }
 
         public void AddBorder(ProvinceBorder border) => borders.Add(border);

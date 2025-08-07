@@ -857,6 +857,7 @@
     <Compile Include="src\utils\structs\Bound4US.cs" />
     <Compile Include="src\utils\structs\Bounds4D.cs" />
     <Compile Include="src\utils\structs\Bounds4F.cs" />
+    <Compile Include="src\utils\structs\Bounds4S.cs" />
     <Compile Include="src\utils\structs\Color3B.cs" />
     <Compile Include="src\utils\structs\Color3F.cs" />
     <Compile Include="src\utils\structs\LinkedData.cs" />
@@ -965,9 +966,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="src\Pdoxcl2Sharp\Pdoxcl2Sharp.csproj" />
-    <None Include="src\QuickFont\packages.config" />
-    <None Include="src\QuickFont\QuickFont.csproj" />
-    <None Include="src\QuickFont\QuickFont.nuspec" />
     <None Include="src\QuickFont\Shader\simple.fs" />
     <None Include="src\QuickFont\Shader\simple.vs" />
   </ItemGroup>
@@ -1004,9 +1002,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon_telegram.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="src\QuickFont\QuickFont.csproj.user" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

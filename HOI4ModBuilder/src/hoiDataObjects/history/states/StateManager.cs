@@ -137,7 +137,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
         }
 
-        public static void Draw(bool showCenters)
+        public static void Draw(bool showCenters, bool showCollisions)
         {
             if (showCenters)
             {
@@ -197,6 +197,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     {
                         GL.Vertex2(vertex.x, vertex.y);
                     }
+                    GL.End();
+                }
+
+                if (showCollisions)
+                {
+                    GL.Color4(0f, 0f, 1f, 1f);
+                    GL.LineWidth(3f);
+                    GL.Begin(PrimitiveType.LineLoop);
+                    GL.Vertex2(SelectedState.bounds.left, SelectedState.bounds.top);
+                    GL.Vertex2(SelectedState.bounds.right + 1, SelectedState.bounds.top);
+                    GL.Vertex2(SelectedState.bounds.right + 1, SelectedState.bounds.bottom + 1);
+                    GL.Vertex2(SelectedState.bounds.left, SelectedState.bounds.bottom + 1);
                     GL.End();
                 }
             }

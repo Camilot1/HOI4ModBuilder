@@ -1,7 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.common.resources;
 using HOI4ModBuilder.hoiDataObjects.history.countries;
 using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
@@ -16,7 +15,6 @@ using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
 {
@@ -179,6 +177,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public Point2F center;
         public bool dislayCenter;
         public uint pixelsCount;
+        public Bounds4S bounds;
 
         public List<ProvinceBorder> borders = new List<ProvinceBorder>(0);
         public void ForEachAdjacentProvince(Action<Province, Province> action)
@@ -214,8 +213,15 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             double sumX = 0, sumY = 0;
             double pixelsCount = 0;
+            bounds.SetZero();
+
             foreach (var province in Provinces)
             {
+                if (pixelsCount == 0)
+                    bounds.Set(province.bounds);
+                else
+                    bounds.ExpandIfNeeded(province.bounds);
+
                 sumX += province.center.x * province.pixelsCount;
                 sumY += province.center.y * province.pixelsCount;
                 pixelsCount += province.pixelsCount;
