@@ -7,6 +7,7 @@ using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.utils.structs;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -107,6 +108,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 action = (c) =>
                 {
                     province.State.SetProvinceBuildingLevel(province, building, c);
+                    MapManager.FontRenderController.AddEventData((int)EnumMapRenderEvents.BUILDINGS, province);
                     MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                 };
             }
@@ -115,6 +117,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 action = (c) =>
                 {
                     province.State.SetStateBuildingLevel(building, c);
+                    MapManager.FontRenderController.AddEventData((int)EnumMapRenderEvents.BUILDINGS, province.State);
                     MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                 };
             }

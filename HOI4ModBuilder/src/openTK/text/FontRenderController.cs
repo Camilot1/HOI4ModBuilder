@@ -20,6 +20,9 @@ namespace HOI4ModBuilder.src.openTK.text
 
         private int _regionSize;
         public bool IsPerforming { get; private set; }
+        public int EventsFlags { get; private set; }
+        private Action<int, ICollection<object>> _eventHandler;
+        private List<object> _eventHandlerPayload = new List<object>();
 
         public FontRenderController(int regionSize, int capacity)
         {
@@ -28,7 +31,9 @@ namespace HOI4ModBuilder.src.openTK.text
             _regions = new Dictionary<Value2S, FontRenderRegion>(capacity);
         }
 
-        public FontRenderController TryStart(out bool result)
+        public FontRenderController TryStart(out bool result) => TryStart(0, out result);
+
+        public FontRenderController TryStart(int eventsFlags, out bool result)
         {
             if (IsPerforming)
             {
@@ -42,6 +47,7 @@ namespace HOI4ModBuilder.src.openTK.text
                 return null;
 
             IsPerforming = true;
+            EventsFlags = eventsFlags;
             return this;
         }
 
@@ -68,6 +74,21 @@ namespace HOI4ModBuilder.src.openTK.text
             region.PushAction(action);
         }
 
+        public FontRenderRegion GetRegion(Vector3 pos)
+        {
+            var key = new Value2S
+            {
+                x = (short)(pos.X / _regionSize),
+                y = (short)(pos.Y / _regionSize)
+            };
+            if (!_regions.TryGetValue(key, out var region))
+            {
+                region = new FontRenderRegion(key, _regionSize);
+                _regions[key] = region;
+            }
+            return region;
+        }
+
         public FontRenderController ClearAllMulti()
         {
             foreach (var region in _regions.Values)
@@ -84,6 +105,33 @@ namespace HOI4ModBuilder.src.openTK.text
 
             return this;
         }
+
+        public FontRenderController SetEventsHandler(int eventsFlags, Action<int, ICollection<object>> eventHandler)
+        {
+            EventsFlags = eventsFlags;
+            _eventHandler = eventHandler;
+            return this;
+        }
+
+        public bool AddEventData(int eventFlags, object value)
+        {
+            if ((EventsFlags & eventFlags) == 0)
+                return false;
+
+            _eventHandlerPayload.Add(value);
+            return true;
+        }
+        public bool TryPostLatestEvent()
+        {
+            if (_eventHandler == null || _eventHandlerPayload.Count == 0)
+                return false;
+
+            _eventHandler(EventsFlags, _eventHandlerPayload);
+            ClearEventPayload();
+            return true;
+        }
+        public List<object> GetEventPayload() => _eventHandlerPayload;
+        public void ClearEventPayload() => _eventHandlerPayload.Clear();
 
         public void EndAssembleParallel()
         {
@@ -104,10 +152,9 @@ namespace HOI4ModBuilder.src.openTK.text
                 }));
         }
 
-        public FontRenderController End()
+        public void End()
         {
             IsPerforming = false;
-            return this;
         }
 
         private void LoadRegionsVAOs()
@@ -184,6 +231,24 @@ namespace HOI4ModBuilder.src.openTK.text
 
             return this;
         }
+
+        public FontRenderController ForEachProvince(
+            ICollection<object> provinces,
+            Func<Province, bool> checker,
+            Action<FontRenderRegion, Province, Vector3> action)
+        {
+            foreach (var obj in provinces)
+            {
+                if (!(obj is Province p) || !checker(p))
+                    continue;
+
+                var pos = p.center.ToVec3(MapManager.MapSize.y);
+                MapManager.FontRenderController?.PushAction(pos, fontRegion => action(fontRegion, p, pos));
+            }
+
+            return this;
+        }
+
         public FontRenderController ForEachState(
             Func<State, bool> checker,
             Action<FontRenderRegion, State, Vector3> action)
@@ -199,6 +264,24 @@ namespace HOI4ModBuilder.src.openTK.text
 
             return this;
         }
+
+        public FontRenderController ForEachState(
+            ICollection<object> states,
+            Func<State, bool> checker,
+            Action<FontRenderRegion, State, Vector3> action)
+        {
+            foreach (var obj in states)
+            {
+                if (!(obj is State s) || !checker(s))
+                    continue;
+
+                var pos = s.center.ToVec3(MapManager.MapSize.y);
+                MapManager.FontRenderController?.PushAction(pos, fontRegion => action(fontRegion, s, pos));
+            }
+
+            return this;
+        }
+
         public FontRenderController ForEachRegion(
             Func<StrategicRegion, bool> checker,
             Action<FontRenderRegion, StrategicRegion, Vector3> action)
@@ -211,6 +294,22 @@ namespace HOI4ModBuilder.src.openTK.text
                 var pos = r.center.ToVec3(MapManager.MapSize.y);
                 MapManager.FontRenderController?.PushAction(pos, fontRegion => action(fontRegion, r, pos));
             });
+
+            return this;
+        }
+        public FontRenderController ForEachRegion(
+            ICollection<object> regions,
+            Func<StrategicRegion, bool> checker,
+            Action<FontRenderRegion, StrategicRegion, Vector3> action)
+        {
+            foreach (var obj in regions)
+            {
+                if (!(obj is StrategicRegion r) || !checker(r))
+                    continue;
+
+                var pos = r.center.ToVec3(MapManager.MapSize.y);
+                MapManager.FontRenderController?.PushAction(pos, fontRegion => action(fontRegion, r, pos));
+            }
 
             return this;
         }

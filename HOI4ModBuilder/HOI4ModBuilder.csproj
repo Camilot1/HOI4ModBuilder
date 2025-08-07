@@ -441,7 +441,8 @@
     <Compile Include="src\hoiDataObjects\map\positions\BuildingsPositionsData.cs" />
     <Compile Include="src\hoiDataObjects\map\provinces\border\BorderData.cs" />
     <Compile Include="src\hoiDataObjects\history\states\VictoryPoint.cs" />
-    <Compile Include="src\hoiDataObjects\map\renderer\IMapRenderer.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\enums\EnumMapRenderEvents.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\interfaces\IMapRenderer.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererAiAreas.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererBuildings.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererCitiesMap.cs" />

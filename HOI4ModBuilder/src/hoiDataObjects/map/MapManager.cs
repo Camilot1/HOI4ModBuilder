@@ -100,7 +100,7 @@ namespace HOI4ModBuilder.managers
 
             ProvinceBorderManager.Init(ProvincesPixels, (short)MapSize.x, (short)MapSize.y);
             FontRenderController?.Dispose();
-            FontRenderController = new FontRenderController(512, 64);
+            FontRenderController = new FontRenderController(256, 64);
 
             showMainLayer = true;
         }
@@ -232,6 +232,12 @@ namespace HOI4ModBuilder.managers
                     );
 
                 FontRenderController.Render(viewMatrix * _projection, viewportBounds);
+            }
+
+            if (displayLayers[(int)EnumAdditionalLayers.TEXT] &&
+                FontRenderController.GetEventPayload().Count > 0)
+            {
+                FontRenderController.TryPostLatestEvent();
             }
 
             GL.PopMatrix();

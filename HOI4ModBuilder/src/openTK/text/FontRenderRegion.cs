@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.src.utils.structs;
+﻿using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using OpenTK;
 using QuickFont;
 using System;
@@ -15,6 +16,7 @@ namespace HOI4ModBuilder.src.openTK.text
         private Dictionary<object, QFontDrawingPimitive> _primitiveCache = new Dictionary<object, QFontDrawingPimitive>(128);
         private readonly Queue<Action<FontRenderRegion>> _actionQueue = new Queue<Action<FontRenderRegion>>(128);
 
+        public bool IsDirty { get; private set; }
         public readonly Value2S Index;
         public readonly Bounds4F Bounds;
         public bool IsIntersectsWith(Bounds4F other) => Bounds.IsIntersectsWith(other);
@@ -48,13 +50,26 @@ namespace HOI4ModBuilder.src.openTK.text
         {
             _primitiveCache.Clear();
             int count = _drawing.DrawingPimitiveses.Count;
+            IsDirty |= count != 0;
             _drawing.DrawingPimitiveses.Clear();
             return count > 0;
         }
 
         public void PushAction(Action<FontRenderRegion> action) => _actionQueue.Enqueue(action);
-        public void RefreshBuffers() => _drawing?.RefreshBuffers();
-        public void LoadVAO() => _drawing.RefreshBuffers_Step3_LoadVAO();
+        public void RefreshBuffers()
+        {
+            _drawing?.RefreshBuffers();
+            IsDirty = false;
+        }
+        public void LoadVAO()
+        {
+            if (IsDirty)
+            {
+                _drawing.RefreshBuffers_Step3_LoadVAO();
+                //Logger.Log("Loaded: " + Bounds);
+            }
+            IsDirty = false;
+        }
 
         public void ExecuteActions()
         {
@@ -63,13 +78,14 @@ namespace HOI4ModBuilder.src.openTK.text
                 var action = _actionQueue.Dequeue();
                 action(this);
             }
-            _drawing.RefreshBuffers_Step2_AddVertexes();
+            if (IsDirty)
+                _drawing.RefreshBuffers_Step2_AddVertexes();
         }
 
         public SizeF SetText(object id, FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment, Color color, bool dropShadows)
         {
             var size = SetTextMulti(id, fontData, scale, text, pos, aligment, color, dropShadows);
-            _drawing.RefreshBuffers();
+            RefreshBuffers();
             return size;
         }
         public SizeF SetTextMulti(object id, FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment, Color color, bool dropShadows)
@@ -93,7 +109,40 @@ namespace HOI4ModBuilder.src.openTK.text
             var size = dp.Print(text, pos, aligment);
             _drawing.DrawingPimitiveses.Add(dp);
 
+            IsDirty = true;
+
             return size;
+        }
+
+        public bool RemoveText(object id)
+        {
+            if (!RemoveTextMulti(id))
+                return false;
+
+            RefreshBuffers();
+            return true;
+        }
+
+
+        public bool RemoveTextMulti(object id)
+        {
+            if (!_primitiveCache.TryGetValue(id, out var dp))
+                return false;
+
+            _drawing.DrawingPimitiveses.Remove(dp);
+            _primitiveCache.Remove(id);
+
+            IsDirty = true;
+
+            return true;
+        }
+
+        public bool RemoveTextsMulti(ICollection<object> ids)
+        {
+            bool result = false;
+            foreach (var id in ids)
+                result |= RemoveTextMulti(id);
+            return result;
         }
 
         public void Render(Matrix4 proj)

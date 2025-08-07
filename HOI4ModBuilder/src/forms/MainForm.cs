@@ -41,6 +41,7 @@ using HOI4ModBuilder.src.newParser.objects;
 using System.Linq;
 using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.openTK;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 
 namespace HOI4ModBuilder
 {
@@ -1979,6 +1980,7 @@ namespace HOI4ModBuilder
                     });
                 }
 
+                MapManager.FontRenderController.AddEventData((int)EnumMapRenderEvents.VICTORY_POINTS, ProvinceManager.RMBProvince);
                 ProvinceManager.RMBProvince.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
                 Update_ToolStripMenuItem_Map_Province_Items(ProvinceManager.RMBProvince);
                 MapManager.HandleMapMainLayerChange(false, enumMainLayer, ComboBox_Tool_Parameter.Text);
