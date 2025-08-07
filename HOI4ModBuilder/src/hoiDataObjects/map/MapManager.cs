@@ -136,11 +136,9 @@ namespace HOI4ModBuilder.managers
             var viewportMinPoint = CalculateMapPos(0, 0, vpi);
             var viewportMaxPoint = CalculateMapPos(vpi.width, vpi.height, vpi);
             viewportBounds.left = (float)viewportMinPoint.x;
-            viewportBounds.top = MapSize.y - (float)viewportMinPoint.y;
+            viewportBounds.top = MapSize.y - (float)viewportMaxPoint.y;
             viewportBounds.right = (float)viewportMaxPoint.x;
-            viewportBounds.bottom = MapSize.y - (float)viewportMaxPoint.y;
-
-            viewportBounds.FixDimensions();
+            viewportBounds.bottom = MapSize.y - (float)viewportMinPoint.y;
 
             GL.LoadIdentity();
             GL.PushMatrix();
