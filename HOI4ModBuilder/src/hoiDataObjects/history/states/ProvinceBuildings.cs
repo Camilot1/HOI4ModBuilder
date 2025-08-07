@@ -102,6 +102,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 return;
             }
 
+            if (rawValue is uint uintValue)
+            {
+                block.SetValue(value);
+                return;
+            }
+
             if (!(rawValue is GameList<ScriptBlockParseObject> innerList))
                 throw new Exception("Building \"" + building.Name + "\" invalid definition of value");
 
