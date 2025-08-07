@@ -210,7 +210,8 @@ namespace HOI4ModBuilder.managers
 
             //FontRenderController?.RenderDebug();
 
-            if (FontRenderController != null && displayLayers[(int)EnumAdditionalLayers.TEXT])
+            var distanceTextCutoff = zoomFactor > (1 / TextScale * 0.00015f * (vpi.height / (float)vpi.max));
+            if (distanceTextCutoff && FontRenderController != null && displayLayers[(int)EnumAdditionalLayers.TEXT])
             {
                 var _projection = Matrix4.CreateOrthographicOffCenter(
                     MainForm.Instance.viewportInfo.x,
@@ -232,8 +233,7 @@ namespace HOI4ModBuilder.managers
                         0f
                     );
 
-                if (zoomFactor > (1 / TextScale * 0.00015f * (vpi.height / (float)vpi.max)))
-                    FontRenderController.Render(viewMatrix * _projection, viewportBounds);
+                FontRenderController.Render(viewMatrix * _projection, viewportBounds);
             }
 
             GL.PopMatrix();
