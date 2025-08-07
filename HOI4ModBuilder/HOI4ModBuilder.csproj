@@ -442,7 +442,6 @@
     <Compile Include="src\hoiDataObjects\map\provinces\border\BorderData.cs" />
     <Compile Include="src\hoiDataObjects\history\states\VictoryPoint.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\IMapRenderer.cs" />
-    <Compile Include="src\hoiDataObjects\map\renderer\MapRendereCustomScript.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererAiAreas.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererBuildings.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererCitiesMap.cs" />
@@ -450,6 +449,7 @@
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererContinents.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererCoresOf.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererCountries.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererCustomScript.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererHeightMap.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererManpower.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererNone.cs" />

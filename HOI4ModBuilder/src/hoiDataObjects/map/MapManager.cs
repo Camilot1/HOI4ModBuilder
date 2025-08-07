@@ -353,7 +353,7 @@ namespace HOI4ModBuilder.managers
             array[(int)EnumMainLayer.CITIES_MAP] = new MapRendererCitiesMap();
             array[(int)EnumMainLayer.HEIGHT_MAP] = new MapRendererHeightMap();
             array[(int)EnumMainLayer.NORMAL_MAP] = new MapRendererNormalMap();
-            array[(int)EnumMainLayer.CUSTOM_SCRIPT] = new MapRendereCustomScript();
+            array[(int)EnumMainLayer.CUSTOM_SCRIPT] = new MapRendererCustomScript();
             array[(int)EnumMainLayer.NONE] = new MapRendererNone();
 
             return array;
