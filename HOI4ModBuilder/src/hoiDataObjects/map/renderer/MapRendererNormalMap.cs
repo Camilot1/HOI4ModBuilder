@@ -7,18 +7,24 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 {
     public class MapRendererNormalMap : IMapRenderer
     {
-        public MapRendererResult Execute(ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
+        public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
+        {
+            if (recalculateAllText)
+                if (!TextRenderRecalculate())
+                    return MapRendererResult.ABORT;
+
+            MapManager.MapMainLayer.Texture = TextureManager.normal.texture;
+
+            return MapRendererResult.ABORT;
+        }
+
+        public bool TextRenderRecalculate()
         {
             MapManager.FontRenderController.TryStart(out var result)?
                 .ClearAll()
                 .End();
 
-            if (!result)
-                return MapRendererResult.ABORT;
-
-            MapManager.MapMainLayer.Texture = TextureManager.normal.texture;
-
-            return MapRendererResult.ABORT;
+            return result;
         }
     }
 }

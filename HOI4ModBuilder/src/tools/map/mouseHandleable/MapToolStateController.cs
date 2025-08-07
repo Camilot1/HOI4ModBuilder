@@ -54,7 +54,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                 {
                     stateHistory.Controller.SetValue(stateController);
                     province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                    MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
                 };
 
                 MapManager.ActionsBatch.AddWithExecute(

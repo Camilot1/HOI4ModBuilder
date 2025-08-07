@@ -9,7 +9,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 {
     internal class MapRendereCustomScript : IMapRenderer
     {
-        public MapRendererResult Execute(ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
+        public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
         {
             if (ScriptParser.MapMainLayerCustomScriptName == null)
             {
@@ -17,12 +17,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                 return MapRendererResult.ABORT;
             }
 
-            MapManager.FontRenderController.TryStart(out var result)?
-                .ClearAll()
-                .End();
-
-            if (!result)
-                return MapRendererResult.ABORT;
+            if (recalculateAllText)
+                if (!TextRenderRecalculate())
+                    return MapRendererResult.ABORT;
 
             ScriptParser.IsDebug = false;
 
@@ -56,6 +53,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             };
 
             return MapRendererResult.CONTINUE;
+        }
+
+        public bool TextRenderRecalculate()
+        {
+            MapManager.FontRenderController.TryStart(out var result)?
+                .ClearAll()
+                .End();
+
+            return result;
         }
     }
 }

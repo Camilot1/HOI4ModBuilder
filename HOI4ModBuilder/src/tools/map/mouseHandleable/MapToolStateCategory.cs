@@ -50,7 +50,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 Action<State, StateCategory> action = (state, stateCategory) =>
                 {
                     state.StateCategory.SetValue(stateCategory);
-                    MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
                 };
 
                 MapManager.ActionsBatch.AddWithExecute(

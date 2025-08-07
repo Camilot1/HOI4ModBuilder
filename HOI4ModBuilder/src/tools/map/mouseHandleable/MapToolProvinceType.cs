@@ -43,7 +43,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 void action(EnumProvinceType type)
                 {
                     province.Type = type;
-                    MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
                 }
 
                 MapManager.ActionsBatch.AddWithExecute(

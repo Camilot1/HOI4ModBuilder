@@ -12,9 +12,9 @@ namespace HOI4ModBuilder.src.tools.auto
 {
     class AutoTools
     {
-        private static void PostAction(int count)
+        private static void PostAction(bool recalculateAllText, int count)
         {
-            MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+            MapManager.HandleMapMainLayerChange(recalculateAllText, MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
 
             MessageBox.Show(
                 GuiLocManager.GetLoc(
@@ -27,9 +27,9 @@ namespace HOI4ModBuilder.src.tools.auto
                 MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
             );
         }
-        private static void PostExtendedAction(int count, int success, string unsuccessInfo)
+        private static void PostExtendedAction(bool recalculateAllTextint, int count, int success, string unsuccessInfo)
         {
-            MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+            MapManager.HandleMapMainLayerChange(recalculateAllTextint, MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
 
             MessageBox.Show(
                 GuiLocManager.GetLoc(
@@ -62,7 +62,7 @@ namespace HOI4ModBuilder.src.tools.auto
             });
 
             if (displayResultMessage)
-                PostAction(counter);
+                PostAction(false, counter);
         }
 
         public static void RemoveSeaAndLakesContinents(bool displayResultMessage)
@@ -78,7 +78,7 @@ namespace HOI4ModBuilder.src.tools.auto
             });
 
             if (displayResultMessage)
-                PostAction(counter);
+                PostAction(false, counter);
         }
 
         public static void RemoveSeaProvincesFromStates(bool displayResultMessage)
@@ -94,7 +94,7 @@ namespace HOI4ModBuilder.src.tools.auto
             });
 
             if (displayResultMessage)
-                PostAction(counter);
+                PostAction(false, counter);
         }
 
         public static void ValidateAllStates(bool displayResultMessage)
@@ -108,7 +108,7 @@ namespace HOI4ModBuilder.src.tools.auto
             });
 
             if (displayResultMessage)
-                PostAction(counter);
+                PostAction(true, counter);
         }
 
         public static void ValidateAllRegions(bool displayResultMessage)
@@ -122,7 +122,7 @@ namespace HOI4ModBuilder.src.tools.auto
             });
 
             if (displayResultMessage)
-                PostAction(counter);
+                PostAction(true, counter);
         }
 
         public static void RemoveGhostProvinces(bool displayResultMessage)
@@ -148,7 +148,7 @@ namespace HOI4ModBuilder.src.tools.auto
                 sb.Append('-');
 
             if (displayResultMessage)
-                PostExtendedAction(provinces.Count, success, sb.ToString());
+                PostExtendedAction(true, provinces.Count, success, sb.ToString());
         }
 
         private static bool RemoveGhostProvince(Province p, StringBuilder sb)

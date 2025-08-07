@@ -12,21 +12,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
     {
         private static readonly float scale = 0.04f;
         private static readonly Color color = Color.Yellow;
-        public MapRendererResult Execute(ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
+        public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
         {
-            MapManager.FontRenderController.TryStart(out var result)?
-                .SetScale(scale)
-                .ClearAllMulti()
-                .ForEachProvince(
-                    (p) => p.victoryPoints > 0,
-                    (fontRegion, p, pos) => fontRegion.SetTextMulti(
-                        p.Id, TextRenderManager.Instance.FontData64, scale,
-                        p.victoryPoints + "", pos, QFontAlignment.Centre, color, true
-                    ))
-                .EndAssembleParallel();
-
-            if (!result)
-                return MapRendererResult.ABORT;
+            if (recalculateAllText)
+                if (!TextRenderRecalculate())
+                    return MapRendererResult.ABORT;
 
             ProvinceManager.GetMinMaxVictoryPoints(out uint victoryPointsMin, out uint victoryPointsMax);
             var logScaleData = new LogScaleData(victoryPointsMin, victoryPointsMax);
@@ -48,6 +38,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             };
 
             return MapRendererResult.CONTINUE;
+        }
+
+        public bool TextRenderRecalculate()
+        {
+            MapManager.FontRenderController.TryStart(out var result)?
+                .SetScale(scale)
+                .ClearAllMulti()
+                .ForEachProvince(
+                    (p) => p.victoryPoints > 0,
+                    (fontRegion, p, pos) => fontRegion.SetTextMulti(
+                        p.Id, TextRenderManager.Instance.FontData64, scale,
+                        p.victoryPoints + "", pos, QFontAlignment.Centre, color, true
+                    ))
+                .EndAssembleParallel();
+
+            return result;
         }
     }
 }

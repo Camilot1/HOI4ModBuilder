@@ -212,7 +212,7 @@ namespace HOI4ModBuilder.managers
                     Matrix4.CreateScale(scaleHalf, scaleHalf, scaleHalf) *
                     Matrix4.CreateScale(factor, factor, factor) *
                     Matrix4.CreateTranslation(
-                        MainForm.Instance.viewportInfo.width / 2f + (float)(mapDifX * factor / 2f),
+                        MainForm.Instance.viewportInfo.width / 2f + (float)((mapDifX + 0.5f) * factor / 2f),
                         MainForm.Instance.viewportInfo.height / 2f + (float)(-mapDifY * factor / 2f),
                         0f
                     );
@@ -345,7 +345,7 @@ namespace HOI4ModBuilder.managers
             return array;
         }
 
-        public static void HandleMapMainLayerChange(EnumMainLayer enumMainLayer, string parameter)
+        public static void HandleMapMainLayerChange(bool recalculateAllText, EnumMainLayer enumMainLayer, string parameter)
         {
             if (ProvincesPixels == null)
                 return;
@@ -357,7 +357,7 @@ namespace HOI4ModBuilder.managers
             Func<Province, int, int> customFunc = null;
 
             MapRendererResult result = _mapRenderers[(int)enumMainLayer]
-                .Execute(ref func, ref customFunc, parameter);
+                .Execute(recalculateAllText, ref func, ref customFunc, parameter);
 
             if (result == MapRendererResult.ABORT)
                 return;

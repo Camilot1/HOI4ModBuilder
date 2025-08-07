@@ -41,23 +41,23 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             void AddContinent()
             {
                 aiArea.AddContinentId(province.ContinentId);
-                MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
             };
             void RemoveContinent()
             {
                 aiArea.RemoveContinentId(province.ContinentId);
-                MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
             };
 
             void AddRegion()
             {
                 aiArea.AddRegion(province.Region);
-                MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
             }
             void RemoveRegion()
             {
                 aiArea.RemoveRegion(province.Region);
-                MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
             }
 
             switch (enumEditLayer)

@@ -8,6 +8,7 @@ using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.src.openTK.text
 {
@@ -34,6 +35,10 @@ namespace HOI4ModBuilder.src.openTK.text
             }
 
             result = true;
+
+            if (!MapManager.displayLayers[(int)EnumAdditionalLayers.TEXT])
+                return null;
+
             IsPerforming = true;
             return this;
         }

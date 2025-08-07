@@ -51,7 +51,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 Action<bool> action = (b) =>
                 {
                     province.IsCoastal = b;
-                    MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
                 };
 
                 MapManager.ActionsBatch.AddWithExecute(

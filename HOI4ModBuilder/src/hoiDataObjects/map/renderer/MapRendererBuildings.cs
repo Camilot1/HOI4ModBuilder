@@ -6,6 +6,7 @@ using HOI4ModBuilder.src.openTK;
 using QuickFont;
 using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 {
@@ -15,16 +16,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         private static readonly float scaleState = 0.125f;
         private static readonly Color color = Color.Yellow;
 
-        public MapRendererResult Execute(ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
+        public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
         {
             if (!BuildingManager.TryGetBuilding(parameter, out Building building))
             {
-                MapManager.FontRenderController.TryStart(out var result)?
-                    .ClearAll()
-                    .End();
-
-                if (!result)
-                    return MapRendererResult.ABORT;
+                if (recalculateAllText)
+                    if (!TextRenderRecalculate())
+                        return MapRendererResult.ABORT;
 
                 func = (p) =>
                 {
@@ -44,35 +42,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 
             if (buildingSlotCategory == EnumBuildingSlotCategory.PROVINCIAL)
             {
-                MapManager.FontRenderController.TryStart(out var result)?
-                .SetScale(scaleProvince)
-                .ClearAllMulti()
-                .ForEachProvince(
-                    (p) => p.GetBuildingCount(building) > 0,
-                    (fontRegion, p, pos) => fontRegion.SetTextMulti(
-                        p.Id, TextRenderManager.Instance.FontData64, scaleProvince,
-                        p.GetBuildingCount(building) + "", pos, QFontAlignment.Centre, color, true
-                    ))
-                .EndAssembleParallel();
-
-                if (!result)
-                    return MapRendererResult.ABORT;
+                if (recalculateAllText)
+                    if (!TextRenderRecalculateProvinces(building))
+                        return MapRendererResult.ABORT;
             }
             else
             {
-                MapManager.FontRenderController.TryStart(out var result)?
-                .SetScale(scaleState)
-                .ClearAllMulti()
-                .ForEachState(
-                    (s) => s.GetStateBuildingCount(building) > 0,
-                    (fontRegion, s, pos) => fontRegion.SetTextMulti(
-                        s.Id.GetValue(), TextRenderManager.Instance.FontData64, scaleState,
-                        s.GetStateBuildingCount(building) + "", pos, QFontAlignment.Centre, color, true
-                    ))
-                .EndAssembleParallel();
-
-                if (!result)
-                    return MapRendererResult.ABORT;
+                if (recalculateAllText)
+                    if (!TextRenderRecalculateStates(building))
+                        return MapRendererResult.ABORT;
             }
 
             if (buildingSlotCategory == EnumBuildingSlotCategory.PROVINCIAL)
@@ -168,6 +146,47 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             }
 
             return MapRendererResult.CONTINUE;
+        }
+
+        public bool TextRenderRecalculate()
+        {
+            MapManager.FontRenderController.TryStart(out var result)?
+                    .ClearAll()
+                    .End();
+
+            return result;
+        }
+
+        public bool TextRenderRecalculateProvinces(Building building)
+        {
+            MapManager.FontRenderController.TryStart(out var result)?
+                .SetScale(scaleProvince)
+                .ClearAllMulti()
+                .ForEachProvince(
+                    (p) => p.GetBuildingCount(building) > 0,
+                    (fontRegion, p, pos) => fontRegion.SetTextMulti(
+                        p.Id, TextRenderManager.Instance.FontData64, scaleProvince,
+                        p.GetBuildingCount(building) + "", pos, QFontAlignment.Centre, color, true
+                    ))
+                .EndAssembleParallel();
+
+            return result;
+        }
+
+        public bool TextRenderRecalculateStates(Building building)
+        {
+            MapManager.FontRenderController.TryStart(out var result)?
+                .SetScale(scaleState)
+                .ClearAllMulti()
+                .ForEachState(
+                    (s) => s.GetStateBuildingCount(building) > 0,
+                    (fontRegion, s, pos) => fontRegion.SetTextMulti(
+                        s.Id.GetValue(), TextRenderManager.Instance.FontData64, scaleState,
+                        s.GetStateBuildingCount(building) + "", pos, QFontAlignment.Centre, color, true
+                    ))
+                .EndAssembleParallel();
+
+            return result;
         }
     }
 }

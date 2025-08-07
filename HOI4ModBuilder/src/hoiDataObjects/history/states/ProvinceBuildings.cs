@@ -76,6 +76,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             if (value is int intValue)
                 return (uint)intValue;
 
+            if (value is uint uintValue)
+                return uintValue;
+
             if (!(value is GameList<ScriptBlockParseObject> innerList))
                 throw new Exception("Building \"" + building.Name + "\" invalid definition of value");
 

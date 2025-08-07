@@ -80,14 +80,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         bool needToRedraw = false;
                         foreach (var tuple in list)
                             needToRedraw |= StateManager.TransferProvince(tuple.Item3, tuple.Item1, tuple.Item2);
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
                     };
                     undoAction = (list) =>
                     {
                         bool needToRedraw = false;
                         foreach (var tuple in list)
                             needToRedraw |= StateManager.TransferProvince(tuple.Item3, tuple.Item2, tuple.Item1);
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
                     };
                 }
 

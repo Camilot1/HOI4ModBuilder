@@ -13,7 +13,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         private static readonly float scale = 0.125f;
         private static readonly Color color = Color.Yellow;
 
-        public MapRendererResult Execute(ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
+        public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
+        {
+            if (recalculateAllText)
+                if (!TextRenderRecalculate())
+                    return MapRendererResult.ABORT;
+
+            func = (p) =>
+            {
+                if (p.State == null)
+                    return Utils.ArgbToInt(255, 0, 0, 0);
+                else return p.State.Color;
+            };
+
+            return MapRendererResult.CONTINUE;
+        }
+
+        public bool TextRenderRecalculate()
         {
             MapManager.FontRenderController.TryStart(out var result)?
                 .SetScale(scale)
@@ -26,17 +42,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                     ))
                 .EndAssembleParallel();
 
-            if (!result)
-                return MapRendererResult.ABORT;
-
-            func = (p) =>
-            {
-                if (p.State == null)
-                    return Utils.ArgbToInt(255, 0, 0, 0);
-                else return p.State.Color;
-            };
-
-            return MapRendererResult.CONTINUE;
+            return result;
         }
     }
 }

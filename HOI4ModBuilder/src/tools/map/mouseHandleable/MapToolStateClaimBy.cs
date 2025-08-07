@@ -87,7 +87,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                             stateHistory, "add_claim_by", country
                         ));
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                     };
                     undoAction = (stateHistory, country) =>
                     {
@@ -97,7 +97,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                                 block.GetValue() == targetCountry
                         );
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                     };
                 }
                 else if (
@@ -116,7 +116,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
 
                         stateHistory.DynamicScriptBlocks.RemoveAt(lastResultIndex);
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                     };
                     undoAction = (stateHistory, country) =>
                     {
@@ -124,7 +124,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                             stateHistory, "remove_claim_by", country
                         ));
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                     };
                 }
 
@@ -176,7 +176,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                             stateHistory, "remove_claim_by", country
                         ));
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                     };
                     undoAction = (stateHistory, country) =>
                     {
@@ -186,7 +186,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                                 block.GetValue() == targetCountry
                         );
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                     };
                 }
                 else if (
@@ -205,7 +205,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
 
                         stateHistory.DynamicScriptBlocks.RemoveAt(lastResultIndex);
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                     };
                     undoAction = (stateHistory, country) =>
                     {
@@ -213,7 +213,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                             stateHistory, "add_claim_by", country
                         ));
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                     };
                 }
 

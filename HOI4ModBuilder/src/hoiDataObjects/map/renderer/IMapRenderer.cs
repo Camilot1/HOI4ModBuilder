@@ -15,6 +15,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 
     public interface IMapRenderer
     {
-        MapRendererResult Execute(ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter);
+        MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter);
+        bool TextRenderRecalculate();
     }
 }
