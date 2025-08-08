@@ -2005,13 +2005,7 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() => StrategicRegionManager.SelectRegions(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' ')));
 
         private void ToolStripMenuItem_Map_Actions_Merge_All_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                foreach (var province in ProvinceManager.GroupSelectedProvinces)
-                    MergeProvincesTool.MergeProvinces(ProvinceManager.RMBProvince, province);
-            });
-        }
+            => Logger.TryOrLog(() => MergeProvincesTool.MergeProvinces(ProvinceManager.RMBProvince, ProvinceManager.GroupSelectedProvinces));
 
         private void ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => MergeProvincesTool.MergeSelectedProvinces());
