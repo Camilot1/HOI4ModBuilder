@@ -142,6 +142,9 @@ namespace HOI4ModBuilder
                 CheckedListBox_MapAdditionalLayers.Items.Add(GuiLocManager.GetLoc(type.ToString()));
             CheckedListBox_MapAdditionalLayers.Height = 15 * CheckedListBox_MapAdditionalLayers.Items.Count + 10;
 
+            CheckedListBox_MapAdditionalLayers.SetItemChecked((int)EnumAdditionalLayers.TEXT, true);
+            MapManager.displayLayers[(int)EnumAdditionalLayers.TEXT] = true;
+
             ToolStripComboBox_Map_Railway_Level.SelectedIndex = 0;
             ComboBox_GenerateColor_Type.SelectedIndex = 0;
 
