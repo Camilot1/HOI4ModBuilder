@@ -40,6 +40,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             new MapToolStateClaimBy(_mapTools);
             new MapToolBuildings(_mapTools);
             new MapToolAiArea(_mapTools);
+            new MapToolVictoryPoints(_mapTools);
 
             new MergeProvincesTool();
             new RailwayTool();

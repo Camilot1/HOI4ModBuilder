@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.history.countries;
 using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
@@ -11,6 +12,7 @@ using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 {
@@ -101,6 +103,38 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             return false;
         }
 
+
+        public bool SetVictoryPoints(Province province, uint newValue)
+        {
+            foreach (var vp in VictoryPoints)
+            {
+                if (vp.province == province)
+                {
+                    if (newValue == 0)
+                    {
+                        VictoryPoints.Remove(vp);
+                        return true;
+                    }
+                    else if (vp.value != newValue)
+                    {
+                        vp.value = newValue;
+                        return true;
+                    }
+                    return false;
+                }
+            }
+
+            if (newValue == 0)
+                return false;
+
+            VictoryPoints.Add(new VictoryPoint()
+            {
+                province = ProvinceManager.RMBProvince,
+                value = newValue
+            });
+
+            return true;
+        }
 
         public bool TryGetProvinceBuildings(Province province, out ProvinceBuildings buildings)
         {

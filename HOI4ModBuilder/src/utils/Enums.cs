@@ -100,6 +100,7 @@ namespace HOI4ModBuilder.utils
             STATE_CORE_OF,
             STATE_CLAIM_BY,
             BUILDINGS,
+            VICTORY_POINTS,
             AI_AREAS
         }
 

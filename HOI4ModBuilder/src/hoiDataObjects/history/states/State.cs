@@ -15,6 +15,7 @@ using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
 {
@@ -232,6 +233,20 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 center.y = (float)(sumY / pixelsCount);
             }
             this.pixelsCount = (uint)pixelsCount;
+        }
+
+        public bool SetVictoryPoints(Province province, uint newValue)
+        {
+            if (History.GetValue() == null)
+                return false;
+
+            if (History.GetValue().SetVictoryPoints(province, newValue))
+            {
+                SetNeedToSave(true);
+                UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
+                return true;
+            }
+            return false;
         }
 
         public void SetProvinceBuildingLevel(Province province, Building building, uint newCount)

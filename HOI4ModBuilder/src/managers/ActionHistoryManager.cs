@@ -52,7 +52,8 @@ namespace HOI4ModBuilder.src.managers
                     _history.RemoveRange(_currentPair + 1, _history.Count - _currentPair - 1);
 
                 _history.Add(pair);
-                if (!isSilent) pair.redo();
+                if (!isSilent)
+                    pair.redo();
 
                 if (_history.Count > SettingsManager.Settings.actionHistorySize) _history.RemoveAt(0);
                 else _currentPair++;

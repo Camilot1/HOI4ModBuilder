@@ -1154,7 +1154,7 @@ namespace HOI4ModBuilder
             });
         }
 
-        private void Update_ToolStripMenuItem_Map_Province_Items(Province p)
+        public void Update_ToolStripMenuItem_Map_Province_Items(Province p)
         {
             ToolStripMenuItem_Map_Province_Info.Text =
                 GuiLocManager.GetLoc(EnumLocKey.PROVINCE) + ": " + p.Id;
@@ -1950,41 +1950,42 @@ namespace HOI4ModBuilder
                 if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.State == null)
                     return;
 
-                if (!uint.TryParse(ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Text, out var newValue))
+                var province = ProvinceManager.RMBProvince;
+                uint prevCount = province.victoryPoints;
+
+                if (!uint.TryParse(
+                    ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Text.Length == 0 ?
+                        "0" :
+                        ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Text,
+                    out var newCount)
+                )
                     return;
 
-                var history = ProvinceManager.RMBProvince.State.History.GetValue();
+                var history = province.State.History.GetValue();
                 if (history == null)
                     return;
 
-                bool found = false;
-                foreach (var vp in history.VictoryPoints)
+
+                Action<uint> action;
+
+                action = (c) =>
                 {
-                    if (vp.province == ProvinceManager.RMBProvince)
+                    if (province.State.SetVictoryPoints(province, c))
                     {
-                        if (newValue == 0)
-                            history.VictoryPoints.Remove(vp);
-                        else
-                            vp.value = newValue;
-                        found = true;
-                        break;
+                        MapManager.FontRenderController.AddEventData((int)EnumMapRenderEvents.VICTORY_POINTS, province);
+                        Update_ToolStripMenuItem_Map_Province_Items(province);
+                        MapManager.HandleMapMainLayerChange(false, GetMainLayer(), GetParameter());
                     }
-                }
+                };
 
-                if (!found)
-                {
-                    history.VictoryPoints.Add(new VictoryPoint()
-                    {
-                        province = ProvinceManager.RMBProvince,
-                        value = newValue
-                    });
-                }
-
-                MapManager.FontRenderController.AddEventData((int)EnumMapRenderEvents.VICTORY_POINTS, ProvinceManager.RMBProvince);
-                ProvinceManager.RMBProvince.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                Update_ToolStripMenuItem_Map_Province_Items(ProvinceManager.RMBProvince);
-                MapManager.HandleMapMainLayerChange(false, enumMainLayer, ComboBox_Tool_Parameter.Text);
+                MapManager.ActionHistory.Add(
+                    () => action(newCount),
+                    () => action(prevCount)
+                );
             });
+
+        public EnumMainLayer GetMainLayer() => enumMainLayer;
+        public string GetParameter() => ComboBox_Tool_Parameter.Text;
 
         private void ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AutoTools.RemoveGhostProvinces(true));
