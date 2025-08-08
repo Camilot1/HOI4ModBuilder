@@ -575,6 +575,7 @@ namespace HOI4ModBuilder.managers
                                 UpdateDisplayBorders();
                                 MainForm.DisplayProgress(EnumLocKey.PROGRESSBAR_UPDATED, 0);
                                 MainForm.ResumeGLControl();
+                                HandleMapMainLayerChange(true, MainForm.Instance.enumMainLayer, MainForm.Instance.GetParameter());
                                 Utils.CleanUpMemory();
                             });
                         });
