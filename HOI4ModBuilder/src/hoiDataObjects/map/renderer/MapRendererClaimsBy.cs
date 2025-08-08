@@ -47,6 +47,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         public bool TextRenderRecalculate()
         {
             MapManager.FontRenderController.TryStart(out var result)?
+                .SetEventsHandlerStatesIdsReinit(scale, color, QFontAlignment.Centre)
                 .SetScale(scale)
                 .ClearAllMulti()
                 .ForEachState(

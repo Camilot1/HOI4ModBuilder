@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.openTK;
 using HOI4ModBuilder.src.utils.structs;
 using QuickFont;
@@ -51,7 +52,21 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 
         public bool TextRenderRecalculate()
         {
-            MapManager.FontRenderController.TryStart(out var result)?
+            var controller = MapManager.FontRenderController;
+            controller.TryStart(out var result)?
+                .SetEventsHandler((int)EnumMapRenderEvents.MANPOWER, (flags, objs) =>
+                {
+                    controller.TryStart(controller.EventsFlags, out var eventResult)?
+                    .ForEachState(objs, p => true, (fontRegion, s, pos) =>
+                    {
+                        controller.PushAction(pos, r => r.RemoveTextMulti(s.Id.GetValue()));
+                        controller.PushAction(pos, r => r.SetTextMulti(
+                            s.Id.GetValue(), TextRenderManager.Instance.FontData64, scale,
+                            s.Manpower.GetValue() + "", pos, QFontAlignment.Centre, color, true
+                        ));
+                    })
+                    .EndAssembleParallelWithWait();
+                })
                 .SetScale(scale)
                 .ClearAllMulti()
                 .ForEachState(

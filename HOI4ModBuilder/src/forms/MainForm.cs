@@ -1977,7 +1977,7 @@ namespace HOI4ModBuilder
                 {
                     if (province.State.SetVictoryPoints(province, c))
                     {
-                        MapManager.FontRenderController.AddEventData((int)EnumMapRenderEvents.VICTORY_POINTS, province);
+                        MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.VICTORY_POINTS, province);
                         Update_ToolStripMenuItem_Map_Province_Items(province);
                         MapManager.HandleMapMainLayerChange(false, GetMainLayer(), GetParameter());
                     }

@@ -108,7 +108,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 action = (c) =>
                 {
                     province.State.SetProvinceBuildingLevel(province, building, c);
-                    MapManager.FontRenderController.AddEventData((int)EnumMapRenderEvents.BUILDINGS, province);
+                    MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.BUILDINGS, province);
                     MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                 };
             }
@@ -117,7 +117,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 action = (c) =>
                 {
                     province.State.SetStateBuildingLevel(building, c);
-                    MapManager.FontRenderController.AddEventData((int)EnumMapRenderEvents.BUILDINGS, province.State);
+                    MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.BUILDINGS, province.State);
                     MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                 };
             }

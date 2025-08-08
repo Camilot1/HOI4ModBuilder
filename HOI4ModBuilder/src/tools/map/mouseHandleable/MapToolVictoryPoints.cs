@@ -69,7 +69,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             {
                 if (province.State.SetVictoryPoints(province, c))
                 {
-                    MapManager.FontRenderController.AddEventData((int)EnumMapRenderEvents.VICTORY_POINTS, province);
+                    MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.VICTORY_POINTS, province);
                     MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                 }
             };
