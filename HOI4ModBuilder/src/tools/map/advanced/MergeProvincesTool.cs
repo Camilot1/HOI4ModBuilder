@@ -19,9 +19,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                 (sender, e) =>
                 {
                     if (e.Control && !(e.Alt || e.Shift))
-                        MergeProvinces(ProvinceManager.SelectedProvince, ProvinceManager.RMBProvince);
+                        MergeSelectedProvinces();
                 }
             );
+        }
+
+        public static void MergeSelectedProvinces()
+        {
+            if (ProvinceManager.GroupSelectedProvinces.Count < 2)
+                return;
+
+            var list = new List<Province>(ProvinceManager.GroupSelectedProvinces);
+            list.Sort();
+            var minIdProvince = list[0];
+            list.RemoveAt(0);
+
+            foreach (var province in list)
+                MergeProvinces(minIdProvince, province);
         }
 
         public static void MergeProvinces(Province main, Province second)

@@ -1506,6 +1506,8 @@ namespace HOI4ModBuilder
                     ToolStripMenuItem_Map_Actions_Merge.Enabled = false;
                 }
                 else ToolStripMenuItem_Map_Actions_Merge.Enabled = true;
+
+                ToolStripMenuItem_Map_Actions_Merge_All.Enabled = ProvinceManager.GroupSelectedProvinces.Count >= 2;
             });
         }
 
@@ -2001,6 +2003,21 @@ namespace HOI4ModBuilder
 
         private void ToolStripMenuItem_Map_Select_Regions_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => StrategicRegionManager.SelectRegions(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' ')));
+
+        private void ToolStripMenuItem_Map_Actions_Merge_All_Click(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                foreach (var province in ProvinceManager.GroupSelectedProvinces)
+                    MergeProvincesTool.MergeProvinces(ProvinceManager.RMBProvince, province);
+            });
+        }
+
+        private void ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => MergeProvincesTool.MergeSelectedProvinces());
+
+        private void ToolStripMenuItem_Edit_Actions_DropDownOpened(object sender, EventArgs e)
+            => Logger.TryOrLog(() => ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Enabled = ProvinceManager.GroupSelectedProvinces.Count >= 2);
 
         private void ResizeComboBox(GroupBox groupBox, ComboBox comboBox)
         {

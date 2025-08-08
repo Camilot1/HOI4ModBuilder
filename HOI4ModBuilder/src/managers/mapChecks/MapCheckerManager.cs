@@ -53,6 +53,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks
                 Thread.Sleep(100);
             } while (runningCounter > 0);
 
+            //TODO reimplement tasks
             CollectCheckersData();
         }
 
