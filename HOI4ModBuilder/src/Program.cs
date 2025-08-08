@@ -51,6 +51,7 @@ namespace HOI4ModBuilder
                 baseDirectoryPath += debugPathParts[i] + "\\";
 
             FileManager.CopyFilesFromBetweenDirectories(baseDirectoryPath + "data\\", debugPath + "\\data\\");
+            FileManager.CopyFilesFromBetweenDirectories(baseDirectoryPath + "data\\fonts\\", debugPath + "\\data\\fonts\\");
             FileManager.CopyFilesFromBetweenDirectories(baseDirectoryPath + "localization\\", debugPath + "\\localization\\");
             FileManager.CopyDirectoryRecursive(baseDirectoryPath + "data\\savePatterns", debugPath + "\\data\\savePatterns");
         }
