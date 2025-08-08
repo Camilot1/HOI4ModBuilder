@@ -472,6 +472,8 @@ namespace HOI4ModBuilder
 
         private void LoadAllData(Settings settings)
         {
+            SettingsManager.Settings.LoadModDescriptors();
+
             LocalModDataManager.Load(settings);
             SavePattern.LoadAll();
 
