@@ -997,7 +997,7 @@ namespace HOI4ModBuilder
             ResizeComboBox(groupBox, comboBox);
         }
 
-        public bool IsControlPresses() => ModifierKeys == Keys.Control;
+        public bool IsControlPressed() => ModifierKeys == Keys.Control;
         public bool IsShiftPressed() => ModifierKeys == Keys.Shift;
         public bool IsAltPressed() => ModifierKeys == Keys.Alt;
 

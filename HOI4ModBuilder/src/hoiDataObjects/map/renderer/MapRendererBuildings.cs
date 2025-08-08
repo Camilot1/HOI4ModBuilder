@@ -177,7 +177,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                                 count + "", pos, QFontAlignment.Centre, color, true
                             ));
                     })
-                    .EndAssembleParallel();
+                    .EndAssembleParallelWithWait();
                 })
                 .SetScale(scale)
                 .ClearAllMulti()
@@ -211,7 +211,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                                 count + "", pos, QFontAlignment.Centre, color, true
                             ));
                     })
-                    .EndAssembleParallel();
+                    .EndAssembleParallelWithWait();
                 })
                 .SetScale(scale)
                 .ClearAllMulti()

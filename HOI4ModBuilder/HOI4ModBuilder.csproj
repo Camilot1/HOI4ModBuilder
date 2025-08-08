@@ -836,6 +836,7 @@
     <Compile Include="src\openTK\TexturedPlane.cs" />
     <Compile Include="src\managers\TextureManager.cs" />
     <Compile Include="src\openTK\TextureTypes.cs" />
+    <Compile Include="src\tools\map\mouseHandleable\MapToolVictoryPoints.cs" />
     <Compile Include="src\utils\borders\BordersAssembler.cs" />
     <Compile Include="src\utils\CheckAndLogUnit.cs" />
     <Compile Include="src\utils\Constants.cs" />

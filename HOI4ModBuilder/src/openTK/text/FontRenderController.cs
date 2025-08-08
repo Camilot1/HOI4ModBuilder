@@ -118,8 +118,12 @@ namespace HOI4ModBuilder.src.openTK.text
             if ((EventsFlags & eventFlags) == 0)
                 return false;
 
-            _eventHandlerPayload.Add(value);
-            return true;
+            if (!_eventHandlerPayload.Contains(value))
+            {
+                _eventHandlerPayload.Add(value);
+                return true;
+            }
+            return false;
         }
         public bool TryPostLatestEvent()
         {
@@ -150,6 +154,23 @@ namespace HOI4ModBuilder.src.openTK.text
                     LoadRegionsVAOs();
                     IsPerforming = false;
                 }));
+        }
+
+        public void EndAssembleParallelWithWait()
+        {
+            var tasks = new Task[_regions.Count];
+
+            int index = 0;
+            foreach (var region in _regions.Values)
+            {
+                tasks[index] = Task.Run(() => region.ExecuteActions());
+                index++;
+            };
+
+            Task.WaitAll(tasks);
+
+            LoadRegionsVAOs();
+            IsPerforming = false;
         }
 
         public void End()

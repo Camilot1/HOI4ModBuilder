@@ -60,7 +60,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                                 p.victoryPoints + "", pos, QFontAlignment.Centre, color, true
                             ));
                     })
-                    .EndAssembleParallel();
+                    .EndAssembleParallelWithWait();
                 })
                 .SetScale(scale)
                 .ClearAllMulti()
