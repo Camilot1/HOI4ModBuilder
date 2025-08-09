@@ -42,6 +42,7 @@ using System.Linq;
 using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.openTK;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace HOI4ModBuilder
 {
@@ -56,7 +57,7 @@ namespace HOI4ModBuilder
         public static bool updateGLControl = true;
         public static bool isMapMainLayerChangeEnabled = false;
 
-        private Color brushFirstColor, brushSecondColor;
+        private Color brushFirstColor = Color.White, brushSecondColor = Color.White;
         public ViewportInfo viewportInfo = new ViewportInfo();
         public EnumMainLayer enumMainLayer = EnumMainLayer.PROVINCES_MAP;
         public EnumTool enumTool = EnumTool.CURSOR;
@@ -2014,6 +2015,38 @@ namespace HOI4ModBuilder
 
         private void ToolStripMenuItem_Edit_Actions_DropDownOpened(object sender, EventArgs e)
             => Logger.TryOrLog(() => ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Enabled = ProvinceManager.GroupSelectedProvinces.Count >= 2);
+
+        private void Panel_FirstColor_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                /** Old. Reimplement with WPF color picker/chooser
+                var dialog = new ColorDialog()
+                {
+                    FullOpen = true,
+                    Color = GetBrushFirstColor()
+                };
+                var result = dialog.ShowDialog(this);
+
+                if (result == DialogResult.OK)
+                    SetBrushFirstColor(dialog.Color);
+                */
+            });
+
+        private void Panel_SecondColor_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                /** Old. Reimplement with WPF color picker/chooser
+                var dialog = new ColorDialog()
+                {
+                    FullOpen = true,
+                    Color = GetBrushSecondColor()
+                };
+                var result = dialog.ShowDialog(this);
+
+                if (result == DialogResult.OK)
+                    SetBrushSecondColor(dialog.Color);
+                */
+            });
 
         private void ResizeComboBox(GroupBox groupBox, ComboBox comboBox)
         {
