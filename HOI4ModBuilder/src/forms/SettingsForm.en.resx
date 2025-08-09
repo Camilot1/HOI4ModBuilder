@@ -271,6 +271,9 @@
   <data name="CheckBox_IgnoreUpdateVersion.Text" xml:space="preserve">
     <value>Ignore Update Check</value>
   </data>
+  <data name="Button_Directory_AutoDetect.Text" xml:space="preserve">
+    <value>Autodetect Paths</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Settings</value>
   </data>

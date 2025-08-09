@@ -186,7 +186,7 @@ namespace HOI4ModBuilder.src.forms
                 {
                     var path = FileManager.AssembleFolderPath(new[] { DirDialog.SelectedPath });
 
-                    if (!File.Exists(path + "hoi4.exe"))
+                    if (!IsValidGameDirectory(path))
                     {
                         Logger.LogSingleErrorMessage(EnumLocKey.SINGLE_MESSAGE_NO_HOI4EXE_FILE_IN_GAME_DIRECTORY, new Dictionary<string, string> { { "{fileName}", "hoi4.exe" } });
                         return;
@@ -197,6 +197,8 @@ namespace HOI4ModBuilder.src.forms
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
+        public bool IsValidGameDirectory(string path)
+            => File.Exists(path + "hoi4.exe");
 
         private void Button_GameTempDirectory_Click(object sender, EventArgs e)
         {
@@ -212,7 +214,7 @@ namespace HOI4ModBuilder.src.forms
                 {
                     var path = FileManager.AssembleFolderPath(new[] { DirDialog.SelectedPath });
 
-                    if (!Directory.Exists(path + "save games"))
+                    if (!IsValidGameTempDirectory(path))
                     {
                         Logger.LogSingleErrorMessage(EnumLocKey.SINGLE_MESSAGE_NO_SAVEGAMES_FOULDER_IN_DIRECTORY_IN_DOCUMENTS, new Dictionary<string, string> { { "{directoryName}", "save games" } });
                         return;
@@ -224,14 +226,20 @@ namespace HOI4ModBuilder.src.forms
             thread.Start();
         }
 
+        public bool IsValidGameTempDirectory(string path)
+            => Directory.Exists(path + "save games");
+
         private void Button_ModDirectory_Click(object sender, EventArgs e)
         {
             var thread = new Thread(() =>
             {
+                var dialogPath = !string.IsNullOrEmpty(TextBox_ModDirectory.Text) ?
+                        TextBox_ModDirectory.Text :
+                        FileManager.AssembleFolderPath(new[] { FileManager.GetDocumentsFolderPath(), "Paradox Interactive", "Hearts of Iron IV", "mod" });
                 var DirDialog = new FolderBrowserDialog
                 {
                     Description = GuiLocManager.GetLoc(EnumLocKey.FOLDER_BROWSER_DIALOG_CHOOSE_DIRECTORY_OF_MOD_TITLE),
-                    SelectedPath = TextBox_ModDirectory.Text
+                    SelectedPath = dialogPath
                 };
 
                 if (DirDialog.ShowDialog() == DialogResult.OK)
@@ -374,7 +382,8 @@ namespace HOI4ModBuilder.src.forms
         {
             Logger.TryOrLog(() =>
             {
-                if (!isLoading) SettingsManager.Settings.useModSettings = ComboBox_UsingSettingsType.SelectedIndex == 1;
+                if (!isLoading)
+                    SettingsManager.Settings.useModSettings = ComboBox_UsingSettingsType.SelectedIndex == 1;
             });
         }
 
@@ -407,6 +416,39 @@ namespace HOI4ModBuilder.src.forms
 
                 Button_CreateModSettings.Enabled = false;
 
+            });
+        }
+
+        private void Button_Directory_AutoDetect_Click(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                var documentsFolder = FileManager.GetDocumentsFolderPath();
+                var gameTempPath = FileManager.AssembleFolderPath(new[] { documentsFolder, "Paradox Interactive", "Hearts of Iron IV" });
+                if (!IsValidGameTempDirectory(gameTempPath))
+                    gameTempPath = null;
+
+                var steamPathes = FileManager.GetSteamAppsFolders();
+                string gameDirectoryPath = null;
+
+                foreach (var steamGamePath in steamPathes)
+                {
+                    var gamePath = FileManager.AssembleFolderPath(new[] { steamGamePath, "common", "Hearts of Iron IV" });
+                    if (IsValidGameDirectory(gamePath))
+                    {
+                        gameDirectoryPath = gamePath;
+                        break;
+                    }
+                }
+
+                if (gameTempPath != null)
+                    SettingsManager.Settings.gameTempDirectory = gameTempPath;
+                if (gameDirectoryPath != null)
+                    SettingsManager.Settings.gameDirectory = gameDirectoryPath;
+
+                SettingsManager.Settings.modDirectory = TextBox_ModDirectory.Text;
+
+                LoadData();
             });
         }
     }

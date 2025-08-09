@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -13,14 +14,9 @@ namespace HOI4ModBuilder.src.managers
         public static readonly string[] YML_FORMAT = { ".yml" };
 
         public static string AssembleFolderPath(string[] folders)
-        {
-            return string.Join(PATH_SEPARATOR_STRING, folders) + PATH_SEPARATOR_STRING;
-        }
-
+            => string.Join(PATH_SEPARATOR_STRING, folders) + PATH_SEPARATOR_STRING;
         public static string AssembleFilePath(string[] folders)
-        {
-            return string.Join(PATH_SEPARATOR_STRING, folders);
-        }
+            => string.Join(PATH_SEPARATOR_STRING, folders);
 
         public static Dictionary<string, FileInfo> ReadFileInfos(Settings settings, string subPath, string[] formats)
         {
@@ -179,6 +175,74 @@ namespace HOI4ModBuilder.src.managers
                 var nextDest = Path.Combine(destDir, Path.GetFileName(subDir));
                 CopyDirectoryRecursive(subDir, nextDest, overwrite);
             }
+        }
+        public static string GetDocumentsFolderPath()
+            => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+        public static List<string> GetSteamAppsFolders()
+        {
+            var steamAppsPaths = new List<string>();
+
+            try
+            {
+                // Чтение основного пути Steam из реестра
+                using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Valve\Steam"))
+                {
+                    if (key != null)
+                    {
+                        var steamPath = key.GetValue("SteamPath") as string;
+                        if (!string.IsNullOrEmpty(steamPath))
+                        {
+                            var mainSteamApps = Path.Combine(steamPath.Replace("/", "\\"), "steamapps");
+                            if (Directory.Exists(mainSteamApps))
+                                steamAppsPaths.Add(mainSteamApps);
+
+                            // Читаем файл libraryfolders.vdf для дополнительных библиотек
+                            var libraryFile = Path.Combine(mainSteamApps, "libraryfolders.vdf");
+                            if (File.Exists(libraryFile))
+                            {
+                                foreach (var path in ParseLibraryFolders(libraryFile))
+                                {
+                                    var appsPath = Path.Combine(path, "steamapps");
+                                    if (Directory.Exists(appsPath) && !steamAppsPaths.Contains(appsPath))
+                                        steamAppsPaths.Add(appsPath);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ошибка при поиске steamapps: " + ex.Message);
+            }
+
+            return steamAppsPaths;
+        }
+        private static IEnumerable<string> ParseLibraryFolders(string vdfPath)
+        {
+            var result = new List<string>();
+            foreach (var line in File.ReadAllLines(vdfPath))
+            {
+                var trimmed = line.Trim();
+                if (trimmed.StartsWith("\"") && trimmed.Contains(":\\"))
+                {
+                    // Пример строки: "1"    "D:\\SteamLibrary"
+                    var parts = trimmed.Split(new[] { '"' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var part in parts)
+                    {
+                        if (part.Contains(":\\"))
+                        {
+                            // Заменяем двойные слэши на одинарные
+                            var cleanedPath = part.Replace("\\\\", "\\").Trim();
+
+                            if (Directory.Exists(cleanedPath))
+                                result.Add(cleanedPath);
+                        }
+                    }
+                }
+            }
+            return result;
         }
     }
 
