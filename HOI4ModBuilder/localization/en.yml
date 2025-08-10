@@ -84,13 +84,13 @@ ERROR_HAS_OCCURED: "An Error has occured"
 EXCEPTION_HAS_OCCURED: "An Exception has occured"
 
 FOUND_WARNINGS_FORM_TITLE: "Found Warnings"
-FOUND_WARNINGS_COUNT: "Warnings count: "
+FOUND_WARNINGS_COUNT: "Warnings count: {count} (Not critical for the program to work, but recommended to fix it manually)"
 
 FOUND_ERRORS_FORM_TITLE: "Found Errors"
-FOUND_ERRORS_COUNT: "Errors count: "
+FOUND_ERRORS_COUNT: "Errors count: {count} (Must be fixed manually)"
 
 FOUND_EXCEPTIONS_FORM_TITLE: "Found Exceptions"
-FOUND_EXCEPTIONS_COUNT: "Exceptions count: {exceptionsCount} (full log file: \"{logFilepath}\")"
+FOUND_EXCEPTIONS_COUNT: "Exceptions count: {count} (full log file: \"{logFilepath}\")"
 
 FOUND_ADDITIONAL_EXCEPTIONS_FORM_TITLE: "Found Additional Exceptions"
 FOUND_ADDITIONAL_EXCEPTIONS_COUNT: "Additional Exceptions count: {exceptionsCount} (full log file: \"{logFilepath}\")"
@@ -196,9 +196,9 @@ SINGLE_MESSAGE_SEARCH_POSITION_INCORRECT_COORDS: "The coordinates of the point a
 
 WARNING_PROVINCE_HAS_ZERO_PIXELS: "The province with id = {id} and \"{color}\" has 0 pixels on the map."
 WARNING_PROVINCE_HAS_CENTER_OUTSIDE_THE_MAP: "The center of the province with id = {id} and color \"{color}\" is located outside of the map at ({centerPosition}). The province's pixels count: {pixelsCount}."
-WARNING_STATE_HAS_ZERO_PIXELS: "The state with id = {id} has 0 pixels on the map"
+WARNING_STATE_HAS_ZERO_PIXELS: "The state with id = {id} has 0 pixels on the map. Probably it has no provinces"
 WARNING_STATE_HAS_CENTER_OUTSIDE_THE_MAP: "The center of the state with id = {id} is located outside of the map at ({centerPosition}). The state's pixels count: {pixelsCount}."
-WARNING_REGION_HAS_ZERO_PIXELS: "The region with id = {id} has 0 pixels on the map"
+WARNING_REGION_HAS_ZERO_PIXELS: "The region with id = {id} has 0 pixels on the map. Probably it has no provinces"
 WARNING_REGION_HAS_CENTER_OUTSIDE_THE_MAP: "The center of the region with id = {id} is located outside of the map at ({centerPosition}). The region's pixels count: {pixelsCount}."
 
 WARNING_COUNTRY_TAGS_PARSING_INCORRECT_LINE: "Incorrect {line} if the file: {filePath}"
