@@ -36,7 +36,7 @@ namespace HOI4ModBuilder.managers
     class MapManager
     {
         public static FontRenderController FontRenderController { get; private set; }
-        private static bool _isMapDragged = false;
+        public static bool IsMapDragged { get; private set; } = false;
         public static Value2I MapSize { get; private set; }
         private static Point2D _mousePrevPoint;
         private static Point2D _mapSizeFactor;
@@ -642,7 +642,7 @@ namespace HOI4ModBuilder.managers
             MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, selectBounds, parameter, value);
 
             if (e.Button == MouseButtons.Middle)
-                _isMapDragged = true;
+                IsMapDragged = true;
 
             _mouseState = EnumMouseState.NONE;
         }
@@ -659,7 +659,7 @@ namespace HOI4ModBuilder.managers
             if (enumTool == EnumTool.CURSOR)
                 selectedTexturedPlane = null;
             if (button == MouseButtons.Middle)
-                _isMapDragged = false;
+                IsMapDragged = false;
             _mouseState = EnumMouseState.NONE;
         }
 
@@ -668,7 +668,7 @@ namespace HOI4ModBuilder.managers
             var pos = CalculateMapPos(e.X, e.Y, viewportInfo);
             _mouseState = EnumMouseState.MOVE;
 
-            if (_isMapDragged)
+            if (IsMapDragged)
             {
                 mapDifX += (pos.x - _mousePrevPoint.x) / _mapSizeFactor.x;
                 mapDifY += (pos.y - _mousePrevPoint.y) / _mapSizeFactor.y;

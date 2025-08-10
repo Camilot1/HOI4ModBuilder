@@ -592,6 +592,11 @@ namespace HOI4ModBuilder
             if (Panel_ColorPicker.Visible)
                 ElementHost_ColorPicker.Invalidate();
 
+            if (MapManager.IsMapDragged)
+                Panel_Map.Cursor = Cursors.SizeAll;
+            else
+                Panel_Map.Cursor = Cursors.Default;
+
             glControl.Invalidate();
             glControl.SwapBuffers();
         }
@@ -718,7 +723,8 @@ namespace HOI4ModBuilder
                         BorderStyle = BorderStyle.FixedSingle,
                         Size = new Size(21, 21),
                         Margin = new Padding(1, 0, 1, 0),
-                        Padding = new Padding(1, 0, 1, 0)
+                        Padding = new Padding(1, 0, 1, 0),
+                        Cursor = Cursors.Hand,
                     };
                     panel.MouseDown += new MouseEventHandler(PalleteColorMouseDown);
                     index++;

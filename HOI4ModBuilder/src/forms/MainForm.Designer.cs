@@ -424,6 +424,7 @@
             // 
             this.Panel_SecondColor.BackColor = System.Drawing.Color.Transparent;
             this.Panel_SecondColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Panel_SecondColor.Cursor = System.Windows.Forms.Cursors.Hand;
             resources.ApplyResources(this.Panel_SecondColor, "Panel_SecondColor");
             this.Panel_SecondColor.Name = "Panel_SecondColor";
             this.Panel_SecondColor.Click += new System.EventHandler(this.Panel_SecondColor_Click);
@@ -432,6 +433,7 @@
             // 
             this.Panel_FirstColor.BackColor = System.Drawing.Color.Transparent;
             this.Panel_FirstColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Panel_FirstColor.Cursor = System.Windows.Forms.Cursors.Hand;
             resources.ApplyResources(this.Panel_FirstColor, "Panel_FirstColor");
             this.Panel_FirstColor.Name = "Panel_FirstColor";
             this.Panel_FirstColor.Click += new System.EventHandler(this.Panel_FirstColor_Click);
