@@ -593,6 +593,40 @@ namespace HOI4ModBuilder
             glControl.SwapBuffers();
         }
 
+
+        private void Panel_FirstColor_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => FlipColorPickerVisibility());
+        private void Panel_SecondColor_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => FlipColorPickerVisibility());
+        private void Panel_ColorPicker_Button_Close_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => FlipColorPickerVisibility());
+
+        private void FlipColorPickerVisibility()
+        {
+            Panel_ColorPicker.Visible = !Panel_ColorPicker.Visible;
+            if (Panel_ColorPicker.Visible)
+                UpdateColorPickerColors(brushFirstColor, brushSecondColor);
+        }
+
+        private void Panel_ColorPicker_Button_Save_Click(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                SetBrushFirstColor(Color.FromArgb(Utils.ArgbToInt(
+                    255,
+                    standardColorPicker1.SelectedColor.R,
+                    standardColorPicker1.SelectedColor.G,
+                    standardColorPicker1.SelectedColor.B
+                )));
+                SetBrushSecondColor(Color.FromArgb(Utils.ArgbToInt(
+                    255,
+                    standardColorPicker1.SecondaryColor.R,
+                    standardColorPicker1.SecondaryColor.G,
+                    standardColorPicker1.SecondaryColor.B
+                )));
+            });
+        }
+
         public void SetBrushFirstColor(Color color)
         {
             if (brushFirstColor == color)
@@ -600,6 +634,9 @@ namespace HOI4ModBuilder
 
             brushFirstColor = color;
             Panel_FirstColor.BackColor = color;
+
+            UpdateColorPickerColors(brushFirstColor, brushSecondColor);
+
             if (enumEditLayer != EnumEditLayer.RIVERS)
                 PushColorToColorsHistory(color);
         }
@@ -612,8 +649,21 @@ namespace HOI4ModBuilder
 
             brushSecondColor = color;
             Panel_SecondColor.BackColor = color;
+
+            UpdateColorPickerColors(brushFirstColor, brushSecondColor);
+
             if (enumEditLayer != EnumEditLayer.RIVERS)
                 PushColorToColorsHistory(color);
+        }
+
+        public void UpdateColorPickerColors(Color main, Color second)
+        {
+            standardColorPicker1.SelectedColor = System.Windows.Media.Color.FromArgb(
+                main.A, main.R, main.G, main.B
+            );
+            standardColorPicker1.SecondaryColor = System.Windows.Media.Color.FromArgb(
+                second.A, second.R, second.G, second.B
+            );
         }
 
         public Color GetBrushSecondColor() => brushSecondColor;
@@ -2102,34 +2152,6 @@ namespace HOI4ModBuilder
 
         private void ToolStripMenuItem_Edit_Actions_DropDownOpened(object sender, EventArgs e)
             => Logger.TryOrLog(() => ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Enabled = ProvinceManager.GroupSelectedProvinces.Count >= 2);
-
-        private void Panel_FirstColor_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => Panel_ColorPicker.Visible = !Panel_ColorPicker.Visible);
-
-        private void Panel_SecondColor_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => Panel_ColorPicker.Visible = !Panel_ColorPicker.Visible);
-
-        private void Panel_ColorPicker_Button_Close_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => Panel_ColorPicker.Visible = !Panel_ColorPicker.Visible);
-
-        private void Panel_ColorPicker_Button_Save_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                SetBrushFirstColor(Color.FromArgb(Utils.ArgbToInt(
-                    255,
-                    standardColorPicker1.SelectedColor.R,
-                    standardColorPicker1.SelectedColor.G,
-                    standardColorPicker1.SelectedColor.B
-                )));
-                SetBrushSecondColor(Color.FromArgb(Utils.ArgbToInt(
-                    255,
-                    standardColorPicker1.SecondaryColor.R,
-                    standardColorPicker1.SecondaryColor.G,
-                    standardColorPicker1.SecondaryColor.B
-                )));
-            });
-        }
 
         private void ResizeComboBox(GroupBox groupBox, ComboBox comboBox)
         {
