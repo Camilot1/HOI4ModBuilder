@@ -157,6 +157,11 @@
             this.ToolStripMenuItem_Map_Actions = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Actions_Merge = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Actions_Merge_All = new System.Windows.Forms.ToolStripMenuItem();
+            this.Panel_ColorPicker = new System.Windows.Forms.Panel();
+            this.Panel_ColorPicker_Button_Close = new System.Windows.Forms.Button();
+            this.Panel_ColorPicker_Button_Save = new System.Windows.Forms.Button();
+            this.ElementHost_ColorPicker = new System.Windows.Forms.Integration.ElementHost();
+            this.standardColorPicker1 = new ColorPicker.StandardColorPicker();
             this.TabPage_Buildings = new System.Windows.Forms.TabPage();
             this.TabPage_Resources = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -269,7 +274,9 @@
             this.groupBox5.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox9.SuspendLayout();
+            this.Panel_Map.SuspendLayout();
             this.ContextMenuStrip_Map.SuspendLayout();
+            this.Panel_ColorPicker.SuspendLayout();
             this.TabPage_Resources.SuspendLayout();
             this.MenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -657,6 +664,7 @@
             // 
             resources.ApplyResources(this.Panel_Map, "Panel_Map");
             this.Panel_Map.ContextMenuStrip = this.ContextMenuStrip_Map;
+            this.Panel_Map.Controls.Add(this.Panel_ColorPicker);
             this.Panel_Map.Name = "Panel_Map";
             // 
             // ContextMenuStrip_Map
@@ -1226,6 +1234,34 @@
             this.ToolStripMenuItem_Map_Actions_Merge_All.Name = "ToolStripMenuItem_Map_Actions_Merge_All";
             resources.ApplyResources(this.ToolStripMenuItem_Map_Actions_Merge_All, "ToolStripMenuItem_Map_Actions_Merge_All");
             this.ToolStripMenuItem_Map_Actions_Merge_All.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Actions_Merge_All_Click);
+            // 
+            // Panel_ColorPicker
+            // 
+            this.Panel_ColorPicker.Controls.Add(this.Panel_ColorPicker_Button_Close);
+            this.Panel_ColorPicker.Controls.Add(this.Panel_ColorPicker_Button_Save);
+            this.Panel_ColorPicker.Controls.Add(this.ElementHost_ColorPicker);
+            resources.ApplyResources(this.Panel_ColorPicker, "Panel_ColorPicker");
+            this.Panel_ColorPicker.Name = "Panel_ColorPicker";
+            // 
+            // Panel_ColorPicker_Button_Close
+            // 
+            resources.ApplyResources(this.Panel_ColorPicker_Button_Close, "Panel_ColorPicker_Button_Close");
+            this.Panel_ColorPicker_Button_Close.Name = "Panel_ColorPicker_Button_Close";
+            this.Panel_ColorPicker_Button_Close.UseVisualStyleBackColor = true;
+            this.Panel_ColorPicker_Button_Close.Click += new System.EventHandler(this.Panel_ColorPicker_Button_Close_Click);
+            // 
+            // Panel_ColorPicker_Button_Save
+            // 
+            resources.ApplyResources(this.Panel_ColorPicker_Button_Save, "Panel_ColorPicker_Button_Save");
+            this.Panel_ColorPicker_Button_Save.Name = "Panel_ColorPicker_Button_Save";
+            this.Panel_ColorPicker_Button_Save.UseVisualStyleBackColor = true;
+            this.Panel_ColorPicker_Button_Save.Click += new System.EventHandler(this.Panel_ColorPicker_Button_Save_Click);
+            // 
+            // ElementHost_ColorPicker
+            // 
+            resources.ApplyResources(this.ElementHost_ColorPicker, "ElementHost_ColorPicker");
+            this.ElementHost_ColorPicker.Name = "ElementHost_ColorPicker";
+            this.ElementHost_ColorPicker.Child = this.standardColorPicker1;
             // 
             // TabPage_Buildings
             // 
@@ -1873,7 +1909,9 @@
             this.groupBox11.PerformLayout();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
+            this.Panel_Map.ResumeLayout(false);
             this.ContextMenuStrip_Map.ResumeLayout(false);
+            this.Panel_ColorPicker.ResumeLayout(false);
             this.TabPage_Resources.ResumeLayout(false);
             this.MenuStrip1.ResumeLayout(false);
             this.MenuStrip1.PerformLayout();
@@ -1904,8 +1942,6 @@
         private System.Windows.Forms.GroupBox GroupBox_Edit_Layer;
         private System.Windows.Forms.ComboBox ComboBox_EditLayer;
         private System.Windows.Forms.GroupBox groupBox3;
-        public System.Windows.Forms.Panel Panel_SecondColor;
-        public System.Windows.Forms.Panel Panel_FirstColor;
         private System.Windows.Forms.GroupBox GroupBox_Palette;
         public System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel_Color;
         private System.Windows.Forms.Label label1;
@@ -2100,6 +2136,13 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Actions_Merge_All;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_Actions;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces;
+        private System.Windows.Forms.Panel Panel_SecondColor;
+        private System.Windows.Forms.Panel Panel_FirstColor;
+        private System.Windows.Forms.Integration.ElementHost ElementHost_ColorPicker;
+        private ColorPicker.StandardColorPicker standardColorPicker1;
+        private System.Windows.Forms.Panel Panel_ColorPicker;
+        private System.Windows.Forms.Button Panel_ColorPicker_Button_Save;
+        private System.Windows.Forms.Button Panel_ColorPicker_Button_Close;
     }
 }
 

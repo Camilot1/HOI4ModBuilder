@@ -36,7 +36,7 @@ namespace HOI4ModBuilder
         public static MapPair provincesBorders, statesBorders, regionsBorders;
         public static MapPair rivers;
 
-        public static readonly int[] riverColors = {
+        public static readonly int[] riverColorsInts = {
                 Utils.ArgbToInt(255, 0, 255, 0),
                 Utils.ArgbToInt(255, 255, 0, 0),
                 Utils.ArgbToInt(255, 255, 252, 0),
@@ -50,6 +50,7 @@ namespace HOI4ModBuilder
                 Utils.ArgbToInt(255, 0, 0, 150),
                 Utils.ArgbToInt(255, 0, 0, 100)
             };
+        public static readonly List<Color> RiverColors = new List<Color>(riverColorsInts.Length);
 
         private static HashSet<int> _riverColorsSet = new HashSet<int>();
         private static Dictionary<int, byte> _riverColorsMap = new Dictionary<int, byte>();
@@ -394,33 +395,14 @@ namespace HOI4ModBuilder
         {
             _riverColorsSet.Clear();
             _riverColorsMap.Clear();
+            RiverColors.Clear();
 
-            MainForm.Instance.InvokeAction(() => MainForm.Instance.FlowLayoutPanel_Color.Controls.Clear());
-
-            for (byte i = 0; i < riverColors.Length; i++)
+            for (byte i = 0; i < riverColorsInts.Length; i++)
             {
-                _riverColorsSet.Add(riverColors[i]);
-                _riverColorsMap[riverColors[i]] = i;
-                var panel = new Panel
-                {
-                    BackColor = Color.FromArgb(riverColors[i]),
-                    BorderStyle = BorderStyle.FixedSingle,
-                    Size = new Size(21, 21),
-                    Margin = new Padding(1, 0, 1, 0),
-                    Padding = new Padding(1, 0, 1, 0)
-                };
-                panel.MouseDown += new MouseEventHandler(PalleteColorMouseDown);
-                MainForm.Instance.InvokeAction(() => MainForm.Instance.FlowLayoutPanel_Color.Controls.Add(panel));
+                _riverColorsSet.Add(riverColorsInts[i]);
+                _riverColorsMap[riverColorsInts[i]] = i;
+                RiverColors.Add(Color.FromArgb(riverColorsInts[i]));
             }
-
-        }
-
-        private static void PalleteColorMouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-                MainForm.SetBrushColor(0, ((Panel)sender).BackColor);
-            else if (e.Button == MouseButtons.Right)
-                MainForm.SetBrushColor(1, ((Panel)sender).BackColor);
         }
 
         private static void LoadRiverMap(Bitmap inputBitmap, out Bitmap outputBitmap, out BitmapData outputData)
@@ -596,10 +578,10 @@ namespace HOI4ModBuilder
             var outputBitmap = new Bitmap(width, height, _8bppIndexed.imagePixelFormat);
 
             var palette = outputBitmap.Palette;
-            for (byte i = 0; i < riverColors.Length; i++) palette.Entries[i] = Color.FromArgb(riverColors[i]);
+            for (byte i = 0; i < riverColorsInts.Length; i++) palette.Entries[i] = Color.FromArgb(riverColorsInts[i]);
 
             Color colorStruct = Color.FromArgb(255, 0, 0, 0);
-            for (byte i = (byte)riverColors.Length; i < 254; i++) palette.Entries[i] = colorStruct;
+            for (byte i = (byte)riverColorsInts.Length; i < 254; i++) palette.Entries[i] = colorStruct;
 
             palette.Entries[254] = Color.FromArgb(255, 122, 122, 122);
             palette.Entries[255] = Color.FromArgb(255, 255, 255, 255);

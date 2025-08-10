@@ -42,7 +42,7 @@ using System.Linq;
 using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.openTK;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using ColorPicker;
 
 namespace HOI4ModBuilder
 {
@@ -586,6 +586,8 @@ namespace HOI4ModBuilder
             GL.MatrixMode(MatrixMode.Projection);
 
             MapManager.Draw();
+            if (Panel_ColorPicker.Visible)
+                ElementHost_ColorPicker.Invalidate();
 
             glControl.Invalidate();
             glControl.SwapBuffers();
@@ -593,18 +595,104 @@ namespace HOI4ModBuilder
 
         public void SetBrushFirstColor(Color color)
         {
+            if (brushFirstColor == color)
+                return;
+
             brushFirstColor = color;
             Panel_FirstColor.BackColor = color;
+            if (enumEditLayer != EnumEditLayer.RIVERS)
+                PushColorToColorsHistory(color);
         }
 
         public Color GetBrushFirstColor() => brushFirstColor;
         public void SetBrushSecondColor(Color color)
         {
+            if (brushSecondColor == color)
+                return;
+
             brushSecondColor = color;
             Panel_SecondColor.BackColor = color;
+            if (enumEditLayer != EnumEditLayer.RIVERS)
+                PushColorToColorsHistory(color);
         }
 
         public Color GetBrushSecondColor() => brushSecondColor;
+
+        public void SwitchBrushColors()
+        {
+            (brushFirstColor, brushSecondColor) = (brushSecondColor, brushFirstColor);
+            Panel_FirstColor.BackColor = brushFirstColor;
+            Panel_SecondColor.BackColor = brushSecondColor;
+        }
+
+        private static readonly int _colorsHistoryPalleteMaxCount = 10;
+        private static List<Color> _colorsHistoryPallete = new List<Color>(_colorsHistoryPalleteMaxCount + 1);
+
+        public static void PushColorToColorsHistory(Color color)
+        {
+            _colorsHistoryPallete.Remove(color);
+            _colorsHistoryPallete.Insert(0, color);
+            while (_colorsHistoryPallete.Count > _colorsHistoryPalleteMaxCount)
+                _colorsHistoryPallete.RemoveAt(_colorsHistoryPallete.Count - 1);
+            InitColorsHistoryPallete();
+        }
+
+        public static void InitColorsPallete()
+        {
+            if (Instance.enumEditLayer == EnumEditLayer.RIVERS)
+                InitRiversPallete();
+            else
+                InitColorsHistoryPallete();
+        }
+
+        public static void InitColorsHistoryPallete()
+            => InitColorsPallete(_colorsHistoryPallete);
+        public static void InitRiversPallete()
+            => InitColorsPallete(TextureManager.RiverColors);
+
+        public static void InitColorsPallete(ICollection<Color> colors)
+        {
+            Instance.InvokeAction(() =>
+            {
+                int index = 0;
+                foreach (var color in colors)
+                {
+                    if (index < Instance.FlowLayoutPanel_Color.Controls.Count)
+                    {
+                        Instance.FlowLayoutPanel_Color.Controls[index].BackColor = color;
+                        index++;
+                        continue;
+                    }
+
+                    var panel = new Panel
+                    {
+                        BackColor = color,
+                        BorderStyle = BorderStyle.FixedSingle,
+                        Size = new Size(21, 21),
+                        Margin = new Padding(1, 0, 1, 0),
+                        Padding = new Padding(1, 0, 1, 0)
+                    };
+                    panel.MouseDown += new MouseEventHandler(PalleteColorMouseDown);
+                    index++;
+                    Instance.FlowLayoutPanel_Color.Controls.Add(panel);
+                }
+
+                int count = Instance.FlowLayoutPanel_Color.Controls.Count;
+                while (count > 0 && count > index)
+                {
+                    Instance.FlowLayoutPanel_Color.Controls.RemoveAt(count - 1);
+                    count = Instance.FlowLayoutPanel_Color.Controls.Count;
+                }
+            });
+        }
+        public static void PalleteColorMouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                SetBrushColor(0, ((Panel)sender).BackColor);
+            else if (e.Button == MouseButtons.Right)
+                SetBrushColor(1, ((Panel)sender).BackColor);
+        }
+
         private void Panel1_MouseWheel(object sender, MouseEventArgs e)
             => MapManager.HandleMouseWheel(e, viewportInfo);
 
@@ -763,15 +851,9 @@ namespace HOI4ModBuilder
         public static void SetBrushColor(int type, Color color)
         {
             if (type == 0)
-            {
-                Instance.brushFirstColor = color;
-                Instance.Panel_FirstColor.BackColor = color;
-            }
+                Instance.SetBrushFirstColor(color);
             else if (type == 1)
-            {
-                Instance.brushFirstColor = color;
-                Instance.Panel_SecondColor.BackColor = color;
-            }
+                Instance.SetBrushSecondColor(color);
         }
 
         private void UpdateSelectedTool()
@@ -1696,7 +1778,12 @@ namespace HOI4ModBuilder
         }
 
         private void ComboBox_EditLayer_SelectedIndexChanged(object sender, EventArgs e)
-            => Logger.TryOrLog(() => enumEditLayer = (EnumEditLayer)ComboBox_EditLayer.SelectedIndex);
+            => Logger.TryOrLog(() =>
+            {
+                enumEditLayer = (EnumEditLayer)ComboBox_EditLayer.SelectedIndex;
+                if (firstLoad)
+                    InitColorsPallete();
+            });
 
         private void ComboBox_Tool_SelectedIndexChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() => UpdateSelectedTool());
@@ -2017,36 +2104,32 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() => ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Enabled = ProvinceManager.GroupSelectedProvinces.Count >= 2);
 
         private void Panel_FirstColor_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() =>
-            {
-                /** Old. Reimplement with WPF color picker/chooser
-                var dialog = new ColorDialog()
-                {
-                    FullOpen = true,
-                    Color = GetBrushFirstColor()
-                };
-                var result = dialog.ShowDialog(this);
-
-                if (result == DialogResult.OK)
-                    SetBrushFirstColor(dialog.Color);
-                */
-            });
+            => Logger.TryOrLog(() => Panel_ColorPicker.Visible = !Panel_ColorPicker.Visible);
 
         private void Panel_SecondColor_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() =>
-            {
-                /** Old. Reimplement with WPF color picker/chooser
-                var dialog = new ColorDialog()
-                {
-                    FullOpen = true,
-                    Color = GetBrushSecondColor()
-                };
-                var result = dialog.ShowDialog(this);
+            => Logger.TryOrLog(() => Panel_ColorPicker.Visible = !Panel_ColorPicker.Visible);
 
-                if (result == DialogResult.OK)
-                    SetBrushSecondColor(dialog.Color);
-                */
+        private void Panel_ColorPicker_Button_Close_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => Panel_ColorPicker.Visible = !Panel_ColorPicker.Visible);
+
+        private void Panel_ColorPicker_Button_Save_Click(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                SetBrushFirstColor(Color.FromArgb(Utils.ArgbToInt(
+                    255,
+                    standardColorPicker1.SelectedColor.R,
+                    standardColorPicker1.SelectedColor.G,
+                    standardColorPicker1.SelectedColor.B
+                )));
+                SetBrushSecondColor(Color.FromArgb(Utils.ArgbToInt(
+                    255,
+                    standardColorPicker1.SecondaryColor.R,
+                    standardColorPicker1.SecondaryColor.G,
+                    standardColorPicker1.SecondaryColor.B
+                )));
             });
+        }
 
         private void ResizeComboBox(GroupBox groupBox, ComboBox comboBox)
         {

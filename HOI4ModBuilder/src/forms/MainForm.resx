@@ -1908,6 +1908,105 @@
   <data name="&gt;&gt;ContextMenuStrip_Map.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Panel_ColorPicker_Button_Close.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Close.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 386</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Close.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 23</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Close.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Close.Text" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Close.Name" xml:space="preserve">
+    <value>Panel_ColorPicker_Button_Close</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Close.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Close.Parent" xml:space="preserve">
+    <value>Panel_ColorPicker</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Close.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Save.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 386</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Save.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 23</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Save.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Save.Text" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Save.Name" xml:space="preserve">
+    <value>Panel_ColorPicker_Button_Save</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Save.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Save.Parent" xml:space="preserve">
+    <value>Panel_ColorPicker</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Save.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ElementHost_ColorPicker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ElementHost_ColorPicker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 386</value>
+  </data>
+  <data name="ElementHost_ColorPicker.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="ElementHost_ColorPicker.Text" xml:space="preserve">
+    <value>elementHost1</value>
+  </data>
+  <data name="&gt;&gt;ElementHost_ColorPicker.Name" xml:space="preserve">
+    <value>ElementHost_ColorPicker</value>
+  </data>
+  <data name="&gt;&gt;ElementHost_ColorPicker.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Integration.ElementHost, WindowsFormsIntegration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</value>
+  </data>
+  <data name="&gt;&gt;ElementHost_ColorPicker.Parent" xml:space="preserve">
+    <value>Panel_ColorPicker</value>
+  </data>
+  <data name="&gt;&gt;ElementHost_ColorPicker.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="Panel_ColorPicker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="Panel_ColorPicker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 419</value>
+  </data>
+  <data name="Panel_ColorPicker.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Panel_ColorPicker.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker.Name" xml:space="preserve">
+    <value>Panel_ColorPicker</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker.Parent" xml:space="preserve">
+    <value>Panel_Map</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="Panel_Map.Location" type="System.Drawing.Point, System.Drawing">
     <value>136, 40</value>
   </data>
@@ -3134,6 +3233,12 @@
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Map_Actions_Merge_All.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;standardColorPicker1.Name" xml:space="preserve">
+    <value>standardColorPicker1</value>
+  </data>
+  <data name="&gt;&gt;standardColorPicker1.Type" xml:space="preserve">
+    <value>WindowsFormsIntegration.Design.HostedComponent, WindowsFormsIntegration.Design, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_File.Name" xml:space="preserve">
     <value>ToolStripMenuItem_File</value>

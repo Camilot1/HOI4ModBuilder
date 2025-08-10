@@ -34,7 +34,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
             byte pixel;
             //Выделяем позиции истоков рек и корректных речных пикселей и подготавливаем карту пикселей
             int x, y;
-            int correctColorsCount = TextureManager.riverColors.Length;
+            int correctColorsCount = TextureManager.riverColorsInts.Length;
             for (int i = 0; i < riversPixels.Length; i++)
             {
                 pixel = riversPixels[i];
