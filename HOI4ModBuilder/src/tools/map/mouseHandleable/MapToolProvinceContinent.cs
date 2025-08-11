@@ -74,13 +74,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     {
                         foreach (var tuple in list)
                             tuple.Item3.ContinentId = tuple.Item2;
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
                     };
                     undoAction = (list) =>
                     {
                         foreach (var tuple in list)
                             tuple.Item3.ContinentId = tuple.Item1;
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
                     };
                 }
 

@@ -13,10 +13,10 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.files
         public override string[] GetDocumentation() => _documentation;
         private static readonly string[] _documentation = new string[]
         {
-            $"{_keyword} <{StringDeclarator.GetKeyword()}|{FileDeclarator.GetKeyword()}:var_name>",
+            $"{_keyword} <ISTRING|IFILE:var_name>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <{StringDeclarator.GetKeyword()}|{FileDeclarator.GetKeyword()}:path>",
+            $"\tOUT <ISTRING|IFILE:path>",
             ")"
         };
         public override ScriptCommand CreateEmptyCopy() => new GetModDirectoryPathFunc();

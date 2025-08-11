@@ -11,6 +11,7 @@ namespace HOI4ModBuilder.src.scripts.objects
     {
         public string Value { get; set; }
         public object GetValue() => Value;
+        public string GetString() => Value;
 
         public StringObject() : this("") { }
         public StringObject(string value) { Value = value; }
@@ -251,5 +252,6 @@ namespace HOI4ModBuilder.src.scripts.objects
 
             return checkResult;
         }
+
     }
 }

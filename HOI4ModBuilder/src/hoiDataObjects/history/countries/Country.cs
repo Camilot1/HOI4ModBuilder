@@ -28,7 +28,7 @@ namespace HOI4ModBuilder.hoiDataObjects.history.countries
             {
                 if (_tag == value) return;
 
-                if (CountryManager.ContainsCountryTag(value))
+                if (CountryManager.HasCountry(value))
                     throw new Exception(GuiLocManager.GetLoc(
                             EnumLocKey.EXCEPTION_COUNTRY_TAG_UPDATE_VALUE_IS_USED,
                             new Dictionary<string, string> { { "{tag}", $"{value}" } }

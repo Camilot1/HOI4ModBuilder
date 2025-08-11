@@ -1,54 +1,38 @@
-﻿using HOI4ModBuilder.src.utils.structs;
+﻿using QuickFont;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.openTK.text
 {
-    public class FontData
+    public class FontData : IDisposable
     {
-        public FontAtlasData atlas;
-        public FontMetricsData metrics;
-        public List<FontGlyphData> glyphs;
-        public List<FontKerningData> kerning;
-    }
+        private readonly int _hashCode = NextHashCode;
+        private static int _nextHashCode;
+        private static int NextHashCode => _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
+        public override int GetHashCode() => _hashCode;
 
-    public class FontAtlasData
-    {
-        public string type;
-        public int distanceRange;
-        public int size;
-        public int width;
-        public int height;
-        public string yOrigin;
-    }
+        public int Size { get; private set; }
+        public QFont Font { get; private set; }
+        public bool IsDisposed { get; private set; }
 
-    public class FontMetricsData
-    {
-        public double emSize;
-        public double lineHeight;
-        public double ascender;
-        public double descender;
-        public double underlineY;
-        public double underlineThickness;
-    }
+        public FontData(int size, QFont font)
+        {
+            Size = size;
+            Font = font;
+        }
 
-    public class FontGlyphData
-    {
-        public int unicode;
-        public double advance;
-        public Bounds4D planeBounds;
-        public Bounds4D atlasBounds;
-    }
+        public void Dispose()
+        {
+            if (IsDisposed)
+                return;
 
-    public class FontKerningData
-    {
-        public int unicode1;
-        public int unicode2;
-        public int unicode3;
-        public double advance;
+            Font?.Dispose();
+            IsDisposed = true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is FontData data &&
+                   _hashCode == data._hashCode;
+        }
     }
 }

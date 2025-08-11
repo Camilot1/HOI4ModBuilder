@@ -48,17 +48,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             switch (mouseState)
             {
                 case EnumMouseState.DOWN:
-                    MapManager.bounds.left = x;
-                    MapManager.bounds.right = x;
-                    MapManager.bounds.top = y;
-                    MapManager.bounds.bottom = y;
+                    MapManager.selectBounds.left = x;
+                    MapManager.selectBounds.right = x;
+                    MapManager.selectBounds.top = y;
+                    MapManager.selectBounds.bottom = y;
                     break;
                 case EnumMouseState.MOVE:
-                    MapManager.bounds.right = (x < MapManager.bounds.left) ? x : (ushort)(x + 1);
-                    MapManager.bounds.bottom = (y < MapManager.bounds.top) ? y : (ushort)(y + 1);
+                    MapManager.selectBounds.right = (x < MapManager.selectBounds.left) ? x : (ushort)(x + 1);
+                    MapManager.selectBounds.bottom = (y < MapManager.selectBounds.top) ? y : (ushort)(y + 1);
                     break;
                 case EnumMouseState.UP:
-                    MapManager.bounds.FixDimensions();
+                    MapManager.selectBounds.FixDimensions();
                     break;
             }
 

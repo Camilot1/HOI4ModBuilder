@@ -13,7 +13,7 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             $"{_keyword} <ISETVALUE<VALUE_TYPE>:to> <VALUE_TYPE:from>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <ISETVALUE<VALUE_TYPE>>:to>",
+            $"\t<ISETVALUE<VALUE_TYPE>>:to>",
             $"\t<VALUE_TYPE:from>",
             ")"
         };
@@ -24,7 +24,7 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             lineIndex = index;
             args = ScriptParser.ParseCommandCallArgs(
                 (a) => a.Length == 3,
-                new bool[] { true },
+                new bool[] { },
                 out _executeBeforeCall,
                 lines, ref index, indent, varsScope, args
             );
@@ -33,12 +33,12 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             _action = delegate ()
             {
                 var to = (ISetValueObject)ScriptParser.GetValue(
-                    varsScope, args[2], lineIndex, args,
+                    varsScope, args[1], lineIndex, args,
                     (o) => o is ISetValueObject
                 );
 
-                var from = ScriptParser.GetValue(
-                    varsScope, args[1], lineIndex, args,
+                var from = ScriptParser.ParseValue(
+                    varsScope, args[2], lineIndex, args,
                     (o) => o.IsSameType(to.GetValueType())
                 );
 

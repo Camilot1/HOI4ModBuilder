@@ -12,15 +12,14 @@ namespace HOI4ModBuilder.src.openTK
         private readonly int vertexShaderID = 0;
         private readonly int fragmentShaderID = 0;
 
-        public Shader(string vertexFile, string fragmentFile)
+        public Shader(string vertSrc, string fragSrc)
         {
-            vertexShaderID = CreateShader(ShaderType.VertexShader, vertexFile);
-            fragmentShaderID = CreateShader(ShaderType.FragmentShader, fragmentFile);
-
+            vertexShaderID = CreateShader(ShaderType.VertexShader, vertSrc);
+            fragmentShaderID = CreateShader(ShaderType.FragmentShader, fragSrc);
             programID = GL.CreateProgram();
+
             GL.AttachShader(programID, vertexShaderID);
             GL.AttachShader(programID, fragmentShaderID);
-
             GL.LinkProgram(programID);
 
             //CHECK. Если убрать, то будет
@@ -29,11 +28,14 @@ namespace HOI4ModBuilder.src.openTK
 
             GL.GetProgram(programID, ProgramParameter.LinkStatus, out int code);
 
-            if (code != (int)All.True)
+            if (code == 0)
             {
                 var infoLog = GL.GetProgramInfoLog(programID);
                 throw new Exception($"Ошибка линковки шейдерной программы ID = {programID} \n\n {infoLog}");
             }
+
+            GL.DetachShader(programID, vertexShaderID);
+            GL.DetachShader(programID, fragmentShaderID);
 
             DeleteShader(vertexShaderID);
             DeleteShader(fragmentShaderID);
@@ -62,7 +64,7 @@ namespace HOI4ModBuilder.src.openTK
 
             GL.GetShader(shaderID, ShaderParameter.CompileStatus, out int code);
 
-            if (code != (int)All.True)
+            if (code == 0)
             {
                 string infoLog = GL.GetShaderInfoLog(shaderID);
                 throw new Exception($"Ошибка прикомпиляции шейдера ID = {shaderID} \n\n {infoLog}");

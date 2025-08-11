@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -61,5 +62,8 @@ namespace HOI4ModBuilder.src.utils.structs
         {
             return Math.Sqrt((x - point.x) * (x - point.x) + (y - point.y) * (y - point.y));
         }
+
+        public Vector3 ToVec3() => new Vector3(x, y, 0);
+        public Vector3 ToVec3(float invertedY) => new Vector3(x, invertedY - y, 0);
     }
 }

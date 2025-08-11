@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
 {
-    class MergeProvincesTool
+    public class MergeProvincesTool
     {
         public MergeProvincesTool()
         {
@@ -19,12 +20,40 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                 (sender, e) =>
                 {
                     if (e.Control && !(e.Alt || e.Shift))
-                        MergeProvinces(ProvinceManager.SelectedProvince, ProvinceManager.RMBProvince);
+                        MergeSelectedProvinces();
                 }
             );
         }
 
+        public static void MergeSelectedProvinces()
+        {
+            if (ProvinceManager.GroupSelectedProvinces.Count < 2)
+                return;
+
+            var list = new List<Province>(ProvinceManager.GroupSelectedProvinces);
+            list.Sort();
+            var minIdProvince = list[0];
+            list.RemoveAt(0);
+
+            foreach (var province in list)
+                MergeProvincesInternal(minIdProvince, province);
+
+            ReplaceColors();
+        }
+
         public static void MergeProvinces(Province main, Province second)
+        {
+            MergeProvincesInternal(main, second);
+            ReplaceColors();
+        }
+        public static void MergeProvinces(Province main, ICollection<Province> list)
+        {
+            foreach (var province in list)
+                MergeProvincesInternal(main, province);
+            ReplaceColors();
+        }
+
+        private static void MergeProvincesInternal(Province main, Province second)
         {
             //Проверки на ошибки
             if (main == null || second == null || main.Id == second.Id)
@@ -69,7 +98,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                     ));
 
             //Проверки на викторипоинты у провинций
-            if (provinceToReplace.victoryPoints != 0 && second.victoryPoints != 0 && MessageBox.Show(
+            if (provinceToReplace.victoryPoints != 0 && second.victoryPoints != 0 && DialogResult.Yes != MessageBox.Show(
                     GuiLocManager.GetLoc(
                         EnumLocKey.MERGE_PROVINCES_TOOL_SECOND_AND_LAST_PROVINCES_HAVE_VICTORY_POINTS,
                         new Dictionary<string, string> {
@@ -79,9 +108,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                             { "{provinceToReplaceVictoryPoints}", $"{provinceToReplace.victoryPoints}" }
                         }
                     ),
-                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION), MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification) != DialogResult.Yes)
+                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION),
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification))
                 return;
-            else if (second.victoryPoints != 0 && MessageBox.Show(
+            else if (second.victoryPoints != 0 && DialogResult.Yes != MessageBox.Show(
                      GuiLocManager.GetLoc(
                         EnumLocKey.MERGE_PROVINCES_TOOL_SECOND_PROVINCE_HAS_VICTORY_POINTS,
                         new Dictionary<string, string> {
@@ -90,9 +120,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                             { "{secondProvinceVictoryPoints}", $"{second.victoryPoints}" }
                         }
                     ),
-                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION), MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification) != DialogResult.Yes)
+                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION),
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification))
                 return;
-            else if (provinceToReplace.victoryPoints != 0 && MessageBox.Show(
+            else if (provinceToReplace.victoryPoints != 0 && DialogResult.Yes != MessageBox.Show(
                     GuiLocManager.GetLoc(
                         EnumLocKey.MERGE_PROVINCES_TOOL_LAST_PROVINCE_HAS_VICTORY_POINTS,
                         new Dictionary<string, string> {
@@ -101,39 +132,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                             { "{provinceToReplaceVictoryPoints}", $"{provinceToReplace.victoryPoints}" }
                         }
                     ),
-                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION), MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification) != DialogResult.Yes)
+                    GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION),
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification))
                 return;
 
             //Замена цветов на карте
-            int firstColor = main.Color;
-            byte[] firstColorBrg = Utils.ArgbToBrg(new int[] { firstColor });
 
-            int secondColor = second.Color;
-            var provincesBitmap = TextureManager.provinces.GetBitmap();
-
-            byte[] bytes = Utils.BitmapToArray(provincesBitmap, ImageLockMode.ReadOnly, TextureManager._24bppRgb);
-            bool needToSave = false;
-
-            for (int i = 0; i < MapManager.ProvincesPixels.Length; i++)
-            {
-                if (MapManager.ProvincesPixels[i] == secondColor)
-                {
-                    int byteIndex = i * 3;
-                    bytes[byteIndex] = firstColorBrg[0];
-                    bytes[byteIndex + 1] = firstColorBrg[1];
-                    bytes[byteIndex + 2] = firstColorBrg[2];
-
-                    MapManager.ProvincesPixels[i] = firstColor;
-                    needToSave = true;
-                }
-            }
-
-            if (needToSave)
-            {
-                Utils.ArrayToBitmap(bytes, provincesBitmap, ImageLockMode.WriteOnly, provincesBitmap.Width, provincesBitmap.Height, TextureManager._24bppRgb);
-                TextureManager.provinces.texture.Update(TextureManager._24bppRgb, 0, 0, MapManager.MapSize.x, MapManager.MapSize.y, bytes);
-                TextureManager.provinces.needToSave = true;
-            }
+            AddColorToReplace(second.Color, main.Color);
 
             //Замена центров на общий
             float centerX = main.center.x * main.pixelsCount + second.center.x * second.pixelsCount;
@@ -164,9 +169,66 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             ProvinceManager.RemoveProvinceById(second.Id);
             ProvinceManager.RemoveProvinceByColor(second.Color);
 
+            //Отправляем ивент о удалении и обновлении
+            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES_IDS, main);
+            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES_IDS, second);
+
             //Заменяем id самой старшей провинции
             provinceToReplace.Id = second.Id;
             ProvinceManager.NextVacantProvinceId--;
         }
+
+        private static readonly List<ColorToReplace> _colorsToReplace = new List<ColorToReplace>(16);
+        private static void AddColorToReplace(int colorFrom, int colorTo)
+        {
+            _colorsToReplace.Add(new ColorToReplace
+            {
+                from = colorFrom,
+                to = colorTo,
+                toBytes = Utils.ArgbToBrg(new int[] { colorTo })
+            });
+        }
+
+        private static void ReplaceColors()
+        {
+            if (_colorsToReplace.Count == 0)
+                return;
+
+            var provincesBitmap = TextureManager.provinces.GetBitmap();
+
+            byte[] bytes = Utils.BitmapToArray(provincesBitmap, ImageLockMode.ReadOnly, TextureManager._24bppRgb);
+            bool needToSave = false;
+
+            foreach (var colorToReplace in _colorsToReplace)
+            {
+                for (int i = 0; i < MapManager.ProvincesPixels.Length; i++)
+                {
+                    if (MapManager.ProvincesPixels[i] == colorToReplace.from)
+                    {
+                        int byteIndex = i * 3;
+                        bytes[byteIndex] = colorToReplace.toBytes[0];
+                        bytes[byteIndex + 1] = colorToReplace.toBytes[1];
+                        bytes[byteIndex + 2] = colorToReplace.toBytes[2];
+
+                        MapManager.ProvincesPixels[i] = colorToReplace.to;
+                        needToSave = true;
+                    }
+                }
+            }
+
+            if (needToSave)
+            {
+                Utils.ArrayToBitmap(bytes, provincesBitmap, ImageLockMode.WriteOnly, provincesBitmap.Width, provincesBitmap.Height, TextureManager._24bppRgb);
+                TextureManager.provinces.texture.Update(TextureManager._24bppRgb, 0, 0, MapManager.MapSize.x, MapManager.MapSize.y, bytes);
+                TextureManager.provinces.needToSave = true;
+            }
+            _colorsToReplace.Clear();
+        }
+    }
+
+    public struct ColorToReplace
+    {
+        public int from, to;
+        public byte[] toBytes;
     }
 }

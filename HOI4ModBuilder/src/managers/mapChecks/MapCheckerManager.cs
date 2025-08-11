@@ -8,6 +8,7 @@ using HOI4ModBuilder.src.utils;
 using System.Threading;
 using System.Net.Sockets;
 using HOI4ModBuilder.src.utils.structs;
+using System.Linq;
 
 namespace HOI4ModBuilder.src.managers.mapChecks
 {
@@ -36,49 +37,35 @@ namespace HOI4ModBuilder.src.managers.mapChecks
             _poses = new Dictionary<Point2F, ulong>(_initialCapacity);
             InitFilters();
 
-            int startedCounter = RunCheckers();
+            var tasks = RunCheckers();
+            int startCount = tasks.Count;
 
-            int runningCounter;
-            do
+            while (tasks.Any(t => !t.IsCompleted))
             {
-                runningCounter = GetRunningCheckersCount();
-                int finishedCounter = startedCounter - runningCounter;
-
+                int finished = tasks.Count(t => t.IsCompleted);
                 MainForm.DisplayProgress(
                     _locKey,
                     null,
-                    $"({finishedCounter}/{startedCounter})",
-                    finishedCounter / (float)startedCounter
+                    $"({finished}/{startCount})",
+                    finished / (float)startCount
                 );
                 Thread.Sleep(100);
-            } while (runningCounter > 0);
+            }
 
             CollectCheckersData();
         }
 
-        private int RunCheckers()
+        private List<Task> RunCheckers()
         {
-            int startedCounter = 0;
+            List<Task> tasks = new List<Task>(_mapCheckers.Length);
             foreach (var checker in _mapCheckers)
             {
                 if (checker.Flag >= 0 && !CheckFilter(checker.Flag))
                     continue;
 
-                startedCounter++;
-                Task.Run(() => checker.Execute());
+                tasks.Add(Task.Run(() => checker.Execute()));
             }
-            return startedCounter;
-        }
-
-        private int GetRunningCheckersCount()
-        {
-            int runningCounter = 0;
-            foreach (var checker in _mapCheckers)
-            {
-                if (checker.IsRunning())
-                    runningCounter++;
-            }
-            return runningCounter;
+            return tasks;
         }
 
         private void CollectCheckersData()

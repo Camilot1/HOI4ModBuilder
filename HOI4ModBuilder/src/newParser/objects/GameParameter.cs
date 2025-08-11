@@ -27,13 +27,21 @@ namespace HOI4ModBuilder.src.newParser.objects
         public GameComments GetComments() => _comments;
         public void SetComments(GameComments comments) => _comments = comments;
 
-        private EnumDemiliter _enumDemiliter;
+        private EnumDemiliter _enumDemiliter = EnumDemiliter.EQUALS;
         private bool _isAnyDemiliter;
         public bool IsAnyDemiliter() => _isAnyDemiliter;
 
         private object _value;
         public object GetValueRaw() => _value;
         public T GetValue() => _value is GameConstant gameConstant ? gameConstant.GetValue<T>() : (_value != null ? (T)_value : default);
+        public T GetValueRaw(T defaultValue)
+        {
+            if (_value == null)
+                return defaultValue;
+            else
+                return (T)_value;
+        }
+
         public void SetValue(T value)
         {
             if (_value == null && value != null || _value != null && !_value.Equals(value))

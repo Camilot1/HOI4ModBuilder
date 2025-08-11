@@ -43,6 +43,8 @@ namespace HOI4ModBuilder.utils
             STRATEGIC_REGIONS,
             AI_AREAS,
             COUNTRIES,
+            CORES_OF,
+            CLAIMS_BY,
             PROVINCES_TYPES,
             PROVINCES_TERRAINS,
             PROVINCES_SIZES,
@@ -95,7 +97,10 @@ namespace HOI4ModBuilder.utils
             STATE_CATEGORY,
             STATE_OWNER,
             STATE_CONTROLLER,
+            STATE_CORE_OF,
+            STATE_CLAIM_BY,
             BUILDINGS,
+            VICTORY_POINTS,
             AI_AREAS
         }
 
@@ -120,7 +125,9 @@ namespace HOI4ModBuilder.utils
         public enum EnumAdditionalLayers
         {
             CENTERS,
+            TEXT,
             BORDERS,
+            COLLISIONS,
             RIVERS,
             RAILWAYS,
             SUPPLY_HUBS,

@@ -53,9 +53,9 @@ namespace HOI4ModBuilder.src.utils
 
         public static string GetLoc(EnumLocKey key)
         {
-            if (_locKeys.TryGetValue(key, out var value)) 
+            if (_locKeys.TryGetValue(key, out var value))
                 return value;
-            else 
+            else
                 return key.ToString();
         }
 
@@ -452,6 +452,8 @@ namespace HOI4ModBuilder.src.utils
 
         AUTOTOOL_RESULT_MESSAGE_BOX_TITLE,
         AUTOTOOL_RESULT_MESSAGE_BOX_TEXT,
+        AUTOTOOL_RESULT_EXTENDED_MESSAGE_BOX_TITLE,
+        AUTOTOOL_RESULT_EXTENDED_MESSAGE_BOX_TEXT,
         EXCEPTION_UML_LINE_KEY_IS_NULL,
         EXCEPTION_UML_LINE_VALUE_IS_NULL,
         EXCEPTION_UML_LINE_CHARACTER_IS_NOT_ALLOWED_IN_KEY,
@@ -533,5 +535,7 @@ namespace HOI4ModBuilder.src.utils
         STATE,
         REGION,
         VICTORY_POINTS,
+        BUILDINGS,
+        SCRIPT_EXCEPTION_COMMENT_MUST_START_WITH_COMMENT_CHAR,
     }
 }

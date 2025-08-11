@@ -1,5 +1,4 @@
-﻿using FreeTypeSharp.Native;
-using HOI4ModBuilder.hoiDataObjects.common.terrain;
+﻿using HOI4ModBuilder.hoiDataObjects.common.terrain;
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
@@ -11,7 +10,6 @@ using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map
 {
@@ -111,6 +109,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public Point2F center;
         public bool dislayCenter;
         public uint pixelsCount;
+        public Bounds4S bounds;
 
         public StrategicRegion(FileInfo fileInfo)
         {
@@ -146,8 +145,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             double sumX = 0, sumY = 0;
             double pixelsCount = 0;
+            bounds.SetZero();
+
             foreach (var province in Provinces)
             {
+                if (pixelsCount == 0)
+                    bounds.Set(province.bounds);
+                else
+                    bounds.ExpandIfNeeded(province.bounds);
+
                 sumX += province.center.x * province.pixelsCount;
                 sumY += province.center.y * province.pixelsCount;
                 pixelsCount += province.pixelsCount;
@@ -179,7 +185,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
         public void UpdateTerrain(ProvincialTerrain terrain)
         {
-            if (Terrain == terrain || !terrain.isNavalTerrain) 
+            if (Terrain == terrain || !terrain.isNavalTerrain)
                 return;
             Terrain = terrain;
             needToSave = true;
@@ -365,6 +371,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             {
                 needToSave = true;
                 hasChanged = true;
+            }
+
+            // Удаляем провинции, не принадлежащие данному региону
+            for (int i = 0; i < Provinces.Count; i++)
+            {
+                var p = Provinces[i];
+                if (p.Region != this)
+                {
+                    Provinces.RemoveAt(i);
+                    i--;
+                    hasChanged = true;
+                }
             }
         }
     }

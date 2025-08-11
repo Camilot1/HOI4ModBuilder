@@ -38,9 +38,10 @@
             // checkedListBox1
             // 
             resources.ApplyResources(this.checkedListBox1, "checkedListBox1");
+            this.checkedListBox1.CheckOnClick = true;
             this.checkedListBox1.FormattingEnabled = true;
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
+            this.checkedListBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.checkedListBox1_MouseUp);
             // 
             // Button_Save
             // 

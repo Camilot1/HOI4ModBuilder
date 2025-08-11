@@ -78,6 +78,7 @@ namespace HOI4ModBuilder.src.scripts
 
             //RegisterFabric(BitmapDeclarator.GetKeyword(), () => new BitmapDeclarator(), () => new BitmapObject());
             RegisterFabric(FileDeclarator.GetKeyword(), () => new FileDeclarator(), () => new FileObject());
+            RegisterFabric(PairCommentedDeclarator.GetKeyword(), () => new PairCommentedDeclarator(), () => new PairCommentedObject());
             RegisterFabric(PairDeclarator.GetKeyword(), () => new PairDeclarator(), () => new PairObject());
             RegisterFabric(RandomDeclarator.GetKeyword(), () => new RandomDeclarator(), () => new RandomObject());
 
@@ -129,6 +130,7 @@ namespace HOI4ModBuilder.src.scripts
             RegisterFabric(GetStateRegionIdFunc.GetKeyword(), () => new GetStateRegionIdFunc());
             RegisterFabric(GetStateScriptBlocksFunc.GetKeyword(), () => new GetStateScriptBlocksFunc());
             RegisterFabric(SetStateBuildingLevelFunc.GetKeyword(), () => new SetStateBuildingLevelFunc());
+            RegisterFabric(SetStateScriptBlocksFunc.GetKeyword(), () => new SetStateScriptBlocksFunc());
 
             RegisterFabric(GetMapSizeFunc.GetKeyword(), () => new GetMapSizeFunc());
 
@@ -139,6 +141,11 @@ namespace HOI4ModBuilder.src.scripts
 
             RegisterFabric(BreakKeyword.GetKeyword(), () => new BreakKeyword());
             RegisterFabric(ContinueKeyword.GetKeyword(), () => new ContinueKeyword());
+
+            RegisterFabric(GetInlineCommentMethod.GetKeyword(), () => new GetInlineCommentMethod());
+            RegisterFabric(GetPrevCommentsMethod.GetKeyword(), () => new GetPrevCommentsMethod());
+            RegisterFabric(SetInlineCommentMethod.GetKeyword(), () => new SetInlineCommentMethod());
+            RegisterFabric(SetPrevCommentsMethod.GetKeyword(), () => new SetPrevCommentsMethod());
 
             RegisterFabric(CeilMethod.GetKeyword(), () => new CeilMethod());
             RegisterFabric(ClampMethod.GetKeyword(), () => new ClampMethod());
@@ -268,6 +275,7 @@ namespace HOI4ModBuilder.src.scripts
             if (obj is IAndObject) sb.Append("IAND ");
             if (obj is IAppendObject) sb.Append("IAPPEND ");
             if (obj is IClearObject) sb.Append("ICLEAR ");
+            if (obj is ICommentedObject) sb.Append("ICOMMENTED ");
             if (obj is IDivideObject) sb.Append("IDIVIDE ");
             if (obj is IGetKeyObject) sb.Append("IGETKEY ");
             if (obj is IGetObject) sb.Append("IGET ");

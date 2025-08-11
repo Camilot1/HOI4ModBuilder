@@ -36,8 +36,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             new MapToolStateCategory(_mapTools);
             new MapToolStateOwner(_mapTools);
             new MapToolStateController(_mapTools);
+            new MapToolStateCoreOf(_mapTools);
+            new MapToolStateClaimBy(_mapTools);
             new MapToolBuildings(_mapTools);
             new MapToolAiArea(_mapTools);
+            new MapToolVictoryPoints(_mapTools);
 
             new MergeProvincesTool();
             new RailwayTool();
@@ -134,9 +137,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             if (_isInDialog[0])
                 return false;
 
-            if (mouseState != EnumMouseState.DOWN ||
-                mouseState == EnumMouseState.DOWN && mouseEventArgs.Button != MouseButtons.Left && mouseEventArgs.Button != MouseButtons.Right)
-                return true;
 
             if ((_handleCheckFlags & (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX) != 0 &&
                 !pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
@@ -145,6 +145,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             if ((_handleCheckFlags & (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_SELECTED_BOUND) != 0 &&
                 bounds.HasSpace() && !bounds.Inbounds(pos))
                 return false;
+
+            if (mouseState != EnumMouseState.DOWN ||
+                mouseState == EnumMouseState.DOWN && mouseEventArgs.Button != MouseButtons.Left && mouseEventArgs.Button != MouseButtons.Right)
+                return true;
 
             if (!IsEditLayerAllowed(enumEditLayer))
             {

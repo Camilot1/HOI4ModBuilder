@@ -27,6 +27,16 @@ namespace HOI4ModBuilder.src.newParser.objects
             _inline = inline;
         }
 
+        public void CopyTo(GameComments obj)
+        {
+            obj.Previous = Utils.CopyArray(Previous);
+            obj.Inline = Inline;
+        }
+
+        public bool HasAnyData()
+            => _previous != null && _previous.Length > 0 &&
+            _inline != null && _inline.Length > 0;
+
         public void SavePrevComments(StringBuilder sb, string indent)
         {
             foreach (var prevComment in Previous)

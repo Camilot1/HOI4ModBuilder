@@ -7,6 +7,7 @@ using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.utils.structs;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -77,7 +78,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     if (b.LevelCap.GetValue().GetSlotCategory() == EnumBuildingSlotCategory.SHARED)
                         currentCount += province.State.stateBuildings[b];
                 }
-                maxCount = (uint)Math.Round(province.State.CurrentStateCategory.localBuildingsSlots * province.State.BuildingsMaxLevelFactor.GetValue());
+
+                maxCount = (uint)Math.Round(province.State.CurrentStateCategory.localBuildingsSlots * province.State.BuildingsMaxLevelFactor.GetValueRaw(1f));
                 freeSlots = maxCount - currentCount;
                 province.State.stateBuildings.TryGetValue(building, out prevCount);
             }
@@ -106,7 +108,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 action = (c) =>
                 {
                     province.State.SetProvinceBuildingLevel(province, building, c);
-                    MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
+                    MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.BUILDINGS, province);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                 };
             }
             else
@@ -114,7 +117,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 action = (c) =>
                 {
                     province.State.SetStateBuildingLevel(building, c);
-                    MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, parameter);
+                    MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.BUILDINGS, province.State);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
                 };
             }
 

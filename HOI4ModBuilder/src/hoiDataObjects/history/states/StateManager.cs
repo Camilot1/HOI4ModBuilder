@@ -137,7 +137,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
         }
 
-        public static void Draw(bool showCenters)
+        public static void Draw(bool showCenters, bool showCollisions)
         {
             if (showCenters)
             {
@@ -164,9 +164,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                         if (border.pixels.Length == 1)
                             continue;
 
-                        if (border.provinceA.State.Id.GetValue() == state.Id.GetValue() &&
+                        if (
+                            border.provinceA.State != null &&
+                            border.provinceA.State.Id.GetValue() == state.Id.GetValue() &&
                             GroupSelectedStates.Contains(border.provinceB.State)
                             ||
+                            border.provinceB.State != null &&
                             border.provinceB.State.Id.GetValue() == state.Id.GetValue() &&
                             GroupSelectedStates.Contains(border.provinceA.State))
                             continue;
@@ -194,6 +197,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     {
                         GL.Vertex2(vertex.x, vertex.y);
                     }
+                    GL.End();
+                }
+
+                if (showCollisions)
+                {
+                    GL.Color4(0f, 0f, 1f, 1f);
+                    GL.LineWidth(3f);
+                    GL.Begin(PrimitiveType.LineLoop);
+                    GL.Vertex2(SelectedState.bounds.left, SelectedState.bounds.top);
+                    GL.Vertex2(SelectedState.bounds.right + 1, SelectedState.bounds.top);
+                    GL.Vertex2(SelectedState.bounds.right + 1, SelectedState.bounds.bottom + 1);
+                    GL.Vertex2(SelectedState.bounds.left, SelectedState.bounds.bottom + 1);
                     GL.End();
                 }
             }
@@ -408,6 +423,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             RMBState = null;
         }
 
+        public static void SelectStates(ushort[] ids)
+        {
+            GroupSelectedStates.Clear();
+            foreach (var id in ids)
+            {
+                if (!TryGetState(id, out var state))
+                    continue;
+
+                GroupSelectedStates.Add(state);
+            }
+        }
 
         public static State SelectState(int color)
         {
@@ -417,7 +443,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 {
                     if (SelectedState != null)
                         GroupSelectedStates.Add(SelectedState);
-                    GroupSelectedStates.Add(province.State);
+
+                    if (GroupSelectedStates.Contains(province.State))
+                        GroupSelectedStates.Remove(province.State);
+                    else
+                        GroupSelectedStates.Add(province.State);
 
                     SelectedState = null;
                     return province.State;

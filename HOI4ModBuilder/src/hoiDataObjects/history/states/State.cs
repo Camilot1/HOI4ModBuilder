@@ -1,7 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.common.resources;
 using HOI4ModBuilder.hoiDataObjects.history.countries;
 using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
@@ -11,11 +10,12 @@ using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.scripts.objects;
+using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+using System.Windows.Forms;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
 {
@@ -99,9 +99,13 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public readonly GameParameter<float> LocalSupplies = new GameParameter<float>();
         public readonly GameParameter<bool> IsImpassable = new GameParameter<bool>();
         public bool CurrentIsDemilitarized { get; set; }
+        public List<Country> CurrentCoresOf { get; set; } = new List<Country>(0);
+        public List<Country> CurrentClaimsBy { get; set; } = new List<Country>(0);
 
         public readonly GameParameter<StateHistory> History = new GameParameter<StateHistory>()
             .INIT_SetValueParseAdapter((o, token) => new StateHistory((IParentable)o, default));
+
+        public StateHistory CurrentHistory { get; set; }
 
         private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
         {
@@ -157,6 +161,11 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public Dictionary<Building, uint> stateBuildings = new Dictionary<Building, uint>(0);
         public Dictionary<Province, Dictionary<Building, uint>> provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
 
+        public uint GetStateBuildingCount(Building building)
+        {
+            stateBuildings.TryGetValue(building, out uint count);
+            return count;
+        }
 
         public void TransferDataFrom(State state)
         {
@@ -169,6 +178,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public Point2F center;
         public bool dislayCenter;
         public uint pixelsCount;
+        public Bounds4S bounds;
 
         public List<ProvinceBorder> borders = new List<ProvinceBorder>(0);
         public void ForEachAdjacentProvince(Action<Province, Province> action)
@@ -204,8 +214,15 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             double sumX = 0, sumY = 0;
             double pixelsCount = 0;
+            bounds.SetZero();
+
             foreach (var province in Provinces)
             {
+                if (pixelsCount == 0)
+                    bounds.Set(province.bounds);
+                else
+                    bounds.ExpandIfNeeded(province.bounds);
+
                 sumX += province.center.x * province.pixelsCount;
                 sumY += province.center.y * province.pixelsCount;
                 pixelsCount += province.pixelsCount;
@@ -216,6 +233,20 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 center.y = (float)(sumY / pixelsCount);
             }
             this.pixelsCount = (uint)pixelsCount;
+        }
+
+        public bool SetVictoryPoints(Province province, uint newValue)
+        {
+            if (History.GetValue() == null)
+                return false;
+
+            if (History.GetValue().SetVictoryPoints(province, newValue))
+            {
+                SetNeedToSave(true);
+                UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
+                return true;
+            }
+            return false;
         }
 
         public void SetProvinceBuildingLevel(Province province, Building building, uint newCount)
@@ -250,24 +281,57 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return History.GetValue().GetStateBuildingLevel(building);
         }
 
-        public ListObject GetHistoryScriptBlocks(DateTime dateTime)
+        public IListObject GetHistoryScriptBlocks(DateTime dateTime)
         {
             var list = new ListObject();
-
-            if (dateTime != default)
-                throw new NotImplementedException();
 
             if (History.GetValue() == null)
                 return list;
 
             var history = History.GetValue();
 
-            foreach (var block in history.DynamicScriptBlocks)
+            if (dateTime == default)
             {
-                block.SaveToListObject(list);
+                foreach (var block in history.DynamicScriptBlocks)
+                    block.SaveToListObject(list);
+                return list;
+            }
+
+            foreach (var innerHistoryEntry in history.InnerHistories)
+            {
+                if (innerHistoryEntry.Key == dateTime)
+                {
+                    foreach (var block in innerHistoryEntry.Value.DynamicScriptBlocks)
+                        block.SaveToListObject(list);
+                    break;
+                }
             }
 
             return list;
+        }
+
+        public void SetHistoryScriptBlocks(DateTime dateTime, IListObject list)
+        {
+            if (History.GetValue() == null)
+                return;
+
+            var history = History.GetValue();
+
+
+            if (dateTime == default)
+            {
+                ScriptBlockParseObject.LoadFromListObject(history, list, history.DynamicScriptBlocks);
+                return;
+            }
+
+            foreach (var innerHistoryEntry in history.InnerHistories)
+            {
+                if (innerHistoryEntry.Key == dateTime)
+                {
+                    ScriptBlockParseObject.LoadFromListObject(history, list, innerHistoryEntry.Value.DynamicScriptBlocks);
+                    return;
+                }
+            }
         }
 
         public void UpdateByDateTimeStamp(DateTime dateTime)
@@ -296,6 +360,17 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             foreach (var province in provincesBuildings.Keys)
                 province.ClearBuildings();
             provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
+
+            foreach (var country in CurrentCoresOf)
+                country.hasCoresAtStates.Remove(this);
+            CurrentCoresOf = new List<Country>(0);
+
+            foreach (var country in CurrentClaimsBy)
+                country.hasClaimsAtState.Remove(this);
+            CurrentClaimsBy = new List<Country>(0);
+
+            CurrentHistory = null;
+
         }
 
         public void AddData()
@@ -331,11 +406,21 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return obj is State state && Id.GetValue() == state.Id.GetValue();
         }
 
+        public bool isCoastalState()
+        {
+            foreach (var p in Provinces)
+            {
+                if (p.Type == EnumProvinceType.SEA)
+                    return true;
+            }
+            return false;
+        }
+
         public void Validate(out bool hasChanged)
         {
             hasChanged = false;
 
-            //Проверяем и сортируем провинции в стейте
+            // Проверяем и сортируем провинции в стейте
             if (!Utils.IsProvincesListSorted(Provinces))
             {
                 Provinces.Sort();
@@ -343,11 +428,23 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 hasChanged = true;
             }
 
-            //Удаляем дубликаты провинций в стейте
+            // Удаляем дубликаты провинций в стейте
             if (Utils.RemoveDuplicateProvinces(Provinces))
             {
                 SetNeedToSave(true);
                 hasChanged = true;
+            }
+
+            // Удаляем провинции, не принадлежащие данному стейту
+            for (int i = 0; i < Provinces.Count; i++)
+            {
+                var p = Provinces[i];
+                if (p.State != this)
+                {
+                    Provinces.RemoveAt(i);
+                    i--;
+                    hasChanged = true;
+                }
             }
 
             //

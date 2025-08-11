@@ -211,6 +211,21 @@
   <data name="ToolStripMenuItem_Map_Search.Text" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="ToolStripMenuItem_Map_Select_Provinces.Text" xml:space="preserve">
+    <value>Provinces</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_States.Text" xml:space="preserve">
+    <value>States</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_Regions.Text" xml:space="preserve">
+    <value>Regions</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select.Text" xml:space="preserve">
+    <value>Select</value>
+  </data>
   <data name="toolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 6</value>
   </data>
@@ -389,10 +404,16 @@
     <value>167, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions_Merge.Size" type="System.Drawing.Size, System.Drawing">
-    <value>231, 22</value>
+    <value>293, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions_Merge.Text" xml:space="preserve">
-    <value>Merge provinces with id swap</value>
+    <value>Merge 2 selected provinces with ID swap</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Actions_Merge_All.Size" type="System.Drawing.Size, System.Drawing">
+    <value>293, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Actions_Merge_All.Text" xml:space="preserve">
+    <value>Merge all selected provinces with ID swap</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 22</value>
@@ -401,7 +422,13 @@
     <value>Additional actions</value>
   </data>
   <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 154</value>
+    <value>171, 176</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Close.Text" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Save.Text" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="TabPage_Map.Text" xml:space="preserve">
     <value>Map</value>
@@ -684,6 +711,24 @@
   </data>
   <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
     <value>187, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Size" type="System.Drawing.Size, System.Drawing">
+    <value>346, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Text" xml:space="preserve">
+    <value>Merge all selected provinces with ID swap</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Actions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>190, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Actions.Text" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Size" type="System.Drawing.Size, System.Drawing">
+    <value>282, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Text" xml:space="preserve">
+    <value>Remove provinces with 0 pixels</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal.Size" type="System.Drawing.Size, System.Drawing">
     <value>282, 22</value>

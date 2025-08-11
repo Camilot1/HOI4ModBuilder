@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using HOI4ModBuilder.src.managers.errors;
 using HOI4ModBuilder.src.managers.warnings;
 using HOI4ModBuilder.src.utils.structs;
+using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -65,7 +66,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 if (MapManager.displayLayers[(int)EnumAdditionalLayers.ERRORS])
                     errorCodes = ErrorManager.Instance.GetErrorCodes(pos, 2);
 
-                if (warningCodes.Count != 0 || errorCodes.Count != 0)
+                var buildings = MapPositionsManager.GetWarningCodes(pos, 2);
+
+                if (warningCodes.Count != 0 || errorCodes.Count != 0 || buildings.Count != 0)
                 {
                     var sb = new StringBuilder();
                     if (warningCodes.Count > 0)
@@ -79,6 +82,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         sb.Append(GuiLocManager.GetLoc(EnumLocKey.ERRORS)).Append(':').Append(Constants.NEW_LINE);
                         foreach (EnumMapErrorCode code in errorCodes)
                             sb.Append("    ").Append(code.ToString()).Append('\n');
+                    }
+                    if (buildings.Count > 0)
+                    {
+                        sb.Append(GuiLocManager.GetLoc(EnumLocKey.BUILDINGS)).Append(':').Append(Constants.NEW_LINE);
+                        foreach (var data in buildings)
+                            sb.Append("    ").Append(data).Append('\n');
                     }
                     Logger.LogSingleErrorMessage(sb.ToString());
                     return true;

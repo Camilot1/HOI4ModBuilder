@@ -7,9 +7,6 @@ using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
@@ -57,7 +54,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                 {
                     stateHistory.Controller.SetValue(stateController);
                     province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                    MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
                 };
 
                 MapManager.ActionsBatch.AddWithExecute(

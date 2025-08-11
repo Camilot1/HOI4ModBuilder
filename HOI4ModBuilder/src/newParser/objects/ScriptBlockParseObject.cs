@@ -4,6 +4,7 @@ using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.scripts;
 using HOI4ModBuilder.src.scripts.objects;
+using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         private IScriptBlockInfo _scriptBlockInfo;
         public IScriptBlockInfo ScriptBlockInfo => _scriptBlockInfo;
 
-        private EnumDemiliter _demiliter;
+        private EnumDemiliter _demiliter = EnumDemiliter.EQUALS;
         public EnumDemiliter Demiliter { get => _demiliter; set => Utils.Setter(ref _demiliter, ref value, ref _needToSave); }
         public EnumValueType ValueType { get; set; }
 
@@ -431,24 +432,56 @@ namespace HOI4ModBuilder.src.newParser.objects
                 sb.Append(comments.Inline).Append(' ').Append(Constants.NEW_LINE);
         }
 
+        public static GameList<ScriptBlockParseObject> LoadFromListObject(IParentable parent, IListObject from, GameList<ScriptBlockParseObject> to)
+        {
+            to.Clear();
+            to.SetParent(parent);
+
+            from.ForEach(entryObj =>
+            {
+                var entry = (PairObject)entryObj;
+                var keyString = (IStringObject)entry.GetKey();
+                var key = (string)keyString.GetValue();
+
+                var block = ParserUtils.GetAnyScriptBlockParseObject(to, key);
+
+                if (entry.GetValue() is ListObject listValue)
+                    block.SetValue(LoadFromListObject(block, listValue, new GameList<ScriptBlockParseObject>()));
+                else
+                {
+                    var valueString = ParserUtils.ObjectToSaveString(((IScriptObject)entry.GetValue()).GetValue());
+                    block.ParseValueString(null, valueString, valueString.StartsWith("\"") && valueString.EndsWith("\""));
+                }
+
+                if (entryObj is PairCommentedObject pairCommentedObject && pairCommentedObject.comments.HasAnyData())
+                {
+                    var comments = new GameComments();
+                    pairCommentedObject.comments.CopyTo(comments);
+                    block.SetComments(comments);
+                }
+
+                to.Add(block);
+            });
+
+            return to;
+        }
+
         public void SaveToListObject(ListObject list)
         {
             if (_value is GameList<ScriptBlockParseObject> listValue)
             {
-                var innerPair = new PairObject(new StringObject(), new ListObject());
-                list.Add(innerPair);
+                var pair = new PairCommentedObject(new StringObject(), new ListObject());
+                list.Add(pair);
 
-                innerPair.SetKey(new StringObject(_scriptBlockInfo.GetBlockName()));
+                pair.SetKey(new StringObject(_scriptBlockInfo.GetBlockName()));
 
                 var innerList = new ListObject();
-                innerPair.SetValue(innerList);
+                pair.SetValue(innerList);
 
                 foreach (var innerValue in listValue)
-                {
                     innerValue.SaveToListObject(innerList);
-                }
 
-                list.Add(innerPair);
+                GetComments()?.CopyTo(pair.comments);
             }
             else
             {
@@ -463,12 +496,14 @@ namespace HOI4ModBuilder.src.newParser.objects
                         value = new StringObject(tempValue);
                 }
 
-                var pair = new PairObject(new StringObject(), value.GetEmptyCopy());
+                var pair = new PairCommentedObject(new StringObject(), value.GetEmptyCopy());
 
                 list.Add(pair);
 
                 pair.SetKey(new StringObject(_scriptBlockInfo.GetBlockName()));
                 pair.SetValue(value);
+
+                GetComments()?.CopyTo(pair.comments);
             }
         }
     }

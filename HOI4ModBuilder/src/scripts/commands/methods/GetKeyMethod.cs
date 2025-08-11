@@ -1,5 +1,4 @@
 ﻿using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
-using HOI4ModBuilder.src.utils;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
 {
@@ -14,7 +13,7 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
             $"{_keyword} <KEY_TYPE:to> <IGETKEY<KEY_TYPE>:from>",
             "======== OR ========",
             $"{_keyword} (",
-            $"\tOUT <KEY_TYPE>:to>",
+            $"\tOUT <KEY_TYPE:to>",
             $"\t<IGETKEY<KEY_TYPE>:from>",
             ")"
         };

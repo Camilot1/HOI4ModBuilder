@@ -11,7 +11,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public string name;
 
         public readonly GameParameter<GameString> Type = new GameParameter<GameString>();
-        public readonly GameParameter<uint> Max = new GameParameter<uint>();
+        public readonly GameParameter<ushort> Max = new GameParameter<ushort>();
         public readonly GameParameter<bool> OnlyCoastal = new GameParameter<bool>();
         public readonly GameParameter<bool> DisableAutoNudging = new GameParameter<bool>();
 

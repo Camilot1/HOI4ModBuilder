@@ -86,6 +86,7 @@
             this.TextBox_NormalMapStrength_Current = new System.Windows.Forms.TextBox();
             this.CheckBox_IgnoreUpdateVersion = new System.Windows.Forms.CheckBox();
             this.TextBox_IgnoreUpdateVersion = new System.Windows.Forms.TextBox();
+            this.Button_Directory_AutoDetect = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -100,12 +101,12 @@
             // 
             // ComboBox_Language
             // 
-            resources.ApplyResources(this.ComboBox_Language, "ComboBox_Language");
             this.ComboBox_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBox_Language.FormattingEnabled = true;
             this.ComboBox_Language.Items.AddRange(new object[] {
             resources.GetString("ComboBox_Language.Items"),
             resources.GetString("ComboBox_Language.Items1")});
+            resources.ApplyResources(this.ComboBox_Language, "ComboBox_Language");
             this.ComboBox_Language.Name = "ComboBox_Language";
             // 
             // label1
@@ -203,7 +204,6 @@
             // 
             // ComboBox_MaxAdditionalTextureSize
             // 
-            resources.ApplyResources(this.ComboBox_MaxAdditionalTextureSize, "ComboBox_MaxAdditionalTextureSize");
             this.ComboBox_MaxAdditionalTextureSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBox_MaxAdditionalTextureSize.FormattingEnabled = true;
             this.ComboBox_MaxAdditionalTextureSize.Items.AddRange(new object[] {
@@ -215,6 +215,7 @@
             resources.GetString("ComboBox_MaxAdditionalTextureSize.Items5"),
             resources.GetString("ComboBox_MaxAdditionalTextureSize.Items6"),
             resources.GetString("ComboBox_MaxAdditionalTextureSize.Items7")});
+            resources.ApplyResources(this.ComboBox_MaxAdditionalTextureSize, "ComboBox_MaxAdditionalTextureSize");
             this.ComboBox_MaxAdditionalTextureSize.Name = "ComboBox_MaxAdditionalTextureSize";
             // 
             // label7
@@ -289,9 +290,9 @@
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.Button_CreateModSettings);
             this.groupBox2.Controls.Add(this.ComboBox_UsingSettingsType);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -304,12 +305,12 @@
             // 
             // ComboBox_UsingSettingsType
             // 
-            resources.ApplyResources(this.ComboBox_UsingSettingsType, "ComboBox_UsingSettingsType");
             this.ComboBox_UsingSettingsType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBox_UsingSettingsType.FormattingEnabled = true;
             this.ComboBox_UsingSettingsType.Items.AddRange(new object[] {
             resources.GetString("ComboBox_UsingSettingsType.Items"),
             resources.GetString("ComboBox_UsingSettingsType.Items1")});
+            resources.ApplyResources(this.ComboBox_UsingSettingsType, "ComboBox_UsingSettingsType");
             this.ComboBox_UsingSettingsType.Name = "ComboBox_UsingSettingsType";
             this.ComboBox_UsingSettingsType.SelectedIndexChanged += new System.EventHandler(this.ComboBox_UsingSettingsType_SelectedIndexChanged);
             // 
@@ -323,10 +324,10 @@
             // 
             // TabPage_DefaultModSettings
             // 
-            resources.ApplyResources(this.TabPage_DefaultModSettings, "TabPage_DefaultModSettings");
             this.TabPage_DefaultModSettings.Controls.Add(this.groupBox6);
             this.TabPage_DefaultModSettings.Controls.Add(this.groupBox3);
             this.TabPage_DefaultModSettings.Controls.Add(this.groupBox1);
+            resources.ApplyResources(this.TabPage_DefaultModSettings, "TabPage_DefaultModSettings");
             this.TabPage_DefaultModSettings.Name = "TabPage_DefaultModSettings";
             this.TabPage_DefaultModSettings.UseVisualStyleBackColor = true;
             // 
@@ -351,20 +352,20 @@
             // 
             // groupBox3
             // 
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.TextBox_MAP_SCALE_PIXEL_TO_KM_Default);
             this.groupBox3.Controls.Add(this.TextBox_WATER_HEIGHT_Default);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
             // TabPage_CurrentModSettings
             // 
-            resources.ApplyResources(this.TabPage_CurrentModSettings, "TabPage_CurrentModSettings");
             this.TabPage_CurrentModSettings.Controls.Add(this.groupBox7);
             this.TabPage_CurrentModSettings.Controls.Add(this.groupBox4);
             this.TabPage_CurrentModSettings.Controls.Add(this.groupBox5);
+            resources.ApplyResources(this.TabPage_CurrentModSettings, "TabPage_CurrentModSettings");
             this.TabPage_CurrentModSettings.Name = "TabPage_CurrentModSettings";
             this.TabPage_CurrentModSettings.UseVisualStyleBackColor = true;
             // 
@@ -459,12 +460,12 @@
             // 
             // CheckedListBox_SaveSettings_Current
             // 
-            resources.ApplyResources(this.CheckedListBox_SaveSettings_Current, "CheckedListBox_SaveSettings_Current");
             this.CheckedListBox_SaveSettings_Current.CheckOnClick = true;
             this.CheckedListBox_SaveSettings_Current.FormattingEnabled = true;
             this.CheckedListBox_SaveSettings_Current.Items.AddRange(new object[] {
             resources.GetString("CheckedListBox_SaveSettings_Current.Items"),
             resources.GetString("CheckedListBox_SaveSettings_Current.Items1")});
+            resources.ApplyResources(this.CheckedListBox_SaveSettings_Current, "CheckedListBox_SaveSettings_Current");
             this.CheckedListBox_SaveSettings_Current.Name = "CheckedListBox_SaveSettings_Current";
             // 
             // label11
@@ -488,10 +489,19 @@
             resources.ApplyResources(this.TextBox_IgnoreUpdateVersion, "TextBox_IgnoreUpdateVersion");
             this.TextBox_IgnoreUpdateVersion.Name = "TextBox_IgnoreUpdateVersion";
             // 
+            // Button_Directory_AutoDetect
+            // 
+            resources.ApplyResources(this.Button_Directory_AutoDetect, "Button_Directory_AutoDetect");
+            this.Button_Directory_AutoDetect.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.Button_Directory_AutoDetect.Name = "Button_Directory_AutoDetect";
+            this.Button_Directory_AutoDetect.UseVisualStyleBackColor = false;
+            this.Button_Directory_AutoDetect.Click += new System.EventHandler(this.Button_Directory_AutoDetect_Click);
+            // 
             // SettingsForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Button_Directory_AutoDetect);
             this.Controls.Add(this.TextBox_IgnoreUpdateVersion);
             this.Controls.Add(this.CheckBox_IgnoreUpdateVersion);
             this.Controls.Add(this.tabControl1);
@@ -592,5 +602,6 @@
         private System.Windows.Forms.CheckBox CheckBox_UseCustomSavePatterns_Current;
         private System.Windows.Forms.CheckBox CheckBox_IgnoreUpdateVersion;
         private System.Windows.Forms.TextBox TextBox_IgnoreUpdateVersion;
+        private System.Windows.Forms.Button Button_Directory_AutoDetect;
     }
 }

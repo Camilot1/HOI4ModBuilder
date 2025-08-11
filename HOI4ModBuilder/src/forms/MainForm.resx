@@ -1509,6 +1509,36 @@
   <data name="ToolStripMenuItem_Map_Search.Text" xml:space="preserve">
     <value>Поиск</value>
   </data>
+  <data name="ToolStripTextBox_Map_Select_Input.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="ToolStripTextBox_Map_Select_Input.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 23</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_Provinces.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_Provinces.Text" xml:space="preserve">
+    <value>Провинции</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_States.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_States.Text" xml:space="preserve">
+    <value>Области</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_Regions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select_Regions.Text" xml:space="preserve">
+    <value>Регионы</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select.Size" type="System.Drawing.Size, System.Drawing">
+    <value>222, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Select.Text" xml:space="preserve">
+    <value>Выделение</value>
+  </data>
   <data name="toolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 6</value>
   </data>
@@ -1852,10 +1882,16 @@
     <value>219, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions_Merge.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 22</value>
+    <value>221, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions_Merge.Text" xml:space="preserve">
     <value>Объединить с заменой</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Actions_Merge_All.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Actions_Merge_All.Text" xml:space="preserve">
+    <value>Объединить все с заменой</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 22</value>
@@ -1864,13 +1900,112 @@
     <value>Дополнительные действия</value>
   </data>
   <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 154</value>
+    <value>223, 176</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip_Map.Name" xml:space="preserve">
     <value>ContextMenuStrip_Map</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip_Map.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Close.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Close.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 386</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Close.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 23</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Close.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Close.Text" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Close.Name" xml:space="preserve">
+    <value>Panel_ColorPicker_Button_Close</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Close.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Close.Parent" xml:space="preserve">
+    <value>Panel_ColorPicker</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Close.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Save.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 386</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Save.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 23</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Save.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Save.Text" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Save.Name" xml:space="preserve">
+    <value>Panel_ColorPicker_Button_Save</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Save.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Save.Parent" xml:space="preserve">
+    <value>Panel_ColorPicker</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker_Button_Save.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ElementHost_ColorPicker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ElementHost_ColorPicker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 386</value>
+  </data>
+  <data name="ElementHost_ColorPicker.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="ElementHost_ColorPicker.Text" xml:space="preserve">
+    <value>elementHost1</value>
+  </data>
+  <data name="&gt;&gt;ElementHost_ColorPicker.Name" xml:space="preserve">
+    <value>ElementHost_ColorPicker</value>
+  </data>
+  <data name="&gt;&gt;ElementHost_ColorPicker.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Integration.ElementHost, WindowsFormsIntegration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</value>
+  </data>
+  <data name="&gt;&gt;ElementHost_ColorPicker.Parent" xml:space="preserve">
+    <value>Panel_ColorPicker</value>
+  </data>
+  <data name="&gt;&gt;ElementHost_ColorPicker.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="Panel_ColorPicker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="Panel_ColorPicker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 419</value>
+  </data>
+  <data name="Panel_ColorPicker.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Panel_ColorPicker.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker.Name" xml:space="preserve">
+    <value>Panel_ColorPicker</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker.Parent" xml:space="preserve">
+    <value>Panel_Map</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="Panel_Map.Location" type="System.Drawing.Point, System.Drawing">
     <value>136, 40</value>
@@ -2427,6 +2562,27 @@
   <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
     <value>223, 6</value>
   </data>
+  <data name="ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>CTRL+M</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Size" type="System.Drawing.Size, System.Drawing">
+    <value>331, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Text" xml:space="preserve">
+    <value>Объединить выделенные провинции</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Actions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Actions.Text" xml:space="preserve">
+    <value>Действия</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Text" xml:space="preserve">
+    <value>Удалить провинции с 0 пикселями</value>
+  </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal.Size" type="System.Drawing.Size, System.Drawing">
     <value>297, 22</value>
   </data>
@@ -2662,6 +2818,36 @@
     <value>ToolStripMenuItem_Map_Search_Region</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Map_Search_Region.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Select</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripTextBox_Map_Select_Input.Name" xml:space="preserve">
+    <value>ToolStripTextBox_Map_Select_Input</value>
+  </data>
+  <data name="&gt;&gt;ToolStripTextBox_Map_Select_Input.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select_Provinces.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Select_Provinces</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select_Provinces.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select_States.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Select_States</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select_States.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select_Regions.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Select_Regions</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Select_Regions.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator25.Name" xml:space="preserve">
@@ -3042,6 +3228,18 @@
   <data name="&gt;&gt;ToolStripMenuItem_Map_Actions_Merge.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Actions_Merge_All.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Actions_Merge_All</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Actions_Merge_All.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;standardColorPicker1.Name" xml:space="preserve">
+    <value>standardColorPicker1</value>
+  </data>
+  <data name="&gt;&gt;standardColorPicker1.Type" xml:space="preserve">
+    <value>WindowsFormsIntegration.Design.HostedComponent, WindowsFormsIntegration.Design, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="&gt;&gt;ToolStripMenuItem_File.Name" xml:space="preserve">
     <value>ToolStripMenuItem_File</value>
   </data>
@@ -3360,10 +3558,28 @@
   <data name="&gt;&gt;toolStripSeparator8.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_Actions.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Edit_Actions</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_Actions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools.Name" xml:space="preserve">
     <value>ToolStripMenuItem_Edit_AutoTools</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal.Name" xml:space="preserve">

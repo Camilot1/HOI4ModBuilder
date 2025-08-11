@@ -379,7 +379,23 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 _buildings.TryGetValue(building, out count);
         }
 
+        public uint GetBuildingCount(Building building)
+        {
+            if (_buildings == null)
+                return 0;
+
+            _buildings.TryGetValue(building, out uint count);
+            return count;
+        }
+
         public void SetBuildings(Dictionary<Building, uint> buildings) => _buildings = buildings;
+
+        public void ForEachBuilding(Action<Building, uint> action)
+        {
+            foreach (var entry in _buildings)
+                action(entry.Key, entry.Value);
+        }
+
         public bool HasPort()
         {
             if (_buildings == null || _buildings.Count == 0)
@@ -407,6 +423,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public int pixelsCount;
         public bool dislayCenter;
         public Point2F center;
+        public Bounds4S bounds;
 
         public Province()
         {
@@ -431,9 +448,22 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public void AddPixel(int x, int y)
         {
+            if (pixelsCount == 0)
+                bounds.Set((short)x, (short)y);
+            else
+                bounds.ExpandIfNeeded((short)x, (short)y);
+
             pixelsCount++;
             center.x += (x - center.x) / pixelsCount;
             center.y += (y - center.y) / pixelsCount;
+        }
+
+        public void ResetPixels()
+        {
+            pixelsCount = 0;
+            center.x = 0;
+            center.y = 0;
+            bounds.SetZero();
         }
 
         public void AddBorder(ProvinceBorder border) => borders.Add(border);

@@ -95,9 +95,6 @@ namespace HOI4ModBuilder.src.forms
             }
         }
 
-        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
-            => WriteValuesToSettings();
-
         private void WriteValuesToSettings()
         {
             Type type;
@@ -143,5 +140,8 @@ namespace HOI4ModBuilder.src.forms
 
         private void Button_Save_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => SettingsManager.SaveSettings());
+
+        private void checkedListBox1_MouseUp(object sender, MouseEventArgs e)
+            => WriteValuesToSettings();
     }
 }

@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Costura.Fody.5.7.0\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.5.7.0\build\Costura.Fody.props')" />
-  <Import Project="..\packages\SharpFont.4.0.1\build\SharpFont.props" Condition="Exists('..\packages\SharpFont.4.0.1\build\SharpFont.props')" />
-  <Import Project="..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props" Condition="Exists('..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -83,7 +81,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -94,19 +92,25 @@
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ColorPicker, Version=3.4.2.0, Culture=neutral, PublicKeyToken=1c61eec504ce2276, processorArchitecture=MSIL">
+      <HintPath>..\packages\PixiEditor.ColorPicker.3.4.2\lib\net451\ColorPicker.dll</HintPath>
+    </Reference>
+    <Reference Include="ColorPicker.Models, Version=1.0.7.0, Culture=neutral, PublicKeyToken=bb95a4442a9c0731, processorArchitecture=MSIL">
+      <HintPath>..\packages\PixiEditor.ColorPicker.Models.1.0.7\lib\net451\ColorPicker.Models.dll</HintPath>
+    </Reference>
     <Reference Include="Costura, Version=5.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.5.7.0\lib\netstandard1.0\Costura.dll</HintPath>
-    </Reference>
-    <Reference Include="FreeTypeSharp, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FreeTypeSharp.1.1.3\lib\netstandard2.0\FreeTypeSharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -117,12 +121,8 @@
     <Reference Include="OpenTK.GLControl, Version=3.3.3.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.GLControl.3.3.3\lib\net20\OpenTK.GLControl.dll</HintPath>
     </Reference>
-    <Reference Include="QuickFont, Version=4.5.7053.25687, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\QuickFont.Desktop.4.5.7053.25687\lib\net45\QuickFont.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpFont, Version=4.0.1.200, Culture=neutral, PublicKeyToken=48add4c483071cdf, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpFont.4.0.1\lib\net45\SharpFont.dll</HintPath>
-    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System">
       <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.dll</HintPath>
     </Reference>
@@ -263,6 +263,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -271,11 +272,13 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsFormsIntegration" />
     <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="WindowsBase" />
     <Reference Include="YamlDotNet, Version=13.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
       <HintPath>..\packages\YamlDotNet.13.1.1\lib\net47\YamlDotNet.dll</HintPath>
     </Reference>
@@ -445,10 +448,38 @@
     <Compile Include="src\hoiDataObjects\map\adjacencies\Adjacency.cs" />
     <Compile Include="src\hoiDataObjects\map\adjacencies\AdjacenciesManager.cs" />
     <Compile Include="src\hoiDataObjects\map\adjacencies\AdjacencyRule.cs" />
-    <Compile Include="src\hoiDataObjects\map\MapPositionsManager.cs" />
+    <Compile Include="src\hoiDataObjects\map\positions\BuildingInfo.cs" />
+    <Compile Include="src\hoiDataObjects\map\positions\BuildingPosition.cs" />
+    <Compile Include="src\hoiDataObjects\map\positions\MapPositionsManager.cs" />
     <Compile Include="src\hoiDataObjects\map\continents\ContinentManager.cs" />
+    <Compile Include="src\hoiDataObjects\map\positions\BuildingsPositionsData.cs" />
     <Compile Include="src\hoiDataObjects\map\provinces\border\BorderData.cs" />
     <Compile Include="src\hoiDataObjects\history\states\VictoryPoint.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\enums\EnumMapRenderEvents.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\interfaces\IMapRenderer.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererAiAreas.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererBuildings.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererCitiesMap.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererClaimsBy.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererContinents.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererCoresOf.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererCountries.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererCustomScript.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererHeightMap.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererManpower.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererNone.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererNormalMap.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererProvincesMap.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererProvincesSizes.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererProvincesTerrains.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererProvincesTypes.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererRegionsTerrains.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererStateCategories.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererStates.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererStrategicRegions.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererTerrainMap.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererTreesMap.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererVictoryPoints.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\CheckRegionWithNotNavalTerrain.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerLandProvincesWithNoState.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerProvincesWithMultiRegions.cs" />
@@ -511,9 +542,36 @@
     <Compile Include="src\newParser\test\TestObject.cs" />
     <Compile Include="src\newParser\interfaces\INeedToSave.cs" />
     <Compile Include="src\newParser\test\TestMain.cs" />
+    <Compile Include="src\openTK\text\FontData.cs" />
+    <Compile Include="src\openTK\text\FontRenderController.cs" />
+    <Compile Include="src\openTK\text\FontRenderRegion.cs" />
+    <Compile Include="src\openTK\text\TextRenderManager.cs" />
     <Compile Include="src\Pdoxcl2Sharp\INeedToSave.cs" />
+    <Compile Include="src\QuickFont\Builder.cs" />
+    <Compile Include="src\QuickFont\Configuration\QFontBuilderConfiguration.cs" />
+    <Compile Include="src\QuickFont\Configuration\QFontConfiguration.cs" />
+    <Compile Include="src\QuickFont\Configuration\QFontKerningConfiguration.cs" />
+    <Compile Include="src\QuickFont\Configuration\QFontShadowConfiguration.cs" />
+    <Compile Include="src\QuickFont\Helper.cs" />
+    <Compile Include="src\QuickFont\JBitmap.cs" />
+    <Compile Include="src\QuickFont\JMath.cs" />
+    <Compile Include="src\QuickFont\JTexture.cs" />
+    <Compile Include="src\QuickFont\JTextureManager.cs" />
+    <Compile Include="src\QuickFont\KerningCalculator.cs" />
+    <Compile Include="src\QuickFont\QBitmap.cs" />
+    <Compile Include="src\QuickFont\QFont.cs" />
+    <Compile Include="src\QuickFont\QFontData.cs" />
+    <Compile Include="src\QuickFont\QFontDrawing.cs" />
+    <Compile Include="src\QuickFont\QFontDrawingPimitive.cs" />
+    <Compile Include="src\QuickFont\QFontGlyph.cs" />
+    <Compile Include="src\QuickFont\QFontRenderOptions.cs" />
+    <Compile Include="src\QuickFont\QVertexArrayObject.cs" />
+    <Compile Include="src\QuickFont\TextNodeList.cs" />
+    <Compile Include="src\QuickFont\TexturePage.cs" />
+    <Compile Include="src\QuickFont\ViewportHelper.cs" />
     <Compile Include="src\scripts\commands\declarators\funcs\FuncDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\BitmapDeclarator.cs" />
+    <Compile Include="src\scripts\commands\declarators\vars\PairCommentedDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\PairDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\vars\primitives\BooleanDeclarator.cs" />
     <Compile Include="src\scripts\commands\declarators\branches\BranchDeclarator.cs" />
@@ -569,6 +627,7 @@
     <Compile Include="src\scripts\commands\functions\map\states\GetStateRegionIdFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\GetStateScriptBlocksFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\states\SetStateBuildingLevelFunc.cs" />
+    <Compile Include="src\scripts\commands\functions\map\states\SetStateScriptBlocksFunc.cs" />
     <Compile Include="src\scripts\commands\functions\time\GetDaysSinceYearStartFunc.cs" />
     <Compile Include="src\scripts\commands\functions\time\GetWeeksSinceYearStartFunc.cs" />
     <Compile Include="src\scripts\commands\functions\utils\InterpolateFunc.cs" />
@@ -576,7 +635,9 @@
     <Compile Include="src\scripts\commands\keywords\ContinueKeyword.cs" />
     <Compile Include="src\scripts\commands\methods\AppendMethod.cs" />
     <Compile Include="src\scripts\commands\methods\bitmaps\GetPixelMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\comments\GetInlineCommentMethod.cs" />
     <Compile Include="src\scripts\commands\methods\GetKeyMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\comments\GetPrevCommentsMethod.cs" />
     <Compile Include="src\scripts\commands\methods\GetValueMethod.cs" />
     <Compile Include="src\scripts\commands\methods\math\CeilMethod.cs" />
     <Compile Include="src\scripts\commands\methods\math\ClampMethod.cs" />
@@ -600,7 +661,9 @@
     <Compile Include="src\scripts\commands\declarators\vars\collections\MapDeclarator.cs" />
     <Compile Include="src\scripts\commands\methods\ReadMethod.cs" />
     <Compile Include="src\scripts\commands\methods\ReverseMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\comments\SetInlineCommentMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetKeyMethod.cs" />
+    <Compile Include="src\scripts\commands\methods\comments\SetPrevCommentsMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSeedMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetSizeMethod.cs" />
     <Compile Include="src\scripts\commands\methods\SetValueMethod.cs" />
@@ -644,6 +707,7 @@
     <Compile Include="src\scripts\exceptions\VariableValueIsNotSetScriptException.cs" />
     <Compile Include="src\scripts\objects\AnyObject.cs" />
     <Compile Include="src\scripts\objects\BitmapObject.cs" />
+    <Compile Include="src\scripts\objects\interfaces\basic\ICommentedObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\IGetKeyObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\IGetValueObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\basic\ILoadObject.cs" />
@@ -652,6 +716,7 @@
     <Compile Include="src\scripts\objects\interfaces\basic\ISetValueObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\IBitmapObject.cs" />
     <Compile Include="src\scripts\objects\interfaces\IPairObject.cs" />
+    <Compile Include="src\scripts\objects\PairCommentedObject.cs" />
     <Compile Include="src\scripts\objects\PairObject.cs" />
     <Compile Include="src\scripts\objects\primitives\BooleanObject.cs" />
     <Compile Include="src\scripts\objects\primitives\ByteObject.cs" />
@@ -724,7 +789,9 @@
     <Compile Include="src\tools\map\mouseHandleable\MapToolAiArea.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolBrush.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolBuildings.cs" />
+    <Compile Include="src\tools\map\mouseHandleable\MapToolStateClaimBy.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolStateController.cs" />
+    <Compile Include="src\tools\map\mouseHandleable\MapToolStateCoreOf.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolStateOwner.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolCursor.cs" />
     <Compile Include="src\tools\map\MapToolsManager.cs" />
@@ -757,14 +824,8 @@
     <Compile Include="src\managers\mapChecks\errors\ErrorManager.cs" />
     <Compile Include="src\managers\FileManager.cs" />
     <Compile Include="src\managers\LocalModDataManager.cs" />
-    <Compile Include="src\openTK\text\Font.cs" />
-    <Compile Include="src\openTK\text\FontData.cs" />
-    <Compile Include="src\openTK\text\FontManager.cs" />
-    <Compile Include="src\openTK\text\Glyph.cs" />
-    <Compile Include="src\openTK\text\SDFText.cs" />
     <Compile Include="src\openTK\SegmentedTexturedPlane.cs" />
     <Compile Include="src\openTK\Shader.cs" />
-    <Compile Include="src\openTK\text\SDFTextBundle.cs" />
     <Compile Include="src\Pdoxcl2Sharp\AdvancedParadoxSaver.cs" />
     <Compile Include="src\Pdoxcl2Sharp\ConsecutiveElementsAttribute.cs" />
     <Compile Include="src\Pdoxcl2Sharp\Deserializer.cs" />
@@ -789,6 +850,7 @@
     <Compile Include="src\openTK\TexturedPlane.cs" />
     <Compile Include="src\managers\TextureManager.cs" />
     <Compile Include="src\openTK\TextureTypes.cs" />
+    <Compile Include="src\tools\map\mouseHandleable\MapToolVictoryPoints.cs" />
     <Compile Include="src\utils\borders\BordersAssembler.cs" />
     <Compile Include="src\utils\CheckAndLogUnit.cs" />
     <Compile Include="src\utils\Constants.cs" />
@@ -798,6 +860,7 @@
     <Compile Include="src\utils\exceptions\IncorrectValueException.cs" />
     <Compile Include="src\utils\exceptions\ProvinceNotFoundException.cs" />
     <Compile Include="src\utils\exceptions\UnknownTokenException.cs" />
+    <Compile Include="src\utils\GraphicsUtils.cs" />
     <Compile Include="src\utils\json\EnumArrayToStringConverter.cs" />
     <Compile Include="src\managers\GuiLocManager.cs" />
     <Compile Include="src\utils\LocalizedAction.cs" />
@@ -811,6 +874,7 @@
     <Compile Include="src\utils\structs\Bound4US.cs" />
     <Compile Include="src\utils\structs\Bounds4D.cs" />
     <Compile Include="src\utils\structs\Bounds4F.cs" />
+    <Compile Include="src\utils\structs\Bounds4S.cs" />
     <Compile Include="src\utils\structs\Color3B.cs" />
     <Compile Include="src\utils\structs\Color3F.cs" />
     <Compile Include="src\utils\structs\LinkedData.cs" />
@@ -919,6 +983,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="src\Pdoxcl2Sharp\Pdoxcl2Sharp.csproj" />
+    <None Include="src\QuickFont\Shader\simple.fs" />
+    <None Include="src\QuickFont\Shader\simple.vs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -955,14 +1021,10 @@
     <None Include="Resources\icon_telegram.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\FreeTypeSharp.1.1.3\build\net462\FreeTypeSharp.targets" Condition="Exists('..\packages\FreeTypeSharp.1.1.3\build\net462\FreeTypeSharp.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\FreeTypeSharp.1.1.3\build\net462\FreeTypeSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FreeTypeSharp.1.1.3\build\net462\FreeTypeSharp.targets'))" />
-    <Error Condition="!Exists('..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props'))" />
-    <Error Condition="!Exists('..\packages\SharpFont.4.0.1\build\SharpFont.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpFont.4.0.1\build\SharpFont.props'))" />
     <Error Condition="!Exists('..\packages\Fody.6.5.5\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.5.5\build\Fody.targets'))" />
     <Error Condition="!Exists('..\packages\Costura.Fody.5.7.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.5.7.0\build\Costura.Fody.props'))" />
     <Error Condition="!Exists('..\packages\Costura.Fody.5.7.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.5.7.0\build\Costura.Fody.targets'))" />

@@ -3,6 +3,7 @@ using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.scripts.objects.interfaces.basic;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,6 +14,8 @@ namespace HOI4ModBuilder.src.scripts.objects
         public IScriptObject ValueType;
         private List<IScriptObject> _list;
         public object GetValue() => _list;
+
+        public IEnumerator<IScriptObject> GetEnumerator() => _list.GetEnumerator();
 
         public ListObject()
         {

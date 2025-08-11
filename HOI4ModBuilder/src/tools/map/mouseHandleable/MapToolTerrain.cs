@@ -56,7 +56,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                             bool newToHandleMapChange = prevTerrain == null || !province.Terrain.Equals(t);
                             province.Terrain = t;
                             if (newToHandleMapChange)
-                                MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
                         };
                     }
                     else if (enumEditLayer == EnumEditLayer.STRATEGIC_REGIONS)
@@ -66,7 +66,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                             bool newToHandleMapChange = prevTerrain == null || !province.Region.Terrain.Equals(t);
                             province.Region.UpdateTerrain(t);
                             if (newToHandleMapChange)
-                                MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
                         };
                     }
                     else return false;

@@ -33,7 +33,6 @@ namespace HOI4ModBuilder.src
                 }
                 Settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SETTINGS_FILEPATH));
                 GuiLocManager.Init(Settings);
-                Settings.LoadModDescriptors();
 
                 var needToSave = Settings.CheckNewWarningCodes();
                 needToSave |= Settings.CheckNewErrorCodes();
@@ -62,7 +61,6 @@ namespace HOI4ModBuilder.src
             File.WriteAllText(SETTINGS_FILEPATH, JsonConvert.SerializeObject(Settings, Formatting.Indented));
             if (Settings.currentModSettings != null)
                 LocalModDataManager.SaveLocalSettings(Settings);
-            Settings.LoadModDescriptors();
         }
 
         public static void ChangeLanguage(string language)
@@ -82,7 +80,7 @@ namespace HOI4ModBuilder.src
         public string[] changableModDirectories = new string[0];
         public string modDirectory;
         public bool useModSettings = true;
-        public int actionHistorySize = 20;
+        public int actionHistorySize = 50;
         public byte textureOpacity = 180;
         public float MAP_VIEWPORT_HEIGHT = 1004;
         public int maxAdditionalTextureSize = 2048;

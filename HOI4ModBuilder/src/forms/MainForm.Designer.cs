@@ -88,6 +88,11 @@
             this.ToolStripMenuItem_Map_Search_Province = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Search_State = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Search_Region = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Map_Select = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripTextBox_Map_Select_Input = new System.Windows.Forms.ToolStripTextBox();
+            this.ToolStripMenuItem_Map_Select_Provinces = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Map_Select_States = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Map_Select_Regions = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Map_Province = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Province_Info = new System.Windows.Forms.ToolStripMenuItem();
@@ -151,6 +156,12 @@
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Map_Actions = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Actions_Merge = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Map_Actions_Merge_All = new System.Windows.Forms.ToolStripMenuItem();
+            this.Panel_ColorPicker = new System.Windows.Forms.Panel();
+            this.Panel_ColorPicker_Button_Close = new System.Windows.Forms.Button();
+            this.Panel_ColorPicker_Button_Save = new System.Windows.Forms.Button();
+            this.ElementHost_ColorPicker = new System.Windows.Forms.Integration.ElementHost();
+            this.standardColorPicker1 = new ColorPicker.StandardColorPicker();
             this.TabPage_Buildings = new System.Windows.Forms.TabPage();
             this.TabPage_Resources = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -210,7 +221,10 @@
             this.ToolStripMenuItem_Edit_Undo = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_Redo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripMenuItem_Edit_Actions = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates = new System.Windows.Forms.ToolStripMenuItem();
@@ -260,7 +274,9 @@
             this.groupBox5.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox9.SuspendLayout();
+            this.Panel_Map.SuspendLayout();
             this.ContextMenuStrip_Map.SuspendLayout();
+            this.Panel_ColorPicker.SuspendLayout();
             this.TabPage_Resources.SuspendLayout();
             this.MenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -408,15 +424,19 @@
             // 
             this.Panel_SecondColor.BackColor = System.Drawing.Color.Transparent;
             this.Panel_SecondColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Panel_SecondColor.Cursor = System.Windows.Forms.Cursors.Hand;
             resources.ApplyResources(this.Panel_SecondColor, "Panel_SecondColor");
             this.Panel_SecondColor.Name = "Panel_SecondColor";
+            this.Panel_SecondColor.Click += new System.EventHandler(this.Panel_SecondColor_Click);
             // 
             // Panel_FirstColor
             // 
             this.Panel_FirstColor.BackColor = System.Drawing.Color.Transparent;
             this.Panel_FirstColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Panel_FirstColor.Cursor = System.Windows.Forms.Cursors.Hand;
             resources.ApplyResources(this.Panel_FirstColor, "Panel_FirstColor");
             this.Panel_FirstColor.Name = "Panel_FirstColor";
+            this.Panel_FirstColor.Click += new System.EventHandler(this.Panel_FirstColor_Click);
             // 
             // GroupBox_GenerateColor
             // 
@@ -646,12 +666,14 @@
             // 
             resources.ApplyResources(this.Panel_Map, "Panel_Map");
             this.Panel_Map.ContextMenuStrip = this.ContextMenuStrip_Map;
+            this.Panel_Map.Controls.Add(this.Panel_ColorPicker);
             this.Panel_Map.Name = "Panel_Map";
             // 
             // ContextMenuStrip_Map
             // 
             this.ContextMenuStrip_Map.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_Map_Search,
+            this.ToolStripMenuItem_Map_Select,
             this.toolStripSeparator25,
             this.ToolStripMenuItem_Map_Province,
             this.toolStripSeparator7,
@@ -703,6 +725,40 @@
             this.ToolStripMenuItem_Map_Search_Region.Name = "ToolStripMenuItem_Map_Search_Region";
             resources.ApplyResources(this.ToolStripMenuItem_Map_Search_Region, "ToolStripMenuItem_Map_Search_Region");
             this.ToolStripMenuItem_Map_Search_Region.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Search_Region_Click);
+            // 
+            // ToolStripMenuItem_Map_Select
+            // 
+            this.ToolStripMenuItem_Map_Select.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripTextBox_Map_Select_Input,
+            this.ToolStripMenuItem_Map_Select_Provinces,
+            this.ToolStripMenuItem_Map_Select_States,
+            this.ToolStripMenuItem_Map_Select_Regions});
+            this.ToolStripMenuItem_Map_Select.Name = "ToolStripMenuItem_Map_Select";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Select, "ToolStripMenuItem_Map_Select");
+            // 
+            // ToolStripTextBox_Map_Select_Input
+            // 
+            this.ToolStripTextBox_Map_Select_Input.BackColor = System.Drawing.SystemColors.Control;
+            resources.ApplyResources(this.ToolStripTextBox_Map_Select_Input, "ToolStripTextBox_Map_Select_Input");
+            this.ToolStripTextBox_Map_Select_Input.Name = "ToolStripTextBox_Map_Select_Input";
+            // 
+            // ToolStripMenuItem_Map_Select_Provinces
+            // 
+            this.ToolStripMenuItem_Map_Select_Provinces.Name = "ToolStripMenuItem_Map_Select_Provinces";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Select_Provinces, "ToolStripMenuItem_Map_Select_Provinces");
+            this.ToolStripMenuItem_Map_Select_Provinces.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Select_Provinces_Click);
+            // 
+            // ToolStripMenuItem_Map_Select_States
+            // 
+            this.ToolStripMenuItem_Map_Select_States.Name = "ToolStripMenuItem_Map_Select_States";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Select_States, "ToolStripMenuItem_Map_Select_States");
+            this.ToolStripMenuItem_Map_Select_States.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Select_States_Click);
+            // 
+            // ToolStripMenuItem_Map_Select_Regions
+            // 
+            this.ToolStripMenuItem_Map_Select_Regions.Name = "ToolStripMenuItem_Map_Select_Regions";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Select_Regions, "ToolStripMenuItem_Map_Select_Regions");
+            this.ToolStripMenuItem_Map_Select_Regions.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Select_Regions_Click);
             // 
             // toolStripSeparator25
             // 
@@ -1163,7 +1219,8 @@
             // ToolStripMenuItem_Map_Actions
             // 
             this.ToolStripMenuItem_Map_Actions.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_Map_Actions_Merge});
+            this.ToolStripMenuItem_Map_Actions_Merge,
+            this.ToolStripMenuItem_Map_Actions_Merge_All});
             this.ToolStripMenuItem_Map_Actions.Name = "ToolStripMenuItem_Map_Actions";
             resources.ApplyResources(this.ToolStripMenuItem_Map_Actions, "ToolStripMenuItem_Map_Actions");
             this.ToolStripMenuItem_Map_Actions.DropDownOpened += new System.EventHandler(this.ToolStripMenuItem_Map_Actions_DropDownOpened);
@@ -1173,6 +1230,40 @@
             this.ToolStripMenuItem_Map_Actions_Merge.Name = "ToolStripMenuItem_Map_Actions_Merge";
             resources.ApplyResources(this.ToolStripMenuItem_Map_Actions_Merge, "ToolStripMenuItem_Map_Actions_Merge");
             this.ToolStripMenuItem_Map_Actions_Merge.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Actions_Merge_Click);
+            // 
+            // ToolStripMenuItem_Map_Actions_Merge_All
+            // 
+            this.ToolStripMenuItem_Map_Actions_Merge_All.Name = "ToolStripMenuItem_Map_Actions_Merge_All";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Actions_Merge_All, "ToolStripMenuItem_Map_Actions_Merge_All");
+            this.ToolStripMenuItem_Map_Actions_Merge_All.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Actions_Merge_All_Click);
+            // 
+            // Panel_ColorPicker
+            // 
+            this.Panel_ColorPicker.Controls.Add(this.Panel_ColorPicker_Button_Close);
+            this.Panel_ColorPicker.Controls.Add(this.Panel_ColorPicker_Button_Save);
+            this.Panel_ColorPicker.Controls.Add(this.ElementHost_ColorPicker);
+            resources.ApplyResources(this.Panel_ColorPicker, "Panel_ColorPicker");
+            this.Panel_ColorPicker.Name = "Panel_ColorPicker";
+            // 
+            // Panel_ColorPicker_Button_Close
+            // 
+            resources.ApplyResources(this.Panel_ColorPicker_Button_Close, "Panel_ColorPicker_Button_Close");
+            this.Panel_ColorPicker_Button_Close.Name = "Panel_ColorPicker_Button_Close";
+            this.Panel_ColorPicker_Button_Close.UseVisualStyleBackColor = true;
+            this.Panel_ColorPicker_Button_Close.Click += new System.EventHandler(this.Panel_ColorPicker_Button_Close_Click);
+            // 
+            // Panel_ColorPicker_Button_Save
+            // 
+            resources.ApplyResources(this.Panel_ColorPicker_Button_Save, "Panel_ColorPicker_Button_Save");
+            this.Panel_ColorPicker_Button_Save.Name = "Panel_ColorPicker_Button_Save";
+            this.Panel_ColorPicker_Button_Save.UseVisualStyleBackColor = true;
+            this.Panel_ColorPicker_Button_Save.Click += new System.EventHandler(this.Panel_ColorPicker_Button_Save_Click);
+            // 
+            // ElementHost_ColorPicker
+            // 
+            resources.ApplyResources(this.ElementHost_ColorPicker, "ElementHost_ColorPicker");
+            this.ElementHost_ColorPicker.Name = "ElementHost_ColorPicker";
+            this.ElementHost_ColorPicker.Child = this.standardColorPicker1;
             // 
             // TabPage_Buildings
             // 
@@ -1547,6 +1638,7 @@
             this.ToolStripMenuItem_Edit_Undo,
             this.ToolStripMenuItem_Edit_Redo,
             this.toolStripSeparator8,
+            this.ToolStripMenuItem_Edit_Actions,
             this.ToolStripMenuItem_Edit_AutoTools,
             this.ToolStripMenuItem_Edit_Scripts});
             this.ToolStripMenuItem_Edit.Name = "ToolStripMenuItem_Edit";
@@ -1569,9 +1661,24 @@
             this.toolStripSeparator8.Name = "toolStripSeparator8";
             resources.ApplyResources(this.toolStripSeparator8, "toolStripSeparator8");
             // 
+            // ToolStripMenuItem_Edit_Actions
+            // 
+            this.ToolStripMenuItem_Edit_Actions.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces});
+            this.ToolStripMenuItem_Edit_Actions.Name = "ToolStripMenuItem_Edit_Actions";
+            resources.ApplyResources(this.ToolStripMenuItem_Edit_Actions, "ToolStripMenuItem_Edit_Actions");
+            this.ToolStripMenuItem_Edit_Actions.DropDownOpened += new System.EventHandler(this.ToolStripMenuItem_Edit_Actions_DropDownOpened);
+            // 
+            // ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces
+            // 
+            this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Name = "ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces";
+            resources.ApplyResources(this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces, "ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces");
+            this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces_Click);
+            // 
             // ToolStripMenuItem_Edit_AutoTools
             // 
             this.ToolStripMenuItem_Edit_AutoTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces,
             this.ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal,
             this.ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents,
             this.ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates,
@@ -1583,6 +1690,12 @@
             this.ToolStripMenuItem_Edit_AutoTools_FindMapChanges});
             this.ToolStripMenuItem_Edit_AutoTools.Name = "ToolStripMenuItem_Edit_AutoTools";
             resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools, "ToolStripMenuItem_Edit_AutoTools");
+            // 
+            // ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces
+            // 
+            this.ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Name = "ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces";
+            resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces, "ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces");
+            this.ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces_Click);
             // 
             // ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal
             // 
@@ -1798,7 +1911,9 @@
             this.groupBox11.PerformLayout();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
+            this.Panel_Map.ResumeLayout(false);
             this.ContextMenuStrip_Map.ResumeLayout(false);
+            this.Panel_ColorPicker.ResumeLayout(false);
             this.TabPage_Resources.ResumeLayout(false);
             this.MenuStrip1.ResumeLayout(false);
             this.MenuStrip1.PerformLayout();
@@ -1829,8 +1944,6 @@
         private System.Windows.Forms.GroupBox GroupBox_Edit_Layer;
         private System.Windows.Forms.ComboBox ComboBox_EditLayer;
         private System.Windows.Forms.GroupBox groupBox3;
-        public System.Windows.Forms.Panel Panel_SecondColor;
-        public System.Windows.Forms.Panel Panel_FirstColor;
         private System.Windows.Forms.GroupBox GroupBox_Palette;
         public System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel_Color;
         private System.Windows.Forms.Label label1;
@@ -2016,6 +2129,22 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Select;
+        private System.Windows.Forms.ToolStripTextBox ToolStripTextBox_Map_Select_Input;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Select_Provinces;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Select_States;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Select_Regions;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Actions_Merge_All;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_Actions;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces;
+        private System.Windows.Forms.Panel Panel_SecondColor;
+        private System.Windows.Forms.Panel Panel_FirstColor;
+        private System.Windows.Forms.Integration.ElementHost ElementHost_ColorPicker;
+        private ColorPicker.StandardColorPicker standardColorPicker1;
+        private System.Windows.Forms.Panel Panel_ColorPicker;
+        private System.Windows.Forms.Button Panel_ColorPicker_Button_Save;
+        private System.Windows.Forms.Button Panel_ColorPicker_Button_Close;
     }
 }
 

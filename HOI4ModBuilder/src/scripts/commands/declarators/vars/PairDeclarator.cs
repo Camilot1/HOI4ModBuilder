@@ -1,10 +1,5 @@
 ﻿using HOI4ModBuilder.src.scripts.exceptions;
 using HOI4ModBuilder.src.scripts.objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.scripts.commands.declarators.vars
 {
@@ -34,7 +29,7 @@ namespace HOI4ModBuilder.src.scripts.commands.declarators.vars
             $"\t[OPTIONAL]<VALUE_TYPE>:value>",
             ")"
         };
-        public override ScriptCommand CreateEmptyCopy() => new ListDeclarator();
+        public override ScriptCommand CreateEmptyCopy() => new PairDeclarator();
 
         public override void Parse(string[] lines, ref int index, int indent, VarsScope varsScope, string[] args)
         {

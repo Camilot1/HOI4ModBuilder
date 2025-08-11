@@ -36,6 +36,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (mouseEventArgs.Button == MouseButtons.Left)
             {
+                if (province.Type == EnumProvinceType.SEA)
+                    return false;
+
                 var prevState = province.State;
                 if (!ushort.TryParse(parameter, out var newStateId) ||
                     !StateManager.TryGetState(newStateId, out var newState))
@@ -77,14 +80,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         bool needToRedraw = false;
                         foreach (var tuple in list)
                             needToRedraw |= StateManager.TransferProvince(tuple.Item3, tuple.Item1, tuple.Item2);
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
                     };
                     undoAction = (list) =>
                     {
                         bool needToRedraw = false;
                         foreach (var tuple in list)
-                            needToRedraw |= StateManager.TransferProvince(tuple.Item3, tuple.Item1, tuple.Item2);
-                        MapManager.HandleMapMainLayerChange(MainForm.Instance.enumMainLayer, null);
+                            needToRedraw |= StateManager.TransferProvince(tuple.Item3, tuple.Item2, tuple.Item1);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
                     };
                 }
 

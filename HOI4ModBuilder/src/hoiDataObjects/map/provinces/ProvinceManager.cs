@@ -325,7 +325,7 @@ namespace HOI4ModBuilder.managers
             NeedToSave = true;
         }
 
-        public static void Draw(bool showCenters)
+        public static void Draw(bool showCenters, bool showCollisions)
         {
             if (showCenters)
             {
@@ -386,7 +386,19 @@ namespace HOI4ModBuilder.managers
                     GL.End();
                 }
 
-                GL.Color3(0f, 0f, 1f);
+                if (showCollisions)
+                {
+                    GL.Color4(0f, 0f, 1f, 1f);
+                    GL.LineWidth(3f);
+                    GL.Begin(PrimitiveType.LineLoop);
+                    GL.Vertex2(SelectedProvince.bounds.left, SelectedProvince.bounds.top);
+                    GL.Vertex2(SelectedProvince.bounds.right + 1, SelectedProvince.bounds.top);
+                    GL.Vertex2(SelectedProvince.bounds.right + 1, SelectedProvince.bounds.bottom + 1);
+                    GL.Vertex2(SelectedProvince.bounds.left, SelectedProvince.bounds.bottom + 1);
+                    GL.End();
+                }
+
+                GL.Color4(0f, 0f, 1f, 1f);
                 GL.Begin(PrimitiveType.Points);
                 foreach (var border in SelectedProvince.borders)
                 {
@@ -418,6 +430,18 @@ namespace HOI4ModBuilder.managers
 
         private static void HandleEscape() => DeselectProvinces();
 
+        public static void SelectProvinces(ushort[] ids)
+        {
+            GroupSelectedProvinces.Clear();
+            foreach (var id in ids)
+            {
+                if (!TryGetProvince(id, out var province))
+                    continue;
+
+                GroupSelectedProvinces.Add(province);
+            }
+        }
+
         public static void DeselectProvinces()
         {
             SelectedProvince = null;
@@ -433,7 +457,11 @@ namespace HOI4ModBuilder.managers
                 {
                     if (SelectedProvince != null)
                         GroupSelectedProvinces.Add(SelectedProvince);
-                    GroupSelectedProvinces.Add(province);
+
+                    if (GroupSelectedProvinces.Contains(province))
+                        GroupSelectedProvinces.Remove(province);
+                    else
+                        GroupSelectedProvinces.Add(province);
 
                     SelectedProvince = null;
                     return province;
@@ -651,9 +679,15 @@ namespace HOI4ModBuilder.managers
 
             int pixelCount = width * height;
 
-            int color = 0, prevColor = 0;
+            int color, prevColor = 0;
 
             Province province = null;
+
+            foreach (var p in _provincesById)
+            {
+                if (p != null)
+                    p.ResetPixels();
+            }
 
             int x, y;
 

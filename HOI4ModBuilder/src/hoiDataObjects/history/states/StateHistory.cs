@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.history.countries;
 using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
@@ -11,6 +12,7 @@ using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 {
@@ -102,6 +104,38 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         }
 
 
+        public bool SetVictoryPoints(Province province, uint newValue)
+        {
+            foreach (var vp in VictoryPoints)
+            {
+                if (vp.province == province)
+                {
+                    if (newValue == 0)
+                    {
+                        VictoryPoints.Remove(vp);
+                        return true;
+                    }
+                    else if (vp.value != newValue)
+                    {
+                        vp.value = newValue;
+                        return true;
+                    }
+                    return false;
+                }
+            }
+
+            if (newValue == 0)
+                return false;
+
+            VictoryPoints.Add(new VictoryPoint()
+            {
+                province = ProvinceManager.RMBProvince,
+                value = newValue
+            });
+
+            return true;
+        }
+
         public bool TryGetProvinceBuildings(Province province, out ProvinceBuildings buildings)
         {
             var value = StateBuildings.GetValue();
@@ -156,6 +190,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public void Activate(DateTime dateTime, State state)
         {
+            state.CurrentHistory = this;
+
             if (Owner.GetValue() != null)
                 state.owner = Owner.GetValue();
             if (Controller.GetValue() != null)
@@ -186,6 +222,40 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     state.CurrentName = (string)scriptBlock.GetValue();
                 else if (blockName == "reset_state_name" && (bool)scriptBlock.GetValue())
                     state.CurrentName = state.Name.GetValue().stringValue;
+                else if (blockName == "add_core_of")
+                {
+                    if (scriptBlock.GetValue() is Country country)
+                    {
+                        state.CurrentCoresOf.Add(country);
+                        country.hasCoresAtStates.Add(state);
+                    }
+                }
+                else if (blockName == "remove_core_of")
+                {
+                    if (scriptBlock.GetValue() is Country country)
+                    {
+                        state.CurrentCoresOf.Remove(country);
+                        country.hasCoresAtStates.Remove(state);
+                    }
+                }
+                else if (blockName == "add_claim_by")
+                {
+                    if (scriptBlock.GetValue() is Country country)
+                    {
+                        state.CurrentClaimsBy.Add(country);
+                        country.hasClaimsAtState.Add(state);
+                    }
+                }
+                else if (blockName == "remove_claim_by")
+                {
+                    if (scriptBlock.GetValue() is Country country)
+                    {
+                        state.CurrentClaimsBy.Remove(country);
+                        country.hasClaimsAtState.Remove(state);
+                    }
+                }
+
+
                 //TODO add resources and victory points effects support
             }
 
