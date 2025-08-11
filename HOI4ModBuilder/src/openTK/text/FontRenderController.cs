@@ -203,7 +203,7 @@ namespace HOI4ModBuilder.src.openTK.text
 
             foreach (var region in _regions.Values)
             {
-                if (region.IsIntersectsWith(viewportBounds))
+                if (region.ChacheCount > 0 && region.IsIntersectsWith(viewportBounds))
                 {
                     region.Render(proj);
                 }

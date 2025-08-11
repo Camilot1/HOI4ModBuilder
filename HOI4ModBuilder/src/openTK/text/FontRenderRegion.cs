@@ -14,6 +14,7 @@ namespace HOI4ModBuilder.src.openTK.text
         private bool _isDisposed;
 
         private Dictionary<object, QFontDrawingPimitive> _primitiveCache = new Dictionary<object, QFontDrawingPimitive>(128);
+        public int ChacheCount => _primitiveCache.Count;
         private readonly Queue<Action<FontRenderRegion>> _actionQueue = new Queue<Action<FontRenderRegion>>(128);
 
         public bool IsDirty { get; private set; }
