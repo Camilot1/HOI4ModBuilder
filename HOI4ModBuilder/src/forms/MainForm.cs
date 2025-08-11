@@ -620,18 +620,21 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                SetBrushFirstColor(Color.FromArgb(Utils.ArgbToInt(
+                var firstColor = Color.FromArgb(Utils.ArgbToInt(
                     255,
                     standardColorPicker1.SelectedColor.R,
                     standardColorPicker1.SelectedColor.G,
                     standardColorPicker1.SelectedColor.B
-                )));
-                SetBrushSecondColor(Color.FromArgb(Utils.ArgbToInt(
+                ));
+                var secondColor = Color.FromArgb(Utils.ArgbToInt(
                     255,
                     standardColorPicker1.SecondaryColor.R,
                     standardColorPicker1.SecondaryColor.G,
                     standardColorPicker1.SecondaryColor.B
-                )));
+                ));
+
+                SetBrushFirstColor(firstColor);
+                SetBrushSecondColor(secondColor);
             });
         }
 
