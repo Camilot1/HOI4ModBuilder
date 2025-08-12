@@ -93,7 +93,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             else if (count != newCount)
             { //Если в словаре уже есть эта постройка
                 //Меняем число постройки в области
-                if (newCount == 0 && GetParent() is State)
+                if (newCount == 0)
                     Buildings.Remove(building);
                 else
                     Buildings[building] = newCount;
