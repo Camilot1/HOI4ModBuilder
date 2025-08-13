@@ -150,16 +150,16 @@ namespace HOI4ModBuilder.src.openTK.text
             int index = 0;
             foreach (var region in _regions.Values)
             {
-                tasks[index] = Task.Run(() => region.ExecuteActions());
+                tasks[index] = Task.Run(() => Logger.TryOrLog(() => region.ExecuteActions()));
                 index++;
             };
 
             Task.WhenAll(tasks)
-                .ContinueWith(_ => MainForm.Instance.InvokeAction(() =>
+                .ContinueWith(_ => Logger.TryOrLog(() => MainForm.Instance.InvokeAction(() =>
                 {
                     LoadRegionsVAOs();
                     IsPerforming = false;
-                }));
+                })));
         }
 
         public void EndAssembleParallelWithWait()
@@ -169,7 +169,7 @@ namespace HOI4ModBuilder.src.openTK.text
             int index = 0;
             foreach (var region in _regions.Values)
             {
-                tasks[index] = Task.Run(() => region.ExecuteActions());
+                tasks[index] = Task.Run(() => Logger.TryOrLog(() => region.ExecuteActions()));
                 index++;
             };
 
@@ -203,7 +203,8 @@ namespace HOI4ModBuilder.src.openTK.text
 
             foreach (var region in _regions.Values)
             {
-                if (region.ChacheCount > 0 && region.IsIntersectsWith(viewportBounds))
+                if (SettingsManager.CheckDebugValue(EnumDebugValue.TEXT_DISABLE_VIEWPORT_CUTOFF) ||
+                    region.ChacheCount > 0 && region.IsIntersectsWith(viewportBounds))
                 {
                     region.Render(proj);
                 }

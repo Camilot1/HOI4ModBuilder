@@ -557,7 +557,7 @@ namespace HOI4ModBuilder
         private void OnDebugMessage(DebugSource source, DebugType type, int id, DebugSeverity severity, int length, IntPtr message, IntPtr userParam)
         {
             string msg = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(message, length);
-            Console.WriteLine($"OpenGL debug message: {msg}");
+            Logger.Log($"OpenGL debug message: {msg}");
         }
 
         private void GLControl_Resize(object sender, EventArgs e)

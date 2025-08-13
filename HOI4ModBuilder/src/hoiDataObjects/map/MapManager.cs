@@ -206,10 +206,12 @@ namespace HOI4ModBuilder.managers
 
             MapPositionsManager.Draw();
 
-            //FontRenderController?.RenderDebug();
+            if (SettingsManager.CheckDebugValue(EnumDebugValue.TEXT_RENDER_CHUNKS))
+                FontRenderController?.RenderDebug();
 
             var distanceTextCutoff = zoomFactor < (1 / TextScale * 0.00015f * (vpi.height / (float)vpi.max));
-            if (!distanceTextCutoff && FontRenderController != null && displayLayers[(int)EnumAdditionalLayers.TEXT])
+            if (SettingsManager.CheckDebugValue(EnumDebugValue.TEXT_DISABLE_DISTANCE_CUTOFF) ||
+                !distanceTextCutoff && FontRenderController != null && displayLayers[(int)EnumAdditionalLayers.TEXT])
             {
                 var _projection = Matrix4.CreateOrthographicOffCenter(
                     MainForm.Instance.viewportInfo.x,
