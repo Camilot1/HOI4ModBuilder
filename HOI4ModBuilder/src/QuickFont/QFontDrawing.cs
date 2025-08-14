@@ -264,6 +264,7 @@ namespace QuickFont
             if (_vertexArrayObject == null)
             {
                 _vertexArrayObject = new QVertexArrayObject(QFontSharedState);
+                DisableShader();
             }
         }
 
