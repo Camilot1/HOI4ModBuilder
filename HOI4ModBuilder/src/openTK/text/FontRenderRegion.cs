@@ -110,7 +110,7 @@ namespace HOI4ModBuilder.src.openTK.text
             foreach (var p in _primitiveCache.Values)
                 countA += p.ShadowVertexRepr.Count + p.CurrentVertexRepr.Count;
 
-            Logger.Log($"REGION {Index}: Chached={countA}; LoadedVertexCount={loadedVertexCount}; IsDifferent: {countA != loadedVertexCount}");
+            Logger.Log($"REGION {Index}: Cached={countA}; LoadedVertexCount={loadedVertexCount}; IsDifferent: {countA != loadedVertexCount}");
         }
 
         public void ExecuteActions()
