@@ -15,7 +15,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
         public MapToolProvinceCoastal(Dictionary<EnumTool, MapTool> mapTools)
             : base(
-                  mapTools, enumTool, new HotKey { },
+                  mapTools, enumTool, new EnumMainLayer[] { },
+                  new HotKey { },
                   (e) => MainForm.Instance.SetSelectedTool(enumTool),
                   new[] { EnumEditLayer.PROVINCES },
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX

@@ -1765,7 +1765,7 @@ namespace HOI4ModBuilder
         private void ComboBox_Tool_Parameter_SelectedIndexChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                MapManager.HandleMapMainLayerChange(true, enumMainLayer, ComboBox_Tool_Parameter.Text);
+                MapManager.HandleMapMainLayerChange(MapToolsManager.ShouldRecalculateAllText(enumMainLayer, enumTool), enumMainLayer, ComboBox_Tool_Parameter.Text);
                 preferedParameter[(int)enumTool] = ComboBox_Tool_Parameter.Text;
             });
         private void ComboBox_Tool_Parameter_Value_SelectedIndexChanged(object sender, EventArgs e)

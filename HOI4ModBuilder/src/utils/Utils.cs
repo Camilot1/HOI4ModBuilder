@@ -703,5 +703,19 @@ namespace HOI4ModBuilder
                 result[i] = src[i];
             return result;
         }
+
+        public static bool Contains<T>(T[] array, T item)
+        {
+            if (array == null)
+                return true;
+
+            foreach (var element in array)
+            {
+                if (element.Equals(item))
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

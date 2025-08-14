@@ -16,7 +16,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
         public MapToolProvinceState(Dictionary<EnumTool, MapTool> mapTools)
             : base(
-                  mapTools, enumTool, new HotKey { shift = true, key = Keys.S },
+                  mapTools, enumTool, new EnumMainLayer[] { },
+                  new HotKey { shift = true, key = Keys.S },
                   (e) => MainForm.Instance.SetSelectedTool(enumTool),
                   new[] { EnumEditLayer.PROVINCES, EnumEditLayer.STATES, EnumEditLayer.STRATEGIC_REGIONS },
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
