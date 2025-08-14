@@ -158,6 +158,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             }
             else main.dislayCenter = false;
 
+            main.State?.CalculateCenter();
+            main.Region?.CalculateCenter();
+
             //Удаление из областей и регионов
             second.State?.RemoveProvince(second);
             second.Region?.RemoveProvince(second);
@@ -221,7 +224,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             if (needToSave)
             {
                 Utils.ArrayToBitmap(bytes, provincesBitmap, ImageLockMode.WriteOnly, provincesBitmap.Width, provincesBitmap.Height, TextureManager._24bppRgb);
-                TextureManager.provinces.texture.Update(TextureManager._24bppRgb, 0, 0, MapManager.MapSize.x, MapManager.MapSize.y, bytes);
+                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, MainForm.Instance.GetParameter());
+                //TextureManager.provinces.texture.Update(TextureManager._24bppRgb, 0, 0, MapManager.MapSize.x, MapManager.MapSize.y, bytes);
                 TextureManager.provinces.needToSave = true;
             }
             _colorsToReplace.Clear();

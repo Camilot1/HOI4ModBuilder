@@ -47,7 +47,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         {
             var controller = MapManager.FontRenderController;
             controller.TryStart(out var result)?
-                .SetEventsHandler((int)EnumMapRenderEvents.VICTORY_POINTS, (flags, objs) =>
+                .SetEventsHandler(
+                    (int)EnumMapRenderEvents.VICTORY_POINTS | (int)EnumMapRenderEvents.PROVINCES_IDS, 
+                    (flags, objs) =>
                 {
                     controller.TryStart(controller.EventsFlags, out var eventResult)?
                     .ForEachProvince(objs, p => true, (fontRegion, p, pos) =>

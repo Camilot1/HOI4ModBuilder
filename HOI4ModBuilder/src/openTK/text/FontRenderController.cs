@@ -138,6 +138,9 @@ namespace HOI4ModBuilder.src.openTK.text
             if ((EventsFlags & eventFlags) == 0)
                 return false;
 
+            if (value == null)
+                return false;
+
             if (!_eventHandlerPayload.Contains(value))
             {
                 _eventHandlerPayload.Add(value);

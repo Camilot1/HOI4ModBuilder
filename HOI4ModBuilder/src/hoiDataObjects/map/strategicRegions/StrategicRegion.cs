@@ -2,6 +2,7 @@
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
@@ -127,6 +128,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             Provinces.Add(province);
             Provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
             province.Region = this;
+            CalculateCenter();
+            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.REGIONS_IDS, this);
             needToSave = true;
         }
 
@@ -136,6 +139,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             {
                 province.Region = null;
                 needToSave = true;
+                CalculateCenter();
+                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.REGIONS_IDS, this);
                 return true;
             }
             return false;

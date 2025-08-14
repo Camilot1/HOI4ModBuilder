@@ -197,7 +197,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             var scale = scaleState;
             var controller = MapManager.FontRenderController;
             controller.TryStart(out var result)?
-                .SetEventsHandler((int)EnumMapRenderEvents.BUILDINGS, (flags, objs) =>
+                .SetEventsHandler(
+                    (int)EnumMapRenderEvents.BUILDINGS | (int)EnumMapRenderEvents.PROVINCES_IDS | (int)EnumMapRenderEvents.STATES_IDS,
+                    (flags, objs) =>
                 {
                     controller.TryStart(controller.EventsFlags, out var eventResult)?
                     .ForEachState(objs, s => true, (fontRegion, s, pos) =>

@@ -6,6 +6,7 @@ using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
@@ -196,6 +197,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             Provinces.Add(province);
             Provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
             province.State = this;
+            CalculateCenter();
+            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STATES_IDS, this);
             SetNeedToSave(true);
         }
 
@@ -205,6 +208,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             {
                 province.State = null;
                 SetNeedToSave(true);
+                CalculateCenter();
+                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STATES_IDS, this);
                 return true;
             }
             return false;
