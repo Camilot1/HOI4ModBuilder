@@ -96,7 +96,7 @@ namespace QuickFont
 
             GL.ShaderSource(vert,
                 "#version 100\r\n" +
-                "precision mediump float;\r\n\r\n" +
+                "precision highp float;\r\n\r\n" +
                 "uniform mat4 proj_matrix;\r\n\r\n" +
                 "attribute vec3 in_position;\r\n" +
                 "attribute vec2 in_tc;\r\n" +
@@ -113,7 +113,7 @@ namespace QuickFont
             GL.CompileShader(vert);
             GL.ShaderSource(frag,
                 "#version 100\r\n" +
-                "precision mediump float;\r\n\r\n" +
+                "precision highp float;\r\n\r\n" +
                 "uniform sampler2D tex_object;\r\n\r\n" +
                 "varying vec2 tc;\r\n" +
                 "varying vec4 colour;\r\n\r\n" +

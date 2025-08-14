@@ -1,5 +1,5 @@
 #version 100
-precision mediump float;
+precision highp float;
 
 uniform mat4 proj_matrix;
 

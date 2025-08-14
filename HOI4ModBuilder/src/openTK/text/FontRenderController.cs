@@ -175,7 +175,10 @@ namespace HOI4ModBuilder.src.openTK.text
             int index = 0;
             foreach (var region in _regions.Values)
             {
-                tasks[index] = Task.Run(() => Logger.TryOrLog(() => region.ExecuteActions()));
+                tasks[index] = Task.Run(() =>
+                {
+                    Logger.TryOrLog(() => region.ExecuteActions());
+                });
                 index++;
             };
 
