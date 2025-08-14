@@ -782,6 +782,7 @@
     <Compile Include="src\tools\brushes\BrushInfo.cs" />
     <Compile Include="src\tools\brushes\BrushManager.cs" />
     <Compile Include="src\tools\brushes\BrushVariant.cs" />
+    <Compile Include="src\tools\map\advanced\DebugTool.cs" />
     <Compile Include="src\tools\map\advanced\MergeProvincesTool.cs" />
     <Compile Include="src\tools\map\advanced\RailwayTool.cs" />
     <Compile Include="src\tools\dataRecovery\StrategicRegionsDataRecoveryTool.cs" />

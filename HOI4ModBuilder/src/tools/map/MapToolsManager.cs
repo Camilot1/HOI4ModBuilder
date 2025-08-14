@@ -42,6 +42,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             new MapToolAiArea(_mapTools);
             new MapToolVictoryPoints(_mapTools);
 
+            new DebugTool();
+
             new MergeProvincesTool();
             new RailwayTool();
             new SupplyNodeTool();

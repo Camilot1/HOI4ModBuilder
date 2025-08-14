@@ -35,6 +35,13 @@ namespace HOI4ModBuilder.src.openTK.text
             _regions = new Dictionary<Value2S, FontRenderRegion>(capacity);
         }
 
+        public void DebugLog()
+        {
+            Logger.Log("REGIONS COUNT: " + _regions.Count);
+            foreach (var r in _regions.Values)
+                r.DebugLog();
+        }
+
         public FontRenderController TryStart(out bool result) => TryStart(0, out result);
 
         public FontRenderController TryStart(int eventsFlags, out bool result)

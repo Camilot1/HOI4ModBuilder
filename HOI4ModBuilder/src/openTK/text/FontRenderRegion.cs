@@ -38,6 +38,8 @@ namespace HOI4ModBuilder.src.openTK.text
         public readonly Bounds4F Bounds;
         public bool IsIntersectsWith(Bounds4F other) => Bounds.IsIntersectsWith(other);
 
+        public int loadedVertexCount = 0;
+
         public FontRenderRegion(FontRenderController controller, Value2S index, int regionSize)
         {
             Controller = controller;
@@ -89,6 +91,7 @@ namespace HOI4ModBuilder.src.openTK.text
                     IsDirtyPost = false;
                 }
                 _drawing.RefreshBuffers_Step3_LoadVAO();
+                loadedVertexCount = _drawing.GetVAO().VertexCount;
                 //Logger.Log("Loaded: " + Bounds);
                 IsDirty = false;
             }
@@ -96,8 +99,18 @@ namespace HOI4ModBuilder.src.openTK.text
             {
                 _drawing.RefreshBuffers_Step2_AddVertexes();
                 _drawing.RefreshBuffers_Step3_LoadVAO();
+                loadedVertexCount = _drawing.GetVAO().VertexCount;
                 IsDirtyPost = false;
             }
+        }
+
+        public void DebugLog()
+        {
+            int countA = 0;
+            foreach (var p in _primitiveCache.Values)
+                countA += p.ShadowVertexRepr.Count + p.CurrentVertexRepr.Count;
+
+            Logger.Log($"REGION {Index}: Chached={countA}; LoadedVertexCount={loadedVertexCount}; IsDifferent: {countA != loadedVertexCount}");
         }
 
         public void ExecuteActions()

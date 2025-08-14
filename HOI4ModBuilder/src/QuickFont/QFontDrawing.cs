@@ -16,6 +16,7 @@ namespace QuickFont
         private static SharedState _QFontSharedState;
 
         public QVertexArrayObject _vertexArrayObject;
+        public QVertexArrayObject GetVAO() => _vertexArrayObject;
         private SharedState _instanceSharedState;
         private readonly List<QFontDrawingPimitive> _glFontDrawingPimitives;
         private readonly bool _useDefaultBlendFunction;
