@@ -43,6 +43,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.openTK;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using ColorPicker;
+using HOI4ModBuilder.src.utils.classes;
 
 namespace HOI4ModBuilder
 {
@@ -2057,11 +2058,23 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AutoTools.RemoveGhostProvinces(true));
         private void ToolStripMenuItem_Map_Select_Provinces_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => ProvinceManager.SelectProvinces(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' ')));
+            => Logger.TryOrLog(() =>
+            {
+                ProvinceManager.SelectProvinces(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' '));
+                MapManager.FocusOn(ProvinceManager.GetGroupSelectedProvincesCenter());
+            });
         private void ToolStripMenuItem_Map_Select_States_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => StateManager.SelectStates(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' ')));
+            => Logger.TryOrLog(() =>
+            {
+                StateManager.SelectStates(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' '));
+                MapManager.FocusOn(StateManager.GetGroupSelectedStatesCenter());
+            });
         private void ToolStripMenuItem_Map_Select_Regions_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => StrategicRegionManager.SelectRegions(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' ')));
+            => Logger.TryOrLog(() =>
+            {
+                StrategicRegionManager.SelectRegions(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' '));
+                MapManager.FocusOn(StrategicRegionManager.GetGroupSelectedRegionsCenter());
+            });
         private void ToolStripMenuItem_Map_Actions_Merge_All_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => MergeProvincesTool.MergeProvinces(ProvinceManager.RMBProvince, ProvinceManager.GroupSelectedProvinces));
         private void ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces_Click(object sender, EventArgs e)
