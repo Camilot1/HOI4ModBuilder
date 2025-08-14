@@ -94,34 +94,9 @@ namespace QuickFont
             int vertCompileStatus;
             int fragCompileStatus;
 
-            GL.ShaderSource(vert,
-                "#version 100\r\n" +
-                "precision highp float;\r\n\r\n" +
-                "uniform mat4 proj_matrix;\r\n\r\n" +
-                "attribute vec3 in_position;\r\n" +
-                "attribute vec2 in_tc;\r\n" +
-                "attribute vec4 in_colour;\r\n\r\n" +
-                "varying vec2 tc;\r\n" +
-                "varying vec4 colour;\r\n\r\n" +
-                "void main(void)\r\n" +
-                "{\r\n" +
-                "\ttc = in_tc;\r\n" +
-                "\tcolour = in_colour;\r\n" +
-                "\tgl_Position = proj_matrix * vec4(in_position, 1.);\r\n" +
-                "}\r\n"
-                );
+            GL.ShaderSource(vert, File.ReadAllText(@"data\shaders\simple.vert.glsl"));
             GL.CompileShader(vert);
-            GL.ShaderSource(frag,
-                "#version 100\r\n" +
-                "precision highp float;\r\n\r\n" +
-                "uniform sampler2D tex_object;\r\n\r\n" +
-                "varying vec2 tc;\r\n" +
-                "varying vec4 colour;\r\n\r\n" +
-                "void main(void)\r\n" +
-                "{\r\n" +
-                "\tgl_FragColor = texture2D(tex_object, tc) * vec4(colour);\r\n" +
-                "}\r\n"
-                );
+            GL.ShaderSource(frag, File.ReadAllText(@"data\shaders\simple.frag.glsl"));
             GL.CompileShader(frag);
 
             GL.GetShader(vert, ShaderParameter.CompileStatus, out vertCompileStatus);
