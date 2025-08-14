@@ -196,7 +196,7 @@ SINGLE_MESSAGE_SEARCH_POSITION_INCORRECT_COORDS: "The coordinates of the point a
 
 WARNING_PROVINCE_HAS_ZERO_PIXELS: "The province with id = {id} and \"{color}\" has 0 pixels on the map."
 WARNING_PROVINCE_HAS_CENTER_OUTSIDE_THE_MAP: "The center of the province with id = {id} and color \"{color}\" is located outside of the map at ({centerPosition}). The province's pixels count: {pixelsCount}."
-WARNING_STATE_HAS_ZERO_PIXELS: "The state with id = {id} has 0 pixels on the map. Probably it has no provinces"
+WARNING_STATE_HAS_ZERO_PIXELS: "The state with id = {id} has 0 pixels on the map. Probably it has no provinces. This will probably crash the game"
 WARNING_STATE_HAS_CENTER_OUTSIDE_THE_MAP: "The center of the state with id = {id} is located outside of the map at ({centerPosition}). The state's pixels count: {pixelsCount}."
 WARNING_REGION_HAS_ZERO_PIXELS: "The region with id = {id} has 0 pixels on the map. Probably it has no provinces"
 WARNING_REGION_HAS_CENTER_OUTSIDE_THE_MAP: "The center of the region with id = {id} is located outside of the map at ({centerPosition}). The region's pixels count: {pixelsCount}."
