@@ -115,6 +115,7 @@ namespace HOI4ModBuilder.src.openTK.text
                 region.ClearAllMulti();
 
             _objectToRegionsCache.Clear();
+            _regions.Clear();
 
             return this;
         }
