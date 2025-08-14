@@ -253,10 +253,10 @@ namespace HOI4ModBuilder.src.openTK.text
                     );
 
                 GL.Begin(PrimitiveType.Quads);
-                GL.Vertex2(region.Bounds.left, region.Bounds.top);
-                GL.Vertex2(region.Bounds.left, region.Bounds.bottom);
-                GL.Vertex2(region.Bounds.right, region.Bounds.bottom);
-                GL.Vertex2(region.Bounds.right, region.Bounds.top);
+                GL.Vertex2(region.Bounds.right, MapManager.MapSize.y - region.Bounds.top);
+                GL.Vertex2(region.Bounds.right, MapManager.MapSize.y - region.Bounds.bottom);
+                GL.Vertex2(region.Bounds.left, MapManager.MapSize.y - region.Bounds.bottom);
+                GL.Vertex2(region.Bounds.left, MapManager.MapSize.y - region.Bounds.top);
                 GL.End();
             }
         }
