@@ -28,6 +28,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         private static int NextHashCode => _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
         public override int GetHashCode() => _hashCode;
 
+        public override bool Equals(object obj)
+            => obj is State state && Id.GetValue() == state.Id.GetValue();
+
         public int Color { get; private set; }
 
         public readonly GameParameter<ushort> Id = new GameParameter<ushort>()
@@ -399,11 +402,6 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     }
                 }
             }
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is State state && Id.GetValue() == state.Id.GetValue();
         }
 
         public bool isCoastalState()

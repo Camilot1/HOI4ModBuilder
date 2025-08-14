@@ -102,8 +102,12 @@ namespace HOI4ModBuilder.src.openTK.text
 
         public FontRenderRegion GetCachedRegion(object id)
         {
-            _objectToRegionsCache.TryGetValue(id, out var region);
-            return region;
+            //_objectToRegionsCache.TryGetValue(id, out var region);
+            //return region;
+            if (!_objectToRegionsCache.ContainsKey(id))
+                return null;
+            return _objectToRegionsCache[id];//, out var region);
+            //return region;
         }
 
         public void SetCachedRegion(object id, FontRenderRegion region)
@@ -112,7 +116,7 @@ namespace HOI4ModBuilder.src.openTK.text
         public FontRenderController ClearAllMulti()
         {
             foreach (var region in _regions.Values)
-                region.ClearAllMulti();
+                region.Dispose();
 
             _objectToRegionsCache.Clear();
             _regions.Clear();

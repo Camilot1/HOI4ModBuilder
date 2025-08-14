@@ -26,6 +26,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         private static int _nextHashCode;
         private static int NextHashCode => _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
         public override int GetHashCode() => _hashCode;
+        public override bool Equals(object obj)
+            => obj is Province province && _id == province._id;
 
         public bool HasChangedId { get; private set; }
 
@@ -565,9 +567,6 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             }
             return false;
         }
-
-        public override bool Equals(object obj)
-            => obj is Province province && _id == province._id;
 
         public int CompareTo(Province other)
         {

@@ -22,6 +22,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         private static int NextHashCode => _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
         public override int GetHashCode() => _hashCode;
 
+        public override bool Equals(object obj)
+            => obj is StrategicRegion region && Id == region.Id;
+
         public bool needToSave;
         public FileInfo FileInfo { get; set; }
 
@@ -293,11 +296,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                         }
                     ));
             }
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is StrategicRegion region && Id == region.Id;
         }
 
         public void InitBorders()
