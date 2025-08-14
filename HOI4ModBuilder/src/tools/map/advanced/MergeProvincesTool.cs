@@ -169,6 +169,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             ProvinceManager.RemoveProvinceById(second.Id);
             ProvinceManager.RemoveProvinceByColor(second.Color);
 
+            second.ResetPixels();
+
             //Отправляем ивент о удалении и обновлении
             MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES_IDS, main);
             MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES_IDS, second);

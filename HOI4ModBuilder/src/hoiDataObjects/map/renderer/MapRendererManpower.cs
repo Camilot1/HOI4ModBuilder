@@ -59,9 +59,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                     controller.TryStart(controller.EventsFlags, out var eventResult)?
                     .ForEachState(objs, p => true, (fontRegion, s, pos) =>
                     {
-                        controller.PushAction(pos, r => r.RemoveTextMulti(s.Id.GetValue()));
                         controller.PushAction(pos, r => r.SetTextMulti(
-                            s.Id.GetValue(), TextRenderManager.Instance.FontData64, scale,
+                            s, TextRenderManager.Instance.FontData64, scale,
                             s.Manpower.GetValue() + "", pos, QFontAlignment.Centre, color, true
                         ));
                     })
@@ -72,7 +71,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                 .ForEachState(
                     (s) => true,
                     (fontRegion, s, pos) => fontRegion.SetTextMulti(
-                        s.Id.GetValue(), TextRenderManager.Instance.FontData64, scale,
+                        s, TextRenderManager.Instance.FontData64, scale,
                         s.Manpower.GetValue() + "", pos, QFontAlignment.Centre, color, true
                     ))
                 .EndAssembleParallel();

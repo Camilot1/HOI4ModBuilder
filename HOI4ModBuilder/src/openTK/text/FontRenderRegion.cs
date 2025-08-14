@@ -15,15 +15,32 @@ namespace HOI4ModBuilder.src.openTK.text
 
         private Dictionary<object, QFontDrawingPimitive> _primitiveCache = new Dictionary<object, QFontDrawingPimitive>(128);
         public int ChacheCount => _primitiveCache.Count;
+        public bool TryRemoveDrawingPrimitive(object id)
+        {
+            if (_primitiveCache.TryGetValue(id, out var dp))
+            {
+                _drawing.DrawingPimitiveses.Remove(dp);
+                _primitiveCache.Remove(id);
+                IsDirtyPost = true;
+                return true;
+            }
+            return false;
+        }
+
         private readonly Queue<Action<FontRenderRegion>> _actionQueue = new Queue<Action<FontRenderRegion>>(128);
+        private readonly List<Action> _postActions = new List<Action>(16);
 
         public bool IsDirty { get; private set; }
+        public bool IsDirtyPost { get; private set; }
+
+        public readonly FontRenderController Controller;
         public readonly Value2S Index;
         public readonly Bounds4F Bounds;
         public bool IsIntersectsWith(Bounds4F other) => Bounds.IsIntersectsWith(other);
 
-        public FontRenderRegion(Value2S index, int regionSize)
+        public FontRenderRegion(FontRenderController controller, Value2S index, int regionSize)
         {
+            Controller = controller;
             Index = index;
             _drawing = new QFontDrawing();
             _drawing.RefreshBuffers_Step1_InitVAO();
@@ -66,10 +83,21 @@ namespace HOI4ModBuilder.src.openTK.text
         {
             if (IsDirty)
             {
+                if (IsDirtyPost)
+                {
+                    _drawing.RefreshBuffers_Step2_AddVertexes();
+                    IsDirtyPost = false;
+                }
                 _drawing.RefreshBuffers_Step3_LoadVAO();
                 //Logger.Log("Loaded: " + Bounds);
+                IsDirty = false;
             }
-            IsDirty = false;
+            else if (IsDirtyPost)
+            {
+                _drawing.RefreshBuffers_Step2_AddVertexes();
+                _drawing.RefreshBuffers_Step3_LoadVAO();
+                IsDirtyPost = false;
+            }
         }
 
         public void ExecuteActions()
@@ -81,6 +109,26 @@ namespace HOI4ModBuilder.src.openTK.text
             }
             if (IsDirty)
                 _drawing.RefreshBuffers_Step2_AddVertexes();
+        }
+
+        public void ExecutePostActions()
+        {
+            foreach (var action in _postActions)
+                action();
+            _postActions.Clear();
+        }
+
+        public void AddUpdateCachedRegionActionIfNeeded(object id)
+        {
+            var previousRegionById = Controller.GetCachedRegion(id);
+            if (previousRegionById == null)
+                _postActions.Add(() => Controller.SetCachedRegion(id, this));
+            else if (previousRegionById != this)
+                _postActions.Add(() =>
+                {
+                    Controller.SetCachedRegion(id, this);
+                    previousRegionById.TryRemoveDrawingPrimitive(id);
+                });
         }
 
         public SizeF SetText(object id, FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment, Color color, bool dropShadows)
@@ -110,6 +158,8 @@ namespace HOI4ModBuilder.src.openTK.text
             var size = dp.Print(text, pos, aligment);
             _drawing.DrawingPimitiveses.Add(dp);
 
+            AddUpdateCachedRegionActionIfNeeded(id);
+
             IsDirty = true;
 
             return size;
@@ -128,10 +178,15 @@ namespace HOI4ModBuilder.src.openTK.text
         public bool RemoveTextMulti(object id)
         {
             if (!_primitiveCache.TryGetValue(id, out var dp))
+            {
+                AddUpdateCachedRegionActionIfNeeded(id);
                 return false;
+            }
 
             _drawing.DrawingPimitiveses.Remove(dp);
             _primitiveCache.Remove(id);
+
+            AddUpdateCachedRegionActionIfNeeded(id);
 
             IsDirty = true;
 
