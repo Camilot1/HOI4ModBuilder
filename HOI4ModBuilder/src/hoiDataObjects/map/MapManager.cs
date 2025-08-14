@@ -647,7 +647,7 @@ namespace HOI4ModBuilder.managers
 
             MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, selectBounds, parameter, value);
 
-            if (e.Button == MouseButtons.Middle)
+            if (e.Button == MouseButtons.Middle && MainForm.firstLoad)
                 IsMapDragged = true;
 
             _mouseState = EnumMouseState.NONE;
