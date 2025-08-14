@@ -184,14 +184,14 @@ namespace HOI4ModBuilder.src.openTK.text
             int index = 0;
             foreach (var region in _regions.Values)
             {
-                //tasks[index] = Task.Run(() =>
-                //{
+                tasks[index] = Task.Run(() =>
+                {
                     Logger.TryOrLog(() => region.ExecuteActions());
-                //});
+                });
                 index++;
             };
 
-            //Task.WaitAll(tasks);
+            Task.WaitAll(tasks);
 
             ExecutePostActions();
             LoadRegionsVAOs();
