@@ -7,6 +7,7 @@ using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.classes;
 using HOI4ModBuilder.src.utils.structs;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -32,6 +33,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         }
 
         public static HashSet<State> GroupSelectedStates { get; private set; } = new HashSet<State>();
+        public static Point2F GetGroupSelectedStatesCenter()
+        {
+            var commonCenter = new CommonCenter();
+            foreach (var obj in GroupSelectedStates)
+                commonCenter.Push(obj.pixelsCount, obj.center);
+            commonCenter.Get(out var _, out var center);
+            return center;
+        }
         public static State SelectedState { get; set; }
         public static State RMBState { get; set; }
 

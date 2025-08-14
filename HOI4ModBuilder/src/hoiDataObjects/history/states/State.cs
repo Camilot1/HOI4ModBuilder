@@ -13,6 +13,7 @@ using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.classes;
 using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
@@ -217,9 +218,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public void CalculateCenter()
         {
-            double sumX = 0, sumY = 0;
-            double pixelsCount = 0;
             bounds.SetZero();
+
+            var commonCenter = new CommonCenter();
 
             foreach (var province in Provinces)
             {
@@ -228,16 +229,10 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 else
                     bounds.ExpandIfNeeded(province.bounds);
 
-                sumX += province.center.x * province.pixelsCount;
-                sumY += province.center.y * province.pixelsCount;
-                pixelsCount += province.pixelsCount;
+                commonCenter.Push((uint)province.pixelsCount, province.center);
             }
-            if (pixelsCount != 0)
-            {
-                center.x = (float)(sumX / pixelsCount);
-                center.y = (float)(sumY / pixelsCount);
-            }
-            this.pixelsCount = (uint)pixelsCount;
+
+            commonCenter.Get(out pixelsCount, out center);
         }
 
         public bool SetVictoryPoints(Province province, uint newValue)

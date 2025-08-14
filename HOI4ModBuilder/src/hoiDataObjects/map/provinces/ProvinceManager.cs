@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using HOI4ModBuilder.hoiDataObjects;
 using static HOI4ModBuilder.utils.Enums;
 using HOI4ModBuilder.src.utils.structs;
+using HOI4ModBuilder.src.utils.classes;
 
 namespace HOI4ModBuilder.managers
 {
@@ -27,6 +28,14 @@ namespace HOI4ModBuilder.managers
         private static bool _hasProcessedDefinitionFile;
         public static ushort NextVacantProvinceId { get; set; }
         public static HashSet<Province> GroupSelectedProvinces { get; private set; } = new HashSet<Province> { };
+        public static Point2F GetGroupSelectedProvincesCenter()
+        {
+            var commonCenter = new CommonCenter();
+            foreach (var obj in GroupSelectedProvinces)
+                commonCenter.Push((uint)obj.pixelsCount, obj.center);
+            commonCenter.Get(out var _, out var center);
+            return center;
+        }
         public static Province SelectedProvince { get; set; }
 
         public static Province RMBProvince { get; set; }
