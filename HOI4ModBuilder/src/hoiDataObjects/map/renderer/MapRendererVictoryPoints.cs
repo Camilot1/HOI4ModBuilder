@@ -47,16 +47,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         {
             var controller = MapManager.FontRenderController;
             controller.TryStart(out var result)?
-                .SetEventsHandler((int)EnumMapRenderEvents.VICTORY_POINTS, (flags, objs) =>
+                .SetEventsHandler(
+                    (int)EnumMapRenderEvents.VICTORY_POINTS | (int)EnumMapRenderEvents.PROVINCES_IDS, 
+                    (flags, objs) =>
                 {
                     controller.TryStart(controller.EventsFlags, out var eventResult)?
                     .ForEachProvince(objs, p => true, (fontRegion, p, pos) =>
                     {
                         if (p.victoryPoints == 0)
-                            controller.PushAction(pos, r => r.RemoveTextMulti(p.Id));
+                            controller.PushAction(pos, r => r.RemoveTextMulti(p));
                         else
                             controller.PushAction(pos, r => r.SetTextMulti(
-                                p.Id, TextRenderManager.Instance.FontData64, scale,
+                                p, TextRenderManager.Instance.FontData64, scale,
                                 p.victoryPoints + "", pos, QFontAlignment.Centre, color, true
                             ));
                     })
@@ -67,7 +69,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                 .ForEachProvince(
                     (p) => p.victoryPoints > 0,
                     (fontRegion, p, pos) => fontRegion.SetTextMulti(
-                        p.Id, TextRenderManager.Instance.FontData64, scale,
+                        p, TextRenderManager.Instance.FontData64, scale,
                         p.victoryPoints + "", pos, QFontAlignment.Centre, color, true
                     ))
                 .EndAssembleParallel();

@@ -2,9 +2,11 @@
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.classes;
 using HOI4ModBuilder.src.utils.structs;
 using Pdoxcl2Sharp;
 using System;
@@ -19,6 +21,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         private static int _nextHashCode;
         private static int NextHashCode => _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
         public override int GetHashCode() => _hashCode;
+
+        public override bool Equals(object obj)
+            => obj is StrategicRegion region && Id == region.Id;
 
         public bool needToSave;
         public FileInfo FileInfo { get; set; }
@@ -127,6 +132,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             Provinces.Add(province);
             Provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
             province.Region = this;
+            CalculateCenter();
+            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.REGIONS_IDS, this);
             needToSave = true;
         }
 
@@ -136,6 +143,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             {
                 province.Region = null;
                 needToSave = true;
+                CalculateCenter();
+                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.REGIONS_IDS, this);
                 return true;
             }
             return false;
@@ -143,9 +152,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
         public void CalculateCenter()
         {
-            double sumX = 0, sumY = 0;
-            double pixelsCount = 0;
             bounds.SetZero();
+
+            var commonCenter = new CommonCenter();
 
             foreach (var province in Provinces)
             {
@@ -154,16 +163,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                 else
                     bounds.ExpandIfNeeded(province.bounds);
 
-                sumX += province.center.x * province.pixelsCount;
-                sumY += province.center.y * province.pixelsCount;
-                pixelsCount += province.pixelsCount;
+                commonCenter.Push((uint)province.pixelsCount, province.center);
             }
-            if (pixelsCount != 0)
-            {
-                center.x = (float)(sumX / pixelsCount);
-                center.y = (float)(sumY / pixelsCount);
-            }
-            this.pixelsCount = (uint)pixelsCount;
+
+            commonCenter.Get(out pixelsCount, out center);
         }
 
         public void SetSilent(bool value)
@@ -293,11 +296,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                         }
                     ));
             }
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is StrategicRegion region && Id == region.Id;
         }
 
         public void InitBorders()

@@ -157,6 +157,16 @@ namespace HOI4ModBuilder
         public void Save(string fileName)
         {
             Bitmap bitmap = new Bitmap(_size.x, _size.y, TextureType.imagePixelFormat);
+
+            if (TextureType.pixelInternalFormat == PixelInternalFormat.Luminance)
+            {
+                var pallete = bitmap.Palette;
+                var entries = pallete.Entries;
+                for (int i = 0; i < entries.Length; i++)
+                    entries[i] = Color.FromArgb(255, i, i, i);
+                bitmap.Palette = pallete;
+            }
+
             var bytes = new byte[_size.x * _size.y * TextureType.bytesPerPixel];
             GL.BindTexture(TextureTarget.Texture2D, TextureId);
             GL.PixelStore(PixelStoreParameter.PackAlignment, 1);

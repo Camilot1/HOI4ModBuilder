@@ -19,7 +19,8 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
 
         public MapToolStateController(Dictionary<EnumTool, MapTool> mapTools)
             : base(
-                  mapTools, enumTool, new HotKey { },
+                  mapTools, enumTool, new EnumMainLayer[] { },
+                  new HotKey { },
                   (e) => MainForm.Instance.SetSelectedTool(enumTool),
                   new[] { EnumEditLayer.STATES },
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX

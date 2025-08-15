@@ -42,6 +42,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             new MapToolAiArea(_mapTools);
             new MapToolVictoryPoints(_mapTools);
 
+            new DebugTool();
+
             new MergeProvincesTool();
             new RailwayTool();
             new SupplyNodeTool();
@@ -69,16 +71,53 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
         public static bool TryGetMapTool(EnumTool enumTool, out MapTool mapTool)
             => _mapTools.TryGetValue(enumTool, out mapTool);
+
+        public static bool ShouldRecalculateAllText(EnumMainLayer mainLayer, EnumTool enumTool)
+        {
+            TryGetMapTool(enumTool, out var tool);
+
+            if (tool == null || tool.RecalculateTextOnParameterChange == null)
+                return true;
+
+            return Utils.Contains(tool.RecalculateTextOnParameterChange, mainLayer);
+        }
     }
 
     public abstract class MapTool : IMouseHandleableMapTool
     {
         public EnumTool EnumToolType { get; private set; }
         public HotKey HotKey { get; private set; }
+        public EnumMainLayer[] RecalculateTextOnParameterChange { get; private set; }
         private readonly KeyEventHandler _hotKeyEvent;
         protected static bool[] _isInDialog = new bool[1];
         private EnumEditLayer[] _allowedEditLayers;
         private int _handleCheckFlags;
+
+        public MapTool(Dictionary<EnumTool, MapTool> mapTools, EnumTool enumTool, EnumMainLayer[] recalculateTextOnParameterChange, HotKey hotKey, Action<KeyEventArgs> hotKeyEvent, EnumEditLayer[] allowedEditLayers, int handleCheckFlags)
+        {
+            EnumToolType = enumTool;
+            HotKey = hotKey;
+            RecalculateTextOnParameterChange = recalculateTextOnParameterChange;
+
+            mapTools[EnumToolType] = this;
+
+            _hotKeyEvent = (sender, e) =>
+            {
+                if (HotKey.CheckKeys(e)) hotKeyEvent(e);
+            };
+
+            if (HotKey.key != Keys.None)
+            {
+                MainForm.SubscribeTabKeyEvent(
+                    EnumTabPage.MAP,
+                    HotKey.key,
+                    _hotKeyEvent
+                );
+            }
+
+            _allowedEditLayers = allowedEditLayers;
+            _handleCheckFlags = handleCheckFlags;
+        }
 
         public bool IsEditLayerAllowed(EnumEditLayer editLayer)
         {
@@ -105,31 +144,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                 sb.Length -= 2;
 
             return sb.ToString();
-        }
-
-        public MapTool(Dictionary<EnumTool, MapTool> mapTools, EnumTool enumTool, HotKey hotKey, Action<KeyEventArgs> hotKeyEvent, EnumEditLayer[] allowedEditLayers, int handleCheckFlags)
-        {
-            EnumToolType = enumTool;
-            HotKey = hotKey;
-
-            mapTools[EnumToolType] = this;
-
-            _hotKeyEvent = (sender, e) =>
-            {
-                if (HotKey.CheckKeys(e)) hotKeyEvent(e);
-            };
-
-            if (HotKey.key != Keys.None)
-            {
-                MainForm.SubscribeTabKeyEvent(
-                    EnumTabPage.MAP,
-                    HotKey.key,
-                    _hotKeyEvent
-                );
-            }
-
-            _allowedEditLayers = allowedEditLayers;
-            _handleCheckFlags = handleCheckFlags;
         }
 
         public virtual bool Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value)

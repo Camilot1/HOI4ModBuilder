@@ -170,10 +170,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                     {
                         var count = p.GetBuildingCount(building);
                         if (count == 0)
-                            controller.PushAction(pos, r => r.RemoveTextMulti(p.Id));
+                            controller.PushAction(pos, r => r.RemoveTextMulti(p));
                         else
                             controller.PushAction(pos, r => r.SetTextMulti(
-                                p.Id, TextRenderManager.Instance.FontData64, scale,
+                                p, TextRenderManager.Instance.FontData64, scale,
                                 count + "", pos, QFontAlignment.Centre, color, true
                             ));
                     })
@@ -184,7 +184,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                 .ForEachProvince(
                     (p) => p.GetBuildingCount(building) > 0,
                     (fontRegion, p, pos) => fontRegion.SetTextMulti(
-                        p.Id, TextRenderManager.Instance.FontData64, scale,
+                        p, TextRenderManager.Instance.FontData64, scale,
                         p.GetBuildingCount(building) + "", pos, QFontAlignment.Centre, color, true
                     ))
                 .EndAssembleParallel();
@@ -197,17 +197,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             var scale = scaleState;
             var controller = MapManager.FontRenderController;
             controller.TryStart(out var result)?
-                .SetEventsHandler((int)EnumMapRenderEvents.BUILDINGS, (flags, objs) =>
+                .SetEventsHandler(
+                    (int)EnumMapRenderEvents.BUILDINGS | (int)EnumMapRenderEvents.PROVINCES_IDS | (int)EnumMapRenderEvents.STATES_IDS,
+                    (flags, objs) =>
                 {
                     controller.TryStart(controller.EventsFlags, out var eventResult)?
                     .ForEachState(objs, s => true, (fontRegion, s, pos) =>
                     {
                         var count = s.GetStateBuildingCount(building);
                         if (count == 0)
-                            controller.PushAction(pos, r => r.RemoveTextMulti(s.Id.GetValue()));
+                            controller.PushAction(pos, r => r.RemoveTextMulti(s));
                         else
                             controller.PushAction(pos, r => r.SetTextMulti(
-                                s.Id.GetValue(), TextRenderManager.Instance.FontData64, scale,
+                                s, TextRenderManager.Instance.FontData64, scale,
                                 count + "", pos, QFontAlignment.Centre, color, true
                             ));
                     })
@@ -218,7 +220,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                 .ForEachState(
                     (s) => s.GetStateBuildingCount(building) > 0,
                     (fontRegion, s, pos) => fontRegion.SetTextMulti(
-                        s.Id.GetValue(), TextRenderManager.Instance.FontData64, scale,
+                        s, TextRenderManager.Instance.FontData64, scale,
                         s.GetStateBuildingCount(building) + "", pos, QFontAlignment.Centre, color, true
                     ))
                 .EndAssembleParallel();

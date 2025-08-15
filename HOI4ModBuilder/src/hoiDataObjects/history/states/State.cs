@@ -6,12 +6,14 @@ using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.classes;
 using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         private static int _nextHashCode;
         private static int NextHashCode => _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
         public override int GetHashCode() => _hashCode;
+
+        public override bool Equals(object obj)
+            => obj is State state && Id.GetValue() == state.Id.GetValue();
 
         public int Color { get; private set; }
 
@@ -196,6 +201,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             Provinces.Add(province);
             Provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
             province.State = this;
+            CalculateCenter();
+            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STATES_IDS, this);
             SetNeedToSave(true);
         }
 
@@ -205,6 +212,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             {
                 province.State = null;
                 SetNeedToSave(true);
+                CalculateCenter();
+                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STATES_IDS, this);
                 return true;
             }
             return false;
@@ -212,9 +221,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public void CalculateCenter()
         {
-            double sumX = 0, sumY = 0;
-            double pixelsCount = 0;
             bounds.SetZero();
+
+            var commonCenter = new CommonCenter();
 
             foreach (var province in Provinces)
             {
@@ -223,16 +232,10 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 else
                     bounds.ExpandIfNeeded(province.bounds);
 
-                sumX += province.center.x * province.pixelsCount;
-                sumY += province.center.y * province.pixelsCount;
-                pixelsCount += province.pixelsCount;
+                commonCenter.Push((uint)province.pixelsCount, province.center);
             }
-            if (pixelsCount != 0)
-            {
-                center.x = (float)(sumX / pixelsCount);
-                center.y = (float)(sumY / pixelsCount);
-            }
-            this.pixelsCount = (uint)pixelsCount;
+
+            commonCenter.Get(out pixelsCount, out center);
         }
 
         public bool SetVictoryPoints(Province province, uint newValue)
@@ -399,11 +402,6 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     }
                 }
             }
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is State state && Id.GetValue() == state.Id.GetValue();
         }
 
         public bool isCoastalState()

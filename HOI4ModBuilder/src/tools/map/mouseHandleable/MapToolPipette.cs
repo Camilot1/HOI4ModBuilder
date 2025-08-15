@@ -15,7 +15,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
         public MapToolPipette(Dictionary<EnumTool, MapTool> mapTools)
             : base(
-                  mapTools, enumTool, new HotKey { key = Keys.K },
+                  mapTools, enumTool, new EnumMainLayer[] { },
+                  new HotKey { key = Keys.K },
                   (e) => MainForm.Instance.SetSelectedTool(enumTool),
                   new[]
                   {

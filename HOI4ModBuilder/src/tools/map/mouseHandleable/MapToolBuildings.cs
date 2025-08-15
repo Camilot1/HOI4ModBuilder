@@ -17,7 +17,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
         public MapToolBuildings(Dictionary<EnumTool, MapTool> mapTools)
             : base(
-                  mapTools, enumTool, new HotKey { shift = true, key = Keys.B },
+                  mapTools, enumTool, new[] { EnumMainLayer.BUILDINGS },
+                  new HotKey { shift = true, key = Keys.B },
                   (e) => MainForm.Instance.SetSelectedTool(enumTool),
                   new[] { EnumEditLayer.PROVINCES, EnumEditLayer.STATES, EnumEditLayer.BUILDINGS },
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX

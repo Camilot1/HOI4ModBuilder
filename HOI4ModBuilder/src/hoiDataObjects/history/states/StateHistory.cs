@@ -129,7 +129,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
             VictoryPoints.Add(new VictoryPoint()
             {
-                province = ProvinceManager.RMBProvince,
+                province = province,
                 value = newValue
             });
 

@@ -7,7 +7,6 @@ using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map

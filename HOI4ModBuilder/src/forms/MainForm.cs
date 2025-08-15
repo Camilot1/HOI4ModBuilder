@@ -43,6 +43,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.openTK;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using ColorPicker;
+using HOI4ModBuilder.src.utils.classes;
 
 namespace HOI4ModBuilder
 {
@@ -620,18 +621,21 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                SetBrushFirstColor(Color.FromArgb(Utils.ArgbToInt(
+                var firstColor = Color.FromArgb(Utils.ArgbToInt(
                     255,
                     standardColorPicker1.SelectedColor.R,
                     standardColorPicker1.SelectedColor.G,
                     standardColorPicker1.SelectedColor.B
-                )));
-                SetBrushSecondColor(Color.FromArgb(Utils.ArgbToInt(
+                ));
+                var secondColor = Color.FromArgb(Utils.ArgbToInt(
                     255,
                     standardColorPicker1.SecondaryColor.R,
                     standardColorPicker1.SecondaryColor.G,
                     standardColorPicker1.SecondaryColor.B
-                )));
+                ));
+
+                SetBrushFirstColor(firstColor);
+                SetBrushSecondColor(secondColor);
             });
         }
 
@@ -955,21 +959,21 @@ namespace HOI4ModBuilder
                         UpdateToolParameterComboBox(enumTool, stateCategories, null);
                         break;
                     case EnumTool.STATE_OWNER:
-                        var countriesTags = new List<string>(CountryManager.GetCountriesTags());
+                        var countriesTags = new List<string>(CountryManager.GetContryTagsSorted());
                         countriesTags.Insert(0, "");
                         UpdateToolParameterComboBox(enumTool, countriesTags, null);
                         break;
                     case EnumTool.STATE_CONTROLLER:
-                        countriesTags = new List<string>(CountryManager.GetCountriesTags());
+                        countriesTags = new List<string>(CountryManager.GetContryTagsSorted());
                         countriesTags.Insert(0, "");
                         UpdateToolParameterComboBox(enumTool, countriesTags, null);
                         break;
                     case EnumTool.STATE_CORE_OF:
-                        countriesTags = new List<string>(CountryManager.GetCountriesTags());
+                        countriesTags = new List<string>(CountryManager.GetContryTagsSorted());
                         UpdateToolParameterComboBox(enumTool, countriesTags, null);
                         break;
                     case EnumTool.STATE_CLAIM_BY:
-                        countriesTags = new List<string>(CountryManager.GetCountriesTags());
+                        countriesTags = new List<string>(CountryManager.GetContryTagsSorted());
                         UpdateToolParameterComboBox(enumTool, countriesTags, null);
                         break;
                     case EnumTool.BUILDINGS:
@@ -1033,9 +1037,9 @@ namespace HOI4ModBuilder
                 else if (enumMainLayer == EnumMainLayer.AI_AREAS && !AiAreaManager.HasAiArea(ComboBox_Tool_Parameter.Text))
                     UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreasNames(), null);
                 else if (enumMainLayer == EnumMainLayer.CORES_OF && !CountryManager.HasCountry(ComboBox_Tool_Parameter.Text))
-                    UpdateToolParameterComboBox(enumTool, CountryManager.GetCountriesTags(), null);
+                    UpdateToolParameterComboBox(enumTool, CountryManager.GetContryTagsSorted(), null);
                 else if (enumMainLayer == EnumMainLayer.CLAIMS_BY && !CountryManager.HasCountry(ComboBox_Tool_Parameter.Text))
-                    UpdateToolParameterComboBox(enumTool, CountryManager.GetCountriesTags(), null);
+                    UpdateToolParameterComboBox(enumTool, CountryManager.GetContryTagsSorted(), null);
 
                 MapManager.HandleMapMainLayerChange(true, enumMainLayer, ComboBox_Tool_Parameter.Text);
             });
@@ -1761,7 +1765,7 @@ namespace HOI4ModBuilder
         private void ComboBox_Tool_Parameter_SelectedIndexChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                MapManager.HandleMapMainLayerChange(true, enumMainLayer, ComboBox_Tool_Parameter.Text);
+                MapManager.HandleMapMainLayerChange(MapToolsManager.ShouldRecalculateAllText(enumMainLayer, enumTool), enumMainLayer, ComboBox_Tool_Parameter.Text);
                 preferedParameter[(int)enumTool] = ComboBox_Tool_Parameter.Text;
             });
         private void ComboBox_Tool_Parameter_Value_SelectedIndexChanged(object sender, EventArgs e)
@@ -2054,11 +2058,23 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AutoTools.RemoveGhostProvinces(true));
         private void ToolStripMenuItem_Map_Select_Provinces_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => ProvinceManager.SelectProvinces(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' ')));
+            => Logger.TryOrLog(() =>
+            {
+                ProvinceManager.SelectProvinces(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' '));
+                MapManager.FocusOn(ProvinceManager.GetGroupSelectedProvincesCenter());
+            });
         private void ToolStripMenuItem_Map_Select_States_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => StateManager.SelectStates(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' ')));
+            => Logger.TryOrLog(() =>
+            {
+                StateManager.SelectStates(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' '));
+                MapManager.FocusOn(StateManager.GetGroupSelectedStatesCenter());
+            });
         private void ToolStripMenuItem_Map_Select_Regions_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => StrategicRegionManager.SelectRegions(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' ')));
+            => Logger.TryOrLog(() =>
+            {
+                StrategicRegionManager.SelectRegions(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' '));
+                MapManager.FocusOn(StrategicRegionManager.GetGroupSelectedRegionsCenter());
+            });
         private void ToolStripMenuItem_Map_Actions_Merge_All_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => MergeProvincesTool.MergeProvinces(ProvinceManager.RMBProvince, ProvinceManager.GroupSelectedProvinces));
         private void ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces_Click(object sender, EventArgs e)

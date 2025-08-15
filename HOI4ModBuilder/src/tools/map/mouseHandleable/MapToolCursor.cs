@@ -24,7 +24,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
         public MapToolCursor(Dictionary<EnumTool, MapTool> mapTools)
             : base(
-                  mapTools, enumTool, new HotKey { key = Keys.C },
+                  mapTools, enumTool, new EnumMainLayer[] { },
+                  new HotKey { key = Keys.C },
                   (e) => MainForm.Instance.SetSelectedTool(enumTool),
                   null,
                   0

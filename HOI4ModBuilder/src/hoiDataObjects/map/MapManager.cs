@@ -206,10 +206,16 @@ namespace HOI4ModBuilder.managers
 
             MapPositionsManager.Draw();
 
-            //FontRenderController?.RenderDebug();
+            if (SettingsManager.CheckDebugValue(EnumDebugValue.TEXT_RENDER_CHUNKS))
+                FontRenderController?.RenderDebug();
 
             var distanceTextCutoff = zoomFactor < (1 / TextScale * 0.00015f * (vpi.height / (float)vpi.max));
-            if (!distanceTextCutoff && FontRenderController != null && displayLayers[(int)EnumAdditionalLayers.TEXT])
+            if (
+                displayLayers[(int)EnumAdditionalLayers.TEXT] && (
+                    SettingsManager.CheckDebugValue(EnumDebugValue.TEXT_DISABLE_DISTANCE_CUTOFF) ||
+                    !distanceTextCutoff && FontRenderController != null
+                )
+            )
             {
                 var _projection = Matrix4.CreateOrthographicOffCenter(
                     MainForm.Instance.viewportInfo.x,
@@ -641,7 +647,7 @@ namespace HOI4ModBuilder.managers
 
             MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, selectBounds, parameter, value);
 
-            if (e.Button == MouseButtons.Middle)
+            if (e.Button == MouseButtons.Middle && MainForm.firstLoad)
                 IsMapDragged = true;
 
             _mouseState = EnumMouseState.NONE;

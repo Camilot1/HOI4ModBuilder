@@ -782,6 +782,7 @@
     <Compile Include="src\tools\brushes\BrushInfo.cs" />
     <Compile Include="src\tools\brushes\BrushManager.cs" />
     <Compile Include="src\tools\brushes\BrushVariant.cs" />
+    <Compile Include="src\tools\map\advanced\DebugTool.cs" />
     <Compile Include="src\tools\map\advanced\MergeProvincesTool.cs" />
     <Compile Include="src\tools\map\advanced\RailwayTool.cs" />
     <Compile Include="src\tools\dataRecovery\StrategicRegionsDataRecoveryTool.cs" />
@@ -853,6 +854,7 @@
     <Compile Include="src\tools\map\mouseHandleable\MapToolVictoryPoints.cs" />
     <Compile Include="src\utils\borders\BordersAssembler.cs" />
     <Compile Include="src\utils\CheckAndLogUnit.cs" />
+    <Compile Include="src\utils\classes\CommonCenter.cs" />
     <Compile Include="src\utils\Constants.cs" />
     <Compile Include="src\utils\Enums.cs" />
     <Compile Include="src\utils\exceptions\CountryNotFoundException.cs" />

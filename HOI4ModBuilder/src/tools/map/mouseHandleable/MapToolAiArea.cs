@@ -16,7 +16,8 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
 
         public MapToolAiArea(Dictionary<EnumTool, MapTool> mapTools)
             : base(
-                  mapTools, enumTool, new HotKey { shift = true, key = Keys.A },
+                  mapTools, enumTool, new EnumMainLayer[] { },
+                  new HotKey { shift = true, key = Keys.A },
                   (e) => MainForm.Instance.SetSelectedTool(enumTool),
                   new[] { EnumEditLayer.CONTINENTS, EnumEditLayer.STRATEGIC_REGIONS },
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX

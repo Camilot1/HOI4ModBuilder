@@ -37,7 +37,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                 .ForEachProvince(
                     (p) => true,
                     (fontRegion, p, pos) => fontRegion.SetTextMulti(
-                        p.Id, TextRenderManager.Instance.FontData64, scale,
+                        p, TextRenderManager.Instance.FontData64, scale,
                         p.Id + "", pos, QFontAlignment.Centre, color, true
                     ))
                 .EndAssembleParallel();

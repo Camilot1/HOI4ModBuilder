@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.parser;
 using HOI4ModBuilder.src.utils;
 using System;
@@ -20,7 +21,7 @@ namespace HOI4ModBuilder
         [STAThread]
         static void Main()
         {
-            TransferDataToDebugDirectory();
+            TransferDataToOutputDirectory();
 
             TestMain.Execute();
             Logger.Init();
@@ -37,23 +38,46 @@ namespace HOI4ModBuilder
         }
 
         [Conditional("DEBUG")]
-        private static void TransferDataToDebugDirectory()
+        private static void TransferDataToOutputDirectory()
         {
             string debugPath = Application.StartupPath;
 
-            string[] debugPathParts = debugPath.Split('\\');
-            string baseDirectoryPath = "";
+            string[] debugPathParts = debugPath.Split(FileManager.PATH_SEPARATOR);
+            string basePath = "";
+            string releasePath = "";
 
             if (debugPathParts.Length < 2 || debugPathParts[debugPathParts.Length - 2] != "x64" || debugPathParts[debugPathParts.Length - 1] != "Debug")
                 throw new AccessViolationException(debugPath);
 
             for (int i = 0; i < debugPathParts.Length - 3; i++)
-                baseDirectoryPath += debugPathParts[i] + "\\";
+                basePath += debugPathParts[i] + FileManager.PATH_SEPARATOR_STRING;
 
-            FileManager.CopyFilesFromBetweenDirectories(baseDirectoryPath + "data\\", debugPath + "\\data\\");
-            FileManager.CopyFilesFromBetweenDirectories(baseDirectoryPath + "data\\fonts\\", debugPath + "\\data\\fonts\\");
-            FileManager.CopyFilesFromBetweenDirectories(baseDirectoryPath + "localization\\", debugPath + "\\localization\\");
-            FileManager.CopyDirectoryRecursive(baseDirectoryPath + "data\\savePatterns", debugPath + "\\data\\savePatterns");
+            for (int i = 0; i < debugPathParts.Length - 1; i++)
+                releasePath += debugPathParts[i] + FileManager.PATH_SEPARATOR_STRING;
+
+
+            debugPath += FileManager.PATH_SEPARATOR_STRING;
+            releasePath += "Release" + FileManager.PATH_SEPARATOR_STRING;
+
+            CopyFiles(basePath, debugPath, releasePath, new[] { "data" });
+            CopyFiles(basePath, debugPath, releasePath, new[] { "data", "fonts" });
+            CopyFiles(basePath, debugPath, releasePath, new[] { "data", "shaders" });
+            CopyFiles(basePath, debugPath, releasePath, new[] { "localization" });
+            CopyDirectoryRecursive(basePath, debugPath, releasePath, new[] { "data", "savePatterns" });
+        }
+
+        private static void CopyFiles(string basePath, string debugPath, string releasePath, string[] directoryToCopy)
+        {
+            var directoryToCopyPath = FileManager.AssembleFolderPath(directoryToCopy);
+            FileManager.CopyFilesFromBetweenDirectories(basePath + directoryToCopyPath, debugPath + directoryToCopyPath);
+            FileManager.CopyFilesFromBetweenDirectories(basePath + directoryToCopyPath, releasePath + directoryToCopyPath);
+        }
+
+        private static void CopyDirectoryRecursive(string basePath, string debugPath, string releasePath, string[] directoryToCopy)
+        {
+            var directoryToCopyPath = FileManager.AssembleFolderPath(directoryToCopy);
+            FileManager.CopyDirectoryRecursive(basePath + directoryToCopyPath, debugPath + directoryToCopyPath);
+            FileManager.CopyDirectoryRecursive(basePath + directoryToCopyPath, releasePath + directoryToCopyPath);
         }
     }
 }

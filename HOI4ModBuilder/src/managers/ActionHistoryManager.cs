@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.openTK.text;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.exceptions;
 using System;
@@ -23,7 +24,7 @@ namespace HOI4ModBuilder.src.managers
             MainForm.SubscribeGlobalKeyEvent(Keys.Y, (sender, e) =>
             {
                 if (e.Control && !(e.Shift || e.Alt)) Redo();
-            });
+            });            
         }
 
         public ActionHistoryManager(EnumTabPage tabPage)

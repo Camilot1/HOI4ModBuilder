@@ -3,6 +3,7 @@ using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.classes;
 using HOI4ModBuilder.src.utils.structs;
 using OpenTK.Graphics.OpenGL;
 using Pdoxcl2Sharp;
@@ -28,6 +29,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
         private static HashSet<ProvinceBorder> _regionsBorders = new HashSet<ProvinceBorder>();
 
         public static HashSet<StrategicRegion> GroupSelectedRegions { get; private set; } = new HashSet<StrategicRegion>();
+        public static Point2F GetGroupSelectedRegionsCenter()
+        {
+            var commonCenter = new CommonCenter();
+            foreach (var obj in GroupSelectedRegions)
+                commonCenter.Push(obj.pixelsCount, obj.center);
+            commonCenter.Get(out var _, out var center);
+            return center;
+        }
         public static StrategicRegion SelectedRegion { get; set; }
         public static StrategicRegion RMBRegion { get; set; }
 

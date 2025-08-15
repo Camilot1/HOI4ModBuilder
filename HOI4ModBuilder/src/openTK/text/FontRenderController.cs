@@ -26,12 +26,20 @@ namespace HOI4ModBuilder.src.openTK.text
         public int EventsFlags { get; private set; }
         private Action<int, ICollection<object>> _eventHandler;
         private List<object> _eventHandlerPayload = new List<object>();
+        private Dictionary<object, FontRenderRegion> _objectToRegionsCache = new Dictionary<object, FontRenderRegion>(256);
 
         public FontRenderController(int regionSize, int capacity)
         {
             _regionSize = regionSize;
 
             _regions = new Dictionary<Value2S, FontRenderRegion>(capacity);
+        }
+
+        public void DebugLog()
+        {
+            Logger.Log("REGIONS COUNT: " + _regions.Count);
+            foreach (var r in _regions.Values)
+                r.DebugLog();
         }
 
         public FontRenderController TryStart(out bool result) => TryStart(0, out result);
@@ -71,7 +79,7 @@ namespace HOI4ModBuilder.src.openTK.text
 
             if (!_regions.TryGetValue(key, out var region))
             {
-                region = new FontRenderRegion(key, _regionSize);
+                region = new FontRenderRegion(this, key, _regionSize);
                 _regions[key] = region;
             }
             region.PushAction(action);
@@ -86,16 +94,32 @@ namespace HOI4ModBuilder.src.openTK.text
             };
             if (!_regions.TryGetValue(key, out var region))
             {
-                region = new FontRenderRegion(key, _regionSize);
+                region = new FontRenderRegion(this, key, _regionSize);
                 _regions[key] = region;
             }
             return region;
         }
 
+        public FontRenderRegion GetCachedRegion(object id)
+        {
+            //_objectToRegionsCache.TryGetValue(id, out var region);
+            //return region;
+            if (!_objectToRegionsCache.ContainsKey(id))
+                return null;
+            return _objectToRegionsCache[id];//, out var region);
+            //return region;
+        }
+
+        public void SetCachedRegion(object id, FontRenderRegion region)
+            => _objectToRegionsCache[id] = region;
+
         public FontRenderController ClearAllMulti()
         {
             foreach (var region in _regions.Values)
-                region.ClearAllMulti();
+                region.Dispose();
+
+            _objectToRegionsCache.Clear();
+            _regions.Clear();
 
             return this;
         }
@@ -105,6 +129,8 @@ namespace HOI4ModBuilder.src.openTK.text
             foreach (var region in _regions.Values)
                 if (region.ClearAllMulti())
                     region.RefreshBuffers();
+
+            _objectToRegionsCache.Clear();
 
             return this;
         }
@@ -122,6 +148,9 @@ namespace HOI4ModBuilder.src.openTK.text
         public bool AddEventData(int eventFlags, object value)
         {
             if ((EventsFlags & eventFlags) == 0)
+                return false;
+
+            if (value == null)
                 return false;
 
             if (!_eventHandlerPayload.Contains(value))
@@ -150,16 +179,20 @@ namespace HOI4ModBuilder.src.openTK.text
             int index = 0;
             foreach (var region in _regions.Values)
             {
-                tasks[index] = Task.Run(() => region.ExecuteActions());
+                tasks[index] = Task.Run(() =>
+                {
+                    Logger.TryOrLog(() => region.ExecuteActions());
+                });
                 index++;
             };
 
             Task.WhenAll(tasks)
-                .ContinueWith(_ => MainForm.Instance.InvokeAction(() =>
+                .ContinueWith(_ => Logger.TryOrLog(() => MainForm.Instance.InvokeAction(() =>
                 {
+                    ExecutePostActions();
                     LoadRegionsVAOs();
                     IsPerforming = false;
-                }));
+                })));
         }
 
         public void EndAssembleParallelWithWait()
@@ -169,12 +202,16 @@ namespace HOI4ModBuilder.src.openTK.text
             int index = 0;
             foreach (var region in _regions.Values)
             {
-                tasks[index] = Task.Run(() => region.ExecuteActions());
+                tasks[index] = Task.Run(() =>
+                {
+                    Logger.TryOrLog(() => region.ExecuteActions());
+                });
                 index++;
             };
 
             Task.WaitAll(tasks);
 
+            ExecutePostActions();
             LoadRegionsVAOs();
             IsPerforming = false;
         }
@@ -190,6 +227,12 @@ namespace HOI4ModBuilder.src.openTK.text
                 region.LoadVAO();
         }
 
+        private void ExecutePostActions()
+        {
+            foreach (var region in _regions.Values)
+                region.ExecutePostActions();
+        }
+
         public void ForEachRegion(Action<FontRenderRegion> action)
         {
             foreach (var region in _regions.Values)
@@ -203,7 +246,8 @@ namespace HOI4ModBuilder.src.openTK.text
 
             foreach (var region in _regions.Values)
             {
-                if (region.IsIntersectsWith(viewportBounds))
+                if (SettingsManager.CheckDebugValue(EnumDebugValue.TEXT_DISABLE_VIEWPORT_CUTOFF) ||
+                    region.ChacheCount > 0 && region.IsIntersectsWith(viewportBounds))
                 {
                     region.Render(proj);
                 }
@@ -224,10 +268,10 @@ namespace HOI4ModBuilder.src.openTK.text
                     );
 
                 GL.Begin(PrimitiveType.Quads);
-                GL.Vertex2(region.Bounds.left, region.Bounds.top);
-                GL.Vertex2(region.Bounds.left, region.Bounds.bottom);
-                GL.Vertex2(region.Bounds.right, region.Bounds.bottom);
-                GL.Vertex2(region.Bounds.right, region.Bounds.top);
+                GL.Vertex2(region.Bounds.right, MapManager.MapSize.y - region.Bounds.top);
+                GL.Vertex2(region.Bounds.right, MapManager.MapSize.y - region.Bounds.bottom);
+                GL.Vertex2(region.Bounds.left, MapManager.MapSize.y - region.Bounds.bottom);
+                GL.Vertex2(region.Bounds.left, MapManager.MapSize.y - region.Bounds.top);
                 GL.End();
             }
         }
@@ -348,12 +392,13 @@ namespace HOI4ModBuilder.src.openTK.text
                 TryStart(EventsFlags, out var eventResult)?
                 .ForEachProvince(objs, p => true, (fontRegion, p, pos) =>
                 {
-                    PushAction(pos, r => r.RemoveTextMulti(p.Id));
                     if (ProvinceManager.TryGetProvince(p.Id, out var province) && province == p)
                         PushAction(pos, r => r.SetTextMulti(
-                                p.Id, TextRenderManager.Instance.FontData64, scale,
+                                p, TextRenderManager.Instance.FontData64, scale,
                                 p.Id + "", pos, alignment, color, true
                             ));
+                    else
+                        PushAction(pos, r => r.RemoveTextMulti(p));
                 })
                 .EndAssembleParallelWithWait();
             });
@@ -366,12 +411,13 @@ namespace HOI4ModBuilder.src.openTK.text
                 TryStart(EventsFlags, out var eventResult)?
                 .ForEachState(objs, p => true, (fontRegion, s, pos) =>
                 {
-                    PushAction(pos, r => r.RemoveTextMulti(s.Id.GetValue()));
                     if (StateManager.TryGetState(s.Id.GetValue(), out var state) && state == s)
                         PushAction(pos, r => r.SetTextMulti(
-                            s.Id.GetValue(), TextRenderManager.Instance.FontData64, scale,
+                            s, TextRenderManager.Instance.FontData64, scale,
                             s.Id.GetValue() + "", pos, alignment, color, true
                         ));
+                    else
+                        PushAction(pos, r => r.RemoveTextMulti(s));
                 })
                 .EndAssembleParallelWithWait();
             });
@@ -384,12 +430,13 @@ namespace HOI4ModBuilder.src.openTK.text
                 TryStart(EventsFlags, out var eventResult)?
                 .ForEachRegion(objs, r => true, (fontRegion, r, pos) =>
                 {
-                    PushAction(pos, fr => fontRegion.RemoveTextMulti(r.Id));
                     if (StrategicRegionManager.TryGetRegion(r.Id, out var region) && region == r)
                         PushAction(pos, fr => fontRegion.SetTextMulti(
-                            r.Id, TextRenderManager.Instance.FontData64, scale,
+                            r, TextRenderManager.Instance.FontData64, scale,
                             r.Id + "", pos, alignment, color, true
                         ));
+                    else
+                        PushAction(pos, fr => fontRegion.RemoveTextMulti(r));
                 })
                 .EndAssembleParallelWithWait();
             });

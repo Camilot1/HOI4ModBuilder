@@ -19,7 +19,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
         public MapToolBrush(Dictionary<EnumTool, MapTool> mapTools)
             : base(
-                  mapTools, enumTool, new HotKey { key = Keys.B },
+                  mapTools, enumTool, new EnumMainLayer[] { },
+                  new HotKey { key = Keys.B },
                   (e) => MainForm.Instance.SetSelectedTool(enumTool),
                   new[] {
                       EnumEditLayer.PROVINCES, EnumEditLayer.RIVERS, EnumEditLayer.TERRAIN_MAP,
