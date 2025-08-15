@@ -609,10 +609,29 @@ namespace HOI4ModBuilder.managers
             }
             else
             {
-                if (e.Delta > 0 && zoomFactor < 0.1f)
-                    zoomFactor *= 1.2f;
-                else if (e.Delta < 0 && zoomFactor > 0.0004f)
-                    zoomFactor *= 0.8f;
+                double oldZoom = zoomFactor;
+
+                double factor = 1f;
+                if (e.Delta > 0 && oldZoom < 0.1f)
+                    factor = 1.2f;
+                else if (e.Delta < 0 && oldZoom > 0.0004f)
+                    factor = 0.8f;
+
+                if (factor != 1f)
+                {
+                    double axOld = (2f * e.X - viewportInfo.width) / (viewportInfo.max * oldZoom);
+                    double ayOld = (2f * e.Y - viewportInfo.height) / (viewportInfo.max * oldZoom);
+
+                    double newZoom = oldZoom * factor;
+
+                    double axNew = (2f * e.X - viewportInfo.width) / (viewportInfo.max * newZoom);
+                    double ayNew = (2f * e.Y - viewportInfo.height) / (viewportInfo.max * newZoom);
+
+                    mapDifX += axNew - axOld;
+                    mapDifY += ayNew - ayOld;
+
+                    zoomFactor = newZoom;
+                }
             }
             _mousePrevPoint = CalculateMapPos(e.X, e.Y, viewportInfo);
         }
