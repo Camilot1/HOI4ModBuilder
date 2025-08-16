@@ -221,16 +221,18 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             block.Init(enumScope);
 
             var newBlocks = block.GetReplaceTagCopies();
-            if (newBlocks.Count > 0)
+            foreach (var newBlock in newBlocks)
             {
-                foreach (var newBlock in newBlocks)
+                var name = newBlock.Name;
+                if (!BuildingManager.TryGetBuilding(name, out var building))
                 {
-                    var name = newBlock.Name;
-                    if (!BuildingManager.TryGetBuilding(name, out var building))
-                        throw new Exception("Unknown building \"" + name + "\" in InfoArgsBlocksManager");
-
-                    dictionary[building] = newBlock;
+                    throw new Exception(GuiLocManager.GetLoc(
+                        EnumLocKey.EXCEPTION_LOADING_BULDINGS_CUSTOM_ARGS_BLOCKS_BUILDING_WASNT_LOADED,
+                        new Dictionary<string, string> { { "{name}", name } }
+                        ));
                 }
+
+                dictionary[building] = newBlock;
             }
 
         }
