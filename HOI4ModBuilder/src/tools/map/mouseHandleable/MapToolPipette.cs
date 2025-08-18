@@ -6,6 +6,7 @@ using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.utils.structs;
+using System.Collections;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -17,15 +18,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
                   new HotKey { key = Keys.K },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
-                  new[]
-                  {
-                      EnumEditLayer.PROVINCES, EnumEditLayer.RIVERS, EnumEditLayer.TERRAIN_MAP,
-                      EnumEditLayer.TREES_MAP, EnumEditLayer.CITIES_MAP, EnumEditLayer.HEIGHT_MAP
-                  },
+                  (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool),
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
+            EnumEditLayer.PROVINCES, EnumEditLayer.RIVERS, EnumEditLayer.TERRAIN_MAP,
+            EnumEditLayer.TREES_MAP, EnumEditLayer.CITIES_MAP, EnumEditLayer.HEIGHT_MAP
+        };
+        public override Func<ICollection> GetParametersProvider() => null;
+        public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,

@@ -1,6 +1,5 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.utils.structs;
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
+using System.Collections;
 
 namespace HOI4ModBuilder.src.tools.map.mouseHandleable
 {
@@ -20,11 +20,16 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
                   new HotKey { shift = true, key = Keys.V },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
-                  new[] { EnumEditLayer.PROVINCES },
+                  (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool),
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
+            EnumEditLayer.PROVINCES
+        };
+        public override Func<ICollection> GetParametersProvider() => null;
+        public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
@@ -71,7 +76,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                 if (province.State.SetVictoryPoints(province, c))
                 {
                     MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.VICTORY_POINTS, province);
-                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
                 }
             };
 

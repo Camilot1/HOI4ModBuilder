@@ -8,6 +8,8 @@ using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
+using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
+using System.Collections;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -19,11 +21,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             : base(
                   mapTools, enumTool, new[] { EnumMainLayer.BUILDINGS },
                   new HotKey { shift = true, key = Keys.B },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
-                  new[] { EnumEditLayer.PROVINCES, EnumEditLayer.STATES, EnumEditLayer.BUILDINGS },
+                  (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool),
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
+            EnumEditLayer.PROVINCES, EnumEditLayer.STATES, EnumEditLayer.BUILDINGS
+        };
+        public override Func<ICollection> GetParametersProvider()
+            => () => BuildingManager.GetBuildingNames();
+        public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
@@ -110,7 +118,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 {
                     province.State.SetProvinceBuildingLevel(province, building, c);
                     MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.BUILDINGS, province);
-                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
                 };
             }
             else
@@ -119,7 +127,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 {
                     province.State.SetStateBuildingLevel(building, c);
                     MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.BUILDINGS, province.State);
-                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, parameter);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
                 };
             }
 

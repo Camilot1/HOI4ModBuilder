@@ -6,6 +6,7 @@ using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.utils.structs;
+using System.Collections;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -17,11 +18,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
                   new HotKey { },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
-                  new[] { EnumEditLayer.PROVINCES },
+                  (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool),
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
+            EnumEditLayer.PROVINCES
+        };
+        public override Func<ICollection> GetParametersProvider()
+            => () => Enum.GetValues(typeof(EnumProvinceType));
+        public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
@@ -44,7 +51,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 void action(EnumProvinceType type)
                 {
                     province.Type = type;
-                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
                 }
 
                 MapManager.ActionsBatch.AddWithExecute(

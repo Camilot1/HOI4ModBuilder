@@ -8,6 +8,7 @@ using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.tools.brushes;
 using HOI4ModBuilder.hoiDataObjects.map;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -19,11 +20,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
                   new HotKey { key = Keys.E },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
-                  new[] { EnumEditLayer.PROVINCES, EnumEditLayer.RIVERS, EnumEditLayer.HEIGHT_MAP },
+                  (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool),
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX | (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_SELECTED_BOUND
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
+            EnumEditLayer.PROVINCES, EnumEditLayer.RIVERS, EnumEditLayer.HEIGHT_MAP
+        };
+        public override Func<ICollection> GetParametersProvider()
+            => () => BrushManager.GetBrushesNames(SettingsManager.Settings);
+        public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,

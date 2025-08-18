@@ -7,6 +7,8 @@ using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.utils.structs;
+using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
+using System.Collections;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -18,11 +20,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
                   new HotKey { },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
-                  new[] { EnumEditLayer.STATES },
+                  (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool),
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
+            EnumEditLayer.STATES
+        };
+        public override Func<ICollection> GetParametersProvider()
+            => () => StateCategoryManager.GetStateCategoriesNames();
+        public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
@@ -51,7 +59,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 Action<State, StateCategory> action = (state, stateCategory) =>
                 {
                     state.StateCategory.SetValue(stateCategory);
-                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
                 };
 
                 MapManager.ActionsBatch.AddWithExecute(

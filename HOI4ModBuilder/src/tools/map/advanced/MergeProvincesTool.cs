@@ -224,7 +224,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             if (needToSave)
             {
                 Utils.ArrayToBitmap(bytes, provincesBitmap, ImageLockMode.WriteOnly, provincesBitmap.Width, provincesBitmap.Height, TextureManager._24bppRgb);
-                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, MainForm.Instance.GetParameter());
+                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
                 //TextureManager.provinces.texture.Update(TextureManager._24bppRgb, 0, 0, MapManager.MapSize.x, MapManager.MapSize.y, bytes);
                 TextureManager.provinces.needToSave = true;
             }

@@ -10,6 +10,7 @@ using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.tools.brushes;
 using HOI4ModBuilder.src.managers.mapChecks.warnings.checkers;
+using System.Collections;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -21,14 +22,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
                   new HotKey { key = Keys.B },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
-                  new[] {
-                      EnumEditLayer.PROVINCES, EnumEditLayer.RIVERS, EnumEditLayer.TERRAIN_MAP,
-                      EnumEditLayer.TREES_MAP, EnumEditLayer.CITIES_MAP, EnumEditLayer.HEIGHT_MAP
-                  },
+                  (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool),
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX | (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_SELECTED_BOUND
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
+            EnumEditLayer.PROVINCES, EnumEditLayer.RIVERS, EnumEditLayer.TERRAIN_MAP,
+            EnumEditLayer.TREES_MAP, EnumEditLayer.CITIES_MAP, EnumEditLayer.HEIGHT_MAP
+        };
+        public override Func<ICollection> GetParametersProvider()
+            => () => BrushManager.GetBrushesNames(SettingsManager.Settings);
+        public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,

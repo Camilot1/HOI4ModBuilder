@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using System.Collections;
 
 namespace HOI4ModBuilder.src.tools.map.mouseHandleable
 {
@@ -21,11 +22,17 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
                   new HotKey { },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
-                  new[] { EnumEditLayer.STATES },
+                  (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool),
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
+            EnumEditLayer.STATES
+        };
+        public override Func<ICollection> GetParametersProvider()
+            => () => CountryManager.GetCountryTagsSortedStartingWith("");
+        public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
@@ -55,7 +62,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                 {
                     stateHistory.Owner.SetValue(stateOwner);
                     province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
                 };
 
                 MapManager.ActionsBatch.AddWithExecute(

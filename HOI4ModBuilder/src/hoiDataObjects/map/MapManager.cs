@@ -164,15 +164,15 @@ namespace HOI4ModBuilder.managers
             GL.Translate(0, -MapMainLayer.size.y, 0);
 
             ProvinceManager.Draw(
-                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.PROVINCES_MAP),
+                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.SelectedMainLayer == EnumMainLayer.PROVINCES_MAP),
                 displayLayers[(int)EnumAdditionalLayers.COLLISIONS]
             );
             StateManager.Draw(
-                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.STATES),
+                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.SelectedMainLayer == EnumMainLayer.STATES),
                 displayLayers[(int)EnumAdditionalLayers.COLLISIONS]
             );
             StrategicRegionManager.Draw(
-                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.STRATEGIC_REGIONS),
+                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.SelectedMainLayer == EnumMainLayer.STRATEGIC_REGIONS),
                 displayLayers[(int)EnumAdditionalLayers.COLLISIONS]
             );
             AdjacenciesManager.Draw(displayLayers[(int)EnumAdditionalLayers.ADJACENCIES], displayLayers[(int)EnumAdditionalLayers.ADJACENCIES]);
@@ -258,8 +258,8 @@ namespace HOI4ModBuilder.managers
             GL.LineWidth(1f);
             GL.Color3(0.0f, 0.0f, 0.0f);
 
-            bool isBrushTool = (MainForm.Instance.enumTool == EnumTool.BRUSH ||
-                                MainForm.Instance.enumTool == EnumTool.ERASER);
+            bool isBrushTool = (MainForm.Instance.SelectedTool == EnumTool.BRUSH ||
+                                MainForm.Instance.SelectedTool == EnumTool.ERASER);
 
             if (isBrushTool &&
                 BrushManager.TryGetBrush(
@@ -581,7 +581,7 @@ namespace HOI4ModBuilder.managers
                                 UpdateDisplayBorders();
                                 MainForm.DisplayProgress(EnumLocKey.PROGRESSBAR_UPDATED, 0);
                                 MainForm.ResumeGLControl();
-                                HandleMapMainLayerChange(true, MainForm.Instance.enumMainLayer, MainForm.Instance.GetParameter());
+                                HandleMapMainLayerChange(true, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
                                 Utils.CleanUpMemory();
                             });
                         });
@@ -924,30 +924,36 @@ namespace HOI4ModBuilder.managers
         public static void UpdateDisplayBorders()
         {
             if (MainForm.Instance == null) return;
-            switch (MainForm.Instance.EnumBordersType)
+            switch (MainForm.Instance.SelectedBordersType)
             {
                 case EnumBordersType.PROVINCES_BLACK:
-                    if (TextureManager.provincesBorders.texture != null) BordersMapPlane.Texture = TextureManager.provincesBorders.texture;
+                    if (TextureManager.provincesBorders.texture != null)
+                        BordersMapPlane.Texture = TextureManager.provincesBorders.texture;
                     blackBorders = true;
                     break;
                 case EnumBordersType.PROVINCES_WHITE:
-                    if (TextureManager.provincesBorders.texture != null) BordersMapPlane.Texture = TextureManager.provincesBorders.texture;
+                    if (TextureManager.provincesBorders.texture != null)
+                        BordersMapPlane.Texture = TextureManager.provincesBorders.texture;
                     blackBorders = false;
                     break;
                 case EnumBordersType.STATES_BLACK:
-                    if (TextureManager.statesBorders.texture != null) BordersMapPlane.Texture = TextureManager.statesBorders.texture;
+                    if (TextureManager.statesBorders.texture != null)
+                        BordersMapPlane.Texture = TextureManager.statesBorders.texture;
                     blackBorders = true;
                     break;
                 case EnumBordersType.STATES_WHITE:
-                    if (TextureManager.statesBorders.texture != null) BordersMapPlane.Texture = TextureManager.statesBorders.texture;
+                    if (TextureManager.statesBorders.texture != null)
+                        BordersMapPlane.Texture = TextureManager.statesBorders.texture;
                     blackBorders = false;
                     break;
                 case EnumBordersType.STRATEGIC_REGIONS_BLACK:
-                    if (TextureManager.regionsBorders.texture != null) BordersMapPlane.Texture = TextureManager.regionsBorders.texture;
+                    if (TextureManager.regionsBorders.texture != null)
+                        BordersMapPlane.Texture = TextureManager.regionsBorders.texture;
                     blackBorders = true;
                     break;
                 case EnumBordersType.STRATEGIC_REGIONS_WHITE:
-                    if (TextureManager.regionsBorders.texture != null) BordersMapPlane.Texture = TextureManager.regionsBorders.texture;
+                    if (TextureManager.regionsBorders.texture != null)
+                        BordersMapPlane.Texture = TextureManager.regionsBorders.texture;
                     blackBorders = false;
                     break;
             }

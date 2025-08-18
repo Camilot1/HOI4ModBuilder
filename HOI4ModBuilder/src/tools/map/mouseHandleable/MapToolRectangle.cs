@@ -4,6 +4,8 @@ using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.utils.structs;
+using System.Collections;
+using System;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -19,12 +21,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                   {
                       EnumTool currentTool = MainForm.Instance.SelectedTool;
                       if (e.Modifiers != Keys.Control && currentTool < EnumTool.RECTANGLE || currentTool > EnumTool.MAGIC_WAND)
-                          MainForm.Instance.SetSelectedTool(enumTool);
+                          MainForm.Instance.SetSelectedToolWithRefresh(enumTool);
                   },
-                  null,
                   0
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => null;
+        public override Func<ICollection> GetParametersProvider() => null;
+        public override Func<ICollection> GetValuesProvider() => null;
 
 
         public override bool Handle(

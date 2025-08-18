@@ -7,6 +7,8 @@ using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.utils.structs;
+using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using System.Collections;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -18,11 +20,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
                   new HotKey { shift = true, key = Keys.R },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
-                  new[] { EnumEditLayer.PROVINCES, EnumEditLayer.STATES, EnumEditLayer.STRATEGIC_REGIONS },
+                  (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool),
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
+            EnumEditLayer.PROVINCES, EnumEditLayer.STATES, EnumEditLayer.STRATEGIC_REGIONS
+        };
+        public override Func<ICollection> GetParametersProvider()
+            => () => StrategicRegionManager.GetRegionsIdsSorted();
+        public override Func<ICollection> GetValuesProvider() => null;
 
 
         public override bool Handle(
@@ -79,14 +87,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         bool needToRedraw = false;
                         foreach (var tuple in list)
                             needToRedraw |= StrategicRegionManager.TransferProvince(tuple.Item3, tuple.Item1, tuple.Item2);
-                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
                     };
                     undoAction = (list) =>
                     {
                         bool needToRedraw = false;
                         foreach (var tuple in list)
                             needToRedraw |= StrategicRegionManager.TransferProvince(tuple.Item3, tuple.Item2, tuple.Item1);
-                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
+                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
                     };
                 }
 
