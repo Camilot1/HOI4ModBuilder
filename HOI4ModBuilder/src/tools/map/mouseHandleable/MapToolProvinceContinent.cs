@@ -19,8 +19,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolProvinceContinent(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
-                  new HotKey { shift = true, key = Keys.C },
-                  (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool),
+                  new HotKey
+                  {
+                      shift = true,
+                      key = Keys.C,
+                      hotKeyEvent = (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool)
+                  },
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }

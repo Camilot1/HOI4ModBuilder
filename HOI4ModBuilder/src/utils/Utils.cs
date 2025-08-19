@@ -717,5 +717,17 @@ namespace HOI4ModBuilder
 
             return false;
         }
+
+        public static T GetFirst<T>(T[] array, Func<T, bool> predicate, T defaultValue)
+        {
+            if (array == null)
+                return defaultValue;
+
+            foreach (var element in array)
+                if (predicate(element))
+                    return element;
+
+            return defaultValue;
+        }
     }
 }

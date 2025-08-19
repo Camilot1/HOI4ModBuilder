@@ -16,12 +16,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolRectangle(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
-                  new HotKey { },
-                  (e) =>
+                  new HotKey
                   {
-                      EnumTool currentTool = MainForm.Instance.SelectedTool;
-                      if (e.Modifiers != Keys.Control && currentTool < EnumTool.RECTANGLE || currentTool > EnumTool.MAGIC_WAND)
-                          MainForm.Instance.SetSelectedToolWithRefresh(enumTool);
+                      hotKeyEvent = (e) =>
+                      {
+                          EnumTool currentTool = MainForm.Instance.SelectedTool;
+                          if (e.Modifiers != Keys.Control &&
+                                currentTool < EnumTool.RECTANGLE ||
+                                currentTool > EnumTool.MAGIC_WAND)
+                              MainForm.Instance.SetSelectedToolWithRefresh(enumTool);
+                      }
                   },
                   0
               )

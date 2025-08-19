@@ -19,8 +19,12 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
         public MapToolVictoryPoints(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
-                  new HotKey { shift = true, key = Keys.V },
-                  (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool),
+                  new HotKey
+                  {
+                      shift = true,
+                      key = Keys.V,
+                      hotKeyEvent = (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool)
+                  },
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }

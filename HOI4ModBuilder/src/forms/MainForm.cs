@@ -44,6 +44,7 @@ using HOI4ModBuilder.src.openTK;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using ColorPicker;
 using HOI4ModBuilder.src.utils.classes;
+using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder
 {
@@ -129,6 +130,17 @@ namespace HOI4ModBuilder
 
         public MainForm()
         {
+            AddMainLayerHotKey(EnumMainLayer.PROVINCES_MAP, new[] { Keys.Alt, Keys.P });
+            AddMainLayerHotKey(EnumMainLayer.STATES, new[] { Keys.Alt, Keys.S });
+            AddMainLayerHotKey(EnumMainLayer.STRATEGIC_REGIONS, new[] { Keys.Alt, Keys.R });
+            AddMainLayerHotKey(EnumMainLayer.AI_AREAS, new[] { Keys.Alt, Keys.A });
+            AddMainLayerHotKey(EnumMainLayer.COUNTRIES, new[] { Keys.Control, Keys.Alt, Keys.C });
+            AddMainLayerHotKey(EnumMainLayer.PROVINCES_TERRAINS, new[] { Keys.Alt, Keys.T });
+            AddMainLayerHotKey(EnumMainLayer.CONTINENTS, new[] { Keys.Alt, Keys.C });
+            AddMainLayerHotKey(EnumMainLayer.MANPOWER, new[] { Keys.Alt, Keys.M });
+            AddMainLayerHotKey(EnumMainLayer.VICTORY_POINTS, new[] { Keys.Alt, Keys.V });
+            AddMainLayerHotKey(EnumMainLayer.BUILDINGS, new[] { Keys.Alt, Keys.B });
+
             AfterFirstInit();
         }
 
@@ -158,11 +170,7 @@ namespace HOI4ModBuilder
             }
             Panel_Map.Controls.Add(glControl);
 
-
-            СomboBox_MapMainLayer.Items.Clear();
-            foreach (var type in Enum.GetValues(typeof(EnumMainLayer)))
-                СomboBox_MapMainLayer.Items.Add(GuiLocManager.GetLoc(type.ToString()));
-            СomboBox_MapMainLayer.SelectedIndex = 0;
+            InitComboBoxMapMainLayerItems();
 
             InterfaceUtils.ResizeComboBox(GroupBox_Main_Layer, СomboBox_MapMainLayer);
 
@@ -173,17 +181,7 @@ namespace HOI4ModBuilder
 
             InterfaceUtils.ResizeComboBox(GroupBox_Edit_Layer, ComboBox_EditLayer);
 
-            ComboBox_Tool.Items.Clear();
-            foreach (EnumTool type in Enum.GetValues(typeof(EnumTool)))
-            {
-                string hotKey = "";
-                if (MapToolsManager.TryGetMapTool(type, out MapTool mapTool))
-                {
-                    if (mapTool.HotKey != null) hotKey = " " + mapTool.HotKey.ToString();
-                }
-                ComboBox_Tool.Items.Add(GuiLocManager.GetLoc(type.ToString()) + hotKey);
-            }
-            ComboBox_Tool.SelectedIndex = 0;
+            InitComboBoxToolItems();
 
             InterfaceUtils.ResizeComboBox(GroupBox_Tool, ComboBox_Tool);
 
@@ -226,6 +224,47 @@ namespace HOI4ModBuilder
             BrushManager.Load();
         }
 
+        private static readonly Dictionary<EnumMainLayer, HotKey> _mapMainLayerMapHotKeys = new Dictionary<EnumMainLayer, HotKey>
+        { };
+        private static void AddMainLayerHotKey(EnumMainLayer layer, Keys[] keys)
+        {
+            if (keys == null || keys.Length == 0)
+                return;
+            _mapMainLayerMapHotKeys[layer] = new HotKey
+            {
+                control = Utils.Contains(keys, Keys.Control),
+                shift = Utils.Contains(keys, Keys.Shift),
+                alt = Utils.Contains(keys, Keys.Alt),
+                key = Utils.GetFirst(keys, (k) => k != Keys.Control && k != Keys.Shift && k != Keys.Alt, Keys.NoName),
+                hotKeyEvent = (e) => Instance.SetSelectedMainLayerWithRefresh(layer)
+            };
+        }
+        private void InitComboBoxMapMainLayerItems()
+        {
+            СomboBox_MapMainLayer.Items.Clear();
+            foreach (EnumMainLayer type in Enum.GetValues(typeof(EnumMainLayer)))
+            {
+                string hotKeyStr = "";
+                if (_mapMainLayerMapHotKeys.TryGetValue(type, out var hotkey))
+                    hotKeyStr = " " + hotkey.ToString();
+                СomboBox_MapMainLayer.Items.Add(GuiLocManager.GetLoc(type.ToString()) + hotKeyStr);
+            }
+            СomboBox_MapMainLayer.SelectedIndex = 0;
+        }
+
+        private void InitComboBoxToolItems()
+        {
+            ComboBox_Tool.Items.Clear();
+            foreach (EnumTool type in Enum.GetValues(typeof(EnumTool)))
+            {
+                string hotKeyStr = "";
+                if (MapToolsManager.TryGetMapTool(type, out MapTool mapTool) && mapTool.HotKey != null)
+                    hotKeyStr = " " + mapTool.HotKey.ToString();
+                ComboBox_Tool.Items.Add(GuiLocManager.GetLoc(type.ToString()) + hotKeyStr);
+            }
+            ComboBox_Tool.SelectedIndex = 0;
+        }
+
         private void AfterFirstInit()
         {
             Instance = this;
@@ -236,17 +275,8 @@ namespace HOI4ModBuilder
                 SettingsManager.Init();
                 MapManager.Init();
 
-                ComboBox_Tool.Items.Clear();
-                foreach (EnumTool type in Enum.GetValues(typeof(EnumTool)))
-                {
-                    string hotKey = "";
-                    if (MapToolsManager.TryGetMapTool(type, out MapTool mapTool))
-                    {
-                        if (mapTool.HotKey != null) hotKey = " " + mapTool.HotKey.ToString();
-                    }
-                    ComboBox_Tool.Items.Add(GuiLocManager.GetLoc(type.ToString()) + hotKey);
-                }
-                ComboBox_Tool.SelectedIndex = 0;
+                InitComboBoxMapMainLayerItems();
+                InitComboBoxToolItems();
 
                 SubscribeGlobalKeyEvent(Keys.S, (sender, e) =>
                 {
@@ -263,6 +293,9 @@ namespace HOI4ModBuilder
                     if (e.Modifiers == Keys.Control)
                         UpdateAll();
                 });
+
+                foreach (var hotkey in _mapMainLayerMapHotKeys.Values)
+                    hotkey.SubscribeTabKeyEvent(EnumTabPage.MAP);
 
                 NetworkManager.SyncGithubInfo();
             });
@@ -1077,6 +1110,7 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() =>
             {
                 SelectedMainLayer = (EnumMainLayer)СomboBox_MapMainLayer.SelectedIndex;
+                UpdateMainLayerParameterButton(SelectedMainLayer);
                 UpdateSelectedMainLayerAndTool(true, false);
             });
 
@@ -1158,10 +1192,32 @@ namespace HOI4ModBuilder
             eventHandlers.Add(eventHandler);
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            const int WM_KEYDOWN = 0x0100;
+            const int WM_SYSKEYDOWN = 0x0104;
+
+            if ((keyData & Keys.Alt) != 0) //Отключаем мнемоники в WinForms
+            {
+                if (msg.Msg == WM_KEYDOWN || msg.Msg == WM_SYSKEYDOWN)
+                {
+                    bool isRepeat = (((long)msg.LParam >> 30) & 1) != 0;
+                    if (!isRepeat)
+                    {
+                        var e = new KeyEventArgs(keyData);
+                        MainForm_KeyDown(this, e);
+                    }
+                    return true;
+                }
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Handled)
                 return;
+
             Logger.TryOrLog(() =>
             {
                 if (

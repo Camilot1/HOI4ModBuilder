@@ -115,11 +115,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public EnumTool EnumToolType { get; private set; }
         public HotKey HotKey { get; private set; }
         public EnumMainLayer[] RecalculateTextOnParameterChange { get; private set; }
-        private readonly KeyEventHandler _hotKeyEvent;
         protected static bool[] _isInDialog = new bool[1];
         private int _handleCheckFlags;
 
-        public MapTool(Dictionary<EnumTool, MapTool> mapTools, EnumTool enumTool, EnumMainLayer[] recalculateTextOnParameterChange, HotKey hotKey, Action<KeyEventArgs> hotKeyEvent, int handleCheckFlags)
+        public MapTool(Dictionary<EnumTool, MapTool> mapTools, EnumTool enumTool, EnumMainLayer[] recalculateTextOnParameterChange, HotKey hotKey, int handleCheckFlags)
         {
             EnumToolType = enumTool;
             HotKey = hotKey;
@@ -128,20 +127,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
             mapTools[EnumToolType] = this;
 
-            _hotKeyEvent = (sender, e) =>
-            {
-                if (HotKey.CheckKeys(e)) hotKeyEvent(e);
-            };
-
-            if (HotKey.key != Keys.None)
-            {
-                MainForm.SubscribeTabKeyEvent(
-                    EnumTabPage.MAP,
-                    HotKey.key,
-                    _hotKeyEvent
-                );
-            }
-
+            HotKey?.SubscribeTabKeyEvent(EnumTabPage.MAP);
             _handleCheckFlags = handleCheckFlags;
         }
 
