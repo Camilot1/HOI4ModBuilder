@@ -150,7 +150,7 @@ namespace HOI4ModBuilder.src.forms.recoveryForms
         {
             Logger.TryOrLog(() =>
             {
-                if (!MainForm.firstLoad)
+                if (!MainForm.IsFirstLoaded)
                     throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.EXCEPTION_FORM_STRATEGIC_REGION_DATA_RECOVERY_CANT_EXECUTE_BECAUSE_NO_DATA_WAS_LOADED
                     ));
@@ -366,7 +366,7 @@ namespace HOI4ModBuilder.src.forms.recoveryForms
         {
             Logger.TryOrLog(() =>
             {
-                if (!MainForm.firstLoad)
+                if (!MainForm.IsFirstLoaded)
                     throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.EXCEPTION_FORM_STRATEGIC_REGION_DATA_RECOVERY_CANT_EXECUTE_BECAUSE_NO_DATA_WAS_LOADED
                     ));

@@ -19,9 +19,16 @@ using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
+using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
+using OpenTK;
+using OpenTK.Graphics;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.managers
 {
@@ -29,7 +36,314 @@ namespace HOI4ModBuilder.managers
     {
         public static DateTime[] currentDateStamp;
 
-        public static void Load(Settings settings)
+        public static void SaveAll()
+        {
+            Logger.TryOrLog(() =>
+            {
+                //TODO Добавить это для обновления (CTLR+U)
+
+                if (!MainForm.IsFirstLoaded)
+                {
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_NO_DATA_WAS_LOADED);
+                    return;
+                }
+                else if (MainForm.ErrorsOrExceptionsDuringLoading)
+                {
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_OF_LOADING_ERRORS_OR_EXCEPTIONS);
+                    return;
+                }
+                else if (MainForm.IsLoadingOrSaving)
+                {
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_ALREADY_SAVING_OR_LOADING);
+                    return;
+                }
+                else if (!SettingsManager.Settings.IsModDirectorySelected())
+                {
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
+                    return;
+                }
+
+                MainForm.IsLoadingOrSaving = true;
+
+                SaveAllData(SettingsManager.Settings);
+
+                MainForm.IsLoadingOrSaving = false;
+            },
+            () =>
+            {
+                if (Logger.ExceptionsCount == 0)
+                {
+                    MainForm.DisplayProgress(
+                        EnumLocKey.PROGRESSBAR_SAVED,
+                        new Dictionary<string, string>
+                        {
+                            { "{time}", $"{DateTime.Now.ToLongTimeString()}" },
+                            { "{warningsCount}", $"{Logger.WarningsCount}" },
+                            { "{errorsCount}", $"{Logger.ErrorsCount}" },
+                            { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
+                        },
+                        0
+                    );
+
+                    if (Logger.ErrorsCount > 0)
+                        MainForm.Instance.SetGroupBoxProgressBackColor(Color.OrangeRed);
+                    else if (Logger.WarningsCount > 0)
+                        MainForm.Instance.SetGroupBoxProgressBackColor(Color.Yellow);
+                    else
+                        MainForm.Instance.SetGroupBoxProgressBackColor(Color.White);
+                }
+                else
+                {
+                    MainForm.DisplayProgress(
+                        EnumLocKey.PROGRESSBAR_SAVING_FAILED,
+                        new Dictionary<string, string>
+                        {
+                            { "{time}", $"{DateTime.Now.ToLongTimeString()}" },
+                            { "{warningsCount}", $"{Logger.WarningsCount}" },
+                            { "{errorsCount}", $"{Logger.ErrorsCount}" },
+                            { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
+                        },
+                        0
+                    );
+                    MainForm.Instance.SetGroupBoxProgressBackColor(Color.Red);
+                }
+
+                MapManager.HandleMapMainLayerChange(true, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
+
+                Logger.DisplayWarnings();
+                Logger.DisplayErrors();
+                Logger.DisplayExceptions();
+                Utils.CleanUpMemory();
+                MainForm.IsLoadingOrSaving = false;
+            });
+
+        }
+
+        public static void LoadAll()
+        {
+            if (MainForm.IsLoadingOrSaving)
+            {
+                Logger.LogSingleErrorMessage(EnumLocKey.CANT_LOAD_BECAUSE_ALREADY_SAVING_OR_LOADING);
+                return;
+            }
+            else if (!SettingsManager.Settings.IsModDirectorySelected())
+            {
+                Logger.LogSingleErrorMessage(EnumLocKey.CANT_LOAD_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
+                return;
+            }
+
+            MainForm.IsFirstLoaded = true;
+            MainForm.IsLoadingOrSaving = true;
+
+            Logger.Log("Loading...");
+
+            if (MainForm.Instance.GLControl.Context == null)
+            {
+                Logger.LogSingleErrorMessage("Can't load data. glControl.Context == null");
+                MainForm.IsLoadingOrSaving = false;
+                return;
+            }
+
+            MainForm.PauseGLControl();
+            MainForm.Instance.SetGroupBoxProgressBackColor(Color.White);
+
+
+            Task.Run(() =>
+            {
+                Logger.TryOrLog(
+                    () =>
+                    {
+                        var context = new GraphicsContext(GraphicsMode.Default, MainForm.Instance.GLControl.WindowInfo);
+                        context.MakeCurrent(MainForm.Instance.GLControl.WindowInfo);
+
+                        Logger.CloseAllTextBoxMessageForms();
+
+                        Stopwatch stopwatch = Stopwatch.StartNew();
+                        LoadAllData(SettingsManager.Settings);
+                        stopwatch.Stop();
+                        Logger.Log("Loading time: " + stopwatch.ElapsedMilliseconds + " ms");
+
+                        context.MakeCurrent(null);
+                    },
+                    () => MainForm.Instance.TryInvokeActionOrLog(
+                        () =>
+                        {
+                            if (Logger.ExceptionsCount == 0)
+                            {
+                                MainForm.DisplayProgress(
+                                    EnumLocKey.PROGRESSBAR_LOADED,
+                                    new Dictionary<string, string>
+                                    {
+                                        { "{warningsCount}", $"{Logger.WarningsCount}" },
+                                        { "{errorsCount}", $"{Logger.ErrorsCount}" },
+                                        { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
+                                    },
+                                    0
+                                );
+
+                                if (Logger.ErrorsCount > 0)
+                                    MainForm.Instance.SetGroupBoxProgressBackColor(Color.OrangeRed);
+                                else if (Logger.WarningsCount > 0)
+                                    MainForm.Instance.SetGroupBoxProgressBackColor(Color.Yellow);
+                                else
+                                    MainForm.Instance.SetGroupBoxProgressBackColor(Color.White);
+                            }
+                            else
+                            {
+                                MainForm.DisplayProgress(
+                                    EnumLocKey.PROGRESSBAR_LOADING_FAILED,
+                                    new Dictionary<string, string>
+                                    {
+                                        { "{warningsCount}", $"{Logger.WarningsCount}" },
+                                        { "{errorsCount}", $"{Logger.ErrorsCount}" },
+                                        { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
+                                    },
+                                    0
+                                );
+                                MainForm.Instance.SetGroupBoxProgressBackColor(Color.Red);
+                            }
+
+                            MainForm.ResumeGLControl();
+                            if (MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Count > 0)
+                                MainForm.Instance.ToolStripComboBox_Data_Bookmark.SelectedIndex = 0;
+
+                            MainForm.Instance.UpdateSelectedMainLayerAndTool(true, false);
+                            MainForm.Instance.UpdateBordersType();
+                            //MapManager.LoadSDFThings();
+
+                            if (Logger.ErrorsCount > 0 || Logger.ExceptionsCount > 0)
+                                MainForm.ErrorsOrExceptionsDuringLoading = true;
+                            else
+                                MainForm.ErrorsOrExceptionsDuringLoading = false;
+
+                            Logger.DisplayWarnings();
+                            Logger.DisplayErrors();
+                            Logger.DisplayExceptions();
+                            Utils.CleanUpMemory();
+                            MainForm.IsLoadingOrSaving = false;
+                        },
+                        (ex) =>
+                        {
+                            Logger.LogException(ex);
+
+                            if (Logger.ErrorsCount > 0 || Logger.ExceptionsCount > 0)
+                                MainForm.ErrorsOrExceptionsDuringLoading = true;
+                            else
+                                MainForm.ErrorsOrExceptionsDuringLoading = false;
+
+                            Logger.DisplayWarnings();
+                            Logger.DisplayErrors();
+                            Logger.DisplayExceptions();
+                            Utils.CleanUpMemory();
+                            MainForm.IsLoadingOrSaving = false;
+                        }
+                    )
+                );
+            });
+        }
+        public static void UpdateAll()
+            => Logger.TryOrLog(() =>
+            {
+                if (!MainForm.IsFirstLoaded)
+                {
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_UPDATE_BECAUSE_NO_DATA_WAS_LOADED);
+                    return;
+                }
+                else if (MainForm.IsLoadingOrSaving)
+                {
+                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_UPDATE_BECAUSE_ALREADY_SAVING_OR_LOADING);
+                    return;
+                }
+
+                MainForm.IsLoadingOrSaving = true;
+
+                SavePattern.LoadAll();
+                MapManager.UpdateMapInfo();
+
+                MainForm.IsLoadingOrSaving = false;
+            });
+
+        private static void SaveAllData(Settings settings)
+        {
+            MainForm.IsMapMainLayerChangeEnabled = false;
+
+            Logger.Log("Saving...");
+
+            LocalModDataManager.SaveLocalSettings(settings);
+            DataManager.Save(settings);
+            TextureManager.SaveAllMaps(settings);
+
+            Utils.CleanUpMemory();
+
+            MainForm.IsMapMainLayerChangeEnabled = true;
+        }
+
+        private static void LoadAllData(Settings settings)
+        {
+            SettingsManager.Settings.LoadModDescriptors();
+
+            LocalModDataManager.Load(settings);
+            SavePattern.LoadAll();
+
+            MainForm.IsMapMainLayerChangeEnabled = false;
+
+            MapManager.ActionHistory.Clear();
+
+            //Logger.Log($"Выполняю загрузку шрифтов");
+            //FontManager.LoadFonts();
+
+            Logger.Log($"Loading mod directory: {SettingsManager.Settings.modDirectory}");
+            DataManager.Load(SettingsManager.Settings);
+            MapManager.Load(SettingsManager.Settings);
+
+            MapPositionsManager.Load(settings);
+
+            WarningsManager.Init();
+            ErrorManager.Init();
+
+            MainForm.IsMapMainLayerChangeEnabled = true;
+        }
+
+        public static void OnBookmarkChange()
+        {
+            Logger.TryOrLog(() =>
+            {
+                string[] value = MainForm.Instance.ToolStripComboBox_Data_Bookmark.Text.Split(']');
+                if (value.Length > 1)
+                {
+                    string dateTimeString = value[0].Replace('[', ' ').Trim();
+
+                    try
+                    {
+                        if (Utils.TryParseDateTimeStamp(dateTimeString, out DateTime dateTime))
+                        {
+                            currentDateStamp = new DateTime[] { dateTime };
+                            CountryManager.UpdateByDateTimeStamp(dateTime);
+                            StateManager.UpdateByDateTimeStamp(dateTime);
+
+                            if (!MainForm.IsLoadingOrSaving)
+                                MapManager.HandleMapMainLayerChange(true, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
+                        }
+                        else throw new Exception(GuiLocManager.GetLoc(
+                                EnumLocKey.EXCEPTION_BOOKMARK_NOT_FOUND,
+                                new Dictionary<string, string> { { "{bookmark}", dateTimeString } }
+                            ));
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(
+                            GuiLocManager.GetLoc(
+                                EnumLocKey.EXCEPTION_WHILE_BOOKMARK_LOADING,
+                                new Dictionary<string, string> { { "{bookmark}", dateTimeString } }
+                            ),
+                            ex
+                        );
+                    }
+                }
+            });
+        }
+
+        private static void Load(Settings settings)
         {
             LoadManagers(settings);
         }

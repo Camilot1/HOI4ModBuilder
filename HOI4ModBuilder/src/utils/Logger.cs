@@ -249,8 +249,10 @@ namespace HOI4ModBuilder.src.utils
                 tempEx = tempEx.InnerException;
             }
 
-            if (MainForm.isLoadingOrSaving[0]) _exceptions.Add(message);
-            else LogSingleErrorMessage(ex.ToString());
+            if (MainForm.IsLoadingOrSaving)
+                _exceptions.Add(message);
+            else
+                LogSingleErrorMessage(ex.ToString());
             Log($"EXCEPTION: {ex}\n");
         }
 
@@ -265,8 +267,10 @@ namespace HOI4ModBuilder.src.utils
                 tempEx = tempEx.InnerException;
             }
 
-            if (MainForm.isLoadingOrSaving[0]) _exceptions.Add(message);
-            else LogSingleErrorMessage(ex.ToString());
+            if (MainForm.IsLoadingOrSaving)
+                _exceptions.Add(message);
+            else
+                LogSingleErrorMessage(ex.ToString());
             Log($"EXCEPTION: {ex}\n");
         }
 

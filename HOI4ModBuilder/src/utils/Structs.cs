@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace HOI4ModBuilder.utils
 {
@@ -33,6 +34,20 @@ namespace HOI4ModBuilder.utils
                 {
                     MainForm.SubscribeTabKeyEvent(
                         tab, key, (sender, e) =>
+                        {
+                            if (CheckKeys(e))
+                                hotKeyEvent(e);
+                        }
+                    );
+                }
+            }
+
+            public void SubscribeGlobalKeyEvent()
+            {
+                if (key != Keys.None && hotKeyEvent != null)
+                {
+                    MainForm.SubscribeGlobalKeyEvent(
+                        key, (sender, e) =>
                         {
                             if (CheckKeys(e))
                                 hotKeyEvent(e);

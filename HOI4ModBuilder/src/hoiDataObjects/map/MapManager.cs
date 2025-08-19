@@ -132,7 +132,7 @@ namespace HOI4ModBuilder.managers
             if (MapMainLayer == null)
                 return;
 
-            var vpi = MainForm.Instance.viewportInfo;
+            var vpi = MainForm.Instance.ViewportInfo;
             var viewportMinPoint = CalculateMapPos(0, 0, vpi);
             var viewportMaxPoint = CalculateMapPos(vpi.width, vpi.height, vpi);
             viewportBounds.left = (float)viewportMinPoint.x;
@@ -218,22 +218,22 @@ namespace HOI4ModBuilder.managers
             )
             {
                 var _projection = Matrix4.CreateOrthographicOffCenter(
-                    MainForm.Instance.viewportInfo.x,
-                    -MainForm.Instance.viewportInfo.x + MainForm.Instance.viewportInfo.width,
-                    MainForm.Instance.viewportInfo.y,
-                    -MainForm.Instance.viewportInfo.y + MainForm.Instance.viewportInfo.height,
+                    MainForm.Instance.ViewportInfo.x,
+                    -MainForm.Instance.ViewportInfo.x + MainForm.Instance.ViewportInfo.width,
+                    MainForm.Instance.ViewportInfo.y,
+                    -MainForm.Instance.ViewportInfo.y + MainForm.Instance.ViewportInfo.height,
                     -1f, 1f
                 );
 
                 var scaleHalf = TextScale / 2f;
-                float factor = (float)(zoomFactor) * MainForm.Instance.viewportInfo.max;
+                float factor = (float)(zoomFactor) * MainForm.Instance.ViewportInfo.max;
 
                 var viewMatrix =
                     Matrix4.CreateScale(scaleHalf, scaleHalf, scaleHalf) *
                     Matrix4.CreateScale(factor, factor, factor) *
                     Matrix4.CreateTranslation(
-                        MainForm.Instance.viewportInfo.width / 2f + (float)((mapDifX + 0.5f) * factor / 2f),
-                        MainForm.Instance.viewportInfo.height / 2f + (float)(-mapDifY * factor / 2f),
+                        MainForm.Instance.ViewportInfo.width / 2f + (float)((mapDifX + 0.5f) * factor / 2f),
+                        MainForm.Instance.ViewportInfo.height / 2f + (float)(-mapDifY * factor / 2f),
                         0f
                     );
 
@@ -376,7 +376,7 @@ namespace HOI4ModBuilder.managers
             if (ProvincesPixels == null)
                 return;
 
-            if (!MainForm.firstLoad)
+            if (!MainForm.IsFirstLoaded)
                 return;
 
             Func<Province, int> func = (p) => Utils.ArgbToInt(255, 0, 0, 0);
@@ -555,8 +555,8 @@ namespace HOI4ModBuilder.managers
                 Logger.TryOrLog(
                     () =>
                     {
-                        var context = new GraphicsContext(GraphicsMode.Default, MainForm.Instance.glControl.WindowInfo);
-                        context.MakeCurrent(MainForm.Instance.glControl.WindowInfo);
+                        var context = new GraphicsContext(GraphicsMode.Default, MainForm.Instance.GLControl.WindowInfo);
+                        context.MakeCurrent(MainForm.Instance.GLControl.WindowInfo);
 
                         TextureManager.LoadBorders();
                         ProvinceManager.ProcessProvincesPixels(ProvincesPixels, MapSize.x, MapSize.y);
@@ -666,7 +666,7 @@ namespace HOI4ModBuilder.managers
 
             MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, selectBounds, parameter, value);
 
-            if (e.Button == MouseButtons.Middle && MainForm.firstLoad)
+            if (e.Button == MouseButtons.Middle && MainForm.IsFirstLoaded)
                 IsMapDragged = true;
 
             _mouseState = EnumMouseState.NONE;

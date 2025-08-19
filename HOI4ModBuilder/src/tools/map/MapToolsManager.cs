@@ -57,7 +57,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             Logger.TryOrLog(() =>
             {
-                if (!MainForm.firstLoad)
+                if (!MainForm.IsFirstLoaded)
                     return;
                 if (_mapTools.TryGetValue(enumTool, out MapTool mapTool))
                     mapTool.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value);
