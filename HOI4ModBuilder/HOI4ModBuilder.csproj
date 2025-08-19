@@ -862,7 +862,7 @@
     <Compile Include="src\utils\exceptions\IncorrectValueException.cs" />
     <Compile Include="src\utils\exceptions\ProvinceNotFoundException.cs" />
     <Compile Include="src\utils\exceptions\UnknownTokenException.cs" />
-    <Compile Include="src\utils\GraphicsUtils.cs" />
+    <Compile Include="src\utils\InterfaceUtils.cs" />
     <Compile Include="src\utils\json\EnumArrayToStringConverter.cs" />
     <Compile Include="src\managers\GuiLocManager.cs" />
     <Compile Include="src\utils\LocalizedAction.cs" />

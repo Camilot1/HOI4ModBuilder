@@ -16,7 +16,6 @@ using HOI4ModBuilder.src.forms.messageForms;
 using HOI4ModBuilder.src.forms.recoveryForms;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
-using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
@@ -37,13 +36,10 @@ using HOI4ModBuilder.src.forms.scripts;
 using HOI4ModBuilder.src.scripts;
 using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.tools.brushes;
-using HOI4ModBuilder.src.newParser.objects;
 using System.Linq;
-using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.openTK;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
-using ColorPicker;
-using HOI4ModBuilder.src.utils.classes;
+using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder
 {
@@ -51,20 +47,73 @@ namespace HOI4ModBuilder
     {
         public static MainForm Instance { get; private set; }
 
-        public GLControl glControl;
-        public static bool firstLoad = false;
-        public static bool errorsOrExceptionsDuringLoading = false;
-        public static bool[] isLoadingOrSaving = new bool[1];
-        public static bool updateGLControl = true;
-        public static bool isMapMainLayerChangeEnabled = false;
+        public GLControl GLControl { get; private set; }
+        public static bool IsFirstLoaded { get; set; } = false;
+        public static bool ErrorsOrExceptionsDuringLoading { get; set; } = false;
+        public static bool IsLoadingOrSaving { get; set; } = false;
+        public static bool UpdateGLControl { get; set; } = true;
+        public static bool IsMapMainLayerChangeEnabled { get; set; } = false;
 
         private Color brushFirstColor = Color.White, brushSecondColor = Color.White;
-        public ViewportInfo viewportInfo = new ViewportInfo();
-        public EnumMainLayer enumMainLayer = EnumMainLayer.PROVINCES_MAP;
-        public EnumTool enumTool = EnumTool.CURSOR;
-        public EnumEditLayer enumEditLayer = EnumEditLayer.PROVINCES;
-        private EnumBordersType enumBordersType = EnumBordersType.PROVINCES_BLACK;
-        public EnumBordersType EnumBordersType => enumBordersType;
+        public ViewportInfo ViewportInfo { get; private set; } = new ViewportInfo();
+
+        private EnumMainLayer _selectedMainLayer = EnumMainLayer.PROVINCES_MAP;
+        public EnumMainLayer SelectedMainLayer
+        {
+            get => _selectedMainLayer;
+            set
+            {
+                _prevMainLayer = _selectedMainLayer;
+                _selectedMainLayer = value;
+            }
+        }
+        public void SetSelectedMainLayerWithRefresh(EnumMainLayer layer)
+        {
+            SelectedMainLayer = layer;
+            СomboBox_MapMainLayer.SelectedIndex = (int)layer;
+            СomboBox_MapMainLayer.Refresh();
+        }
+        private EnumMainLayer _prevMainLayer;
+        public EnumMainLayer PrevMainLayer { get => _prevMainLayer; }
+
+
+        private EnumTool _selectedTool = EnumTool.CURSOR;
+        public EnumTool SelectedTool
+        {
+            get => _selectedTool;
+            set
+            {
+                _prevTool = _selectedTool;
+                _selectedTool = value;
+
+                ComboBox_Tool.SelectedIndex = (int)_selectedTool;
+                ComboBox_Tool.Refresh();
+            }
+        }
+        public void SetSelectedToolWithRefresh(EnumTool tool)
+        {
+            SelectedTool = tool;
+            ComboBox_Tool.SelectedIndex = (int)tool;
+            ComboBox_Tool.Refresh();
+        }
+        public EnumTool _prevTool;
+        public EnumTool PrevTool { get => _prevTool; }
+
+
+        private EnumEditLayer _selectedEditLayer = EnumEditLayer.PROVINCES;
+        public EnumEditLayer SelectedEditLayer
+        {
+            get => _selectedEditLayer;
+            set
+            {
+                _prevEditLayer = _selectedEditLayer;
+                _selectedEditLayer = value;
+            }
+        }
+        public EnumEditLayer _prevEditLayer;
+        public EnumEditLayer PrevEditLayer { get => _prevEditLayer; }
+
+        public EnumBordersType SelectedBordersType { get; private set; } = EnumBordersType.PROVINCES_BLACK;
 
         // Сохраняем делегат в статическом поле для избежания ошибки "CallbackOnCollectedDelegate"
         private static DebugProc debugProc;
@@ -76,6 +125,17 @@ namespace HOI4ModBuilder
 
         public MainForm()
         {
+            AddMainLayerHotKey(EnumMainLayer.PROVINCES_MAP, new[] { Keys.Alt, Keys.P });
+            AddMainLayerHotKey(EnumMainLayer.STATES, new[] { Keys.Alt, Keys.S });
+            AddMainLayerHotKey(EnumMainLayer.STRATEGIC_REGIONS, new[] { Keys.Alt, Keys.R });
+            AddMainLayerHotKey(EnumMainLayer.AI_AREAS, new[] { Keys.Alt, Keys.A });
+            AddMainLayerHotKey(EnumMainLayer.COUNTRIES, new[] { Keys.Control, Keys.Alt, Keys.C });
+            AddMainLayerHotKey(EnumMainLayer.PROVINCES_TERRAINS, new[] { Keys.Alt, Keys.T });
+            AddMainLayerHotKey(EnumMainLayer.CONTINENTS, new[] { Keys.Alt, Keys.C });
+            AddMainLayerHotKey(EnumMainLayer.MANPOWER, new[] { Keys.Alt, Keys.M });
+            AddMainLayerHotKey(EnumMainLayer.VICTORY_POINTS, new[] { Keys.Alt, Keys.V });
+            AddMainLayerHotKey(EnumMainLayer.BUILDINGS, new[] { Keys.Alt, Keys.B });
+
             AfterFirstInit();
         }
 
@@ -91,48 +151,34 @@ namespace HOI4ModBuilder
             InitializeComponent();
             Text += $" [{Logger.version}]";
 
-            if (glControl == null)
+            if (GLControl == null)
             {
-                glControl = new GLControl();
-                glControl.Dock = DockStyle.Fill;
-                glControl.Load += GLControl_Load;
-                glControl.Resize += GLControl_Resize;
-                glControl.Paint += GLControl_Paint;
-                glControl.MouseWheel += new MouseEventHandler(Panel1_MouseWheel);
-                glControl.MouseDown += new MouseEventHandler(Panel1_MouseDown);
-                glControl.MouseUp += new MouseEventHandler(Panel1_MouseUp);
-                glControl.MouseMove += new MouseEventHandler(Panel1_MouseMove);
+                GLControl = new GLControl();
+                GLControl.Dock = DockStyle.Fill;
+                GLControl.Load += GLControl_Load;
+                GLControl.Resize += GLControl_Resize;
+                GLControl.Paint += GLControl_Paint;
+                GLControl.MouseWheel += new MouseEventHandler(Panel1_MouseWheel);
+                GLControl.MouseDown += new MouseEventHandler(Panel1_MouseDown);
+                GLControl.MouseUp += new MouseEventHandler(Panel1_MouseUp);
+                GLControl.MouseMove += new MouseEventHandler(Panel1_MouseMove);
             }
-            Panel_Map.Controls.Add(glControl);
+            Panel_Map.Controls.Add(GLControl);
 
+            InitComboBoxMapMainLayerItems();
 
-            СomboBox_MapMainLayer.Items.Clear();
-            foreach (var type in Enum.GetValues(typeof(EnumMainLayer)))
-                СomboBox_MapMainLayer.Items.Add(GuiLocManager.GetLoc(type.ToString()));
-            СomboBox_MapMainLayer.SelectedIndex = 0;
-
-            GraphicsUtils.ResizeComboBox(GroupBox_Main_Layer, СomboBox_MapMainLayer);
+            InterfaceUtils.ResizeComboBox(GroupBox_Main_Layer, СomboBox_MapMainLayer);
 
             ComboBox_EditLayer.Items.Clear();
             foreach (var type in Enum.GetValues(typeof(EnumEditLayer)))
                 ComboBox_EditLayer.Items.Add(GuiLocManager.GetLoc(type.ToString()));
             ComboBox_EditLayer.SelectedIndex = 0;
 
-            GraphicsUtils.ResizeComboBox(GroupBox_Edit_Layer, ComboBox_EditLayer);
+            InterfaceUtils.ResizeComboBox(GroupBox_Edit_Layer, ComboBox_EditLayer);
 
-            ComboBox_Tool.Items.Clear();
-            foreach (EnumTool type in Enum.GetValues(typeof(EnumTool)))
-            {
-                string hotKey = "";
-                if (MapToolsManager.TryGetMapTool(type, out MapTool mapTool))
-                {
-                    if (mapTool.HotKey != null) hotKey = " " + mapTool.HotKey.ToString();
-                }
-                ComboBox_Tool.Items.Add(GuiLocManager.GetLoc(type.ToString()) + hotKey);
-            }
-            ComboBox_Tool.SelectedIndex = 0;
+            InitComboBoxToolItems();
 
-            GraphicsUtils.ResizeComboBox(GroupBox_Tool, ComboBox_Tool);
+            InterfaceUtils.ResizeComboBox(GroupBox_Tool, ComboBox_Tool);
 
             ComboBox_BordersType.Items.Clear();
             foreach (var type in Enum.GetValues(typeof(EnumBordersType)))
@@ -173,6 +219,47 @@ namespace HOI4ModBuilder
             BrushManager.Load();
         }
 
+        private static readonly Dictionary<EnumMainLayer, HotKey> _mapMainLayerMapHotKeys = new Dictionary<EnumMainLayer, HotKey>
+        { };
+        private static void AddMainLayerHotKey(EnumMainLayer layer, Keys[] keys)
+        {
+            if (keys == null || keys.Length == 0)
+                return;
+            _mapMainLayerMapHotKeys[layer] = new HotKey
+            {
+                control = Utils.Contains(keys, Keys.Control),
+                shift = Utils.Contains(keys, Keys.Shift),
+                alt = Utils.Contains(keys, Keys.Alt),
+                key = Utils.GetFirst(keys, (k) => k != Keys.Control && k != Keys.Shift && k != Keys.Alt, Keys.NoName),
+                hotKeyEvent = (e) => Instance.SetSelectedMainLayerWithRefresh(layer)
+            };
+        }
+        private void InitComboBoxMapMainLayerItems()
+        {
+            СomboBox_MapMainLayer.Items.Clear();
+            foreach (EnumMainLayer type in Enum.GetValues(typeof(EnumMainLayer)))
+            {
+                string hotKeyStr = "";
+                if (_mapMainLayerMapHotKeys.TryGetValue(type, out var hotkey))
+                    hotKeyStr = " " + hotkey.ToString();
+                СomboBox_MapMainLayer.Items.Add(GuiLocManager.GetLoc(type.ToString()) + hotKeyStr);
+            }
+            СomboBox_MapMainLayer.SelectedIndex = 0;
+        }
+
+        private void InitComboBoxToolItems()
+        {
+            ComboBox_Tool.Items.Clear();
+            foreach (EnumTool type in Enum.GetValues(typeof(EnumTool)))
+            {
+                string hotKeyStr = "";
+                if (MapToolsManager.TryGetMapTool(type, out MapTool mapTool) && mapTool.HotKey != null)
+                    hotKeyStr = " " + mapTool.HotKey.ToString();
+                ComboBox_Tool.Items.Add(GuiLocManager.GetLoc(type.ToString()) + hotKeyStr);
+            }
+            ComboBox_Tool.SelectedIndex = 0;
+        }
+
         private void AfterFirstInit()
         {
             Instance = this;
@@ -183,33 +270,15 @@ namespace HOI4ModBuilder
                 SettingsManager.Init();
                 MapManager.Init();
 
-                ComboBox_Tool.Items.Clear();
-                foreach (EnumTool type in Enum.GetValues(typeof(EnumTool)))
-                {
-                    string hotKey = "";
-                    if (MapToolsManager.TryGetMapTool(type, out MapTool mapTool))
-                    {
-                        if (mapTool.HotKey != null) hotKey = " " + mapTool.HotKey.ToString();
-                    }
-                    ComboBox_Tool.Items.Add(GuiLocManager.GetLoc(type.ToString()) + hotKey);
-                }
-                ComboBox_Tool.SelectedIndex = 0;
+                InitComboBoxMapMainLayerItems();
+                InitComboBoxToolItems();
 
-                SubscribeGlobalKeyEvent(Keys.S, (sender, e) =>
-                {
-                    if (e.Modifiers == Keys.Control)
-                        SaveAll();
-                });
-                SubscribeGlobalKeyEvent(Keys.L, (sender, e) =>
-                {
-                    if (e.Modifiers == Keys.Control)
-                        LoadAll();
-                });
-                SubscribeGlobalKeyEvent(Keys.U, (sender, e) =>
-                {
-                    if (e.Modifiers == Keys.Control)
-                        UpdateAll();
-                });
+                new HotKey { control = true, key = Keys.S, hotKeyEvent = (e) => DataManager.SaveAll() }.SubscribeGlobalKeyEvent();
+                new HotKey { control = true, key = Keys.L, hotKeyEvent = (e) => DataManager.LoadAll() }.SubscribeGlobalKeyEvent();
+                new HotKey { control = true, key = Keys.U, hotKeyEvent = (e) => DataManager.UpdateAll() }.SubscribeGlobalKeyEvent();
+
+                foreach (var hotkey in _mapMainLayerMapHotKeys.Values)
+                    hotkey.SubscribeTabKeyEvent(EnumTabPage.MAP);
 
                 NetworkManager.SyncGithubInfo();
             });
@@ -227,201 +296,6 @@ namespace HOI4ModBuilder
 
         public void TryInvokeActionOrLog(Action tryAction, Action<Exception> catchAction)
             => Invoke((MethodInvoker)delegate { Logger.TryOrCatch(tryAction, catchAction); });
-
-        private void SaveAll()
-        {
-            Logger.TryOrLog(() =>
-            {
-                //TODO Добавить это для обновления (CTLR+U)
-
-                if (!firstLoad)
-                {
-                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_NO_DATA_WAS_LOADED);
-                    return;
-                }
-                else if (errorsOrExceptionsDuringLoading)
-                {
-                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_OF_LOADING_ERRORS_OR_EXCEPTIONS);
-                    return;
-                }
-                else if (isLoadingOrSaving[0])
-                {
-                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_ALREADY_SAVING_OR_LOADING);
-                    return;
-                }
-                else if (!SettingsManager.Settings.IsModDirectorySelected())
-                {
-                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
-                    return;
-                }
-
-                isLoadingOrSaving[0] = true;
-
-                SaveAllData(SettingsManager.Settings);
-
-                isLoadingOrSaving[0] = false;
-            },
-            () =>
-            {
-                if (Logger.ExceptionsCount == 0)
-                {
-                    DisplayProgress(
-                        EnumLocKey.PROGRESSBAR_SAVED,
-                        new Dictionary<string, string>
-                        {
-                            { "{time}", $"{DateTime.Now.ToLongTimeString()}" },
-                            { "{warningsCount}", $"{Logger.WarningsCount}" },
-                            { "{errorsCount}", $"{Logger.ErrorsCount}" },
-                            { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
-                        },
-                        0
-                    );
-
-                    if (Logger.ErrorsCount > 0) GroupBox_Progress.BackColor = Color.OrangeRed;
-                    else if (Logger.WarningsCount > 0) GroupBox_Progress.BackColor = Color.Yellow;
-                    else GroupBox_Progress.BackColor = Color.White;
-                }
-                else
-                {
-                    DisplayProgress(
-                        EnumLocKey.PROGRESSBAR_SAVING_FAILED,
-                        new Dictionary<string, string>
-                        {
-                            { "{time}", $"{DateTime.Now.ToLongTimeString()}" },
-                            { "{warningsCount}", $"{Logger.WarningsCount}" },
-                            { "{errorsCount}", $"{Logger.ErrorsCount}" },
-                            { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
-                        },
-                        0
-                    );
-                    GroupBox_Progress.BackColor = Color.Red;
-                }
-
-                MapManager.HandleMapMainLayerChange(true, enumMainLayer, ComboBox_Tool_Parameter.Text);
-
-                Logger.DisplayWarnings();
-                Logger.DisplayErrors();
-                Logger.DisplayExceptions();
-                Utils.CleanUpMemory();
-                isLoadingOrSaving[0] = false;
-            });
-
-        }
-
-        private void LoadAll()
-        {
-            if (isLoadingOrSaving[0])
-            {
-                Logger.LogSingleErrorMessage(EnumLocKey.CANT_LOAD_BECAUSE_ALREADY_SAVING_OR_LOADING);
-                return;
-            }
-            else if (!SettingsManager.Settings.IsModDirectorySelected())
-            {
-                Logger.LogSingleErrorMessage(EnumLocKey.CANT_LOAD_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
-                return;
-            }
-
-            firstLoad = true;
-            isLoadingOrSaving[0] = true;
-
-            Logger.Log("Loading...");
-
-            if (glControl.Context == null)
-            {
-                Logger.LogSingleErrorMessage("Can't load data. glControl.Context == null");
-                isLoadingOrSaving[0] = false;
-                return;
-            }
-
-            PauseGLControl();
-            GroupBox_Progress.BackColor = Color.White;
-
-
-            Task.Run(() =>
-            {
-                Logger.TryOrLog(
-                    () =>
-                    {
-                        var context = new GraphicsContext(GraphicsMode.Default, glControl.WindowInfo);
-                        context.MakeCurrent(glControl.WindowInfo);
-
-                        Logger.CloseAllTextBoxMessageForms();
-
-                        Stopwatch stopwatch = Stopwatch.StartNew();
-                        LoadAllData(SettingsManager.Settings);
-                        stopwatch.Stop();
-                        Logger.Log("Loading time: " + stopwatch.ElapsedMilliseconds + " ms");
-
-                        context.MakeCurrent(null);
-                    },
-                    () => TryInvokeActionOrLog(
-                        () =>
-                        {
-                            if (Logger.ExceptionsCount == 0)
-                            {
-                                DisplayProgress(
-                                    EnumLocKey.PROGRESSBAR_LOADED,
-                                    new Dictionary<string, string>
-                                    {
-                                        { "{warningsCount}", $"{Logger.WarningsCount}" },
-                                        { "{errorsCount}", $"{Logger.ErrorsCount}" },
-                                        { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
-                                    },
-                                    0
-                                );
-
-                                if (Logger.ErrorsCount > 0) GroupBox_Progress.BackColor = Color.OrangeRed;
-                                else if (Logger.WarningsCount > 0) GroupBox_Progress.BackColor = Color.Yellow;
-                                else GroupBox_Progress.BackColor = Color.White;
-                            }
-                            else
-                            {
-                                DisplayProgress(
-                                    EnumLocKey.PROGRESSBAR_LOADING_FAILED,
-                                    new Dictionary<string, string>
-                                    {
-                                        { "{warningsCount}", $"{Logger.WarningsCount}" },
-                                        { "{errorsCount}", $"{Logger.ErrorsCount}" },
-                                        { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
-                                    },
-                                    0
-                                );
-                                GroupBox_Progress.BackColor = Color.Red;
-                            }
-
-                            ResumeGLControl();
-                            if (ToolStripComboBox_Data_Bookmark.Items.Count > 0) ToolStripComboBox_Data_Bookmark.SelectedIndex = 0;
-                            UpdateSelectedTool();
-                            UpdateBordersType();
-                            MapManager.HandleMapMainLayerChange(true, enumMainLayer, ComboBox_Tool_Parameter.Text);
-                            //MapManager.LoadSDFThings();
-
-                            if (Logger.ErrorsCount > 0 || Logger.ExceptionsCount > 0) errorsOrExceptionsDuringLoading = true;
-                            else errorsOrExceptionsDuringLoading = false;
-
-                            Logger.DisplayWarnings();
-                            Logger.DisplayErrors();
-                            Logger.DisplayExceptions();
-                            Utils.CleanUpMemory();
-                            isLoadingOrSaving[0] = false;
-                        },
-                        (ex) =>
-                        {
-                            Logger.LogException(ex);
-
-                            if (Logger.ErrorsCount > 0 || Logger.ExceptionsCount > 0) errorsOrExceptionsDuringLoading = true;
-                            else errorsOrExceptionsDuringLoading = false;
-
-                            Logger.DisplayWarnings();
-                            Logger.DisplayErrors();
-                            Logger.DisplayExceptions();
-                            Utils.CleanUpMemory();
-                            isLoadingOrSaving[0] = false;
-                        }
-                    )
-                );
-            });
-        }
 
         public bool IsParameterValueVisible()
             => GroupBox_Tool_Parameter_Value.Visible;
@@ -442,60 +316,18 @@ namespace HOI4ModBuilder
             return ComboBox_Tool_Parameter_Value.Text;
         }
 
-
         public static void PauseGLControl()
         {
-            updateGLControl = false;
-            Instance.glControl.Context.MakeCurrent(null);
+            UpdateGLControl = false;
+            Instance.GLControl.Context.MakeCurrent(null);
         }
 
         public static void ResumeGLControl()
         {
-            Instance.glControl.Context.MakeCurrent(Instance.glControl.WindowInfo);
-            Instance.glControl.Invalidate();
-            updateGLControl = true;
+            Instance.GLControl.Context.MakeCurrent(Instance.GLControl.WindowInfo);
+            Instance.GLControl.Invalidate();
+            UpdateGLControl = true;
             Instance.GLControl_Resize(null, null);
-        }
-
-        private void SaveAllData(Settings settings)
-        {
-            isMapMainLayerChangeEnabled = false;
-
-            Logger.Log("Saving...");
-
-            LocalModDataManager.SaveLocalSettings(settings);
-            DataManager.Save(settings);
-            TextureManager.SaveAllMaps(settings);
-
-            Utils.CleanUpMemory();
-
-            isMapMainLayerChangeEnabled = true;
-        }
-
-        private void LoadAllData(Settings settings)
-        {
-            SettingsManager.Settings.LoadModDescriptors();
-
-            LocalModDataManager.Load(settings);
-            SavePattern.LoadAll();
-
-            isMapMainLayerChangeEnabled = false;
-
-            MapManager.ActionHistory.Clear();
-
-            //Logger.Log($"Выполняю загрузку шрифтов");
-            //FontManager.LoadFonts();
-
-            Logger.Log($"Loading mod directory: {SettingsManager.Settings.modDirectory}");
-            DataManager.Load(SettingsManager.Settings);
-            MapManager.Load(SettingsManager.Settings);
-
-            MapPositionsManager.Load(settings);
-
-            WarningsManager.Init();
-            ErrorManager.Init();
-
-            isMapMainLayerChangeEnabled = true;
         }
 
         public static void ExecuteActions(LocalizedAction[] actions)
@@ -565,21 +397,21 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                viewportInfo.width = glControl.Width;
-                viewportInfo.height = glControl.Height;
+                ViewportInfo.width = GLControl.Width;
+                ViewportInfo.height = GLControl.Height;
 
-                viewportInfo.max = viewportInfo.width > viewportInfo.height ? viewportInfo.width : viewportInfo.height;
+                ViewportInfo.max = ViewportInfo.width > ViewportInfo.height ? ViewportInfo.width : ViewportInfo.height;
 
-                viewportInfo.x = (viewportInfo.width - viewportInfo.max) / 2;
-                viewportInfo.y = (viewportInfo.height - viewportInfo.max) / 2;
-                GL.Viewport(viewportInfo.x, viewportInfo.y, viewportInfo.max, viewportInfo.max);
+                ViewportInfo.x = (ViewportInfo.width - ViewportInfo.max) / 2;
+                ViewportInfo.y = (ViewportInfo.height - ViewportInfo.max) / 2;
+                GL.Viewport(ViewportInfo.x, ViewportInfo.y, ViewportInfo.max, ViewportInfo.max);
                 GL.ClearColor(Color4.LightBlue);
             });
         }
 
         private void GLControl_Paint(object sender, PaintEventArgs e)
         {
-            if (!updateGLControl)
+            if (!UpdateGLControl)
                 return;
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -598,8 +430,8 @@ namespace HOI4ModBuilder
             else
                 Panel_Map.Cursor = Cursors.Default;
 
-            glControl.Invalidate();
-            glControl.SwapBuffers();
+            GLControl.Invalidate();
+            GLControl.SwapBuffers();
         }
 
 
@@ -649,7 +481,7 @@ namespace HOI4ModBuilder
 
             UpdateColorPickerColors(brushFirstColor, brushSecondColor);
 
-            if (enumEditLayer != EnumEditLayer.RIVERS)
+            if (SelectedEditLayer != EnumEditLayer.RIVERS)
                 PushColorToColorsHistory(color);
         }
 
@@ -664,7 +496,7 @@ namespace HOI4ModBuilder
 
             UpdateColorPickerColors(brushFirstColor, brushSecondColor);
 
-            if (enumEditLayer != EnumEditLayer.RIVERS)
+            if (SelectedEditLayer != EnumEditLayer.RIVERS)
                 PushColorToColorsHistory(color);
         }
 
@@ -696,7 +528,7 @@ namespace HOI4ModBuilder
 
         public static void InitColorsPallete()
         {
-            if (Instance.enumEditLayer == EnumEditLayer.RIVERS)
+            if (Instance.SelectedEditLayer == EnumEditLayer.RIVERS)
                 InitRiversPallete();
             else
                 InitColorsHistoryPallete();
@@ -752,7 +584,7 @@ namespace HOI4ModBuilder
         }
 
         private void Panel1_MouseWheel(object sender, MouseEventArgs e)
-            => MapManager.HandleMouseWheel(e, viewportInfo);
+            => MapManager.HandleMouseWheel(e, ViewportInfo);
 
         private void CheckedListBox_MapAdditionalLayers_MouseUp(object sender, MouseEventArgs e)
         {
@@ -763,7 +595,7 @@ namespace HOI4ModBuilder
                 MapManager.displayLayers[i] = checkedItems.Contains(i);
 
             if (!prevTextEnabled && MapManager.displayLayers[(int)EnumAdditionalLayers.TEXT])
-                MapManager.HandleMapMainLayerChange(true, enumMainLayer, ComboBox_Tool_Parameter.Text);
+                MapManager.HandleMapMainLayerChange(true, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
         }
 
         private void Button_TextureAdd_Click(object sender, EventArgs e)
@@ -914,89 +746,88 @@ namespace HOI4ModBuilder
                 Instance.SetBrushSecondColor(color);
         }
 
-        private void UpdateSelectedTool()
+        private static readonly Dictionary<EnumMainLayer, LayerActions> _mainLayerActions = new Dictionary<EnumMainLayer, LayerActions>
+        {
+            { EnumMainLayer.BUILDINGS, new LayerActions {
+                isValidChecker = (s) => BuildingManager.HasBuilding(s),
+                parameterProvider = () => BuildingManager.GetBuildingNames(),
+                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.BUILDINGS)
+            } },
+            { EnumMainLayer.AI_AREAS, new LayerActions {
+                isValidChecker = (s) => AiAreaManager.HasAiArea(s),
+                parameterProvider = () => AiAreaManager.GetAiAreasNames(),
+                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.AI_AREAS)
+            } },
+            { EnumMainLayer.CORES_OF, new LayerActions {
+                isValidChecker = (s) => CountryManager.HasCountry(s),
+                parameterProvider = () => CountryManager.GetCountryTagsSorted(),
+                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.STATE_CORE_OF)
+            } },
+            { EnumMainLayer.CLAIMS_BY, new LayerActions {
+                isValidChecker = (s) => CountryManager.HasCountry(s),
+                parameterProvider = () => CountryManager.GetCountryTagsSorted(),
+                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.STATE_CLAIM_BY)
+            } },
+        };
+
+        public class LayerActions
+        {
+            public Func<string, bool> isValidChecker;
+            public Func<ICollection> parameterProvider;
+            public Action onSelect;
+        }
+
+        private bool IsUpdatingMainLayerAndTool { get; set; }
+        public void UpdateSelectedMainLayerAndTool(bool mainLayerChange, bool toolChange)
         {
             Logger.TryOrLog(() =>
             {
-                enumTool = (EnumTool)ComboBox_Tool.SelectedIndex;
-                switch (enumTool)
-                {
-                    case EnumTool.BRUSH:
-                    case EnumTool.ERASER:
-                        UpdateToolParameterComboBox(enumTool, BrushManager.GetBrushesNames(SettingsManager.Settings), null);
-                        break;
-                    case EnumTool.CURSOR:
-                    case EnumTool.RECTANGLE:
-                    case EnumTool.ELLIPSE:
-                    case EnumTool.MAGIC_WAND:
-                    case EnumTool.FILL:
-                    case EnumTool.PIPETTE:
-                    case EnumTool.PROVINCE_COASTAL:
-                        UpdateToolParameterComboBox(enumTool, null, null);
-                        break;
+                if (IsUpdatingMainLayerAndTool)
+                    return;
 
-                    case EnumTool.PROVINCE_TYPE:
-                        UpdateToolParameterComboBox(enumTool, ToolStripComboBox_Map_Province_Type.Items, null);
-                        break;
-                    case EnumTool.TERRAIN:
-                        UpdateToolParameterComboBox(enumTool, ToolStripComboBox_Map_Province_Terrain.Items, null);
-                        break;
-                    case EnumTool.PROVINCE_CONTINENT:
-                        UpdateToolParameterComboBox(enumTool, ToolStripComboBox_Map_Province_Continent.Items, null);
-                        break;
-                    case EnumTool.PROVINCE_STATE:
-                        var stateIds = new List<ushort>(StateManager.GetStatesIds());
-                        stateIds.Sort();
-                        UpdateToolParameterComboBox(enumTool, stateIds, null);
-                        break;
-                    case EnumTool.PROVINCE_REGION:
-                        var regionsIds = new List<ushort>(StrategicRegionManager.GetRegionsIds());
-                        regionsIds.Sort();
-                        UpdateToolParameterComboBox(enumTool, regionsIds, null);
-                        break;
-                    case EnumTool.STATE_CATEGORY:
-                        var stateCategories = new List<string>(StateCategoryManager.GetStateCategoriesNames());
-                        UpdateToolParameterComboBox(enumTool, stateCategories, null);
-                        break;
-                    case EnumTool.STATE_OWNER:
-                        var countriesTags = new List<string>(CountryManager.GetContryTagsSorted());
-                        countriesTags.Insert(0, "");
-                        UpdateToolParameterComboBox(enumTool, countriesTags, null);
-                        break;
-                    case EnumTool.STATE_CONTROLLER:
-                        countriesTags = new List<string>(CountryManager.GetContryTagsSorted());
-                        countriesTags.Insert(0, "");
-                        UpdateToolParameterComboBox(enumTool, countriesTags, null);
-                        break;
-                    case EnumTool.STATE_CORE_OF:
-                        countriesTags = new List<string>(CountryManager.GetContryTagsSorted());
-                        UpdateToolParameterComboBox(enumTool, countriesTags, null);
-                        break;
-                    case EnumTool.STATE_CLAIM_BY:
-                        countriesTags = new List<string>(CountryManager.GetContryTagsSorted());
-                        UpdateToolParameterComboBox(enumTool, countriesTags, null);
-                        break;
-                    case EnumTool.BUILDINGS:
-                        UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
-                        break;
-                    case EnumTool.AI_AREAS:
-                        UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreasNames(), null);
-                        break;
+                IsUpdatingMainLayerAndTool = true;
+
+                MapToolsManager.TryGetMapToolParametersProvider(SelectedTool, out var toolParametersProvider);
+                MapToolsManager.TryGetMapToolValuesProvider(SelectedTool, out var valuesProvider);
+
+                Func<ICollection> parametersProvider = null;
+
+                _mainLayerActions.TryGetValue(SelectedMainLayer, out var actions);
+                if (mainLayerChange && actions != null && actions.onSelect != null)
+                {
+                    actions.onSelect.Invoke();
+                    toolParametersProvider = actions.parameterProvider;
                 }
 
-                if (enumTool == EnumTool.CURSOR)
-                    Panel_Map.ContextMenuStrip = ContextMenuStrip_Map;
-                else
-                    Panel_Map.ContextMenuStrip = null;
+                if (toolParametersProvider != null)
+                    parametersProvider = toolParametersProvider;
+                else if (actions != null)
+                    parametersProvider = actions.parameterProvider;
+
+                UpdateToolParameterComboBox(SelectedTool, parametersProvider, valuesProvider);
+
+                Panel_Map.ContextMenuStrip = (SelectedTool != EnumTool.CURSOR) ? null : ContextMenuStrip_Map;
+
+                var shouldRecalculateAll = mainLayerChange;
+                if (!(mainLayerChange || toolChange))
+                    shouldRecalculateAll = MapToolsManager.ShouldRecalculateAllText(SelectedMainLayer, SelectedTool);
+
+                if (actions == null || actions.isValidChecker == null || actions.isValidChecker.Invoke(GetParameter()))
+                    MapManager.HandleMapMainLayerChange(shouldRecalculateAll, SelectedMainLayer, GetParameter());
+
+                IsUpdatingMainLayerAndTool = false;
             });
         }
 
         private static readonly string[] preferedParameter = new string[Enum.GetValues(typeof(EnumTool)).Length];
         private static readonly string[] preferedParameterValue = new string[Enum.GetValues(typeof(EnumTool)).Length];
 
-        private void UpdateToolParameterComboBox(EnumTool tool, ICollection parameterItems, ICollection parameterValueItems)
+        private void UpdateToolParameterComboBox(EnumTool tool, Func<ICollection> parametersProvider, Func<ICollection> valuesProvider)
         {
-            GraphicsUtils.UpdateComboBoxToolValues(GroupBox_Tool_Parameter, ComboBox_Tool_Parameter, parameterItems, preferedParameter, tool);
+            var parameterItems = parametersProvider?.Invoke();
+            var parameterValueItems = valuesProvider?.Invoke();
+
+            InterfaceUtils.UpdateComboBoxToolValues(GroupBox_Tool_Parameter, ComboBox_Tool_Parameter, parameterItems, preferedParameter, tool);
 
             if (parameterValueItems == null && (tool == EnumTool.BRUSH || tool == EnumTool.ERASER))
             {
@@ -1005,7 +836,7 @@ namespace HOI4ModBuilder
                     parameterValueItems = brush.SortedVariantKeys;
             }
 
-            GraphicsUtils.UpdateComboBoxToolValues(GroupBox_Tool_Parameter_Value, ComboBox_Tool_Parameter_Value, parameterValueItems, preferedParameterValue, tool);
+            InterfaceUtils.UpdateComboBoxToolValues(GroupBox_Tool_Parameter_Value, ComboBox_Tool_Parameter_Value, parameterValueItems, preferedParameterValue, tool);
         }
 
         private void UpdateMainLayerParameterButton(EnumMainLayer mainLayer)
@@ -1018,62 +849,45 @@ namespace HOI4ModBuilder
                     ScriptParser.MapMainLayerCustomScriptName;
 
                 GroupBox_Main_Layer_Parameter.Visible = true;
-                ResizeButton(GroupBox_Main_Layer_Parameter, Button_MapMainLayer_Parameter, 150);
+                InterfaceUtils.ResizeButton(GroupBox_Main_Layer_Parameter, Button_MapMainLayer_Parameter, 150);
             }
             else GroupBox_Main_Layer_Parameter.Visible = false;
         }
-
-
         private void СomboBox_MapMainLayer_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                enumMainLayer = (EnumMainLayer)СomboBox_MapMainLayer.SelectedIndex;
-
-                UpdateMainLayerParameterButton(enumMainLayer);
-
-                if (enumMainLayer == EnumMainLayer.BUILDINGS && !BuildingManager.HasBuilding(ComboBox_Tool_Parameter.Text))
-                    UpdateToolParameterComboBox(enumTool, BuildingManager.GetBuildingNames(), null);
-                else if (enumMainLayer == EnumMainLayer.AI_AREAS && !AiAreaManager.HasAiArea(ComboBox_Tool_Parameter.Text))
-                    UpdateToolParameterComboBox(enumTool, AiAreaManager.GetAiAreasNames(), null);
-                else if (enumMainLayer == EnumMainLayer.CORES_OF && !CountryManager.HasCountry(ComboBox_Tool_Parameter.Text))
-                    UpdateToolParameterComboBox(enumTool, CountryManager.GetContryTagsSorted(), null);
-                else if (enumMainLayer == EnumMainLayer.CLAIMS_BY && !CountryManager.HasCountry(ComboBox_Tool_Parameter.Text))
-                    UpdateToolParameterComboBox(enumTool, CountryManager.GetContryTagsSorted(), null);
-
-                MapManager.HandleMapMainLayerChange(true, enumMainLayer, ComboBox_Tool_Parameter.Text);
-            });
-        }
-
-        private void Button_MapMainLayer_Parameter_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                string filePath;
-                var fd = new OpenFileDialog();
-                var dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "scripts" });
-                Utils.PrepareFileDialog(fd, GuiLocManager.GetLoc(EnumLocKey.SCRIPTS_CHOOSE_FILE), dialogPath, "MAP MODE TXT files (*.mm.txt)|*.mm.txt");
-                if (fd.ShowDialog() == DialogResult.OK)
-                    filePath = fd.FileName;
-                else
-                    return;
-
-                ScriptParser.CompileMapMainLayerCustomScript(filePath);
-
-                UpdateMainLayerParameterButton(enumMainLayer);
-
-                MapManager.HandleMapMainLayerChange(true, enumMainLayer, ComboBox_Tool_Parameter.Text);
+                SelectedMainLayer = (EnumMainLayer)СomboBox_MapMainLayer.SelectedIndex;
+                UpdateMainLayerParameterButton(SelectedMainLayer);
+                UpdateSelectedMainLayerAndTool(true, false);
             });
 
-        public bool IsControlPressed() => ModifierKeys == Keys.Control;
-        public bool IsShiftPressed() => ModifierKeys == Keys.Shift;
-        public bool IsAltPressed() => ModifierKeys == Keys.Alt;
+        private void Button_MapMainLayer_Parameter_Click(object sender, EventArgs e)
+                => Logger.TryOrLog(() =>
+                {
+                    string filePath;
+                    var fd = new OpenFileDialog();
+                    var dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "scripts" });
+                    Utils.PrepareFileDialog(fd, GuiLocManager.GetLoc(EnumLocKey.SCRIPTS_CHOOSE_FILE), dialogPath, "MAP MODE TXT files (*.mm.txt)|*.mm.txt");
+                    if (fd.ShowDialog() == DialogResult.OK)
+                        filePath = fd.FileName;
+                    else
+                        return;
+
+                    ScriptParser.CompileMapMainLayerCustomScript(filePath);
+                    UpdateMainLayerParameterButton(SelectedMainLayer);
+                    MapManager.HandleMapMainLayerChange(true, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
+                });
+
+        public bool IsControlPressed() => (ModifierKeys & Keys.Control) != 0;
+        public bool IsShiftPressed() => (ModifierKeys & Keys.Shift) != 0;
+        public bool IsAltPressed() => (ModifierKeys & Keys.Alt) != 0;
 
         private void Panel1_MouseDown(object sender, MouseEventArgs e)
-            => Logger.TryOrLog(() => MapManager.HandleMouseDown(e, viewportInfo, enumEditLayer, enumTool, ComboBox_Tool_Parameter.Text, ComboBox_Tool_Parameter_Value.Text));
+            => Logger.TryOrLog(() => MapManager.HandleMouseDown(e, ViewportInfo, SelectedEditLayer, SelectedTool, ComboBox_Tool_Parameter.Text, ComboBox_Tool_Parameter_Value.Text));
         private void Panel1_MouseUp(object sender, MouseEventArgs e)
-            => Logger.TryOrLog(() => MapManager.HandleMouseUp(e, viewportInfo, enumTool, enumEditLayer));
+            => Logger.TryOrLog(() => MapManager.HandleMouseUp(e, ViewportInfo, SelectedTool, SelectedEditLayer));
         private void Panel1_MouseMove(object sender, MouseEventArgs e)
-            => Logger.TryOrLog(() => MapManager.HandleMouseMoved(e, viewportInfo, enumTool, enumEditLayer, ComboBox_Tool_Parameter.Text, ComboBox_Tool_Parameter_Value.Text));
+            => Logger.TryOrLog(() => MapManager.HandleMouseMoved(e, ViewportInfo, SelectedTool, SelectedEditLayer, ComboBox_Tool_Parameter.Text, ComboBox_Tool_Parameter_Value.Text));
         private void ToolStripMenuItem_Exit_Click(object sender, EventArgs e)
             => Application.Exit();
         private void ToolStripMenuItem_Save_Maps_Provinces_Click(object sender, EventArgs e)
@@ -1093,7 +907,7 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Save_Supply_Hubs_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => SupplyManager.SaveSupplyNodes(FileManager.AssembleFolderPath(new[] { SettingsManager.Settings.modDirectory, "map" })));
         private void ToolStripMenuItem_LoadAll_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => LoadAll());
+            => Logger.TryOrLog(() => DataManager.LoadAll());
         private void ToolStripMenuItem_Help_About_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AboutProgramForm.CreateTasked());
 
@@ -1125,9 +939,32 @@ namespace HOI4ModBuilder
             eventHandlers.Add(eventHandler);
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            const int WM_KEYDOWN = 0x0100;
+            const int WM_SYSKEYDOWN = 0x0104;
+
+            if ((keyData & Keys.Alt) != 0) //Отключаем мнемоники в WinForms
+            {
+                if (msg.Msg == WM_KEYDOWN || msg.Msg == WM_SYSKEYDOWN)
+                {
+                    bool isRepeat = (((long)msg.LParam >> 30) & 1) != 0;
+                    if (!isRepeat)
+                    {
+                        var e = new KeyEventArgs(keyData);
+                        MainForm_KeyDown(this, e);
+                    }
+                    return true;
+                }
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Handled) return;
+            if (e.Handled)
+                return;
+
             Logger.TryOrLog(() =>
             {
                 if (
@@ -1146,16 +983,6 @@ namespace HOI4ModBuilder
                 }
 
                 e.Handled = true;
-            });
-        }
-
-        public EnumTool SelectedTool => (EnumTool)ComboBox_Tool.SelectedIndex;
-        public void SetSelectedTool(EnumTool enumTool)
-        {
-            Logger.TryOrLog(() =>
-            {
-                ComboBox_Tool.SelectedIndex = (int)enumTool;
-                ComboBox_Tool.Refresh();
             });
         }
 
@@ -1191,7 +1018,7 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                isMapMainLayerChangeEnabled = false;
+                IsMapMainLayerChangeEnabled = false;
 
                 ToolStripComboBox_Map_Province_Type.Text = "";
                 ToolStripMenuItem_Map_Province_IsCoastal.Checked = false;
@@ -1213,7 +1040,7 @@ namespace HOI4ModBuilder
                 //TODO
                 //ToolStripMenuItem_Map_Province_OpenRegionFile.Enabled = p != null && p.Region != null;
 
-                isMapMainLayerChangeEnabled = true;
+                IsMapMainLayerChangeEnabled = true;
             });
         }
 
@@ -1232,7 +1059,7 @@ namespace HOI4ModBuilder
 
         private void ToolStripComboBox_Map_Province_Type_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ProvinceManager.RMBProvince != null && isMapMainLayerChangeEnabled)
+            if (ProvinceManager.RMBProvince != null && IsMapMainLayerChangeEnabled)
             {
                 var prevType = ProvinceManager.RMBProvince.Type;
                 Enum.TryParse(ToolStripComboBox_Map_Province_Type.Text.ToUpper(), out EnumProvinceType newType);
@@ -1240,7 +1067,7 @@ namespace HOI4ModBuilder
                 void action(EnumProvinceType type)
                 {
                     ProvinceManager.RMBProvince.Type = type;
-                    MapManager.HandleMapMainLayerChange(false, enumMainLayer, ComboBox_Tool_Parameter.Text);
+                    MapManager.HandleMapMainLayerChange(false, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
                 }
 
                 MapManager.ActionHistory.Add(() => action(newType), () => action(prevType));
@@ -1249,7 +1076,7 @@ namespace HOI4ModBuilder
 
         private void ToolStripMenuItem_Map_Province_IsCoastal_Click(object sender, EventArgs e)
         {
-            if (ProvinceManager.RMBProvince != null && isMapMainLayerChangeEnabled)
+            if (ProvinceManager.RMBProvince != null && IsMapMainLayerChangeEnabled)
             {
                 bool prevIsCoastal = ProvinceManager.RMBProvince.IsCoastal;
                 bool newIsCoastal = !prevIsCoastal;
@@ -1258,7 +1085,7 @@ namespace HOI4ModBuilder
                 {
                     ToolStripMenuItem_Map_Province_IsCoastal.Checked = isCoastal;
                     ProvinceManager.RMBProvince.IsCoastal = isCoastal;
-                    MapManager.HandleMapMainLayerChange(false, enumMainLayer, ComboBox_Tool_Parameter.Text);
+                    MapManager.HandleMapMainLayerChange(false, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
                 }
 
                 MapManager.ActionHistory.Add(() => action(newIsCoastal), () => action(prevIsCoastal));
@@ -1267,7 +1094,7 @@ namespace HOI4ModBuilder
 
         private void ToolStripComboBox_Map_Province_Terrain_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ProvinceManager.RMBProvince != null && isMapMainLayerChangeEnabled)
+            if (ProvinceManager.RMBProvince != null && IsMapMainLayerChangeEnabled)
             {
                 var prevTerrain = ProvinceManager.RMBProvince.Terrain;
                 TerrainManager.TryGetProvincialTerrain(ToolStripComboBox_Map_Province_Terrain.Text, out ProvincialTerrain newTerrain);
@@ -1275,7 +1102,7 @@ namespace HOI4ModBuilder
                 void action(ProvincialTerrain terrain)
                 {
                     ProvinceManager.RMBProvince.Terrain = terrain;
-                    MapManager.HandleMapMainLayerChange(false, enumMainLayer, ComboBox_Tool_Parameter.Text);
+                    MapManager.HandleMapMainLayerChange(false, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
                 }
 
                 MapManager.ActionHistory.Add(() => action(newTerrain), () => action(prevTerrain));
@@ -1284,7 +1111,7 @@ namespace HOI4ModBuilder
 
         private void ToolStripComboBox_Map_Province_Continent_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ProvinceManager.RMBProvince != null && isMapMainLayerChangeEnabled)
+            if (ProvinceManager.RMBProvince != null && IsMapMainLayerChangeEnabled)
             {
                 int prevContinentId = ProvinceManager.RMBProvince.ContinentId;
                 int newContinentId = ContinentManager.GetContinentId(ToolStripComboBox_Map_Province_Continent.Text);
@@ -1292,7 +1119,7 @@ namespace HOI4ModBuilder
                 void action(int continentId)
                 {
                     ProvinceManager.RMBProvince.ContinentId = continentId;
-                    MapManager.HandleMapMainLayerChange(false, enumMainLayer, ComboBox_Tool_Parameter.Text);
+                    MapManager.HandleMapMainLayerChange(false, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
                 }
 
                 MapManager.ActionHistory.Add(() => action(newContinentId), () => action(prevContinentId));
@@ -1324,7 +1151,7 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_SaveAll_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => SaveAll());
+            => Logger.TryOrLog(() => DataManager.SaveAll());
 
         private void ToolStripMenuItem_Map_Railway_DropDownOpened(object sender, EventArgs e)
         {
@@ -1429,49 +1256,9 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() => AutoTools.FixProvincesCoastalType(true));
-        }
-
+            => Logger.TryOrLog(() => AutoTools.FixProvincesCoastalType(true));
         private void ToolStripComboBox_Data_Bookmark_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                string[] value = ToolStripComboBox_Data_Bookmark.Text.Split(']');
-                if (value.Length > 1)
-                {
-                    string dateTimeString = value[0].Replace('[', ' ').Trim();
-
-                    try
-                    {
-                        if (Utils.TryParseDateTimeStamp(dateTimeString, out DateTime dateTime))
-                        {
-                            DataManager.currentDateStamp = new DateTime[] { dateTime };
-                            CountryManager.UpdateByDateTimeStamp(dateTime);
-                            StateManager.UpdateByDateTimeStamp(dateTime);
-
-                            if (!isLoadingOrSaving[0])
-                                MapManager.HandleMapMainLayerChange(true, enumMainLayer, ComboBox_Tool_Parameter.Text);
-                        }
-                        else throw new Exception(GuiLocManager.GetLoc(
-                                EnumLocKey.EXCEPTION_BOOKMARK_NOT_FOUND,
-                                new Dictionary<string, string> { { "{bookmark}", dateTimeString } }
-                            ));
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception(
-                            GuiLocManager.GetLoc(
-                                EnumLocKey.EXCEPTION_WHILE_BOOKMARK_LOADING,
-                                new Dictionary<string, string> { { "{bookmark}", dateTimeString } }
-                            ),
-                            ex
-                        );
-                    }
-                }
-            });
-        }
-
+            => Logger.TryOrLog(() => DataManager.OnBookmarkChange());
         private void ToolStripMenuItem_Save_States_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => StateManager.Save(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Regions_Click(object sender, EventArgs e)
@@ -1487,11 +1274,11 @@ namespace HOI4ModBuilder
         private void ComboBox_BordersType_SelectedIndexChanged(object sender, EventArgs e)
             => UpdateBordersType();
 
-        private void UpdateBordersType()
+        public void UpdateBordersType()
         {
             Logger.TryOrLog(() =>
             {
-                enumBordersType = (EnumBordersType)ComboBox_BordersType.SelectedIndex;
+                SelectedBordersType = (EnumBordersType)ComboBox_BordersType.SelectedIndex;
                 MapManager.UpdateDisplayBorders();
             });
         }
@@ -1513,28 +1300,7 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_UpdateAll_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => UpdateAll());
-        private void UpdateAll()
-            => Logger.TryOrLog(() =>
-            {
-                if (!firstLoad)
-                {
-                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_UPDATE_BECAUSE_NO_DATA_WAS_LOADED);
-                    return;
-                }
-                else if (isLoadingOrSaving[0])
-                {
-                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_UPDATE_BECAUSE_ALREADY_SAVING_OR_LOADING);
-                    return;
-                }
-
-                isLoadingOrSaving[0] = true;
-
-                SavePattern.LoadAll();
-                MapManager.UpdateMapInfo();
-
-                isLoadingOrSaving[0] = false;
-            });
+            => Logger.TryOrLog(() => DataManager.UpdateAll());
 
         private void Button_GenerateColor_MouseDown(object sender, MouseEventArgs e)
         {
@@ -1574,7 +1340,7 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                if (enumMainLayer == EnumMainLayer.PROVINCES_MAP)
+                if (SelectedMainLayer == EnumMainLayer.PROVINCES_MAP)
                     MergeProvincesTool.MergeProvinces(ProvinceManager.SelectedProvince, ProvinceManager.RMBProvince);
             });
         }
@@ -1754,44 +1520,26 @@ namespace HOI4ModBuilder
         private void ComboBox_EditLayer_SelectedIndexChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                enumEditLayer = (EnumEditLayer)ComboBox_EditLayer.SelectedIndex;
-                if (firstLoad)
+                SelectedEditLayer = (EnumEditLayer)ComboBox_EditLayer.SelectedIndex;
+                if (IsFirstLoaded)
                     InitColorsPallete();
             });
 
         private void ComboBox_Tool_SelectedIndexChanged(object sender, EventArgs e)
-            => Logger.TryOrLog(() => UpdateSelectedTool());
+            => Logger.TryOrLog(() =>
+            {
+                SelectedTool = (EnumTool)ComboBox_Tool.SelectedIndex;
+                UpdateSelectedMainLayerAndTool(false, true);
+            });
 
         private void ComboBox_Tool_Parameter_SelectedIndexChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                MapManager.HandleMapMainLayerChange(MapToolsManager.ShouldRecalculateAllText(enumMainLayer, enumTool), enumMainLayer, ComboBox_Tool_Parameter.Text);
-                preferedParameter[(int)enumTool] = ComboBox_Tool_Parameter.Text;
+                preferedParameter[(int)SelectedTool] = ComboBox_Tool_Parameter.Text;
+                UpdateSelectedMainLayerAndTool(false, false);
             });
         private void ComboBox_Tool_Parameter_Value_SelectedIndexChanged(object sender, EventArgs e)
-            => Logger.TryOrLog(() => preferedParameterValue[(int)enumTool] = ComboBox_Tool_Parameter_Value.Text);
-
-        private void ResizeButton(GroupBox groupBox, Button button, int maxWidth)
-        {
-            int groupBoxTextWidth = TextRenderer.MeasureText(groupBox.Text, groupBox.Font, Size.Empty, TextFormatFlags.SingleLine).Width;
-            groupBoxTextWidth += 20;
-
-            if (maxWidth > 0)
-                button.Text = Utils.TruncateText(button.Text, button.Font, maxWidth);
-
-            int buttonWidth = TextRenderer.MeasureText(button.Text, button.Font, Size.Empty, TextFormatFlags.SingleLine).Width;
-
-            buttonWidth += SystemInformation.VerticalScrollBarWidth;
-
-            if (buttonWidth < groupBoxTextWidth)
-                buttonWidth = groupBoxTextWidth;
-
-            if (button.Width != buttonWidth)
-            {
-                button.Width = buttonWidth;
-                button.Parent?.PerformLayout();
-            }
-        }
+            => Logger.TryOrLog(() => preferedParameterValue[(int)SelectedTool] = ComboBox_Tool_Parameter_Value.Text);
 
         private void ToolStripMenuItem_Export_MainLayer_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => ExportTexturePlane(MapManager.MapMainLayer, "main_layer"));
@@ -1967,7 +1715,7 @@ namespace HOI4ModBuilder
                 if (StateManager.TransferProvince(ProvinceManager.RMBProvince, currentState, newState))
                 {
                     Update_ToolStripMenuItem_Map_Province_Items(ProvinceManager.RMBProvince);
-                    MapManager.HandleMapMainLayerChange(false, enumMainLayer, ComboBox_Tool_Parameter.Text);
+                    MapManager.HandleMapMainLayerChange(false, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
                 }
 
                 ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Enabled = newState != null;
@@ -1992,7 +1740,7 @@ namespace HOI4ModBuilder
                 if (StrategicRegionManager.TransferProvince(ProvinceManager.RMBProvince, currentRegion, newRegion))
                 {
                     Update_ToolStripMenuItem_Map_Province_Items(ProvinceManager.RMBProvince);
-                    MapManager.HandleMapMainLayerChange(false, enumMainLayer, ComboBox_Tool_Parameter.Text);
+                    MapManager.HandleMapMainLayerChange(false, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
                 }
 
                 ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Enabled = newRegion != null;
@@ -2053,7 +1801,7 @@ namespace HOI4ModBuilder
                 );
             });
 
-        public EnumMainLayer GetMainLayer() => enumMainLayer;
+        public EnumMainLayer GetMainLayer() => SelectedMainLayer;
         public string GetParameter() => ComboBox_Tool_Parameter.Text;
         private void ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AutoTools.RemoveGhostProvinces(true));
@@ -2081,5 +1829,8 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() => MergeProvincesTool.MergeSelectedProvinces());
         private void ToolStripMenuItem_Edit_Actions_DropDownOpened(object sender, EventArgs e)
             => Logger.TryOrLog(() => ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Enabled = ProvinceManager.GroupSelectedProvinces.Count >= 2);
+
+        public void SetGroupBoxProgressBackColor(Color color)
+            => GroupBox_Progress.BackColor = color;
     }
 }

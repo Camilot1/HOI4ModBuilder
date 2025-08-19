@@ -12,6 +12,7 @@ using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.utils.structs;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map
 {
@@ -56,7 +57,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             Logger.TryOrLog(() =>
             {
-                if (!MainForm.firstLoad)
+                if (!MainForm.IsFirstLoaded)
                     return;
                 if (_mapTools.TryGetValue(enumTool, out MapTool mapTool))
                     mapTool.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value);
@@ -72,8 +73,34 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public static bool TryGetMapTool(EnumTool enumTool, out MapTool mapTool)
             => _mapTools.TryGetValue(enumTool, out mapTool);
 
+        public static bool TryGetMapToolParametersProvider(EnumTool enumTool, out Func<ICollection> parametersProvider)
+        {
+            if (!_mapTools.TryGetValue(enumTool, out var tool) || tool.GetParametersProvider() == null)
+            {
+                parametersProvider = null;
+                return false;
+            }
+
+            parametersProvider = tool.GetParametersProvider();
+            return true;
+        }
+        public static bool TryGetMapToolValuesProvider(EnumTool enumTool, out Func<ICollection> valuesProvider)
+        {
+            if (!_mapTools.TryGetValue(enumTool, out var tool) || tool.GetValuesProvider() == null)
+            {
+                valuesProvider = null;
+                return false;
+            }
+
+            valuesProvider = tool.GetValuesProvider();
+            return true;
+        }
+
         public static bool ShouldRecalculateAllText(EnumMainLayer mainLayer, EnumTool enumTool)
         {
+            if (mainLayer == EnumMainLayer.BUILDINGS)
+                return true;
+
             TryGetMapTool(enumTool, out var tool);
 
             if (tool == null || tool.RecalculateTextOnParameterChange == null)
@@ -88,56 +115,45 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public EnumTool EnumToolType { get; private set; }
         public HotKey HotKey { get; private set; }
         public EnumMainLayer[] RecalculateTextOnParameterChange { get; private set; }
-        private readonly KeyEventHandler _hotKeyEvent;
         protected static bool[] _isInDialog = new bool[1];
-        private EnumEditLayer[] _allowedEditLayers;
         private int _handleCheckFlags;
 
-        public MapTool(Dictionary<EnumTool, MapTool> mapTools, EnumTool enumTool, EnumMainLayer[] recalculateTextOnParameterChange, HotKey hotKey, Action<KeyEventArgs> hotKeyEvent, EnumEditLayer[] allowedEditLayers, int handleCheckFlags)
+        public MapTool(Dictionary<EnumTool, MapTool> mapTools, EnumTool enumTool, EnumMainLayer[] recalculateTextOnParameterChange, HotKey hotKey, int handleCheckFlags)
         {
             EnumToolType = enumTool;
             HotKey = hotKey;
+
             RecalculateTextOnParameterChange = recalculateTextOnParameterChange;
 
             mapTools[EnumToolType] = this;
 
-            _hotKeyEvent = (sender, e) =>
-            {
-                if (HotKey.CheckKeys(e)) hotKeyEvent(e);
-            };
-
-            if (HotKey.key != Keys.None)
-            {
-                MainForm.SubscribeTabKeyEvent(
-                    EnumTabPage.MAP,
-                    HotKey.key,
-                    _hotKeyEvent
-                );
-            }
-
-            _allowedEditLayers = allowedEditLayers;
+            HotKey?.SubscribeTabKeyEvent(EnumTabPage.MAP);
             _handleCheckFlags = handleCheckFlags;
         }
 
+        public abstract EnumEditLayer[] GetAllowedEditLayers();
         public bool IsEditLayerAllowed(EnumEditLayer editLayer)
         {
-            if (_allowedEditLayers == null)
+            var values = GetAllowedEditLayers();
+            if (values == null)
                 return true;
 
-            foreach (var layer in _allowedEditLayers)
+            foreach (var layer in values)
                 if (layer == editLayer)
                     return true;
 
             return false;
         }
+
         public string GetAllowedEditLayersLocalizedString()
         {
-            if (_allowedEditLayers == null)
+            var values = GetAllowedEditLayers();
+            if (values == null)
                 return GuiLocManager.GetLoc(EnumLocKey.ALL_EDIT_LAYERS_IS_ALLOWED);
 
             var sb = new StringBuilder();
 
-            foreach (var layer in _allowedEditLayers)
+            foreach (var layer in values)
                 sb.Append('\"').Append(GuiLocManager.GetLoc(layer.ToString())).Append('\"').Append(", ");
 
             if (sb.Length > 2)
@@ -186,11 +202,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
             return true;
         }
+
+        public abstract Func<ICollection> GetParametersProvider();
+        public abstract Func<ICollection> GetValuesProvider();
     }
 
     public interface IMouseHandleableMapTool
     {
         bool Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value);
+        EnumEditLayer[] GetAllowedEditLayers();
+        Func<ICollection> GetParametersProvider();
+        Func<ICollection> GetValuesProvider();
     }
 
     public enum EnumMapToolHandleChecks

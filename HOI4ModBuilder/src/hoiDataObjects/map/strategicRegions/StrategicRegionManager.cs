@@ -213,6 +213,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
         public static bool ContainsRegionIdKey(ushort id) => _regions.ContainsKey(id);
         public static Dictionary<ushort, StrategicRegion>.KeyCollection GetRegionsIds() => _regions.Keys;
+        public static List<ushort> GetRegionsIdsSorted()
+        {
+            var list = new List<ushort>(GetRegionsIds());
+            list.Sort();
+            return list;
+        }
         public static Dictionary<ushort, StrategicRegion>.ValueCollection GetRegions() => _regions.Values;
         public static bool TryGetRegion(ushort id, out StrategicRegion region)
             => _regions.TryGetValue(id, out region);

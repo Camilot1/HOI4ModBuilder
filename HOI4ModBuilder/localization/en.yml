@@ -518,3 +518,5 @@ EXCEPTION_SCRIPTED_MODIFIER_DUPLICATE_NAME_WITH_OTHER_ARGS_BLOCK_IN_FILE: "The d
 EXCEPTION_BITMAP_INVALID_PIXEL_FORMAT: "Invalid pixel format {currentFormat} for {name}. Expected pixel format: {validFormat}"
 EXCEPTION_BITMAP_IS_TOO_SMALL: "Texture map {name} is too small: {width}x{height}"
 EXCEPTION_INVALID_BLUR_SIGMA_VALUE: "Invalid blur (Sigma) value specified for {name}: {blurSigma}"
+
+EXCEPTION_LOADING_BULDINGS_CUSTOM_ARGS_BLOCKS_BUILDING_WASNT_LOADED: "Unable to find building \"{name}\" while loading BuildingsCustomArgsBlocks. Check the list of founded errors. There was probably an error while loading the file with the definition of the building \"{name}\""

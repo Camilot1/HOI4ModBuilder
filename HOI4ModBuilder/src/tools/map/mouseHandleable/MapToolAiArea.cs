@@ -7,6 +7,8 @@ using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.utils.structs;
+using System;
+using System.Collections;
 
 namespace HOI4ModBuilder.src.tools.map.mouseHandleable
 {
@@ -17,12 +19,22 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
         public MapToolAiArea(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
-                  new HotKey { shift = true, key = Keys.A },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
-                  new[] { EnumEditLayer.CONTINENTS, EnumEditLayer.STRATEGIC_REGIONS },
+                  new HotKey
+                  {
+                      shift = true,
+                      key = Keys.A,
+                      hotKeyEvent = (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool)
+                  },
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
+            EnumEditLayer.CONTINENTS, EnumEditLayer.STRATEGIC_REGIONS
+        };
+        public override Func<ICollection> GetParametersProvider()
+            => () => AiAreaManager.GetAiAreasNames();
+        public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
@@ -42,23 +54,23 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             void AddContinent()
             {
                 aiArea.AddContinentId(province.ContinentId);
-                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
             };
             void RemoveContinent()
             {
                 aiArea.RemoveContinentId(province.ContinentId);
-                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
             };
 
             void AddRegion()
             {
                 aiArea.AddRegion(province.Region);
-                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
             }
             void RemoveRegion()
             {
                 aiArea.RemoveRegion(province.Region);
-                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
             }
 
             switch (enumEditLayer)

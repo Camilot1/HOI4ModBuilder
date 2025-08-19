@@ -6,6 +6,7 @@ using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.utils.structs;
+using System.Collections;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -16,12 +17,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolProvinceCoastal(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
-                  new HotKey { },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
-                  new[] { EnumEditLayer.PROVINCES },
+                  new HotKey
+                  {
+                      hotKeyEvent = (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool)
+                  },
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
+            EnumEditLayer.PROVINCES
+        };
+        public override Func<ICollection> GetParametersProvider() => null;
+        public override Func<ICollection> GetValuesProvider() => null;
 
 
         public override bool Handle(
@@ -52,7 +60,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 Action<bool> action = (b) =>
                 {
                     province.IsCoastal = b;
-                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
+                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
                 };
 
                 MapManager.ActionsBatch.AddWithExecute(

@@ -2,15 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.src.utils
 {
-    public class GraphicsUtils
+    public class InterfaceUtils
     {
         public static void ResizeComboBox(GroupBox groupBox, ComboBox comboBox)
         {
@@ -118,6 +115,28 @@ namespace HOI4ModBuilder.src.utils
             comboBox.Refresh();
 
             ResizeComboBox(groupBox, comboBox);
+        }
+
+        public static void ResizeButton(GroupBox groupBox, Button button, int maxWidth)
+        {
+            int groupBoxTextWidth = TextRenderer.MeasureText(groupBox.Text, groupBox.Font, Size.Empty, TextFormatFlags.SingleLine).Width;
+            groupBoxTextWidth += 20;
+
+            if (maxWidth > 0)
+                button.Text = Utils.TruncateText(button.Text, button.Font, maxWidth);
+
+            int buttonWidth = TextRenderer.MeasureText(button.Text, button.Font, Size.Empty, TextFormatFlags.SingleLine).Width;
+
+            buttonWidth += SystemInformation.VerticalScrollBarWidth;
+
+            if (buttonWidth < groupBoxTextWidth)
+                buttonWidth = groupBoxTextWidth;
+
+            if (button.Width != buttonWidth)
+            {
+                button.Width = buttonWidth;
+                button.Parent?.PerformLayout();
+            }
         }
     }
 }

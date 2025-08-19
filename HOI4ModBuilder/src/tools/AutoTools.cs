@@ -14,7 +14,7 @@ namespace HOI4ModBuilder.src.tools.auto
     {
         private static void PostAction(bool recalculateAllText, int count)
         {
-            MapManager.HandleMapMainLayerChange(recalculateAllText, MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+            MapManager.HandleMapMainLayerChange(recalculateAllText, MainForm.Instance.SelectedMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
 
             MessageBox.Show(
                 GuiLocManager.GetLoc(
@@ -29,7 +29,7 @@ namespace HOI4ModBuilder.src.tools.auto
         }
         private static void PostExtendedAction(bool recalculateAllTextint, int count, int success, string unsuccessInfo)
         {
-            MapManager.HandleMapMainLayerChange(recalculateAllTextint, MainForm.Instance.enumMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+            MapManager.HandleMapMainLayerChange(recalculateAllTextint, MainForm.Instance.SelectedMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
 
             MessageBox.Show(
                 GuiLocManager.GetLoc(

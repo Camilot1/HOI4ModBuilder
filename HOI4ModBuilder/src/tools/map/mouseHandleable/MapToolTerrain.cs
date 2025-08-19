@@ -8,6 +8,7 @@ using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
 using HOI4ModBuilder.src.utils.structs;
+using System.Collections;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -18,12 +19,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolTerrain(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
-                  new HotKey { shift = true, key = Keys.T },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
-                  new[] { EnumEditLayer.PROVINCES, EnumEditLayer.STRATEGIC_REGIONS },
+                  new HotKey
+                  {
+                      shift = true,
+                      key = Keys.T,
+                      hotKeyEvent = (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool)
+                  },
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
+            EnumEditLayer.PROVINCES, EnumEditLayer.STRATEGIC_REGIONS
+        };
+        public override Func<ICollection> GetParametersProvider()
+            => () => TerrainManager.GetAllTerrainKeys;
+        public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
@@ -57,7 +68,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                             bool newToHandleMapChange = prevTerrain == null || !province.Terrain.Equals(t);
                             province.Terrain = t;
                             if (newToHandleMapChange)
-                                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
+                                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
                         };
                     }
                     else if (enumEditLayer == EnumEditLayer.STRATEGIC_REGIONS)
@@ -67,7 +78,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                             bool newToHandleMapChange = prevTerrain == null || !province.Region.Terrain.Equals(t);
                             province.Region.UpdateTerrain(t);
                             if (newToHandleMapChange)
-                                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.enumMainLayer, null);
+                                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
                         };
                     }
                     else return false;

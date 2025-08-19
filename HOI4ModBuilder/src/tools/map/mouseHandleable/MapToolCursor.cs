@@ -15,6 +15,8 @@ using HOI4ModBuilder.src.managers.errors;
 using HOI4ModBuilder.src.managers.warnings;
 using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
+using System.Collections;
+using System;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -25,12 +27,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public MapToolCursor(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
-                  new HotKey { key = Keys.C },
-                  (e) => MainForm.Instance.SetSelectedTool(enumTool),
-                  null,
+                  new HotKey
+                  {
+                      key = Keys.C,
+                      hotKeyEvent = (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool)
+                  },
                   0
               )
         { }
+
+        public override EnumEditLayer[] GetAllowedEditLayers() => null;
+        public override Func<ICollection> GetParametersProvider() => null;
+        public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,

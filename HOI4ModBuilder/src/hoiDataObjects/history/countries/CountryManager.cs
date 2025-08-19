@@ -92,10 +92,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
         public static Country GetCountry(string tag) => _contriesByTag[tag];
         public static bool HasCountry(string tag) => _contriesByTag.ContainsKey(tag);
         public static List<string> GetCountryTags() => new List<string>(_contriesByTag.Keys);
-        public static List<string> GetContryTagsSorted()
+        public static List<string> GetCountryTagsSorted()
         {
             var list = GetCountryTags();
             list.Sort();
+            return list;
+        }
+        public static List<string> GetCountryTagsSortedStartingWith(string first)
+        {
+            var list = GetCountryTags();
+            list.Insert(0, "");
             return list;
         }
 

@@ -381,6 +381,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public static bool ContainsStateIdKey(ushort id) => _statesById.ContainsKey(id);
         public static Dictionary<ushort, State>.KeyCollection GetStatesIds() => _statesById.Keys;
+        public static List<ushort> GetStatesIdsSorted()
+        {
+            var list = new List<ushort>(GetStatesIds());
+            list.Sort();
+            return list;
+        }
         public static Dictionary<ushort, State>.ValueCollection GetStates() => _statesById.Values;
 
         public static bool TryGetState(ushort id, out State state) => _statesById.TryGetValue(id, out state);

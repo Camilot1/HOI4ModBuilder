@@ -132,7 +132,7 @@ namespace HOI4ModBuilder.managers
             if (MapMainLayer == null)
                 return;
 
-            var vpi = MainForm.Instance.viewportInfo;
+            var vpi = MainForm.Instance.ViewportInfo;
             var viewportMinPoint = CalculateMapPos(0, 0, vpi);
             var viewportMaxPoint = CalculateMapPos(vpi.width, vpi.height, vpi);
             viewportBounds.left = (float)viewportMinPoint.x;
@@ -164,15 +164,15 @@ namespace HOI4ModBuilder.managers
             GL.Translate(0, -MapMainLayer.size.y, 0);
 
             ProvinceManager.Draw(
-                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.PROVINCES_MAP),
+                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.SelectedMainLayer == EnumMainLayer.PROVINCES_MAP),
                 displayLayers[(int)EnumAdditionalLayers.COLLISIONS]
             );
             StateManager.Draw(
-                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.STATES),
+                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.SelectedMainLayer == EnumMainLayer.STATES),
                 displayLayers[(int)EnumAdditionalLayers.COLLISIONS]
             );
             StrategicRegionManager.Draw(
-                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.enumMainLayer == EnumMainLayer.STRATEGIC_REGIONS),
+                displayLayers[(int)EnumAdditionalLayers.CENTERS] & (MainForm.Instance.SelectedMainLayer == EnumMainLayer.STRATEGIC_REGIONS),
                 displayLayers[(int)EnumAdditionalLayers.COLLISIONS]
             );
             AdjacenciesManager.Draw(displayLayers[(int)EnumAdditionalLayers.ADJACENCIES], displayLayers[(int)EnumAdditionalLayers.ADJACENCIES]);
@@ -218,22 +218,22 @@ namespace HOI4ModBuilder.managers
             )
             {
                 var _projection = Matrix4.CreateOrthographicOffCenter(
-                    MainForm.Instance.viewportInfo.x,
-                    -MainForm.Instance.viewportInfo.x + MainForm.Instance.viewportInfo.width,
-                    MainForm.Instance.viewportInfo.y,
-                    -MainForm.Instance.viewportInfo.y + MainForm.Instance.viewportInfo.height,
+                    MainForm.Instance.ViewportInfo.x,
+                    -MainForm.Instance.ViewportInfo.x + MainForm.Instance.ViewportInfo.width,
+                    MainForm.Instance.ViewportInfo.y,
+                    -MainForm.Instance.ViewportInfo.y + MainForm.Instance.ViewportInfo.height,
                     -1f, 1f
                 );
 
                 var scaleHalf = TextScale / 2f;
-                float factor = (float)(zoomFactor) * MainForm.Instance.viewportInfo.max;
+                float factor = (float)(zoomFactor) * MainForm.Instance.ViewportInfo.max;
 
                 var viewMatrix =
                     Matrix4.CreateScale(scaleHalf, scaleHalf, scaleHalf) *
                     Matrix4.CreateScale(factor, factor, factor) *
                     Matrix4.CreateTranslation(
-                        MainForm.Instance.viewportInfo.width / 2f + (float)((mapDifX + 0.5f) * factor / 2f),
-                        MainForm.Instance.viewportInfo.height / 2f + (float)(-mapDifY * factor / 2f),
+                        MainForm.Instance.ViewportInfo.width / 2f + (float)((mapDifX + 0.5f) * factor / 2f),
+                        MainForm.Instance.ViewportInfo.height / 2f + (float)(-mapDifY * factor / 2f),
                         0f
                     );
 
@@ -258,8 +258,8 @@ namespace HOI4ModBuilder.managers
             GL.LineWidth(1f);
             GL.Color3(0.0f, 0.0f, 0.0f);
 
-            bool isBrushTool = (MainForm.Instance.enumTool == EnumTool.BRUSH ||
-                                MainForm.Instance.enumTool == EnumTool.ERASER);
+            bool isBrushTool = (MainForm.Instance.SelectedTool == EnumTool.BRUSH ||
+                                MainForm.Instance.SelectedTool == EnumTool.ERASER);
 
             if (isBrushTool &&
                 BrushManager.TryGetBrush(
@@ -376,7 +376,7 @@ namespace HOI4ModBuilder.managers
             if (ProvincesPixels == null)
                 return;
 
-            if (!MainForm.firstLoad)
+            if (!MainForm.IsFirstLoaded)
                 return;
 
             Func<Province, int> func = (p) => Utils.ArgbToInt(255, 0, 0, 0);
@@ -555,8 +555,8 @@ namespace HOI4ModBuilder.managers
                 Logger.TryOrLog(
                     () =>
                     {
-                        var context = new GraphicsContext(GraphicsMode.Default, MainForm.Instance.glControl.WindowInfo);
-                        context.MakeCurrent(MainForm.Instance.glControl.WindowInfo);
+                        var context = new GraphicsContext(GraphicsMode.Default, MainForm.Instance.GLControl.WindowInfo);
+                        context.MakeCurrent(MainForm.Instance.GLControl.WindowInfo);
 
                         TextureManager.LoadBorders();
                         ProvinceManager.ProcessProvincesPixels(ProvincesPixels, MapSize.x, MapSize.y);
@@ -581,7 +581,7 @@ namespace HOI4ModBuilder.managers
                                 UpdateDisplayBorders();
                                 MainForm.DisplayProgress(EnumLocKey.PROGRESSBAR_UPDATED, 0);
                                 MainForm.ResumeGLControl();
-                                HandleMapMainLayerChange(true, MainForm.Instance.enumMainLayer, MainForm.Instance.GetParameter());
+                                HandleMapMainLayerChange(true, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
                                 Utils.CleanUpMemory();
                             });
                         });
@@ -609,10 +609,29 @@ namespace HOI4ModBuilder.managers
             }
             else
             {
-                if (e.Delta > 0 && zoomFactor < 0.1f)
-                    zoomFactor *= 1.2f;
-                else if (e.Delta < 0 && zoomFactor > 0.0004f)
-                    zoomFactor *= 0.8f;
+                double oldZoom = zoomFactor;
+
+                double factor = 1f;
+                if (e.Delta > 0 && oldZoom < 0.1f)
+                    factor = 1.2f;
+                else if (e.Delta < 0 && oldZoom > 0.0004f)
+                    factor = 0.8f;
+
+                if (factor != 1f)
+                {
+                    double axOld = (2f * e.X - viewportInfo.width) / (viewportInfo.max * oldZoom);
+                    double ayOld = (2f * e.Y - viewportInfo.height) / (viewportInfo.max * oldZoom);
+
+                    double newZoom = oldZoom * factor;
+
+                    double axNew = (2f * e.X - viewportInfo.width) / (viewportInfo.max * newZoom);
+                    double ayNew = (2f * e.Y - viewportInfo.height) / (viewportInfo.max * newZoom);
+
+                    mapDifX += axNew - axOld;
+                    mapDifY += ayNew - ayOld;
+
+                    zoomFactor = newZoom;
+                }
             }
             _mousePrevPoint = CalculateMapPos(e.X, e.Y, viewportInfo);
         }
@@ -647,7 +666,7 @@ namespace HOI4ModBuilder.managers
 
             MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, selectBounds, parameter, value);
 
-            if (e.Button == MouseButtons.Middle && MainForm.firstLoad)
+            if (e.Button == MouseButtons.Middle && MainForm.IsFirstLoaded)
                 IsMapDragged = true;
 
             _mouseState = EnumMouseState.NONE;
@@ -905,30 +924,36 @@ namespace HOI4ModBuilder.managers
         public static void UpdateDisplayBorders()
         {
             if (MainForm.Instance == null) return;
-            switch (MainForm.Instance.EnumBordersType)
+            switch (MainForm.Instance.SelectedBordersType)
             {
                 case EnumBordersType.PROVINCES_BLACK:
-                    if (TextureManager.provincesBorders.texture != null) BordersMapPlane.Texture = TextureManager.provincesBorders.texture;
+                    if (TextureManager.provincesBorders.texture != null)
+                        BordersMapPlane.Texture = TextureManager.provincesBorders.texture;
                     blackBorders = true;
                     break;
                 case EnumBordersType.PROVINCES_WHITE:
-                    if (TextureManager.provincesBorders.texture != null) BordersMapPlane.Texture = TextureManager.provincesBorders.texture;
+                    if (TextureManager.provincesBorders.texture != null)
+                        BordersMapPlane.Texture = TextureManager.provincesBorders.texture;
                     blackBorders = false;
                     break;
                 case EnumBordersType.STATES_BLACK:
-                    if (TextureManager.statesBorders.texture != null) BordersMapPlane.Texture = TextureManager.statesBorders.texture;
+                    if (TextureManager.statesBorders.texture != null)
+                        BordersMapPlane.Texture = TextureManager.statesBorders.texture;
                     blackBorders = true;
                     break;
                 case EnumBordersType.STATES_WHITE:
-                    if (TextureManager.statesBorders.texture != null) BordersMapPlane.Texture = TextureManager.statesBorders.texture;
+                    if (TextureManager.statesBorders.texture != null)
+                        BordersMapPlane.Texture = TextureManager.statesBorders.texture;
                     blackBorders = false;
                     break;
                 case EnumBordersType.STRATEGIC_REGIONS_BLACK:
-                    if (TextureManager.regionsBorders.texture != null) BordersMapPlane.Texture = TextureManager.regionsBorders.texture;
+                    if (TextureManager.regionsBorders.texture != null)
+                        BordersMapPlane.Texture = TextureManager.regionsBorders.texture;
                     blackBorders = true;
                     break;
                 case EnumBordersType.STRATEGIC_REGIONS_WHITE:
-                    if (TextureManager.regionsBorders.texture != null) BordersMapPlane.Texture = TextureManager.regionsBorders.texture;
+                    if (TextureManager.regionsBorders.texture != null)
+                        BordersMapPlane.Texture = TextureManager.regionsBorders.texture;
                     blackBorders = false;
                     break;
             }
