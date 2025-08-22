@@ -27,7 +27,7 @@ namespace HOI4ModBuilder.managers
         public static bool NeedToSave { get; set; }
         private static bool _hasProcessedDefinitionFile;
         public static ushort NextVacantProvinceId { get; set; }
-        public static HashSet<Province> GroupSelectedProvinces { get; private set; } = new HashSet<Province> { };
+        public static List<Province> GroupSelectedProvinces { get; private set; } = new List<Province> { };
         public static Point2F GetGroupSelectedProvincesCenter()
         {
             var commonCenter = new CommonCenter();
@@ -188,6 +188,90 @@ namespace HOI4ModBuilder.managers
                 else if (province.pixelsCount > maxCount)
                     maxCount = province.pixelsCount;
             }
+        }
+
+        public static List<Province> FindPathAStar(Province start, Province goal)
+            => FindPathAStar(start, goal, (p) => true);
+        public static List<Province> FindPathAStar(Province start, Province goal, Func<Province, bool> provinceChecker)
+        {
+            if (start == null || goal == null)
+                return new List<Province>();
+
+            if (provinceChecker == null)
+                provinceChecker = (p) => true;
+
+            if (!provinceChecker(start) || !provinceChecker(goal))
+                return new List<Province>();
+
+            if (start.Id == goal.Id)
+                return new List<Province> { start };
+
+            var closedSet = new HashSet<Province>();
+            var openSet = new List<Province> { start };
+
+            var cameFrom = new Dictionary<Province, Province>();
+            var gScore = new Dictionary<Province, double> { [start] = 0d };
+            var fScore = new Dictionary<Province, double>
+            {
+                [start] = start.center.GetDistanceTo(goal.center)
+            };
+
+            while (openSet.Count > 0)
+            {
+                Province current = openSet[0];
+                double currentFScore = fScore[current];
+                for (int i = 1; i < openSet.Count; i++)
+                {
+                    Province p = openSet[i];
+                    double score = fScore.TryGetValue(p, out double val) ? val : double.PositiveInfinity;
+                    if (score < currentFScore)
+                    {
+                        current = p;
+                        currentFScore = score;
+                    }
+                }
+
+                if (current == goal)
+                    return ReconstructPath(cameFrom, current);
+
+                openSet.Remove(current);
+                closedSet.Add(current);
+
+                current.ForEachAdjacentProvince((from, neighbor) =>
+                {
+                    if (!provinceChecker(neighbor))
+                        return;
+
+                    if (closedSet.Contains(neighbor))
+                        return;
+
+                    double tentativeG = gScore[current] + from.center.GetDistanceTo(neighbor.center);
+
+                    if (!gScore.TryGetValue(neighbor, out double neighborG) || tentativeG < neighborG)
+                    {
+                        cameFrom[neighbor] = current;
+                        gScore[neighbor] = tentativeG;
+                        fScore[neighbor] = tentativeG + neighbor.center.GetDistanceTo(goal.center);
+
+                        if (!openSet.Contains(neighbor))
+                            openSet.Add(neighbor);
+                    }
+                });
+            }
+
+            return new List<Province>();
+        }
+
+        private static List<Province> ReconstructPath(Dictionary<Province, Province> cameFrom, Province current)
+        {
+            var totalPath = new List<Province> { current };
+            while (cameFrom.TryGetValue(current, out Province previous))
+            {
+                current = previous;
+                totalPath.Add(current);
+            }
+            totalPath.Reverse();
+            return totalPath;
         }
 
         public static Color3B GetNewLandColor()

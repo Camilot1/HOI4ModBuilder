@@ -1159,16 +1159,12 @@ namespace HOI4ModBuilder
             {
                 if (
                     ProvinceManager.SelectedProvince == null || ProvinceManager.RMBProvince == null ||
+                    ProvinceManager.SelectedProvince.Id == ProvinceManager.RMBProvince.Id ||
                     ProvinceManager.SelectedProvince.Type != EnumProvinceType.LAND || ProvinceManager.RMBProvince.Type != EnumProvinceType.LAND
                     )
                     ToolStripMenuItem_Map_Railway_Create.Enabled = false;
-                else if (
-                    ProvinceManager.SelectedProvince.HasBorderWith(ProvinceManager.RMBProvince) ||
-                    ProvinceManager.SelectedProvince.HasSeaConnectionWith(ProvinceManager.RMBProvince)
-                    )
-                    ToolStripMenuItem_Map_Railway_Create.Enabled = true;
                 else
-                    ToolStripMenuItem_Map_Railway_Create.Enabled = false;
+                    ToolStripMenuItem_Map_Railway_Create.Enabled = true;
 
                 if (SupplyManager.SelectedRailway != null)
                 {
