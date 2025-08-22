@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
 
@@ -19,12 +20,24 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                 {
                     if (e.Control && !(e.Alt || e.Shift))
                     {
+                        var provinces = new List<Province>();
+                        if (ProvinceManager.GroupSelectedProvinces.Count == 2)
+                            provinces.AddRange(ProvinceManager.GroupSelectedProvinces);
+                        else
+                        {
+                            provinces.Add(ProvinceManager.SelectedProvince);
+                            provinces.Add(ProvinceManager.RMBProvince);
+                        }
+
+                        if (provinces.Count != 2)
+                            return;
+
                         var railway = CreateRailway(
                             MainForm.Instance.SelectedRailwayLevel,
-                            ProvinceManager.SelectedProvince,
-                            ProvinceManager.RMBProvince
+                            provinces[0], provinces[1]
                         );
-                        if (railway != null) SupplyManager.SelectedRailway = railway;
+                        if (railway != null) 
+                            SupplyManager.SelectedRailway = railway;
                     }
                 }
             );
@@ -44,15 +57,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
 
         public static Railway CreateRailway(byte level, Province start, Province end)
         {
-            if (start == null || end == null || start.Id == end.Id ||
-                start.Type != EnumProvinceType.LAND || end.Type != EnumProvinceType.LAND ||
-                !(start.HasBorderWith(end) || start.HasSeaConnectionWith(end)) ||
-                start.HasDirectRailwayConnectionWith(end))
-            {
+            var path = ProvinceManager.FindPathAStar(start, end, (p) => p.Type == EnumProvinceType.LAND);
+            if (path.Count < 2)
                 return null;
-            }
 
-            var railway = new Railway(level, start, end);
+            var railway = new Railway(level, path);
             AddRailway(railway);
             return railway;
         }

@@ -54,14 +54,12 @@ namespace HOI4ModBuilder.src.utils.structs
         }
 
         public double GetDistanceTo(Point2F point)
-        {
-            return Math.Sqrt((x - point.x) * (x - point.x) + (y - point.y) * (y - point.y));
-        }
+            => Math.Sqrt((x - point.x) * (x - point.x) + (y - point.y) * (y - point.y));
+        public double GetSquareDistanceTo(Point2F point)
+            => (x - point.x) * (x - point.x) + (y - point.y) * (y - point.y);
 
         public double GetDistanceTo(Point2D point)
-        {
-            return Math.Sqrt((x - point.x) * (x - point.x) + (y - point.y) * (y - point.y));
-        }
+            => Math.Sqrt((x - point.x) * (x - point.x) + (y - point.y) * (y - point.y));
 
         public Vector3 ToVec3() => new Vector3(x, y, 0);
         public Vector3 ToVec3(float invertedY) => new Vector3(x, invertedY - y, 0);

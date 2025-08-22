@@ -471,6 +471,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public void AddBorder(ProvinceBorder border) => borders.Add(border);
         public void ClearBorders() => borders.Clear();
 
+        public List<Province> FindPathTo(Province goal) => ProvinceManager.FindPathAStar(this, goal);
+
         public void Save(StringBuilder sb)
         {
             sb.Append(_id).Append(';').
