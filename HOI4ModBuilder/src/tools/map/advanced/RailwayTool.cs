@@ -21,22 +21,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                     if (e.Control && !(e.Alt || e.Shift))
                     {
                         var provinces = new List<Province>();
-                        if (ProvinceManager.GroupSelectedProvinces.Count == 2)
+                        if (ProvinceManager.GroupSelectedProvinces.Count >= 2)
                             provinces.AddRange(ProvinceManager.GroupSelectedProvinces);
                         else
                         {
-                            provinces.Add(ProvinceManager.SelectedProvince);
-                            provinces.Add(ProvinceManager.RMBProvince);
+                            if (ProvinceManager.SelectedProvince != null)
+                                provinces.Add(ProvinceManager.SelectedProvince);
+                            if (ProvinceManager.RMBProvince != null)
+                                provinces.Add(ProvinceManager.RMBProvince);
                         }
 
-                        if (provinces.Count != 2)
+                        if (provinces.Count < 2)
                             return;
 
-                        var railway = CreateRailway(
-                            MainForm.Instance.SelectedRailwayLevel,
-                            provinces[0], provinces[1]
-                        );
-                        if (railway != null) 
+                        var railway = CreateRailway(MainForm.Instance.SelectedRailwayLevel, provinces);
+
+                        if (railway != null)
                             SupplyManager.SelectedRailway = railway;
                     }
                 }
@@ -60,6 +60,29 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             var path = ProvinceManager.FindPathAStar(start, end, (p) => p.Type == EnumProvinceType.LAND);
             if (path.Count < 2)
                 return null;
+
+            var railway = new Railway(level, path);
+            AddRailway(railway);
+            return railway;
+        }
+
+        public static Railway CreateRailway(byte level, List<Province> provinces)
+        {
+            var path = new List<Province>();
+            for (int i = 0; i < provinces.Count - 1; i++)
+            {
+                var innerPath = ProvinceManager.FindPathAStar(
+                    provinces[i], provinces[i + 1], (p) => p.Type == EnumProvinceType.LAND
+                );
+
+                if (innerPath.Count < 2)
+                    continue;
+
+                if (path.Count > 0 && path[path.Count - 1].Id == innerPath[0].Id)
+                    innerPath.RemoveAt(0);
+
+                path.AddRange(innerPath);
+            }
 
             var railway = new Railway(level, path);
             AddRailway(railway);

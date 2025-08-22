@@ -27,7 +27,7 @@ namespace HOI4ModBuilder.managers
         public static bool NeedToSave { get; set; }
         private static bool _hasProcessedDefinitionFile;
         public static ushort NextVacantProvinceId { get; set; }
-        public static HashSet<Province> GroupSelectedProvinces { get; private set; } = new HashSet<Province> { };
+        public static List<Province> GroupSelectedProvinces { get; private set; } = new List<Province> { };
         public static Point2F GetGroupSelectedProvincesCenter()
         {
             var commonCenter = new CommonCenter();
