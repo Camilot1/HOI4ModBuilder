@@ -1159,6 +1159,7 @@ namespace HOI4ModBuilder
             {
                 if (
                     ProvinceManager.SelectedProvince == null || ProvinceManager.RMBProvince == null ||
+                    ProvinceManager.SelectedProvince.Id == ProvinceManager.RMBProvince.Id ||
                     ProvinceManager.SelectedProvince.Type != EnumProvinceType.LAND || ProvinceManager.RMBProvince.Type != EnumProvinceType.LAND
                     )
                     ToolStripMenuItem_Map_Railway_Create.Enabled = false;
