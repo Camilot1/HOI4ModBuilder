@@ -441,6 +441,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         public static void SelectStates(ushort[] ids)
         {
             GroupSelectedStates.Clear();
+
+            if (ids.Length == 1)
+            {
+                if (TryGetState(ids[0], out var state))
+                    SelectedState = state;
+            }
+
             foreach (var id in ids)
             {
                 if (!TryGetState(id, out var state))

@@ -272,6 +272,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
         public static void SelectRegions(ushort[] ids)
         {
             GroupSelectedRegions.Clear();
+
+            if (ids.Length == 1)
+            {
+                if (TryGetRegion(ids[0], out var region))
+                    SelectedRegion = region;
+            }
+
             foreach (var id in ids)
             {
                 if (!TryGetRegion(id, out var region))
