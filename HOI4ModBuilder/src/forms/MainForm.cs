@@ -1127,16 +1127,11 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Map_Search_Province_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
+            => Logger.TryOrLog(() =>
             {
-                if (ushort.TryParse(ToolStripTextBox_Map_Search_Input.Text, out ushort id) && ProvinceManager.TryGetProvince(id, out Province p))
-                {
-                    ProvinceManager.SelectedProvince = p;
-                    MapManager.FocusOn(p.center);
-                }
+                ProvinceManager.SelectProvinces(Utils.ToIdArray(ToolStripTextBox_Map_Search_Input.Text, ' '));
+                MapManager.FocusOn(ProvinceManager.GetGroupSelectedProvincesCenter());
             });
-        }
 
         private void ToolStripMenuItem_Edit_Undo_Click(object sender, EventArgs e)
         {
@@ -1221,23 +1216,18 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Map_Search_State_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
+            => Logger.TryOrLog(() =>
             {
-                if (ushort.TryParse(ToolStripTextBox_Map_Search_Input.Text, out ushort id) && StateManager.TryGetState(id, out State state))
-                    MapManager.FocusOn(state.center);
+                StateManager.SelectStates(Utils.ToIdArray(ToolStripTextBox_Map_Search_Input.Text, ' '));
+                MapManager.FocusOn(StateManager.GetGroupSelectedStatesCenter());
             });
-        }
 
         private void ToolStripMenuItem_Map_Search_Region_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
+            => Logger.TryOrLog(() =>
             {
-                if (ushort.TryParse(ToolStripTextBox_Map_Search_Input.Text, out ushort id) && StrategicRegionManager.TryGetRegion(id, out StrategicRegion region))
-                    MapManager.FocusOn(region.center);
+                StrategicRegionManager.SelectRegions(Utils.ToIdArray(ToolStripTextBox_Map_Search_Input.Text, ' '));
+                MapManager.FocusOn(StrategicRegionManager.GetGroupSelectedRegionsCenter());
             });
-        }
-
         private void ToolStripMenuItem_Map_SupplyHub_DropDownOpened(object sender, EventArgs e)
         {
             Logger.TryOrLog(() =>
@@ -1804,20 +1794,16 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Map_Select_Provinces_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                ProvinceManager.SelectProvinces(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' '));
-                MapManager.FocusOn(ProvinceManager.GetGroupSelectedProvincesCenter());
+
             });
         private void ToolStripMenuItem_Map_Select_States_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                StateManager.SelectStates(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' '));
-                MapManager.FocusOn(StateManager.GetGroupSelectedStatesCenter());
+
             });
         private void ToolStripMenuItem_Map_Select_Regions_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                StrategicRegionManager.SelectRegions(Utils.ToIdArray(ToolStripTextBox_Map_Select_Input.Text, ' '));
-                MapManager.FocusOn(StrategicRegionManager.GetGroupSelectedRegionsCenter());
             });
         private void ToolStripMenuItem_Map_Actions_Merge_All_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => MergeProvincesTool.MergeProvinces(ProvinceManager.RMBProvince, ProvinceManager.GroupSelectedProvinces));

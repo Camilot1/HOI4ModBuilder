@@ -526,6 +526,13 @@ namespace HOI4ModBuilder.managers
         public static void SelectProvinces(ushort[] ids)
         {
             GroupSelectedProvinces.Clear();
+
+            if (ids.Length == 1)
+            {
+                if (TryGetProvince(ids[0], out var province))
+                    SelectedProvince = province;
+            }
+
             foreach (var id in ids)
             {
                 if (!TryGetProvince(id, out var province))
