@@ -1746,8 +1746,11 @@
   <data name="ToolStripMenuItem_Map_Adjacency.Text" xml:space="preserve">
     <value>Смежность</value>
   </data>
+  <data name="ToolStripMenuItem_Map_Railway_Create.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>CTRL+R</value>
+  </data>
   <data name="ToolStripMenuItem_Map_Railway_Create.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 22</value>
+    <value>262, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Create.Text" xml:space="preserve">
     <value>Создать Ж/Д</value>
@@ -1786,40 +1789,49 @@
     <value>121, 23</value>
   </data>
   <data name="toolStripSeparator22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 6</value>
+    <value>259, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Railway_AddProvince.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>CTRL+ЛКМ</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_AddProvince.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 22</value>
+    <value>262, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_AddProvince.Text" xml:space="preserve">
     <value>Добавить провинцию</value>
   </data>
+  <data name="ToolStripMenuItem_Map_Railway_RemoveProvince.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>CTRL+ЛКМ</value>
+  </data>
   <data name="ToolStripMenuItem_Map_Railway_RemoveProvince.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 22</value>
+    <value>262, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_RemoveProvince.Text" xml:space="preserve">
     <value>Убрать провинцию</value>
   </data>
   <data name="toolStripSeparator23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 6</value>
+    <value>259, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Join.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 22</value>
+    <value>262, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Join.Text" xml:space="preserve">
     <value>Соединить Ж/Д</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Split.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 22</value>
+    <value>262, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Split.Text" xml:space="preserve">
     <value>Разделить Ж/Д</value>
   </data>
   <data name="toolStripSeparator21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 6</value>
+    <value>259, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Railway_Remove.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>DELETE</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Remove.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 22</value>
+    <value>262, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Remove.Text" xml:space="preserve">
     <value>Удалить Ж/Д</value>
@@ -1830,14 +1842,20 @@
   <data name="ToolStripMenuItem_Map_Railway.Text" xml:space="preserve">
     <value>Железная дорога</value>
   </data>
+  <data name="ToolStripMenuItem_Map_SupplyHub_Create.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>CTRL+H</value>
+  </data>
   <data name="ToolStripMenuItem_Map_SupplyHub_Create.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+    <value>245, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_SupplyHub_Create.Text" xml:space="preserve">
     <value>Создать узел</value>
   </data>
+  <data name="ToolStripMenuItem_Map_SupplyHub_Remove.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>CTRL+H / DELETE</value>
+  </data>
   <data name="ToolStripMenuItem_Map_SupplyHub_Remove.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+    <value>245, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_SupplyHub_Remove.Text" xml:space="preserve">
     <value>Удалить узел</value>
