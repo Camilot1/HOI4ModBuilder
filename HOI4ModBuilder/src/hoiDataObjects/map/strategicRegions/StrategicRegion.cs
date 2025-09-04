@@ -396,7 +396,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
             string tab2 = tab + tab;
             sb.Append(tab).Append("static_modifiers = {").Append(Constants.NEW_LINE);
-            foreach (var pair in modifiers) sb.Append(tab2).Append(pair.Key).Append(" = ").Append(pair.Value).Append(Constants.NEW_LINE);
+            foreach (var pair in modifiers) 
+                sb.Append(tab2).Append(pair.Key).Append(" = ").Append(pair.Value).Append(Constants.NEW_LINE);
             sb.Append(tab).Append("}").Append(Constants.NEW_LINE);
         }
 
