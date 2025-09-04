@@ -218,6 +218,7 @@
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Edit_Actions = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Edit_Actions_FindMapChanges = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal = new System.Windows.Forms.ToolStripMenuItem();
@@ -227,8 +228,6 @@
             this.ToolStripMenuItem_Edit_AutoTools_ProvincesValidation = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_StatesValidation = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_RegionsValidation = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
-            this.ToolStripMenuItem_Edit_AutoTools_FindMapChanges = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_Scripts = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Data = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripComboBox_Data_Bookmark = new System.Windows.Forms.ToolStripComboBox();
@@ -1624,7 +1623,8 @@
             // ToolStripMenuItem_Edit_Actions
             // 
             this.ToolStripMenuItem_Edit_Actions.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces});
+            this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces,
+            this.ToolStripMenuItem_Edit_Actions_FindMapChanges});
             this.ToolStripMenuItem_Edit_Actions.Name = "ToolStripMenuItem_Edit_Actions";
             resources.ApplyResources(this.ToolStripMenuItem_Edit_Actions, "ToolStripMenuItem_Edit_Actions");
             this.ToolStripMenuItem_Edit_Actions.DropDownOpened += new System.EventHandler(this.ToolStripMenuItem_Edit_Actions_DropDownOpened);
@@ -1634,6 +1634,12 @@
             this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Name = "ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces";
             resources.ApplyResources(this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces, "ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces");
             this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces_Click);
+            // 
+            // ToolStripMenuItem_Edit_Actions_FindMapChanges
+            // 
+            this.ToolStripMenuItem_Edit_Actions_FindMapChanges.Name = "ToolStripMenuItem_Edit_Actions_FindMapChanges";
+            resources.ApplyResources(this.ToolStripMenuItem_Edit_Actions_FindMapChanges, "ToolStripMenuItem_Edit_Actions_FindMapChanges");
+            this.ToolStripMenuItem_Edit_Actions_FindMapChanges.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_Actions_FindMapChanges_Click);
             // 
             // ToolStripMenuItem_Edit_AutoTools
             // 
@@ -1645,9 +1651,7 @@
             this.toolStripSeparator11,
             this.ToolStripMenuItem_Edit_AutoTools_ProvincesValidation,
             this.ToolStripMenuItem_Edit_AutoTools_StatesValidation,
-            this.ToolStripMenuItem_Edit_AutoTools_RegionsValidation,
-            this.toolStripSeparator18,
-            this.ToolStripMenuItem_Edit_AutoTools_FindMapChanges});
+            this.ToolStripMenuItem_Edit_AutoTools_RegionsValidation});
             this.ToolStripMenuItem_Edit_AutoTools.Name = "ToolStripMenuItem_Edit_AutoTools";
             resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools, "ToolStripMenuItem_Edit_AutoTools");
             // 
@@ -1696,17 +1700,6 @@
             this.ToolStripMenuItem_Edit_AutoTools_RegionsValidation.Name = "ToolStripMenuItem_Edit_AutoTools_RegionsValidation";
             resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools_RegionsValidation, "ToolStripMenuItem_Edit_AutoTools_RegionsValidation");
             this.ToolStripMenuItem_Edit_AutoTools_RegionsValidation.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_AutoTools_RegionsValidation_Click);
-            // 
-            // toolStripSeparator18
-            // 
-            this.toolStripSeparator18.Name = "toolStripSeparator18";
-            resources.ApplyResources(this.toolStripSeparator18, "toolStripSeparator18");
-            // 
-            // ToolStripMenuItem_Edit_AutoTools_FindMapChanges
-            // 
-            this.ToolStripMenuItem_Edit_AutoTools_FindMapChanges.Name = "ToolStripMenuItem_Edit_AutoTools_FindMapChanges";
-            resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools_FindMapChanges, "ToolStripMenuItem_Edit_AutoTools_FindMapChanges");
-            this.ToolStripMenuItem_Edit_AutoTools_FindMapChanges.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_AutoTools_FindMapChanges_Click);
             // 
             // ToolStripMenuItem_Edit_Scripts
             // 
@@ -2042,8 +2035,6 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Language_EN;
         private System.Windows.Forms.Button Button_TextureMoveDown;
         private System.Windows.Forms.Button Button_TextureMoveUp;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_AutoTools_FindMapChanges;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Discord;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Railway_Split;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Railway_Join;
@@ -2100,6 +2091,7 @@
         private System.Windows.Forms.Panel Panel_ColorPicker;
         private System.Windows.Forms.Button Panel_ColorPicker_Button_Save;
         private System.Windows.Forms.Button Panel_ColorPicker_Button_Close;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_Actions_FindMapChanges;
     }
 }
 

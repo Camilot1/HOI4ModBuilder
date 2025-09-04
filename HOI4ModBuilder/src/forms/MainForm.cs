@@ -1456,8 +1456,6 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() => SettingsManager.ChangeLanguage("ru"));
         private void ToolStripMenuItem_Language_EN_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => SettingsManager.ChangeLanguage("en"));
-        private void ToolStripMenuItem_Edit_AutoTools_FindMapChanges_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => MapManager.FindMapChanges());
 
         private void ToolStripMenuItem_Help_Documentation_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
@@ -1811,6 +1809,9 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() => MergeProvincesTool.MergeSelectedProvinces());
         private void ToolStripMenuItem_Edit_Actions_DropDownOpened(object sender, EventArgs e)
             => Logger.TryOrLog(() => ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Enabled = ProvinceManager.GroupSelectedProvinces.Count >= 2);
+
+        private void ToolStripMenuItem_Edit_Actions_FindMapChanges_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => FindMapChangesTool.Execute());
 
         public void SetGroupBoxProgressBackColor(Color color)
             => GroupBox_Progress.BackColor = color;

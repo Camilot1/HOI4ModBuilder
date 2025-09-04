@@ -2559,11 +2559,17 @@
   <data name="ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Text" xml:space="preserve">
     <value>Объединить выделенные провинции</value>
   </data>
+  <data name="ToolStripMenuItem_Edit_Actions_FindMapChanges.Size" type="System.Drawing.Size, System.Drawing">
+    <value>331, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Actions_FindMapChanges.Text" xml:space="preserve">
+    <value>Найти изменения карты</value>
+  </data>
   <data name="ToolStripMenuItem_Edit_Actions.Size" type="System.Drawing.Size, System.Drawing">
     <value>226, 22</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Actions.Text" xml:space="preserve">
-    <value>Действия</value>
+    <value>Расширенные действия</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Size" type="System.Drawing.Size, System.Drawing">
     <value>297, 22</value>
@@ -2612,15 +2618,6 @@
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegionsValidation.Text" xml:space="preserve">
     <value>Валидация регионов</value>
-  </data>
-  <data name="toolStripSeparator18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 6</value>
-  </data>
-  <data name="ToolStripMenuItem_Edit_AutoTools_FindMapChanges.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Edit_AutoTools_FindMapChanges.Text" xml:space="preserve">
-    <value>Найти изменения карты</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools.Size" type="System.Drawing.Size, System.Drawing">
     <value>226, 22</value>
@@ -3528,6 +3525,12 @@
   <data name="&gt;&gt;ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_Actions_FindMapChanges.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Edit_Actions_FindMapChanges</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_Actions_FindMapChanges.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools.Name" xml:space="preserve">
     <value>ToolStripMenuItem_Edit_AutoTools</value>
   </data>
@@ -3580,18 +3583,6 @@
     <value>ToolStripMenuItem_Edit_AutoTools_RegionsValidation</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RegionsValidation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator18.Name" xml:space="preserve">
-    <value>toolStripSeparator18</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator18.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_FindMapChanges.Name" xml:space="preserve">
-    <value>ToolStripMenuItem_Edit_AutoTools_FindMapChanges</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_FindMapChanges.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Edit_Scripts.Name" xml:space="preserve">
