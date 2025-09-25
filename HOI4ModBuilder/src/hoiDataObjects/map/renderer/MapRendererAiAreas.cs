@@ -11,7 +11,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
         {
             if (recalculateAllText)
-                if (!TextRenderRecalculate())
+                if (!TextRenderRecalculate(parameter))
                     return MapRendererResult.ABORT;
 
             if (!AiAreaManager.TryGetAiArea(parameter, out AiArea aiArea))
@@ -30,7 +30,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             return MapRendererResult.CONTINUE;
         }
 
-        public bool TextRenderRecalculate()
+        public bool TextRenderRecalculate(string parameter)
         {
             MapManager.FontRenderController.TryStart(out var result)?
                 .ClearAll()

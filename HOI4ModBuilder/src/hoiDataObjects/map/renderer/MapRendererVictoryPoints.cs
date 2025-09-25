@@ -18,7 +18,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
         {
             if (recalculateAllText)
-                if (!TextRenderRecalculate())
+                if (!TextRenderRecalculate(parameter))
                     return MapRendererResult.ABORT;
 
             ProvinceManager.GetMinMaxVictoryPoints(out uint victoryPointsMin, out uint victoryPointsMax);
@@ -36,19 +36,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                         return Utils.ArgbToInt(255, 255, 0, 255);
                 }
 
-                byte value = (byte)logScaleData.CalculateInverted(p.victoryPoints, 255d);
+                byte value = (byte)logScaleData.Calculate(p.victoryPoints, 255d);
                 return Utils.ArgbToInt(255, value, value, value);
             };
 
             return MapRendererResult.CONTINUE;
         }
 
-        public bool TextRenderRecalculate()
+        public bool TextRenderRecalculate(string parameter)
         {
             var controller = MapManager.FontRenderController;
             controller.TryStart(out var result)?
                 .SetEventsHandler(
-                    (int)EnumMapRenderEvents.VICTORY_POINTS | (int)EnumMapRenderEvents.PROVINCES_IDS, 
+                    (int)EnumMapRenderEvents.VICTORY_POINTS | (int)EnumMapRenderEvents.PROVINCES_IDS,
                     (flags, objs) =>
                 {
                     controller.TryStart(controller.EventsFlags, out var eventResult)?

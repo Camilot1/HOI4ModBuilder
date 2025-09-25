@@ -30,6 +30,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
+        public override bool isHandlingMouseMove() => false;
+
         public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
             EnumEditLayer.PROVINCES, EnumEditLayer.STATES, EnumEditLayer.BUILDINGS
         };

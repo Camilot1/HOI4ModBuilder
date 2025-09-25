@@ -316,11 +316,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                     if (SelectedRailway == null) return;
                     if (SelectedRailway.CanAddProvince(ProvinceManager.SelectedProvince))
                     {
-                        RailwayTool.AddProvinceToRailway(SelectedRailway, ProvinceManager.SelectedProvince);
+                        RailwaysTool.AddProvinceToRailway(SelectedRailway, ProvinceManager.SelectedProvince);
                     }
                     else if (SelectedRailway.CanRemoveProvince(ProvinceManager.SelectedProvince))
                     {
-                        RailwayTool.RemoveProvinceFromRailway(SelectedRailway, ProvinceManager.SelectedProvince);
+                        RailwaysTool.RemoveProvinceFromRailway(SelectedRailway, ProvinceManager.SelectedProvince);
                     }
                 }
                 else

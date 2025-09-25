@@ -480,6 +480,7 @@
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererTerrainMap.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererTreesMap.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererVictoryPoints.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererResources.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\CheckRegionWithNotNavalTerrain.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerLandProvincesWithNoState.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerProvincesWithMultiRegions.cs" />
@@ -785,12 +786,13 @@
     <Compile Include="src\tools\map\advanced\DebugTool.cs" />
     <Compile Include="src\tools\map\advanced\FindMapChangesTool.cs" />
     <Compile Include="src\tools\map\advanced\MergeProvincesTool.cs" />
-    <Compile Include="src\tools\map\advanced\RailwayTool.cs" />
+    <Compile Include="src\tools\map\advanced\RailwaysTool.cs" />
     <Compile Include="src\tools\dataRecovery\StrategicRegionsDataRecoveryTool.cs" />
-    <Compile Include="src\tools\map\advanced\SupplyNodeTool.cs" />
+    <Compile Include="src\tools\map\advanced\SupplyHubsTool.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolAiArea.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolBrush.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolBuildings.cs" />
+    <Compile Include="src\tools\map\mouseHandleable\MapToolResources.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolStateClaimBy.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolStateController.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolStateCoreOf.cs" />

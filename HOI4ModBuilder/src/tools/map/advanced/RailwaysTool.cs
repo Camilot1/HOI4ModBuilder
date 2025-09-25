@@ -7,9 +7,9 @@ using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
 {
-    class RailwayTool
+    class RailwaysTool
     {
-        public RailwayTool()
+        public RailwaysTool()
         {
             MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Delete, (sender, e) => RemoveRailway(SupplyManager.SelectedRailway));
 

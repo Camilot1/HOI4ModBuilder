@@ -18,7 +18,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             }
 
             if (recalculateAllText)
-                if (!TextRenderRecalculate())
+                if (!TextRenderRecalculate(parameter))
                     return MapRendererResult.ABORT;
 
             ScriptParser.IsDebug = false;
@@ -55,7 +55,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             return MapRendererResult.CONTINUE;
         }
 
-        public bool TextRenderRecalculate()
+        public bool TextRenderRecalculate(string parameter)
         {
             MapManager.FontRenderController.TryStart(out var result)?
                 .ClearAll()

@@ -4,25 +4,26 @@ using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.utils.structs;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 using System.Windows.Forms;
-using System.Collections;
+using HOI4ModBuilder.hoiDataObjects.common.resources;
 
 namespace HOI4ModBuilder.src.tools.map.mouseHandleable
 {
-    public class MapToolVictoryPoints : MapTool
+    public class MapToolResources : MapTool
     {
-        private static readonly EnumTool enumTool = EnumTool.VICTORY_POINTS;
+        private static readonly EnumTool enumTool = EnumTool.RESOURCES;
 
-        public MapToolVictoryPoints(Dictionary<EnumTool, MapTool> mapTools)
+        public MapToolResources(Dictionary<EnumTool, MapTool> mapTools)
             : base(
                   mapTools, enumTool, new EnumMainLayer[] { },
                   new HotKey
                   {
                       shift = true,
-                      key = Keys.V,
+                      key = Keys.R,
                       hotKeyEvent = (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool)
                   },
                   (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX
@@ -32,9 +33,10 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
         public override bool isHandlingMouseMove() => false;
 
         public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
-            EnumEditLayer.PROVINCES
+            EnumEditLayer.PROVINCES, EnumEditLayer.STATES
         };
-        public override Func<ICollection> GetParametersProvider() => null;
+        public override Func<ICollection> GetParametersProvider() =>
+            () => ResourceManager.GetResourcesTags();
         public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
@@ -51,9 +53,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             if (province.State == null)
                 return false;
 
-            var history = province.State.History.GetValue();
-            if (history == null)
-                return false;
+            var state = province.State;
 
             int changeCount = 0;
 
@@ -70,7 +70,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             if (changeCount == 0)
                 return false;
 
-            uint prevCount = province.victoryPoints;
+            uint prevCount = state.GetResourceCount(parameter);
             int newCount = (int)prevCount + changeCount;
             if (newCount < 0)
                 newCount = 0;
@@ -79,9 +79,9 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
 
             action = (c) =>
             {
-                if (province.State.SetVictoryPoints(province, c))
+                if (state.SetResourceCount(parameter, c))
                 {
-                    MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.VICTORY_POINTS, province);
+                    MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.RESOURCES, state);
                     MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
                 }
             };
@@ -95,4 +95,3 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
         }
     }
 }
-

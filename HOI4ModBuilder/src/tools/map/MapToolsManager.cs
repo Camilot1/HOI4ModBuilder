@@ -42,12 +42,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             new MapToolBuildings(_mapTools);
             new MapToolAiArea(_mapTools);
             new MapToolVictoryPoints(_mapTools);
+            new MapToolResources(_mapTools);
 
             new DebugTool();
 
             new MergeProvincesTool();
-            new RailwayTool();
-            new SupplyNodeTool();
+            new RailwaysTool();
+            new SupplyHubsTool();
         }
 
         public static void HandleTool(
@@ -59,14 +60,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             {
                 if (!MainForm.IsFirstLoaded)
                     return;
-                if (_mapTools.TryGetValue(enumTool, out MapTool mapTool))
-                    mapTool.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value);
+                if (!_mapTools.TryGetValue(enumTool, out MapTool mapTool))
+                    return;
+                mapTool.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value);
 
-                switch (enumTool)
-                {
-                    case EnumTool.ELLIPSE: break;
-                    case EnumTool.MAGIC_WAND: break;
-                }
             });
         }
 
@@ -131,6 +128,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             _handleCheckFlags = handleCheckFlags;
         }
 
+        public abstract bool isHandlingMouseMove();
         public abstract EnumEditLayer[] GetAllowedEditLayers();
         public bool IsEditLayerAllowed(EnumEditLayer editLayer)
         {

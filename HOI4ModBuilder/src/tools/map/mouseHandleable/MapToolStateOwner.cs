@@ -29,6 +29,8 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
               )
         { }
 
+        public override bool isHandlingMouseMove() => true;
+
         public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
             EnumEditLayer.STATES
         };

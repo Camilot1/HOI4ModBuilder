@@ -2480,6 +2480,13 @@
     "defaultValue": 0
   },
   {
+    "name": "state_resource_cost_<resource>",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "INT" ],
+    "defaultValueType": "INT",
+    "defaultValue": 0
+  },
+  {
     "name": "temporary_state_resource_<resource>",
     "specificScopes": [ "STATE" ],
     "allowedValueTypes": [ "INT" ],

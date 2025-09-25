@@ -29,6 +29,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
+        public override bool isHandlingMouseMove() => true;
+
         public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
             EnumEditLayer.PROVINCES, EnumEditLayer.STRATEGIC_REGIONS
         };

@@ -52,6 +52,7 @@ namespace HOI4ModBuilder.utils
             CONTINENTS,
             MANPOWER,
             VICTORY_POINTS,
+            RESOURCES,
             STATES_CATEGORIES,
             BUILDINGS,
             TERRAIN_MAP,
@@ -101,7 +102,8 @@ namespace HOI4ModBuilder.utils
             STATE_CLAIM_BY,
             BUILDINGS,
             VICTORY_POINTS,
-            AI_AREAS
+            AI_AREAS,
+            RESOURCES
         }
 
         public enum EnumMouseState

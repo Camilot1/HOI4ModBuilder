@@ -1,4 +1,6 @@
-﻿using HOI4ModBuilder.hoiDataObjects.map;
+﻿using HOI4ModBuilder.hoiDataObjects.common.resources;
+using HOI4ModBuilder.hoiDataObjects.history.countries;
+using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.map;
@@ -327,44 +329,61 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public static void GetMinMaxManpower(out int min, out int max)
         {
-            min = 0;
-            max = 0;
-
-            foreach (var state in _statesById.Values)
-            {
-                min = state.CurrentManpower;
-                max = state.CurrentManpower;
-                break;
-            }
+            min = int.MaxValue;
+            max = int.MinValue;
 
             foreach (var state in _statesById.Values)
             {
                 if (state.CurrentManpower > max)
                     max = state.CurrentManpower;
-                else if (state.CurrentManpower < min)
+                if (state.CurrentManpower < min)
                     min = state.CurrentManpower;
             }
         }
 
         public static void GetMinMaxWeightedManpower(out double min, out double max)
         {
-            min = 0;
-            max = 0;
-
-            foreach (var state in _statesById.Values)
-            {
-                min = state.CurrentManpower / (double)state.pixelsCount;
-                max = state.CurrentManpower / (double)state.pixelsCount;
-                break;
-            }
+            min = double.MaxValue;
+            max = double.MinValue;
 
             foreach (var state in _statesById.Values)
             {
                 double weightedManpower = state.CurrentManpower / (double)state.pixelsCount;
                 if (weightedManpower > max)
                     max = weightedManpower;
-                else if (weightedManpower < min)
+                if (weightedManpower < min)
                     min = weightedManpower;
+            }
+        }
+
+        public static void GetMinMaxResourceCount(Resource resource, out uint min, out uint max)
+        {
+            min = uint.MaxValue;
+            max = uint.MinValue;
+
+            foreach (var state in _statesById.Values)
+            {
+                var count = state.GetResourceCount(resource);
+                if (count > max)
+                    max = count;
+                if (count < min)
+                    min = count;
+            }
+        }
+
+        public static void GetMinMaxWeightedResourceCount(Resource resource, out double min, out double max)
+        {
+            min = double.MaxValue;
+            max = double.MinValue;
+
+            foreach (var state in _statesById.Values)
+            {
+                var count = state.GetResourceCount(resource);
+                double weightedCount = count / (double)state.pixelsCount;
+                if (weightedCount > max)
+                    max = weightedCount;
+                if (weightedCount < min)
+                    min = weightedCount;
             }
         }
 

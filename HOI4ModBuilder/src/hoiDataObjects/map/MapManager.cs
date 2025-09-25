@@ -358,6 +358,7 @@ namespace HOI4ModBuilder.managers
             array[(int)EnumMainLayer.CONTINENTS] = new MapRendererContinents();
             array[(int)EnumMainLayer.MANPOWER] = new MapRendererManpower();
             array[(int)EnumMainLayer.VICTORY_POINTS] = new MapRendererVictoryPoints();
+            array[(int)EnumMainLayer.RESOURCES] = new MapRendererResources();
             array[(int)EnumMainLayer.STATES_CATEGORIES] = new MapRendererStateCategories();
             array[(int)EnumMainLayer.BUILDINGS] = new MapRendererBuildings();
             array[(int)EnumMainLayer.TERRAIN_MAP] = new MapRendererTerrainMap();
@@ -701,12 +702,10 @@ namespace HOI4ModBuilder.managers
             else
             {
                 if (selectedTexturedPlane != null)
-                {
                     selectedTexturedPlane.Move(pos.x - _mousePrevPoint.x, pos.y - _mousePrevPoint.y);
-                }
                 else if (ActionsBatch.Enabled && (_mousePrevPoint.x != pos.x || _mousePrevPoint.y != pos.y))
                 {
-                    if (enumTool != EnumTool.BUILDINGS)
+                    if (MapToolsManager.TryGetMapTool(enumTool, out var mapTool) && mapTool.isHandlingMouseMove())
                         MapToolsManager.HandleTool(e, _mouseState, pos, _mapSizeFactor, enumEditLayer, enumTool, selectBounds, parameter, value);
                 }
                 _mousePrevPoint = pos;
