@@ -22,7 +22,6 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                   mapTools, enumTool, new EnumMainLayer[] { },
                   new HotKey
                   {
-                      shift = true,
                       key = Keys.R,
                       hotKeyEvent = (e) => MainForm.Instance.SetSelectedToolWithRefresh(enumTool)
                   },
