@@ -35,7 +35,7 @@ namespace HOI4ModBuilder.managers
 {
     class MapManager
     {
-        public static FontRenderController FontRenderController { get; private set; }
+        public static FontRenderController FontRenderController { get; private set; } = new FontRenderController(256, 64);
         public static bool IsMapDragged { get; private set; } = false;
         public static Value2I MapSize { get; private set; }
         private static Point2D _mousePrevPoint;
