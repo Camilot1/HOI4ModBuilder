@@ -16,7 +16,7 @@ namespace HOI4ModBuilder.src.utils.structs
             if (max < 1)
                 max = 1;
 
-            if (max > min)
+            if (max < min)
                 (min, max) = (max, min);
 
             logMin = Math.Log(min);

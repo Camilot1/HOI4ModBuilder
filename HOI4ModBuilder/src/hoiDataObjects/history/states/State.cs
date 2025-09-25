@@ -219,6 +219,42 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return false;
         }
 
+        public uint GetResourceCount(string tag) => GetResourceCount(ResourceManager.GetResource(tag));
+        public uint GetResourceCount(Resource resource)
+        {
+            if (resource == null)
+                return 0;
+            Resources.TryGetValue(resource, out var count);
+            return count;
+        }
+        public bool SetResourceCount(string tag, uint count) => SetResourceCount(ResourceManager.GetResource(tag), count);
+        public bool SetResourceCount(Resource resource, uint count)
+        {
+            if (resource == null)
+                return false;
+
+            if (Resources.TryGetValue(resource, out var prevCount))
+            {
+                if (prevCount == count)
+                    return false;
+                else if (count == 0)
+                    Resources.Remove(resource);
+                else
+                    Resources[resource] = count;
+
+                Resources.SetNeedToSave(true);
+                return true;
+            } else
+            {
+                if (count == 0)
+                    return false;
+
+                Resources[resource] = count;
+                Resources.SetNeedToSave(true);
+                return true;
+            }
+        }
+
         public void CalculateCenter()
         {
             bounds.SetZero();

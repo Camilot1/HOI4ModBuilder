@@ -38,6 +38,8 @@ namespace HOI4ModBuilder.hoiDataObjects.common.resources
                 return resource;
             return null;
         }
+        public static bool HasResource(string tag) => _allResources.ContainsKey(tag);
+        public static Dictionary<string, Resource>.KeyCollection GetResourcesTags() => _allResources.Keys;
 
         public void TokenCallback(ParadoxParser parser, string token)
         {

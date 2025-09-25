@@ -36,6 +36,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
               )
         { }
 
+        public override bool isHandlingMouseMove() => false;
+
         public override EnumEditLayer[] GetAllowedEditLayers() => null;
         public override Func<ICollection> GetParametersProvider() => null;
         public override Func<ICollection> GetValuesProvider() => null;
@@ -105,8 +107,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
             {
-                if (mouseEventArgs.Button == MouseButtons.Right)
-                    ProvinceManager.RMBProvince = null;
                 return true;
             }
 

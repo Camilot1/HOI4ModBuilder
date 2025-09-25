@@ -34,5 +34,12 @@ namespace HOI4ModBuilder.hoiDataObjects.common.resources
                     break;
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Resource resource &&
+                   _hashCode == resource._hashCode &&
+                   tag == resource.tag;
+        }
     }
 }

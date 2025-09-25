@@ -40,6 +40,7 @@ using System.Linq;
 using HOI4ModBuilder.src.openTK;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using static HOI4ModBuilder.utils.Structs;
+using HOI4ModBuilder.hoiDataObjects.common.resources;
 
 namespace HOI4ModBuilder
 {
@@ -134,6 +135,7 @@ namespace HOI4ModBuilder
             AddMainLayerHotKey(EnumMainLayer.CONTINENTS, new[] { Keys.Alt, Keys.C });
             AddMainLayerHotKey(EnumMainLayer.MANPOWER, new[] { Keys.Alt, Keys.M });
             AddMainLayerHotKey(EnumMainLayer.VICTORY_POINTS, new[] { Keys.Alt, Keys.V });
+            AddMainLayerHotKey(EnumMainLayer.RESOURCES, new[] { Keys.Control, Keys.Alt, Keys.R });
             AddMainLayerHotKey(EnumMainLayer.BUILDINGS, new[] { Keys.Alt, Keys.B });
 
             AfterFirstInit();
@@ -143,7 +145,8 @@ namespace HOI4ModBuilder
         {
             Controls.Clear();
             Init();
-            foreach (var action in _guiReinitActions) action();
+            foreach (var action in _guiReinitActions)
+                action();
         }
 
         private void Init()
@@ -753,6 +756,11 @@ namespace HOI4ModBuilder
                 parameterProvider = () => BuildingManager.GetBuildingNames(),
                 onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.BUILDINGS)
             } },
+            { EnumMainLayer.RESOURCES, new LayerActions {
+                isValidChecker = (s) => ResourceManager.HasResource(s),
+                parameterProvider = () => ResourceManager.GetResourcesTags(),
+                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.RESOURCES)
+            } },
             { EnumMainLayer.AI_AREAS, new LayerActions {
                 isValidChecker = (s) => AiAreaManager.HasAiArea(s),
                 parameterProvider = () => AiAreaManager.GetAiAreasNames(),
@@ -989,9 +997,9 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Settings_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => new SettingsForm().ShowDialog());
         private void ToolStripMenuItem_Map_SupplyHub_Create_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => SupplyNodeTool.AddNode(SupplyNodeTool.CreateNode(1, ProvinceManager.RMBProvince)));
+            => Logger.TryOrLog(() => SupplyHubsTool.AddNode(SupplyHubsTool.CreateNode(1, ProvinceManager.RMBProvince)));
         private void ToolStripMenuItem_Map_SupplyHub_Remove_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => SupplyNodeTool.RemoveNode(ProvinceManager.RMBProvince?.SupplyNode));
+            => Logger.TryOrLog(() => SupplyHubsTool.RemoveNode(ProvinceManager.RMBProvince?.SupplyNode));
 
         public byte SelectedRailwayLevel
         {
@@ -1000,16 +1008,16 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Map_Railway_Create_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => RailwayTool.CreateRailway(
+            => Logger.TryOrLog(() => RailwaysTool.CreateRailway(
                 (byte)(ToolStripComboBox_Map_Railway_Level.SelectedIndex + 1),
                 ProvinceManager.SelectedProvince, ProvinceManager.RMBProvince)
             );
 
         private void ToolStripMenuItem_Map_Railway_Remove_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => RailwayTool.RemoveRailway(SupplyManager.SelectedRailway));
+            => Logger.TryOrLog(() => RailwaysTool.RemoveRailway(SupplyManager.SelectedRailway));
 
         private void ToolStripComboBox_Map_Railway_Level_SelectedIndexChanged(object sender, EventArgs e)
-            => Logger.TryOrLog(() => RailwayTool.ChangeRailwayLevel(
+            => Logger.TryOrLog(() => RailwaysTool.ChangeRailwayLevel(
                 SupplyManager.SelectedRailway,
                 (byte)(ToolStripComboBox_Map_Railway_Level.SelectedIndex + 1))
             );
@@ -1464,15 +1472,15 @@ namespace HOI4ModBuilder
             });
 
         private void ToolStripMenuItem_Map_Railway_Split_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => RailwayTool.SplitRailwayAtProvince(SupplyManager.SelectedRailway ?? SupplyManager.RMBRailway, ProvinceManager.RMBProvince));
+            => Logger.TryOrLog(() => RailwaysTool.SplitRailwayAtProvince(SupplyManager.SelectedRailway ?? SupplyManager.RMBRailway, ProvinceManager.RMBProvince));
         private void ToolStripMenuItem_Map_Railway_Join_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => RailwayTool.JoinRailways(SupplyManager.SelectedRailway, SupplyManager.RMBRailway));
+            => Logger.TryOrLog(() => RailwaysTool.JoinRailways(SupplyManager.SelectedRailway, SupplyManager.RMBRailway));
         private void ToolStripMenuItem_Data_Recovery_Regions_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => Task.Run(() => new StrategicRegionsDataRecoveryForm().ShowDialog()));
         private void ToolStripMenuItem_Map_Railway_AddProvince_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => RailwayTool.AddProvinceToRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
+            => Logger.TryOrLog(() => RailwaysTool.AddProvinceToRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
         private void ToolStripMenuItem_Map_Railway_RemoveProvince_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => RailwayTool.RemoveProvinceFromRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
+            => Logger.TryOrLog(() => RailwaysTool.RemoveProvinceFromRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
 
         private void ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AutoTools.RemoveSeaProvincesFromStates(true));

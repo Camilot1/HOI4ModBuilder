@@ -183,7 +183,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
                 AddToProvinces();
 
-                RailwayTool.SilentAddRailway(newRailway);
+                RailwaysTool.SilentAddRailway(newRailway);
                 railwayContainer[0] = newRailway;
                 return true;
             }
@@ -294,7 +294,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                 else return false;
 
                 AddToProvinces();
-                RailwayTool.SilentRemoveRailway(otherRailway);
+                RailwaysTool.SilentRemoveRailway(otherRailway);
                 otherRailwayContainer[0] = null;
                 return true;
             }

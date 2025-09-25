@@ -7,9 +7,9 @@ using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.src.tools.map.advanced
 {
-    class SupplyNodeTool
+    class SupplyHubsTool
     {
-        public SupplyNodeTool()
+        public SupplyHubsTool()
         {
             MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Delete, (sender, e) => RemoveNode(SupplyManager.SelectedSupplyNode));
 

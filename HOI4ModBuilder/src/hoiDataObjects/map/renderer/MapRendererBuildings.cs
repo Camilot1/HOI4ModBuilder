@@ -21,7 +21,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             if (!BuildingManager.TryGetBuilding(parameter, out Building building))
             {
                 if (recalculateAllText)
-                    if (!TextRenderRecalculate())
+                    if (!TextRenderRecalculate(parameter))
                         return MapRendererResult.ABORT;
 
                 func = (p) =>
@@ -148,7 +148,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             return MapRendererResult.CONTINUE;
         }
 
-        public bool TextRenderRecalculate()
+        public bool TextRenderRecalculate(string parameter)
         {
             MapManager.FontRenderController.TryStart(out var result)?
                 .SetEventsHandler((int)EnumMapRenderEvents.NONE, (flags, obj) => { })
