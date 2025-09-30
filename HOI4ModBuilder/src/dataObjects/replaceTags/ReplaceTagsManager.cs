@@ -11,6 +11,7 @@ namespace HOI4ModBuilder.src.dataObjects.replaceTags
     class ReplaceTagsManager
     {
         private static readonly string _dataFilePath = FileManager.AssembleFilePath(new[] { "data", "replace_tags.json" });
+        private static readonly string _dataCustomFolderPath = FileManager.AssembleFilePath(new[] { "data", "custom" });
         private static readonly string _dataCustomFilePath = FileManager.AssembleFilePath(new[] { "data", "custom", "replace_tags.json" });
         private static HashSet<string> _registeredReplaceTags = new HashSet<string>();
         private static Dictionary<string, List<string>> _replaceTagsListsMap = new Dictionary<string, List<string>>(0);
@@ -24,7 +25,10 @@ namespace HOI4ModBuilder.src.dataObjects.replaceTags
 
         private static void LoadFile(Settings settings, string filePath)
         {
-            if (!File.Exists(filePath)) File.WriteAllText(filePath, "[]");
+            if (!Directory.Exists(_dataCustomFolderPath))
+                Directory.CreateDirectory(_dataCustomFolderPath);
+            if (!File.Exists(filePath))
+                File.WriteAllText(filePath, "[]");
 
             foreach (var rtInfo in JsonConvert.DeserializeObject<List<ReplaceTagInfo>>(File.ReadAllText(filePath)))
                 if (_registeredReplaceTags.Contains(rtInfo.replaceTag))
