@@ -8,7 +8,7 @@
 
 В данной статье приведено краткое описание элементов владки для работы с игровой карты. Основы навигации для работы с картой приведены во второй половине статьи.
 
-![alt text](_images/1_lang=ru.jpg)
+![alt text](_images/main_lang=ru.jpg)
 
 
 Описание элементов интерфейса карты:
@@ -17,16 +17,16 @@
   
     Пункт "Файл" - основные действия для сохранения и загрузки данных
 
-    ![alt text](_images/1_1_1_lang=ru.jpg)
+    ![alt text](_images/menu_file_lang=ru.jpg)
 
     <details>
     <summary><i>Подробнее</i></summary>
     
-    ![alt text](_images/1_1_1_1_lang=ru.jpg)
+    ![alt text](_images/menu_file_save_maps_lang=ru.jpg)
     
-    ![alt text](_images/1_1_1_2_lang=ru.jpg)
+    ![alt text](_images/menu_file_save_supply_lang=ru.jpg)
     
-    ![alt text](_images/1_1_1_3_lang=ru.jpg)
+    ![alt text](_images/menu_file_export_lang=ru.jpg)
     
     </details>
     
@@ -34,14 +34,14 @@
 
     Пункт "Правка" - основные действия для изменения данных.
 
-    ![alt text](_images/1_1_2_lang=ru.jpg)
+    ![alt text](_images/menu_edit_lang=ru.jpg)
 
     <details>
     <summary><i>Подробнее</i></summary>
     
-    ![alt text](_images/1_1_2_1_lang=ru.jpg)
+    ![alt text](_images/menu_edit_advanced_actions_lang=ru.jpg)
     
-    ![alt text](_images/1_1_2_2_lang=ru.jpg)
+    ![alt text](_images/menu_edit_autotools_lang=ru.jpg)
 
     </details>
 
@@ -49,12 +49,12 @@
 
     Пункт "Данные" - основные действия для просмотра данных и восстановления старых данных. Позволяет также изменить текущую активную Bookmark мода.
 
-    ![alt text](_images/1_1_3_lang=ru.jpg)
+    ![alt text](_images/menu_data_lang=ru.jpg)
 
     <details>
     <summary><i>Подробнее</i></summary>
 
-    ![alt text](_images/1_1_3_1_lang=ru.jpg)
+    ![alt text](_images/menu_data_old_data_recovery_lang=ru.jpg)
     
     </details>
 
@@ -62,7 +62,7 @@
     
     Пункт "Помощь" - открытие документации и основных данных о программе
 
-    ![alt text](_images/1_1_4_lang=ru.jpg)
+    ![alt text](_images/menu_help_lang=ru.jpg)
 
     ---
     
@@ -80,13 +80,13 @@
 
     Пункт выбора языка - позволяет выбрать один из нескольких языков локализации в приложении
 
-    ![alt text](_images/1_1_5_lang=ru.jpg)
+    ![alt text](_images/menu_languages_lang=ru.jpg)
 ---
 - [2] Вкладки редактора - на данный момент используется только ветка карты
 ---
 - [3] Основной слой - определяет режим отрисовки основного слоя карты в программе
 
-    ![alt text](_images/1_3_lang=ru.jpg)
+    ![alt text](_images/topbar_main_layers_lang=ru.jpg)
 
     <details>
     <summary><i>Подробнее</i></summary>
@@ -144,7 +144,7 @@
 ---
 - [5] Рабочий слой - определяет текущий редактируемый слой карты в программе
 
-    ![alt text](_images/1_4_lang=ru.jpg)
+    ![alt text](_images/topbar_edit_layers_lang=ru.jpg)
 
     <details>
     <summary><i>Подробнее</i></summary>
@@ -167,7 +167,7 @@
 ---
 - [6] Инструмент - определяет активный инструмент для редактирования карты
 
-    ![alt text](_images/1_5_lang=ru.jpg)
+    ![alt text](_images/topbar_tools_lang=ru.jpg)
 
     <details>
     <summary><i>Подробнее</i></summary>
@@ -228,11 +228,11 @@
 ---
 - [9] Цвет - отображает основной (первый) и вторичный (второй) слоты для выбранных цветов. Нажатие ЛКМ на любой из слотов для цветов включает/выключает отображение окна выбора цвета.
   
-    ![alt text](_images/1_8_lang=ru.jpg)
+    ![alt text](_images/topbar_color_chooser_lang=ru.jpg)
 ---
 - [10] Генерация цвета - в выпадающем списке можно выбрать один из четырех режимов генерации. Сгенерировать новый цвет можно нажатием на кнопку "+". Нажатие ЛКМ вставит сгенерированный цвет в основной (первый) слот для цвета, а нажатие ПКМ - во вторичный (второй) слот.
 
-    ![alt text](_images/1_10_lang=ru.jpg)
+    ![alt text](_images/topbar_color_generation_lang=ru.jpg)
 
     Режимы генерации цветов:
 
@@ -245,11 +245,11 @@
   
   Если выбран рабочий слой "Реки", то в палитре отображаются цвета из rivers.bmp карты, используемые для рисования рек.
 
-    ![alt text](_images/1_11_1_lang=ru.jpg)
+    ![alt text](_images/topbar_color_palette_rivers_lang=ru.jpg)
   
   Если выбран любой другой рабочий слой, то отображается история из последних выбранных цветов (не более 10).
 
-    ![alt text](_images/1_11_2_lang=ru.jpg)
+    ![alt text](_images/topbar_color_palette_custom_lang=ru.jpg)
 ---
 - [12] Прогресс-бар, отображающий текущий статус процесса загрузки или сохранения (или его результат) в формате: 
 
@@ -257,7 +257,7 @@
     <Статус>: [П: <количество предупреждений>; О: <Количество ошибок>; К: <количество критических ошибок>]
     ```
 
-    ![alt text](_images/1_12_1_lang=ru.jpg)
+    ![alt text](_images/topbar_progress_bar_lang=ru.jpg)
 
     <details>
     <summary><i>Подробнее</i></summary>
@@ -272,7 +272,7 @@
 
     Пример окна со списком Предупреждений приведён ниже.
 
-    ![alt text](_images/1_12_2_lang=ru.jpg)
+    ![alt text](_images/window_founded_warnings_lang=ru.jpg)
 
     </details>
 
@@ -284,76 +284,78 @@
 
     Список дополнительных слоёв:
     - Центры - включает отображение центров провинций на карте
-    ![alt text](_images/1_13_1_lang=ru.jpg)
+    ![alt text](_images/leftbar_additional_layers_centers_lang=ru.jpg)
+    - Текст - включает отображение текста на карте в зависимости от выбранного главного слоя, параметра и/или значения выбранного инструмента и т.д.
+    ![alt text](_images/leftbar_additional_layers_text_lang=ru.jpg) 
     - Границы - включает отображение белых или чёрных границ провинций, областей или регионов (тип и цвет выбираются в выпадающем списке [14] "Границы")
-    ![alt text](_images/1_13_3_1_lang=ru.jpg)
-    ![alt text](_images/1_13_3_2_lang=ru.jpg)
-    ![alt text](_images/1_13_3_3_lang=ru.jpg)
+    ![alt text](_images/leftbar_additional_layers_borders_provinces_black_lang=ru.jpg)
+    ![alt text](_images/leftbar_additional_layers_boders_states_white_lang=ru.jpg)
+    ![alt text](_images/leftbar_additional_layers_borders_regions_black_lang=ru.jpg)
     - Реки - включает отображение рек поверх основного слоя. (Для редактирования рек, выберите рабочий слой "Реки" и инструмент "Кисть" или "Ластик" в выпадающем списке инструментов)
-    ![alt text](_images/1_13_5_lang=ru.jpg)
+    ![alt text](_images/leftbar_additional_layers_rivers_lang=ru.jpg)
     - Железные дороги - включает отображение железных дорог поверх основного слоя (о создании, редактировании и удалении см. подробнее в: [Инструменты для работы с картой]()) 
-    ![alt text](_images/1_13_6_lang=ru.jpg)
+    ![alt text](_images/leftbar_additional_layers_railways_lang=ru.jpg)
     - Узлы снабжения - включает отображение узлов снабжения поверх основного слоя (о создании, редактировании и удалении см. подробнее в: [Инструменты для работы с картой]())
-    ![alt text](_images/1_13_7_lang=ru.jpg)
+    ![alt text](_images/leftbar_additional_layers_supply_hubs_lang=ru.jpg)
     - Смежности - включает отображение смежностей между провинциями из файла adjacencies.csv (о создании, редактировании и удалении см. подробнее в: [Инструменты для работы с картой]())
-    ![alt text](_images/1_13_8_lang=ru.jpg)
+    ![alt text](_images/leftbar_additional_layers_adjacencies_lang=ru.jpg)
     - Непроходимые зоны - временно отключено и не работает
     - Предупреждения - включает отображение связанных с картой предупреждений, которые не являются критичными, но на них следует обратить внимание (см. подробнее в: [Поиск предупреждений и ошибок на карте]())
-    ![alt text](_images/1_13_9_lang=ru.jpg)
+    ![alt text](_images/leftbar_additional_layers_warnings_lang=ru.jpg)
     - Ошибки - включает отображение важных и/или критических связанных с игровой картой ошибок, которые в том числе могут приводить к крашу игры (см. подробнее в: [Поиск предупреждений и ошибок на карте]())
-    ![alt text](_images/1_13_10_lang=ru.jpg)
+    ![alt text](_images/leftbar_additional_layers_errors__lang=ru.jpg)
     - Накладываемые текстуры - включает отображение накладываемых поверх игровой карты дополнительных пользовательских текстур. Пример использования: наложение реальных карт, на основе которых можно создавать и редактировать игровую карту (см. подробнее в: [Накладываемые текстурные объекты]())
-    ![alt text](_images/1_13_11_lang=ru.jpg)
+    ![alt text](_images/leftbar_additional_layers_textured_objects_lang=ru.jpg)
 
     </details>
 
 ---
 - [14] Границы - позволяет настроить цвет (белый и черный) отображения границ на карте (границы провинций, областей и регионов)
 
-  ![alt text](_images/1_14_lang=ru.jpg)
+  ![alt text](_images/leftbar_borders_type_selector_lang=ru.jpg)
   
 ---
 - [15] Настройки поиска предупреждений - позволяет выбрать список предупреждений, связанных с картой, которые программе необходимо найти и вывести при загрузке или обновлении данных мода (см. подробнее в: [Поиск предупреждений и ошибок на карте]())
   
   Отображение предупреждений на карте включается соответствующим пунктом в [13] "Доп. слои" 
 
-  ![alt text](_images/1_15_lang=ru.jpg)
+  ![alt text](_images/window_warnings_search_settings_lang=ru.jpg)
 
 ---
 - [16] Настройки поиска ошибок - позволяет выбрать список важных и критических ошибок, связанных с картой, которые программе необходимо найти и вывести при загрузке или обновлении данных мода (см. подробнее в: [Поиск предупреждений и ошибок на карте]())
   
   Отображение ошибок на карте включается соответствующим пунктом в [13] "Доп. слои" 
 
-  ![alt text](_images/1_16_lang=ru.jpg)
+  ![alt text](_images/window_errors_search_settings_lang=ru.jpg)
 
 ---
 - [17] Текстурные объекты - позволяет загружать, настраивать порядок, удалять, сохранять и загружать группы пресетов текстурных объектов поверх основной карты.
   
   Пример использования: наложение реальных карт, на основе которых можно создавать и редактировать игровую карту (см. подробнее в: [Накладываемые текстурные объекты]())
 
-  ![alt text](_images/1_13_11_lang=ru.jpg)
+  ![alt text](_images/leftbar_additional_layers_textured_objects_lang=ru.jpg)
 
 ---
 - [18] Позиция выбранной точки на карте в системе кординат игры (точка отсчёта координат находится в левом нижнем углу карты, ось Y направлена вверх)
 
-  ![alt text](_images/1_18_lang=ru.jpg)
+  ![alt text](_images/leftbar_hoi4_map_pos_lang=ru.jpg)
 
 ---
 - [19] ID выбранных объектов (провинций, областей или регионов) на карте. Тип выбираемого объекта зависит от текущего выбранного [5] Рабочего слоя (если выбрано значение "Провинции", то выбираются провинции на карте, если "Области" - то области, "Регионы" - то регионы).
   
   Если зажать SHIFT и нажимать ЛКМ на объекты на карте, они будут добавляться в группу выбранных объектов (или удаляться при повторном нажатии). ID выбранных объектов на карте записывается в строку с пробелом в виде символа-разделителя
 
-  ![alt text](_images/1_19_lang=ru.jpg)
+  ![alt text](_images/leftbar_selected_objects_ids_lang=ru.jpg)
   
 ---
 - [20] Позиция выбранной точки на карте в системе кординат программы/графических редакторов (точка отсчёта координат находится в левом верхнем углу карты, ось Y направлена вниз)
 
-  ![alt text](_images/1_20_lang=ru.jpg)
+  ![alt text](_images/leftbar_app_map_pos_lang=ru.jpg)
 
 ---
 - [21] Окно отображения карты мода - отображает карту мода и связанные с ней объекты
 
-  ![alt text](_images/1_21_lang=ru.jpg)
+  ![alt text](_images/map_lang=ru.jpg)
 
 Навигация по карте:
 ---
