@@ -1008,10 +1008,14 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Map_Railway_Create_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => RailwaysTool.CreateRailway(
-                (byte)(ToolStripComboBox_Map_Railway_Level.SelectedIndex + 1),
-                ProvinceManager.SelectedProvince, ProvinceManager.RMBProvince)
-            );
+            => Logger.TryOrLog(() =>
+            {
+                byte level = (byte)(ToolStripComboBox_Map_Railway_Level.SelectedIndex + 1);
+                if (ProvinceManager.GroupSelectedProvinces.Count > 1)
+                    RailwaysTool.CreateRailway(level, ProvinceManager.GroupSelectedProvinces);
+                else
+                    RailwaysTool.CreateRailway(level, ProvinceManager.SelectedProvince, ProvinceManager.RMBProvince);
+            });
 
         private void ToolStripMenuItem_Map_Railway_Remove_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => RailwaysTool.RemoveRailway(SupplyManager.SelectedRailway));
@@ -1161,10 +1165,11 @@ namespace HOI4ModBuilder
             Logger.TryOrLog(() =>
             {
                 if (
+                    !RailwaysTool.CanCreateRailway(ProvinceManager.GroupSelectedProvinces) && (
                     ProvinceManager.SelectedProvince == null || ProvinceManager.RMBProvince == null ||
                     ProvinceManager.SelectedProvince.Id == ProvinceManager.RMBProvince.Id ||
                     ProvinceManager.SelectedProvince.Type != EnumProvinceType.LAND || ProvinceManager.RMBProvince.Type != EnumProvinceType.LAND
-                    )
+                ))
                     ToolStripMenuItem_Map_Railway_Create.Enabled = false;
                 else
                     ToolStripMenuItem_Map_Railway_Create.Enabled = true;

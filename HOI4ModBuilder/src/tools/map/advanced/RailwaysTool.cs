@@ -55,6 +55,25 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             }
         }
 
+        public static bool CanCreateRailway(Province start, Province end)
+        {
+            var path = ProvinceManager.FindPathAStar(start, end, p => p.Type == EnumProvinceType.LAND);
+            return path.Count > 1;
+        }
+
+        public static bool CanCreateRailway(List<Province> provinces)
+        {
+            if (provinces == null || provinces.Count < 2)
+                return false;
+
+            for (int i = 0; i < provinces.Count - 1; i++)
+            {
+                if (!CanCreateRailway(provinces[i], provinces[i + 1]))
+                    return false;
+            }
+            return true;
+        }
+
         public static Railway CreateRailway(byte level, Province start, Province end)
         {
             var path = ProvinceManager.FindPathAStar(start, end, (p) => p.Type == EnumProvinceType.LAND);
