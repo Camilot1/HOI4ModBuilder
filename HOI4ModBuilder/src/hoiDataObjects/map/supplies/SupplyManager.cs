@@ -313,21 +313,21 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             {
                 if (Control.ModifierKeys == Keys.Control)
                 {
-                    if (SelectedRailway == null) return;
+                    if (!MapManager.displayLayers[(int)EnumAdditionalLayers.RAILWAYS])
+                        return;
+                    if (SelectedRailway == null)
+                        return;
                     if (SelectedRailway.CanAddProvince(ProvinceManager.SelectedProvince))
-                    {
                         RailwaysTool.AddProvinceToRailway(SelectedRailway, ProvinceManager.SelectedProvince);
-                    }
                     else if (SelectedRailway.CanRemoveProvince(ProvinceManager.SelectedProvince))
-                    {
                         RailwaysTool.RemoveProvinceFromRailway(SelectedRailway, ProvinceManager.SelectedProvince);
-                    }
                 }
                 else
                 {
-                    SelectRailway(pos);
+                    if (MapManager.displayLayers[(int)EnumAdditionalLayers.RAILWAYS])
+                        SelectRailway(pos);
 
-                    if (SelectSupplyNode(pos))
+                    if (MapManager.displayLayers[(int)EnumAdditionalLayers.SUPPLY_HUBS] && SelectSupplyNode(pos))
                         SelectedRailway = null;
                 }
             }

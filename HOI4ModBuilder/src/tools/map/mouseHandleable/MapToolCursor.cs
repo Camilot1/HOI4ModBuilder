@@ -136,7 +136,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (MapManager.displayLayers[(int)EnumAdditionalLayers.ADJACENCIES])
                 AdjacenciesManager.HandleCursor(mouseEventArgs.Button, pos);
-            if (MapManager.displayLayers[(int)EnumAdditionalLayers.RAILWAYS])
+            if (MapManager.displayLayers[(int)EnumAdditionalLayers.RAILWAYS] ||
+                MapManager.displayLayers[(int)EnumAdditionalLayers.SUPPLY_HUBS])
                 SupplyManager.HandleCursor(mouseEventArgs.Button, pos);
 
             if (mouseEventArgs.Button == MouseButtons.Left)
