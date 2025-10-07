@@ -677,6 +677,7 @@
             this.ToolStripMenuItem_Map_Actions});
             this.ContextMenuStrip_Map.Name = "ContextMenuStrip_Plane_Map";
             resources.ApplyResources(this.ContextMenuStrip_Map, "ContextMenuStrip_Map");
+            this.ContextMenuStrip_Map.Opened += new System.EventHandler(this.ContextMenuStrip_Map_Opened);
             // 
             // ToolStripMenuItem_Map_Search
             // 
