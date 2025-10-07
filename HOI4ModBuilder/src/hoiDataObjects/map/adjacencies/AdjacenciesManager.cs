@@ -145,6 +145,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
                     _selectedSeaCross.GetLine(out Point2F start, out Point2F end);
 
                     //Красная подложка линии
+                    GL.LineStipple((int)(150 * MapManager.zoomFactor), 0b1111_1111_1111_1111);
                     GL.Color4(1f, 0f, 0f, 1f);
                     GL.LineWidth((float)(750 * MapManager.zoomFactor));
 
@@ -154,6 +155,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
                     GL.End();
 
                     //Синяя линия
+                    GL.LineStipple((int)(150 * MapManager.zoomFactor), 0b1100_1110_0111_0011);
                     GL.Color4(0f, 0f, 1f, 1f);
                     GL.LineWidth((float)(500 * MapManager.zoomFactor));
 
