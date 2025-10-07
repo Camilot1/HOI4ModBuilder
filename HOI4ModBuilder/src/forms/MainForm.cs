@@ -1826,6 +1826,9 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Edit_Actions_FindMapChanges_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => FindMapChangesTool.Execute());
 
+        private void ContextMenuStrip_Map_Opened(object sender, EventArgs e)
+            => Logger.TryOrLog(() => ToolStripMenuItem_Map_Province.Enabled = ProvinceManager.RMBProvince != null);
+
         public void SetGroupBoxProgressBackColor(Color color)
             => GroupBox_Progress.BackColor = color;
     }
