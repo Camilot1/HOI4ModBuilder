@@ -272,6 +272,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         {
             InnerHistories.SortIfNeeded();
             base.Validate(layer);
+
+            VictoryPoints.RemoveIf(vp => vp.province.State == null || vp.province.Type != EnumProvinceType.LAND);
         }
 
         public bool SortInnerHistoriesIfNeeded() => InnerHistories.SortIfNeeded();
