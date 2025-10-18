@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.utils.structs
 {
     public struct Color3B
     {
+        private static readonly Random random = new Random();
         public readonly byte red, green, blue;
         public Color3B(byte red, byte green, byte blue)
         {
@@ -40,34 +37,23 @@ namespace HOI4ModBuilder.src.utils.structs
         }
 
         public override int GetHashCode()
-        {
-            return (int)((0xFF000000) | (red << 16) | (green << 8) | blue);
-        }
+            => ToArgb();
 
         public static bool operator ==(Color3B c1, Color3B c2)
-        {
-            return c1.red == c2.red && c1.green == c2.green && c1.blue == c2.blue;
-        }
+            => c1.red == c2.red && c1.green == c2.green && c1.blue == c2.blue;
 
         public static bool operator !=(Color3B c1, Color3B c2)
-        {
-            return !(c1.red == c2.red && c1.green == c2.green && c1.blue == c2.blue);
-        }
+            => c1.red != c2.red || c1.green != c2.green || c1.blue != c2.blue;
 
         public override string ToString()
-        {
-            return $"({red}; {green}; {blue})";
-        }
+            => $"({red}; {green}; {blue})";
 
         public Color ToColor()
-        {
-            return Color.FromArgb(255, red, green, blue);
-        }
+            => Color.FromArgb(255, red, green, blue);
+        public int ToArgb()
+            => (int)((0xFF000000) | (red << 16) | (green << 8) | blue);
 
         public static Color3B GetRandowColor()
-        {
-            var random = new Random();
-            return new Color3B((byte)random.Next(256), (byte)random.Next(256), (byte)random.Next(256));
-        }
+            => new Color3B((byte)random.Next(256), (byte)random.Next(256), (byte)random.Next(256));
     }
 }
