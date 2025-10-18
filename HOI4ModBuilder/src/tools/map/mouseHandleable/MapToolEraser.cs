@@ -31,7 +31,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         public override bool isHandlingMouseMove() => true;
 
         public override EnumEditLayer[] GetAllowedEditLayers() => new[] {
-            EnumEditLayer.PROVINCES, EnumEditLayer.RIVERS, EnumEditLayer.HEIGHT_MAP
+            EnumEditLayer.PROVINCES, EnumEditLayer.RIVERS, EnumEditLayer.TREES_MAP
         };
         public override Func<ICollection> GetParametersProvider()
             => () => BrushManager.GetBrushesNames(SettingsManager.Settings);
@@ -85,23 +85,25 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             switch (enumEditLayer)
             {
                 case EnumEditLayer.PROVINCES:
-                    return HandlePixelProvinces(x, y, newColor, out redo, out undo);
+                    return HandlePixelProvinces(x, y, out redo, out undo);
                 case EnumEditLayer.RIVERS:
-                    return HandlePixelRivers(x, y, newColor, out redo, out undo);
-                case EnumEditLayer.HEIGHT_MAP:
-                    return HandlePixelHeightMap(x, y, newColor, out redo, out undo);
+                    return HandlePixelRivers(x, y, out redo, out undo);
             }
 
             return false;
         }
 
-        private bool HandlePixelProvinces(int x, int y, int newColor, out Action redo, out Action undo)
+        private bool HandlePixelProvinces(int x, int y, out Action redo, out Action undo)
         {
             redo = null; undo = null;
             int i = x + y * MapManager.MapSize.x;
 
             int[] pixels = MapManager.ProvincesPixels;
             int prevColor = pixels[i];
+
+            int newColor;
+            unchecked { newColor = (int)0xFFFFFFFF; }
+
             if (prevColor == newColor)
                 return false;
 
@@ -122,11 +124,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             return true;
         }
 
-        private bool HandlePixelRivers(int x, int y, int newColor, out Action redo, out Action undo)
+        private bool HandlePixelRivers(int x, int y, out Action redo, out Action undo)
         {
             redo = null; undo = null;
 
             int prevColor = TextureManager.rivers.GetColor(x, y);
+
+            int newColor;
+            unchecked { newColor = (int)0xFFFFFFFF; }
+
             if (prevColor == newColor)
                 return false;
 
@@ -141,33 +147,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 TextureManager.rivers.SetColor(x, y, prevColor);
                 byte[] data = { (byte)prevColor, (byte)(prevColor >> 8), (byte)(prevColor >> 16), (byte)(prevColor >> 24) }; //BGRA
                 TextureManager.rivers.texture.Update(TextureManager._32bppArgb, x, y, 1, 1, data);
-            };
-            return true;
-        }
-
-        private bool HandlePixelHeightMap(int x, int y, int newColor, out Action redo, out Action undo)
-        {
-            redo = null; undo = null;
-
-            byte prevByte = TextureManager.terrain.GetByte(x, y);
-            int prevColor = TextureManager.terrain.GetColor(x, y);
-            if (prevColor == newColor)
-                return false;
-
-            if (!TextureManager.terrain.GetIndex(newColor, out var newByte))
-                return false;
-
-            redo = () =>
-            {
-                TextureManager.terrain.WriteByte(x, y, newByte);
-                byte[] data = { (byte)newColor, (byte)(newColor >> 8), (byte)(newColor >> 16) }; //BGR
-                TextureManager.terrain.texture.Update(TextureManager._8bppIndexed, x, y, 1, 1, data);
-            };
-            undo = () =>
-            {
-                TextureManager.terrain.WriteByte(x, y, prevByte);
-                byte[] data = { (byte)prevColor, (byte)(prevColor >> 8), (byte)(prevColor >> 16) }; //BGR
-                TextureManager.terrain.texture.Update(TextureManager._8bppIndexed, x, y, 1, 1, data);
             };
             return true;
         }
