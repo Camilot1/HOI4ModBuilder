@@ -276,6 +276,22 @@ namespace HOI4ModBuilder.managers
             return totalPath;
         }
 
+        public static Color3B GetNewRandomColor()
+        {
+            Color3B color = Color3B.GetRandowColor();
+
+            int iter = 0;
+
+            while (iter < 10000 && _provincesByColor.ContainsKey(color.ToArgb()))
+            {
+                color = Color3B.GetRandowColor();
+                iter++;
+            }
+
+            return color;
+
+        }
+
         public static Color3B GetNewLandColor()
         {
             Color3B color = Color3B.GetRandowColor();
@@ -285,13 +301,17 @@ namespace HOI4ModBuilder.managers
             if (color.blue > max) max = color.blue;
             int sum = color.red + color.green + color.blue;
 
-            while (sum < 300 || _provincesByColor.ContainsKey(color.GetHashCode()))
+            int iter = 0;
+
+            while (iter < 10000 && (sum < 300 || _provincesByColor.ContainsKey(color.ToArgb())))
             {
                 color = Color3B.GetRandowColor();
                 max = color.red;
                 if (color.green > max) max = color.green;
                 if (color.blue > max) max = color.blue;
                 sum = color.red + color.green + color.blue;
+
+                iter++;
             }
 
             return color;
@@ -306,13 +326,17 @@ namespace HOI4ModBuilder.managers
             if (color.blue > max) max = color.blue;
             int sum = color.red + color.green + color.blue;
 
-            while (sum > 299 || max > 127 || _provincesByColor.ContainsKey(color.GetHashCode()))
+            int iter = 0;
+
+            while (iter < 10000 && (sum > 299 || max > 127 || _provincesByColor.ContainsKey(color.ToArgb())))
             {
                 color = Color3B.GetRandowColor();
                 max = color.red;
                 if (color.green > max) max = color.green;
                 if (color.blue > max) max = color.blue;
                 sum = color.red + color.green + color.blue;
+
+                iter++;
             }
 
             return color;
@@ -327,13 +351,17 @@ namespace HOI4ModBuilder.managers
             if (color.blue > max) max = color.blue;
             int sum = color.red + color.green + color.blue;
 
-            while (sum > 299 || max > 127 || _provincesByColor.ContainsKey(color.GetHashCode()))
+            int iter = 0;
+
+            while (iter < 10000 && (sum > 299 || max > 127 || _provincesByColor.ContainsKey(color.ToArgb())))
             {
                 color = Color3B.GetRandowColor();
                 max = color.red;
                 if (color.green > max) max = color.green;
                 if (color.blue > max) max = color.blue;
                 sum = color.red + color.green + color.blue;
+
+                iter++;
             }
 
             return color;

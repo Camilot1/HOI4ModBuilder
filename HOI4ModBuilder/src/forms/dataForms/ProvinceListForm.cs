@@ -141,7 +141,7 @@ namespace HOI4ModBuilder.src.forms
 
         private void Button_GenerateColor_Random_Click(object sender, EventArgs e)
         {
-            Logger.TryOrLog(() => SetColor(Color3B.GetRandowColor().ToColor()));
+            Logger.TryOrLog(() => SetColor(ProvinceManager.GetNewRandomColor().ToColor()));
         }
 
         private void Button_GenerateColor_Land_Click(object sender, EventArgs e)

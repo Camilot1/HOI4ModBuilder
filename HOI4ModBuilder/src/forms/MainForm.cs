@@ -1308,7 +1308,7 @@ namespace HOI4ModBuilder
                 Color color;
                 switch (ComboBox_GenerateColor_Type.SelectedIndex)
                 {
-                    case 0: color = Color3B.GetRandowColor().ToColor(); break;
+                    case 0: color = ProvinceManager.GetNewRandomColor().ToColor(); break;
                     case 1: color = ProvinceManager.GetNewLandColor().ToColor(); break;
                     case 2: color = ProvinceManager.GetNewSeaColor().ToColor(); break;
                     case 3: color = ProvinceManager.GetNewLakeColor().ToColor(); break;
