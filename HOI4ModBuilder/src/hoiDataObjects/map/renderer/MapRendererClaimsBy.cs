@@ -36,8 +36,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                     return Utils.ArgbToInt(255, 0, 255, 255);
                 else if (p.State == null || targetClaimByCountry == null)
                     return Utils.ArgbToInt(255, 0, 0, 0);
-                else if (p.State.CurrentClaimsBy.Contains(targetClaimByCountry))
-                    return targetClaimByCountry.color;
+
+                bool isOwner = p.State.owner == targetClaimByCountry;
+                bool isClaimBy = p.State.CurrentClaimsBy.Contains(targetClaimByCountry);
+                if (isOwner && isClaimBy)
+                    return Utils.ArgbToInt(255, 255, 0, 0);
+                else if (isOwner)
+                    return Utils.ArgbToInt(255, 0, 255, 0);
+                else if (isClaimBy)
+                    return Utils.ArgbToInt(255, 255, 255, 0);
                 else return Utils.ArgbToInt(255, 0, 0, 0);
             };
 

@@ -35,8 +35,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                     return Utils.ArgbToInt(255, 0, 255, 255);
                 else if (p.State == null || targetCoreOfCountry == null)
                     return Utils.ArgbToInt(255, 0, 0, 0);
-                else if (p.State.CurrentCoresOf.Contains(targetCoreOfCountry))
-                    return targetCoreOfCountry.color;
+
+                bool isOwner = p.State.owner == targetCoreOfCountry;
+                bool hasCoresOf = p.State.CurrentCoresOf.Contains(targetCoreOfCountry);
+                if (isOwner && hasCoresOf)
+                    return Utils.ArgbToInt(255, 0, 255, 0);
+                else if (isOwner)
+                    return Utils.ArgbToInt(255, 255, 0, 0);
+                else if (hasCoresOf)
+                    return Utils.ArgbToInt(255, 255, 255, 0);
                 else return Utils.ArgbToInt(255, 0, 0, 0);
             };
 
