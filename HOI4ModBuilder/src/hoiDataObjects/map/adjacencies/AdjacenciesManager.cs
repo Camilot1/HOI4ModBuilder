@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
 
