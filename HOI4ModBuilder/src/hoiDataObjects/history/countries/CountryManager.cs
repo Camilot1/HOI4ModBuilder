@@ -100,7 +100,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
         }
         public static List<string> GetCountryTagsSortedStartingWith(string first)
         {
-            var list = GetCountryTags();
+            var list = GetCountryTagsSorted();
             list.Insert(0, "");
             return list;
         }
