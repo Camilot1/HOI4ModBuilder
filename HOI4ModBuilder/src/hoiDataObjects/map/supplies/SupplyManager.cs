@@ -11,6 +11,7 @@ using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using static HOI4ModBuilder.utils.Enums;
 using HOI4ModBuilder.src.utils.structs;
+using System;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 {
@@ -340,6 +341,24 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             SelectedRailway = null;
             SelectedSupplyNode = null;
             RMBRailway = null;
+        }
+
+        public static void RemoveProvinceData(Province province)
+        {
+            if (province == null)
+                return;
+
+            if (province.GetRailwaysCount() > 0)
+            {
+                NeedToSaveRailways = true;
+                province.ForEachRailway(r => r.RemoveProvince(province));
+            }
+
+            if (province.SupplyNode != null)
+            {
+                NeedToSaveSupplyNodes = true;
+                RemoveSupplyNode(province.SupplyNode);
+            }
         }
     }
 }

@@ -150,6 +150,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             return false;
         }
 
+        public bool RemoveProvinceData(Province province)
+        {
+            if (!RemoveProvince(province))
+                return false;
+
+            return true;
+        }
+
         public void CalculateCenter()
         {
             bounds.SetZero();
@@ -396,7 +404,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
             string tab2 = tab + tab;
             sb.Append(tab).Append("static_modifiers = {").Append(Constants.NEW_LINE);
-            foreach (var pair in modifiers) 
+            foreach (var pair in modifiers)
                 sb.Append(tab2).Append(pair.Key).Append(" = ").Append(pair.Value).Append(Constants.NEW_LINE);
             sb.Append(tab).Append("}").Append(Constants.NEW_LINE);
         }

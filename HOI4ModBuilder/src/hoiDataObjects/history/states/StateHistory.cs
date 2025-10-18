@@ -103,6 +103,21 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             return false;
         }
 
+        public void RemoveVictoryPointsIf(Func<VictoryPoint, bool> predicate)
+        {
+            for (int i = VictoryPoints.Count - 1; i >= 0; i--)
+            {
+                var vp = VictoryPoints[i];
+                if (predicate(vp))
+                {
+                    VictoryPoints.RemoveAt(i);
+                    if (vp.province != null)
+                        vp.province.victoryPoints = 0;
+                    SetNeedToSave(true);
+                }
+            }
+        }
+
 
         public bool SetVictoryPoints(Province province, uint newValue)
         {
@@ -272,6 +287,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         {
             InnerHistories.SortIfNeeded();
             base.Validate(layer);
+
+            VictoryPoints.RemoveIf(vp => vp.province.State == null || vp.province.Type != EnumProvinceType.LAND);
         }
 
         public bool SortInnerHistoriesIfNeeded() => InnerHistories.SortIfNeeded();
@@ -284,6 +301,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             if (x is null || y is null)
                 throw new ArgumentException("Некорректное значение параметра для сортировки");
             return x.dateTime.CompareTo(y.dateTime);
+        }
+
+        public void RemoveProvinceData(Province province)
+        {
+            RemoveVictoryPointsIf(vp => vp.province == province);
+            RemoveProvinceBuildings(province);
+
+            foreach (var innerHistory in InnerHistories.Values)
+                innerHistory.RemoveProvinceData(province);
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.bookmarks
 {
-    class Bookmark : IParadoxRead
+    class Bookmark : IParadoxRead, IComparable<Bookmark>
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
@@ -29,5 +29,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.bookmarks
                     break;
             }
         }
+
+        public int CompareTo(Bookmark other) => dateTimeStamp.CompareTo(other.dateTimeStamp);
     }
 }

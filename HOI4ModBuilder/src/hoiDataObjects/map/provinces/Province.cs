@@ -266,6 +266,10 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return
                 _adjacencies.Count;
         }
+        public List<Adjacency> GetAdjacenciesCopy()
+        {
+            return new List<Adjacency>(_adjacencies);
+        }
 
         public bool AddAdjacency(Adjacency adjacency)
         {
@@ -322,6 +326,11 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         }
 
         public List<ProvinceBorder> borders = new List<ProvinceBorder>(4);
+        public void ForEachBorder(Action<ProvinceBorder> action)
+        {
+            foreach (var b in borders)
+                action(b);
+        }
         public void ForEachAdjacentProvince(Action<Province, Province> action)
         {
             foreach (var b in borders)

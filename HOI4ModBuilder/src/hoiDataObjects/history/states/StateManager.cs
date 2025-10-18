@@ -521,5 +521,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             StrategicRegionManager.DeselectRegions();
             return RMBState;
         }
+
+        public static void RemoveProvinceData(Province province)
+        {
+            if (province == null)
+                return;
+
+            foreach (var state in _statesById.Values)
+                state.RemoveProvinceData(province);
+        }
     }
 }

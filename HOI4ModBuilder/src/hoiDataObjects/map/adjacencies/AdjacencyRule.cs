@@ -37,6 +37,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             };
         }
 
+        public bool RemoveProvince(Province p)
+        {
+            bool result = false;
+            if (iconProvince == p)
+            {
+                iconProvince = null;
+                result = true;
+            }
+
+            result |= requiredProvinces.Remove(p);
+
+            AdjacenciesManager.NeedToSaveAdjacencyRules = true;
+
+            return result;
+        }
+
         public virtual void Save(StringBuilder sb, string tab)
         {
             string outTab = tab + tab;

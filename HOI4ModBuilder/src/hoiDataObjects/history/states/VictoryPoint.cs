@@ -24,7 +24,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public VictoryPoint(ushort provinceId)
         {
             if (!ProvinceManager.TryGetProvince(provinceId, out var province))
-                throw new System.Exception("Province not found: " + provinceId);
+                throw new Exception("Province not found: " + provinceId);
             this.province = province;
         }
 

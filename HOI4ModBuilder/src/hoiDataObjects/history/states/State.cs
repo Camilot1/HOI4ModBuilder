@@ -219,6 +219,19 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return false;
         }
 
+        public bool RemoveProvinceData(Province province)
+        {
+            if (!RemoveProvince(province))
+                return false;
+
+            victoryPoints.Remove(province);
+            provincesBuildings.Remove(province);
+
+            History.GetValue()?.RemoveProvinceData(province);
+
+            return true;
+        }
+
         public uint GetResourceCount(string tag) => GetResourceCount(ResourceManager.GetResource(tag));
         public uint GetResourceCount(Resource resource)
         {
@@ -244,7 +257,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
                 Resources.SetNeedToSave(true);
                 return true;
-            } else
+            }
+            else
             {
                 if (count == 0)
                     return false;
