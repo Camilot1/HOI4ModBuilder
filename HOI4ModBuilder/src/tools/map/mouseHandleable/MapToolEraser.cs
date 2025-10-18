@@ -100,9 +100,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             int[] pixels = MapManager.ProvincesPixels;
             int prevColor = pixels[i];
-
-            int newColor;
-            unchecked { newColor = (int)0xFFFFFFFF; }
+            int newColor = Utils.ArgbToInt(255, 255, 255, 255);
 
             if (prevColor == newColor)
                 return false;
@@ -129,9 +127,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             redo = null; undo = null;
 
             int prevColor = TextureManager.rivers.GetColor(x, y);
-
-            int newColor;
-            unchecked { newColor = (int)0xFFFFFFFF; }
+            int newColor = Utils.ArgbToInt(255, 255, 255, 255);
 
             if (prevColor == newColor)
                 return false;
