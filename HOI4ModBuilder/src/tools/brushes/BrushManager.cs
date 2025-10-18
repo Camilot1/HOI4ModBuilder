@@ -12,6 +12,7 @@ namespace HOI4ModBuilder.src.tools.brushes
         private static Dictionary<string, Dictionary<string, Brush>> _brushesByLanguages = new Dictionary<string, Dictionary<string, Brush>>();
 
         private static readonly string _dirPath = Path.Combine("data", "brushes");
+        private static readonly string _dirPathCustom = Path.Combine("data", "custom", "brushes");
         private static readonly string[] _fileFormats = new string[] { "bmp" };
 
         public static Dictionary<string, Brush>.KeyCollection GetBrushesNames(Settings settings)
@@ -39,12 +40,18 @@ namespace HOI4ModBuilder.src.tools.brushes
             foreach (var language in SettingsManager.SUPPORTED_LANGUAGES)
                 _brushesByLanguages[language] = new Dictionary<string, Brush>();
 
-            if (Directory.Exists(_dirPath))
+            if (!Directory.Exists(_dirPath))
                 Directory.CreateDirectory(_dirPath);
+
+            if (!Directory.Exists(_dirPathCustom))
+                Directory.CreateDirectory(_dirPathCustom);
 
             GenerateCircleBrush();
 
             foreach (var brushDirectoryPath in Directory.GetDirectories(_dirPath))
+                LoadBrush(brushDirectoryPath);
+
+            foreach (var brushDirectoryPath in Directory.GetDirectories(_dirPathCustom))
                 LoadBrush(brushDirectoryPath);
         }
 
@@ -152,7 +159,7 @@ namespace HOI4ModBuilder.src.tools.brushes
                 else if (double.TryParse(brushVariant, out var doubleValue))
                     brush.LoadVariant(doubleValue, bitmap);
                 else
-                    brush.LoadVariant(doubleValue, bitmap);
+                    brush.LoadVariant(brushVariant, bitmap);
 
             }
 
@@ -161,7 +168,7 @@ namespace HOI4ModBuilder.src.tools.brushes
             foreach (var entry in brush.BrushInfo.Localization)
             {
                 if (_brushesByLanguages.TryGetValue(entry.Key, out var brushes))
-                    brushes.Add(entry.Value, brush);
+                    brushes[entry.Value] = brush;
             }
         }
     }
