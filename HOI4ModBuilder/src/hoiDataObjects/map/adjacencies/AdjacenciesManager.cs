@@ -1,7 +1,5 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
-using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
@@ -11,9 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 {
@@ -290,18 +288,34 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
         public static void RemoveAdjacency(Adjacency adjacency)
         {
-            if (adjacency == null) return;
-            if (_selectedSeaCross == adjacency) _selectedSeaCross = null;
+            if (adjacency == null)
+                return;
+            if (_selectedSeaCross == adjacency)
+                _selectedSeaCross = null;
 
 
             adjacency.RemoveFromProvinces();
             _adjacencies.Remove(adjacency);
-            for (int i = 0; i < _adjacencies.Count; i++) _adjacencies[i].id = (ushort)(i + 1);
+            for (int i = 0; i < _adjacencies.Count; i++)
+                _adjacencies[i].id = (ushort)(i + 1);
 
-            if (adjacency.GetEnumType() != EnumAdjaciencyType.IMPASSABLE) _seaAdjacencies.Remove(adjacency);
-            else _borderAdjacencies.Remove(adjacency);
+            if (adjacency.GetEnumType() != EnumAdjaciencyType.IMPASSABLE)
+                _seaAdjacencies.Remove(adjacency);
+            else
+                _borderAdjacencies.Remove(adjacency);
 
             NeedToSaveAdjacencies = true;
+        }
+
+        public static void RemoveAdjacenciesIf(Func<Adjacency, bool> predicate)
+        {
+            if (predicate == null)
+                return;
+            for (int i = _adjacencies.Count - 1; i >= 0; i--)
+            {
+                if (predicate(_adjacencies[i]))
+                    RemoveAdjacency(_adjacencies[i]);
+            }
         }
 
         public static void HandleCursor(MouseButtons button, Point2D pos)
@@ -312,5 +326,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
         private static void HandleDelete() => RemoveAdjacency(_selectedSeaCross);
         private static void HandleEscape() => _selectedSeaCross = null;
+
+        public static void RemoveProvinceData(Province province)
+        {
+            if (province == null)
+                return;
+
+            RemoveAdjacenciesIf(adj =>
+            {
+                adj.GetProvinces(out var start, out var end, out var through);
+                return (start == province || end == province || through == province);
+            });
+
+            foreach (var adjacencyRule in _adjacencyRules.Values)
+                adjacencyRule.RemoveProvince(province);
+        }
     }
 }

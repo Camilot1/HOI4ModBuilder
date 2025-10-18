@@ -161,18 +161,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             main.State?.CalculateCenter();
             main.Region?.CalculateCenter();
 
-            //Удаление из областей и регионов
-            second.State?.RemoveProvince(second);
-            second.Region?.RemoveProvince(second);
-
             //Заменяем связи со смежностями
             second.ForEachAdjacency((adj) => adj.ReplaceProvince(second, provinceToReplace));
 
             //Удаляем из словарей
             ProvinceManager.RemoveProvinceById(second.Id);
-            ProvinceManager.RemoveProvinceByColor(second.Color);
-
-            second.ResetPixels();
 
             //Отправляем ивент о удалении и обновлении
             MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES_IDS, main);

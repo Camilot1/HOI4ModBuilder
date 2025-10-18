@@ -15,6 +15,8 @@ using HOI4ModBuilder.hoiDataObjects;
 using static HOI4ModBuilder.utils.Enums;
 using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.utils.classes;
+using HOI4ModBuilder.src.hoiDataObjects.map.railways;
+using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 
 namespace HOI4ModBuilder.managers
 {
@@ -366,11 +368,6 @@ namespace HOI4ModBuilder.managers
             NeedToSave = true;
         }
 
-        public static void RemoveProvinceById(ushort id)
-        {
-            _provincesById[id] = null;
-            NeedToSave = true;
-        }
         public static void AddProvince(int color, Province province)
         {
             _provincesByColor[color] = province;
@@ -412,11 +409,40 @@ namespace HOI4ModBuilder.managers
             return true;
         }
 
-        public static void RemoveProvinceByColor(int color)
+        public static bool RemoveProvinceByColor(int color)
         {
-            _provincesByColor.Remove(color);
-            NeedToSave = true;
+            if (!_provincesByColor.TryGetValue(color, out var province))
+                return false;
+
+            return RemoveProvinceData(province);
         }
+
+        public static bool RemoveProvinceById(ushort id)
+        {
+            if (_provincesById[id] == null)
+                return false;
+
+            return RemoveProvinceData(_provincesById[id]);
+        }
+
+        private static bool RemoveProvinceData(Province province)
+        {
+            if (province == null)
+                return false;
+
+            _provincesById[province.Id] = null;
+            _provincesByColor.Remove(province.Color);
+            province.ResetPixels();
+
+            SupplyManager.RemoveProvinceData(province);
+            AdjacenciesManager.RemoveProvinceData(province);
+            StateManager.RemoveProvinceData(province);
+            StrategicRegionManager.RemoveProvinceData(province);
+
+            NeedToSave = true;
+            return true;
+        }
+
 
         public static void Draw(bool showCenters, bool showCollisions)
         {

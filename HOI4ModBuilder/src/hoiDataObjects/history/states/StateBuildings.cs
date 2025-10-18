@@ -58,7 +58,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             return true;
         }
         public bool RemoveProvinceBuildings(Province province)
-            => Provinces.Remove(province);
+        {
+            bool result = Provinces.Remove(province);
+            if (result)
+                SetNeedToSave(result);
+            return result;
+        }
         public bool HasAnyProvinceBuildings()
             => Provinces.Count > 0;
 
