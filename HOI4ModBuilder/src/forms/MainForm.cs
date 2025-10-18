@@ -307,6 +307,7 @@ namespace HOI4ModBuilder
             var maxIndex = ComboBox_Tool_Parameter_Value.Items.Count - 1;
             if (ComboBox_Tool_Parameter_Value.SelectedIndex < maxIndex)
                 ComboBox_Tool_Parameter_Value.SelectedIndex++;
+            ComboBox_Tool_Parameter_Value.Refresh();
 
             return ComboBox_Tool_Parameter_Value.Text;
         }
