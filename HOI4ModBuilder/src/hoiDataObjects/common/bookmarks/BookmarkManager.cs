@@ -19,6 +19,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.bookmarks
         private static Dictionary<FileInfo, List<Bookmark>> _bookmarksByFilesMap = new Dictionary<FileInfo, List<Bookmark>>();
         private static Dictionary<string, Bookmark> _allBookmarks = new Dictionary<string, Bookmark>();
         public static Dictionary<string, Bookmark>.ValueCollection GetAllBookmarks => _allBookmarks.Values;
+        public static List<Bookmark> GetAllBookramksSorted()
+        {
+            var bookmarks = new List<Bookmark>(GetAllBookmarks);
+            bookmarks.Sort();
+            return bookmarks;
+        }
         private static Dictionary<DateTime, Bookmark> _allBookmarksByDateTimes = new Dictionary<DateTime, Bookmark>();
 
         private static Action _guiReinitAction = null;
@@ -45,7 +51,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.bookmarks
             {
                 _guiReinitAction = () =>
                 {
-                    foreach (var bookmark in GetAllBookmarks)
+                    foreach (var bookmark in GetAllBookramksSorted())
                         MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Add($"[{Utils.DateTimeStampToString(bookmark.dateTimeStamp)}] {bookmark.name}");
                 };
                 MainForm.SubscribeGuiReinitAction(_guiReinitAction);
