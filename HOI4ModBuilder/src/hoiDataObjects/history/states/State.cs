@@ -390,7 +390,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public void UpdateByDateTimeStamp(DateTime dateTime)
         {
             ClearData();
-            History?.GetValue().Activate(dateTime, this);
+            History.GetValue()?.Activate(dateTime, this);
             AddData();
         }
 
