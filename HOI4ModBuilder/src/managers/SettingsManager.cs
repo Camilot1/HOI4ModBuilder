@@ -7,6 +7,7 @@ using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.errors;
 using HOI4ModBuilder.src.managers.warnings;
+using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src
 {
@@ -180,13 +181,19 @@ namespace HOI4ModBuilder.src
 
             if (newCodes.Count == 0) return false;
 
-            Logger.LogSingleInfoMessage(
+            var message = GuiLocManager.GetLoc(
                 EnumLocKey.FOUNDED_NEW_WARNING_CODES,
                 new Dictionary<string, string>
                 {
                     { "{newWarningCodes}", string.Join("\n", newCodes) }
                 }
             );
+            Logger.ShowMessageOnUiThread(
+                message,
+                GuiLocManager.GetLoc(EnumLocKey.INFORMATION_MESSAGE_TITLE),
+                MessageBoxIcon.Information
+            );
+            Logger.Log(message);
             searchWarningsSettings.known.AddRange(newCodes);
 
             return true;
@@ -204,13 +211,19 @@ namespace HOI4ModBuilder.src
 
             if (newCodes.Count == 0) return false;
 
-            Logger.LogSingleInfoMessage(
+            var message = GuiLocManager.GetLoc(
                 EnumLocKey.FOUNDED_NEW_ERROR_CODES,
                 new Dictionary<string, string>
                 {
                     { "{newErrorCodes}", string.Join("\n", newCodes) }
                 }
             );
+            Logger.ShowMessageOnUiThread(
+                message,
+                GuiLocManager.GetLoc(EnumLocKey.INFORMATION_MESSAGE_TITLE),
+                MessageBoxIcon.Information
+            );
+            Logger.Log(message);
             searchErrorsSettings.known.AddRange(newCodes);
 
             return true;

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,10 +22,12 @@ namespace HOI4ModBuilder
         [STAThread]
         static void Main()
         {
+            Logger.Init();
+
             TransferDataToOutputDirectory();
+            EnsurePrivateDllResolution();
 
             TestMain.Execute();
-            Logger.Init();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
@@ -64,6 +67,40 @@ namespace HOI4ModBuilder
             CopyFiles(basePath, debugPath, releasePath, new[] { "data", "shaders" });
             CopyFiles(basePath, debugPath, releasePath, new[] { "localization" });
             CopyDirectoryRecursive(basePath, debugPath, releasePath, new[] { "data", "savePatterns" });
+        }
+
+        private static void EnsurePrivateDllResolution()
+        {
+            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var dllDirectory = Path.Combine(baseDirectory, "dll");
+
+            if (!Directory.Exists(dllDirectory))
+            {
+                return;
+            }
+
+#pragma warning disable 618
+            AppDomain.CurrentDomain.AppendPrivatePath("dll");
+#pragma warning restore 618
+
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                try
+                {
+                    var requestedAssemblyName = new AssemblyName(args.Name).Name + ".dll";
+                    var probingPath = Path.Combine(dllDirectory, requestedAssemblyName);
+                    if (File.Exists(probingPath))
+                    {
+                        return Assembly.LoadFrom(probingPath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogException(ex);
+                }
+
+                return null;
+            };
         }
 
         private static void CopyFiles(string basePath, string debugPath, string releasePath, string[] directoryToCopy)

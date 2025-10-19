@@ -16,7 +16,7 @@ namespace HOI4ModBuilder.src.utils
     {
         public static readonly string logDirPath = FileManager.AssembleFolderPath(new string[] { "logs" });
         public static readonly string logFilePath = logDirPath + "latest.log";
-        public static readonly string version = "Alpha 0.2.9 Pre-Release 2";
+        public static readonly string version = "Alpha 0.2.9 Pre-Release 3";
         public static readonly int versionId = 12;
 
         private static List<string> _warnings = new List<string>();
@@ -64,7 +64,12 @@ namespace HOI4ModBuilder.src.utils
 
         public static void LogSingleErrorMessage(string message)
         {
-            Task.Run(() => MessageBox.Show(message, GuiLocManager.GetLoc(EnumLocKey.ERROR_HAS_OCCURED), MessageBoxButtons.OK, MessageBoxIcon.Error));
+            Task.Run(() => MessageBox.Show(
+                message,
+                GuiLocManager.GetLoc(EnumLocKey.ERROR_HAS_OCCURED),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+            ));
             Log(message);
         }
 
@@ -76,8 +81,54 @@ namespace HOI4ModBuilder.src.utils
 
         public static void LogSingleInfoMessage(string message)
         {
-            Task.Run(() => MessageBox.Show(message, GuiLocManager.GetLoc(EnumLocKey.INFORMATION_MESSAGE_TITLE), MessageBoxButtons.OK, MessageBoxIcon.Information));
+            Task.Run(() => MessageBox.Show(
+                message,
+                GuiLocManager.GetLoc(EnumLocKey.INFORMATION_MESSAGE_TITLE),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            ));
             Log(message);
+        }
+
+        internal static void ShowMessageOnUiThread(string message, string caption, MessageBoxIcon icon)
+        {
+            void ShowBox()
+            {
+                MessageBox.Show(message, caption, MessageBoxButtons.OK, icon);
+            }
+
+            var mainForm = MainForm.Instance;
+            if (mainForm == null || mainForm.IsDisposed)
+            {
+                ShowBox();
+                return;
+            }
+
+            try
+            {
+                if (mainForm.InvokeRequired)
+                {
+                    if (!mainForm.IsHandleCreated)
+                    {
+                        ShowBox();
+                        return;
+                    }
+
+                    mainForm.BeginInvoke((MethodInvoker)(() => ShowBox()));
+                }
+                else
+                {
+                    ShowBox();
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                ShowBox();
+            }
+            catch (InvalidOperationException)
+            {
+                ShowBox();
+            }
         }
 
         public static void CheckLayeredValueOverrideAndSet<T>(LinkedLayer prevLayer, string parameterName, ref T oldValue, T newValue)
