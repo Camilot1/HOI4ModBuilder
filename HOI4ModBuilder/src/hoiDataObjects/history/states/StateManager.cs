@@ -25,9 +25,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
     {
         public static StateManager Instance { get; private set; }
 
-        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "history", "states" });
-        private static FileInfo _currentFile;
+        public static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "history", "states" });
         private static Dictionary<ushort, State> _statesById = new Dictionary<ushort, State>();
+
         public static void ForEachState(Action<State> action)
         {
             foreach (var s in _statesById.Values)
@@ -69,14 +69,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             Logger.Log("Loading of States started");
             foreach (var fileInfo in fileInfosPairs.Values)
             {
-                _currentFile = fileInfo;
                 var stateFile = new StateGameFile(fileInfo);
                 LoadStateFile(parser, stateFile);
             }
             Logger.Log("Loading of States finished");
         }
 
-        private static void LoadStateFile(GameParser parser, StateGameFile stateFile)
+        public static void LoadStateFile(GameParser parser, StateGameFile stateFile)
         {
             try
             {
@@ -114,7 +113,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     {
                             { "{stateId}", idString },
                             { "{parserCursorInfo}", $"{parser.GetCursorInfo()}" },
-                            { "{filePath}", _currentFile.filePath }
+                            { "{filePath}", stateFile.FilePath }
                     },
                     ex
                 );

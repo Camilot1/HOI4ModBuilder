@@ -182,25 +182,25 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="ToolStripMenuItem_Map_Search_Position.Size" type="System.Drawing.Size, System.Drawing">
-    <value>164, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Position.Text" xml:space="preserve">
     <value>Find Position</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Province.Size" type="System.Drawing.Size, System.Drawing">
-    <value>164, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Province.Text" xml:space="preserve">
     <value>Find Province(-s)</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_State.Size" type="System.Drawing.Size, System.Drawing">
-    <value>164, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_State.Text" xml:space="preserve">
     <value>Find State(-s)</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Region.Size" type="System.Drawing.Size, System.Drawing">
-    <value>164, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Region.Text" xml:space="preserve">
     <value>Find Region(-s)</value>
@@ -214,39 +214,6 @@
   <data name="toolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 6</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Province_Info.Text" xml:space="preserve">
-    <value>Province:</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Text" xml:space="preserve">
-    <value>Open in Editor</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer.Text" xml:space="preserve">
-    <value>Open in Explorer</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_State_Info.Text" xml:space="preserve">
-    <value>State:</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor.Text" xml:space="preserve">
-    <value>Open in Editor</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Text" xml:space="preserve">
-    <value>Open in Explorer</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_Region_Info.Text" xml:space="preserve">
-    <value>Region:</value>
-  </data>
   <data name="ToolStripMenuItem_Map_Province_IsCoastal.Text" xml:space="preserve">
     <value>IsCoastal</value>
   </data>
@@ -257,7 +224,67 @@
     <value>170, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province.Text" xml:space="preserve">
-    <value>Province</value>
+    <value>Province: 0</value>
+  </data>
+  <data name="toolStripSeparator18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State_CreateAndSet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State_CreateAndSet.Text" xml:space="preserve">
+    <value>Create and Set State</value>
+  </data>
+  <data name="toolStripSeparator27.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State_OpenFileInExplorer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State_OpenFileInExplorer.Text" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State_OpenFileInEditor.Text" xml:space="preserve">
+    <value>Open in Editor</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State.Text" xml:space="preserve">
+    <value>State: 0</value>
+  </data>
+  <data name="toolStripSeparator28.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region_CreateAndSet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>190, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region_CreateAndSet.Text" xml:space="preserve">
+    <value>Create and Set Region</value>
+  </data>
+  <data name="toolStripSeparator29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region_OpenFileInExplorer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>190, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region_OpenFileInExplorer.Text" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>190, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region_OpenFileInEditor.Text" xml:space="preserve">
+    <value>Open in Editor</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region.Text" xml:space="preserve">
+    <value>Region: 0</value>
   </data>
   <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 6</value>
@@ -413,7 +440,7 @@
     <value>Additional actions</value>
   </data>
   <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 154</value>
+    <value>171, 198</value>
   </data>
   <data name="Panel_ColorPicker_Button_Close.Text" xml:space="preserve">
     <value>Close</value>

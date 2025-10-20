@@ -198,6 +198,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public void AddProvince(Province province)
         {
+            if (province == null)
+                return;
+
             Provinces.Add(province);
             Provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
             province.State = this;

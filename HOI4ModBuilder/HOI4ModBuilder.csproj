@@ -298,6 +298,12 @@
     <Compile Include="src\dataObjects\replaceTags\ReplaceTagsManager.cs" />
     <Compile Include="src\dataObjects\replaceTags\ReplaceTagDummyFile.cs" />
     <Compile Include="src\FileInfo.cs" />
+    <Compile Include="src\forms\actionForms\CreateObjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\forms\actionForms\CreateObjectForm.Designer.cs">
+      <DependentUpon>CreateObjectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -858,6 +864,7 @@
     <Compile Include="src\utils\Enums.cs" />
     <Compile Include="src\utils\exceptions\CountryNotFoundException.cs" />
     <Compile Include="src\utils\exceptions\DivisionNamesGroupNotFoundException.cs" />
+    <Compile Include="src\utils\exceptions\FileAlreadyExistsException.cs" />
     <Compile Include="src\utils\exceptions\IncorrectValueException.cs" />
     <Compile Include="src\utils\exceptions\ProvinceNotFoundException.cs" />
     <Compile Include="src\utils\exceptions\UnknownTokenException.cs" />
@@ -891,6 +898,12 @@
     <Compile Include="src\utils\structs\ValueDirectionalPos.cs" />
     <Compile Include="src\utils\structs\ViewportfInfo.cs" />
     <Compile Include="src\utils\Utils.cs" />
+    <EmbeddedResource Include="src\forms\actionForms\CreateObjectForm.en.resx">
+      <DependentUpon>CreateObjectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\forms\actionForms\CreateObjectForm.resx">
+      <DependentUpon>CreateObjectForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\forms\MainForm.en.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

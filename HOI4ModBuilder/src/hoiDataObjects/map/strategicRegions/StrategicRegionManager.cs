@@ -18,7 +18,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 {
     class StrategicRegionManager
     {
-        private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "map", "strategicregions" });
+        public static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "map", "strategicregions" });
 
         private static Dictionary<ushort, StrategicRegion> _regions = new Dictionary<ushort, StrategicRegion>();
         public static void ForEachRegion(Action<StrategicRegion> action)

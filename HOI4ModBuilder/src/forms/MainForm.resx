@@ -201,6 +201,9 @@
   <data name="GroupBox_Main_Layer_Parameter.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
   </data>
+  <data name="Button_MapMainLayer_Parameter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="Button_MapMainLayer_Parameter.Location" type="System.Drawing.Point, System.Drawing">
     <value>1, 13</value>
   </data>
@@ -1512,60 +1515,6 @@
   <data name="toolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 6</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Province_Info.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_Info.Text" xml:space="preserve">
-    <value>Провинция:</value>
-  </data>
-  <data name="ToolStripComboBox_Map_Province_State_Info_Id.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 23</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Text" xml:space="preserve">
-    <value>Открыть в Редакторе</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer.Text" xml:space="preserve">
-    <value>Открыть в Проводнике</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_State_Info.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_State_Info.Text" xml:space="preserve">
-    <value>Область:</value>
-  </data>
-  <data name="ToolStripComboBox_Map_Province_Region_Info_Id.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 23</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor.Text" xml:space="preserve">
-    <value>Открыть в Редакторе</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Text" xml:space="preserve">
-    <value>Открыть в Проводнике</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_Region_Info.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_Region_Info.Text" xml:space="preserve">
-    <value>Регион:</value>
-  </data>
-  <data name="toolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>178, 6</value>
-  </data>
   <data name="ToolStripComboBox_Map_Province_Type.Items" xml:space="preserve">
     <value>land</value>
   </data>
@@ -1609,7 +1558,76 @@
     <value>222, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province.Text" xml:space="preserve">
-    <value>Провинция</value>
+    <value>Провинция: 0</value>
+  </data>
+  <data name="ToolStripComboBox_Map_State_Id.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 23</value>
+  </data>
+  <data name="toolStripSeparator18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State_CreateAndSet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State_CreateAndSet.Text" xml:space="preserve">
+    <value>Создать и установить область</value>
+  </data>
+  <data name="toolStripSeparator27.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State_OpenFileInExplorer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State_OpenFileInExplorer.Text" xml:space="preserve">
+    <value>Открыть в Проводнике</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State_OpenFileInEditor.Text" xml:space="preserve">
+    <value>Открыть в Редакторе</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State.Size" type="System.Drawing.Size, System.Drawing">
+    <value>222, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_State.Text" xml:space="preserve">
+    <value>Область: 0</value>
+  </data>
+  <data name="ToolStripComboBox_Map_Region_Id.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 23</value>
+  </data>
+  <data name="toolStripSeparator28.Size" type="System.Drawing.Size, System.Drawing">
+    <value>230, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region_CreateAndSet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>233, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region_CreateAndSet.Text" xml:space="preserve">
+    <value>Создать и установить регион</value>
+  </data>
+  <data name="toolStripSeparator29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>230, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region_OpenFileInExplorer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>233, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region_OpenFileInExplorer.Text" xml:space="preserve">
+    <value>Открыть в Проводнике</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region_OpenFileInEditor.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>233, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region_OpenFileInEditor.Text" xml:space="preserve">
+    <value>Открыть в Редакторе</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region.Size" type="System.Drawing.Size, System.Drawing">
+    <value>222, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Region.Text" xml:space="preserve">
+    <value>Регион: 0</value>
   </data>
   <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 6</value>
@@ -1888,7 +1906,7 @@
     <value>Дополнительные действия</value>
   </data>
   <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 176</value>
+    <value>223, 198</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip_Map.Name" xml:space="preserve">
     <value>ContextMenuStrip_Map</value>
@@ -1922,6 +1940,9 @@
   </data>
   <data name="&gt;&gt;Panel_ColorPicker_Button_Close.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Save.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="Panel_ColorPicker_Button_Save.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 386</value>
@@ -2817,66 +2838,6 @@
   <data name="&gt;&gt;ToolStripMenuItem_Map_Province.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_Info.Name" xml:space="preserve">
-    <value>ToolStripMenuItem_Map_Province_Info</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_Info.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_State_Info.Name" xml:space="preserve">
-    <value>ToolStripMenuItem_Map_Province_State_Info</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_State_Info.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripComboBox_Map_Province_State_Info_Id.Name" xml:space="preserve">
-    <value>ToolStripComboBox_Map_Province_State_Info_Id</value>
-  </data>
-  <data name="&gt;&gt;ToolStripComboBox_Map_Province_State_Info_Id.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Name" xml:space="preserve">
-    <value>ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer.Name" xml:space="preserve">
-    <value>ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_Region_Info.Name" xml:space="preserve">
-    <value>ToolStripMenuItem_Map_Province_Region_Info</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_Region_Info.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripComboBox_Map_Province_Region_Info_Id.Name" xml:space="preserve">
-    <value>ToolStripComboBox_Map_Province_Region_Info_Id</value>
-  </data>
-  <data name="&gt;&gt;ToolStripComboBox_Map_Province_Region_Info_Id.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor.Name" xml:space="preserve">
-    <value>ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Name" xml:space="preserve">
-    <value>ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator26.Name" xml:space="preserve">
-    <value>toolStripSeparator26</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator26.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;ToolStripComboBox_Map_Province_Type.Name" xml:space="preserve">
     <value>ToolStripComboBox_Map_Province_Type</value>
   </data>
@@ -2918,6 +2879,90 @@
   </data>
   <data name="&gt;&gt;ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_State.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_State</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_State.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripComboBox_Map_State_Id.Name" xml:space="preserve">
+    <value>ToolStripComboBox_Map_State_Id</value>
+  </data>
+  <data name="&gt;&gt;ToolStripComboBox_Map_State_Id.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator18.Name" xml:space="preserve">
+    <value>toolStripSeparator18</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator18.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_State_CreateAndSet.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_State_CreateAndSet</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_State_CreateAndSet.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator27.Name" xml:space="preserve">
+    <value>toolStripSeparator27</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator27.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_State_OpenFileInExplorer.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_State_OpenFileInExplorer</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_State_OpenFileInExplorer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_State_OpenFileInEditor.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_State_OpenFileInEditor</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_State_OpenFileInEditor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Region.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Region</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Region.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripComboBox_Map_Region_Id.Name" xml:space="preserve">
+    <value>ToolStripComboBox_Map_Region_Id</value>
+  </data>
+  <data name="&gt;&gt;ToolStripComboBox_Map_Region_Id.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator28.Name" xml:space="preserve">
+    <value>toolStripSeparator28</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator28.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Region_CreateAndSet.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Region_CreateAndSet</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Region_CreateAndSet.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator29.Name" xml:space="preserve">
+    <value>toolStripSeparator29</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator29.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Region_OpenFileInExplorer.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Region_OpenFileInExplorer</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Region_OpenFileInExplorer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Region_OpenFileInEditor.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Region_OpenFileInEditor</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Region_OpenFileInEditor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator7.Name" xml:space="preserve">
     <value>toolStripSeparator7</value>

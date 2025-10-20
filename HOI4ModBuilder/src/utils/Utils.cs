@@ -33,6 +33,23 @@ namespace HOI4ModBuilder
             "yyyyy.M.d.H",
         };
 
+        public static ushort GetRecalculatedFirstEmptyID(List<ushort> ids)
+        {
+            ids.Sort();
+
+            ushort id = 0;
+            foreach (var stateID in ids)
+            {
+                // Если между текущим и предыдущим id есть пустой (пропущенный) id
+                if (stateID > id + 1)
+                    return (ushort)(id + 1);
+                else
+                    id = stateID;
+            }
+
+            return (ushort)(id + 1);
+        }
+
         public static bool TryParseDateTimeStamp(string value, out DateTime dateTime)
             => DateTime.TryParseExact(value, dateTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime);
 
@@ -534,8 +551,10 @@ namespace HOI4ModBuilder
         public static void HsvToRgb(double h, double S, double V, out byte r, out byte g, out byte b)
         {
             double H = h;
-            while (H < 0) { H += 360; };
-            while (H >= 360) { H -= 360; };
+            while (H < 0) { H += 360; }
+            ;
+            while (H >= 360) { H -= 360; }
+            ;
             double R, G, B;
             if (V <= 0)
             { R = G = B = 0; }

@@ -90,16 +90,6 @@
             this.ToolStripMenuItem_Map_Search_Region = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Map_Province = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_Map_Province_Info = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_Map_Province_State_Info = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripComboBox_Map_Province_State_Info_Id = new System.Windows.Forms.ToolStripComboBox();
-            this.ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_Map_Province_Region_Info = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripComboBox_Map_Province_Region_Info_Id = new System.Windows.Forms.ToolStripComboBox();
-            this.ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripComboBox_Map_Province_Type = new System.Windows.Forms.ToolStripComboBox();
             this.ToolStripMenuItem_Map_Province_IsCoastal = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripComboBox_Map_Province_Terrain = new System.Windows.Forms.ToolStripComboBox();
@@ -107,6 +97,20 @@
             this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Map_Province_VictoryPoints_Info = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripTextBox_Map_Province_VictoryPoints_Info_Value = new System.Windows.Forms.ToolStripTextBox();
+            this.ToolStripMenuItem_Map_State = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripComboBox_Map_State_Id = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripMenuItem_Map_State_CreateAndSet = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator27 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripMenuItem_Map_State_OpenFileInExplorer = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Map_State_OpenFileInEditor = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Map_Region = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripComboBox_Map_Region_Id = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripMenuItem_Map_Region_CreateAndSet = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator29 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripMenuItem_Map_Region_OpenFileInExplorer = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Map_Region_OpenFileInEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Map_Adjacency = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Adjacency_Create = new System.Windows.Forms.ToolStripMenuItem();
@@ -669,6 +673,8 @@
             this.ToolStripMenuItem_Map_Search,
             this.toolStripSeparator25,
             this.ToolStripMenuItem_Map_Province,
+            this.ToolStripMenuItem_Map_State,
+            this.ToolStripMenuItem_Map_Region,
             this.toolStripSeparator7,
             this.ToolStripMenuItem_Map_Adjacency,
             this.ToolStripMenuItem_Map_Railway,
@@ -728,10 +734,6 @@
             // ToolStripMenuItem_Map_Province
             // 
             this.ToolStripMenuItem_Map_Province.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_Map_Province_Info,
-            this.ToolStripMenuItem_Map_Province_State_Info,
-            this.ToolStripMenuItem_Map_Province_Region_Info,
-            this.toolStripSeparator26,
             this.ToolStripComboBox_Map_Province_Type,
             this.ToolStripMenuItem_Map_Province_IsCoastal,
             this.ToolStripComboBox_Map_Province_Terrain,
@@ -741,74 +743,6 @@
             this.ToolStripMenuItem_Map_Province.Name = "ToolStripMenuItem_Map_Province";
             resources.ApplyResources(this.ToolStripMenuItem_Map_Province, "ToolStripMenuItem_Map_Province");
             this.ToolStripMenuItem_Map_Province.DropDownOpened += new System.EventHandler(this.ToolStripMenuItem_Map_Province_DropDownOpened);
-            // 
-            // ToolStripMenuItem_Map_Province_Info
-            // 
-            this.ToolStripMenuItem_Map_Province_Info.Name = "ToolStripMenuItem_Map_Province_Info";
-            resources.ApplyResources(this.ToolStripMenuItem_Map_Province_Info, "ToolStripMenuItem_Map_Province_Info");
-            // 
-            // ToolStripMenuItem_Map_Province_State_Info
-            // 
-            this.ToolStripMenuItem_Map_Province_State_Info.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripComboBox_Map_Province_State_Info_Id,
-            this.ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor,
-            this.ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer});
-            this.ToolStripMenuItem_Map_Province_State_Info.Name = "ToolStripMenuItem_Map_Province_State_Info";
-            resources.ApplyResources(this.ToolStripMenuItem_Map_Province_State_Info, "ToolStripMenuItem_Map_Province_State_Info");
-            this.ToolStripMenuItem_Map_Province_State_Info.DropDownOpened += new System.EventHandler(this.ToolStripMenuItem_Map_Province_State_Info_DropDownOpened);
-            // 
-            // ToolStripComboBox_Map_Province_State_Info_Id
-            // 
-            this.ToolStripComboBox_Map_Province_State_Info_Id.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ToolStripComboBox_Map_Province_State_Info_Id.Name = "ToolStripComboBox_Map_Province_State_Info_Id";
-            resources.ApplyResources(this.ToolStripComboBox_Map_Province_State_Info_Id, "ToolStripComboBox_Map_Province_State_Info_Id");
-            this.ToolStripComboBox_Map_Province_State_Info_Id.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBox_Map_Province_State_Info_Id_SelectedIndexChanged);
-            // 
-            // ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor
-            // 
-            this.ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Name = "ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor";
-            resources.ApplyResources(this.ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor, "ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor");
-            this.ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor_Click);
-            // 
-            // ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer
-            // 
-            this.ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer.Name = "ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer";
-            resources.ApplyResources(this.ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer, "ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer");
-            this.ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer_Click);
-            // 
-            // ToolStripMenuItem_Map_Province_Region_Info
-            // 
-            this.ToolStripMenuItem_Map_Province_Region_Info.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripComboBox_Map_Province_Region_Info_Id,
-            this.ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor,
-            this.ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer});
-            this.ToolStripMenuItem_Map_Province_Region_Info.Name = "ToolStripMenuItem_Map_Province_Region_Info";
-            resources.ApplyResources(this.ToolStripMenuItem_Map_Province_Region_Info, "ToolStripMenuItem_Map_Province_Region_Info");
-            this.ToolStripMenuItem_Map_Province_Region_Info.DropDownOpened += new System.EventHandler(this.ToolStripMenuItem_Map_Province_Region_Info_DropDownOpened);
-            // 
-            // ToolStripComboBox_Map_Province_Region_Info_Id
-            // 
-            this.ToolStripComboBox_Map_Province_Region_Info_Id.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ToolStripComboBox_Map_Province_Region_Info_Id.Name = "ToolStripComboBox_Map_Province_Region_Info_Id";
-            resources.ApplyResources(this.ToolStripComboBox_Map_Province_Region_Info_Id, "ToolStripComboBox_Map_Province_Region_Info_Id");
-            this.ToolStripComboBox_Map_Province_Region_Info_Id.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBox_Map_Province_Region_Info_Id_SelectedIndexChanged);
-            // 
-            // ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor
-            // 
-            resources.ApplyResources(this.ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor, "ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor");
-            this.ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor.Name = "ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor";
-            this.ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor_Click);
-            // 
-            // ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer
-            // 
-            this.ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Name = "ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer";
-            resources.ApplyResources(this.ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer, "ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer");
-            this.ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer_Click);
-            // 
-            // toolStripSeparator26
-            // 
-            this.toolStripSeparator26.Name = "toolStripSeparator26";
-            resources.ApplyResources(this.toolStripSeparator26, "toolStripSeparator26");
             // 
             // ToolStripComboBox_Map_Province_Type
             // 
@@ -864,6 +798,100 @@
             resources.ApplyResources(this.ToolStripTextBox_Map_Province_VictoryPoints_Info_Value, "ToolStripTextBox_Map_Province_VictoryPoints_Info_Value");
             this.ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Name = "ToolStripTextBox_Map_Province_VictoryPoints_Info_Value";
             this.ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.TextChanged += new System.EventHandler(this.ToolStripTextBox_Map_Province_VictoryPoints_Info_Value_TextChanged);
+            // 
+            // ToolStripMenuItem_Map_State
+            // 
+            this.ToolStripMenuItem_Map_State.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripComboBox_Map_State_Id,
+            this.toolStripSeparator18,
+            this.ToolStripMenuItem_Map_State_CreateAndSet,
+            this.toolStripSeparator27,
+            this.ToolStripMenuItem_Map_State_OpenFileInExplorer,
+            this.ToolStripMenuItem_Map_State_OpenFileInEditor});
+            this.ToolStripMenuItem_Map_State.Name = "ToolStripMenuItem_Map_State";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_State, "ToolStripMenuItem_Map_State");
+            this.ToolStripMenuItem_Map_State.DropDownOpened += new System.EventHandler(this.ToolStripMenuItem_Map_State_DropDownOpened);
+            // 
+            // ToolStripComboBox_Map_State_Id
+            // 
+            this.ToolStripComboBox_Map_State_Id.Name = "ToolStripComboBox_Map_State_Id";
+            resources.ApplyResources(this.ToolStripComboBox_Map_State_Id, "ToolStripComboBox_Map_State_Id");
+            this.ToolStripComboBox_Map_State_Id.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBox_Map_State_Id_SelectedIndexChanged);
+            // 
+            // toolStripSeparator18
+            // 
+            this.toolStripSeparator18.Name = "toolStripSeparator18";
+            resources.ApplyResources(this.toolStripSeparator18, "toolStripSeparator18");
+            // 
+            // ToolStripMenuItem_Map_State_CreateAndSet
+            // 
+            this.ToolStripMenuItem_Map_State_CreateAndSet.Name = "ToolStripMenuItem_Map_State_CreateAndSet";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_State_CreateAndSet, "ToolStripMenuItem_Map_State_CreateAndSet");
+            this.ToolStripMenuItem_Map_State_CreateAndSet.Click += new System.EventHandler(this.ToolStripMenuItem_Map_State_CreateAndSet_Click);
+            // 
+            // toolStripSeparator27
+            // 
+            this.toolStripSeparator27.Name = "toolStripSeparator27";
+            resources.ApplyResources(this.toolStripSeparator27, "toolStripSeparator27");
+            // 
+            // ToolStripMenuItem_Map_State_OpenFileInExplorer
+            // 
+            this.ToolStripMenuItem_Map_State_OpenFileInExplorer.Name = "ToolStripMenuItem_Map_State_OpenFileInExplorer";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_State_OpenFileInExplorer, "ToolStripMenuItem_Map_State_OpenFileInExplorer");
+            this.ToolStripMenuItem_Map_State_OpenFileInExplorer.Click += new System.EventHandler(this.ToolStripMenuItem_Map_State_OpenFileInExplorer_Click);
+            // 
+            // ToolStripMenuItem_Map_State_OpenFileInEditor
+            // 
+            this.ToolStripMenuItem_Map_State_OpenFileInEditor.Name = "ToolStripMenuItem_Map_State_OpenFileInEditor";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_State_OpenFileInEditor, "ToolStripMenuItem_Map_State_OpenFileInEditor");
+            this.ToolStripMenuItem_Map_State_OpenFileInEditor.Click += new System.EventHandler(this.ToolStripMenuItem_Map_State_OpenFileInEditor_Click);
+            // 
+            // ToolStripMenuItem_Map_Region
+            // 
+            this.ToolStripMenuItem_Map_Region.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripComboBox_Map_Region_Id,
+            this.toolStripSeparator28,
+            this.ToolStripMenuItem_Map_Region_CreateAndSet,
+            this.toolStripSeparator29,
+            this.ToolStripMenuItem_Map_Region_OpenFileInExplorer,
+            this.ToolStripMenuItem_Map_Region_OpenFileInEditor});
+            this.ToolStripMenuItem_Map_Region.Name = "ToolStripMenuItem_Map_Region";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Region, "ToolStripMenuItem_Map_Region");
+            this.ToolStripMenuItem_Map_Region.DropDownOpened += new System.EventHandler(this.ToolStripMenuItem_Map_Region_DropDownOpened);
+            // 
+            // ToolStripComboBox_Map_Region_Id
+            // 
+            this.ToolStripComboBox_Map_Region_Id.Name = "ToolStripComboBox_Map_Region_Id";
+            resources.ApplyResources(this.ToolStripComboBox_Map_Region_Id, "ToolStripComboBox_Map_Region_Id");
+            this.ToolStripComboBox_Map_Region_Id.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBox_Map_Region_Id_SelectedIndexChanged);
+            // 
+            // toolStripSeparator28
+            // 
+            this.toolStripSeparator28.Name = "toolStripSeparator28";
+            resources.ApplyResources(this.toolStripSeparator28, "toolStripSeparator28");
+            // 
+            // ToolStripMenuItem_Map_Region_CreateAndSet
+            // 
+            this.ToolStripMenuItem_Map_Region_CreateAndSet.Name = "ToolStripMenuItem_Map_Region_CreateAndSet";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Region_CreateAndSet, "ToolStripMenuItem_Map_Region_CreateAndSet");
+            this.ToolStripMenuItem_Map_Region_CreateAndSet.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Region_CreateAndSet_Click);
+            // 
+            // toolStripSeparator29
+            // 
+            this.toolStripSeparator29.Name = "toolStripSeparator29";
+            resources.ApplyResources(this.toolStripSeparator29, "toolStripSeparator29");
+            // 
+            // ToolStripMenuItem_Map_Region_OpenFileInExplorer
+            // 
+            this.ToolStripMenuItem_Map_Region_OpenFileInExplorer.Name = "ToolStripMenuItem_Map_Region_OpenFileInExplorer";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Region_OpenFileInExplorer, "ToolStripMenuItem_Map_Region_OpenFileInExplorer");
+            this.ToolStripMenuItem_Map_Region_OpenFileInExplorer.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Region_OpenFileInExplorer_Click);
+            // 
+            // ToolStripMenuItem_Map_Region_OpenFileInEditor
+            // 
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Region_OpenFileInEditor, "ToolStripMenuItem_Map_Region_OpenFileInEditor");
+            this.ToolStripMenuItem_Map_Region_OpenFileInEditor.Name = "ToolStripMenuItem_Map_Region_OpenFileInEditor";
+            this.ToolStripMenuItem_Map_Region_OpenFileInEditor.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Region_OpenFileInEditor_Click);
             // 
             // toolStripSeparator7
             // 
@@ -2069,18 +2097,8 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Export;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Export_MainLayer;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Export_SelectedBorders;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_Info;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_State_Info;
-        private System.Windows.Forms.ToolStripComboBox ToolStripComboBox_Map_Province_State_Info_Id;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_Region_Info;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_VictoryPoints_Info;
-        private System.Windows.Forms.ToolStripComboBox ToolStripComboBox_Map_Province_Region_Info_Id;
         private System.Windows.Forms.ToolStripTextBox ToolStripTextBox_Map_Province_VictoryPoints_Info_Value;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_State_Info_OpenFileInEditor;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_State_Info_OpenFileInExplorer;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_Region_Info_OpenFileInEditor;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Province_Region_Info_OpenFileInExplorer;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Actions_Merge_All;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_Actions;
@@ -2093,6 +2111,20 @@
         private System.Windows.Forms.Button Panel_ColorPicker_Button_Save;
         private System.Windows.Forms.Button Panel_ColorPicker_Button_Close;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_Actions_FindMapChanges;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_State;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Region;
+        private System.Windows.Forms.ToolStripComboBox ToolStripComboBox_Map_State_Id;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_State_CreateAndSet;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator27;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_State_OpenFileInExplorer;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_State_OpenFileInEditor;
+        private System.Windows.Forms.ToolStripComboBox ToolStripComboBox_Map_Region_Id;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Region_CreateAndSet;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator29;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Region_OpenFileInExplorer;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Region_OpenFileInEditor;
     }
 }
 

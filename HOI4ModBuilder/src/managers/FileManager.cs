@@ -13,10 +13,10 @@ namespace HOI4ModBuilder.src.managers
         public static readonly string[] TXT_FORMAT = { ".txt" };
         public static readonly string[] YML_FORMAT = { ".yml" };
 
-        public static string AssembleFolderPath(string[] folders)
-            => string.Join(PATH_SEPARATOR_STRING, folders) + PATH_SEPARATOR_STRING;
-        public static string AssembleFilePath(string[] folders)
-            => string.Join(PATH_SEPARATOR_STRING, folders);
+        public static string AssembleFolderPath(string[] path)
+            => string.Join(PATH_SEPARATOR_STRING, path) + PATH_SEPARATOR_STRING;
+        public static string AssembleFilePath(string[] path)
+            => string.Join(PATH_SEPARATOR_STRING, path);
 
         public static Dictionary<string, FileInfo> ReadFileInfos(Settings settings, string subPath, string[] formats)
         {

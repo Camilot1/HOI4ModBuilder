@@ -8,6 +8,7 @@ using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.errors;
 using HOI4ModBuilder.src.managers.warnings;
 using System.Windows.Forms;
+using HOI4ModBuilder.src.forms.actionForms;
 
 namespace HOI4ModBuilder.src
 {
@@ -33,6 +34,7 @@ namespace HOI4ModBuilder.src
                     SaveSettings();
                 }
                 Settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SETTINGS_FILEPATH));
+                Settings.PostInit();
                 GuiLocManager.Init(Settings);
 
                 var needToSave = Settings.CheckNewWarningCodes();
@@ -65,6 +67,7 @@ namespace HOI4ModBuilder.src
 
         public static void SaveSettings()
         {
+            Settings.PostInit();
             File.WriteAllText(SETTINGS_FILEPATH, JsonConvert.SerializeObject(Settings, Formatting.Indented));
             if (Settings.currentModSettings != null)
                 LocalModDataManager.SaveLocalSettings(Settings);
@@ -106,6 +109,27 @@ namespace HOI4ModBuilder.src
         public MapCheckerInfo searchErrorsSettings = new MapCheckerInfo();
         public ModSettings defaultModSettings = new ModSettings();
         public DebugSettings debugSettings;
+
+        public void PostInit()
+        {
+            if (maxAdditionalTextureSize < 8192)
+                maxAdditionalTextureSize = 8192;
+        }
+
+        public Dictionary<EnumCreateObjectType, CreateObjectPatterns> createObjectPatterns = new Dictionary<EnumCreateObjectType, CreateObjectPatterns>()
+        {
+            { EnumCreateObjectType.STATE, new CreateObjectPatterns(EnumCreateObjectType.STATE) },
+            { EnumCreateObjectType.REGION, new CreateObjectPatterns(EnumCreateObjectType.REGION) },
+        };
+
+        public CreateObjectPatterns GetCreateObjectPattern(EnumCreateObjectType type)
+        {
+            if (!createObjectPatterns.TryGetValue(type, out CreateObjectPatterns pattern))
+                createObjectPatterns[type] = pattern = new CreateObjectPatterns(type);
+
+            return pattern;
+        }
+
 
         public bool CheckDebugValue(EnumDebugValue value)
         {
@@ -255,6 +279,34 @@ namespace HOI4ModBuilder.src
         public float GetWaterHeight() => useModSettings ? currentModSettings.WATER_HEIGHT : defaultModSettings.WATER_HEIGHT;
         public List<string> GetWarningsFilter() => searchWarningsSettings?.enabled;
         public List<string> GetErrorsFilter() => searchErrorsSettings?.enabled;
+    }
+
+    public class CreateObjectPatterns
+    {
+        public string fileName;
+        public string[] fileTextLines;
+
+        public CreateObjectPatterns() { }
+
+        public CreateObjectPatterns(EnumCreateObjectType type) : base()
+        {
+            InitDefault(type);
+        }
+
+        public void InitDefault(EnumCreateObjectType type)
+        {
+            switch (type)
+            {
+                case EnumCreateObjectType.STATE:
+                    fileName = "{id}-State_{id}.txt";
+                    fileTextLines = "state = { \n\tid = {id} \n\tname = \"STATE_{id}\" \n\tmanpower = 1 \n\tstate_category = wasteland \n\tprovinces = {} \n}".Split('\n');
+                    break;
+                case EnumCreateObjectType.REGION:
+                    fileName = "{id}-Strategic_Region_{id}.txt";
+                    fileTextLines = "strategic_region={ \n\tid={id} \n\tname=\"STRATEGICREGION_{id}\" \n\tprovinces={} \n}".Split('\n');
+                    break;
+            }
+        }
     }
 
     public class SaveDataSettings
