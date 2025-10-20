@@ -1829,7 +1829,7 @@ namespace HOI4ModBuilder
                             if (prevRegion != null)
                                 StrategicRegionManager.TransferProvince(province, prevRegion, newRegion);
                             else
-                                prevRegion.AddProvince(province);
+                                newRegion.AddProvince(province);
                             InvokeAction(() => MapManager.HandleMapMainLayerChange(false, GetMainLayer(), GetParameter()));
                         }
                     },

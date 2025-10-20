@@ -9,6 +9,7 @@ using HOI4ModBuilder.src.utils.exceptions;
 using System;
 using System.IO;
 using System.Media;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -112,6 +113,28 @@ namespace HOI4ModBuilder.src.forms.actionForms
             }
         }
 
+        private Action<FileInfo> GetLoadAction()
+        {
+            switch (_type)
+            {
+                case EnumCreateObjectType.STATE:
+                    return (fileInfo) => StateManager.LoadFile(new GameParser(), new StateGameFile(fileInfo));
+                case EnumCreateObjectType.REGION:
+                    return (fileInfo) => StrategicRegionManager.LoadFile(fileInfo);
+                default: throw new Exception("Not implemented type: " + _type);
+            }
+        }
+
+        private Action<ushort> GetRemoveAction()
+        {
+            switch (_type)
+            {
+                case EnumCreateObjectType.STATE: return (id) => StateManager.RemoveState(id);
+                case EnumCreateObjectType.REGION: return (id) => StrategicRegionManager.RemoveRegion(id);
+                default: throw new Exception("Not implemented type: " + _type);
+            }
+        }
+
         private void ComboBox_ObjectType_SelectedIndexChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() => _type = (EnumCreateObjectType)ComboBox_ObjectType.SelectedIndex);
 
@@ -136,22 +159,22 @@ namespace HOI4ModBuilder.src.forms.actionForms
                 for (int i = 0; i < _fileTextLines.Length; i++)
                     copy[i] = _fileTextLines[i];
 
+                var loadAction = GetLoadAction();
+                var removeAction = GetRemoveAction();
+
                 MapManager.ActionHistory.Add(
                     () =>
                     {
                         for (int i = 0; i < copy.Length; i++)
                             copy[i] = copy[i].Replace("{id}", stringID);
                         File.WriteAllLines(filePath, copy);
-
-                        var fileInfo = new FileInfo(fileName, filePath, true);
-                        StateManager.LoadStateFile(new GameParser(), new StateGameFile(fileInfo));
-
+                        loadAction.Invoke(new FileInfo(fileName, filePath, true));
                         _onRedo.Invoke(id);
                     },
                     () =>
                     {
                         _onUndo?.Invoke(id);
-                        StateManager.RemoveState(id);
+                        removeAction.Invoke(id);
                         File.Delete(filePath);
                     }
                 );
@@ -160,7 +183,7 @@ namespace HOI4ModBuilder.src.forms.actionForms
         private void Button_Pattern_Save_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                var pattern = SettingsManager.Settings.GetCreateObjectPattern(EnumCreateObjectType.STATE);
+                var pattern = SettingsManager.Settings.GetCreateObjectPattern(_type);
                 pattern.fileName = _fileName;
                 pattern.fileTextLines = _fileTextLines;
                 SettingsManager.SaveSettings();
@@ -176,7 +199,7 @@ namespace HOI4ModBuilder.src.forms.actionForms
         private void LoadPattern()
             => Logger.TryOrLog(() =>
             {
-                var pattern = SettingsManager.Settings.GetCreateObjectPattern(EnumCreateObjectType.STATE);
+                var pattern = SettingsManager.Settings.GetCreateObjectPattern(_type);
                 _fileName = pattern.fileName;
                 _fileTextLines = pattern.fileTextLines;
             });

@@ -56,10 +56,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
             foreach (FileInfo fileInfo in fileInfoPairs.Values)
-            {
-                using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
-                    ParadoxParser.Parse(fs, new StrategicRegionFile(false, fileInfo, _regions));
-            }
+                LoadFile(fileInfo);
+        }
+
+        public static void LoadFile(FileInfo fileInfo)
+        {
+            using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
+                ParadoxParser.Parse(fs, new StrategicRegionFile(false, fileInfo, _regions));
         }
 
         public static void Save(Settings settings)

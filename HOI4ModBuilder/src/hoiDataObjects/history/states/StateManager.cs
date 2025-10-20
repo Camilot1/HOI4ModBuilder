@@ -70,12 +70,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             foreach (var fileInfo in fileInfosPairs.Values)
             {
                 var stateFile = new StateGameFile(fileInfo);
-                LoadStateFile(parser, stateFile);
+                LoadFile(parser, stateFile);
             }
             Logger.Log("Loading of States finished");
         }
 
-        public static void LoadStateFile(GameParser parser, StateGameFile stateFile)
+        public static void LoadFile(GameParser parser, StateGameFile stateFile)
         {
             try
             {
