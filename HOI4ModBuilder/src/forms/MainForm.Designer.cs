@@ -814,6 +814,7 @@
             // 
             // ToolStripComboBox_Map_State_Id
             // 
+            this.ToolStripComboBox_Map_State_Id.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ToolStripComboBox_Map_State_Id.Name = "ToolStripComboBox_Map_State_Id";
             resources.ApplyResources(this.ToolStripComboBox_Map_State_Id, "ToolStripComboBox_Map_State_Id");
             this.ToolStripComboBox_Map_State_Id.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBox_Map_State_Id_SelectedIndexChanged);
@@ -861,6 +862,7 @@
             // 
             // ToolStripComboBox_Map_Region_Id
             // 
+            this.ToolStripComboBox_Map_Region_Id.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ToolStripComboBox_Map_Region_Id.Name = "ToolStripComboBox_Map_Region_Id";
             resources.ApplyResources(this.ToolStripComboBox_Map_Region_Id, "ToolStripComboBox_Map_Region_Id");
             this.ToolStripComboBox_Map_Region_Id.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBox_Map_Region_Id_SelectedIndexChanged);
