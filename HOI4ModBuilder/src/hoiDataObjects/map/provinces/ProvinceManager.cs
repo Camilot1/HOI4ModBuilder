@@ -1,22 +1,23 @@
-﻿using HOI4ModBuilder.hoiDataObjects.map;
+﻿using HOI4ModBuilder.hoiDataObjects;
+using HOI4ModBuilder.hoiDataObjects.common.terrain;
+using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.src;
+using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
+using HOI4ModBuilder.src.hoiDataObjects.map.railways;
+using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
+using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.classes;
+using HOI4ModBuilder.src.utils.structs;
+using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using OpenTK.Graphics.OpenGL;
-using HOI4ModBuilder.hoiDataObjects.common.terrain;
-using HOI4ModBuilder.src.utils;
-using HOI4ModBuilder.src;
-using HOI4ModBuilder.src.hoiDataObjects.history.states;
-using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
-using HOI4ModBuilder.src.managers;
 using System.Windows.Forms;
-using HOI4ModBuilder.hoiDataObjects;
+using YamlDotNet.Core.Tokens;
 using static HOI4ModBuilder.utils.Enums;
-using HOI4ModBuilder.src.utils.structs;
-using HOI4ModBuilder.src.utils.classes;
-using HOI4ModBuilder.src.hoiDataObjects.map.railways;
-using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 
 namespace HOI4ModBuilder.managers
 {
@@ -443,6 +444,28 @@ namespace HOI4ModBuilder.managers
                 return false;
 
             return RemoveProvinceData(province);
+        }
+
+        public static void ChangeProvinceID(ushort fromID, ushort toID)
+        {
+            if (_provincesById[toID] != null)
+                throw new Exception(GuiLocManager.GetLoc(
+                    EnumLocKey.EXCEPTION_PROVINCE_ID_UPDATE_VALUE_IS_USED,
+                    new Dictionary<string, string> { { "{id}", $"{toID}" } }
+                ));
+            _provincesById[toID] = _provincesById[fromID];
+            _provincesById[fromID] = null;
+
+            if (fromID == NextVacantProvinceId - 1)
+            {
+                for (int i = NextVacantProvinceId - 1; i > 0; i--)
+                {
+                    if (_provincesById[i] == null)
+                        NextVacantProvinceId = (ushort)i;
+                    else
+                        break;
+                }
+            }
         }
 
         public static bool RemoveProvinceById(ushort id)

@@ -40,12 +40,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 if (_id == value)
                     return;
 
-                if (ProvinceManager.ContainsProvinceIdKey(value))
-                    throw new Exception(GuiLocManager.GetLoc(
-                            EnumLocKey.EXCEPTION_PROVINCE_ID_UPDATE_VALUE_IS_USED,
-                            new Dictionary<string, string> { { "{id}", $"{value}" } }
-                        ));
-                else ProvinceManager.RemoveProvinceById(_id); //TODO Добавить обработчик внутри менеджена на обновление id провинции и словарей с ВП и постройками
+                ProvinceManager.ChangeProvinceID(_id, value); 
 
                 _id = value;
                 HasChangedId = true;
