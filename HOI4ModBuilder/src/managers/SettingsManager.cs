@@ -97,7 +97,7 @@ namespace HOI4ModBuilder.src
         public int actionHistorySize = 50;
         public byte textureOpacity = 180;
         public float MAP_VIEWPORT_HEIGHT = 1004;
-        public int maxAdditionalTextureSize = 2048;
+        public int maxAdditionalTextureSize = 16384;
 
         public bool ignoreUpdateChecks;
         public string ignoreUpdateCheckVersion;

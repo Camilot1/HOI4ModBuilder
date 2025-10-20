@@ -574,27 +574,15 @@
     <value>6</value>
   </data>
   <data name="ComboBox_MaxAdditionalTextureSize.Items" xml:space="preserve">
-    <value>512</value>
-  </data>
-  <data name="ComboBox_MaxAdditionalTextureSize.Items1" xml:space="preserve">
-    <value>1024</value>
-  </data>
-  <data name="ComboBox_MaxAdditionalTextureSize.Items2" xml:space="preserve">
-    <value>2048</value>
-  </data>
-  <data name="ComboBox_MaxAdditionalTextureSize.Items3" xml:space="preserve">
-    <value>4096</value>
-  </data>
-  <data name="ComboBox_MaxAdditionalTextureSize.Items4" xml:space="preserve">
     <value>8192</value>
   </data>
-  <data name="ComboBox_MaxAdditionalTextureSize.Items5" xml:space="preserve">
+  <data name="ComboBox_MaxAdditionalTextureSize.Items1" xml:space="preserve">
     <value>16384</value>
   </data>
-  <data name="ComboBox_MaxAdditionalTextureSize.Items6" xml:space="preserve">
+  <data name="ComboBox_MaxAdditionalTextureSize.Items2" xml:space="preserve">
     <value>32768</value>
   </data>
-  <data name="ComboBox_MaxAdditionalTextureSize.Items7" xml:space="preserve">
+  <data name="ComboBox_MaxAdditionalTextureSize.Items3" xml:space="preserve">
     <value>65536</value>
   </data>
   <data name="ComboBox_MaxAdditionalTextureSize.Location" type="System.Drawing.Point, System.Drawing">

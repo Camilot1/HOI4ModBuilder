@@ -210,11 +210,7 @@
             resources.GetString("ComboBox_MaxAdditionalTextureSize.Items"),
             resources.GetString("ComboBox_MaxAdditionalTextureSize.Items1"),
             resources.GetString("ComboBox_MaxAdditionalTextureSize.Items2"),
-            resources.GetString("ComboBox_MaxAdditionalTextureSize.Items3"),
-            resources.GetString("ComboBox_MaxAdditionalTextureSize.Items4"),
-            resources.GetString("ComboBox_MaxAdditionalTextureSize.Items5"),
-            resources.GetString("ComboBox_MaxAdditionalTextureSize.Items6"),
-            resources.GetString("ComboBox_MaxAdditionalTextureSize.Items7")});
+            resources.GetString("ComboBox_MaxAdditionalTextureSize.Items3")});
             resources.ApplyResources(this.ComboBox_MaxAdditionalTextureSize, "ComboBox_MaxAdditionalTextureSize");
             this.ComboBox_MaxAdditionalTextureSize.Name = "ComboBox_MaxAdditionalTextureSize";
             // 
