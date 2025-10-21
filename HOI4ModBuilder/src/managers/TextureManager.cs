@@ -10,6 +10,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HOI4ModBuilder
@@ -129,43 +131,57 @@ namespace HOI4ModBuilder
                     {
                         index = i;
                         return true;
-                    };
+                    }
+                    ;
                 }
                 return false;
             }
 
-            public void RGBFill(int[] pixels, HashSet<Value2US> positions, int fillColor)
+            public void RGBFill(object rawPixels, HashSet<Value2US> positions, int fillColor, TextureType textureType)
             {
-                if (positions.Count == 0) return;
-
-                if (_bitmap.PixelFormat != _24bppRgb.imagePixelFormat)
-                {
-                    throw new Exception($"Can't use RGBFill with Bitmap {_bitmap.PixelFormat}");
-                }
+                if (positions.Count == 0)
+                    return;
 
                 int width = _bitmap.Width;
                 int height = _bitmap.Height;
 
-                byte[] values = Utils.BitmapToArray(_bitmap, ImageLockMode.ReadOnly, _24bppRgb);
+                byte[] values = Utils.BitmapToArray(_bitmap, ImageLockMode.ReadOnly, textureType);
 
-                foreach (var pos in positions)
+                if (textureType == _24bppRgb)
                 {
-                    int i = (pos.x + pos.y * width);
-                    int byteI = i * 3;
-                    pixels[i] = fillColor;
-                    values[byteI] = (byte)fillColor;
-                    values[byteI + 1] = (byte)(fillColor >> 8);
-                    values[byteI + 2] = (byte)(fillColor >> 16);
+                    var pixels = (int[])rawPixels;
+                    foreach (var pos in positions)
+                    {
+                        int i = (pos.x + pos.y * width);
+                        int byteI = i * textureType.bytesPerPixel;
+                        pixels[i] = fillColor;
+                        values[byteI] = (byte)fillColor;
+                        values[byteI + 1] = (byte)(fillColor >> 8);
+                        values[byteI + 2] = (byte)(fillColor >> 16);
+                    }
                 }
+                else if (textureType == _8bppGrayscale)
+                {
+                    var pixels = (byte[])rawPixels;
+                    foreach (var pos in positions)
+                    {
+                        int i = (pos.x + pos.y * width);
+                        pixels[i] = (byte)fillColor;
+                        values[i] = (byte)fillColor;
+                    }
+                }
+                else
+                    throw new Exception("Unsupported texture type: " + textureType.ToString());
 
-                Utils.ArrayToBitmap(values, _bitmap, ImageLockMode.WriteOnly, width, height, _24bppRgb);
 
-                texture.Update(_24bppRgb, 0, 0, width, height, values);
+                Utils.ArrayToBitmap(values, _bitmap, ImageLockMode.WriteOnly, width, height, textureType);
+
+                texture.Update(textureType, 0, 0, width, height, values);
 
                 needToSave = true;
             }
 
-            public HashSet<Value2US> NewGetRGBPositions(ushort x, ushort y)
+            public HashSet<Value2US> NewGetRGBPositions(ushort x, ushort y, TextureType textureType)
             {
                 var poses = new HashSet<Value2US>();
                 var nextPoses = new Queue<Value2US>();
@@ -179,20 +195,62 @@ namespace HOI4ModBuilder
                 var pos = new Value2US(x, y);
                 nextPoses.Enqueue(pos);
 
-                byte[] values = Utils.BitmapToArray(_bitmap, ImageLockMode.ReadOnly, _24bppRgb);
+                byte[] values = Utils.BitmapToArray(_bitmap, ImageLockMode.ReadOnly, textureType);
+
+                Func<int, bool> colorChecker;
+                if (textureType == _24bppRgb)
+                    colorChecker = (i) => values[i] == color.B && values[i + 1] == color.G && values[i + 2] == color.R;
+                else if (textureType == _8bppGrayscale)
+                    colorChecker = (i) => values[i] == color.B;
+                else
+                    throw new Exception("Unsupported texture type: " + textureType.ToString());
+
+                byte[] state = new byte[1];
+
+                const byte stateDo = 0;
+                const byte stateWait = 1;
+                const byte stateContinue = 2;
+                const byte stateCancel = 3;
+                const int maxSteps = 500_000;
 
                 while (nextPoses.Count > 0)
                 {
+                    while (!(state[0] == stateDo || state[0] == stateContinue))
+                    {
+                        Thread.Sleep(50);
+                        if (state[0] == stateCancel)
+                            throw new Exception(GuiLocManager.GetLoc(EnumLocKey.ACTION_WAS_CANCELED));
+                    }
+
                     pos = nextPoses.Dequeue();
 
                     //Проверять x < 0 && y < 0 нет смысла, т.к. они они ushort и будут x > width или y > height
-                    if (poses.Contains(pos) || pos.x >= width || pos.y >= height) continue;
+                    if (poses.Contains(pos) || pos.x >= width || pos.y >= height)
+                        continue;
 
-                    int i = (pos.x + pos.y * width) * 3;
+                    int i = (pos.x + pos.y * width) * textureType.bytesPerPixel;
 
-                    if (values[i] == color.B && values[i + 1] == color.G && values[i + 2] == color.R)
+                    if (colorChecker(i))
                     {
                         poses.Add(pos);
+
+                        if (state[0] == stateDo && poses.Count > maxSteps)
+                        {
+                            state[0] = stateWait; // Ожидание действия
+                            Task.Run(() =>
+                            {
+                                var title = GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION);
+                                var text = GuiLocManager.GetLoc(
+                                    EnumLocKey.WARNINGS_ACTION_WILL_AFFECT_MORE_THAN_X_PIXELS,
+                                    new Dictionary<string, string> { { "{count}", "" + maxSteps } }
+                                );
+
+                                if (MessageBox.Show(text, title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                                    state[0] = stateContinue; // Продолжение
+                                else
+                                    state[0] = stateCancel; // Отмена
+                            }); ;
+                        }
 
                         nextPoses.Enqueue(new Value2US((ushort)(pos.x - 1), pos.y));
                         nextPoses.Enqueue(new Value2US(pos.x, (ushort)(pos.y + 1)));

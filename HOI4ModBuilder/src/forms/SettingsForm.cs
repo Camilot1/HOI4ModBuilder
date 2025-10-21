@@ -75,6 +75,8 @@ namespace HOI4ModBuilder.src.forms
             {
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Text = "" + settings.defaultModSettings.MAP_SCALE_PIXEL_TO_KM;
                 TextBox_WATER_HEIGHT_Default.Text = "" + settings.defaultModSettings.WATER_HEIGHT;
+                TextBox_WATER_HEIGHT_min_land_offset_Default.Text = "" + settings.defaultModSettings.WATER_HEIGHT_minLandOffset;
+                TextBox_WATER_HEIGHT_max_water_offset_Default.Text = "" + settings.defaultModSettings.WATER_HEIGHT_maxWaterOffset;
                 TextBox_NormalMapStrength_Default.Text = "" + settings.defaultModSettings.normalMapStrength;
                 TextBox_NormalMapBlur_Default.Text = "" + settings.defaultModSettings.normalMapBlur;
                 CheckBox_UseCustomSavePatterns_Default.Checked = settings.defaultModSettings.useCustomSavePatterns;
@@ -92,6 +94,8 @@ namespace HOI4ModBuilder.src.forms
                 }
 
                 TextBox_WATER_HEIGHT_Default.Enabled = true;
+                TextBox_WATER_HEIGHT_min_land_offset_Default.Enabled = true;
+                TextBox_WATER_HEIGHT_max_water_offset_Default.Enabled = true;
                 TextBox_NormalMapStrength_Default.Enabled = true;
                 TextBox_NormalMapBlur_Default.Enabled = true;
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Enabled = true;
@@ -102,6 +106,8 @@ namespace HOI4ModBuilder.src.forms
             {
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Text = "";
                 TextBox_WATER_HEIGHT_Default.Text = "";
+                TextBox_WATER_HEIGHT_min_land_offset_Default.Text = "";
+                TextBox_WATER_HEIGHT_max_water_offset_Default.Text = "";
                 TextBox_NormalMapStrength_Default.Text = "";
                 TextBox_NormalMapBlur_Default.Text = "";
 
@@ -112,6 +118,8 @@ namespace HOI4ModBuilder.src.forms
                     CheckedListBox_Wips_Default.SetItemChecked(i, false);
 
                 TextBox_WATER_HEIGHT_Default.Enabled = false;
+                TextBox_WATER_HEIGHT_min_land_offset_Default.Enabled = false;
+                TextBox_WATER_HEIGHT_max_water_offset_Default.Enabled = false;
                 TextBox_NormalMapStrength_Default.Enabled = false;
                 TextBox_NormalMapBlur_Default.Enabled = false;
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Enabled = false;
@@ -123,6 +131,8 @@ namespace HOI4ModBuilder.src.forms
             {
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Text = "" + settings.currentModSettings.MAP_SCALE_PIXEL_TO_KM;
                 TextBox_WATER_HEIGHT_Current.Text = "" + settings.currentModSettings.WATER_HEIGHT;
+                TextBox_WATER_HEIGHT_min_land_offset_Current.Text = "" + settings.currentModSettings.WATER_HEIGHT_minLandOffset;
+                TextBox_WATER_HEIGHT_max_water_offset_Current.Text = "" + settings.currentModSettings.WATER_HEIGHT_maxWaterOffset;
                 TextBox_NormalMapStrength_Current.Text = "" + settings.currentModSettings.normalMapStrength;
                 TextBox_NormalMapBlur_Current.Text = "" + settings.currentModSettings.normalMapBlur;
                 CheckBox_UseCustomSavePatterns_Current.Checked = settings.currentModSettings.useCustomSavePatterns;
@@ -140,6 +150,8 @@ namespace HOI4ModBuilder.src.forms
                 }
 
                 TextBox_WATER_HEIGHT_Current.Enabled = true;
+                TextBox_WATER_HEIGHT_min_land_offset_Current.Enabled = true;
+                TextBox_WATER_HEIGHT_max_water_offset_Current.Enabled = true;
                 TextBox_NormalMapStrength_Current.Enabled = true;
                 TextBox_NormalMapBlur_Current.Enabled = true;
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Enabled = true;
@@ -150,6 +162,8 @@ namespace HOI4ModBuilder.src.forms
             {
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Text = "";
                 TextBox_WATER_HEIGHT_Current.Text = "";
+                TextBox_WATER_HEIGHT_min_land_offset_Current.Text = "";
+                TextBox_WATER_HEIGHT_max_water_offset_Current.Text = "";
                 TextBox_NormalMapStrength_Current.Text = "";
                 TextBox_NormalMapBlur_Current.Text = "";
 
@@ -160,6 +174,8 @@ namespace HOI4ModBuilder.src.forms
                     CheckedListBox_Wips_Current.SetItemChecked(i, false);
 
                 TextBox_WATER_HEIGHT_Current.Enabled = false;
+                TextBox_WATER_HEIGHT_min_land_offset_Current.Enabled = false;
+                TextBox_WATER_HEIGHT_max_water_offset_Current.Enabled = false;
                 TextBox_NormalMapStrength_Current.Enabled = false;
                 TextBox_NormalMapBlur_Current.Enabled = false;
                 TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Enabled = false;
@@ -321,6 +337,8 @@ namespace HOI4ModBuilder.src.forms
                 var modSettings = settings.defaultModSettings;
                 modSettings.MAP_SCALE_PIXEL_TO_KM = Utils.ParseFloat(TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Text);
                 modSettings.WATER_HEIGHT = Utils.ParseFloat(TextBox_WATER_HEIGHT_Default.Text);
+                modSettings.WATER_HEIGHT_minLandOffset = Utils.ParseFloat(TextBox_WATER_HEIGHT_min_land_offset_Default.Text);
+                modSettings.WATER_HEIGHT_maxWaterOffset = Utils.ParseFloat(TextBox_WATER_HEIGHT_max_water_offset_Default.Text);
                 modSettings.normalMapStrength = Utils.ParseFloat(TextBox_NormalMapStrength_Default.Text);
                 modSettings.normalMapBlur = Utils.ParseFloat(TextBox_NormalMapBlur_Default.Text);
 
@@ -344,6 +362,8 @@ namespace HOI4ModBuilder.src.forms
                 {
                     modSettings.MAP_SCALE_PIXEL_TO_KM = Utils.ParseFloat(TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Text);
                     modSettings.WATER_HEIGHT = Utils.ParseFloat(TextBox_WATER_HEIGHT_Current.Text);
+                    modSettings.WATER_HEIGHT_minLandOffset = Utils.ParseFloat(TextBox_WATER_HEIGHT_min_land_offset_Current.Text);
+                    modSettings.WATER_HEIGHT_maxWaterOffset = Utils.ParseFloat(TextBox_WATER_HEIGHT_max_water_offset_Current.Text);
                     modSettings.normalMapStrength = Utils.ParseFloat(TextBox_NormalMapStrength_Current.Text);
                     modSettings.normalMapBlur = Utils.ParseFloat(TextBox_NormalMapBlur_Current.Text);
 

@@ -72,11 +72,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     redoActions.Add(redo);
                     undoActions.Add(undo);
 
-                    if (enumEditLayer == EnumEditLayer.HEIGHT_MAP)
-                    {
-                        redoActions.Add(() => MapCheckerHeightMapMismatches.HandlePixel(x, y));
-                        undoActions.Add(() => MapCheckerHeightMapMismatches.HandlePixel(x, y));
-                    }
+                    redoActions.Add(() => MapCheckerHeightMapMismatches.HandlePixel(x, y));
+                    undoActions.Add(() => MapCheckerHeightMapMismatches.HandlePixel(x, y));
                 }
             });
 

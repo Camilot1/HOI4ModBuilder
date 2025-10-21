@@ -277,6 +277,8 @@ namespace HOI4ModBuilder.src
             => useModSettings ? currentModSettings.MAP_SCALE_PIXEL_TO_KM : defaultModSettings.MAP_SCALE_PIXEL_TO_KM;
 
         public float GetWaterHeight() => useModSettings ? currentModSettings.WATER_HEIGHT : defaultModSettings.WATER_HEIGHT;
+        public float GetMinLandOffset() => useModSettings ? currentModSettings.WATER_HEIGHT_minLandOffset : defaultModSettings.WATER_HEIGHT_minLandOffset;
+        public float GetMaxWaterOffset() => useModSettings ? currentModSettings.WATER_HEIGHT_maxWaterOffset : defaultModSettings.WATER_HEIGHT_maxWaterOffset;
         public List<string> GetWarningsFilter() => searchWarningsSettings?.enabled;
         public List<string> GetErrorsFilter() => searchErrorsSettings?.enabled;
     }
@@ -395,6 +397,8 @@ namespace HOI4ModBuilder.src
 
         public float MAP_SCALE_PIXEL_TO_KM = 7.114f;
         public float WATER_HEIGHT = 9.5f;
+        public float WATER_HEIGHT_minLandOffset = -0.1f;
+        public float WATER_HEIGHT_maxWaterOffset = 0.1f;
 
         public bool CheckWips(EnumWips enumWips) => wipsEnabled.Contains("" + enumWips);
         public void SetWips(EnumWips enumWips, bool value)

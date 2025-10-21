@@ -331,7 +331,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="Button_Save.Location" type="System.Drawing.Point, System.Drawing">
-    <value>545, 383</value>
+    <value>545, 443</value>
   </data>
   <data name="Button_Save.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 20</value>
@@ -406,7 +406,7 @@
     <value>True</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 42</value>
+    <value>9, 90</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 13</value>
@@ -427,10 +427,10 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
   </data>
   <data name="TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Location" type="System.Drawing.Point, System.Drawing">
-    <value>167, 39</value>
+    <value>167, 87</value>
   </data>
   <data name="TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 20</value>
@@ -448,7 +448,7 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Default.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -610,7 +610,7 @@
     <value>True</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 22</value>
+    <value>9, 20</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>97, 13</value>
@@ -631,10 +631,10 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>4</value>
   </data>
   <data name="TextBox_WATER_HEIGHT_Default.Location" type="System.Drawing.Point, System.Drawing">
-    <value>109, 19</value>
+    <value>109, 17</value>
   </data>
   <data name="TextBox_WATER_HEIGHT_Default.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 20</value>
@@ -652,7 +652,7 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;TextBox_WATER_HEIGHT_Default.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>7</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -850,7 +850,7 @@
     <value>6, 85</value>
   </data>
   <data name="CheckedListBox_SaveSettings_Default.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 64</value>
+    <value>248, 124</value>
   </data>
   <data name="CheckedListBox_SaveSettings_Default.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -871,7 +871,7 @@
     <value>5, 4</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 157</value>
+    <value>260, 217</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>25</value>
@@ -1009,10 +1009,10 @@
     <value>0</value>
   </data>
   <data name="groupBox6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>272, 73</value>
+    <value>272, 126</value>
   </data>
   <data name="groupBox6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 88</value>
+    <value>240, 95</value>
   </data>
   <data name="groupBox6.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
@@ -1032,11 +1032,110 @@
   <data name="&gt;&gt;groupBox6.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="TextBox_WATER_HEIGHT_max_water_offset_Default.Location" type="System.Drawing.Point, System.Drawing">
+    <value>180, 64</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_max_water_offset_Default.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 20</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_max_water_offset_Default.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_max_water_offset_Default.Name" xml:space="preserve">
+    <value>TextBox_WATER_HEIGHT_max_water_offset_Default</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_max_water_offset_Default.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_max_water_offset_Default.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_max_water_offset_Default.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_min_land_offset_Default.Location" type="System.Drawing.Point, System.Drawing">
+    <value>180, 40</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_min_land_offset_Default.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 20</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_min_land_offset_Default.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_min_land_offset_Default.Name" xml:space="preserve">
+    <value>TextBox_WATER_HEIGHT_min_land_offset_Default</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_min_land_offset_Default.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_min_land_offset_Default.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_min_land_offset_Default.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label19.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label19.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 66</value>
+  </data>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>164, 13</value>
+  </data>
+  <data name="label19.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>Макс. сдвиг высоты для воды:</value>
+  </data>
+  <data name="&gt;&gt;label19.Name" xml:space="preserve">
+    <value>label19</value>
+  </data>
+  <data name="&gt;&gt;label19.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label19.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label18.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 42</value>
+  </data>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>164, 13</value>
+  </data>
+  <data name="label18.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>Мин. сдвиг высоты для земли:</value>
+  </data>
+  <data name="&gt;&gt;label18.Name" xml:space="preserve">
+    <value>label18</value>
+  </data>
+  <data name="&gt;&gt;label18.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label18.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
     <value>272, 4</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 65</value>
+    <value>240, 116</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>29</value>
@@ -1063,7 +1162,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPage_DefaultModSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>516, 165</value>
+    <value>516, 225</value>
   </data>
   <data name="TabPage_DefaultModSettings.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1123,10 +1222,10 @@
     <value>0</value>
   </data>
   <data name="groupBox7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>272, 73</value>
+    <value>272, 126</value>
   </data>
   <data name="groupBox7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 88</value>
+    <value>240, 95</value>
   </data>
   <data name="groupBox7.TabIndex" type="System.Int32, mscorlib">
     <value>32</value>
@@ -1149,11 +1248,113 @@
   <data name="groupBox4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left</value>
   </data>
+  <data name="TextBox_WATER_HEIGHT_max_water_offset_Current.Location" type="System.Drawing.Point, System.Drawing">
+    <value>180, 64</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_max_water_offset_Current.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 20</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_max_water_offset_Current.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_max_water_offset_Current.Name" xml:space="preserve">
+    <value>TextBox_WATER_HEIGHT_max_water_offset_Current</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_max_water_offset_Current.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_max_water_offset_Current.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_max_water_offset_Current.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_min_land_offset_Current.Location" type="System.Drawing.Point, System.Drawing">
+    <value>180, 40</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_min_land_offset_Current.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 20</value>
+  </data>
+  <data name="TextBox_WATER_HEIGHT_min_land_offset_Current.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_min_land_offset_Current.Name" xml:space="preserve">
+    <value>TextBox_WATER_HEIGHT_min_land_offset_Current</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_min_land_offset_Current.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_min_land_offset_Current.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;TextBox_WATER_HEIGHT_min_land_offset_Current.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label20.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label20.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label20.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 66</value>
+  </data>
+  <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>164, 13</value>
+  </data>
+  <data name="label20.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>Макс. сдвиг высоты для воды:</value>
+  </data>
+  <data name="&gt;&gt;label20.Name" xml:space="preserve">
+    <value>label20</value>
+  </data>
+  <data name="&gt;&gt;label20.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label20.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label21.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label21.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label21.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 42</value>
+  </data>
+  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>164, 13</value>
+  </data>
+  <data name="label21.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>Мин. сдвиг высоты для земли:</value>
+  </data>
+  <data name="&gt;&gt;label21.Name" xml:space="preserve">
+    <value>label21</value>
+  </data>
+  <data name="&gt;&gt;label21.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label21.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;label21.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 22</value>
+    <value>9, 20</value>
   </data>
   <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
     <value>97, 13</value>
@@ -1174,13 +1375,13 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>4</value>
   </data>
   <data name="label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 42</value>
+    <value>9, 90</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 13</value>
@@ -1201,10 +1402,10 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
   </data>
   <data name="TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Location" type="System.Drawing.Point, System.Drawing">
-    <value>167, 39</value>
+    <value>167, 87</value>
   </data>
   <data name="TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 20</value>
@@ -1222,10 +1423,10 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;TextBox_MAP_SCALE_PIXEL_TO_KM_Current.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="TextBox_WATER_HEIGHT_Current.Location" type="System.Drawing.Point, System.Drawing">
-    <value>109, 19</value>
+    <value>109, 17</value>
   </data>
   <data name="TextBox_WATER_HEIGHT_Current.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 20</value>
@@ -1243,13 +1444,13 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;TextBox_WATER_HEIGHT_Current.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>7</value>
   </data>
   <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
     <value>272, 4</value>
   </data>
   <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 65</value>
+    <value>240, 116</value>
   </data>
   <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
@@ -1492,7 +1693,7 @@
     <value>5, 4</value>
   </data>
   <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 157</value>
+    <value>260, 217</value>
   </data>
   <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
@@ -1519,7 +1720,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPage_CurrentModSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>516, 165</value>
+    <value>516, 225</value>
   </data>
   <data name="TabPage_CurrentModSettings.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1543,7 +1744,7 @@
     <value>15, 212</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>524, 191</value>
+    <value>524, 251</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
@@ -1645,7 +1846,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>684, 411</value>
+    <value>684, 471</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>700, 450</value>

@@ -87,6 +87,14 @@
             this.CheckBox_IgnoreUpdateVersion = new System.Windows.Forms.CheckBox();
             this.TextBox_IgnoreUpdateVersion = new System.Windows.Forms.TextBox();
             this.Button_Directory_AutoDetect = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.TextBox_WATER_HEIGHT_min_land_offset_Default = new System.Windows.Forms.TextBox();
+            this.TextBox_WATER_HEIGHT_max_water_offset_Default = new System.Windows.Forms.TextBox();
+            this.TextBox_WATER_HEIGHT_max_water_offset_Current = new System.Windows.Forms.TextBox();
+            this.TextBox_WATER_HEIGHT_min_land_offset_Current = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -348,6 +356,10 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.TextBox_WATER_HEIGHT_max_water_offset_Default);
+            this.groupBox3.Controls.Add(this.TextBox_WATER_HEIGHT_min_land_offset_Default);
+            this.groupBox3.Controls.Add(this.label19);
+            this.groupBox3.Controls.Add(this.label18);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.TextBox_MAP_SCALE_PIXEL_TO_KM_Default);
@@ -387,6 +399,10 @@
             // groupBox4
             // 
             resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Controls.Add(this.TextBox_WATER_HEIGHT_max_water_offset_Current);
+            this.groupBox4.Controls.Add(this.TextBox_WATER_HEIGHT_min_land_offset_Current);
+            this.groupBox4.Controls.Add(this.label20);
+            this.groupBox4.Controls.Add(this.label21);
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.label10);
             this.groupBox4.Controls.Add(this.TextBox_MAP_SCALE_PIXEL_TO_KM_Current);
@@ -492,6 +508,46 @@
             this.Button_Directory_AutoDetect.Name = "Button_Directory_AutoDetect";
             this.Button_Directory_AutoDetect.UseVisualStyleBackColor = false;
             this.Button_Directory_AutoDetect.Click += new System.EventHandler(this.Button_Directory_AutoDetect_Click);
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
+            // 
+            // label19
+            // 
+            resources.ApplyResources(this.label19, "label19");
+            this.label19.Name = "label19";
+            // 
+            // TextBox_WATER_HEIGHT_min_land_offset_Default
+            // 
+            resources.ApplyResources(this.TextBox_WATER_HEIGHT_min_land_offset_Default, "TextBox_WATER_HEIGHT_min_land_offset_Default");
+            this.TextBox_WATER_HEIGHT_min_land_offset_Default.Name = "TextBox_WATER_HEIGHT_min_land_offset_Default";
+            // 
+            // TextBox_WATER_HEIGHT_max_water_offset_Default
+            // 
+            resources.ApplyResources(this.TextBox_WATER_HEIGHT_max_water_offset_Default, "TextBox_WATER_HEIGHT_max_water_offset_Default");
+            this.TextBox_WATER_HEIGHT_max_water_offset_Default.Name = "TextBox_WATER_HEIGHT_max_water_offset_Default";
+            // 
+            // TextBox_WATER_HEIGHT_max_water_offset_Current
+            // 
+            resources.ApplyResources(this.TextBox_WATER_HEIGHT_max_water_offset_Current, "TextBox_WATER_HEIGHT_max_water_offset_Current");
+            this.TextBox_WATER_HEIGHT_max_water_offset_Current.Name = "TextBox_WATER_HEIGHT_max_water_offset_Current";
+            // 
+            // TextBox_WATER_HEIGHT_min_land_offset_Current
+            // 
+            resources.ApplyResources(this.TextBox_WATER_HEIGHT_min_land_offset_Current, "TextBox_WATER_HEIGHT_min_land_offset_Current");
+            this.TextBox_WATER_HEIGHT_min_land_offset_Current.Name = "TextBox_WATER_HEIGHT_min_land_offset_Current";
+            // 
+            // label20
+            // 
+            resources.ApplyResources(this.label20, "label20");
+            this.label20.Name = "label20";
+            // 
+            // label21
+            // 
+            resources.ApplyResources(this.label21, "label21");
+            this.label21.Name = "label21";
             // 
             // SettingsForm
             // 
@@ -599,5 +655,13 @@
         private System.Windows.Forms.CheckBox CheckBox_IgnoreUpdateVersion;
         private System.Windows.Forms.TextBox TextBox_IgnoreUpdateVersion;
         private System.Windows.Forms.Button Button_Directory_AutoDetect;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox TextBox_WATER_HEIGHT_max_water_offset_Default;
+        private System.Windows.Forms.TextBox TextBox_WATER_HEIGHT_min_land_offset_Default;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox TextBox_WATER_HEIGHT_max_water_offset_Current;
+        private System.Windows.Forms.TextBox TextBox_WATER_HEIGHT_min_land_offset_Current;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
     }
 }

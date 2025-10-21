@@ -7,13 +7,16 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
 {
     public class MapCheckerHeightMapMismatches : MapChecker
     {
+        public static readonly EnumMapWarningCode TYPE = EnumMapWarningCode.HEIGHTMAP_MISMATCH;
         public MapCheckerHeightMapMismatches()
-            : base((int)EnumMapWarningCode.HEIGHTMAP_MISMATCH, (list) =>
+            : base((int)TYPE, (list) =>
             {
                 var settings = SettingsManager.Settings;
                 int width = MapManager.MapSize.x;
                 int pixelCount = width * MapManager.MapSize.y;
-                byte waterLevel = (byte)(settings.GetWaterHeight() * 10);
+                short waterLevel = (short)(settings.GetWaterHeight() * 10);
+                short minLandOffset = (short)(settings.GetMinLandOffset() * 10);
+                short maxWaterdOffset = (short)(settings.GetMaxWaterOffset() * 10);
 
                 int color = 0;
                 int[] provincesPixels = MapManager.ProvincesPixels;
@@ -32,7 +35,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
                         float x = i % width + 0.5f;
                         float y = i / width + 0.5f;
 
-                        if (CheckWarning(type, height, waterLevel))
+                        if (CheckWarning(type, height, waterLevel, minLandOffset, maxWaterdOffset))
                             list.Add(new MapCheckData(x, y, (int)EnumMapWarningCode.HEIGHTMAP_MISMATCH));
                     }
                 }
@@ -41,9 +44,14 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
 
         public static void HandlePixel(int x, int y)
         {
+            if (!WarningsManager.Instance.CheckFilter((int)TYPE))
+                return;
+
             var settings = SettingsManager.Settings;
             int width = MapManager.MapSize.x;
-            byte waterLevel = (byte)(settings.GetWaterHeight() * 10);
+            short waterLevel = (short)(settings.GetWaterHeight() * 10);
+            short minLandOffset = (short)(settings.GetMinLandOffset() * 10);
+            short maxWaterdOffset = (short)(settings.GetMaxWaterOffset() * 10);
 
             int[] provincesPixels = MapManager.ProvincesPixels;
             byte[] heightPixels = MapManager.HeightsPixels;
@@ -58,7 +66,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
                 var type = province.Type;
                 var pos = new Point2F(x + 0.5f, y + 0.5f);
                 var code = WarningsManager.Instance.GetErrorInfo(pos);
-                if (CheckWarning(type, height, waterLevel))
+                if (CheckWarning(type, height, waterLevel, minLandOffset, maxWaterdOffset))
                     code |= (1uL << (int)EnumMapWarningCode.HEIGHTMAP_MISMATCH);
                 else
                     code &= ~(1uL << (int)EnumMapWarningCode.HEIGHTMAP_MISMATCH);
@@ -67,8 +75,8 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
             }
         }
 
-        public static bool CheckWarning(EnumProvinceType type, byte height, byte waterLevel)
-            => type == EnumProvinceType.LAND && height < waterLevel - 1 ||
-            type != EnumProvinceType.LAND && height >= waterLevel;
+        public static bool CheckWarning(EnumProvinceType type, short height, short waterLevel, short minLandOffset, short maxWaterOffset)
+            => type == EnumProvinceType.LAND && (height < waterLevel + minLandOffset) ||
+            type != EnumProvinceType.LAND && (height > waterLevel + maxWaterOffset);
     }
 }
