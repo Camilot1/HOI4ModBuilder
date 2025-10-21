@@ -8,8 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.managers.settings
@@ -189,6 +187,34 @@ namespace HOI4ModBuilder.src.managers.settings
             checkerInfo.known.AddRange(newCodes);
 
             return true;
+        }
+    }
+
+    public class CreateObjectPatterns
+    {
+        public string fileName;
+        public string[] fileTextLines;
+
+        public CreateObjectPatterns() { }
+
+        public CreateObjectPatterns(EnumCreateObjectType type) : base()
+        {
+            InitDefault(type);
+        }
+
+        public void InitDefault(EnumCreateObjectType type)
+        {
+            switch (type)
+            {
+                case EnumCreateObjectType.STATE:
+                    fileName = "{id}-State_{id}.txt";
+                    fileTextLines = "state = { \n\tid = {id} \n\tname = \"STATE_{id}\" \n\tmanpower = 1 \n\tstate_category = wasteland \n\tprovinces = {} \n}".Split('\n');
+                    break;
+                case EnumCreateObjectType.REGION:
+                    fileName = "{id}-Strategic_Region_{id}.txt";
+                    fileTextLines = "strategic_region={ \n\tid={id} \n\tname=\"STRATEGICREGION_{id}\" \n\tprovinces={} \n}".Split('\n');
+                    break;
+            }
         }
     }
 }

@@ -33,4 +33,12 @@ namespace HOI4ModBuilder.src.managers.settings
                 wipsEnabled.Remove(key);
         }
     }
+
+    public enum EnumWips
+    {
+        SUB_UNITS,
+        DIVISIONS_NAMES_GROUPS,
+        OOBS,
+        EQUIPMENTS
+    }
 }
