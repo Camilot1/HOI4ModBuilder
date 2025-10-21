@@ -120,6 +120,7 @@
             resources.ApplyResources(this.Button_Create, "Button_Create");
             this.Button_Create.Name = "Button_Create";
             this.Button_Create.UseVisualStyleBackColor = true;
+            this.Button_Create.Click += new System.EventHandler(this.Button_Create_Click);
             // 
             // button1
             // 

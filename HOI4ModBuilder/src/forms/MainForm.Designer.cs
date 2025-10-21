@@ -221,6 +221,7 @@
             this.ToolStripMenuItem_Edit_Redo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Edit_Actions = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Edit_Actions_CreateObject = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_Actions_FindMapChanges = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools = new System.Windows.Forms.ToolStripMenuItem();
@@ -1654,11 +1655,18 @@
             // ToolStripMenuItem_Edit_Actions
             // 
             this.ToolStripMenuItem_Edit_Actions.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_Edit_Actions_CreateObject,
             this.ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces,
             this.ToolStripMenuItem_Edit_Actions_FindMapChanges});
             this.ToolStripMenuItem_Edit_Actions.Name = "ToolStripMenuItem_Edit_Actions";
             resources.ApplyResources(this.ToolStripMenuItem_Edit_Actions, "ToolStripMenuItem_Edit_Actions");
             this.ToolStripMenuItem_Edit_Actions.DropDownOpened += new System.EventHandler(this.ToolStripMenuItem_Edit_Actions_DropDownOpened);
+            // 
+            // ToolStripMenuItem_Edit_Actions_CreateObject
+            // 
+            this.ToolStripMenuItem_Edit_Actions_CreateObject.Name = "ToolStripMenuItem_Edit_Actions_CreateObject";
+            resources.ApplyResources(this.ToolStripMenuItem_Edit_Actions_CreateObject, "ToolStripMenuItem_Edit_Actions_CreateObject");
+            this.ToolStripMenuItem_Edit_Actions_CreateObject.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_Actions_CreateObject_Click);
             // 
             // ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces
             // 
@@ -2127,6 +2135,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator29;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Region_OpenFileInExplorer;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Region_OpenFileInEditor;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_Actions_CreateObject;
     }
 }
 

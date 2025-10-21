@@ -43,6 +43,9 @@ namespace HOI4ModBuilder.src.forms.actionForms
             if (_onRedo != null && _onUndo == null || _onRedo == null && _onUndo != null)
                 throw new Exception("Both onRedo and onUndo should be Null or NotNull at the same time!");
         }
+        public static void CreateTasked()
+            => CreateTasked(0, false, null, null);
+
 
         public static void CreateTasked(EnumCreateObjectType type, bool forceType, Action<object> onRedo, Action<object> onUndo)
         {
@@ -81,7 +84,8 @@ namespace HOI4ModBuilder.src.forms.actionForms
             => Logger.TryOrLog(() =>
             {
                 LoadPattern();
-                Label_ID.Text = "ID: " + GetFreeID();
+                UpdateDisplayID();
+
                 TextBox_File_Name.Text = _fileName;
 
                 ComboBox_ObjectType.Enabled = !_forceType;
@@ -92,6 +96,9 @@ namespace HOI4ModBuilder.src.forms.actionForms
 
                 RichTextBox_File_Text.Text = _fileTextLines == null ? "" : string.Join("\n", _fileTextLines);
             });
+
+        private void UpdateDisplayID()
+            => Label_ID.Text = "ID: " + GetFreeID();
 
         private ushort GetFreeID()
         {
@@ -170,12 +177,16 @@ namespace HOI4ModBuilder.src.forms.actionForms
                         File.WriteAllLines(filePath, copy);
                         loadAction.Invoke(new FileInfo(fileName, filePath, true));
                         _onRedo.Invoke(id);
+
+                        InvokeAction(() => UpdateDisplayID());
                     },
                     () =>
                     {
                         _onUndo?.Invoke(id);
                         removeAction.Invoke(id);
                         File.Delete(filePath);
+
+                        InvokeAction(() => UpdateDisplayID());
                     }
                 );
             });

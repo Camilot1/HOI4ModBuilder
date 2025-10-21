@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.forms.actionForms;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.utils;
@@ -198,5 +199,8 @@ namespace HOI4ModBuilder.src.forms
                 );
             });
         }
+
+        private void Button_Create_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => CreateObjectForm.CreateTasked(EnumCreateObjectType.STATE, true, null, null));
     }
 }

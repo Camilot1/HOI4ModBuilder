@@ -255,9 +255,6 @@
   <data name="Button_Create.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
-  <data name="Button_Create.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="Button_Create.Location" type="System.Drawing.Point, System.Drawing">
     <value>750, 12</value>
   </data>

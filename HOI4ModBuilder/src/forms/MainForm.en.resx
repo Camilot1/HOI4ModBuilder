@@ -182,25 +182,25 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="ToolStripMenuItem_Map_Search_Position.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>164, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Position.Text" xml:space="preserve">
     <value>Find Position</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Province.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>164, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Province.Text" xml:space="preserve">
     <value>Find Province(-s)</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_State.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>164, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_State.Text" xml:space="preserve">
     <value>Find State(-s)</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Region.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>164, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Region.Text" xml:space="preserve">
     <value>Find Region(-s)</value>
@@ -729,6 +729,12 @@
   </data>
   <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
     <value>187, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Actions_CreateObject.Size" type="System.Drawing.Size, System.Drawing">
+    <value>346, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Actions_CreateObject.Text" xml:space="preserve">
+    <value>Create Object and Script</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Size" type="System.Drawing.Size, System.Drawing">
     <value>346, 22</value>

@@ -1919,6 +1919,9 @@ namespace HOI4ModBuilder
                 ToolStripMenuItem_Map_Region_OpenFileInExplorer.Enabled = newRegion != null;
             });
 
+        private void ToolStripMenuItem_Edit_Actions_CreateObject_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => CreateObjectForm.CreateTasked());
+
         public void SetGroupBoxProgressBackColor(Color color)
             => GroupBox_Progress.BackColor = color;
     }

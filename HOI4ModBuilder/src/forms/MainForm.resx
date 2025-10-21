@@ -1906,7 +1906,7 @@
     <value>Дополнительные действия</value>
   </data>
   <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 220</value>
+    <value>223, 198</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip_Map.Name" xml:space="preserve">
     <value>ContextMenuStrip_Map</value>
@@ -2570,6 +2570,12 @@
   </data>
   <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
     <value>223, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Actions_CreateObject.Size" type="System.Drawing.Size, System.Drawing">
+    <value>331, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_Actions_CreateObject.Text" xml:space="preserve">
+    <value>Создать объект и скрипт</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.ShortcutKeyDisplayString" xml:space="preserve">
     <value>CTRL+M</value>
@@ -3562,6 +3568,12 @@
     <value>ToolStripMenuItem_Edit_Actions</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Edit_Actions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_Actions_CreateObject.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Edit_Actions_CreateObject</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_Actions_CreateObject.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Name" xml:space="preserve">
