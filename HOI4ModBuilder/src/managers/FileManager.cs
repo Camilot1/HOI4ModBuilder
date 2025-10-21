@@ -72,7 +72,8 @@ namespace HOI4ModBuilder.src.managers
             {
                 foreach (string format in formats)
                 {
-                    if (filePath.Length < format.Length || !filePath.EndsWith(format)) continue;
+                    if (filePath.Length < format.Length || !filePath.EndsWith(format))
+                        continue;
 
                     string[] filePathPart = filePath.Split(PATH_SEPARATOR);
                     string fileName = filePathPart[filePathPart.Length - 1];
@@ -90,7 +91,8 @@ namespace HOI4ModBuilder.src.managers
 
         private static bool ReadFileInfos(RecursiveFileData data, string path, string[] formats, bool needToSave)
         {
-            if (!Directory.Exists(path)) return false;
+            if (!Directory.Exists(path))
+                return false;
 
             data.fileInfos = new Dictionary<string, FileInfo>();
             data.innerDirectories = new Dictionary<string, RecursiveFileData>();
@@ -99,7 +101,8 @@ namespace HOI4ModBuilder.src.managers
             {
                 foreach (string format in formats)
                 {
-                    if (filePath.Length < format.Length || !filePath.EndsWith(format)) continue;
+                    if (filePath.Length < format.Length || !filePath.EndsWith(format))
+                        continue;
 
                     string[] filePathParts = filePath.Split(PATH_SEPARATOR);
                     string fileName = filePathParts[filePathParts.Length - 1];
@@ -154,7 +157,8 @@ namespace HOI4ModBuilder.src.managers
             foreach (var file in Directory.GetFiles(srcPath))
             {
                 string destFilePath = destPath + Path.GetFileName(file);
-                if (File.Exists(destFilePath)) File.Delete(destFilePath);
+                if (File.Exists(destFilePath))
+                    File.Delete(destFilePath);
                 File.Copy(file, destFilePath);
             }
         }

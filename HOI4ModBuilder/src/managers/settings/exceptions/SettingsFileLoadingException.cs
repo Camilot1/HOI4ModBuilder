@@ -6,16 +6,16 @@ namespace HOI4ModBuilder.src.managers.settings.exceptions
 {
     public class SettingsFileLoadingException : Exception
     {
-        public SettingsFileLoadingException(string settingsFilePath, Exception ex) : base(
+        public SettingsFileLoadingException(string settingsFilePath, Exception innerException) : base(
             GuiLocManager.GetLoc(
                         EnumLocKey.EXCEPTION_WHILE_SETTINGS_FILE_LOADING,
                         new Dictionary<string, string>
                         {
                             { "{settingsFilepath}", settingsFilePath },
-                            { "{exceptionMessage}", ex.Message }
+                            { "{exceptionMessage}", innerException.Message }
                         }
                     ),
-                    ex
+                    innerException
             )
         { }
     }

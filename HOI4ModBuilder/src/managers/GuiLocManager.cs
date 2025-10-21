@@ -37,8 +37,10 @@ namespace HOI4ModBuilder.src.utils
 
         public static void Init(BaseSettings settings)
         {
-            if (settings.language == null) settings.language = GetCurrentParentLanguageName;
-            if (!allowedLanguages.Contains(settings.language)) settings.language = "en";
+            if (settings.language == null)
+                settings.language = GetCurrentParentLanguageName;
+            if (!allowedLanguages.Contains(settings.language))
+                settings.language = "en";
 
             SetCurrentUICulture(settings.language);
         }
@@ -49,24 +51,22 @@ namespace HOI4ModBuilder.src.utils
         {
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
             Logger.TryOrLog(() => LoadLocalizationFile(SettingsManager.Settings.language));
-            foreach (var actionPair in new Dictionary<Form, Action>(formsReinitEvents)) actionPair.Value();
+            foreach (var actionPair in new Dictionary<Form, Action>(formsReinitEvents))
+                actionPair.Value();
         }
 
         public static string GetLoc(EnumLocKey key)
-        {
-            if (_locKeys.TryGetValue(key, out var value))
-                return value;
-            else
-                return key.ToString();
-        }
+            => _locKeys.TryGetValue(key, out var value) ? value : key.ToString();
 
         public static string GetLoc(EnumLocKey key, Dictionary<string, string> replaceValues, string additionalText)
         {
             if (_locKeys.TryGetValue(key, out var value))
             {
                 if (replaceValues != null)
-                    foreach (var valuePair in replaceValues) value = value.Replace(valuePair.Key, valuePair.Value);
-                if (additionalText != null) value += additionalText;
+                    foreach (var valuePair in replaceValues)
+                        value = value.Replace(valuePair.Key, valuePair.Value);
+                if (additionalText != null)
+                    value += additionalText;
 
                 return value;
             }
@@ -74,41 +74,37 @@ namespace HOI4ModBuilder.src.utils
         }
 
         public static string GetLoc(EnumLocKey key, Dictionary<string, string> replaceValues)
-        {
-            return GetLoc(key, replaceValues, null);
-        }
+            => GetLoc(key, replaceValues, null);
         public static string GetLoc(string key)
-        {
-            if (_locStrings.TryGetValue(key, out var value) ||
-                _stringsToEnums.TryGetValue(key, out var enumObj) && _locKeys.TryGetValue(enumObj, out value))
-                return value;
-            return key.ToString();
-        }
+            => IsLocalizedValuePresent(key, out var value) ? value : key.ToString();
+
+        private static bool IsLocalizedValuePresent(string key, out string value)
+            => _locStrings.TryGetValue(key, out value) ||
+                _stringsToEnums.TryGetValue(key, out var enumObj) && _locKeys.TryGetValue(enumObj, out value);
 
         public static string GetLoc(string key, Dictionary<string, string> replaceValues, string additionalText)
         {
-            if (_locStrings.TryGetValue(key, out var value) ||
-                _stringsToEnums.TryGetValue(key, out var enumObj) && _locKeys.TryGetValue(enumObj, out value))
-            {
-                if (replaceValues != null)
-                    foreach (var valuePair in replaceValues) value = value.Replace(valuePair.Key, valuePair.Value);
-                if (additionalText != null) value += additionalText;
+            if (!IsLocalizedValuePresent(key, out var value))
+                return $"{key}: {Utils.DictionaryToString(replaceValues)}";
 
-                return value;
-            }
-            else return $"{key}: {Utils.DictionaryToString(replaceValues)}";
+            if (replaceValues != null)
+                foreach (var valuePair in replaceValues)
+                    value = value.Replace(valuePair.Key, valuePair.Value);
+            if (additionalText != null)
+                value += additionalText;
+
+            return value;
+
         }
 
         public static string GetLoc(string key, Dictionary<string, string> replaceValues)
-        {
-            return GetLoc(key, replaceValues, null);
-        }
+            => GetLoc(key, replaceValues, null);
 
         private static void LoadLocalizationFile(string language)
         {
             string filePath = $"localization\\{language}.yml";
             if (!File.Exists(filePath))
-                throw new Exception($"LOC_FILE_NOT_FOUND_ERROR: {filePath}");
+                throw new FileNotFoundException($"LOC_FILE_NOT_FOUND_ERROR: {filePath}");
 
             try
             {
@@ -123,6 +119,7 @@ namespace HOI4ModBuilder.src.utils
                 //Переносим ключи и их локализацию из файла в словарь локализации
                 _locKeys = new Dictionary<EnumLocKey, string>();
                 _locStrings = new Dictionary<string, string>();
+
                 foreach (var pair in tempDictionary)
                 {
                     if (transferDictionary.TryGetValue(pair.Key, out var enumKey))

@@ -20,6 +20,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.data.exceptions;
 using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
@@ -41,24 +42,22 @@ namespace HOI4ModBuilder.managers
         {
             Logger.TryOrLog(() =>
             {
-                //TODO Добавить это для обновления (CTLR+U)
-
                 if (!MainForm.IsFirstLoaded)
                 {
                     Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_NO_DATA_WAS_LOADED);
                     return;
                 }
-                else if (MainForm.ErrorsOrExceptionsDuringLoading)
+                if (MainForm.ErrorsOrExceptionsDuringLoading)
                 {
                     Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_OF_LOADING_ERRORS_OR_EXCEPTIONS);
                     return;
                 }
-                else if (MainForm.IsLoadingOrSaving)
+                if (MainForm.IsLoadingOrSaving)
                 {
                     Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_ALREADY_SAVING_OR_LOADING);
                     return;
                 }
-                else if (!SettingsManager.Settings.IsModDirectorySelected())
+                if (!SettingsManager.Settings.IsModDirectorySelected())
                 {
                     Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
                     return;
@@ -127,7 +126,7 @@ namespace HOI4ModBuilder.managers
                 Logger.LogSingleErrorMessage(EnumLocKey.CANT_LOAD_BECAUSE_ALREADY_SAVING_OR_LOADING);
                 return;
             }
-            else if (!SettingsManager.Settings.IsModDirectorySelected())
+            if (!SettingsManager.Settings.IsModDirectorySelected())
             {
                 Logger.LogSingleErrorMessage(EnumLocKey.CANT_LOAD_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
                 return;
@@ -310,44 +309,28 @@ namespace HOI4ModBuilder.managers
             Logger.TryOrLog(() =>
             {
                 string[] value = MainForm.Instance.ToolStripComboBox_Data_Bookmark.Text.Split(']');
-                if (value.Length > 1)
+                if (value.Length <= 1)
+                    return;
+
+                string dateTimeString = value[0].Replace('[', ' ').Trim();
+
+                Logger.TryOrCatch(() =>
                 {
-                    string dateTimeString = value[0].Replace('[', ' ').Trim();
+                    if (!Utils.TryParseDateTimeStamp(dateTimeString, out DateTime dateTime))
+                        throw new BookmarkNotFoundException(dateTimeString);
 
-                    try
-                    {
-                        if (Utils.TryParseDateTimeStamp(dateTimeString, out DateTime dateTime))
-                        {
-                            currentDateStamp = new DateTime[] { dateTime };
-                            CountryManager.UpdateByDateTimeStamp(dateTime);
-                            StateManager.UpdateByDateTimeStamp(dateTime);
+                    currentDateStamp = new DateTime[] { dateTime };
+                    CountryManager.UpdateByDateTimeStamp(dateTime);
+                    StateManager.UpdateByDateTimeStamp(dateTime);
 
-                            if (!MainForm.IsLoadingOrSaving)
-                                MapManager.HandleMapMainLayerChange(true, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
-                        }
-                        else throw new Exception(GuiLocManager.GetLoc(
-                                EnumLocKey.EXCEPTION_BOOKMARK_NOT_FOUND,
-                                new Dictionary<string, string> { { "{bookmark}", dateTimeString } }
-                            ));
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception(
-                            GuiLocManager.GetLoc(
-                                EnumLocKey.EXCEPTION_WHILE_BOOKMARK_LOADING,
-                                new Dictionary<string, string> { { "{bookmark}", dateTimeString } }
-                            ),
-                            ex
-                        );
-                    }
-                }
+                    if (!MainForm.IsLoadingOrSaving)
+                        MapManager.HandleMapMainLayerChange(true, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
+                }, ex => throw new BookmarkLoadingException(dateTimeString, ex));
             });
         }
 
         private static void Load(BaseSettings settings)
-        {
-            LoadManagers(settings);
-        }
+            => LoadManagers(settings);
 
         private static void LoadManagers(BaseSettings settings)
         {
@@ -390,9 +373,7 @@ namespace HOI4ModBuilder.managers
         }
 
         public static void Save(BaseSettings settings)
-        {
-            SaveManagers(settings);
-        }
+            => SaveManagers(settings);
         private static void SaveManagers(BaseSettings settings)
         {
             var stopwatch = Stopwatch.StartNew();
