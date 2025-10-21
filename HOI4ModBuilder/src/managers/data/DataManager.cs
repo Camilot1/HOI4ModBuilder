@@ -24,7 +24,6 @@ using HOI4ModBuilder.src.managers.data.exceptions;
 using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
-using OpenTK;
 using OpenTK.Graphics;
 using System;
 using System.Collections.Generic;
@@ -41,96 +40,19 @@ namespace HOI4ModBuilder.managers
         public static void SaveAll()
         {
             Logger.TryOrLog(() =>
-            {
-                if (!MainForm.IsFirstLoaded)
                 {
-                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_NO_DATA_WAS_LOADED);
-                    return;
-                }
-                if (MainForm.ErrorsOrExceptionsDuringLoading)
-                {
-                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_OF_LOADING_ERRORS_OR_EXCEPTIONS);
-                    return;
-                }
-                if (MainForm.IsLoadingOrSaving)
-                {
-                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_ALREADY_SAVING_OR_LOADING);
-                    return;
-                }
-                if (!SettingsManager.Settings.IsModDirectorySelected())
-                {
-                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_SAVE_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
-                    return;
-                }
+                    if (!CanStartSave())
+                        return;
 
-                MainForm.IsLoadingOrSaving = true;
-
-                SaveAllData(SettingsManager.Settings);
-
-                MainForm.IsLoadingOrSaving = false;
-            },
-            () =>
-            {
-                if (Logger.ExceptionsCount == 0)
-                {
-                    MainForm.DisplayProgress(
-                        EnumLocKey.PROGRESSBAR_SAVED,
-                        new Dictionary<string, string>
-                        {
-                            { "{time}", $"{DateTime.Now.ToLongTimeString()}" },
-                            { "{warningsCount}", $"{Logger.WarningsCount}" },
-                            { "{errorsCount}", $"{Logger.ErrorsCount}" },
-                            { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
-                        },
-                        0
-                    );
-
-                    if (Logger.ErrorsCount > 0)
-                        MainForm.Instance.SetGroupBoxProgressBackColor(Color.OrangeRed);
-                    else if (Logger.WarningsCount > 0)
-                        MainForm.Instance.SetGroupBoxProgressBackColor(Color.Yellow);
-                    else
-                        MainForm.Instance.SetGroupBoxProgressBackColor(Color.White);
-                }
-                else
-                {
-                    MainForm.DisplayProgress(
-                        EnumLocKey.PROGRESSBAR_SAVING_FAILED,
-                        new Dictionary<string, string>
-                        {
-                            { "{time}", $"{DateTime.Now.ToLongTimeString()}" },
-                            { "{warningsCount}", $"{Logger.WarningsCount}" },
-                            { "{errorsCount}", $"{Logger.ErrorsCount}" },
-                            { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
-                        },
-                        0
-                    );
-                    MainForm.Instance.SetGroupBoxProgressBackColor(Color.Red);
-                }
-
-                MapManager.HandleMapMainLayerChange(true, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
-
-                Logger.DisplayWarnings();
-                Logger.DisplayErrors();
-                Logger.DisplayExceptions();
-                Utils.CleanUpMemory();
-                MainForm.IsLoadingOrSaving = false;
-            });
-
+                    MainForm.IsLoadingOrSaving = true;
+                    SaveAllData(SettingsManager.Settings);
+                }, FinishSave);
         }
 
         public static void LoadAll()
         {
-            if (MainForm.IsLoadingOrSaving)
-            {
-                Logger.LogSingleErrorMessage(EnumLocKey.CANT_LOAD_BECAUSE_ALREADY_SAVING_OR_LOADING);
+            if (!CanStartLoad())
                 return;
-            }
-            if (!SettingsManager.Settings.IsModDirectorySelected())
-            {
-                Logger.LogSingleErrorMessage(EnumLocKey.CANT_LOAD_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
-                return;
-            }
 
             MainForm.IsFirstLoaded = true;
             MainForm.IsLoadingOrSaving = true;
@@ -158,7 +80,7 @@ namespace HOI4ModBuilder.managers
 
                         Logger.CloseAllTextBoxMessageForms();
 
-                        Stopwatch stopwatch = Stopwatch.StartNew();
+                        var stopwatch = Stopwatch.StartNew();
                         LoadAllData(SettingsManager.Settings);
                         stopwatch.Stop();
                         Logger.Log("Loading time: " + stopwatch.ElapsedMilliseconds + " ms");
@@ -166,102 +88,25 @@ namespace HOI4ModBuilder.managers
                         context.MakeCurrent(null);
                     },
                     () => MainForm.Instance.TryInvokeActionOrLog(
-                        () =>
-                        {
-                            if (Logger.ExceptionsCount == 0)
-                            {
-                                MainForm.DisplayProgress(
-                                    EnumLocKey.PROGRESSBAR_LOADED,
-                                    new Dictionary<string, string>
-                                    {
-                                        { "{warningsCount}", $"{Logger.WarningsCount}" },
-                                        { "{errorsCount}", $"{Logger.ErrorsCount}" },
-                                        { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
-                                    },
-                                    0
-                                );
-
-                                if (Logger.ErrorsCount > 0)
-                                    MainForm.Instance.SetGroupBoxProgressBackColor(Color.OrangeRed);
-                                else if (Logger.WarningsCount > 0)
-                                    MainForm.Instance.SetGroupBoxProgressBackColor(Color.Yellow);
-                                else
-                                    MainForm.Instance.SetGroupBoxProgressBackColor(Color.White);
-                            }
-                            else
-                            {
-                                MainForm.DisplayProgress(
-                                    EnumLocKey.PROGRESSBAR_LOADING_FAILED,
-                                    new Dictionary<string, string>
-                                    {
-                                        { "{warningsCount}", $"{Logger.WarningsCount}" },
-                                        { "{errorsCount}", $"{Logger.ErrorsCount}" },
-                                        { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
-                                    },
-                                    0
-                                );
-                                MainForm.Instance.SetGroupBoxProgressBackColor(Color.Red);
-                            }
-
-                            MainForm.ResumeGLControl();
-                            if (MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Count > 0)
-                                MainForm.Instance.ToolStripComboBox_Data_Bookmark.SelectedIndex = 0;
-
-                            MainForm.Instance.UpdateSelectedMainLayerAndTool(true, false);
-                            MainForm.Instance.UpdateBordersType();
-                            //MapManager.LoadSDFThings();
-
-                            if (Logger.ErrorsCount > 0 || Logger.ExceptionsCount > 0)
-                                MainForm.ErrorsOrExceptionsDuringLoading = true;
-                            else
-                                MainForm.ErrorsOrExceptionsDuringLoading = false;
-
-                            Logger.DisplayWarnings();
-                            Logger.DisplayErrors();
-                            Logger.DisplayExceptions();
-                            Utils.CleanUpMemory();
-                            MainForm.IsLoadingOrSaving = false;
-                        },
-                        (ex) =>
+                        FinishLoad,
+                        ex =>
                         {
                             Logger.LogException(ex);
-
-                            if (Logger.ErrorsCount > 0 || Logger.ExceptionsCount > 0)
-                                MainForm.ErrorsOrExceptionsDuringLoading = true;
-                            else
-                                MainForm.ErrorsOrExceptionsDuringLoading = false;
-
-                            Logger.DisplayWarnings();
-                            Logger.DisplayErrors();
-                            Logger.DisplayExceptions();
-                            Utils.CleanUpMemory();
-                            MainForm.IsLoadingOrSaving = false;
-                        }
-                    )
+                            FinishLoad();
+                        })
                 );
             });
         }
         public static void UpdateAll()
             => Logger.TryOrLog(() =>
             {
-                if (!MainForm.IsFirstLoaded)
-                {
-                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_UPDATE_BECAUSE_NO_DATA_WAS_LOADED);
+                if (!CanUpdate())
                     return;
-                }
-                else if (MainForm.IsLoadingOrSaving)
-                {
-                    Logger.LogSingleErrorMessage(EnumLocKey.CANT_UPDATE_BECAUSE_ALREADY_SAVING_OR_LOADING);
-                    return;
-                }
 
                 MainForm.IsLoadingOrSaving = true;
-
                 SavePattern.LoadAll();
                 MapManager.UpdateMapInfo();
-
-                MainForm.IsLoadingOrSaving = false;
-            });
+            }, () => MainForm.IsLoadingOrSaving = false);
 
         private static void SaveAllData(BaseSettings settings)
         {
@@ -399,6 +244,116 @@ namespace HOI4ModBuilder.managers
 
             stopwatch.Stop();
             Console.WriteLine("Загрузка DataManager = " + stopwatch.ElapsedMilliseconds + " ms.");
+        }
+
+        private static bool CanStartSave()
+        {
+            if (!MainForm.IsFirstLoaded)
+                return LogErrorAndReturnFalse(EnumLocKey.CANT_SAVE_BECAUSE_NO_DATA_WAS_LOADED);
+            if (MainForm.ErrorsOrExceptionsDuringLoading)
+                return LogErrorAndReturnFalse(EnumLocKey.CANT_SAVE_BECAUSE_OF_LOADING_ERRORS_OR_EXCEPTIONS);
+            if (MainForm.IsLoadingOrSaving)
+                return LogErrorAndReturnFalse(EnumLocKey.CANT_SAVE_BECAUSE_ALREADY_SAVING_OR_LOADING);
+            if (!SettingsManager.Settings.IsModDirectorySelected())
+                return LogErrorAndReturnFalse(EnumLocKey.CANT_SAVE_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
+            return true;
+        }
+
+        private static bool CanStartLoad()
+        {
+            if (MainForm.IsLoadingOrSaving)
+                return LogErrorAndReturnFalse(EnumLocKey.CANT_LOAD_BECAUSE_ALREADY_SAVING_OR_LOADING);
+            if (!SettingsManager.Settings.IsModDirectorySelected())
+                return LogErrorAndReturnFalse(EnumLocKey.CANT_LOAD_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
+            return true;
+        }
+
+        private static bool CanUpdate()
+        {
+            if (!MainForm.IsFirstLoaded)
+                return LogErrorAndReturnFalse(EnumLocKey.CANT_UPDATE_BECAUSE_NO_DATA_WAS_LOADED);
+            if (MainForm.IsLoadingOrSaving)
+                return LogErrorAndReturnFalse(EnumLocKey.CANT_UPDATE_BECAUSE_ALREADY_SAVING_OR_LOADING);
+            return true;
+        }
+
+        private static bool LogErrorAndReturnFalse(EnumLocKey messageKey)
+        {
+            Logger.LogSingleErrorMessage(messageKey);
+            return false;
+        }
+
+        private static void FinishSave()
+        {
+            var success = Logger.ExceptionsCount == 0;
+
+            MainForm.DisplayProgress(
+                success ? EnumLocKey.PROGRESSBAR_SAVED : EnumLocKey.PROGRESSBAR_SAVING_FAILED,
+                BuildProgressSummary(includeTime: true),
+                0
+            );
+
+            MainForm.Instance.SetGroupBoxProgressBackColor(success ? ResolveStatusColor() : Color.Red);
+
+            MapManager.HandleMapMainLayerChange(true, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
+
+            AfterFinish();
+        }
+
+        private static void FinishLoad()
+        {
+            var success = Logger.ExceptionsCount == 0;
+
+            MainForm.DisplayProgress(
+                success ? EnumLocKey.PROGRESSBAR_LOADED : EnumLocKey.PROGRESSBAR_LOADING_FAILED,
+                BuildProgressSummary(includeTime: false),
+                0
+            );
+
+            MainForm.Instance.SetGroupBoxProgressBackColor(success ? ResolveStatusColor() : Color.Red);
+
+            MainForm.ResumeGLControl();
+            if (MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Count > 0)
+                MainForm.Instance.ToolStripComboBox_Data_Bookmark.SelectedIndex = 0;
+
+            MainForm.Instance.UpdateSelectedMainLayerAndTool(true, false);
+            MainForm.Instance.UpdateBordersType();
+
+            MainForm.ErrorsOrExceptionsDuringLoading = Logger.ErrorsCount > 0 || Logger.ExceptionsCount > 0;
+            AfterFinish();
+        }
+
+        private static void AfterFinish()
+        {
+            Logger.DisplayWarnings();
+            Logger.DisplayErrors();
+            Logger.DisplayExceptions();
+            Utils.CleanUpMemory();
+            MainForm.IsLoadingOrSaving = false;
+        }
+
+        private static Dictionary<string, string> BuildProgressSummary(bool includeTime)
+        {
+            var summary = new Dictionary<string, string>
+            {
+                { "{warningsCount}", $"{Logger.WarningsCount}" },
+                { "{errorsCount}", $"{Logger.ErrorsCount}" },
+                { "{exceptionsCount}", $"{Logger.ExceptionsCount}" },
+            };
+
+            if (includeTime)
+                summary["{time}"] = DateTime.Now.ToLongTimeString();
+
+            return summary;
+        }
+
+        private static Color ResolveStatusColor()
+        {
+            if (Logger.ErrorsCount > 0)
+                return Color.OrangeRed;
+            if (Logger.WarningsCount > 0)
+                return Color.Yellow;
+            return Color.White;
         }
     }
 }

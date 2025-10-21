@@ -4,6 +4,7 @@ using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using OpenTK;
@@ -184,7 +185,7 @@ namespace HOI4ModBuilder.src.openTK.text
                     Logger.TryOrLog(() => region.ExecuteActions());
                 });
                 index++;
-            };
+            }
 
             Task.WhenAll(tasks)
                 .ContinueWith(_ => Logger.TryOrLog(() => MainForm.Instance.InvokeAction(() =>
@@ -207,7 +208,7 @@ namespace HOI4ModBuilder.src.openTK.text
                     Logger.TryOrLog(() => region.ExecuteActions());
                 });
                 index++;
-            };
+            }
 
             Task.WaitAll(tasks);
 
