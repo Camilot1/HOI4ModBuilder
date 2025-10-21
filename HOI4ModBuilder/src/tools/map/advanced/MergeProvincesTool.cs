@@ -170,6 +170,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             //Отправляем ивент о удалении и обновлении
             MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES_IDS, main);
             MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES_IDS, second);
+            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES_IDS, provinceToReplace);
 
             //Заменяем id самой старшей провинции
             provinceToReplace.Id = second.Id;
