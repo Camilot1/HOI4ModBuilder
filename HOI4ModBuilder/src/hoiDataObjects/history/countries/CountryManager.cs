@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json.Linq;
 using Pdoxcl2Sharp;
@@ -26,7 +27,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
         private static Dictionary<string, CountryColors> _countryColors = new Dictionary<string, CountryColors>(0);
         private static Dictionary<string, CountryColors> _cosmeticCountryColors = new Dictionary<string, CountryColors>(0);
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             _countriesByFiles = new Dictionary<FileInfo, Country>();
             _contriesByTag = new Dictionary<string, Country>();

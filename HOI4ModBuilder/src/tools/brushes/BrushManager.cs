@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HOI4ModBuilder.src.managers.settings;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,7 +16,7 @@ namespace HOI4ModBuilder.src.tools.brushes
         private static readonly string _dirPathCustom = Path.Combine("data", "custom", "brushes");
         private static readonly string[] _fileFormats = new string[] { "bmp" };
 
-        public static Dictionary<string, Brush>.KeyCollection GetBrushesNames(Settings settings)
+        public static Dictionary<string, Brush>.KeyCollection GetBrushesNames(BaseSettings settings)
         {
             if (_brushesByLanguages.TryGetValue(settings.language, out var brushes))
                 return brushes.Keys;
@@ -23,7 +24,7 @@ namespace HOI4ModBuilder.src.tools.brushes
             return null;
         }
 
-        public static bool TryGetBrush(Settings settings, string brushName, out Brush brush)
+        public static bool TryGetBrush(BaseSettings settings, string brushName, out Brush brush)
         {
             if (_brushesByLanguages.TryGetValue(settings.language, out var brushes) &&
                 brushes.TryGetValue(brushName, out brush))

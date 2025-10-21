@@ -1,10 +1,11 @@
-﻿using System;
+﻿using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
+using HOI4ModBuilder.src.utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using HOI4ModBuilder.src.managers;
-using HOI4ModBuilder.src.utils;
 using FileInfo = HOI4ModBuilder.src.FileInfo;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.localisation
@@ -17,7 +18,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.localisation
 
         private static Dictionary<string, LocValue> _loc = new Dictionary<string, LocValue>();
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             _loc = new Dictionary<string, LocValue>(512);
 

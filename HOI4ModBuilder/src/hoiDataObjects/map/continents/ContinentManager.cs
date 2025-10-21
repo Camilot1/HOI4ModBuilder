@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace HOI4ModBuilder.hoiDataObjects
 
         private static Action _guiReinitAction = null;
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             Instance = new ContinentManager();
             var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);

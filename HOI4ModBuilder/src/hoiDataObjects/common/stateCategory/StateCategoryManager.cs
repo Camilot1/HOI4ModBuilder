@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.common.resources;
 using HOI4ModBuilder.src.hoiDataObjects.common.ideologies;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
@@ -17,7 +18,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
         private static Dictionary<FileInfo, List<StateCategory>> _stateCategoriesByFilesMap = new Dictionary<FileInfo, List<StateCategory>>();
         private static Dictionary<string, StateCategory> _allStateCategories = new Dictionary<string, StateCategory>();
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             Instance = new StateCategoryManager();
             _stateCategoriesByFilesMap = new Dictionary<FileInfo, List<StateCategory>>();

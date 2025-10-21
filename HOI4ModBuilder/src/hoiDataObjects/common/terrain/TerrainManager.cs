@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
 
         private static Action _guiReinitAction = null;
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             Instance = new TerrainManager();
             _provincialTerraings = new Dictionary<string, ProvincialTerrain>();

@@ -4,6 +4,7 @@ using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map.positions;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.managers.warnings;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
@@ -38,7 +39,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
         public static Dictionary<Point2F, List<BuildingErrorInfo>> provincesErrors = new Dictionary<Point2F, List<BuildingErrorInfo>>(0);
 
         //TODO Доделать
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             //InitPixels();
             //CalculateAndSaveBuildings(settings);
@@ -117,7 +118,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
             provincesErrors = new Dictionary<Point2F, List<BuildingErrorInfo>>(0);
         }
 
-        private static void CheckBuildings(Settings settings)
+        private static void CheckBuildings(BaseSettings settings)
         {
             foreach (var building in BuildingManager.GetBuildings())
             {
@@ -240,7 +241,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
             return output;
         }
 
-        private static void ParseBuildingsPoses(Settings settings)
+        private static void ParseBuildingsPoses(BaseSettings settings)
         {
             var files = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
@@ -461,12 +462,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
             return buildingInfo;
         }
 
-        private static void CalculateAndSaveBuildings(Settings settings)
+        private static void CalculateAndSaveBuildings(BaseSettings settings)
         {
 
         }
 
-        private static void CalculateAndSaveUnitStacks(Settings settings)
+        private static void CalculateAndSaveUnitStacks(BaseSettings settings)
         {
             var lines = new List<UnitStackLine>(0);
 

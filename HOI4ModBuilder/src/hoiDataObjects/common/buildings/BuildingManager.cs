@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.utils;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         private static Dictionary<string, SpawnPoint> _allSpawnPoints = new Dictionary<string, SpawnPoint>();
         public static Dictionary<string, SpawnPoint> PARSER_AllSpawnPoints => _allSpawnPoints;
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             Instance = new BuildingManager();
             _gameFiles = new List<BuildingsGameFile>();

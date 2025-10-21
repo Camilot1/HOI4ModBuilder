@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using HOI4ModBuilder.src.managers.settings;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +19,7 @@ namespace HOI4ModBuilder.src.managers
         public static string AssembleFilePath(string[] path)
             => string.Join(PATH_SEPARATOR_STRING, path);
 
-        public static Dictionary<string, FileInfo> ReadFileInfos(Settings settings, string subPath, string[] formats)
+        public static Dictionary<string, FileInfo> ReadFileInfos(BaseSettings settings, string subPath, string[] formats)
         {
             if (!subPath.EndsWith(PATH_SEPARATOR_STRING)) subPath += PATH_SEPARATOR;
 
@@ -38,7 +39,7 @@ namespace HOI4ModBuilder.src.managers
             return fileInfos;
         }
 
-        public static RecursiveFileData ReadRecursiveFileInfos(Settings settings, string subPath, string[] formats)
+        public static RecursiveFileData ReadRecursiveFileInfos(BaseSettings settings, string subPath, string[] formats)
         {
             var data = new RecursiveFileData();
 
@@ -129,13 +130,13 @@ namespace HOI4ModBuilder.src.managers
             return true;
         }
 
-        private static bool ReadFileInfos(Settings settings, string path, string subPath, Dictionary<string, FileInfo> fileInfos, string[] formats, bool needToSave)
+        private static bool ReadFileInfos(BaseSettings settings, string path, string subPath, Dictionary<string, FileInfo> fileInfos, string[] formats, bool needToSave)
         {
             var dirPath = path + subPath;
             ReadFileInfos(fileInfos, dirPath, formats, needToSave);
             return settings.modDescriptors.TryGetValue(path, out ModDescriptor descriptor) && descriptor.replacePathers.Contains(subPath);
         }
-        private static bool ReadFileInfos(Settings settings, string path, string subPath, RecursiveFileData data, string[] formats, bool needToSave)
+        private static bool ReadFileInfos(BaseSettings settings, string path, string subPath, RecursiveFileData data, string[] formats, bool needToSave)
         {
             var dirPath = path + subPath;
             ReadFileInfos(data, dirPath, formats, needToSave);

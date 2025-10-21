@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.src.utils;
+﻿using HOI4ModBuilder.src.managers.settings;
+using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace HOI4ModBuilder.src.managers
 {
     public class LocalModDataManager
     {
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             settings.currentModSettings = null;
 
@@ -32,7 +33,7 @@ namespace HOI4ModBuilder.src.managers
 
         }
 
-        public static void LoadSettings(Settings settings)
+        public static void LoadSettings(BaseSettings settings)
         {
             if (!settings.IsModSettingsFileExists())
             {
@@ -43,7 +44,7 @@ namespace HOI4ModBuilder.src.managers
             settings.currentModSettings = JsonConvert.DeserializeObject<ModSettings>(File.ReadAllText(settings.GetModSettingsFilePath()));
         }
 
-        public static void SaveLocalSettings(Settings settings)
+        public static void SaveLocalSettings(BaseSettings settings)
         {
             if (!settings.IsModDirectorySelected() || !settings.useModSettings)
                 return;
@@ -56,7 +57,7 @@ namespace HOI4ModBuilder.src.managers
                     new Dictionary<string, string>
                     {
                         { "{modDirectory}", settings.modDirectory },
-                        { "{modSettingsDirectory}", settings.ModSettingsDirectory }
+                        { "{modSettingsDirectory}", BaseSettings.ModSettingsDirectory }
                     }
                 );
 

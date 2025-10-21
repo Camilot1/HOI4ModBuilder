@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
             => _allEquipments.TryGetValue(name, out equipment);
         public static Equipment GetEquipment(string name) => _allEquipments[name];
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             if (!SettingsManager.Settings.IsWipEnabled(EnumWips.EQUIPMENTS))
                 return;
@@ -51,7 +52,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
             }
         }
 
-        public static void Save(Settings settings)
+        public static void Save(BaseSettings settings)
         {
             return; //TODO Implement saving
 

@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units
         private static Dictionary<FileInfo, SubUnitsFile> _subUnitsFiles = new Dictionary<FileInfo, SubUnitsFile>();
         public static bool TryGetSubUnit(string name, out SubUnit subUnit) => _allSubUnits.TryGetValue(name, out subUnit);
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             if (!SettingsManager.Settings.IsWipEnabled(EnumWips.SUB_UNITS))
                 return;
@@ -39,7 +40,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units
             }
         }
 
-        public static void Save(Settings settings)
+        public static void Save(BaseSettings settings)
         {
             return; //Implement later
 

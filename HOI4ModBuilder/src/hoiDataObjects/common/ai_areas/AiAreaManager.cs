@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
@@ -15,7 +16,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
         private static Dictionary<string, AiArea> _allAiAreas = new Dictionary<string, AiArea>();
         private static Dictionary<string, FileInfo> _aiAreasDefinition = new Dictionary<string, FileInfo>();
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             _aiAreasFiles = new Dictionary<FileInfo, AiAreasFile>();
             _allAiAreas = new Dictionary<string, AiArea>();
@@ -58,7 +59,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
             }
         }
 
-        public static void Save(Settings settings)
+        public static void Save(BaseSettings settings)
         {
             var sb = new StringBuilder();
 

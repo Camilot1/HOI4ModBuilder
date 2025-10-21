@@ -631,7 +631,7 @@ namespace HOI4ModBuilder
                     {
                         scaleFactor = fileScale.Item2 /
                             (SettingsManager.Settings.MAP_VIEWPORT_HEIGHT *
-                            SettingsManager.Settings.GetMapScalePixelToKM() * 1000d);
+                            SettingsManager.Settings.GetModSettings().MAP_SCALE_PIXEL_TO_KM * 1000d);
                     }
 
                     texturePlane.Scale((float)scaleFactor);

@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
 using Pdoxcl2Sharp;
@@ -16,14 +17,14 @@ namespace HOI4ModBuilder.src.dataObjects.replaceTags
         private static HashSet<string> _registeredReplaceTags = new HashSet<string>();
         private static Dictionary<string, List<string>> _replaceTagsListsMap = new Dictionary<string, List<string>>(0);
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             _registeredReplaceTags = new HashSet<string>();
             LoadFile(settings, _dataFilePath);
             LoadFile(settings, _dataCustomFilePath);
         }
 
-        private static void LoadFile(Settings settings, string filePath)
+        private static void LoadFile(BaseSettings settings, string filePath)
         {
             if (!Directory.Exists(_dataCustomFolderPath))
                 Directory.CreateDirectory(_dataCustomFolderPath);
@@ -168,7 +169,7 @@ namespace HOI4ModBuilder.src.dataObjects.replaceTags
             else return new List<string>(0);
         }
 
-        public static void PreloadReplaceTags(Settings settings, ReplaceTagInfo rtInfo)
+        public static void PreloadReplaceTags(BaseSettings settings, ReplaceTagInfo rtInfo)
         {
             var fileInfosPairs = FileManager.ReadFileInfos(settings, rtInfo.filesDirectory, FileManager.TXT_FORMAT);
             var list = new List<string>();

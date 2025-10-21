@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             return shipInstances;
         }
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             if (!SettingsManager.Settings.IsWipEnabled(EnumWips.OOBS))
                 return;
@@ -78,7 +79,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             }
         }
 
-        public static void Save(Settings settings)
+        public static void Save(BaseSettings settings)
         {
             if (!SettingsManager.Settings.IsWipEnabled(EnumWips.OOBS))
                 return;

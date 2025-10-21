@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using Pdoxcl2Sharp;
 using System.Collections.Generic;
 
@@ -14,7 +15,7 @@ namespace HOI4ModBuilder.hoiDataObjects.common.resources
         private static Dictionary<FileInfo, Dictionary<string, Resource>> _resourcesByFilesMap = new Dictionary<FileInfo, Dictionary<string, Resource>>(0);
         private static Dictionary<string, Resource> _allResources = new Dictionary<string, Resource>(0);
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             Instance = new ResourceManager();
             _resourcesByFilesMap = new Dictionary<FileInfo, Dictionary<string, Resource>>();

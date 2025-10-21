@@ -6,6 +6,7 @@ using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.utils;
@@ -54,7 +55,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Escape, (sender, e) => HandleEscape());
         }
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             Instance = new StateManager();
 
@@ -120,7 +121,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
         }
 
-        public static void Save(Settings settings)
+        public static void Save(BaseSettings settings)
         {
             var sb = new StringBuilder();
 

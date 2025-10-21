@@ -511,6 +511,9 @@
     <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerSupplyHubHasNoConnections.cs" />
     <Compile Include="src\managers\mapChecks\warnings\EnumMapWarningCode.cs" />
     <Compile Include="src\managers\mapChecks\warnings\WarningsManager.cs" />
+    <Compile Include="src\managers\settings\ModDescriptor.cs" />
+    <Compile Include="src\managers\settings\ModSettings.cs" />
+    <Compile Include="src\managers\settings\BaseSettings.cs" />
     <Compile Include="src\network\NetworkManager.cs" />
     <Compile Include="src\network\SyncInfo.cs" />
     <Compile Include="src\newParser\GameParser.cs" />
@@ -851,7 +854,7 @@
     <Compile Include="src\Pdoxcl2Sharp\Property.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\managers\SettingsManager.cs" />
+    <Compile Include="src\managers\settings\SettingsManager.cs" />
     <Compile Include="src\openTK\Texture2D.cs" />
     <Compile Include="src\openTK\TexturedPlane.cs" />
     <Compile Include="src\managers\TextureManager.cs" />

@@ -2,6 +2,7 @@
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.classes;
 using HOI4ModBuilder.src.utils.structs;
@@ -46,7 +47,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Escape, (sender, e) => HandleEscape());
         }
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             DeselectRegions();
 
@@ -65,7 +66,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 ParadoxParser.Parse(fs, new StrategicRegionFile(false, fileInfo, _regions));
         }
 
-        public static void Save(Settings settings)
+        public static void Save(BaseSettings settings)
         {
             var sb = new StringBuilder();
             foreach (var region in _regions.Values)

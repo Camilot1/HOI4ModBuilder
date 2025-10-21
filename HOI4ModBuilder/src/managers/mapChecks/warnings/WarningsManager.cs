@@ -53,7 +53,7 @@ namespace HOI4ModBuilder.src.managers
             for (int i = 0; i < _enabledCodes.Length; i++)
                 _enabledCodes[i] = false;
 
-            var filter = SettingsManager.Settings.GetWarningsFilter();
+            var filter = SettingsManager.Settings.searchWarningsSettings?.enabled;
             if (filter == null) return;
 
             foreach (var enumObj in Enum.GetValues(typeof(EnumMapWarningCode)))

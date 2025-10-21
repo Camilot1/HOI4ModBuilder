@@ -2,6 +2,7 @@
 using HOI4ModBuilder.src.dataObjects.argBlocks.info.scripted;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
@@ -110,7 +111,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
                 return null;
         }
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             Logger.TryOrCatch(() =>
             {
@@ -173,7 +174,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             LoadInfoArgsBlocks(TRIGGERS_FILE_PATH, EnumScope.TRIGGER, _triggersInfoArgsBlocks);
         }
 
-        private static void LoadGameScriptedInfoArgsBlocks(Settings settings)
+        private static void LoadGameScriptedInfoArgsBlocks(BaseSettings settings)
         {
             if (settings == null)
                 return;
@@ -317,7 +318,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             }
         }
 
-        private static void LoadDefinedModifiers(Settings settings, string folderPath)
+        private static void LoadDefinedModifiers(BaseSettings settings, string folderPath)
         {
             foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, folderPath, FileManager.TXT_FORMAT))
             {
@@ -336,7 +337,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             }
         }
 
-        private static void LoadScriptedModifiers(Settings settings, string folderPath)
+        private static void LoadScriptedModifiers(BaseSettings settings, string folderPath)
         {
             foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, folderPath, FileManager.ANY_FORMAT))
             {
@@ -358,7 +359,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             }
         }
 
-        private static void LoadScriptedEffects(Settings settings, string folderPath)
+        private static void LoadScriptedEffects(BaseSettings settings, string folderPath)
         {
             foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, folderPath, FileManager.ANY_FORMAT))
             {
@@ -380,7 +381,7 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             }
         }
 
-        private static void LoadScriptedTriggers(Settings settings, string folderPath)
+        private static void LoadScriptedTriggers(BaseSettings settings, string folderPath)
         {
             foreach (var fileInfoPair in FileManager.ReadFileInfos(settings, folderPath, FileManager.TXT_FORMAT))
             {

@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;

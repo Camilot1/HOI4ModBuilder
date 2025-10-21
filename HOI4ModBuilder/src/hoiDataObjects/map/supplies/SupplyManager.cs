@@ -1,17 +1,18 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.supply;
+using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
+using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
+using HOI4ModBuilder.src.utils.structs;
+using OpenTK.Graphics.OpenGL;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using static HOI4ModBuilder.utils.Structs;
-using OpenTK.Graphics.OpenGL;
 using System.Windows.Forms;
-using HOI4ModBuilder.src.managers;
-using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using static HOI4ModBuilder.utils.Enums;
-using HOI4ModBuilder.src.utils.structs;
-using System;
+using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 {
@@ -50,7 +51,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Escape, (sender, e) => HandleEscape());
         }
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             HandleEscape();
 
@@ -69,7 +70,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             LoadSupplyNodes(supplyNodesFileInfo.filePath);
         }
 
-        public static void SaveAll(Settings settings)
+        public static void SaveAll(BaseSettings settings)
         {
             SaveRailways(settings.modDirectory + FOLDER_PATH);
             SaveSupplyNodes(settings.modDirectory + FOLDER_PATH);

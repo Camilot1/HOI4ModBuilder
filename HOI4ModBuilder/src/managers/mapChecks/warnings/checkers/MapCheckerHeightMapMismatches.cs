@@ -11,12 +11,13 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
         public MapCheckerHeightMapMismatches()
             : base((int)TYPE, (list) =>
             {
-                var settings = SettingsManager.Settings;
                 int width = MapManager.MapSize.x;
                 int pixelCount = width * MapManager.MapSize.y;
-                short waterLevel = (short)(settings.GetWaterHeight() * 10);
-                short minLandOffset = (short)(settings.GetMinLandOffset() * 10);
-                short maxWaterdOffset = (short)(settings.GetMaxWaterOffset() * 10);
+
+                var modSettings = SettingsManager.Settings.GetModSettings();
+                short waterLevel = (short)(modSettings.WATER_HEIGHT * 10);
+                short minLandOffset = (short)(modSettings.WATER_HEIGHT_minLandOffset * 10);
+                short maxWaterdOffset = (short)(modSettings.WATER_HEIGHT_maxWaterOffset * 10);
 
                 int color = 0;
                 int[] provincesPixels = MapManager.ProvincesPixels;
@@ -47,11 +48,12 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
             if (!WarningsManager.Instance.CheckFilter((int)TYPE))
                 return;
 
-            var settings = SettingsManager.Settings;
             int width = MapManager.MapSize.x;
-            short waterLevel = (short)(settings.GetWaterHeight() * 10);
-            short minLandOffset = (short)(settings.GetMinLandOffset() * 10);
-            short maxWaterdOffset = (short)(settings.GetMaxWaterOffset() * 10);
+
+            var modSettings = SettingsManager.Settings.GetModSettings();
+            short waterLevel = (short)(modSettings.WATER_HEIGHT * 10);
+            short minLandOffset = (short)(modSettings.WATER_HEIGHT_minLandOffset * 10);
+            short maxWaterdOffset = (short)(modSettings.WATER_HEIGHT_maxWaterOffset * 10);
 
             int[] provincesPixels = MapManager.ProvincesPixels;
             byte[] heightPixels = MapManager.HeightsPixels;

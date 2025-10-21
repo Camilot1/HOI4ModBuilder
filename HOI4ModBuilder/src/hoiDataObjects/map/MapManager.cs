@@ -3,33 +3,34 @@ using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
+using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.openTK;
+using HOI4ModBuilder.src.openTK.text;
+using HOI4ModBuilder.src.scripts;
+using HOI4ModBuilder.src.tools.brushes;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using Newtonsoft.Json;
+using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.src.managers.ActionHistoryManager;
-using HOI4ModBuilder.src.utils.structs;
-using HOI4ModBuilder.src.tools.brushes;
-using System.Drawing.Imaging;
-using System.Drawing;
-using System.Threading;
-using HOI4ModBuilder.src.scripts;
-using System.Collections.Concurrent;
-using System.Linq;
-using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
-using OpenTK;
-using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
-using HOI4ModBuilder.src.openTK.text;
+using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.managers
 {
@@ -85,7 +86,7 @@ namespace HOI4ModBuilder.managers
             MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Escape, (sender, e) => HandleEscape());
         }
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             TextureManager.LoadTextures(settings);
 

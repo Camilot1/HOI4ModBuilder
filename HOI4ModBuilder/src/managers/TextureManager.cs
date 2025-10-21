@@ -2,6 +2,7 @@
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using System;
@@ -281,7 +282,7 @@ namespace HOI4ModBuilder
         public static void AddTexture(Texture2D texture) => _textures.Add(texture);
         public static void RemoveTexture(Texture2D texture) => _textures.Remove(texture);
 
-        public static void LoadTextures(Settings settings)
+        public static void LoadTextures(BaseSettings settings)
         {
             DisposeMapTextures();
             LoadMapPairs(settings);
@@ -289,7 +290,7 @@ namespace HOI4ModBuilder
             LoadAdditionalLayers(settings);
         }
 
-        private static void LoadMapPairs(Settings settings)
+        private static void LoadMapPairs(BaseSettings settings)
         {
             var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
             LocalizedAction[] actions =
@@ -366,7 +367,7 @@ namespace HOI4ModBuilder
             MainForm.ExecuteActions(actions);
         }
 
-        private static void LoadAdditionalLayers(Settings settings)
+        private static void LoadAdditionalLayers(BaseSettings settings)
         {
             var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
             LocalizedAction[] actions =
@@ -501,7 +502,7 @@ namespace HOI4ModBuilder
             Marshal.Copy(newValues, 0, outputData.Scan0, newValues.Length);
         }
 
-        public static void SaveAllMaps(Settings settings)
+        public static void SaveAllMaps(BaseSettings settings)
         {
             LocalizedAction[] actions =
             {
@@ -542,18 +543,20 @@ namespace HOI4ModBuilder
                 cities.GetBitmap().Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + CITIES_FILE_NAME, ImageFormat.Bmp);
         }
 
-        public static void SaveHeightMap(Settings settings)
+        public static void SaveHeightMap(BaseSettings settings)
         {
             if (height.needToSave)
             {
                 SaveHeightMap(height.GetBitmap());
 
-                if (settings.GetGenerateNormalMapFlag())
+                var modSettings = settings.GetModSettings();
+
+                if (modSettings.generateNormalMap)
                 {
                     SaveNormalMap(NormalMapGenerator.GenerateNormalMap(
                         height.GetBitmap(),
-                        SettingsManager.Settings.GetNormalMapStrength(),
-                        SettingsManager.Settings.GetNormalMapBlur()
+                        modSettings.normalMapStrength,
+                        modSettings.normalMapBlur
                     ));
                 }
             }
@@ -588,13 +591,13 @@ namespace HOI4ModBuilder
             inputBitmap.Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + WORLD_NORMAL_FILE_NAME, ImageFormat.Bmp);
         }
 
-        public static void SaveRiversMap(Settings settings)
+        public static void SaveRiversMap(BaseSettings settings)
         {
             if (rivers.needToSave)
                 SaveRiversMap(settings, rivers.GetBitmap());
         }
 
-        public static void SaveRiversMap(Settings settings, Bitmap inputBitmap)
+        public static void SaveRiversMap(BaseSettings settings, Bitmap inputBitmap)
         {
             int width = inputBitmap.Width;
             int height = inputBitmap.Height;
@@ -605,7 +608,7 @@ namespace HOI4ModBuilder
 
             int color;
 
-            if (settings.GetExportRiversMapWithWaterPixelsFlag())
+            if (settings.GetModSettings().exportRiversMapWithWaterPixels)
             {
                 for (int i = 0; i < pixelCount; i += _32bppArgb.bytesPerPixel)
                 {
@@ -655,7 +658,9 @@ namespace HOI4ModBuilder
             return new MapPair(fileInfo.needToSave, outputBitmap, new Texture2D(outputBitmap, outputData, _32bppArgb, false));
         }
 
-        public static void LoadSegmentedTextures(string filePath, Settings settings, List<Texture2D> textures, out float imageWidth, out float imageHeight)
+        public static void LoadSegmentedTextures(
+            string filePath, BaseSettings settings, List<Texture2D> textures, out float imageWidth, out float imageHeight
+        )
         {
             imageWidth = 0;
             imageHeight = 0;

@@ -20,6 +20,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
 using OpenTK;
@@ -263,7 +264,7 @@ namespace HOI4ModBuilder.managers
                 MainForm.IsLoadingOrSaving = false;
             });
 
-        private static void SaveAllData(Settings settings)
+        private static void SaveAllData(BaseSettings settings)
         {
             MainForm.IsMapMainLayerChangeEnabled = false;
 
@@ -278,7 +279,7 @@ namespace HOI4ModBuilder.managers
             MainForm.IsMapMainLayerChangeEnabled = true;
         }
 
-        private static void LoadAllData(Settings settings)
+        private static void LoadAllData(BaseSettings settings)
         {
             SettingsManager.Settings.LoadModDescriptors();
 
@@ -343,12 +344,12 @@ namespace HOI4ModBuilder.managers
             });
         }
 
-        private static void Load(Settings settings)
+        private static void Load(BaseSettings settings)
         {
             LoadManagers(settings);
         }
 
-        private static void LoadManagers(Settings settings)
+        private static void LoadManagers(BaseSettings settings)
         {
             var stopwatch = Stopwatch.StartNew();
             currentDateStamp = null;
@@ -388,11 +389,11 @@ namespace HOI4ModBuilder.managers
             Console.WriteLine("Загрузка DataManager = " + stopwatch.ElapsedMilliseconds + " ms.");
         }
 
-        public static void Save(Settings settings)
+        public static void Save(BaseSettings settings)
         {
             SaveManagers(settings);
         }
-        private static void SaveManagers(Settings settings)
+        private static void SaveManagers(BaseSettings settings)
         {
             var stopwatch = Stopwatch.StartNew();
 

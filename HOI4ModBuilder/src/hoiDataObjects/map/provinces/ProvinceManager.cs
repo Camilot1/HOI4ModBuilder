@@ -7,6 +7,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.classes;
 using HOI4ModBuilder.src.utils.structs;
@@ -57,7 +58,7 @@ namespace HOI4ModBuilder.managers
             MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Escape, (sender, e) => HandleEscape());
         }
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             NextVacantProvinceId = 1;
 
@@ -74,7 +75,7 @@ namespace HOI4ModBuilder.managers
             NeedToSave = fileInfo.needToSave;
             ProcessDefinitionFile(fileInfo.filePath);
         }
-        public static void Save(Settings settings)
+        public static void Save(BaseSettings settings)
         {
             if (!NeedToSave) return;
 

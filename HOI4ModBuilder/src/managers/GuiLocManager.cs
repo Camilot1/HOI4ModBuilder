@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using System.IO;
+using HOI4ModBuilder.src.managers.settings;
 
 namespace HOI4ModBuilder.src.utils
 {
@@ -34,7 +35,7 @@ namespace HOI4ModBuilder.src.utils
 
         public static readonly Dictionary<Form, Action> formsReinitEvents = new Dictionary<Form, Action>();
 
-        public static void Init(Settings settings)
+        public static void Init(BaseSettings settings)
         {
             if (settings.language == null) settings.language = GetCurrentParentLanguageName;
             if (!allowedLanguages.Contains(settings.language)) settings.language = "en";

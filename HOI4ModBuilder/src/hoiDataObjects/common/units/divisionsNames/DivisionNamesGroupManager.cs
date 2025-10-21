@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using Pdoxcl2Sharp;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +13,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames
         private static Dictionary<string, DivisionNamesGroup> _divisionNamesGroups = new Dictionary<string, DivisionNamesGroup>();
         private static Dictionary<FileInfo, DivisionNamesGroup> _divisionNamesGroupFiles = new Dictionary<FileInfo, DivisionNamesGroup>();
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             if (!SettingsManager.Settings.IsWipEnabled(EnumWips.DIVISIONS_NAMES_GROUPS))
                 return;
@@ -28,7 +29,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames
                     ParadoxParser.Parse(fs, new DivisionNamesGroupFile(fileInfo, _divisionNamesGroups));
             }
         }
-        public static void Save(Settings settings)
+        public static void Save(BaseSettings settings)
         {
             if (!SettingsManager.Settings.IsWipEnabled(EnumWips.DIVISIONS_NAMES_GROUPS))
                 return;

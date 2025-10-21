@@ -49,7 +49,7 @@ namespace HOI4ModBuilder.src.managers
             for (int i = 0; i < _enabledCodes.Length; i++)
                 _enabledCodes[i] = false;
 
-            var filter = SettingsManager.Settings.GetErrorsFilter();
+            var filter = SettingsManager.Settings.searchErrorsSettings?.enabled;
             if (filter == null)
                 return;
 

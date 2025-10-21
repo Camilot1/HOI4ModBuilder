@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.bookmarks
 
         private static Action _guiReinitAction = null;
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             Instance = new BookmarkManager();
             _bookmarksByFilesMap = new Dictionary<FileInfo, List<Bookmark>>();

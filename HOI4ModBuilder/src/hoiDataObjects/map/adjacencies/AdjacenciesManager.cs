@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using OpenTK.Graphics.OpenGL;
@@ -35,7 +36,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Escape, (sender, e) => HandleEscape());
         }
 
-        public static void Save(Settings settings)
+        public static void Save(BaseSettings settings)
         {
             if (NeedToSaveAdjacencies)
             {
@@ -55,7 +56,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             }
         }
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             _adjacencyRules = new Dictionary<string, AdjacencyRule>();
             _adjacencies = new List<Adjacency>();

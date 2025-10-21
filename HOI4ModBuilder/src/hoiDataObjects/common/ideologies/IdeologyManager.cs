@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.common.resources;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
@@ -19,7 +20,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ideologies
         private static Dictionary<FileInfo, List<IdeologyGroup>> _ideologyGroupsByFilesMap = new Dictionary<FileInfo, List<IdeologyGroup>>();
         private static Dictionary<string, IdeologyGroup> _allIdeologiyGroups = new Dictionary<string, IdeologyGroup>();
 
-        public static void Load(Settings settings)
+        public static void Load(BaseSettings settings)
         {
             Instance = new IdeologyManager();
             _ideologyGroupsByFilesMap = new Dictionary<FileInfo, List<IdeologyGroup>>();
