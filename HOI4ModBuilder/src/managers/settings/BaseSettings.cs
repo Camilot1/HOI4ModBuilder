@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src.forms.actionForms;
 using HOI4ModBuilder.src.managers.errors;
+using HOI4ModBuilder.src.managers.settings.exceptions;
 using HOI4ModBuilder.src.managers.warnings;
 using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
@@ -104,12 +105,7 @@ namespace HOI4ModBuilder.src.managers.settings
                 .FirstOrDefault();
 
             if (descriptorPath == null)
-                throw new FileNotFoundException(
-                    GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_MOD_DESCRIPTOR_FILE_NOT_FOUND,
-                        new Dictionary<string, string> { { "{directoryPath}", path } }
-                    )
-                );
+                throw new ModDescriptorFileNotFoundException(path);
 
             modDescriptors[path] = new ModDescriptor().Load(descriptorPath);
         }

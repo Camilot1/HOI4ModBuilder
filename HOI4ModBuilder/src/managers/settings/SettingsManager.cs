@@ -6,6 +6,7 @@ using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.forms.actionForms;
 using HOI4ModBuilder.src.managers.settings;
+using HOI4ModBuilder.src.managers.settings.exceptions;
 
 namespace HOI4ModBuilder.src
 {
@@ -32,20 +33,7 @@ namespace HOI4ModBuilder.src
                 if (Settings.CheckAndRegisterNewCodes())
                     SaveSettings();
 
-            }, (ex) =>
-            {
-                throw new Exception(
-                    GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_WHILE_SETTINGS_FILE_LOADING,
-                        new Dictionary<string, string>
-                        {
-                            { "{settingsFilepath}", SettingsFilePath },
-                            { "{exceptionMessage}", ex.Message }
-                        }
-                    ),
-                    ex
-                );
-            });
+            }, (ex) => throw new SettingsFileLoadingException(SettingsFilePath, ex));
         }
         public static bool CheckDebugValue(EnumDebugValue value)
         {
@@ -100,13 +88,6 @@ namespace HOI4ModBuilder.src
         }
     }
 
-    public enum EnumDebugValue
-    {
-        TEXT_RENDER_CHUNKS,
-        TEXT_DISABLE_DISTANCE_CUTOFF,
-        TEXT_DISABLE_VIEWPORT_CUTOFF
-    }
-
 
     public class CreateObjectPatterns
     {
@@ -136,38 +117,7 @@ namespace HOI4ModBuilder.src
         }
     }
 
-    public class SaveDataSettings
-    {
-        public List<string> saveFlags = new List<string>();
-        public List<string> knownSaveFlags = new List<string>();
-    }
 
-    public class DebugSettings
-    {
-        public bool isEnabled;
-        public DebugTextSettings text;
-
-        public bool CheckDebugValue(EnumDebugValue value)
-            => isEnabled && text != null && text.CheckDebugValue(value);
-    }
-
-    public class DebugTextSettings
-    {
-        public bool renderChuncks;
-        public bool disableDistanceCutoff;
-        public bool disableViewportCutoff;
-
-        public bool CheckDebugValue(EnumDebugValue value)
-        {
-            switch (value)
-            {
-                case EnumDebugValue.TEXT_RENDER_CHUNKS: return renderChuncks;
-                case EnumDebugValue.TEXT_DISABLE_DISTANCE_CUTOFF: return disableDistanceCutoff;
-                case EnumDebugValue.TEXT_DISABLE_VIEWPORT_CUTOFF: return disableViewportCutoff;
-            }
-            return false;
-        }
-    }
 
     public enum EnumSaveFlags
     {
