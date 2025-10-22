@@ -43,9 +43,11 @@
             // 
             // RichTextBox_File_Text
             // 
+            this.RichTextBox_File_Text.AcceptsTab = true;
             resources.ApplyResources(this.RichTextBox_File_Text, "RichTextBox_File_Text");
             this.RichTextBox_File_Text.Name = "RichTextBox_File_Text";
             this.RichTextBox_File_Text.TextChanged += new System.EventHandler(this.RichTextBox_File_Text_TextChanged);
+            this.RichTextBox_File_Text.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RichTextBox_File_Text_KeyDown);
             // 
             // TextBox_File_Name
             // 

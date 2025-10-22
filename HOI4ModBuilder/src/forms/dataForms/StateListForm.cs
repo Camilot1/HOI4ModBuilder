@@ -201,6 +201,6 @@ namespace HOI4ModBuilder.src.forms
         }
 
         private void Button_Create_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => CreateObjectForm.CreateTasked(EnumCreateObjectType.STATE, true, null, null));
+            => Logger.TryOrLog(() => new CreateObjectForm(EnumCreateObjectType.STATE, true).ShowDialog());
     }
 }

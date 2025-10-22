@@ -31,28 +31,27 @@ namespace HOI4ModBuilder.src.forms.actionForms
         private Action<object> _onUndo;
 
 
-        public CreateObjectForm(EnumCreateObjectType type, bool forceType, Action<object> onRedo, Action<object> onUndo)
+        public CreateObjectForm()
         {
             InitializeComponent();
-
+            _type = 0;
+        }
+        public CreateObjectForm(EnumCreateObjectType type, bool forceType)
+            : this()
+        {
             _type = type;
             _forceType = forceType;
+        }
+
+        public CreateObjectForm(EnumCreateObjectType type, bool forceType, Action<object> onRedo, Action<object> onUndo)
+            : this(type, forceType)
+        {
             _onRedo = onRedo;
             _onUndo = onUndo;
 
             if (_onRedo != null && _onUndo == null || _onRedo == null && _onUndo != null)
                 throw new Exception("Both onRedo and onUndo should be Null or NotNull at the same time!");
         }
-        public static void CreateTasked()
-            => CreateTasked(0, false, null, null);
-
-
-        public static void CreateTasked(EnumCreateObjectType type, bool forceType, Action<object> onRedo, Action<object> onUndo)
-        {
-            Task.Run(() => new CreateObjectForm(type, forceType, onRedo, onUndo).ShowDialog());
-            SystemSounds.Exclamation.Play();
-        }
-
         public void InvokeAction(Action action)
             => Invoke((MethodInvoker)delegate { action(); });
 
@@ -221,5 +220,55 @@ namespace HOI4ModBuilder.src.forms.actionForms
 
         private void RichTextBox_File_Text_TextChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() => _fileTextLines = RichTextBox_File_Text.Lines);
+
+        private void RichTextBox_File_Text_KeyDown(object sender, KeyEventArgs e)
+
+            => Logger.TryOrLog(() =>
+            {
+                var rtb = RichTextBox_File_Text;
+
+                if (e.Control && e.KeyCode == Keys.D)
+                {
+                    e.SuppressKeyPress = true;
+
+                    int lineIndex = rtb.GetLineFromCharIndex(rtb.SelectionStart);
+                    int lineStart = rtb.GetFirstCharIndexFromLine(lineIndex);
+                    string lineText = rtb.Lines[lineIndex];
+
+                    rtb.SelectionStart = lineStart + lineText.Length;
+                    rtb.SelectionLength = 0;
+
+                    rtb.SelectedText = Environment.NewLine + lineText;
+
+                    int newLineStart = rtb.GetFirstCharIndexFromLine(lineIndex + 1);
+                    rtb.SelectionStart = newLineStart + lineText.Length;
+                }
+
+                if (e.Control && e.KeyCode == Keys.X)
+                {
+                    e.SuppressKeyPress = true;
+
+                    int lineIndex = rtb.GetLineFromCharIndex(rtb.SelectionStart);
+                    int lineStart = rtb.GetFirstCharIndexFromLine(lineIndex);
+                    string textOfLine = rtb.Lines[lineIndex];
+
+                    bool isLastLine = lineIndex == rtb.Lines.Length - 1;
+                    int nextLineStart = isLastLine
+                        ? lineStart + textOfLine.Length
+                        : rtb.GetFirstCharIndexFromLine(lineIndex + 1);
+
+                    int selLength = nextLineStart - lineStart;
+
+                    rtb.SelectionStart = lineStart;
+                    rtb.SelectionLength = selLength;
+                    Clipboard.SetText('\n' + rtb.SelectedText);
+
+                    rtb.SelectedText = "";
+
+                    int prevLine = Math.Max(0, lineIndex - 1);
+                    int prevStart = rtb.GetFirstCharIndexFromLine(prevLine);
+                    rtb.SelectionStart = prevStart + rtb.Lines[prevLine].Length;
+                }
+            });
     }
 }

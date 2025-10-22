@@ -1754,7 +1754,7 @@ namespace HOI4ModBuilder
                     return;
 
                 var prevState = province.State;
-                CreateObjectForm.CreateTasked(
+                new CreateObjectForm(
                     EnumCreateObjectType.STATE, true,
                     (id) => //On redo
                     {
@@ -1778,7 +1778,7 @@ namespace HOI4ModBuilder
                             InvokeAction(() => MapManager.HandleMapMainLayerChange(false, GetMainLayer(), GetParameter()));
                         }
                     }
-                );
+                ).ShowDialog();
             });
 
         private void ToolStripMenuItem_Map_State_OpenFileInExplorer_Click(object sender, EventArgs e)
@@ -1822,7 +1822,7 @@ namespace HOI4ModBuilder
                     return;
 
                 var prevRegion = province.Region;
-                CreateObjectForm.CreateTasked(
+                new CreateObjectForm(
                     EnumCreateObjectType.REGION, true,
                     (id) => //On redo
                     {
@@ -1846,7 +1846,7 @@ namespace HOI4ModBuilder
                             InvokeAction(() => MapManager.HandleMapMainLayerChange(false, GetMainLayer(), GetParameter()));
                         }
                     }
-                );
+                ).ShowDialog();
             });
 
         private void ToolStripMenuItem_Map_Region_OpenFileInExplorer_Click(object sender, EventArgs e)
@@ -1922,7 +1922,7 @@ namespace HOI4ModBuilder
             });
 
         private void ToolStripMenuItem_Edit_Actions_CreateObject_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => CreateObjectForm.CreateTasked());
+            => Logger.TryOrLog(() => new CreateObjectForm().ShowDialog());
 
         public void SetGroupBoxProgressBackColor(Color color)
             => GroupBox_Progress.BackColor = color;

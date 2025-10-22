@@ -255,57 +255,56 @@ namespace HOI4ModBuilder.src.forms.scripts
             });
 
         private void RichTextBox_Script_KeyDown(object sender, KeyEventArgs e)
-        {
-            var rtb = RichTextBox_Script;
-
-            if (e.Control && e.KeyCode == Keys.D)
+            => Logger.TryOrLog(() =>
             {
-                e.SuppressKeyPress = true;
+                var rtb = RichTextBox_Script;
 
-                int lineIndex = rtb.GetLineFromCharIndex(rtb.SelectionStart);
-                int lineStart = rtb.GetFirstCharIndexFromLine(lineIndex);
-                string lineText = rtb.Lines[lineIndex];
+                if (e.Control && e.KeyCode == Keys.D)
+                {
+                    e.SuppressKeyPress = true;
 
-                rtb.SelectionStart = lineStart + lineText.Length;
-                rtb.SelectionLength = 0;
+                    int lineIndex = rtb.GetLineFromCharIndex(rtb.SelectionStart);
+                    int lineStart = rtb.GetFirstCharIndexFromLine(lineIndex);
+                    string lineText = rtb.Lines[lineIndex];
 
-                rtb.SelectedText = Environment.NewLine + lineText;
+                    rtb.SelectionStart = lineStart + lineText.Length;
+                    rtb.SelectionLength = 0;
 
-                int newLineStart = rtb.GetFirstCharIndexFromLine(lineIndex + 1);
-                rtb.SelectionStart = newLineStart + lineText.Length;
-            }
+                    rtb.SelectedText = Environment.NewLine + lineText;
 
-            if (e.Control && e.KeyCode == Keys.X)
-            {
-                e.SuppressKeyPress = true;
+                    int newLineStart = rtb.GetFirstCharIndexFromLine(lineIndex + 1);
+                    rtb.SelectionStart = newLineStart + lineText.Length;
+                }
 
-                int lineIndex = rtb.GetLineFromCharIndex(rtb.SelectionStart);
-                int lineStart = rtb.GetFirstCharIndexFromLine(lineIndex);
-                string textOfLine = rtb.Lines[lineIndex];
+                if (e.Control && e.KeyCode == Keys.X)
+                {
+                    e.SuppressKeyPress = true;
 
-                bool isLastLine = lineIndex == rtb.Lines.Length - 1;
-                int nextLineStart = isLastLine
-                    ? lineStart + textOfLine.Length
-                    : rtb.GetFirstCharIndexFromLine(lineIndex + 1);
+                    int lineIndex = rtb.GetLineFromCharIndex(rtb.SelectionStart);
+                    int lineStart = rtb.GetFirstCharIndexFromLine(lineIndex);
+                    string textOfLine = rtb.Lines[lineIndex];
 
-                int selLength = nextLineStart - lineStart;
+                    bool isLastLine = lineIndex == rtb.Lines.Length - 1;
+                    int nextLineStart = isLastLine
+                        ? lineStart + textOfLine.Length
+                        : rtb.GetFirstCharIndexFromLine(lineIndex + 1);
 
-                rtb.SelectionStart = lineStart;
-                rtb.SelectionLength = selLength;
-                Clipboard.SetText('\n' + rtb.SelectedText);
+                    int selLength = nextLineStart - lineStart;
 
-                rtb.SelectedText = "";
+                    rtb.SelectionStart = lineStart;
+                    rtb.SelectionLength = selLength;
+                    Clipboard.SetText('\n' + rtb.SelectedText);
 
-                int prevLine = Math.Max(0, lineIndex - 1);
-                int prevStart = rtb.GetFirstCharIndexFromLine(prevLine);
-                rtb.SelectionStart = prevStart + rtb.Lines[prevLine].Length;
-            }
-        }
+                    rtb.SelectedText = "";
+
+                    int prevLine = Math.Max(0, lineIndex - 1);
+                    int prevStart = rtb.GetFirstCharIndexFromLine(prevLine);
+                    rtb.SelectionStart = prevStart + rtb.Lines[prevLine].Length;
+                }
+            });
 
         private void GroupBox_Script_Resize(object sender, EventArgs e)
-        {
-            UpdateFilePathRender();
-        }
+            => Logger.TryOrLog(() => UpdateFilePathRender());
 
         private void UpdateFilePathRender()
         {
