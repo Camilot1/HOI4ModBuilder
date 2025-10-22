@@ -442,6 +442,7 @@ namespace HOI4ModBuilder.src.forms
             {
                 if (!isLoading)
                     SettingsManager.Settings.useModSettings = ComboBox_UsingSettingsType.SelectedIndex == 1;
+                tabControl1.SelectedIndex = SettingsManager.Settings.useModSettings ? 1 : 0;
             });
         }
 
