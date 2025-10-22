@@ -338,9 +338,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
                         }
                     ));
 
-                r = (byte)Utils.Clamp(int.Parse(colors[0]), 0, 255);
-                g = (byte)Utils.Clamp(int.Parse(colors[1]), 0, 255);
-                b = (byte)Utils.Clamp(int.Parse(colors[2]), 0, 255);
+                r = (byte)MathUtils.Clamp(int.Parse(colors[0]), 0, 255);
+                g = (byte)MathUtils.Clamp(int.Parse(colors[1]), 0, 255);
+                b = (byte)MathUtils.Clamp(int.Parse(colors[2]), 0, 255);
             }
             else if (format == "hsv")
             {
@@ -353,7 +353,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
                         }
                     ));
 
-                Utils.HsvToRgb(
+                ColorUtils.HsvToRgb(
                     Utils.ParseDouble(colors[0]),
                     Utils.ParseDouble(colors[1]),
                     Utils.ParseDouble(colors[2]),

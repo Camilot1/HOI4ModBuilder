@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
+using HOI4ModBuilder.src.utils;
 using System;
 
 namespace HOI4ModBuilder.src.scripts.commands.methods
@@ -35,7 +36,7 @@ namespace HOI4ModBuilder.src.scripts.commands.methods
                     (o) => o is INumberObject
                 );
 
-                var newValue = (float)Utils.Clamp(
+                var newValue = (float)MathUtils.Clamp(
                     Convert.ToDouble(variable.GetValue()),
                     Convert.ToDouble(min.GetValue()),
                     Convert.ToDouble(max.GetValue())

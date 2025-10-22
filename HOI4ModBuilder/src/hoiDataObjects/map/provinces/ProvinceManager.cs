@@ -15,6 +15,7 @@ using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 using YamlDotNet.Core.Tokens;
@@ -447,7 +448,20 @@ namespace HOI4ModBuilder.managers
             return RemoveProvinceData(province);
         }
 
-        public static void ChangeProvinceID(ushort fromID, ushort toID)
+        public static void HandleProvinceColorColor(int fromColor, int toColor)
+        {
+            if (_provincesByColor.ContainsKey(toColor))
+                throw new Exception(GuiLocManager.GetLoc(
+                    EnumLocKey.EXCEPTION_PROVINCE_COLOR_UPDATE_VALUE_IS_USED,
+                    new Dictionary<string, string> { { "{id}", $"{toColor}" } }
+                ));
+            _provincesByColor[toColor] = _provincesByColor[fromColor];
+            _provincesByColor[fromColor] = null;
+
+            NeedToSave = true;
+        }
+
+        public static void HandleProvinceIDChange(ushort fromID, ushort toID)
         {
             if (_provincesById[toID] != null)
                 throw new Exception(GuiLocManager.GetLoc(
@@ -467,6 +481,8 @@ namespace HOI4ModBuilder.managers
                         break;
                 }
             }
+
+            NeedToSave = true;
         }
 
         public static bool RemoveProvinceById(ushort id)

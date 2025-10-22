@@ -5,24 +5,38 @@ namespace HOI4ModBuilder.src.utils
     {
 
         public static bool InboundsPositiveBox(double x, double y, double width, double height)
-        {
-            return x >= 0 && x <= width && y >= 0 && y <= height;
-        }
+            => x >= 0 && x <= width && y >= 0 && y <= height;
 
         public static bool Inbounds(double x, double y, double minX, double minY, double maxX, double maxY)
-        {
-            return x >= minX && x <= maxX && y >= minY && y <= maxY;
-        }
+            => x >= minX && x <= maxX && y >= minY && y <= maxY;
 
         public static bool InboundsPositiveBox(int x, int y, int width, int height)
-        {
-            return x >= 0 && x <= width && y >= 0 && y <= height;
-        }
+            => x >= 0 && x <= width && y >= 0 && y <= height;
 
         public static bool Inbounds(int x, int y, int minX, int minY, int maxX, int maxY)
-        {
-            return x >= minX && x <= maxX && y >= minY && y <= maxY;
-        }
+            => x >= minX && x <= maxX && y >= minY && y <= maxY;
 
+
+        /// <summary>
+        /// Clamp a value to 0-255
+        /// </summary>
+        public static int Clamp(int i, int min, int max)
+        {
+            if (i < min) return min;
+            if (i > max) return max;
+            return i;
+        }
+        public static float Clamp(float i, float min, float max)
+        {
+            if (i < min) return min;
+            if (i > max) return max;
+            return i;
+        }
+        public static double Clamp(double i, double min, double max)
+        {
+            if (i < min) return min;
+            if (i > max) return max;
+            return i;
+        }
     }
 }

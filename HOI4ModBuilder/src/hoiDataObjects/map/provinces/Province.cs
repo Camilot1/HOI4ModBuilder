@@ -40,19 +40,18 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 if (_id == value)
                     return;
 
-                ProvinceManager.ChangeProvinceID(_id, value); 
-
+                ProvinceManager.HandleProvinceIDChange(_id, value);
                 _id = value;
                 HasChangedId = true;
 
-                ProvinceManager.AddProvince(_id, this);
                 State?.Validate(out bool _);
                 Region?.Validate(out bool _);
 
                 //TODO Переделать, вынеся проверки в сами Adjacency
                 if (_adjacencies != null)
                 {
-                    if (_adjacencies.Count > 0) AdjacenciesManager.NeedToSaveAdjacencies = true;
+                    if (_adjacencies.Count > 0)
+                        AdjacenciesManager.NeedToSaveAdjacencies = true;
                     foreach (var adj in _adjacencies)
                     {
                         if (adj.HasRuleRequiredProvince(this))
@@ -71,20 +70,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 if (_color == value)
                     return;
 
-                if (ProvinceManager.TryGetProvince(value, out Province p))
-                    throw new Exception(GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_PROVINCE_COLOR_UPDATE_VALUE_IS_USED,
-                        new Dictionary<string, string>
-                        {
-                        { "{color}", new Color3B(value).ToString() },
-                        { "{otherProvinceId}", $"{p.Id}" }
-                        }
-                    ));
-                else ProvinceManager.RemoveProvinceByColor(Color);
-
+                ProvinceManager.HandleProvinceColorColor(_color, value);
                 _color = value;
-
-                ProvinceManager.AddProvince(Color, this);
             }
         }
 

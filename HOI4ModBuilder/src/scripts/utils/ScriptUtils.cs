@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src.scripts.exceptions;
+using HOI4ModBuilder.src.utils;
 using System;
 using System.Drawing;
 
@@ -116,7 +117,7 @@ namespace HOI4ModBuilder.src.scripts.utils
 
                     );
 
-                    v = Utils.Clamp(v, 0.35f, 0.95f);
+                    v = MathUtils.Clamp(v, 0.35f, 0.95f);
 
 
                     v = v * 100;
