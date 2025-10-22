@@ -18,19 +18,10 @@ namespace HOI4ModBuilder.src
         public static BaseSettings Settings { get; private set; }
         public static void Init()
         {
-            Logger.TryOrCatch(() =>
-            {
-                EnsureConfigsDirectory();
-                EnsureSettingsFileExists();
-
-                Settings = LoadSettingsFromFile();
-                Settings.PostInit();
-                GuiLocManager.Init(Settings);
-
-                if (Settings.CheckAndRegisterNewCodes())
-                    SaveSettings();
-
-            }, (ex) => throw new SettingsFileLoadingException(SettingsFilePath, ex));
+            Logger.TryOrCatch(
+                () => LoadSettings(),
+                (ex) => throw new SettingsFileLoadingException(SettingsFilePath, ex)
+            );
         }
         public static bool CheckDebugValue(EnumDebugValue value)
         {
@@ -49,6 +40,19 @@ namespace HOI4ModBuilder.src
 
             if (Settings.currentModSettings != null)
                 LocalModDataManager.SaveLocalSettings(Settings);
+        }
+
+        public static void LoadSettings()
+        {
+            EnsureConfigsDirectory();
+            EnsureSettingsFileExists();
+
+            Settings = LoadSettingsFromFile();
+            Settings.PostInit();
+            GuiLocManager.Init(Settings);
+
+            if (Settings.CheckAndRegisterNewCodes())
+                SaveSettings();
         }
 
         public static void ChangeLanguage(string language)

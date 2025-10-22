@@ -314,9 +314,9 @@ namespace HOI4ModBuilder.src.forms
                 if (PathCheck(settings.gameTempDirectory))
                     settings.gameTempDirectory += '\\';
 
-                settings.modDirectory = TextBox_ModDirectory.Text;
-                if (PathCheck(settings.modDirectory))
-                    settings.modDirectory += '\\';
+                var tempModDirectory = TextBox_ModDirectory.Text;
+                if (PathCheck(tempModDirectory))
+                    tempModDirectory += '\\';
 
                 settings.actionHistorySize = int.Parse(TextBox_ActionHistorySize.Text);
 
@@ -383,6 +383,15 @@ namespace HOI4ModBuilder.src.forms
                 }
 
                 SettingsManager.SaveSettings();
+
+                if (settings.modDirectory != tempModDirectory)
+                {
+                    settings.modDirectory = tempModDirectory;
+                    LocalModDataManager.Load(settings);
+                    SettingsManager.SaveSettings();
+                    //LoadData();
+                }
+
                 if (prevLang != settings.language)
                     GuiLocManager.SetCurrentUICulture(settings.language);
                 else
