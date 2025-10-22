@@ -483,6 +483,9 @@
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererTreesMap.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererVictoryPoints.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererResources.cs" />
+    <Compile Include="src\managers\data\DataManager.cs" />
+    <Compile Include="src\managers\data\exceptions\BookmarkLoadingException.cs" />
+    <Compile Include="src\managers\data\exceptions\BookmarkNotFoundException.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\CheckRegionWithNotNavalTerrain.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerLandProvincesWithNoState.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerProvincesWithMultiRegions.cs" />
@@ -511,12 +514,12 @@
     <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerSupplyHubHasNoConnections.cs" />
     <Compile Include="src\managers\mapChecks\warnings\EnumMapWarningCode.cs" />
     <Compile Include="src\managers\mapChecks\warnings\WarningsManager.cs" />
-    <Compile Include="src\managers\settings\BaseSettings.cs" />
-    <Compile Include="src\managers\settings\DebugSettings.cs" />
+    <Compile Include="src\managers\settings\data\BaseSettings.cs" />
+    <Compile Include="src\managers\settings\data\DebugSettings.cs" />
+    <Compile Include="src\managers\settings\data\ModDescriptor.cs" />
+    <Compile Include="src\managers\settings\data\ModSettings.cs" />
     <Compile Include="src\managers\settings\exceptions\ModDescriptorFileNotFoundException.cs" />
     <Compile Include="src\managers\settings\exceptions\SettingsFileLoadingException.cs" />
-    <Compile Include="src\managers\settings\ModDescriptor.cs" />
-    <Compile Include="src\managers\settings\ModSettings.cs" />
     <Compile Include="src\managers\settings\SettingsManager.cs" />
     <Compile Include="src\network\NetworkManager.cs" />
     <Compile Include="src\network\SyncInfo.cs" />
@@ -833,7 +836,6 @@
     <Compile Include="src\hoiDataObjects\map\MapManager.cs" />
     <Compile Include="src\hoiDataObjects\map\provinces\ProvinceManager.cs" />
     <Compile Include="src\managers\ActionHistoryManager.cs" />
-    <Compile Include="src\managers\DataManager.cs" />
     <Compile Include="src\managers\mapChecks\errors\ErrorManager.cs" />
     <Compile Include="src\managers\FileManager.cs" />
     <Compile Include="src\managers\LocalModDataManager.cs" />
