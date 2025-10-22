@@ -133,7 +133,6 @@ namespace HOI4ModBuilder
                         index = i;
                         return true;
                     }
-                    ;
                 }
                 return false;
             }

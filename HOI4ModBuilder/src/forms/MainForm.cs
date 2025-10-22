@@ -641,6 +641,7 @@ namespace HOI4ModBuilder
                     foreach (var name in MapManager.GetAdditionalMapTexturesNames())
                         ListBox_Textures.Items.Add(name);
                 }
+                Utils.CleanUpMemory();
             });
         }
 
@@ -740,6 +741,7 @@ namespace HOI4ModBuilder
                         }
                     }
                 }
+                Utils.CleanUpMemory();
             });
         }
 

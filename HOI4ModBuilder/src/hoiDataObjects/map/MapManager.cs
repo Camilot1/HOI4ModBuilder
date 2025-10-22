@@ -719,15 +719,18 @@ namespace HOI4ModBuilder.managers
 
         public static void ClearAdditionalMapTextures()
         {
-            foreach (TextureInfo info in additionalMapTextures) info.plane.Dispose();
+            foreach (TextureInfo info in additionalMapTextures)
+                info.plane.Dispose();
             additionalMapTextures = new List<TextureInfo>();
+            Utils.CleanUpMemory();
         }
 
         public static SegmentedTexturedPlane LoadAdditionalMapTexture(string filePath, string fileName)
         {
             var textures = new List<Texture2D>(0);
             TextureManager.LoadSegmentedTextures(filePath, SettingsManager.Settings, textures, out float imageWidth, out float imageHeight);
-            if (textures.Count == 0) return null;
+            if (textures.Count == 0)
+                return null;
 
             var texturedPlane = new SegmentedTexturedPlane(textures, imageWidth, imageHeight);
             foreach (var texture in additionalMapTextures)
