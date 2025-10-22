@@ -17,9 +17,13 @@ namespace HOI4ModBuilder.src.forms
         public static SettingsForm instance;
         public static bool isLoading = false;
 
+        private ModSettingsControlSet defaultModControls;
+        private ModSettingsControlSet currentModControls;
+
         public SettingsForm()
         {
             InitializeComponent();
+            InitializeModControlSets();
             instance?.Close();
             instance = this;
         }
@@ -32,6 +36,7 @@ namespace HOI4ModBuilder.src.forms
             {
                 Controls.Clear();
                 InitializeComponent();
+                InitializeModControlSets();
                 LoadData();
             });
         }
@@ -72,117 +77,8 @@ namespace HOI4ModBuilder.src.forms
             TextBox_IgnoreUpdateVersion.Text = settings.ignoreUpdateCheckVersion;
             CheckBox_IgnoreUpdateVersion.Checked = settings.ignoreUpdateChecks;
 
-            if (settings.defaultModSettings != null)
-            {
-                TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Text = "" + settings.defaultModSettings.MAP_SCALE_PIXEL_TO_KM;
-                TextBox_WATER_HEIGHT_Default.Text = "" + settings.defaultModSettings.WATER_HEIGHT;
-                TextBox_WATER_HEIGHT_min_land_offset_Default.Text = "" + settings.defaultModSettings.WATER_HEIGHT_minLandOffset;
-                TextBox_WATER_HEIGHT_max_water_offset_Default.Text = "" + settings.defaultModSettings.WATER_HEIGHT_maxWaterOffset;
-                TextBox_NormalMapStrength_Default.Text = "" + settings.defaultModSettings.normalMapStrength;
-                TextBox_NormalMapBlur_Default.Text = "" + settings.defaultModSettings.normalMapBlur;
-                CheckBox_UseCustomSavePatterns_Default.Checked = settings.defaultModSettings.useCustomSavePatterns;
-
-                CheckedListBox_SaveSettings_Default.SetItemChecked(0, settings.defaultModSettings.exportRiversMapWithWaterPixels);
-                CheckedListBox_SaveSettings_Default.SetItemChecked(1, settings.defaultModSettings.generateNormalMap);
-
-                foreach (EnumWips enumObj in Enum.GetValues(typeof(EnumWips)))
-                {
-                    int index = (int)enumObj;
-                    if (index >= CheckedListBox_Wips_Default.Items.Count)
-                        continue;
-
-                    CheckedListBox_Wips_Default.SetItemChecked(index, settings.defaultModSettings.CheckWips(enumObj));
-                }
-
-                TextBox_WATER_HEIGHT_Default.Enabled = true;
-                TextBox_WATER_HEIGHT_min_land_offset_Default.Enabled = true;
-                TextBox_WATER_HEIGHT_max_water_offset_Default.Enabled = true;
-                TextBox_NormalMapStrength_Default.Enabled = true;
-                TextBox_NormalMapBlur_Default.Enabled = true;
-                TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Enabled = true;
-                CheckedListBox_SaveSettings_Default.Enabled = true;
-                CheckBox_UseCustomSavePatterns_Default.Enabled = true;
-            }
-            else
-            {
-                TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Text = "";
-                TextBox_WATER_HEIGHT_Default.Text = "";
-                TextBox_WATER_HEIGHT_min_land_offset_Default.Text = "";
-                TextBox_WATER_HEIGHT_max_water_offset_Default.Text = "";
-                TextBox_NormalMapStrength_Default.Text = "";
-                TextBox_NormalMapBlur_Default.Text = "";
-
-                CheckedListBox_SaveSettings_Default.SetItemChecked(0, false);
-                CheckedListBox_SaveSettings_Default.SetItemChecked(1, false);
-
-                for (int i = 0; i < CheckedListBox_Wips_Default.Items.Count; i++)
-                    CheckedListBox_Wips_Default.SetItemChecked(i, false);
-
-                TextBox_WATER_HEIGHT_Default.Enabled = false;
-                TextBox_WATER_HEIGHT_min_land_offset_Default.Enabled = false;
-                TextBox_WATER_HEIGHT_max_water_offset_Default.Enabled = false;
-                TextBox_NormalMapStrength_Default.Enabled = false;
-                TextBox_NormalMapBlur_Default.Enabled = false;
-                TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Enabled = false;
-                CheckedListBox_SaveSettings_Default.Enabled = false;
-                CheckBox_UseCustomSavePatterns_Default.Enabled = false;
-            }
-
-            if (settings.currentModSettings != null)
-            {
-                TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Text = "" + settings.currentModSettings.MAP_SCALE_PIXEL_TO_KM;
-                TextBox_WATER_HEIGHT_Current.Text = "" + settings.currentModSettings.WATER_HEIGHT;
-                TextBox_WATER_HEIGHT_min_land_offset_Current.Text = "" + settings.currentModSettings.WATER_HEIGHT_minLandOffset;
-                TextBox_WATER_HEIGHT_max_water_offset_Current.Text = "" + settings.currentModSettings.WATER_HEIGHT_maxWaterOffset;
-                TextBox_NormalMapStrength_Current.Text = "" + settings.currentModSettings.normalMapStrength;
-                TextBox_NormalMapBlur_Current.Text = "" + settings.currentModSettings.normalMapBlur;
-                CheckBox_UseCustomSavePatterns_Current.Checked = settings.currentModSettings.useCustomSavePatterns;
-
-                CheckedListBox_SaveSettings_Current.SetItemChecked(0, settings.currentModSettings.exportRiversMapWithWaterPixels);
-                CheckedListBox_SaveSettings_Current.SetItemChecked(1, settings.currentModSettings.generateNormalMap);
-
-                foreach (EnumWips enumObj in Enum.GetValues(typeof(EnumWips)))
-                {
-                    int index = (int)enumObj;
-                    if (index >= CheckedListBox_SaveSettings_Current.Items.Count)
-                        continue;
-
-                    CheckedListBox_Wips_Current.SetItemChecked(index, settings.defaultModSettings.CheckWips(enumObj));
-                }
-
-                TextBox_WATER_HEIGHT_Current.Enabled = true;
-                TextBox_WATER_HEIGHT_min_land_offset_Current.Enabled = true;
-                TextBox_WATER_HEIGHT_max_water_offset_Current.Enabled = true;
-                TextBox_NormalMapStrength_Current.Enabled = true;
-                TextBox_NormalMapBlur_Current.Enabled = true;
-                TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Enabled = true;
-                CheckedListBox_SaveSettings_Current.Enabled = true;
-                CheckBox_UseCustomSavePatterns_Current.Enabled = true;
-            }
-            else
-            {
-                TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Text = "";
-                TextBox_WATER_HEIGHT_Current.Text = "";
-                TextBox_WATER_HEIGHT_min_land_offset_Current.Text = "";
-                TextBox_WATER_HEIGHT_max_water_offset_Current.Text = "";
-                TextBox_NormalMapStrength_Current.Text = "";
-                TextBox_NormalMapBlur_Current.Text = "";
-
-                CheckedListBox_SaveSettings_Current.SetItemChecked(0, false);
-                CheckedListBox_SaveSettings_Current.SetItemChecked(1, false);
-
-                for (int i = 0; i < CheckedListBox_Wips_Current.Items.Count; i++)
-                    CheckedListBox_Wips_Current.SetItemChecked(i, false);
-
-                TextBox_WATER_HEIGHT_Current.Enabled = false;
-                TextBox_WATER_HEIGHT_min_land_offset_Current.Enabled = false;
-                TextBox_WATER_HEIGHT_max_water_offset_Current.Enabled = false;
-                TextBox_NormalMapStrength_Current.Enabled = false;
-                TextBox_NormalMapBlur_Current.Enabled = false;
-                TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Enabled = false;
-                CheckedListBox_SaveSettings_Current.Enabled = false;
-                CheckBox_UseCustomSavePatterns_Current.Enabled = false;
-            }
+            ApplyModSettingsToControls(settings.defaultModSettings, defaultModControls);
+            ApplyModSettingsToControls(settings.currentModSettings, currentModControls);
 
             SavePattern.LoadAll();
 
@@ -334,53 +230,8 @@ namespace HOI4ModBuilder.src.forms
                 settings.MAP_VIEWPORT_HEIGHT = Utils.ParseFloat(TextBox_MAP_VIEWPORT_HEIGHT.Text);
                 settings.maxAdditionalTextureSize = int.Parse(ComboBox_MaxAdditionalTextureSize.Text);
 
-                //Default settings
-                var modSettings = settings.defaultModSettings;
-                modSettings.MAP_SCALE_PIXEL_TO_KM = Utils.ParseFloat(TextBox_MAP_SCALE_PIXEL_TO_KM_Default.Text);
-                modSettings.WATER_HEIGHT = Utils.ParseFloat(TextBox_WATER_HEIGHT_Default.Text);
-                modSettings.WATER_HEIGHT_minLandOffset = Utils.ParseFloat(TextBox_WATER_HEIGHT_min_land_offset_Default.Text);
-                modSettings.WATER_HEIGHT_maxWaterOffset = Utils.ParseFloat(TextBox_WATER_HEIGHT_max_water_offset_Default.Text);
-                modSettings.normalMapStrength = Utils.ParseFloat(TextBox_NormalMapStrength_Default.Text);
-                modSettings.normalMapBlur = Utils.ParseFloat(TextBox_NormalMapBlur_Default.Text);
-
-                modSettings.useCustomSavePatterns = CheckBox_UseCustomSavePatterns_Default.Checked;
-                modSettings.exportRiversMapWithWaterPixels = CheckedListBox_SaveSettings_Default.GetItemChecked(0);
-                modSettings.generateNormalMap = CheckedListBox_SaveSettings_Default.GetItemChecked(1);
-
-                foreach (EnumWips enumObj in Enum.GetValues(typeof(EnumWips)))
-                {
-                    int index = (int)enumObj;
-                    if (index >= CheckedListBox_Wips_Default.Items.Count)
-                        continue;
-
-                    modSettings.SetWips(enumObj, CheckedListBox_Wips_Default.GetItemChecked(index));
-                }
-
-                //Current mod settings
-                modSettings = settings.currentModSettings;
-
-                if (modSettings != null)
-                {
-                    modSettings.MAP_SCALE_PIXEL_TO_KM = Utils.ParseFloat(TextBox_MAP_SCALE_PIXEL_TO_KM_Current.Text);
-                    modSettings.WATER_HEIGHT = Utils.ParseFloat(TextBox_WATER_HEIGHT_Current.Text);
-                    modSettings.WATER_HEIGHT_minLandOffset = Utils.ParseFloat(TextBox_WATER_HEIGHT_min_land_offset_Current.Text);
-                    modSettings.WATER_HEIGHT_maxWaterOffset = Utils.ParseFloat(TextBox_WATER_HEIGHT_max_water_offset_Current.Text);
-                    modSettings.normalMapStrength = Utils.ParseFloat(TextBox_NormalMapStrength_Current.Text);
-                    modSettings.normalMapBlur = Utils.ParseFloat(TextBox_NormalMapBlur_Current.Text);
-
-                    modSettings.useCustomSavePatterns = CheckBox_UseCustomSavePatterns_Current.Checked;
-                    modSettings.exportRiversMapWithWaterPixels = CheckedListBox_SaveSettings_Current.GetItemChecked(0);
-                    modSettings.generateNormalMap = CheckedListBox_SaveSettings_Current.GetItemChecked(1);
-
-                    foreach (EnumWips enumObj in Enum.GetValues(typeof(EnumWips)))
-                    {
-                        int index = (int)enumObj;
-                        if (index >= CheckedListBox_Wips_Current.Items.Count)
-                            continue;
-
-                        modSettings.SetWips(enumObj, CheckedListBox_Wips_Current.GetItemChecked(index));
-                    }
-                }
+                UpdateModSettingsFromControls(settings.defaultModSettings, defaultModControls);
+                UpdateModSettingsFromControls(settings.currentModSettings, currentModControls);
 
                 SettingsManager.SaveSettings();
 
@@ -389,7 +240,6 @@ namespace HOI4ModBuilder.src.forms
                     settings.modDirectory = tempModDirectory;
                     LocalModDataManager.Load(settings);
                     SettingsManager.SaveSettings();
-                    //LoadData();
                 }
 
                 if (prevLang != settings.language)
@@ -406,6 +256,184 @@ namespace HOI4ModBuilder.src.forms
 
                 return path[path.Length - 1] != '\\';
             }
+        }
+
+        private void InitializeModControlSets()
+        {
+            defaultModControls = CreateDefaultModControls();
+            currentModControls = CreateCurrentModControls();
+        }
+
+        private ModSettingsControlSet CreateDefaultModControls()
+            => new ModSettingsControlSet(
+                TextBox_MAP_SCALE_PIXEL_TO_KM_Default,
+                TextBox_WATER_HEIGHT_Default,
+                TextBox_WATER_HEIGHT_min_land_offset_Default,
+                TextBox_WATER_HEIGHT_max_water_offset_Default,
+                TextBox_NormalMapStrength_Default,
+                TextBox_NormalMapBlur_Default,
+                CheckedListBox_SaveSettings_Default,
+                CheckedListBox_Wips_Default,
+                CheckBox_UseCustomSavePatterns_Default
+            );
+
+        private ModSettingsControlSet CreateCurrentModControls()
+            => new ModSettingsControlSet(
+                TextBox_MAP_SCALE_PIXEL_TO_KM_Current,
+                TextBox_WATER_HEIGHT_Current,
+                TextBox_WATER_HEIGHT_min_land_offset_Current,
+                TextBox_WATER_HEIGHT_max_water_offset_Current,
+                TextBox_NormalMapStrength_Current,
+                TextBox_NormalMapBlur_Current,
+                CheckedListBox_SaveSettings_Current,
+                CheckedListBox_Wips_Current,
+                CheckBox_UseCustomSavePatterns_Current
+            );
+
+        private void ApplyModSettingsToControls(ModSettings modSettings, ModSettingsControlSet controls)
+        {
+            if (modSettings == null)
+            {
+                ClearModSettingsControls(controls);
+                SetModSettingsControlsEnabled(controls, false);
+                return;
+            }
+
+            controls.MapScale.Text = "" + modSettings.MAP_SCALE_PIXEL_TO_KM;
+            controls.WaterHeight.Text = "" + modSettings.WATER_HEIGHT;
+            controls.WaterHeightMinOffset.Text = "" + modSettings.WATER_HEIGHT_minLandOffset;
+            controls.WaterHeightMaxOffset.Text = "" + modSettings.WATER_HEIGHT_maxWaterOffset;
+            controls.NormalMapStrength.Text = "" + modSettings.normalMapStrength;
+            controls.NormalMapBlur.Text = "" + modSettings.normalMapBlur;
+            controls.UseCustomSavePatterns.Checked = modSettings.useCustomSavePatterns;
+
+            SetSaveSettingsItem(controls.SaveSettings, 0, modSettings.exportRiversMapWithWaterPixels);
+            SetSaveSettingsItem(controls.SaveSettings, 1, modSettings.generateNormalMap);
+            ApplyWipChecklist(controls.Wips, modSettings);
+
+            SetModSettingsControlsEnabled(controls, true);
+        }
+
+        private void UpdateModSettingsFromControls(ModSettings target, ModSettingsControlSet controls)
+        {
+            if (target == null)
+                return;
+
+            target.MAP_SCALE_PIXEL_TO_KM = Utils.ParseFloat(controls.MapScale.Text);
+            target.WATER_HEIGHT = Utils.ParseFloat(controls.WaterHeight.Text);
+            target.WATER_HEIGHT_minLandOffset = Utils.ParseFloat(controls.WaterHeightMinOffset.Text);
+            target.WATER_HEIGHT_maxWaterOffset = Utils.ParseFloat(controls.WaterHeightMaxOffset.Text);
+            target.normalMapStrength = Utils.ParseFloat(controls.NormalMapStrength.Text);
+            target.normalMapBlur = Utils.ParseFloat(controls.NormalMapBlur.Text);
+
+            target.useCustomSavePatterns = controls.UseCustomSavePatterns.Checked;
+            if (controls.SaveSettings.Items.Count > 0)
+                target.exportRiversMapWithWaterPixels = controls.SaveSettings.GetItemChecked(0);
+            if (controls.SaveSettings.Items.Count > 1)
+                target.generateNormalMap = controls.SaveSettings.GetItemChecked(1);
+
+            foreach (EnumWips enumObj in Enum.GetValues(typeof(EnumWips)))
+            {
+                int index = (int)enumObj;
+                if (index >= controls.Wips.Items.Count)
+                    continue;
+
+                target.SetWips(enumObj, controls.Wips.GetItemChecked(index));
+            }
+        }
+
+        private static void ClearModSettingsControls(ModSettingsControlSet controls)
+        {
+            controls.MapScale.Text = "";
+            controls.WaterHeight.Text = "";
+            controls.WaterHeightMinOffset.Text = "";
+            controls.WaterHeightMaxOffset.Text = "";
+            controls.NormalMapStrength.Text = "";
+            controls.NormalMapBlur.Text = "";
+            controls.UseCustomSavePatterns.Checked = false;
+
+            SetSaveSettingsItem(controls.SaveSettings, 0, false);
+            SetSaveSettingsItem(controls.SaveSettings, 1, false);
+            ClearWipChecklist(controls.Wips);
+        }
+
+        private static void SetModSettingsControlsEnabled(ModSettingsControlSet controls, bool enabled)
+        {
+            controls.MapScale.Enabled = enabled;
+            controls.WaterHeight.Enabled = enabled;
+            controls.WaterHeightMinOffset.Enabled = enabled;
+            controls.WaterHeightMaxOffset.Enabled = enabled;
+            controls.NormalMapStrength.Enabled = enabled;
+            controls.NormalMapBlur.Enabled = enabled;
+            controls.SaveSettings.Enabled = enabled;
+            controls.UseCustomSavePatterns.Enabled = enabled;
+        }
+
+        private static void ApplyWipChecklist(CheckedListBox listBox, ModSettings settings)
+        {
+            if (listBox == null || settings == null)
+                return;
+
+            foreach (EnumWips enumObj in Enum.GetValues(typeof(EnumWips)))
+            {
+                int index = (int)enumObj;
+                if (index >= listBox.Items.Count)
+                    continue;
+
+                listBox.SetItemChecked(index, settings.CheckWips(enumObj));
+            }
+        }
+
+        private static void ClearWipChecklist(CheckedListBox listBox)
+        {
+            if (listBox == null)
+                return;
+
+            for (int i = 0; i < listBox.Items.Count; i++)
+                listBox.SetItemChecked(i, false);
+        }
+
+        private static void SetSaveSettingsItem(CheckedListBox listBox, int index, bool value)
+        {
+            if (listBox == null || index >= listBox.Items.Count)
+                return;
+
+            listBox.SetItemChecked(index, value);
+        }
+
+        private sealed class ModSettingsControlSet
+        {
+            public ModSettingsControlSet(
+                TextBox mapScale,
+                TextBox waterHeight,
+                TextBox waterHeightMinOffset,
+                TextBox waterHeightMaxOffset,
+                TextBox normalMapStrength,
+                TextBox normalMapBlur,
+                CheckedListBox saveSettings,
+                CheckedListBox wips,
+                CheckBox useCustomSavePatterns)
+            {
+                MapScale = mapScale;
+                WaterHeight = waterHeight;
+                WaterHeightMinOffset = waterHeightMinOffset;
+                WaterHeightMaxOffset = waterHeightMaxOffset;
+                NormalMapStrength = normalMapStrength;
+                NormalMapBlur = normalMapBlur;
+                SaveSettings = saveSettings;
+                Wips = wips;
+                UseCustomSavePatterns = useCustomSavePatterns;
+            }
+
+            public TextBox MapScale { get; }
+            public TextBox WaterHeight { get; }
+            public TextBox WaterHeightMinOffset { get; }
+            public TextBox WaterHeightMaxOffset { get; }
+            public TextBox NormalMapStrength { get; }
+            public TextBox NormalMapBlur { get; }
+            public CheckedListBox SaveSettings { get; }
+            public CheckedListBox Wips { get; }
+            public CheckBox UseCustomSavePatterns { get; }
         }
 
         private void ComboBox_UsingSettingsType_SelectedIndexChanged(object sender, EventArgs e)
