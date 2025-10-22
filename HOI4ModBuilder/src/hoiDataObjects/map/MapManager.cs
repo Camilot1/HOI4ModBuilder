@@ -373,6 +373,11 @@ namespace HOI4ModBuilder.managers
             return array;
         }
 
+        public static void HandleMapMainLayerChange()
+            => HandleMapMainLayerChange(false);
+        public static void HandleMapMainLayerChange(bool recalculateAllText)
+            => HandleMapMainLayerChange(recalculateAllText, MainForm.Instance.GetMainLayer(), MainForm.Instance.GetParameter());
+
         public static void HandleMapMainLayerChange(bool recalculateAllText, EnumMainLayer enumMainLayer, string parameter)
         {
             if (ProvincesPixels == null)

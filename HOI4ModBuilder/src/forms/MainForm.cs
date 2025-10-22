@@ -1764,7 +1764,7 @@ namespace HOI4ModBuilder
                                 StateManager.TransferProvince(province, prevState, newState);
                             else
                                 newState.AddProvince(province);
-                            InvokeAction(() => MapManager.HandleMapMainLayerChange(false, GetMainLayer(), GetParameter()));
+                            InvokeAction(() => MapManager.HandleMapMainLayerChange());
                         }
                     },
                     (id) => //On undo
@@ -1775,7 +1775,7 @@ namespace HOI4ModBuilder
                                 newState.RemoveProvince(province);
                             else
                                 StateManager.TransferProvince(province, newState, prevState);
-                            InvokeAction(() => MapManager.HandleMapMainLayerChange(false, GetMainLayer(), GetParameter()));
+                            InvokeAction(() => MapManager.HandleMapMainLayerChange());
                         }
                     }
                 ).ShowDialog();
@@ -1832,7 +1832,7 @@ namespace HOI4ModBuilder
                                 StrategicRegionManager.TransferProvince(province, prevRegion, newRegion);
                             else
                                 newRegion.AddProvince(province);
-                            InvokeAction(() => MapManager.HandleMapMainLayerChange(false, GetMainLayer(), GetParameter()));
+                            InvokeAction(() => MapManager.HandleMapMainLayerChange());
                         }
                     },
                     (id) => //On undo
@@ -1843,7 +1843,7 @@ namespace HOI4ModBuilder
                                 newRegion.RemoveProvince(province);
                             else
                                 StrategicRegionManager.TransferProvince(province, newRegion, prevRegion);
-                            InvokeAction(() => MapManager.HandleMapMainLayerChange(false, GetMainLayer(), GetParameter()));
+                            InvokeAction(() => MapManager.HandleMapMainLayerChange());
                         }
                     }
                 ).ShowDialog();
@@ -1888,7 +1888,7 @@ namespace HOI4ModBuilder
                 if (StateManager.TransferProvince(ProvinceManager.RMBProvince, currentState, newState))
                 {
                     Update_ContextMenuStrip_Map();
-                    MapManager.HandleMapMainLayerChange(false, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
+                    MapManager.HandleMapMainLayerChange();
                 }
 
                 ToolStripMenuItem_Map_State_OpenFileInEditor.Enabled = newState != null;
@@ -1914,7 +1914,7 @@ namespace HOI4ModBuilder
                 if (StrategicRegionManager.TransferProvince(ProvinceManager.RMBProvince, currentRegion, newRegion))
                 {
                     Update_ContextMenuStrip_Map();
-                    MapManager.HandleMapMainLayerChange(false, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
+                    MapManager.HandleMapMainLayerChange();
                 }
 
                 //ToolStripMenuItem_Map_Region_OpenFileInEditor.Enabled = newRegion != null;
