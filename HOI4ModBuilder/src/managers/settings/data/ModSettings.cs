@@ -19,8 +19,10 @@ namespace HOI4ModBuilder.src.managers.settings
 
         public float MAP_SCALE_PIXEL_TO_KM = 7.114f;
         public float WATER_HEIGHT = 9.5f;
-        public float WATER_HEIGHT_minLandOffset = -0.7f;
-        public float WATER_HEIGHT_maxWaterOffset = 0.7f;
+        [JsonProperty("WATER_HEIGHT_minLandOffsetV2")]
+        public float WATER_HEIGHT_minLandOffset = -0.5f;
+        [JsonProperty("WATER_HEIGHT_maxWaterOffsetV2")]
+        public float WATER_HEIGHT_maxWaterOffset = 0.5f;
 
         public bool CheckWips(EnumWips enumWips) => wipsEnabled.Contains(enumWips.ToString());
         public void SetWips(EnumWips enumWips, bool value)
