@@ -7,6 +7,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
+using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.openTK;
@@ -811,6 +812,39 @@ namespace HOI4ModBuilder.managers
                 selectedTexturedPlane = null;
                 MainForm.Instance.SetMapTextures(additionalMapTextures);
                 return;
+            }
+        }
+
+        public static void ReplacePixels(Dictionary<int, int> colorsToReplace)
+        {
+            if (colorsToReplace.Count == 0)
+                return;
+
+            var provincesBitmap = TextureManager.provinces.GetBitmap();
+
+            byte[] bytes = Utils.BitmapToArray(provincesBitmap, ImageLockMode.ReadOnly, TextureManager._24bppRgb);
+            bool needToSave = false;
+
+            for (int i = 0; i < ProvincesPixels.Length; i++)
+            {
+                if (!colorsToReplace.TryGetValue(ProvincesPixels[i], out var newColor))
+                    continue;
+
+                Utils.IntToRgb(newColor, out var r, out var g, out var b);
+                int byteIndex = i * 3;
+                bytes[byteIndex] = b;
+                bytes[byteIndex + 1] = g;
+                bytes[byteIndex + 2] = r;
+
+                ProvincesPixels[i] = newColor;
+                needToSave = true;
+            }
+
+            if (needToSave)
+            {
+                Utils.ArrayToBitmap(bytes, provincesBitmap, ImageLockMode.WriteOnly, provincesBitmap.Width, provincesBitmap.Height, TextureManager._24bppRgb);
+                HandleMapMainLayerChange();
+                TextureManager.provinces.needToSave = true;
             }
         }
 

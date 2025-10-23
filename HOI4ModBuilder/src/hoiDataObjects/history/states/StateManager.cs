@@ -242,6 +242,39 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
         }
 
+        public static void RegenerateStatesColors()
+        {
+            var random = new Random(0);
+            var modSettings = SettingsManager.Settings.GetModSettings();
+
+            var newColors = new HashSet<int>(512);
+            var adjacentColors = new List<int>(16);
+
+            var regeneratedStatesToColor = new Dictionary<State, int>(512);
+            var hsvRanges = modSettings.GetStateHSVRanges();
+
+            foreach (var state in GetStates())
+            {
+                adjacentColors.Clear();
+
+                int newColor;
+                foreach (var borderState in state.GetBorderStates())
+                {
+                    if (!regeneratedStatesToColor.TryGetValue(borderState, out newColor))
+                        continue;
+                    adjacentColors.Add(newColor);
+                }
+
+                newColor = ColorUtils.GenerateDistinctColor(
+                    random, adjacentColors, hsvRanges, c => !newColors.Contains(c)
+                );
+
+                regeneratedStatesToColor[state] = newColor;
+                state.Color = newColor;
+                newColors.Add(newColor);
+            }
+        }
+
         public static void AddStatesBorder(ProvinceBorder border) => _statesBorders.Add(border);
 
         public static bool TransferProvince(Province province, State src, State dest)
@@ -433,6 +466,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             foreach (var state in _statesById.Values)
                 state.InitBorders();
             TextureManager.InitStateBordersMap(_statesBorders);
+            RegenerateStatesColors();
         }
 
         public static void CalculateCenters()

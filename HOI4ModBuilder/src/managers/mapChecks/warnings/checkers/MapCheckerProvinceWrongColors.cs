@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.managers.warnings;
+using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using static HOI4ModBuilder.utils.Structs;
 
@@ -13,20 +14,11 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
             {
                 foreach (var p in ProvinceManager.GetProvinces())
                 {
-                    var color = new Color3B(p.Color);
+                    Utils.IntToRgb(p.Color, out var r, out var g, out var b);
+                    ColorUtils.RgbToHsv(r, g, b, out var h, out var s, out var v);
 
-                    int max = color.red;
-                    if (color.green > max) max = color.green;
-                    if (color.blue > max) max = color.blue;
-
-                    int sum = color.red + color.green + color.blue;
-
-                    //TODO Переделать: добавить поддержку кастомных условий
-                    //land
-                    if (p.Type == EnumProvinceType.LAND && sum < 340)
-                        list.Add(new MapCheckData(p.center, (int)EnumMapWarningCode.PROVINCE_WRONG_COLOR));
-                    //sea, lake
-                    else if (p.Type != EnumProvinceType.LAND && (sum > 339 || max > 127))
+                    var hsvRange = SettingsManager.GetHSVRanges(p.Type);
+                    if (!hsvRange.IsValidHSV(h, s, v))
                         list.Add(new MapCheckData(p.center, (int)EnumMapWarningCode.PROVINCE_WRONG_COLOR));
                 }
             })

@@ -31,7 +31,6 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using static HOI4ModBuilder.utils.Enums;
-using HOI4ModBuilder.src.tools.auto;
 using HOI4ModBuilder.src.forms.scripts;
 using HOI4ModBuilder.src.scripts;
 using HOI4ModBuilder.src.utils.structs;
@@ -42,6 +41,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using static HOI4ModBuilder.utils.Structs;
 using HOI4ModBuilder.hoiDataObjects.common.resources;
 using HOI4ModBuilder.src.forms.actionForms;
+using HOI4ModBuilder.src.tools.autotools;
 
 namespace HOI4ModBuilder
 {
@@ -1238,7 +1238,7 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => AutoTools.FixProvincesCoastalType(true));
+            => Logger.TryOrLog(() => AutoToolFixProvincesCoastalType.Execute(true));
         private void ToolStripComboBox_Data_Bookmark_SelectedIndexChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() => DataManager.OnBookmarkChange());
         private void ToolStripMenuItem_Save_States_Click(object sender, EventArgs e)
@@ -1266,9 +1266,9 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Edit_AutoTools_StatesValidation_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => AutoTools.ValidateAllStates(true));
+            => Logger.TryOrLog(() => AutoToolValidateAllStates.Execute(true));
         private void ToolStripMenuItem_Edit_AutoTools_RegionsValidation_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => AutoTools.ValidateAllRegions(true));
+            => Logger.TryOrLog(() => AutoToolValidateAllRegions.Execute(true));
         private void ToolStripMenuItem_Data_Provinces_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => Task.Run(() => new ProvinceListForm().ShowDialog()));
 
@@ -1328,7 +1328,7 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => AutoTools.RemoveSeaAndLakesContinents(true));
+            => Logger.TryOrLog(() => AutoToolRemoveSeaAndLakesContinents.Execute(true));
 
         private void ToolStripMenuItem_Map_Adjacency_DropDownOpened(object sender, EventArgs e)
         {
@@ -1471,7 +1471,7 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() => RailwaysTool.RemoveProvinceFromRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
 
         private void ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => AutoTools.RemoveSeaProvincesFromStates(true));
+            => Logger.TryOrLog(() => AutoToolRemoveSeaProvincesFromStates.Execute(true));
 
         private void ToolStripMenuItem_Edit_Scripts_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => new ScriptsForm().ShowDialog());
@@ -1623,7 +1623,7 @@ namespace HOI4ModBuilder
         public EnumMainLayer GetMainLayer() => SelectedMainLayer;
         public string GetParameter() => ComboBox_Tool_Parameter.Text;
         private void ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => AutoTools.RemoveGhostProvinces(true));
+            => Logger.TryOrLog(() => AutoToolRemoveGhostProvinces.Execute(true));
         private void ToolStripMenuItem_Map_Actions_Merge_All_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => MergeProvincesTool.MergeProvinces(ProvinceManager.RMBProvince, ProvinceManager.GroupSelectedProvinces));
         private void ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces_Click(object sender, EventArgs e)
@@ -1923,6 +1923,12 @@ namespace HOI4ModBuilder
 
         private void ToolStripMenuItem_Edit_Actions_CreateObject_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => new CreateObjectForm().ShowDialog());
+
+        private void ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => AutoToolRegenerateProvincesColors.Execute(true, AutoToolRegenerateProvincesColors.EnumMode.RANDOM));
+
+        private void ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() => AutoToolRegenerateProvincesColors.Execute(true, AutoToolRegenerateProvincesColors.EnumMode.BASED_ON_STATE_COLOR));
 
         public void SetGroupBoxProgressBackColor(Color color)
             => GroupBox_Progress.BackColor = color;

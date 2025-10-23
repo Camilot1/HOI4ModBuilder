@@ -74,6 +74,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 _color = value;
             }
         }
+        public void SetSilentColor(int color) => _color = color;
 
         private EnumProvinceType _type;
         public EnumProvinceType Type
@@ -545,6 +546,23 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     borderProvinces.Add(b.provinceA);
             }
             return borderProvinces;
+        }
+
+        public void ForEachBorderProvince(Func<Province, bool> action)
+        {
+            foreach (var b in borders)
+            {
+                if (b.provinceA._id == _id)
+                {
+                    if (action(b.provinceB))
+                        break;
+                }
+                else if (b.provinceB._id == _id)
+                {
+                    if (action(b.provinceA))
+                        break;
+                }
+            }
         }
 
         public bool HasSeaConnectionWith(Province province)

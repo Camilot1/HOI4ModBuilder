@@ -12,6 +12,7 @@ using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Controls;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map
 {
@@ -76,7 +77,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             get => _staticModifiers;
             set
             {
-                if (_staticModifiers != value) needToSave = true;
+                if (_staticModifiers != value)
+                    needToSave = true;
                 _staticModifiers = value;
             }
         }
@@ -92,7 +94,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                 _weather.Region = this;
             }
         }
-        public int GetWeatherPeriodsCount() => _weather != null ? _weather.GetPeriodsCount() : 0;
+        public int GetWeatherPeriodsCount()
+            => _weather != null ? _weather.GetPeriodsCount() : 0;
 
         public bool TryGetWeatherPeriod(int index, out WeatherPeriod period)
         {
@@ -101,7 +104,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                 period = null;
                 return false;
             }
-            else return _weather.TryGetPeriod(index, out period);
+            else
+                return _weather.TryGetPeriod(index, out period);
         }
 
         private List<AiArea> _aiAreas = new List<AiArea>();
@@ -321,6 +325,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                     }
                 }
             }
+        }
+
+        public List<StrategicRegion> GetBorderRegions()
+        {
+            var regions = new List<StrategicRegion>(32);
+
+            foreach (var border in Borders)
+            {
+                var otherRegion = border.provinceA.Region == this ? border.provinceB.Region : border.provinceA.Region;
+                if (otherRegion == null)
+                    continue;
+                if (!regions.Contains(otherRegion))
+                    regions.Add(otherRegion);
+            }
+
+            return regions;
         }
 
         public void CalculateColor()

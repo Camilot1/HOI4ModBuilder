@@ -31,7 +31,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public override bool Equals(object obj)
             => obj is State state && Id.GetValue() == state.Id.GetValue();
 
-        public int Color { get; private set; }
+        public int Color { get; set; }
 
         public readonly GameParameter<ushort> Id = new GameParameter<ushort>()
             .INIT_SetValueParseAdapter((o, token) =>
@@ -194,6 +194,22 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     if (thisProvince.State == this)
                         action(thisProvince, otherProvince);
                 });
+        }
+
+        public List<State> GetBorderStates()
+        {
+            var states = new List<State>(32);
+
+            foreach (var border in borders)
+            {
+                var otherState = border.provinceA.State == this ? border.provinceB.State : border.provinceA.State;
+                if (otherState == null)
+                    continue;
+                if (!states.Contains(otherState))
+                    states.Add(otherState);
+            }
+
+            return states;
         }
 
         public void AddProvince(Province province)

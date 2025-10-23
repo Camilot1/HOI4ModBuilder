@@ -180,7 +180,7 @@ namespace HOI4ModBuilder
             bitmap.UnlockBits(data);
         }
 
-        public static byte[] ArgbToBrg(int[] data)
+        public static byte[] ArgbToBgr(int[] data)
         {
             byte[] values = new byte[data.Length * 3];
 
@@ -633,6 +633,15 @@ namespace HOI4ModBuilder
                     return element;
 
             return defaultValue;
+        }
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            var random = new Random();
+            for (int i = list.Count - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1); // 0 ≤ j ≤ i
+                (list[i], list[j]) = (list[j], list[i]);
+            }
         }
     }
 }

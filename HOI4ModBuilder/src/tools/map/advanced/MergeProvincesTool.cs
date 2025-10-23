@@ -35,25 +35,27 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             var minIdProvince = list[0];
             list.RemoveAt(0);
 
+            var colorsToReplace = new Dictionary<int, int>(list.Count);
             foreach (var province in list)
-                MergeProvincesInternal(minIdProvince, province);
-
-            ReplaceColors();
+                MergeProvincesInternal(colorsToReplace, minIdProvince, province);
+            MapManager.ReplacePixels(colorsToReplace);
         }
 
         public static void MergeProvinces(Province main, Province second)
         {
-            MergeProvincesInternal(main, second);
-            ReplaceColors();
+            var colorsToReplace = new Dictionary<int, int>(1);
+            MergeProvincesInternal(colorsToReplace, main, second);
+            MapManager.ReplacePixels(colorsToReplace);
         }
         public static void MergeProvinces(Province main, ICollection<Province> list)
         {
+            var colorsToReplace = new Dictionary<int, int>(list.Count);
             foreach (var province in list)
-                MergeProvincesInternal(main, province);
-            ReplaceColors();
+                MergeProvincesInternal(colorsToReplace, main, province);
+            MapManager.ReplacePixels(colorsToReplace);
         }
 
-        private static void MergeProvincesInternal(Province main, Province second)
+        private static void MergeProvincesInternal(Dictionary<int, int> colorsToReplace, Province main, Province second)
         {
             //Проверки на ошибки
             if (main == null || second == null || main.Id == second.Id)
@@ -137,8 +139,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
                 return;
 
             //Замена цветов на карте
-
-            AddColorToReplace(second.Color, main.Color);
+            colorsToReplace.Add(second.Color, main.Color);
 
             //Замена центров на общий
             float centerX = main.center.x * main.pixelsCount + second.center.x * second.pixelsCount;
@@ -176,59 +177,5 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             provinceToReplace.Id = second.Id;
             ProvinceManager.NextVacantProvinceId--;
         }
-
-        private static readonly List<ColorToReplace> _colorsToReplace = new List<ColorToReplace>(16);
-        private static void AddColorToReplace(int colorFrom, int colorTo)
-        {
-            _colorsToReplace.Add(new ColorToReplace
-            {
-                from = colorFrom,
-                to = colorTo,
-                toBytes = Utils.ArgbToBrg(new int[] { colorTo })
-            });
-        }
-
-        private static void ReplaceColors()
-        {
-            if (_colorsToReplace.Count == 0)
-                return;
-
-            var provincesBitmap = TextureManager.provinces.GetBitmap();
-
-            byte[] bytes = Utils.BitmapToArray(provincesBitmap, ImageLockMode.ReadOnly, TextureManager._24bppRgb);
-            bool needToSave = false;
-
-            foreach (var colorToReplace in _colorsToReplace)
-            {
-                for (int i = 0; i < MapManager.ProvincesPixels.Length; i++)
-                {
-                    if (MapManager.ProvincesPixels[i] == colorToReplace.from)
-                    {
-                        int byteIndex = i * 3;
-                        bytes[byteIndex] = colorToReplace.toBytes[0];
-                        bytes[byteIndex + 1] = colorToReplace.toBytes[1];
-                        bytes[byteIndex + 2] = colorToReplace.toBytes[2];
-
-                        MapManager.ProvincesPixels[i] = colorToReplace.to;
-                        needToSave = true;
-                    }
-                }
-            }
-
-            if (needToSave)
-            {
-                Utils.ArrayToBitmap(bytes, provincesBitmap, ImageLockMode.WriteOnly, provincesBitmap.Width, provincesBitmap.Height, TextureManager._24bppRgb);
-                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
-                //TextureManager.provinces.texture.Update(TextureManager._24bppRgb, 0, 0, MapManager.MapSize.x, MapManager.MapSize.y, bytes);
-                TextureManager.provinces.needToSave = true;
-            }
-            _colorsToReplace.Clear();
-        }
-    }
-
-    public struct ColorToReplace
-    {
-        public int from, to;
-        public byte[] toBytes;
     }
 }

@@ -2625,6 +2625,27 @@
   <data name="toolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
     <value>294, 6</value>
   </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random.Text" xml:space="preserve">
+    <value>Случайные HSV цвета</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Text" xml:space="preserve">
+    <value>На основе HSV цветов областей</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Text" xml:space="preserve">
+    <value>Перегенерировать цвета провинций</value>
+  </data>
+  <data name="toolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 6</value>
+  </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_ProvincesValidation.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -3622,6 +3643,30 @@
     <value>toolStripSeparator11</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator26.Name" xml:space="preserve">
+    <value>toolStripSeparator26</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator26.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_ProvincesValidation.Name" xml:space="preserve">

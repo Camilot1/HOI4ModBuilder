@@ -22,7 +22,7 @@ namespace HOI4ModBuilder.src.managers
                   Enum.GetValues(typeof(EnumMapWarningCode)).Length,
                   new MapChecker[]
                   {
-                      new MapCheckerProvinceWrongColors(),
+                      //new MapCheckerProvinceWrongColors(), //Отключено до лучших времён
                       new MapCheckerProvincesXCrosses(),
                       new MapCheckerDividedProvinces(),
                       new MapCheckerProvincesBordersLimit(),

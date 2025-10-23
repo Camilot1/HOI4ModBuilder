@@ -790,7 +790,14 @@
     <Compile Include="src\scripts\ScriptFabricsRegister.cs" />
     <Compile Include="src\scripts\utils\ScriptUtils.cs" />
     <Compile Include="src\scripts\VarsScope.cs" />
-    <Compile Include="src\tools\AutoTools.cs" />
+    <Compile Include="src\tools\map\autotools\AbstractAutoTool.cs" />
+    <Compile Include="src\tools\map\autotools\AutoToolFixProvincesCoastalType.cs" />
+    <Compile Include="src\tools\map\autotools\AutoToolRegenerateProvincesColors.cs" />
+    <Compile Include="src\tools\map\autotools\AutoToolRemoveGhostProvinces.cs" />
+    <Compile Include="src\tools\map\autotools\AutoToolRemoveSeaAndLakesContinents.cs" />
+    <Compile Include="src\tools\map\autotools\AutoToolRemoveSeaProvincesFromStates.cs" />
+    <Compile Include="src\tools\map\autotools\AutoToolValidateAllRegions.cs" />
+    <Compile Include="src\tools\map\autotools\AutoToolValidateAllStates.cs" />
     <Compile Include="src\tools\brushes\Brush.cs" />
     <Compile Include="src\tools\brushes\BrushInfo.cs" />
     <Compile Include="src\tools\brushes\BrushManager.cs" />

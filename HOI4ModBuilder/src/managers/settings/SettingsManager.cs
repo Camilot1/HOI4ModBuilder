@@ -4,6 +4,7 @@ using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.managers.settings.exceptions;
+using HOI4ModBuilder.hoiDataObjects.map;
 
 namespace HOI4ModBuilder.src
 {
@@ -16,6 +17,12 @@ namespace HOI4ModBuilder.src
         public static readonly string[] SUPPORTED_LANGUAGES = new[] { "ru", "en" };
 
         public static BaseSettings Settings { get; private set; }
+
+        public static HSVRanges GetHSVRanges(EnumProvinceType type)
+        {
+            var hsvRanges = Settings?.GetModSettings()?.GetProvincesHSVRanges(type);
+            return hsvRanges != null ? hsvRanges : new HSVRanges();
+        }
         public static void Init()
         {
             Logger.TryOrCatch(

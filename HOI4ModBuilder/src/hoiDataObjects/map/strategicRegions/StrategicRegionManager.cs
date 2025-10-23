@@ -183,6 +183,38 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 }
             }
         }
+        public static void RegenerateRegionsColors()
+        {
+            var random = new Random(0);
+            var modSettings = SettingsManager.Settings.GetModSettings();
+
+            var newColors = new HashSet<int>(256);
+            var adjacentColors = new List<int>(16);
+
+            var regeneratedRegionToColor = new Dictionary<StrategicRegion, int>(256);
+            var hsvRanges = modSettings.GetRegionHSVRanges();
+
+            foreach (var region in GetRegions())
+            {
+                adjacentColors.Clear();
+
+                int newColor;
+                foreach (var borderRegion in region.GetBorderRegions())
+                {
+                    if (!regeneratedRegionToColor.TryGetValue(borderRegion, out newColor))
+                        continue;
+                    adjacentColors.Add(newColor);
+                }
+
+                newColor = ColorUtils.GenerateDistinctColor(
+                    random, adjacentColors, hsvRanges, c => !newColors.Contains(c)
+                );
+
+                regeneratedRegionToColor[region] = newColor;
+                region.color = newColor;
+                newColors.Add(newColor);
+            }
+        }
 
         public static void AddRegionsBorder(ProvinceBorder border) => _regionsBorders.Add(border);
 
@@ -256,6 +288,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             foreach (var region in _regions.Values)
                 region.InitBorders();
             TextureManager.InitRegionsBordersMap(_regionsBorders);
+            RegenerateRegionsColors();
         }
 
         private static void HandleDelete()

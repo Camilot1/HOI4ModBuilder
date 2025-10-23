@@ -42,6 +42,7 @@ namespace HOI4ModBuilder.src.managers
             }
 
             settings.currentModSettings = JsonConvert.DeserializeObject<ModSettings>(File.ReadAllText(settings.GetModSettingsFilePath()));
+            settings.currentModSettings?.PostInit();
         }
 
         public static void SaveLocalSettings(BaseSettings settings)

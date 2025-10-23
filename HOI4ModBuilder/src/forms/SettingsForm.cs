@@ -462,6 +462,7 @@ namespace HOI4ModBuilder.src.forms
                 if (!settings.IsModSettingsFileExists())
                 {
                     settings.currentModSettings = new ModSettings();
+                    settings.currentModSettings.PostInit();
 
                     if (!Directory.Exists(settings.GetModSettingsDirectoryPath()))
                         Directory.CreateDirectory(settings.GetModSettingsDirectoryPath());

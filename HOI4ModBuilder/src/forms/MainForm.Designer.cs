@@ -230,6 +230,10 @@
             this.ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Edit_AutoTools_ProvincesValidation = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_StatesValidation = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_RegionsValidation = new System.Windows.Forms.ToolStripMenuItem();
@@ -1688,6 +1692,8 @@
             this.ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents,
             this.ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates,
             this.toolStripSeparator11,
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors,
+            this.toolStripSeparator26,
             this.ToolStripMenuItem_Edit_AutoTools_ProvincesValidation,
             this.ToolStripMenuItem_Edit_AutoTools_StatesValidation,
             this.ToolStripMenuItem_Edit_AutoTools_RegionsValidation});
@@ -1722,6 +1728,31 @@
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             resources.ApplyResources(this.toolStripSeparator11, "toolStripSeparator11");
+            // 
+            // ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors
+            // 
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random,
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors});
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Name = "ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors";
+            resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors, "ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors");
+            // 
+            // ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random
+            // 
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random.Name = "ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random";
+            resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random, "ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random");
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random_Click);
+            // 
+            // ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors
+            // 
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Name = "ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors";
+            resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors, "ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors");
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors_Click);
+            // 
+            // toolStripSeparator26
+            // 
+            this.toolStripSeparator26.Name = "toolStripSeparator26";
+            resources.ApplyResources(this.toolStripSeparator26, "toolStripSeparator26");
             // 
             // ToolStripMenuItem_Edit_AutoTools_ProvincesValidation
             // 
@@ -2136,6 +2167,10 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Region_OpenFileInExplorer;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Region_OpenFileInEditor;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_Actions_CreateObject;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
     }
 }
 

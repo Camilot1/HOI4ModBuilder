@@ -781,6 +781,27 @@
   <data name="toolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
     <value>279, 6</value>
   </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random.Text" xml:space="preserve">
+    <value>Random HSV Colors</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Text" xml:space="preserve">
+    <value>Base on States' HSV Colors</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Size" type="System.Drawing.Size, System.Drawing">
+    <value>282, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Text" xml:space="preserve">
+    <value>Regenerate Provinces' Colors</value>
+  </data>
+  <data name="toolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>279, 6</value>
+  </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_ProvincesValidation.Size" type="System.Drawing.Size, System.Drawing">
     <value>282, 22</value>
   </data>

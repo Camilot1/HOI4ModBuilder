@@ -1,131 +1,15 @@
-﻿using HOI4ModBuilder.hoiDataObjects.map;
+﻿
+using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
-using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
-using HOI4ModBuilder.src.utils;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 
-namespace HOI4ModBuilder.src.tools.auto
+namespace HOI4ModBuilder.src.tools.autotools
 {
-    class AutoTools
+    public class AutoToolRemoveGhostProvinces : AbstractAutoTool
     {
-        private static void PostAction(bool recalculateAllText, int count)
-        {
-            MapManager.HandleMapMainLayerChange(recalculateAllText, MainForm.Instance.SelectedMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
-
-            MessageBox.Show(
-                GuiLocManager.GetLoc(
-                    EnumLocKey.AUTOTOOL_RESULT_MESSAGE_BOX_TEXT,
-                    new Dictionary<string, string> { { "{count}", $"{count}" } }
-                ),
-                GuiLocManager.GetLoc(
-                    EnumLocKey.AUTOTOOL_RESULT_MESSAGE_BOX_TITLE
-                ),
-                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
-            );
-        }
-        private static void PostExtendedAction(bool recalculateAllTextint, int count, int success, string unsuccessInfo)
-        {
-            MapManager.HandleMapMainLayerChange(recalculateAllTextint, MainForm.Instance.SelectedMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
-
-            MessageBox.Show(
-                GuiLocManager.GetLoc(
-                    EnumLocKey.AUTOTOOL_RESULT_EXTENDED_MESSAGE_BOX_TEXT,
-                    new Dictionary<string, string> {
-                        { "{count}", $"{count}" },
-                        { "{success}", $"{success}" },
-                        { "{unsuccess}", $"{count - success}" },
-                        { "{unsuccessInfo}", unsuccessInfo }
-                    }
-                ),
-                GuiLocManager.GetLoc(
-                    EnumLocKey.AUTOTOOL_RESULT_EXTENDED_MESSAGE_BOX_TITLE
-                ),
-                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
-            );
-        }
-
-        public static void FixProvincesCoastalType(bool displayResultMessage)
-        {
-            int counter = 0;
-            ProvinceManager.ForEachProvince((p) =>
-            {
-                var newIsCoastal = p.CheckCoastalType();
-                if (p.IsCoastal != newIsCoastal)
-                {
-                    counter++;
-                    p.IsCoastal = newIsCoastal;
-                }
-            });
-
-            if (displayResultMessage)
-                PostAction(false, counter);
-        }
-
-        public static void RemoveSeaAndLakesContinents(bool displayResultMessage)
-        {
-            int counter = 0;
-            ProvinceManager.ForEachProvince((p) =>
-            {
-                if (p.Type != EnumProvinceType.LAND && p.ContinentId != 0)
-                {
-                    counter++;
-                    p.ContinentId = 0;
-                }
-            });
-
-            if (displayResultMessage)
-                PostAction(false, counter);
-        }
-
-        public static void RemoveSeaProvincesFromStates(bool displayResultMessage)
-        {
-            int counter = 0;
-            ProvinceManager.ForEachProvince((p) =>
-            {
-                if (p.Type == EnumProvinceType.SEA && p.State != null)
-                {
-                    counter++;
-                    p.State.RemoveProvince(p);
-                }
-            });
-
-            if (displayResultMessage)
-                PostAction(false, counter);
-        }
-
-        public static void ValidateAllStates(bool displayResultMessage)
-        {
-            int counter = 0;
-            StateManager.ForEachState((s) =>
-            {
-                s.Validate(out bool hasChanged);
-                if (hasChanged)
-                    counter++;
-            });
-
-            if (displayResultMessage)
-                PostAction(true, counter);
-        }
-
-        public static void ValidateAllRegions(bool displayResultMessage)
-        {
-            int counter = 0;
-            StrategicRegionManager.ForEachRegion((r) =>
-            {
-                r.Validate(out bool hasChanged);
-                if (hasChanged)
-                    counter++;
-            });
-
-            if (displayResultMessage)
-                PostAction(true, counter);
-        }
-
-        public static void RemoveGhostProvinces(bool displayResultMessage)
+        public static void Execute(bool displayResultMessage)
         {
             ProvinceManager.ProcessProvincesPixels(MapManager.ProvincesPixels, MapManager.MapSize.x, MapManager.MapSize.y);
 
@@ -150,7 +34,6 @@ namespace HOI4ModBuilder.src.tools.auto
             if (displayResultMessage)
                 PostExtendedAction(true, provinces.Count, success, sb.ToString());
         }
-
         private static bool RemoveGhostProvince(Province p, StringBuilder sb)
         {
             // Если есть постройки в провинции, то нельзя удалить

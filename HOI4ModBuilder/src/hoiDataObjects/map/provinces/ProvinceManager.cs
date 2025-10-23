@@ -53,6 +53,20 @@ namespace HOI4ModBuilder.managers
                     action(p);
         }
 
+        public static void ReinitProvincesByColor(Dictionary<Province, int> newProvincesColors)
+        {
+            if (newProvincesColors.Count == 0)
+                return;
+
+            _provincesByColor.Clear();
+            foreach (var entry in newProvincesColors)
+            {
+                entry.Key.SetSilentColor(entry.Value);
+                _provincesByColor[entry.Value] = entry.Key;
+            }
+            NeedToSave = true;
+        }
+
         public static void Init()
         {
             MainForm.SubscribeTabKeyEvent(EnumTabPage.MAP, Keys.Delete, (sender, e) => HandleDelete());
@@ -279,96 +293,60 @@ namespace HOI4ModBuilder.managers
             return totalPath;
         }
 
+        private static void GetMaxAndSum(Color3B color, out int max, out int sum)
+        {
+            max = color.red;
+            if (color.green > max)
+                max = color.green;
+            if (color.blue > max)
+                max = color.blue;
+            sum = color.red + color.green + color.blue;
+        }
+
+        public static bool IsValidLandColor(Color3B color, EnumProvinceType type)
+        {
+            ColorUtils.RgbToHsv(color.red, color.green, color.blue, out var h, out var s, out var v);
+            return IsValidColor(h, s, v, type);
+        }
+        public static bool IsValidLandColor(int argb, EnumProvinceType type)
+        {
+            Utils.IntToArgb(argb, out var a, out var r, out var g, out var b);
+            ColorUtils.RgbToHsv(r, g, b, out var h, out var s, out var v);
+            return IsValidColor(h, s, v, type);
+        }
+        public static bool IsValidColor(double h, double s, double v, EnumProvinceType type)
+            => SettingsManager.GetHSVRanges(type).IsValidHSV(h, s, v);
+
         public static Color3B GetNewRandomColor()
         {
             Color3B color = Color3B.GetRandowColor();
-
             int iter = 0;
-
-            while (iter < 10000 && _provincesByColor.ContainsKey(color.ToArgb()))
+            while (iter < 10_000 && _provincesByColor.ContainsKey(color.ToArgb()))
             {
                 color = Color3B.GetRandowColor();
                 iter++;
             }
 
             return color;
-
         }
-
         public static Color3B GetNewLandColor()
-        {
-            Color3B color = Color3B.GetRandowColor();
-
-            int max = color.red;
-            if (color.green > max) max = color.green;
-            if (color.blue > max) max = color.blue;
-            int sum = color.red + color.green + color.blue;
-
-            int iter = 0;
-
-            while (iter < 10000 && (sum < 300 || _provincesByColor.ContainsKey(color.ToArgb())))
-            {
-                color = Color3B.GetRandowColor();
-                max = color.red;
-                if (color.green > max) max = color.green;
-                if (color.blue > max) max = color.blue;
-                sum = color.red + color.green + color.blue;
-
-                iter++;
-            }
-
-            return color;
-        }
-
+            => new Color3B(ColorUtils.GenerateColor(
+                Utils.random,
+                SettingsManager.GetHSVRanges(EnumProvinceType.LAND),
+                c => !_provincesByColor.ContainsKey(c)
+            ));
         public static Color3B GetNewSeaColor()
-        {
-            Color3B color = Color3B.GetRandowColor();
-
-            int max = color.red;
-            if (color.green > max) max = color.green;
-            if (color.blue > max) max = color.blue;
-            int sum = color.red + color.green + color.blue;
-
-            int iter = 0;
-
-            while (iter < 10000 && (sum > 299 || max > 127 || _provincesByColor.ContainsKey(color.ToArgb())))
-            {
-                color = Color3B.GetRandowColor();
-                max = color.red;
-                if (color.green > max) max = color.green;
-                if (color.blue > max) max = color.blue;
-                sum = color.red + color.green + color.blue;
-
-                iter++;
-            }
-
-            return color;
-        }
-
+            => new Color3B(ColorUtils.GenerateColor(
+                Utils.random,
+                SettingsManager.GetHSVRanges(EnumProvinceType.SEA),
+                c => !_provincesByColor.ContainsKey(c)
+            ));
         public static Color3B GetNewLakeColor()
-        {
-            Color3B color = Color3B.GetRandowColor();
-
-            int max = color.red;
-            if (color.green > max) max = color.green;
-            if (color.blue > max) max = color.blue;
-            int sum = color.red + color.green + color.blue;
-
-            int iter = 0;
-
-            while (iter < 10000 && (sum > 299 || max > 127 || _provincesByColor.ContainsKey(color.ToArgb())))
-            {
-                color = Color3B.GetRandowColor();
-                max = color.red;
-                if (color.green > max) max = color.green;
-                if (color.blue > max) max = color.blue;
-                sum = color.red + color.green + color.blue;
-
-                iter++;
-            }
-
-            return color;
-        }
+            => new Color3B(ColorUtils.GenerateColor(
+                Utils.random,
+                SettingsManager.GetHSVRanges(EnumProvinceType.LAKE),
+                c => !_provincesByColor.ContainsKey(c)
+            ));
 
         public static bool ContainsProvinceIdKey(ushort id) => _provincesById[id] != null;
         public static List<ushort> GetProvincesIds()

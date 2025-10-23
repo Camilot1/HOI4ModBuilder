@@ -52,6 +52,7 @@ namespace HOI4ModBuilder.src.managers.settings
         {
             if (maxAdditionalTextureSize < 8192)
                 maxAdditionalTextureSize = 8192;
+            currentModSettings?.PostInit();
         }
 
         public Dictionary<EnumCreateObjectType, CreateObjectPatterns> createObjectPatterns = new Dictionary<EnumCreateObjectType, CreateObjectPatterns>()
