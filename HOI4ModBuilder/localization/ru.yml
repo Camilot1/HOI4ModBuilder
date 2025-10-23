@@ -525,3 +525,8 @@ EXCEPTION_FILE_ALREADY_EXISTS: "Файл уже существует: {filePath}
 WARNINGS_ACTION_WILL_AFFECT_MORE_THAN_X_PIXELS: "Внимание! Действие затронет более {count} пикселей на карте. Вы уверены, что хотите его выполнить?"
 ACTION_WAS_CANCELED: "Действие было отменено"
 UNABLE_TO_GENERATE_COLOR_WITHIN_PROVIDED_CONSTRAINTS: "Не удалось сгенерировать цвет в пределах указанных ограничений: {constraints}"
+
+AUTOTOOL_REGENERATE_PROVINCES_COLORS_PROVINCES: "Генерация цветов (провинции): [{current}/{max}]"
+AUTOTOOL_REGENERATE_PROVINCES_COLORS_STATES: "Генерация цветов (области): [{current}/{max}]"
+AUTOTOOL_REGENERATE_PROVINCES_COLORS_REGIONS: "Генерация цветов (регионы): [{current}/{max}]"
+AUTOTOOL_REGENERATE_PROVINCES_COLORS_COMPLETED: "Генерация цветов завершена"

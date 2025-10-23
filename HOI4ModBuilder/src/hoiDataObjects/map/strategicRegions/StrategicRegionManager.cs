@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using static HOI4ModBuilder.src.tools.autotools.AutoToolRegenerateProvincesColors;
 using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
@@ -194,8 +195,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             var regeneratedRegionToColor = new Dictionary<StrategicRegion, int>(256);
             var hsvRanges = modSettings.GetRegionHSVRanges();
 
-            foreach (var region in GetRegions())
+            var progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_REGIONS);
+
+            var regions = GetRegions();
+            int counter = 0;
+            foreach (var region in regions)
             {
+                counter++;
+                progressCallback.Execute(counter, regions.Count);
+
                 adjacentColors.Clear();
 
                 int newColor;

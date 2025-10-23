@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using static HOI4ModBuilder.src.tools.autotools.AutoToolRegenerateProvincesColors;
 using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.history.states
@@ -253,8 +254,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             var regeneratedStatesToColor = new Dictionary<State, int>(512);
             var hsvRanges = modSettings.GetStateHSVRanges();
 
+            var progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_STATES);
+            var states = GetStates();
+            int counter = 0;
             foreach (var state in GetStates())
             {
+                counter++;
+                progressCallback.Execute(counter, states.Count);
+
                 adjacentColors.Clear();
 
                 int newColor;

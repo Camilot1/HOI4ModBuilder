@@ -5,6 +5,8 @@ using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.tools.autotools
 {
@@ -17,18 +19,47 @@ namespace HOI4ModBuilder.src.tools.autotools
         }
         public static void Execute(bool displayResultMessage, EnumMode mode)
         {
-            int counter = 0;
-            switch (mode)
+            var task = new Task<Dictionary<Province, int>>(() =>
             {
-                case EnumMode.RANDOM: counter = ModeRandom(); break;
-                case EnumMode.BASED_ON_STATE_COLOR: counter = ModeBasedOnStateColor(); break;
-            }
+                switch (mode)
+                {
+                    case EnumMode.RANDOM: return ModeRandom();
+                    case EnumMode.BASED_ON_STATE_COLOR: return ModeBasedOnStateColor();
+                }
+                return null;
+            });
 
-            if (displayResultMessage)
-                PostAction(false, counter);
+            task.ContinueWith(obj =>
+            {
+                var result = obj.Result;
+                int counter = 0;
+                if (result != null)
+                {
+                    ReplaceColors(result);
+                    counter = result.Count;
+                }
+
+                if (displayResultMessage)
+                    PostAction(false, counter);
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+
+            task.Start();
+
         }
 
-        private static int ModeRandom()
+        private static void ReplaceColors(Dictionary<Province, int> regeneratedProvinceToColor)
+        {
+            var colorsToReplace = new Dictionary<int, int>(regeneratedProvinceToColor.Count);
+            foreach (var entry in regeneratedProvinceToColor)
+                colorsToReplace.Add(entry.Key.Color, entry.Value);
+
+            MapManager.ReplacePixels(colorsToReplace);
+            ProvinceManager.ReinitProvincesByColor(regeneratedProvinceToColor);
+
+            MainForm.DisplayProgress(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_COMPLETED, 0);
+        }
+
+        private static Dictionary<Province, int> ModeRandom()
         {
             var random = new Random(0);
             var regeneratedProvinceToColor = new Dictionary<Province, int>(4096);
@@ -38,6 +69,7 @@ namespace HOI4ModBuilder.src.tools.autotools
             var modSettings = SettingsManager.Settings.GetModSettings();
 
             var provinces = new List<Province>(ProvinceManager.GetProvinces());
+            var progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_PROVINCES);
 
             RegenerateProvincesColors(
                 random,
@@ -45,15 +77,14 @@ namespace HOI4ModBuilder.src.tools.autotools
                 provinceChecker: p => true,
                 borderProvinceChecker: p => true,
                 hsvRangesProvider: p => modSettings.GetProvincesHSVRanges(p.Type), newColors,
-                regeneratedProvinceToColor
+                regeneratedProvinceToColor,
+                progressCallBack: (cur, max) => progressCallback.Execute(cur, max)
             );
 
-            ReplaceColors(regeneratedProvinceToColor);
-
-            return newColors.Count;
+            return regeneratedProvinceToColor;
         }
 
-        private static int ModeBasedOnStateColor()
+        private static Dictionary<Province, int> ModeBasedOnStateColor()
         {
             var random = new Random(0);
             var modSettings = SettingsManager.Settings.GetModSettings();
@@ -63,9 +94,16 @@ namespace HOI4ModBuilder.src.tools.autotools
 
             var regeneratedProvinceToColor = new Dictionary<Province, int>(4096);
             List<Province> provinces;
+            ProgressCallback progressCallback;
 
-            foreach (var state in StateManager.GetStates())
+            progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_STATES);
+            var states = StateManager.GetStates();
+            int counter = 0;
+            foreach (var state in states)
             {
+                counter++;
+                progressCallback.Execute(counter, states.Count);
+
                 Utils.IntToRgb(state.Color, out var r, out var g, out var b);
                 ColorUtils.RgbToHsv(r, g, b, out var h, out var s, out var v);
                 var hsvRanges = variation.Variate(h, s, v);
@@ -79,11 +117,13 @@ namespace HOI4ModBuilder.src.tools.autotools
                     borderProvinceChecker: p => p.State == state,
                     hsvRangesProvider: p => hsvRanges,
                     newColors,
-                    regeneratedProvinceToColor
+                    regeneratedProvinceToColor,
+                    progressCallBack: null
                 );
             }
 
             provinces = new List<Province>(ProvinceManager.GetProvinces());
+            progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_PROVINCES);
             RegenerateProvincesColors(
                 random,
                 provinces,
@@ -91,22 +131,36 @@ namespace HOI4ModBuilder.src.tools.autotools
                 borderProvinceChecker: p => true,
                 hsvRangesProvider: p => modSettings.GetProvincesHSVRanges(p.Type),
                 newColors,
-                regeneratedProvinceToColor
+                regeneratedProvinceToColor,
+                progressCallBack: (cur, max) => progressCallback.Execute(cur, max)
             );
 
-            ReplaceColors(regeneratedProvinceToColor);
-
-            return newColors.Count;
+            return regeneratedProvinceToColor;
         }
 
-        private static void ReplaceColors(Dictionary<Province, int> regeneratedProvinceToColor)
+        public class ProgressCallback
         {
-            var colorsToReplace = new Dictionary<int, int>(regeneratedProvinceToColor.Count);
-            foreach (var entry in regeneratedProvinceToColor)
-                colorsToReplace.Add(entry.Key.Color, entry.Value);
+            public readonly Stopwatch stopwatch = Stopwatch.StartNew();
+            public EnumLocKey displayLocKey;
 
-            MapManager.ReplacePixels(colorsToReplace);
-            ProvinceManager.ReinitProvincesByColor(regeneratedProvinceToColor);
+            public ProgressCallback(EnumLocKey displayLocKey)
+            {
+                this.displayLocKey = displayLocKey;
+            }
+
+            public void Execute(int cur, int max)
+            {
+                float currentProgress = (cur / (float)max);
+                if (cur == max || stopwatch.ElapsedMilliseconds > 100)
+                {
+                    stopwatch.Restart();
+                    MainForm.DisplayProgress(
+                        displayLocKey,
+                        new Dictionary<string, string> { { "{current}", "" + cur }, { "{max}", "" + max } },
+                        currentProgress
+                    );
+                }
+            }
         }
 
         private static void RegenerateProvincesColors(
@@ -116,14 +170,20 @@ namespace HOI4ModBuilder.src.tools.autotools
             Func<Province, bool> borderProvinceChecker,
             Func<Province, HSVRanges> hsvRangesProvider,
             HashSet<int> newColors,
-            Dictionary<Province, int> regeneratedProvinceToColor
+            Dictionary<Province, int> regeneratedProvinceToColor,
+            Action<int, int> progressCallBack
             )
         {
             var modSettings = SettingsManager.Settings.GetModSettings();
             var adjacentColors = new List<int>(16);
 
+            int counter = 0;
+            int maxCount = provinces.Count;
             foreach (var province in provinces)
             {
+                counter++;
+                progressCallBack?.Invoke(counter, maxCount);
+
                 if (provinceChecker != null && !provinceChecker(province))
                     continue;
 

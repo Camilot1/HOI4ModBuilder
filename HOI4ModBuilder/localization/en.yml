@@ -526,3 +526,9 @@ EXCEPTION_FILE_ALREADY_EXISTS: "File already exists: {filePath}"
 WARNINGS_ACTION_WILL_AFFECT_MORE_THAN_X_PIXELS: "Attention! This action will affect more than {count} pixels on the Map. Are you sure you want to do it?"
 ACTION_WAS_CANCELED: "The action was cancelled"
 UNABLE_TO_GENERATE_COLOR_WITHIN_PROVIDED_CONSTRAINTS: "Unable to generate color within provided constraints: {constraints}"
+
+
+AUTOTOOL_REGENERATE_PROVINCES_COLORS_PROVINCES: "Colors generation (provinces): [{current}/{max}]"
+AUTOTOOL_REGENERATE_PROVINCES_COLORS_STATES: "Colors generation (states): [{current}/{max}]"
+AUTOTOOL_REGENERATE_PROVINCES_COLORS_REGIONS: "Colors generation (regions): [{current}/{max}]"
+AUTOTOOL_REGENERATE_PROVINCES_COLORS_COMPLETED: "Colors generation completed"
