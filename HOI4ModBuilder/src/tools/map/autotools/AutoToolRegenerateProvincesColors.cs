@@ -1,11 +1,13 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.tools.autotools
@@ -19,6 +21,7 @@ namespace HOI4ModBuilder.src.tools.autotools
         }
         public static void Execute(bool displayResultMessage, EnumMode mode)
         {
+            var stopwatch = Stopwatch.StartNew();
             var task = new Task<Dictionary<Province, int>>(() =>
             {
                 switch (mode)
@@ -31,6 +34,7 @@ namespace HOI4ModBuilder.src.tools.autotools
 
             task.ContinueWith(obj =>
             {
+                Logger.Log($"Color regeneration: {mode} = {stopwatch.ElapsedMilliseconds} ms");
                 var result = obj.Result;
                 int counter = 0;
                 if (result != null)
@@ -68,7 +72,7 @@ namespace HOI4ModBuilder.src.tools.autotools
 
             var modSettings = SettingsManager.Settings.GetModSettings();
 
-            var provinces = new List<Province>(ProvinceManager.GetProvinces());
+            var provinces = AssembleProvinces(ProvinceManager.GetProvinces());
             var progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_PROVINCES);
 
             RegenerateProvincesColors(
@@ -84,6 +88,91 @@ namespace HOI4ModBuilder.src.tools.autotools
             return regeneratedProvinceToColor;
         }
 
+        public static List<Province> AssembleProvinces(ICollection<Province> provinces)
+            => AssembleProvinces(provinces, o => true, o => true);
+        public static List<Province> AssembleProvinces(ICollection<Province> provinces, Func<Province, bool> checker)
+            => AssembleProvinces(provinces, checker, checker);
+        public static List<Province> AssembleProvinces(
+            ICollection<Province> provinces, Func<Province, bool> checker, Func<Province, bool> borderChecker
+        ) => Assemble(
+            provinces, checker, borderChecker,
+            (o, borderAction) => o.ForEachBorderProvince(borderO => borderAction(borderO))
+        );
+
+
+        public static List<State> AssembleStates(ICollection<State> states)
+            => AssembleStates(states, o => true, o => true);
+        public static List<State> AssembleStates(ICollection<State> states, Func<State, bool> checker)
+            => AssembleStates(states, checker, checker);
+        public static List<State> AssembleStates(
+            ICollection<State> states, Func<State, bool> checker, Func<State, bool> borderChecker
+        ) => Assemble(
+            states, checker, borderChecker,
+            (o, borderAction) => o.ForEachBorderState(borderO => borderAction(borderO))
+        );
+
+        public static List<StrategicRegion> AssembleRegions(ICollection<StrategicRegion> regions)
+            => AssembleStates(regions, o => true, o => true);
+        public static List<StrategicRegion> AssembleRegions(ICollection<StrategicRegion> regions, Func<StrategicRegion, bool> checker)
+            => AssembleStates(regions, checker, checker);
+        public static List<StrategicRegion> AssembleStates(
+            ICollection<StrategicRegion> regions, Func<StrategicRegion, bool> checker, Func<StrategicRegion, bool> borderChecker
+        ) => Assemble(
+            regions, checker, borderChecker,
+            (o, borderAction) => o.ForEachBorderRegion(borderO => borderAction(borderO))
+        );
+
+
+        public static List<T> Assemble<T>(ICollection<T> values, Func<T, bool> checker, Func<T, bool> borderChecker, Action<T, Action<T>> ForEachBorder)
+        {
+            var used = new HashSet<T>(values.Count);
+            var bordersQueue = new Queue<T>(values.Count / 4);
+            var assembleQueue = new Queue<T>(values.Count / 4);
+            var list = new List<T>(values.Count);
+
+            if (checker == null)
+                checker = o => true;
+            if (borderChecker == null)
+                borderChecker = o => true;
+
+            foreach (var o in values)
+            {
+                if (used.Contains(o) || !checker(o))
+                    continue;
+                used.Add(o);
+                bordersQueue.Enqueue(o);
+
+                DoBordersQueue();
+                DoAssembleQueue();
+            }
+
+            void DoBordersQueue()
+            {
+                while (bordersQueue.Count > 0)
+                {
+                    var o = bordersQueue.Dequeue();
+                    assembleQueue.Enqueue(o);
+
+                    ForEachBorder(o, borderO =>
+                    {
+                        if (used.Contains(borderO) || !borderChecker(borderO))
+                            return;
+                        used.Add(borderO);
+                        bordersQueue.Enqueue(borderO);
+                    });
+                }
+            }
+
+            void DoAssembleQueue()
+            {
+                while (assembleQueue.Count > 0)
+                    list.Add(assembleQueue.Dequeue());
+            }
+
+            return list;
+        }
+
+
         private static Dictionary<Province, int> ModeBasedOnStateColor()
         {
             var random = new Random(0);
@@ -97,7 +186,7 @@ namespace HOI4ModBuilder.src.tools.autotools
             ProgressCallback progressCallback;
 
             progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_STATES);
-            var states = StateManager.GetStates();
+            var states = AssembleStates(StateManager.GetStates());
             int counter = 0;
             foreach (var state in states)
             {
@@ -109,11 +198,12 @@ namespace HOI4ModBuilder.src.tools.autotools
                 var hsvRanges = variation.Variate(h, s, v);
 
                 provinces = new List<Province>(state.Provinces);
+                state.ForEachOtherBorderProvince(p => provinces.Add(p));
 
                 RegenerateProvincesColors(
                     random,
                     provinces,
-                    provinceChecker: p => p.Type == EnumProvinceType.LAND,
+                    provinceChecker: p => p.State == state && p.Type == EnumProvinceType.LAND,
                     borderProvinceChecker: p => p.State == state,
                     hsvRangesProvider: p => hsvRanges,
                     newColors,
@@ -122,12 +212,12 @@ namespace HOI4ModBuilder.src.tools.autotools
                 );
             }
 
-            provinces = new List<Province>(ProvinceManager.GetProvinces());
+            provinces = AssembleProvinces(ProvinceManager.GetProvinces(), p => p.Type != EnumProvinceType.LAND);
             progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_PROVINCES);
             RegenerateProvincesColors(
                 random,
                 provinces,
-                provinceChecker: p => p.Type != EnumProvinceType.LAND,
+                provinceChecker: p => true,
                 borderProvinceChecker: p => true,
                 hsvRangesProvider: p => modSettings.GetProvincesHSVRanges(p.Type),
                 newColors,
@@ -177,6 +267,11 @@ namespace HOI4ModBuilder.src.tools.autotools
             var modSettings = SettingsManager.Settings.GetModSettings();
             var adjacentColors = new List<int>(16);
 
+            if (provinceChecker == null)
+                provinceChecker = p => true;
+            if (borderProvinceChecker == null)
+                borderProvinceChecker = p => true;
+
             int counter = 0;
             int maxCount = provinces.Count;
             foreach (var province in provinces)
@@ -184,7 +279,7 @@ namespace HOI4ModBuilder.src.tools.autotools
                 counter++;
                 progressCallBack?.Invoke(counter, maxCount);
 
-                if (provinceChecker != null && !provinceChecker(province))
+                if (!provinceChecker(province))
                     continue;
 
                 adjacentColors.Clear();
@@ -192,7 +287,7 @@ namespace HOI4ModBuilder.src.tools.autotools
 
                 province.ForEachBorderProvince(borderProvince =>
                 {
-                    if (borderProvinceChecker != null && !borderProvinceChecker(borderProvince))
+                    if (!borderProvinceChecker(borderProvince))
                         return false;
                     if (!regeneratedProvinceToColor.TryGetValue(borderProvince, out newColor))
                         return false;

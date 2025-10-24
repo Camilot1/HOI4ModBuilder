@@ -63,15 +63,15 @@ namespace HOI4ModBuilder.src.managers.settings
         }
 
         public static HSVRanges GetDefaultLandHSVRanges()
-            => new HSVRanges(0.3, double.PositiveInfinity, 0, 1, 0.2, 0.65, 0.75, 1);
+            => new HSVRanges(0.4, double.PositiveInfinity, 0, 1, 0.2, 0.65, 0.75, 1);
         public static HSVRanges GetDefaultSeaHSVRanges()
-            => new HSVRanges(0.02, double.PositiveInfinity, 0, 1, 0.5, 1, 0, 0.25);
+            => new HSVRanges(0.4, double.PositiveInfinity, 0, 1, 0.4, 1, 0.05, 0.1);
         public static HSVRanges GetDefaultLakeHSVRanges()
-            => new HSVRanges(0.02, double.PositiveInfinity, 0, 1, 0.5, 1, 0, 0.25);
+            => new HSVRanges(0.4, double.PositiveInfinity, 0, 1, 0.4, 1, 0.05, 0.1);
         public static HSVRanges GetDefaultStateHSVRanges()
-            => new HSVRanges(0.5, double.PositiveInfinity, 0, 1, 0.4, 0.8, 0.6, 1);
+            => new HSVRanges(0.4, double.PositiveInfinity, 0, 1, 0.4, 0.8, 0.6, 1);
         public static HSVRanges GetDefaultRegionHSVRanges()
-            => new HSVRanges(0.5, double.PositiveInfinity, 0, 1, 0.4, 0.8, 0.6, 1);
+            => new HSVRanges(0.4, double.PositiveInfinity, 0, 1, 0.4, 0.8, 0.6, 1);
         public static VariationHSVRanges GetDefaultStateToProvinceColorVariationHSVRanges()
             => new VariationHSVRanges(0.125, 0.5, -0.05, 0.05, -0.1, 0.15, -0.1, 0.15);
 

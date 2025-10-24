@@ -196,6 +196,35 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 });
         }
 
+        public void ForEachBorderState(Action<State> action)
+        {
+            var usedStates = new HashSet<State>(32);
+            foreach (var border in borders)
+            {
+                var otherState = border.provinceA.State == this ? border.provinceB.State : border.provinceA.State;
+                if (otherState == null)
+                    continue;
+                if (!usedStates.Contains(otherState))
+                {
+                    action(otherState);
+                    usedStates.Add(otherState);
+                }
+            }
+        }
+
+        public void ForEachOtherBorderProvince(Action<Province> action)
+        {
+            var usedIDs = new HashSet<ushort>(256);
+
+            foreach (var border in borders)
+            {
+                var otherStateProvince = border.provinceA.State == this ? border.provinceB : border.provinceA;
+                if (usedIDs.Contains(otherStateProvince.Id))
+                    continue;
+                action(otherStateProvince);
+                usedIDs.Add(otherStateProvince.Id);
+            }
+        }
         public List<State> GetBorderStates()
         {
             var states = new List<State>(32);

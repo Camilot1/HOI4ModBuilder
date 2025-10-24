@@ -9,12 +9,14 @@ using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
+using HOI4ModBuilder.src.tools.autotools;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.classes;
 using HOI4ModBuilder.src.utils.structs;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -255,9 +257,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             var hsvRanges = modSettings.GetStateHSVRanges();
 
             var progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_STATES);
-            var states = GetStates();
+            var states = AssembleStates(GetStates());
             int counter = 0;
-            foreach (var state in GetStates())
+            foreach (var state in states)
             {
                 counter++;
                 progressCallback.Execute(counter, states.Count);
@@ -466,6 +468,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
         }
 
+        public static ushort GetMaxID()
+        {
+            var list = new List<ushort>(_statesById.Keys);
+            list.Sort();
+            return list[list.Count - 1];
+        }
+
 
         public static void InitStatesBorders()
         {
@@ -473,7 +482,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             foreach (var state in _statesById.Values)
                 state.InitBorders();
             TextureManager.InitStateBordersMap(_statesBorders);
+
+            var stopwatch = Stopwatch.StartNew();
             RegenerateStatesColors();
+            Logger.Log($"RegenerateStatesColors = {stopwatch.ElapsedMilliseconds} ms");
         }
 
         public static void CalculateCenters()

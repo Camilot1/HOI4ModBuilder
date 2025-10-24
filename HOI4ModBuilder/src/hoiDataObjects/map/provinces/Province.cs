@@ -548,18 +548,28 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return borderProvinces;
         }
 
-        public void ForEachBorderProvince(Func<Province, bool> action)
+        public void ForEachBorderProvince(Action<Province> action)
+        {
+            foreach (var b in borders)
+            {
+                if (b.provinceA._id == _id)
+                    action(b.provinceB);
+                else if (b.provinceB._id == _id)
+                    action(b.provinceA);
+            }
+        }
+        public void ForEachBorderProvince(Func<Province, bool> func)
         {
             foreach (var b in borders)
             {
                 if (b.provinceA._id == _id)
                 {
-                    if (action(b.provinceB))
+                    if (func(b.provinceB))
                         break;
                 }
                 else if (b.provinceB._id == _id)
                 {
-                    if (action(b.provinceA))
+                    if (func(b.provinceA))
                         break;
                 }
             }

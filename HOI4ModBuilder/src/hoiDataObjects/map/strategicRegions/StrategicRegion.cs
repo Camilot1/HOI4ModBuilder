@@ -70,6 +70,21 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                         action(thisProvince, otherProvince);
                 });
         }
+        public void ForEachBorderRegion(Action<StrategicRegion> action)
+        {
+            var usedRegions = new HashSet<StrategicRegion>(32);
+            foreach (var border in _borders)
+            {
+                var otherRegion = border.provinceA.Region == this ? border.provinceB.Region : border.provinceA.Region;
+                if (otherRegion == null)
+                    continue;
+                if (!usedRegions.Contains(otherRegion))
+                {
+                    action(otherRegion);
+                    usedRegions.Add(otherRegion);
+                }
+            }
+        }
 
         private RegionStaticModifiers _staticModifiers = new RegionStaticModifiers();
         public RegionStaticModifiers StaticModifiers

@@ -10,6 +10,7 @@ using OpenTK.Graphics.OpenGL;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -197,7 +198,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
             var progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_REGIONS);
 
-            var regions = GetRegions();
+            var regions = AssembleRegions(GetRegions());
             int counter = 0;
             foreach (var region in regions)
             {
@@ -296,7 +297,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             foreach (var region in _regions.Values)
                 region.InitBorders();
             TextureManager.InitRegionsBordersMap(_regionsBorders);
+
+            var stopwatch = Stopwatch.StartNew();
             RegenerateRegionsColors();
+            Logger.Log($"RegenerateRegionsColors = {stopwatch.ElapsedMilliseconds} ms");
         }
 
         private static void HandleDelete()
