@@ -345,10 +345,10 @@ namespace HOI4ModBuilder.src.forms
 
             }
 
-            private static readonly int HSV_RANGE_DIF_PARAM_INDEX = 0;
-            private static readonly int HSV_RANGE_H_PARAM_INDEX = 1;
-            private static readonly int HSV_RANGE_S_PARAM_INDEX = 2;
-            private static readonly int HSV_RANGE_V_PARAM_INDEX = 3;
+            private const int HSV_RANGE_DIF_PARAM_INDEX = 0;
+            private const int HSV_RANGE_H_PARAM_INDEX = 1;
+            private const int HSV_RANGE_S_PARAM_INDEX = 2;
+            private const int HSV_RANGE_V_PARAM_INDEX = 3;
 
             private void RepopulateComboBoxColorGenerationPatterns()
             {
@@ -359,7 +359,16 @@ namespace HOI4ModBuilder.src.forms
                 SelectedColorGenerationPattern.Items.Clear();
                 foreach (var obj in Enum.GetValues(typeof(EnumColorGenerationPattern)))
                     SelectedColorGenerationPattern.Items.Add(GuiLocManager.GetLoc("" + obj));
-                SelectedColorGenerationPattern.SelectedIndex = tempIndex;
+
+                if (SelectedColorGenerationPattern.Items.Count > 0)
+                {
+                    tempIndex = Math.Min(tempIndex, SelectedColorGenerationPattern.Items.Count - 1);
+                    SelectedColorGenerationPattern.SelectedIndex = tempIndex;
+                }
+                else
+                {
+                    SelectedColorGenerationPattern.SelectedIndex = -1;
+                }
                 SelectedColorGenerationPattern.Refresh();
             }
 
@@ -368,7 +377,14 @@ namespace HOI4ModBuilder.src.forms
                 if (modSettings == null)
                     return;
 
-                var pattern = (EnumColorGenerationPattern)SelectedColorGenerationPattern.SelectedIndex;
+                var selectedIndex = SelectedColorGenerationPattern.SelectedIndex;
+                if (selectedIndex < 0)
+                {
+                    ColorGenerationPatternParameters.Rows.Clear();
+                    return;
+                }
+
+                var pattern = (EnumColorGenerationPattern)selectedIndex;
                 var hsvRanges = modSettings.GetHSVRanges(pattern);
 
                 ColorGenerationPatternParameters.Rows.Clear();
@@ -404,6 +420,7 @@ namespace HOI4ModBuilder.src.forms
                 if (target == null)
                     return;
 
+                // basic numeric settings
                 target.MAP_SCALE_PIXEL_TO_KM = Utils.ParseFloat(MapScale.Text);
                 target.WATER_HEIGHT = Utils.ParseFloat(WaterHeight.Text);
                 target.WATER_HEIGHT_minLandOffset = Utils.ParseFloat(WaterHeightMinOffset.Text);
@@ -411,6 +428,7 @@ namespace HOI4ModBuilder.src.forms
                 target.normalMapStrength = Utils.ParseFloat(NormalMapStrength.Text);
                 target.normalMapBlur = Utils.ParseFloat(NormalMapBlur.Text);
 
+                // save pattern toggles
                 target.useCustomSavePatterns = UseCustomSavePatterns.Checked;
                 if (SaveSettings.Items.Count > 0)
                     target.exportRiversMapWithWaterPixels = SaveSettings.GetItemChecked(0);
@@ -426,38 +444,49 @@ namespace HOI4ModBuilder.src.forms
                     target.SetWips(enumObj, Wips.GetItemChecked(index));
                 }
 
-                foreach (var row in ColorGenerationPatternParameters.Rows)
-                    SaveRow((DataGridViewRow)row);
+                SaveColorGenerationPatterns(target);
+            }
 
-                void SaveRow(DataGridViewRow row)
+            private void SaveColorGenerationPatterns(ModSettings target)
+            {
+                if (target == null)
+                    return;
+
+                var selectedPatternIndex = SelectedColorGenerationPattern.SelectedIndex;
+                if (selectedPatternIndex < 0)
+                    return;
+
+                var pattern = (EnumColorGenerationPattern)selectedPatternIndex;
+                var hsvRanges = target.GetHSVRanges(pattern);
+                if (hsvRanges == null)
+                    return;
+
+                foreach (DataGridViewRow row in ColorGenerationPatternParameters.Rows)
                 {
-                    var pattern = (EnumColorGenerationPattern)SelectedColorGenerationPattern.SelectedIndex;
-                    int paramIndex = (int)row.Tag;
+                    if (row == null || row.IsNewRow || !(row.Tag is int paramIndex))
+                        continue;
 
                     var minValue = Utils.ParseDouble(row.Cells[1].Value + "");
                     var maxValue = Utils.ParseDouble(row.Cells[2].Value + "");
 
-                    var hsvRanges = target.GetHSVRanges(pattern);
-
-                    if (paramIndex == HSV_RANGE_DIF_PARAM_INDEX)
+                    switch (paramIndex)
                     {
-                        hsvRanges.minDif = minValue;
-                        hsvRanges.maxDif = maxValue;
-                    }
-                    else if (paramIndex == HSV_RANGE_DIF_PARAM_INDEX)
-                    {
-                        hsvRanges.minH = minValue;
-                        hsvRanges.maxH = maxValue;
-                    }
-                    else if (paramIndex == HSV_RANGE_DIF_PARAM_INDEX)
-                    {
-                        hsvRanges.minS = minValue;
-                        hsvRanges.maxS = maxValue;
-                    }
-                    else if (paramIndex == HSV_RANGE_DIF_PARAM_INDEX)
-                    {
-                        hsvRanges.minV = minValue;
-                        hsvRanges.maxV = maxValue;
+                        case HSV_RANGE_DIF_PARAM_INDEX:
+                            hsvRanges.minDif = minValue;
+                            hsvRanges.maxDif = maxValue;
+                            break;
+                        case HSV_RANGE_H_PARAM_INDEX:
+                            hsvRanges.minH = minValue;
+                            hsvRanges.maxH = maxValue;
+                            break;
+                        case HSV_RANGE_S_PARAM_INDEX:
+                            hsvRanges.minS = minValue;
+                            hsvRanges.maxS = maxValue;
+                            break;
+                        case HSV_RANGE_V_PARAM_INDEX:
+                            hsvRanges.minV = minValue;
+                            hsvRanges.maxV = maxValue;
+                            break;
                     }
                 }
             }

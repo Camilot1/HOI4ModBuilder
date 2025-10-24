@@ -166,6 +166,9 @@
   <data name="label8.Text" xml:space="preserve">
     <value>World Normal Map Strength:</value>
   </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Data Export Settings:</value>
+  </data>
   <data name="CheckBox_UseCustomSavePatterns.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 17</value>
   </data>
@@ -184,50 +187,32 @@
   <data name="CheckedListBox_SaveSettings.Items1" xml:space="preserve">
     <value>Generate Normal Map</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Data Export Settings:</value>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Active Settings File:</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
     <value>Color Generation Patterns Parameters:</value>
-  </data>
-  <data name="Button_ModSettings_ApplyChanges.Text" xml:space="preserve">
-    <value>Apply Changes</value>
-  </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>Features in Development (WIP):</value>
-  </data>
-  <data name="Button_CreateModSettings.Text" xml:space="preserve">
-    <value>Create Mod Related Settings File</value>
-  </data>
-  <data name="ComboBox_UsingSettingsType.Items" xml:space="preserve">
-    <value>Basic Settings</value>
-  </data>
-  <data name="ComboBox_UsingSettingsType.Items1" xml:space="preserve">
-    <value>Mod Related Settings</value>
-  </data>
-  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 13</value>
-  </data>
-  <data name="label19.Text" xml:space="preserve">
-    <value>Max Lower Height Offset for Sea Provinces:</value>
-  </data>
-  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 13</value>
-  </data>
-  <data name="label18.Text" xml:space="preserve">
-    <value>Min Lower Height Offset for Land Provinces:</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Parameters:</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Active Settings File:</value>
   </data>
   <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 13</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>Pattern:</value>
+  </data>
+  <data name="Column_ParameterName.HeaderText" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="Column_MinValue.HeaderText" xml:space="preserve">
+    <value>Min Value</value>
+  </data>
+  <data name="Column_MaxValue.HeaderText" xml:space="preserve">
+    <value>Max Value</value>
+  </data>
+  <data name="Button_ModSettings_ApplyChanges.Text" xml:space="preserve">
+    <value>Apply Changes</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>Features in Development (WIP):</value>
   </data>
   <data name="CheckedListBox_Wips.Items" xml:space="preserve">
     <value>Sub Units (Beta)</value>
@@ -241,6 +226,30 @@
   <data name="CheckedListBox_Wips.Items3" xml:space="preserve">
     <value>Equipments (Alpha)</value>
   </data>
+  <data name="Button_CreateModSettings.Text" xml:space="preserve">
+    <value>Create Mod Related Settings File</value>
+  </data>
+  <data name="ComboBox_UsingSettingsType.Items" xml:space="preserve">
+    <value>Basic Settings</value>
+  </data>
+  <data name="ComboBox_UsingSettingsType.Items1" xml:space="preserve">
+    <value>Mod Related Settings</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Parameters:</value>
+  </data>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 13</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>Max Upper Height Offset for Sea Provinces:</value>
+  </data>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 13</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>Min Lower Height Offset for Land Provinces:</value>
+  </data>
   <data name="CheckBox_IgnoreUpdateVersion.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 17</value>
   </data>
@@ -249,15 +258,6 @@
   </data>
   <data name="Button_Directory_AutoDetect.Text" xml:space="preserve">
     <value>Autodetect Paths</value>
-  </data>
-  <data name="Column_ParameterName.HeaderText" xml:space="preserve">
-    <value>Parameter</value>
-  </data>
-  <data name="Column_MinValue.HeaderText" xml:space="preserve">
-    <value>Min Value</value>
-  </data>
-  <data name="Column_MaxValue.HeaderText" xml:space="preserve">
-    <value>Max Value</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Settings</value>

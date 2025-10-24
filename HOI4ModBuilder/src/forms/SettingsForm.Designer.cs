@@ -63,6 +63,9 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
             this.DataGridView_ColorGenerationPatterns = new System.Windows.Forms.DataGridView();
+            this.Column_ParameterName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_MinValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_MaxValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ComboBox_SelectedColorGenerationPattern = new System.Windows.Forms.ComboBox();
             this.Button_ModSettings_ApplyChanges = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -77,9 +80,6 @@
             this.CheckBox_IgnoreUpdateVersion = new System.Windows.Forms.CheckBox();
             this.TextBox_IgnoreUpdateVersion = new System.Windows.Forms.TextBox();
             this.Button_Directory_AutoDetect = new System.Windows.Forms.Button();
-            this.Column_ParameterName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column_MinValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column_MaxValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -316,6 +316,28 @@
             this.DataGridView_ColorGenerationPatterns.Name = "DataGridView_ColorGenerationPatterns";
             this.DataGridView_ColorGenerationPatterns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             // 
+            // Column_ParameterName
+            // 
+            this.Column_ParameterName.FillWeight = 110F;
+            this.Column_ParameterName.Frozen = true;
+            resources.ApplyResources(this.Column_ParameterName, "Column_ParameterName");
+            this.Column_ParameterName.Name = "Column_ParameterName";
+            this.Column_ParameterName.ReadOnly = true;
+            // 
+            // Column_MinValue
+            // 
+            this.Column_MinValue.FillWeight = 80F;
+            this.Column_MinValue.Frozen = true;
+            resources.ApplyResources(this.Column_MinValue, "Column_MinValue");
+            this.Column_MinValue.Name = "Column_MinValue";
+            // 
+            // Column_MaxValue
+            // 
+            this.Column_MaxValue.FillWeight = 80F;
+            this.Column_MaxValue.Frozen = true;
+            resources.ApplyResources(this.Column_MaxValue, "Column_MaxValue");
+            this.Column_MaxValue.Name = "Column_MaxValue";
+            // 
             // ComboBox_SelectedColorGenerationPattern
             // 
             resources.ApplyResources(this.ComboBox_SelectedColorGenerationPattern, "ComboBox_SelectedColorGenerationPattern");
@@ -420,28 +442,6 @@
             this.Button_Directory_AutoDetect.Name = "Button_Directory_AutoDetect";
             this.Button_Directory_AutoDetect.UseVisualStyleBackColor = false;
             this.Button_Directory_AutoDetect.Click += new System.EventHandler(this.Button_Directory_AutoDetect_Click);
-            // 
-            // Column_ParameterName
-            // 
-            this.Column_ParameterName.FillWeight = 110F;
-            this.Column_ParameterName.Frozen = true;
-            resources.ApplyResources(this.Column_ParameterName, "Column_ParameterName");
-            this.Column_ParameterName.Name = "Column_ParameterName";
-            this.Column_ParameterName.ReadOnly = true;
-            // 
-            // Column_MinValue
-            // 
-            this.Column_MinValue.FillWeight = 80F;
-            this.Column_MinValue.Frozen = true;
-            resources.ApplyResources(this.Column_MinValue, "Column_MinValue");
-            this.Column_MinValue.Name = "Column_MinValue";
-            // 
-            // Column_MaxValue
-            // 
-            this.Column_MaxValue.FillWeight = 80F;
-            this.Column_MaxValue.Frozen = true;
-            resources.ApplyResources(this.Column_MaxValue, "Column_MaxValue");
-            this.Column_MaxValue.Name = "Column_MaxValue";
             // 
             // SettingsForm
             // 
