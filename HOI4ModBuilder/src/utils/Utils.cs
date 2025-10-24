@@ -589,6 +589,11 @@ namespace HOI4ModBuilder
             if (double.TryParse(str, out result)) return true;
             if (double.TryParse(str.Replace(',', '.'), out result)) return true;
             if (double.TryParse(str.Replace('.', ','), out result)) return true;
+            if (str == "inf")
+            {
+                result = double.PositiveInfinity;
+                return true;
+            }
             return false;
         }
 

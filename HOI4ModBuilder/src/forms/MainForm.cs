@@ -1930,6 +1930,21 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AutoToolRegenerateProvincesColors.Execute(true, AutoToolRegenerateProvincesColors.EnumMode.BASED_ON_STATE_COLOR));
 
+        private void ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings_Click(object sender, EventArgs e)
+            => OpenOrFocusSettingsForm();
+        private void Button_GenerateColor_OpenSettings_Click(object sender, EventArgs e)
+            => OpenOrFocusSettingsForm();
+
+        private void OpenOrFocusSettingsForm()
+            => Logger.TryOrLog(() =>
+            {
+                if (SettingsForm.Instance != null)
+                    SettingsForm.Instance.Focus();
+                else
+                    new SettingsForm().ShowDialog();
+            });
+
+
         public void SetGroupBoxProgressBackColor(Color color)
             => GroupBox_Progress.BackColor = color;
     }

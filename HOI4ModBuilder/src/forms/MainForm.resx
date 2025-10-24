@@ -594,11 +594,38 @@
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="Button_GenerateColor_OpenSettings.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Button_GenerateColor_OpenSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>91, 14</value>
+  </data>
+  <data name="Button_GenerateColor_OpenSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 23</value>
+  </data>
+  <data name="Button_GenerateColor_OpenSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="Button_GenerateColor_OpenSettings.Text" xml:space="preserve">
+    <value>🛠</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_OpenSettings.Name" xml:space="preserve">
+    <value>Button_GenerateColor_OpenSettings</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_OpenSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_OpenSettings.Parent" xml:space="preserve">
+    <value>GroupBox_GenerateColor</value>
+  </data>
+  <data name="&gt;&gt;Button_GenerateColor_OpenSettings.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="Button_GenerateColor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="Button_GenerateColor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 14</value>
+    <value>115, 14</value>
   </data>
   <data name="Button_GenerateColor.Size" type="System.Drawing.Size, System.Drawing">
     <value>24, 23</value>
@@ -619,7 +646,7 @@
     <value>GroupBox_GenerateColor</value>
   </data>
   <data name="&gt;&gt;Button_GenerateColor.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="ComboBox_GenerateColor_Type.Items" xml:space="preserve">
     <value>Случайный</value>
@@ -637,7 +664,7 @@
     <value>0, 15</value>
   </data>
   <data name="ComboBox_GenerateColor_Type.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 21</value>
+    <value>90, 21</value>
   </data>
   <data name="ComboBox_GenerateColor_Type.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -652,7 +679,7 @@
     <value>GroupBox_GenerateColor</value>
   </data>
   <data name="&gt;&gt;ComboBox_GenerateColor_Type.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="GroupBox_GenerateColor.Location" type="System.Drawing.Point, System.Drawing">
     <value>706, 0</value>
@@ -664,7 +691,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="GroupBox_GenerateColor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 37</value>
+    <value>140, 37</value>
   </data>
   <data name="GroupBox_GenerateColor.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
@@ -730,7 +757,7 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Palette.Location" type="System.Drawing.Point, System.Drawing">
-    <value>837, 0</value>
+    <value>850, 0</value>
   </data>
   <data name="GroupBox_Palette.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -796,7 +823,7 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Progress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>961, 0</value>
+    <value>974, 0</value>
   </data>
   <data name="GroupBox_Progress.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -2637,6 +2664,15 @@
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Text" xml:space="preserve">
     <value>На основе HSV цветов областей</value>
   </data>
+  <data name="toolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings.Text" xml:space="preserve">
+    <value>Открыть настройки генерации</value>
+  </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Size" type="System.Drawing.Size, System.Drawing">
     <value>297, 22</value>
   </data>
@@ -3661,6 +3697,18 @@
     <value>ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator30.Name" xml:space="preserve">
+    <value>toolStripSeparator30</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator30.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator26.Name" xml:space="preserve">

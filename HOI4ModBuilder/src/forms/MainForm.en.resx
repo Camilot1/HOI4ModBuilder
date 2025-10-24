@@ -139,19 +139,19 @@
     <value>Colors</value>
   </data>
   <data name="ComboBox_GenerateColor_Type.Items" xml:space="preserve">
-    <value>Random color</value>
+    <value>Random Color</value>
   </data>
   <data name="ComboBox_GenerateColor_Type.Items1" xml:space="preserve">
-    <value>New land color</value>
+    <value>Land Color</value>
   </data>
   <data name="ComboBox_GenerateColor_Type.Items2" xml:space="preserve">
-    <value>New sea color</value>
+    <value>Sea Color</value>
   </data>
   <data name="ComboBox_GenerateColor_Type.Items3" xml:space="preserve">
-    <value>New lake color</value>
+    <value>Lake Color</value>
   </data>
   <data name="GroupBox_GenerateColor.Text" xml:space="preserve">
-    <value>Generate color:</value>
+    <value>Generate New Color:</value>
   </data>
   <data name="GroupBox_Palette.Text" xml:space="preserve">
     <value>Color palette:</value>
@@ -792,6 +792,15 @@
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Text" xml:space="preserve">
     <value>Base on States' HSV Colors</value>
+  </data>
+  <data name="toolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 6</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings.Text" xml:space="preserve">
+    <value>Open Generation Settings</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Size" type="System.Drawing.Size, System.Drawing">
     <value>282, 22</value>

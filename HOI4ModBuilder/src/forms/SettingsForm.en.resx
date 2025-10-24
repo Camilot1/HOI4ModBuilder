@@ -148,8 +148,11 @@
   <data name="label4.Text" xml:space="preserve">
     <value>        Action History Length:</value>
   </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 13</value>
+  </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Additional Textures Opacity(%):</value>
+    <value>Additional Textures Opacity (%):</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>339, 13</value>
@@ -158,31 +161,40 @@
     <value>                                         Max resolution of additional texture segment:</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 13</value>
+    <value>141, 13</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>World normal map strength:</value>
+    <value>World Normal Map Strength:</value>
   </data>
-  <data name="CheckBox_UseCustomSavePatterns_Default.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 17</value>
+  <data name="CheckBox_UseCustomSavePatterns.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 17</value>
   </data>
-  <data name="CheckBox_UseCustomSavePatterns_Default.Text" xml:space="preserve">
-    <value>Use custom Save Patterns</value>
+  <data name="CheckBox_UseCustomSavePatterns.Text" xml:space="preserve">
+    <value>Use Custom Save Patterns</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 13</value>
+    <value>119, 13</value>
   </data>
   <data name="label12.Text" xml:space="preserve">
-    <value>World normal map blur:</value>
+    <value>World Normal Map Blur:</value>
   </data>
-  <data name="CheckedListBox_SaveSettings_Default.Items" xml:space="preserve">
-    <value>Draw water pixel on rivers map</value>
+  <data name="CheckedListBox_SaveSettings.Items" xml:space="preserve">
+    <value>Generate SEA and LAKES on Rivers Map</value>
   </data>
-  <data name="CheckedListBox_SaveSettings_Default.Items1" xml:space="preserve">
-    <value>Generate world normal map</value>
+  <data name="CheckedListBox_SaveSettings.Items1" xml:space="preserve">
+    <value>Generate Normal Map</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Data Export Settings:</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Color Generation Patterns Parameters:</value>
+  </data>
+  <data name="Button_ModSettings_ApplyChanges.Text" xml:space="preserve">
+    <value>Apply Changes</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>Features in Development (WIP):</value>
   </data>
   <data name="Button_CreateModSettings.Text" xml:space="preserve">
     <value>Create Mod Related Settings File</value>
@@ -193,77 +205,41 @@
   <data name="ComboBox_UsingSettingsType.Items1" xml:space="preserve">
     <value>Mod Related Settings</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Active Settings File:</value>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 13</value>
   </data>
-  <data name="CheckedListBox_Wips_Default.Items" xml:space="preserve">
-    <value>Sub Units (beta)</value>
+  <data name="label19.Text" xml:space="preserve">
+    <value>Max Lower Height Offset for Sea Provinces:</value>
   </data>
-  <data name="CheckedListBox_Wips_Default.Items1" xml:space="preserve">
-    <value>Divisions Names Groups (beta)</value>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 13</value>
   </data>
-  <data name="CheckedListBox_Wips_Default.Items2" xml:space="preserve">
-    <value>OOBs (beta)</value>
-  </data>
-  <data name="CheckedListBox_Wips_Default.Items3" xml:space="preserve">
-    <value>Equipments (alpha)</value>
-  </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>Features in Development (WIP):</value>
+  <data name="label18.Text" xml:space="preserve">
+    <value>Min Lower Height Offset for Land Provinces:</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Parameters:</value>
   </data>
-  <data name="TabPage_DefaultModSettings.Text" xml:space="preserve">
-    <value>Basic Settings</value>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Active Settings File:</value>
   </data>
-  <data name="CheckedListBox_Wips_Current.Items" xml:space="preserve">
-    <value>Sub Units (beta)</value>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 13</value>
   </data>
-  <data name="CheckedListBox_Wips_Current.Items1" xml:space="preserve">
-    <value>Divisions Names Groups (beta)</value>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Pattern:</value>
   </data>
-  <data name="CheckedListBox_Wips_Current.Items2" xml:space="preserve">
-    <value>OOBs (beta)</value>
+  <data name="CheckedListBox_Wips.Items" xml:space="preserve">
+    <value>Sub Units (Beta)</value>
   </data>
-  <data name="CheckedListBox_Wips_Current.Items3" xml:space="preserve">
-    <value>Equipments (alpha)</value>
+  <data name="CheckedListBox_Wips.Items1" xml:space="preserve">
+    <value>Divisions Names Groups (Beta)</value>
   </data>
-  <data name="groupBox7.Text" xml:space="preserve">
-    <value>Features in development (WIP):</value>
+  <data name="CheckedListBox_Wips.Items2" xml:space="preserve">
+    <value>OOBs (Beta)</value>
   </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Parameters:</value>
-  </data>
-  <data name="CheckBox_UseCustomSavePatterns_Current.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 17</value>
-  </data>
-  <data name="CheckBox_UseCustomSavePatterns_Current.Text" xml:space="preserve">
-    <value>Use custom Save Patterns</value>
-  </data>
-  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 13</value>
-  </data>
-  <data name="label17.Text" xml:space="preserve">
-    <value>World normal map blur:</value>
-  </data>
-  <data name="CheckedListBox_SaveSettings_Current.Items" xml:space="preserve">
-    <value>Draw water pixel on rivers map</value>
-  </data>
-  <data name="CheckedListBox_SaveSettings_Current.Items1" xml:space="preserve">
-    <value>Generate world normal map</value>
-  </data>
-  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 13</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>World normal map strength:</value>
-  </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>Data Export Settings:</value>
-  </data>
-  <data name="TabPage_CurrentModSettings.Text" xml:space="preserve">
-    <value>Current Mod Related Settings</value>
+  <data name="CheckedListBox_Wips.Items3" xml:space="preserve">
+    <value>Equipments (Alpha)</value>
   </data>
   <data name="CheckBox_IgnoreUpdateVersion.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 17</value>
@@ -273,6 +249,15 @@
   </data>
   <data name="Button_Directory_AutoDetect.Text" xml:space="preserve">
     <value>Autodetect Paths</value>
+  </data>
+  <data name="Column_ParameterName.HeaderText" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="Column_MinValue.HeaderText" xml:space="preserve">
+    <value>Min Value</value>
+  </data>
+  <data name="Column_MaxValue.HeaderText" xml:space="preserve">
+    <value>Max Value</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Settings</value>

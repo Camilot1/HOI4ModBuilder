@@ -35,6 +35,30 @@ namespace HOI4ModBuilder.src.managers.settings
 
         public VariationHSVRanges stateToProvince_ColorVariation_HSVRanges = GetDefaultStateToProvinceColorVariationHSVRanges();
 
+        public HSVRanges GetHSVRanges(EnumColorGenerationPattern pattern)
+        {
+            switch (pattern)
+            {
+                case EnumColorGenerationPattern.PROVINCE_LAND_HSV_RANGES: return provinceLand_HSVRanges;
+                case EnumColorGenerationPattern.PROVINCE_SEA_HSV_RANGES: return provinceSea_HSVRanges;
+                case EnumColorGenerationPattern.PROVINCE_LAKE_HSV_RANGES: return provinceLake_HSVRanges;
+                case EnumColorGenerationPattern.STATE_HSV_RANGES: return state_HSVRanges;
+                case EnumColorGenerationPattern.REGION_HSV_RANGES: return region_HSVRanges;
+                case EnumColorGenerationPattern.STATE_TO_PROVINCE_ColorVariation_HSV_RANGES: return stateToProvince_ColorVariation_HSVRanges;
+                default: return new HSVRanges();
+            }
+        }
+
+        public enum EnumColorGenerationPattern
+        {
+            PROVINCE_LAND_HSV_RANGES,
+            PROVINCE_SEA_HSV_RANGES,
+            PROVINCE_LAKE_HSV_RANGES,
+            STATE_HSV_RANGES,
+            REGION_HSV_RANGES,
+            STATE_TO_PROVINCE_ColorVariation_HSV_RANGES
+        }
+
         public void PostInit()
         {
             if (provinceLand_HSVRanges == null)

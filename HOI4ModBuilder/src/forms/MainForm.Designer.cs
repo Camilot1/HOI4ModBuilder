@@ -50,6 +50,7 @@
             this.Panel_SecondColor = new System.Windows.Forms.Panel();
             this.Panel_FirstColor = new System.Windows.Forms.Panel();
             this.GroupBox_GenerateColor = new System.Windows.Forms.GroupBox();
+            this.Button_GenerateColor_OpenSettings = new System.Windows.Forms.Button();
             this.Button_GenerateColor = new System.Windows.Forms.Button();
             this.ComboBox_GenerateColor_Type = new System.Windows.Forms.ComboBox();
             this.GroupBox_Palette = new System.Windows.Forms.GroupBox();
@@ -233,6 +234,8 @@
             this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator30 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Edit_AutoTools_ProvincesValidation = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Edit_AutoTools_StatesValidation = new System.Windows.Forms.ToolStripMenuItem();
@@ -443,11 +446,19 @@
             // 
             // GroupBox_GenerateColor
             // 
+            this.GroupBox_GenerateColor.Controls.Add(this.Button_GenerateColor_OpenSettings);
             this.GroupBox_GenerateColor.Controls.Add(this.Button_GenerateColor);
             this.GroupBox_GenerateColor.Controls.Add(this.ComboBox_GenerateColor_Type);
             resources.ApplyResources(this.GroupBox_GenerateColor, "GroupBox_GenerateColor");
             this.GroupBox_GenerateColor.Name = "GroupBox_GenerateColor";
             this.GroupBox_GenerateColor.TabStop = false;
+            // 
+            // Button_GenerateColor_OpenSettings
+            // 
+            resources.ApplyResources(this.Button_GenerateColor_OpenSettings, "Button_GenerateColor_OpenSettings");
+            this.Button_GenerateColor_OpenSettings.Name = "Button_GenerateColor_OpenSettings";
+            this.Button_GenerateColor_OpenSettings.UseVisualStyleBackColor = true;
+            this.Button_GenerateColor_OpenSettings.Click += new System.EventHandler(this.Button_GenerateColor_OpenSettings_Click);
             // 
             // Button_GenerateColor
             // 
@@ -1733,7 +1744,9 @@
             // 
             this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random,
-            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors});
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors,
+            this.toolStripSeparator30,
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings});
             this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Name = "ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors";
             resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors, "ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors");
             // 
@@ -1748,6 +1761,17 @@
             this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Name = "ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors";
             resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors, "ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors");
             this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors_Click);
+            // 
+            // toolStripSeparator30
+            // 
+            this.toolStripSeparator30.Name = "toolStripSeparator30";
+            resources.ApplyResources(this.toolStripSeparator30, "toolStripSeparator30");
+            // 
+            // ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings
+            // 
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings.Name = "ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings";
+            resources.ApplyResources(this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings, "ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings");
+            this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings.Click += new System.EventHandler(this.ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings_Click);
             // 
             // toolStripSeparator26
             // 
@@ -2171,6 +2195,9 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings;
+        private System.Windows.Forms.Button Button_GenerateColor_OpenSettings;
     }
 }
 
