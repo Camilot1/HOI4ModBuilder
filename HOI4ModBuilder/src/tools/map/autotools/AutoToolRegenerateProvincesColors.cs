@@ -65,7 +65,6 @@ namespace HOI4ModBuilder.src.tools.autotools
 
         private static Dictionary<Province, int> ModeRandom()
         {
-            var random = new Random(0);
             var regeneratedProvinceToColor = new Dictionary<Province, int>(4096);
             var newColors = new HashSet<int>(4096);
             var adjacentColors = new List<int>(16);
@@ -76,7 +75,6 @@ namespace HOI4ModBuilder.src.tools.autotools
             var progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_PROVINCES);
 
             RegenerateProvincesColors(
-                random,
                 provinces,
                 provinceChecker: p => true,
                 borderProvinceChecker: p => true,
@@ -175,7 +173,6 @@ namespace HOI4ModBuilder.src.tools.autotools
 
         private static Dictionary<Province, int> ModeBasedOnStateColor()
         {
-            var random = new Random(0);
             var modSettings = SettingsManager.Settings.GetModSettings();
             var variation = modSettings.GetStateToProvinceColorVariationHSVRanges();
 
@@ -201,7 +198,6 @@ namespace HOI4ModBuilder.src.tools.autotools
                 state.ForEachOtherBorderProvince(p => provinces.Add(p));
 
                 RegenerateProvincesColors(
-                    random,
                     provinces,
                     provinceChecker: p => p.State == state && p.Type == EnumProvinceType.LAND,
                     borderProvinceChecker: p => p.State == state,
@@ -215,7 +211,6 @@ namespace HOI4ModBuilder.src.tools.autotools
             provinces = AssembleProvinces(ProvinceManager.GetProvinces(), p => p.Type != EnumProvinceType.LAND);
             progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_PROVINCES);
             RegenerateProvincesColors(
-                random,
                 provinces,
                 provinceChecker: p => true,
                 borderProvinceChecker: p => true,
@@ -254,7 +249,6 @@ namespace HOI4ModBuilder.src.tools.autotools
         }
 
         private static void RegenerateProvincesColors(
-            Random random,
             List<Province> provinces,
             Func<Province, bool> provinceChecker,
             Func<Province, bool> borderProvinceChecker,
@@ -302,7 +296,7 @@ namespace HOI4ModBuilder.src.tools.autotools
                     hsvRanges = hsvRangesProvider.Invoke(province);
 
                 newColor = ColorUtils.GenerateDistinctColor(
-                    random, adjacentColors, hsvRanges, c => !newColors.Contains(c)
+                    new Random(province.Id), adjacentColors, hsvRanges, c => !newColors.Contains(c)
                 );
 
                 regeneratedProvinceToColor[province] = newColor;

@@ -187,7 +187,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
         }
         public static void RegenerateRegionsColors()
         {
-            var random = new Random(0);
             var modSettings = SettingsManager.Settings.GetModSettings();
 
             var newColors = new HashSet<int>(256);
@@ -216,7 +215,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 }
 
                 newColor = ColorUtils.GenerateDistinctColor(
-                    random, adjacentColors, hsvRanges, c => !newColors.Contains(c)
+                    new Random(region.Id), adjacentColors, hsvRanges, c => !newColors.Contains(c)
                 );
 
                 regeneratedRegionToColor[region] = newColor;

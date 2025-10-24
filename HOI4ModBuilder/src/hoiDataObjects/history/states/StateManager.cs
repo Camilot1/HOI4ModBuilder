@@ -247,7 +247,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public static void RegenerateStatesColors()
         {
-            var random = new Random(0);
             var modSettings = SettingsManager.Settings.GetModSettings();
 
             var newColors = new HashSet<int>(512);
@@ -275,7 +274,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 }
 
                 newColor = ColorUtils.GenerateDistinctColor(
-                    random, adjacentColors, hsvRanges, c => !newColors.Contains(c)
+                    new Random(state.Id.GetValue()), adjacentColors, hsvRanges, c => !newColors.Contains(c)
                 );
 
                 regeneratedStatesToColor[state] = newColor;
