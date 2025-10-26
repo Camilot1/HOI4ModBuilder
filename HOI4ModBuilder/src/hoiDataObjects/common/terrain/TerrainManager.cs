@@ -15,9 +15,26 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
         private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "terrain" });
         private static src.FileInfo _currentFile;
         private static Dictionary<string, ProvincialTerrain> _provincialTerraings = new Dictionary<string, ProvincialTerrain>();
-        public static Dictionary<string, ProvincialTerrain>.KeyCollection GetAllTerrainKeys => _provincialTerraings.Keys;
+        public static Dictionary<string, ProvincialTerrain>.KeyCollection GetAllTerrainKeys() => _provincialTerraings.Keys;
 
         private static Action _guiReinitAction = null;
+
+        public static int GetNavalTerrainsCount()
+        {
+            int counter = 0;
+            foreach (var terrain in _provincialTerraings.Values)
+                if (terrain.isNavalTerrain)
+                    counter++;
+            return counter;
+        }
+        public static int GetLandTerrainsCount()
+        {
+            int counter = 0;
+            foreach (var terrain in _provincialTerraings.Values)
+                if (!terrain.isNavalTerrain)
+                    counter++;
+            return counter;
+        }
 
         public static void Load(BaseSettings settings)
         {
@@ -38,7 +55,7 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
             {
                 _guiReinitAction = () =>
                 {
-                    foreach (var terrainName in GetAllTerrainKeys)
+                    foreach (var terrainName in GetAllTerrainKeys())
                         MainForm.Instance.ToolStripComboBox_Map_Province_Terrain.Items.Add(terrainName);
                 };
                 MainForm.SubscribeGuiReinitAction(_guiReinitAction);

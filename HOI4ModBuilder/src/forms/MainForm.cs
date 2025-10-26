@@ -42,6 +42,7 @@ using static HOI4ModBuilder.utils.Structs;
 using HOI4ModBuilder.hoiDataObjects.common.resources;
 using HOI4ModBuilder.src.forms.actionForms;
 using HOI4ModBuilder.src.tools.autotools;
+using HOI4ModBuilder.src.forms.dataForms;
 
 namespace HOI4ModBuilder
 {
@@ -387,8 +388,6 @@ namespace HOI4ModBuilder
 
                 GL.Enable(EnableCap.CullFace);
                 GL.CullFace(CullFaceMode.Back);
-
-                TextRenderManager.Instance.OnLoad();
             });
         }
 
@@ -1944,6 +1943,8 @@ namespace HOI4ModBuilder
                     new SettingsForm().ShowDialog();
             });
 
+        private void ToolStripMenuItem_Statistics_Click(object sender, EventArgs e)
+            => new StatisticsForm().Show();
 
         public void SetGroupBoxProgressBackColor(Color color)
             => GroupBox_Progress.BackColor = color;

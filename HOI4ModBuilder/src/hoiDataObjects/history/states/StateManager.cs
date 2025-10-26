@@ -38,6 +38,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 action(s);
         }
 
+        public static long GetSumManpower()
+        {
+            long sum = 0;
+            foreach (var state in _statesById.Values)
+                sum += state.CurrentManpower;
+            return sum;
+        }
+
         public static HashSet<State> GroupSelectedStates { get; private set; } = new HashSet<State>();
         public static Point2F GetGroupSelectedStatesCenter()
         {

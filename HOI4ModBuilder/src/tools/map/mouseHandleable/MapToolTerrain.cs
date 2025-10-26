@@ -35,7 +35,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             EnumEditLayer.PROVINCES, EnumEditLayer.STRATEGIC_REGIONS
         };
         public override Func<ICollection> GetParametersProvider()
-            => () => TerrainManager.GetAllTerrainKeys;
+            => () => TerrainManager.GetAllTerrainKeys();
         public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(

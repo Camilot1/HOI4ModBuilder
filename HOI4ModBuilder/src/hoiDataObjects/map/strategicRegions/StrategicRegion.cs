@@ -55,7 +55,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             }
         }
 
-        private GameList<Province> Provinces = new GameList<Province>();
+        public GameList<Province> Provinces = new GameList<Province>();
         public bool HasProvince(Province province) => Provinces.Contains(province);
 
         private List<ProvinceBorder> _borders = new List<ProvinceBorder>(0);

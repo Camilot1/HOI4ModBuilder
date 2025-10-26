@@ -17,7 +17,7 @@ namespace HOI4ModBuilder.hoiDataObjects
         private static readonly string CONTINENTS_FILE_NAME = "continent.txt";
         private static src.FileInfo _currentFile;
         private static List<string> _continents = new List<string>();
-        public static List<string> GetContinents => _continents;
+        public static List<string> GetContinents() => _continents;
 
         private static int[] _colors = new int[0];
 
@@ -41,7 +41,7 @@ namespace HOI4ModBuilder.hoiDataObjects
                 {
                     _guiReinitAction = () =>
                     {
-                        foreach (var continentName in GetContinents)
+                        foreach (var continentName in GetContinents())
                             MainForm.Instance.ToolStripComboBox_Map_Province_Continent.Items.Add(continentName);
                     };
                     MainForm.SubscribeGuiReinitAction(_guiReinitAction);

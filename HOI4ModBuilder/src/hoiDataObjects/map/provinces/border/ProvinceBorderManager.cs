@@ -15,14 +15,14 @@ namespace HOI4ModBuilder.hoiDataObjects.map
     {
         private static Value2S size;
         private static int[,] pixels;
-        private static int _provinceBorderCount = 0;
+        public static int ProvinceBorderCount { get; private set; } = 0;
 
         private static BordersAssembler _bordersAssembler = new BordersAssembler();
 
         public static void Init(int[] values, short width, short height)
         {
             Stopwatch stopwatch = new Stopwatch();
-            _provinceBorderCount = 0;
+            ProvinceBorderCount = 0;
             _bordersAssembler.Reset();
 
             LocalizedAction[] actions =
@@ -38,7 +38,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     stopwatch.Stop();
                     pixels = null;
                     Logger.Log($"BordersInitAndAssemble = {stopwatch.ElapsedMilliseconds} ms");
-                    Logger.Log($"ProvinceBorderCount = {_provinceBorderCount}");
+                    Logger.Log($"ProvinceBorderCount = {ProvinceBorderCount}");
                 }),
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE, () => StateManager.InitStatesBorders()),
                 new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => StrategicRegionManager.InitRegionsBorders()),
@@ -119,8 +119,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
                     foreach (var pixelsList in pixelsLists)
                     {
-                        new ProvinceBorder(_provinceBorderCount, pixelsList, minProvince, maxProvince).AddToProvinces();
-                        _provinceBorderCount++;
+                        new ProvinceBorder(ProvinceBorderCount, pixelsList, minProvince, maxProvince).AddToProvinces();
+                        ProvinceBorderCount++;
                     }
                 }
             }

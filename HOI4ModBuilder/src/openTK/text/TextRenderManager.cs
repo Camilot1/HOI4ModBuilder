@@ -18,14 +18,22 @@ namespace HOI4ModBuilder.src.openTK
 
         private Dictionary<object, QFontDrawingPimitive> _primitiveCache = new Dictionary<object, QFontDrawingPimitive>(256);
 
+        public TextRenderManager() { }
+
+        public static bool IsLoaded { get; private set; } = false;
+
         public void OnLoad()
         {
-            FontData24 = new FontData(24, new QFont("data/fonts/previewer_arial.ttf", 24, new QFontBuilderConfiguration(true)));
-            FontData32 = new FontData(32, new QFont("data/fonts/previewer_arial.ttf", 32, new QFontBuilderConfiguration(true)));
-            FontData48 = new FontData(48, new QFont("data/fonts/previewer_arial.ttf", 48, new QFontBuilderConfiguration(true)));
+            if (IsLoaded)
+                return;
+            //FontData24 = new FontData(24, new QFont("data/fonts/previewer_arial.ttf", 24, new QFontBuilderConfiguration(true)));
+            //FontData32 = new FontData(32, new QFont("data/fonts/previewer_arial.ttf", 32, new QFontBuilderConfiguration(true)));
+            //FontData48 = new FontData(48, new QFont("data/fonts/previewer_arial.ttf", 48, new QFontBuilderConfiguration(true)));
             FontData64 = new FontData(64, new QFont("data/fonts/previewer_arial.ttf", 64, new QFontBuilderConfiguration(true)));
-            FontData72 = new FontData(72, new QFont("data/fonts/previewer_arial.ttf", 72, new QFontBuilderConfiguration(true)));
+            //FontData72 = new FontData(72, new QFont("data/fonts/previewer_arial.ttf", 72, new QFontBuilderConfiguration(true)));
             _drawing = new QFontDrawing();
+
+            IsLoaded = true;
         }
 
         public void Dispose()
