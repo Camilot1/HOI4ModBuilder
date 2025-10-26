@@ -568,5 +568,6 @@ namespace HOI4ModBuilder.src.utils
         PROVINCES_TERRAINS,
         NAVAL_TERRAINS,
         MANPOWER,
+        MAP_TAB_PROGRESSBAR_LOADING_TEXT_FONTS,
     }
 }

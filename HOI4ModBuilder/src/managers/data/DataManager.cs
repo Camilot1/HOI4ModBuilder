@@ -67,11 +67,8 @@ namespace HOI4ModBuilder.managers
                 return;
             }
 
-            TextRenderManager.Instance.OnLoad();
-
             MainForm.PauseGLControl();
             MainForm.Instance.SetGroupBoxProgressBackColor(Color.White);
-
 
             Task.Run(() =>
             {
@@ -141,6 +138,8 @@ namespace HOI4ModBuilder.managers
             //FontManager.LoadFonts();
 
             Logger.Log($"Loading mod directory: {SettingsManager.Settings.modDirectory}");
+
+            TextRenderManager.Instance.Load();
             DataManager.Load(SettingsManager.Settings);
             MapManager.Load(SettingsManager.Settings);
 

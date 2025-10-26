@@ -120,6 +120,8 @@ ALL_EDIT_LAYERS_IS_ALLOWED: "All Edit Layers are allowed to be used"
 MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED: "This Tool can not be used on current Edit Layer \"{currentEditLayer}\". To be able to use the Selected Tool you need to change the Edit Layer to one of these: {allowedEditLayers}"
 MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED_TITLE: "Select allowed Edit Layer"
 
+
+MAP_TAB_PROGRESSBAR_LOADING_TEXT_FONTS: "Loading Fonts: "
 MAP_TAB_PROGRESSBAR_LOADING_REPLACE_TAGS: "Loading Replace Tags: "
 MAP_TAB_PROGRESSBAR_LOADING_INFO_ARGS_BLOCKS: "Loading InfoArgsBlocks: "
 MAP_TAB_PROGRESSBAR_LOADING_BOOKMARKS: "Loading Bookmarks: "
