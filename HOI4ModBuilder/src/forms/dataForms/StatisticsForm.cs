@@ -77,6 +77,9 @@ namespace HOI4ModBuilder.src.forms.dataForms
 
         private void Update()
         {
+            if (!MainForm.IsFirstLoaded)
+                return;
+
             var filter = new StatisticsFilters
             {
                 statesIDs = ToHashSet(TextBox_Filters_States.Text, t => ushort.Parse(t)),
