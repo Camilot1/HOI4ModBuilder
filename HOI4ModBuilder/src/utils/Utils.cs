@@ -564,6 +564,8 @@ namespace HOI4ModBuilder
             );
         }
 
+        private static List<string> INFINITY_VARIATIONS = new List<string> { "inf", "Inf", "infinity", "Infinity", "∞" };
+
         public static bool TryParseFloat(string str, out float result)
         {
             result = 0;
@@ -571,6 +573,11 @@ namespace HOI4ModBuilder
             if (float.TryParse(str, out result)) return true;
             if (float.TryParse(str.Replace(',', '.'), out result)) return true;
             if (float.TryParse(str.Replace('.', ','), out result)) return true;
+            if (INFINITY_VARIATIONS.Contains(str))
+            {
+                result = float.PositiveInfinity;
+                return true;
+            }
             return false;
         }
 
@@ -589,7 +596,7 @@ namespace HOI4ModBuilder
             if (double.TryParse(str, out result)) return true;
             if (double.TryParse(str.Replace(',', '.'), out result)) return true;
             if (double.TryParse(str.Replace('.', ','), out result)) return true;
-            if (str == "inf")
+            if (INFINITY_VARIATIONS.Contains(str))
             {
                 result = double.PositiveInfinity;
                 return true;
