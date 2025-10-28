@@ -61,7 +61,10 @@ namespace HOI4ModBuilder.src.managers.mapChecks
             foreach (var checker in _mapCheckers)
             {
                 if (checker.Flag >= 0 && !CheckFilter(checker.Flag))
+                {
+                    checker.Values.Clear();
                     continue;
+                }
 
                 tasks.Add(Task.Run(() => checker.Execute()));
             }
@@ -76,9 +79,8 @@ namespace HOI4ModBuilder.src.managers.mapChecks
                     continue;
 
                 foreach (var data in checker.Values)
-                {
                     AddErrorInfo(data.key, data.value);
-                }
+                checker.Values.Clear();
             }
         }
 
