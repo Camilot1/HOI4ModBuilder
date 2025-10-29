@@ -257,9 +257,6 @@ namespace HOI4ModBuilder.managers
             double rawMapX = _mousePrevPoint.x / _mapSizeFactor.x;
             double rawMapY = _mousePrevPoint.y / _mapSizeFactor.y;
 
-            GL.LineWidth(1f);
-            GL.Color3(0.0f, 0.0f, 0.0f);
-
             bool isBrushTool = (MainForm.Instance.SelectedTool == EnumTool.BRUSH ||
                                 MainForm.Instance.SelectedTool == EnumTool.ERASER);
 
@@ -278,6 +275,18 @@ namespace HOI4ModBuilder.managers
                     if (line == null || line.Count < 2)
                         return;
 
+
+                    GL.LineWidth(2f);
+                    GL.Color3(1.0f, 1.0f, 1.0f);
+
+                    GL.Begin(PrimitiveType.LineLoop);
+                    foreach (var pixel in line)
+                        GL.Vertex2(pixel.x / _mapSizeFactor.x + xOffset, pixel.y / _mapSizeFactor.y + yOffset);
+                    GL.End();
+
+                    GL.LineWidth(1f);
+                    GL.Color3(0.0f, 0.0f, 0.0f);
+
                     GL.Begin(PrimitiveType.LineLoop);
                     foreach (var pixel in line)
                         GL.Vertex2(pixel.x / _mapSizeFactor.x + xOffset, pixel.y / _mapSizeFactor.y + yOffset);
@@ -294,6 +303,20 @@ namespace HOI4ModBuilder.managers
 
                 double snappedTopLeftX = Math.Floor(rawMapX * _mapSizeFactor.x) / _mapSizeFactor.x;
                 double snappedTopLeftY = Math.Floor(rawMapY * _mapSizeFactor.y) / _mapSizeFactor.y;
+
+
+                GL.LineWidth(2f);
+                GL.Color3(1.0f, 1.0f, 1.0f);
+
+                GL.Begin(PrimitiveType.LineLoop);
+                GL.Vertex2(snappedTopLeftX, snappedTopLeftY);
+                GL.Vertex2(snappedTopLeftX + size.x, snappedTopLeftY);
+                GL.Vertex2(snappedTopLeftX + size.x, snappedTopLeftY + size.y);
+                GL.Vertex2(snappedTopLeftX, snappedTopLeftY + size.y);
+                GL.End();
+
+                GL.LineWidth(1f);
+                GL.Color3(0.0f, 0.0f, 0.0f);
 
                 GL.Begin(PrimitiveType.LineLoop);
                 GL.Vertex2(snappedTopLeftX, snappedTopLeftY);
