@@ -1,18 +1,10 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.utils;
-using HOI4ModBuilder.src.utils.structs;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.forms
 {
@@ -130,33 +122,17 @@ namespace HOI4ModBuilder.src.forms
         }
 
         private void Button_SetFirstColor_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() => MainForm.Instance.SetBrushFirstColor(Panel_Color.BackColor));
-        }
-
+            => Logger.TryOrLog(() => MainForm.Instance.InvokeAction(() => MainForm.Instance.SetBrushFirstColor(Panel_Color.BackColor)));
         private void Button_SetSecondColor_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() => MainForm.Instance.SetBrushSecondColor(Panel_Color.BackColor));
-        }
+            => Logger.TryOrLog(() => MainForm.Instance.InvokeAction(() => MainForm.Instance.SetBrushSecondColor(Panel_Color.BackColor)));
 
         private void Button_GenerateColor_Random_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() => SetColor(ProvinceManager.GetNewRandomColor().ToColor()));
-        }
-
+            => Logger.TryOrLog(() => SetColor(ProvinceManager.GetNewRandomColor().ToColor()));
         private void Button_GenerateColor_Land_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() => SetColor(ProvinceManager.GetNewLandColor().ToColor()));
-        }
-
+            => Logger.TryOrLog(() => SetColor(ProvinceManager.GetNewLandColor().ToColor()));
         private void Button_GenerateColor_Sea_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() => SetColor(ProvinceManager.GetNewSeaColor().ToColor()));
-        }
-
+            => Logger.TryOrLog(() => SetColor(ProvinceManager.GetNewSeaColor().ToColor()));
         private void Button_GenerateColor_Lake_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() => SetColor(ProvinceManager.GetNewLakeColor().ToColor()));
-        }
+            => Logger.TryOrLog(() => SetColor(ProvinceManager.GetNewLakeColor().ToColor()));
     }
 }
