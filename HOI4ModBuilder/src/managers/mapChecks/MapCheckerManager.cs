@@ -62,7 +62,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks
             {
                 if (checker.Flag >= 0 && !CheckFilter(checker.Flag))
                 {
-                    checker.Values.Clear();
+                    checker.Values?.Clear();
                     continue;
                 }
 
