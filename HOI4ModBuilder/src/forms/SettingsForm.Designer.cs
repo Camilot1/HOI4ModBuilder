@@ -369,7 +369,8 @@
             resources.GetString("CheckedListBox_Wips.Items"),
             resources.GetString("CheckedListBox_Wips.Items1"),
             resources.GetString("CheckedListBox_Wips.Items2"),
-            resources.GetString("CheckedListBox_Wips.Items3")});
+            resources.GetString("CheckedListBox_Wips.Items3"),
+            resources.GetString("CheckedListBox_Wips.Items4")});
             this.CheckedListBox_Wips.Name = "CheckedListBox_Wips";
             // 
             // Button_CreateModSettings

@@ -226,6 +226,9 @@
   <data name="CheckedListBox_Wips.Items3" xml:space="preserve">
     <value>Equipments (Alpha)</value>
   </data>
+  <data name="CheckedListBox_Wips.Items4" xml:space="preserve">
+    <value>Map Positions (Alpha)</value>
+  </data>
   <data name="Button_CreateModSettings.Text" xml:space="preserve">
     <value>Create Mod Related Settings File</value>
   </data>

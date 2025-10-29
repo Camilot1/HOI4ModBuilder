@@ -244,6 +244,7 @@ namespace HOI4ModBuilder.src.managers.settings
         SUB_UNITS,
         DIVISIONS_NAMES_GROUPS,
         OOBS,
-        EQUIPMENTS
+        EQUIPMENTS,
+        MAP_POSITIONS
     }
 }

@@ -45,8 +45,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
             //CalculateAndSaveBuildings(settings);
             //CalculateAndSaveUnitStacks(settings);
             Clear();
-            //ParseBuildingsPoses(settings);
-            //CheckBuildings(settings);
+
+            var modSettings = SettingsManager.Settings?.GetModSettings();
+            if (modSettings != null && modSettings.CheckWips(EnumWips.MAP_POSITIONS))
+            {
+                ParseBuildingsPoses(settings);
+                CheckBuildings(settings);
+            }
+
         }
 
         private static void InitPixels()
