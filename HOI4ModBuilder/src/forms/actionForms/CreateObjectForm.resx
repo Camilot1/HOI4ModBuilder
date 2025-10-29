@@ -226,7 +226,7 @@
     <value>2</value>
   </data>
   <data name="GroupBox_Pattern.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+    <value>Bottom, Right</value>
   </data>
   <data name="Button_Pattern_Load.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 48</value>
@@ -277,7 +277,7 @@
     <value>1</value>
   </data>
   <data name="GroupBox_Pattern.Location" type="System.Drawing.Point, System.Drawing">
-    <value>476, 66</value>
+    <value>476, 421</value>
   </data>
   <data name="GroupBox_Pattern.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 79</value>
