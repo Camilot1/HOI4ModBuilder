@@ -16,7 +16,7 @@ namespace HOI4ModBuilder.src.utils
     {
         public static readonly string logDirPath = FileManager.AssembleFolderPath(new string[] { "logs" });
         public static readonly string logFilePath = logDirPath + "latest.log";
-        public static readonly string version = "Alpha 0.2.9 Pre-Release 5";
+        public static readonly string version = "Alpha 0.2.9 Pre-Release 6";
         public static readonly int versionId = 12;
 
         private static List<string> _warnings = new List<string>();
