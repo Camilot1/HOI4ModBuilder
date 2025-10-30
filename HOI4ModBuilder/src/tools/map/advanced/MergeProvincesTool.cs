@@ -175,7 +175,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
 
             //Заменяем id самой старшей провинции
             provinceToReplace.Id = second.Id;
-            ProvinceManager.NextVacantProvinceId--;
         }
     }
 }
