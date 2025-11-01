@@ -152,6 +152,7 @@ MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING: "Поиск ошибок на карт
 MAP_TAB_PROGRESSBAR_MAP_WARNINGS_SEARCHING: "Поиск предупреждений на карте: "
 MAP_TAB_PROGRESSBAR_LOADING_AI_AREAS: "Загрузка зон ИИ: "
 MAP_TAB_PROGRESSBAR_LOADING_EQUPMENTS: "Загрузка снаряжения: "
+MAP_TAB_PROGRESSBAR_MAP_WARNINGS_AND_ERRORS_SEARCHING: "Поиск ошибок и предупреждений на карте:"
 
 MAP_TAB_PROGRESSBAR_SAVING: "Сохранение данных:"
 MAP_TAB_PROGRESSBAR_SAVING_PROVINCES_DEFINITION: "Сохранение файла провинций: "
