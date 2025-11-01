@@ -6,7 +6,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
     public class MapCheckerSupplyHubHasNoConnections : MapChecker
     {
         public MapCheckerSupplyHubHasNoConnections()
-            : base((int)EnumMapWarningCode.SUPPLY_HUB_NO_CONNECTION, (list) =>
+            : base("MapCheckerSupplyHubHasNoConnections", (int)EnumMapWarningCode.SUPPLY_HUB_NO_CONNECTION, (list) =>
             {
                 foreach (var node in SupplyManager.SupplyNodes)
                 {

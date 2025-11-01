@@ -1,11 +1,13 @@
 ﻿using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace HOI4ModBuilder.src.managers.mapChecks
 {
     public abstract class MapChecker
     {
+        public readonly string Name;
         public int Flag { get; private set; }
         public List<MapCheckData> Values { get; private set; }
         private Action<List<MapCheckData>> _action;
@@ -13,8 +15,9 @@ namespace HOI4ModBuilder.src.managers.mapChecks
         private readonly bool[] _isRunning = new bool[1];
         public bool IsRunning() => _isRunning[0];
 
-        public MapChecker(int flag, Action<List<MapCheckData>> action)
+        public MapChecker(string name, int flag, Action<List<MapCheckData>> action)
         {
+            Name = name;
             Flag = flag;
             _action = action;
         }

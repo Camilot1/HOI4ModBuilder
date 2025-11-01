@@ -6,7 +6,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
     public class CheckRegionWithNotNavalTerrain : MapChecker
     {
         public CheckRegionWithNotNavalTerrain()
-            : base((int)EnumMapErrorCode.REGION_USES_NOT_NAVAL_TERRAIN, (list) =>
+            : base("CheckRegionWithNotNavalTerrain", (int)EnumMapErrorCode.REGION_USES_NOT_NAVAL_TERRAIN, (list) =>
             {
                 foreach (var r in StrategicRegionManager.GetRegions())
                 {

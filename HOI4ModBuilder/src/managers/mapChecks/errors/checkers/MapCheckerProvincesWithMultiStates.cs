@@ -6,7 +6,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
     public class MapCheckerProvincesWithMultiStates : MapChecker
     {
         public MapCheckerProvincesWithMultiStates()
-            : base((int)EnumMapErrorCode.PROVINCE_MULTI_STATES, (list) =>
+            : base("MapCheckerProvincesWithMultiStates", (int)EnumMapErrorCode.PROVINCE_MULTI_STATES, (list) =>
             {
                 foreach (var s in StateManager.GetStates())
                 {

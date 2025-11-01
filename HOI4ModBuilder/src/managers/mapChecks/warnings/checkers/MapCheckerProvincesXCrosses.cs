@@ -6,7 +6,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
     public class MapCheckerProvincesXCrosses : MapChecker
     {
         public MapCheckerProvincesXCrosses()
-            : base((int)EnumMapWarningCode.PROVINCE_X_CROSS, (list) =>
+            : base("MapCheckerProvincesXCrosses", (int)EnumMapWarningCode.PROVINCE_X_CROSS, (list) =>
             {
                 int[] pixels = MapManager.ProvincesPixels;
                 for (int x = 0; x < MapManager.MapSize.x - 1; x++)

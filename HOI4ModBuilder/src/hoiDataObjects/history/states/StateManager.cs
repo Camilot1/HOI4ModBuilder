@@ -15,6 +15,7 @@ using HOI4ModBuilder.src.utils.classes;
 using HOI4ModBuilder.src.utils.structs;
 using OpenTK.Graphics.OpenGL;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -77,18 +78,30 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
             var fileInfosPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
-            var parser = new GameParser();
-            Logger.Log("Loading of States started");
+            var actions = new List<(string, Action)>(fileInfosPairs.Count);
+            var addActions = new ConcurrentQueue<Action>();
+
             foreach (var fileInfo in fileInfosPairs.Values)
-            {
-                var stateFile = new StateGameFile(fileInfo);
-                LoadFile(parser, stateFile);
-            }
-            Logger.Log("Loading of States finished");
+                actions.Add((null, () =>
+                {
+                    LoadFile(new GameParser(), new StateGameFile(fileInfo), out var addAction);
+                    addActions.Enqueue(addAction);
+                }
+                ));
+
+            MainForm.ExecuteActionsParallelNoDisplay(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_STATES, actions);
+            foreach (var addAction in addActions)
+                addAction();
         }
 
         public static void LoadFile(GameParser parser, StateGameFile stateFile)
         {
+            LoadFile(parser, stateFile, out var addAction);
+            addAction?.Invoke();
+        }
+        private static void LoadFile(GameParser parser, StateGameFile stateFile, out Action addAction)
+        {
+            addAction = () => { };
             try
             {
                 parser.ParseFile(stateFile);
@@ -97,17 +110,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 if (state == null)
                     return;
 
-                if (!_statesById.ContainsKey(state.Id.GetValue()))
-                    _statesById[state.Id.GetValue()] = state;
-                else Logger.LogError(
-                        EnumLocKey.ERROR_STATE_DUPLICATE_ID,
-                        new Dictionary<string, string>
-                        {
+                addAction = () =>
+                {
+                    if (!_statesById.ContainsKey(state.Id.GetValue()))
+                        _statesById[state.Id.GetValue()] = state;
+                    else Logger.LogError(
+                            EnumLocKey.ERROR_STATE_DUPLICATE_ID,
+                            new Dictionary<string, string>
+                            {
                                 { "{filePath}", state.GetGameFile().FileInfo?.filePath },
                                 { "{stateId}", $"{state.Id.GetValue()}" },
                                 { "{otherFilePath}", _statesById[state.Id.GetValue()].GetGameFile().FileInfo?.filePath }
-                        }
-                    );
+                            }
+                        );
+                };
             }
             catch (Exception ex)
             {
@@ -258,8 +274,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
         }
 
-        public static void RegenerateStatesColors()
+        public static void RegenerateStatesColors(ProgressCallback progressCallback)
         {
+            var stopwatch = Stopwatch.StartNew();
             var modSettings = SettingsManager.Settings.GetModSettings();
 
             var newColors = new HashSet<int>(512);
@@ -268,13 +285,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             var regeneratedStatesToColor = new Dictionary<State, int>(512);
             var hsvRanges = modSettings.GetStateHSVRanges();
 
-            var progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_STATES);
             var states = AssembleStates(GetStates());
             int counter = 0;
             foreach (var state in states)
             {
                 counter++;
-                progressCallback.Execute(counter, states.Count);
+                progressCallback?.Execute(counter, states.Count);
 
                 adjacentColors.Clear();
 
@@ -294,6 +310,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 state.Color = newColor;
                 newColors.Add(newColor);
             }
+            Logger.Log($"RegenerateStatesColors = {stopwatch.ElapsedMilliseconds} ms");
         }
 
         public static void AddStatesBorder(ProvinceBorder border) => _statesBorders.Add(border);
@@ -494,10 +511,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             foreach (var state in _statesById.Values)
                 state.InitBorders();
             TextureManager.InitStateBordersMap(_statesBorders);
-
-            var stopwatch = Stopwatch.StartNew();
-            RegenerateStatesColors();
-            Logger.Log($"RegenerateStatesColors = {stopwatch.ElapsedMilliseconds} ms");
         }
 
         public static void CalculateCenters()
@@ -505,8 +518,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             foreach (var state in _statesById.Values)
                 state.CalculateCenter();
         }
-
-
 
         private static void HandleDelete()
         {

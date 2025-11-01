@@ -286,30 +286,62 @@ namespace HOI4ModBuilder
             DisposeMapTextures();
             LoadMapPairs(settings);
             LoadBorders();
-            LoadAdditionalLayers(settings);
         }
 
         private static void LoadMapPairs(BaseSettings settings)
         {
             var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
 
-            MainForm.ExecuteActions(new (EnumLocKey, Action)[]
-            {
-                 (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXTURE_MAPS, () => {
-                        provinces = LoadMapPair(fileInfoPairs, PROVINCES_FILE_NAME, _24bppRgb);
-                        MapManager.ProvincesPixels = BrgToArgb(Utils.BitmapToArray(provinces.GetBitmap(), ImageLockMode.ReadOnly, _24bppRgb), 255);
-                        terrain = LoadMapPair(fileInfoPairs, TERRAIN_FILE_NAME, _8bppIndexed);
-                        trees = LoadMapPair(fileInfoPairs, TREES_FILE_NAME, _8bppIndexed);
-                        cities = LoadMapPair(fileInfoPairs, CITIES_FILE_NAME, _8bppIndexed);
-                        height = LoadMapPair(fileInfoPairs, HEIGHTMAP_FILE_NAME, _8bppGrayscale);
-                        MapManager.HeightsPixels = Utils.BitmapToArray(height.GetBitmap(), ImageLockMode.ReadOnly, _8bppGrayscale);
-                        normal = LoadMapPair(fileInfoPairs, WORLD_NORMAL_FILE_NAME, _24bppRgb);
+            List<Action> actions = new List<Action>();
 
-                        var bitmap = new Bitmap(1, 1, _8bppGrayscale.imagePixelFormat);
-                        var texture = new Texture2D(bitmap, _8bppGrayscale, false);
-                        none = new MapPair(false, bitmap, texture);
-                        texture.Update(_8bppGrayscale, 0, 0, 1, 1, new byte[] { 255 });
-                 }),
+            MainForm.ExecuteActionsParallel(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXTURE_MAPS, new (string, Action)[]
+            {
+                (PROVINCES_FILE_NAME, () => {
+                    CreateMapPairProducer(fileInfoPairs, PROVINCES_FILE_NAME, _24bppRgb, out var producerProvincesPixes, out var bitmap);
+                    MapManager.ProvincesPixels = BrgToArgb(Utils.BitmapToArray(bitmap, ImageLockMode.ReadOnly, _24bppRgb), 255);
+                    CreateBordersMap(MapManager.ProvincesPixels, bitmap.Width, bitmap.Height, out var producerProvincesBorders);
+                    actions.Add(() => provinces = producerProvincesPixes());
+                    actions.Add(() => provincesBorders = producerProvincesBorders());
+                }),
+                (TERRAIN_FILE_NAME, () => {
+                    CreateMapPairProducer(fileInfoPairs, TERRAIN_FILE_NAME, _8bppIndexed, out var producer, out var _);
+                    actions.Add(() => terrain = producer());
+                }),
+                (TREES_FILE_NAME, () => {
+                    CreateMapPairProducer(fileInfoPairs, TREES_FILE_NAME, _8bppIndexed, out var producer, out var _);
+                    actions.Add(() => trees = producer());
+                }),
+                (CITIES_FILE_NAME, () => {
+                    CreateMapPairProducer(fileInfoPairs, CITIES_FILE_NAME, _8bppIndexed, out var producer, out var _);
+                    actions.Add(() => cities = producer());
+                }),
+                (HEIGHTMAP_FILE_NAME, () => {
+                    CreateMapPairProducer(fileInfoPairs, HEIGHTMAP_FILE_NAME, _8bppGrayscale, out var producer, out var bitmap);
+                     MapManager.HeightsPixels = Utils.BitmapToArray(bitmap, ImageLockMode.ReadOnly, _8bppGrayscale);
+                    actions.Add(() => height = producer());
+                }),
+                (WORLD_NORMAL_FILE_NAME, () => {
+                    CreateMapPairProducer(fileInfoPairs, WORLD_NORMAL_FILE_NAME, _24bppRgb, out var producer, out var _);
+                    actions.Add(() => normal = producer());
+                }),
+                (RIVERS_FILE_NAME, () => {
+                    CreateRiverMapProducer(fileInfoPairs, RIVERS_FILE_NAME, out var producer);
+                    actions.Add(() => rivers = producer());
+                })
+            });
+
+
+            MainForm.ExecuteActions(new (EnumLocKey, Action)[] {
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXTURE_MAPS, () =>
+                {
+                    foreach (var action in actions)
+                        action();
+
+                    var bitmap = new Bitmap(1, 1, _8bppGrayscale.imagePixelFormat);
+                    var texture = new Texture2D(bitmap, _8bppGrayscale, false);
+                    none = new MapPair(false, bitmap, texture);
+                    texture.Update(_8bppGrayscale, 0, 0, 1, 1, new byte[] { 255 });
+                })
             });
         }
 
@@ -324,7 +356,7 @@ namespace HOI4ModBuilder
             return values;
         }
 
-        private static MapPair LoadMapPair(Dictionary<string, src.FileInfo> fileInfos, string fileName, TextureType textureType)
+        private static void CreateMapPairProducer(Dictionary<string, src.FileInfo> fileInfos, string fileName, TextureType textureType, out Func<MapPair> producer, out Bitmap outBitmap)
         {
             if (!fileInfos.TryGetValue(fileName, out src.FileInfo fileInfo))
             {
@@ -333,7 +365,10 @@ namespace HOI4ModBuilder
                     EnumLocKey.ERROR_MAP_FILE_NOT_FOUND,
                     new Dictionary<string, string> { { "{fileName}", fileName } }
                 );
-                return new MapPair(false, errorBitmap, new Texture2D(errorBitmap, textureType, false));
+
+                producer = () => new MapPair(false, errorBitmap, new Texture2D(errorBitmap, textureType, false));
+                outBitmap = errorBitmap;
+                return;
             }
 
             Bitmap bitmap;
@@ -344,30 +379,21 @@ namespace HOI4ModBuilder
                 tempBitmap.Dispose();
             }
 
-            Texture2D texture;
+            outBitmap = bitmap;
             if (textureType == _8bppIndexed)
-                texture = new Texture2D(Transfer8bbpIndexedTo24bpp(bitmap), _24bppRgb, false);
+            {
+                var resultBitmap = Transfer8bbpIndexedTo24bpp(bitmap);
+                producer = () => new MapPair(fileInfo.needToSave, bitmap, new Texture2D(resultBitmap, _24bppRgb, false));
+            }
             else
-                texture = new Texture2D(bitmap, textureType, false);
-            return new MapPair(fileInfo.needToSave, bitmap, texture);
+                producer = () => new MapPair(fileInfo.needToSave, bitmap, new Texture2D(bitmap, textureType, false));
         }
 
         public static void LoadBorders()
         {
             MainForm.ExecuteActions(new (EnumLocKey, Action)[]
             {
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_BORDERS_TEXTURE_MAP, () => provincesBorders = CreateBordersMap(MapManager.ProvincesPixels, provinces.GetBitmap().Width, provinces.GetBitmap().Height)),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_BORDERS_TEXTURE_MAP, () => ProvinceManager.ProcessProvincesPixels(MapManager.ProvincesPixels, provinces.GetBitmap().Width, provinces.GetBitmap().Height))
-            });
-        }
-
-        private static void LoadAdditionalLayers(BaseSettings settings)
-        {
-            var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
-
-            MainForm.ExecuteActions(new (EnumLocKey, Action)[]
-            {
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_ADDITIONAL_MAP_LAYERS, () => rivers = CreateRiverMap(fileInfoPairs["rivers.bmp"]))
             });
         }
 
@@ -411,7 +437,7 @@ namespace HOI4ModBuilder
             return outputBitmap;
         }
 
-        private static MapPair CreateBordersMap(int[] values, int width, int height)
+        private static void CreateBordersMap(int[] values, int width, int height, out Func<MapPair> producer)
         {
             int pixelCount = width * height;
 
@@ -440,7 +466,7 @@ namespace HOI4ModBuilder
 
             Marshal.Copy(tempValues, 0, outData.Scan0, tempValues.Length);
 
-            return new MapPair(false, outputBitmap, new Texture2D(outputBitmap, outData, _8bppAlpha, false));
+            producer = () => new MapPair(false, outputBitmap, new Texture2D(outputBitmap, outData, _8bppAlpha, false));
         }
 
         public static void InitRiverPallete()
@@ -661,14 +687,13 @@ namespace HOI4ModBuilder
 
             Utils.ArrayToBitmap(outputValues, outputBitmap, ImageLockMode.WriteOnly, width, height, _8bppIndexed);
             outputBitmap.Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + RIVERS_FILE_NAME, ImageFormat.Bmp);
-
-            var a = 1;
         }
 
-        private static MapPair CreateRiverMap(src.FileInfo fileInfo)
+        private static void CreateRiverMapProducer(Dictionary<string, src.FileInfo> fileInfos, string fileName, out Func<MapPair> producer)
         {
+            var fileInfo = fileInfos[fileName];
             LoadRiverMap(new Bitmap(fileInfo.filePath), out Bitmap outputBitmap, out BitmapData outputData);
-            return new MapPair(fileInfo.needToSave, outputBitmap, new Texture2D(outputBitmap, outputData, _32bppArgb, false));
+            producer = () => new MapPair(fileInfo.needToSave, outputBitmap, new Texture2D(outputBitmap, outputData, _32bppArgb, false));
         }
 
         public static void LoadSegmentedTextures(

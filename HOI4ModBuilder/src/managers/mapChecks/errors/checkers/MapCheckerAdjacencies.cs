@@ -9,7 +9,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
     public class MapCheckerAdjacencies : MapChecker
     {
         public MapCheckerAdjacencies()
-            : base(-1, (list) => CheckAdjacencies(list))
+            : base("MapCheckerAdjacencies", -1, (list) => CheckAdjacencies(list))
         { }
 
         private static void CheckAdjacencies(List<MapCheckData> list)

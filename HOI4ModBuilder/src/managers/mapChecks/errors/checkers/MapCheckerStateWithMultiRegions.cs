@@ -6,7 +6,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
     public class MapCheckerStateWithMultiRegions : MapChecker
     {
         public MapCheckerStateWithMultiRegions()
-            : base((int)EnumMapErrorCode.STATE_MULTI_REGIONS, (list) =>
+            : base("MapCheckerStateWithMultiRegions", (int)EnumMapErrorCode.STATE_MULTI_REGIONS, (list) =>
             {
                 foreach (var s in StateManager.GetStates())
                 {

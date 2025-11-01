@@ -4,11 +4,15 @@ using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.Pdoxcl2Sharp;
 using Pdoxcl2Sharp;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.src.utils
 {
@@ -26,10 +30,16 @@ namespace HOI4ModBuilder.src.utils
 
         private static readonly List<TextBoxMessageForm> _textBoxMessageForms = new List<TextBoxMessageForm>();
 
+        private static readonly ConcurrentQueue<string> flushQueue = new ConcurrentQueue<string>();
+        private static readonly List<string> flushLines = new List<string>(64);
+        private static Task flushingTask = null;
+
         public static void Init()
         {
             try
             {
+                RunFlushingTaskIfNeeded();
+
                 if (!Directory.Exists(logDirPath))
                     Directory.CreateDirectory(logDirPath);
 
@@ -42,13 +52,46 @@ namespace HOI4ModBuilder.src.utils
             }
         }
 
+        private static void RunFlushingTaskIfNeeded()
+        {
+            if (flushingTask == null)
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        while (true)
+                            Cycle();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                });
+
+            void Cycle()
+            {
+                while (flushQueue.Count > 0)
+                {
+                    if (flushQueue.TryDequeue(out var result))
+                        flushLines.Add(result);
+                }
+                if (flushLines.Count > 0)
+                {
+                    Console.WriteLine($"{DateTime.Now}: Flushing {flushLines.Count} lines to {logFilePath}");
+                    File.AppendAllLines(logFilePath, flushLines);
+                    flushLines.Clear();
+                }
+                Thread.Sleep(1000);
+            }
+        }
+
         public static void Log(string message)
         {
-            string logEntry = $"[{DateTime.Now}]: {message}{Environment.NewLine}";
+            string logEntry = $"[{DateTime.Now}]: {message}";
             try
             {
-                File.AppendAllText(logFilePath, logEntry);
-                Console.WriteLine(message);
+                flushQueue.Enqueue(logEntry);
+                //Console.WriteLine(message);
             }
             catch (Exception ex)
             {

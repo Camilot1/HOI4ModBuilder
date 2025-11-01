@@ -7,7 +7,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
     public class MapCheckerProvincesWithMultiVictoryPoints : MapChecker
     {
         public MapCheckerProvincesWithMultiVictoryPoints()
-            : base((int)EnumMapWarningCode.PROVINCE_MULTI_VICTORY_POINTS, (list) =>
+            : base("MapCheckerProvincesWithMultiVictoryPoints", (int)EnumMapWarningCode.PROVINCE_MULTI_VICTORY_POINTS, (list) =>
             {
                 var usedIds = new HashSet<ushort>(512);
                 foreach (var s in StateManager.GetStates())

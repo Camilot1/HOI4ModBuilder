@@ -10,7 +10,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
         private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "map" });
 
         public MapCheckerRiversMismatches()
-            : base(-1, (list) => CheckRiversMismatches(list))
+            : base("MapCheckerRiversMismatches", -1, (list) => CheckRiversMismatches(list))
         { }
 
         private static void CheckRiversMismatches(List<MapCheckData> list)

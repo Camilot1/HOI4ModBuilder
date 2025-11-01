@@ -9,7 +9,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
     {
         public static readonly EnumMapWarningCode TYPE = EnumMapWarningCode.HEIGHTMAP_MISMATCH;
         public MapCheckerHeightMapMismatches()
-            : base((int)TYPE, (list) =>
+            : base("MapCheckerHeightMapMismatches", (int)TYPE, (list) =>
             {
                 int width = MapManager.MapSize.x;
                 int pixelCount = width * MapManager.MapSize.y;

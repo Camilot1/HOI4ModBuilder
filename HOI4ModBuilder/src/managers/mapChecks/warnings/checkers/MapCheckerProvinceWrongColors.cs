@@ -10,7 +10,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
     public class MapCheckerProvinceWrongColors : MapChecker
     {
         public MapCheckerProvinceWrongColors()
-            : base((int)EnumMapWarningCode.PROVINCE_WRONG_COLOR, (list) =>
+            : base("MapCheckerProvinceWrongColors", (int)EnumMapWarningCode.PROVINCE_WRONG_COLOR, (list) =>
             {
                 foreach (var p in ProvinceManager.GetProvinces())
                 {

@@ -7,7 +7,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
     public class MapCheckerProvincesContinents : MapChecker
     {
         public MapCheckerProvincesContinents()
-            : base((int)EnumMapWarningCode.PROVINCE_CONTINENT_ID_NOT_EXISTS, (list) =>
+            : base("MapCheckerProvincesContinents", (int)EnumMapWarningCode.PROVINCE_CONTINENT_ID_NOT_EXISTS, (list) =>
             {
                 foreach (var p in ProvinceManager.GetProvinces())
                 {

@@ -9,6 +9,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.mapChecks;
 using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.openTK;
 using HOI4ModBuilder.src.openTK.text;
@@ -23,6 +24,7 @@ using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -31,6 +33,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HOI4ModBuilder.src.managers.ActionHistoryManager;
+using static HOI4ModBuilder.src.tools.autotools.AutoToolRegenerateProvincesColors;
 using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.managers
@@ -102,6 +105,22 @@ namespace HOI4ModBuilder.managers
             FontRenderController = new FontRenderController(256, 64);
 
             showMainLayer = true;
+        }
+
+        public static void RunTaskRegenerateStateAndRegionsColors()
+        {
+            Task.Run(() =>
+            {
+                Logger.TryOrLog(() =>
+                {
+                    StateManager.RegenerateStatesColors(null);
+                    StrategicRegionManager.RegenerateRegionsColors(null);
+
+                    var current = MainForm.Instance.GetMainLayer();
+                    if (current == EnumMainLayer.STATES || current == EnumMainLayer.STRATEGIC_REGIONS)
+                        MainForm.Instance.InvokeAction(() => HandleMapMainLayerChange());
+                });
+            });
         }
 
         private static void LoadTextureMaps()
@@ -588,15 +607,10 @@ namespace HOI4ModBuilder.managers
 
                         TextureManager.LoadBorders();
                         ProvinceManager.ProcessProvincesPixels(ProvincesPixels, MapSize.x, MapSize.y);
-
-                        foreach (var p in ProvinceManager.GetProvinces())
-                        {
-                            p.ClearBorders();
-                        }
-
                         ProvinceBorderManager.Init(ProvincesPixels, (short)MapSize.x, (short)MapSize.y);
-                        WarningsManager.Init();
-                        ErrorManager.Init();
+
+                        RunTaskRegenerateStateAndRegionsColors();
+                        MapCheckerManager.InitAll();
 
                         context.MakeCurrent(null);
                     },

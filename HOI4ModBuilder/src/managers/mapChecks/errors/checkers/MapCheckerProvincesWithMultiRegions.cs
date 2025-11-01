@@ -9,7 +9,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
     public class MapCheckerProvincesWithMultiRegions : MapChecker
     {
         public MapCheckerProvincesWithMultiRegions()
-            : base((int)EnumMapErrorCode.PROVINCE_MULTI_REGIONS, (list) =>
+            : base("MapCheckerProvincesWithMultiRegions", (int)EnumMapErrorCode.PROVINCE_MULTI_REGIONS, (list) =>
             {
                 Action<StrategicRegion, Province> action = (r, p) =>
                 {

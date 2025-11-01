@@ -8,7 +8,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
     public class MapCheckerFrontlinePossibleErrors : MapChecker
     {
         public MapCheckerFrontlinePossibleErrors()
-            : base((int)EnumMapWarningCode.FRONTLINE_POSSIBLE_ERROR, (list) =>
+            : base("MapCheckerFrontlinePossibleErrors", (int)EnumMapWarningCode.FRONTLINE_POSSIBLE_ERROR, (list) =>
             {
                 var borderProvincesIds = new HashSet<ushort>();
                 ushort borderProvinceId;

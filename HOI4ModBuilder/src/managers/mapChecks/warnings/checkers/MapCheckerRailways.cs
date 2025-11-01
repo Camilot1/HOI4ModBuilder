@@ -7,7 +7,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
     public class MapCheckerRailways : MapChecker
     {
         public MapCheckerRailways()
-            : base(-1, (list) =>
+            : base("MapCheckerRailways", -1, (list) =>
             {
                 var connections = new HashSet<int>();
 

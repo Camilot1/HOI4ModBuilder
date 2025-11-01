@@ -856,10 +856,7 @@ namespace HOI4ModBuilder.managers
             Province province = null;
 
             foreach (var p in _provincesById)
-            {
-                if (p != null)
-                    p.ResetPixels();
-            }
+                p?.ResetPixels();
 
             int x, y;
 

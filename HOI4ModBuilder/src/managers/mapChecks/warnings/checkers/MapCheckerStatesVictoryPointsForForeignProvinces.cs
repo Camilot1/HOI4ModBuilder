@@ -6,7 +6,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
     public class MapCheckerStatesVictoryPointsForForeignProvinces : MapChecker
     {
         public MapCheckerStatesVictoryPointsForForeignProvinces()
-            : base((int)EnumMapWarningCode.STATE_VICTORY_POINT_FOR_FOREIGN_PROVINCE, (list) =>
+            : base("MapCheckerStatesVictoryPointsForForeignProvinces", (int)EnumMapWarningCode.STATE_VICTORY_POINT_FOR_FOREIGN_PROVINCE, (list) =>
             {
                 foreach (var s in StateManager.GetStates())
                 {

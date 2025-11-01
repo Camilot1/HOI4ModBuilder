@@ -21,6 +21,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.data.exceptions;
+using HOI4ModBuilder.src.managers.mapChecks;
 using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.openTK;
@@ -31,6 +32,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Threading.Tasks;
+using static HOI4ModBuilder.src.tools.autotools.AutoToolRegenerateProvincesColors;
+using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.managers
 {
@@ -152,9 +155,8 @@ namespace HOI4ModBuilder.managers
             MapManager.Load(SettingsManager.Settings);
 
             MapPositionsManager.Load(settings);
-
-            WarningsManager.Init();
-            ErrorManager.Init();
+            MapManager.RunTaskRegenerateStateAndRegionsColors();
+            MapCheckerManager.InitAll();
 
             MainForm.IsMapMainLayerChangeEnabled = true;
         }

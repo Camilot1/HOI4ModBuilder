@@ -9,10 +9,12 @@ using HOI4ModBuilder.src.utils.structs;
 using OpenTK.Graphics.OpenGL;
 using Pdoxcl2Sharp;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HOI4ModBuilder.src.tools.autotools.AutoToolRegenerateProvincesColors;
 using static HOI4ModBuilder.utils.Enums;
@@ -58,14 +60,36 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
             var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
-            foreach (FileInfo fileInfo in fileInfoPairs.Values)
-                LoadFile(fileInfo);
+            var actions = new List<(string, Action)>(fileInfoPairs.Count);
+            var addActions = new ConcurrentQueue<Action>();
+
+            foreach (var fileInfo in fileInfoPairs.Values)
+                actions.Add((null, () =>
+                {
+                    LoadFile(fileInfo, out var addAction);
+                    addActions.Enqueue(addAction);
+                }
+                ));
+
+            MainForm.ExecuteActionsParallelNoDisplay(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_REGIONS, actions);
+            foreach (var addAction in addActions)
+                addAction();
         }
 
         public static void LoadFile(FileInfo fileInfo)
         {
+            var region = new StrategicRegionFile(false, fileInfo, _regions);
             using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
-                ParadoxParser.Parse(fs, new StrategicRegionFile(false, fileInfo, _regions));
+                ParadoxParser.Parse(fs, region);
+            region.addAction?.Invoke();
+        }
+
+        public static void LoadFile(FileInfo fileInfo, out Action addAction)
+        {
+            var region = new StrategicRegionFile(false, fileInfo, _regions);
+            using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
+                ParadoxParser.Parse(fs, region);
+            addAction = region.addAction;
         }
 
         public static void Save(BaseSettings settings)
@@ -190,8 +214,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 }
             }
         }
-        public static void RegenerateRegionsColors()
+        public static void RegenerateRegionsColors(ProgressCallback progressCallback)
         {
+            var stopwatch = Stopwatch.StartNew();
             var modSettings = SettingsManager.Settings.GetModSettings();
 
             var newColors = new HashSet<int>(256);
@@ -200,14 +225,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             var regeneratedRegionToColor = new Dictionary<StrategicRegion, int>(256);
             var hsvRanges = modSettings.GetRegionHSVRanges();
 
-            var progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_REGIONS);
-
             var regions = AssembleRegions(GetRegions());
             int counter = 0;
             foreach (var region in regions)
             {
                 counter++;
-                progressCallback.Execute(counter, regions.Count);
+                progressCallback?.Execute(counter, regions.Count);
 
                 adjacentColors.Clear();
 
@@ -227,6 +250,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 region.color = newColor;
                 newColors.Add(newColor);
             }
+            Logger.Log($"RegenerateRegionsColors = {stopwatch.ElapsedMilliseconds} ms");
         }
 
         public static void AddRegionsBorder(ProvinceBorder border) => _regionsBorders.Add(border);
@@ -301,10 +325,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             foreach (var region in _regions.Values)
                 region.InitBorders();
             TextureManager.InitRegionsBordersMap(_regionsBorders);
-
-            var stopwatch = Stopwatch.StartNew();
-            RegenerateRegionsColors();
-            Logger.Log($"RegenerateRegionsColors = {stopwatch.ElapsedMilliseconds} ms");
         }
 
         private static void HandleDelete()

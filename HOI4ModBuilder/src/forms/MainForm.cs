@@ -356,6 +356,24 @@ namespace HOI4ModBuilder
             }
         }
 
+        public static void ExecuteActions(EnumLocKey enumLocKey, IEnumerable<Action> actions)
+        {
+            var stopwatch = new Stopwatch();
+            int i = 0;
+            int total = actions.Count();
+
+            foreach (var action in actions)
+            {
+                string name = $"{enumLocKey} ({i + 1}/{total})";
+                Logger.Log($"Performing action {name}...");
+                stopwatch.Restart();
+                DisplayProgress(enumLocKey, null, $"({i + 1}/{total})", (i + 1) / (float)total);
+                action.Invoke();
+                Logger.Log($"    Perfomed action ({stopwatch.ElapsedMilliseconds} ms): {name}");
+
+                i++;
+            }
+        }
 
         public static void ExecuteActionsParallel(EnumLocKey locKey, IEnumerable<(string, Action)> actions)
         {
@@ -364,7 +382,17 @@ namespace HOI4ModBuilder
 
             var stopwatch = Stopwatch.StartNew();
             Logger.Log($"Performing parallel actions {locKey}...");
-            ParallelUtils.Execute(actions, 50, (cur, max) => DisplayProgress(locKey, null, $"({cur}/{max})", cur / max));
+            ParallelUtils.Execute(actions, 10, (cur, max) => DisplayProgress(locKey, null, $"({cur}/{max})", cur / max));
+            Logger.Log($"    Perfomed parallel actions ({stopwatch.ElapsedMilliseconds} ms): {locKey}");
+        }
+        public static void ExecuteActionsParallelNoDisplay(EnumLocKey locKey, IEnumerable<(string, Action)> actions)
+        {
+            if (actions == null || actions.Count() == 0)
+                return;
+
+            var stopwatch = Stopwatch.StartNew();
+            Logger.Log($"Performing parallel actions {locKey}...");
+            ParallelUtils.Execute(actions);
             Logger.Log($"    Perfomed parallel actions ({stopwatch.ElapsedMilliseconds} ms): {locKey}");
         }
 

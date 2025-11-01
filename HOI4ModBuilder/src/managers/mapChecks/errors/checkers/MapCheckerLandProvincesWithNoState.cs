@@ -7,7 +7,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
     public class MapCheckerLandProvincesWithNoState : MapChecker
     {
         public MapCheckerLandProvincesWithNoState()
-            : base((int)EnumMapErrorCode.PROVINCE_LAND_WITH_NO_STATE, (list) =>
+            : base("MapCheckerLandProvincesWithNoState", (int)EnumMapErrorCode.PROVINCE_LAND_WITH_NO_STATE, (list) =>
             {
                 foreach (var p in ProvinceManager.GetProvinces())
                 {

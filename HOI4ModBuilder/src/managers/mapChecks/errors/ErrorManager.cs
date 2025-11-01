@@ -37,11 +37,11 @@ namespace HOI4ModBuilder.src.managers
             Instance = this;
         }
 
-        public static void Init()
+        public static IEnumerable<(string, Action)> Init()
         {
             if (Instance == null)
                 Instance = new ErrorManager();
-            Instance.Execute();
+            return Instance.PrepareExecuteActions();
         }
 
         protected override void InitFilters()

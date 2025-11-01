@@ -1,11 +1,12 @@
-﻿using static HOI4ModBuilder.utils.Structs;
-using System.Collections.Generic;
-using System;
-using HOI4ModBuilder.src.managers.warnings;
+﻿using HOI4ModBuilder.src.managers.errors;
 using HOI4ModBuilder.src.managers.mapChecks;
 using HOI4ModBuilder.src.managers.mapChecks.warnings.checkers;
+using HOI4ModBuilder.src.managers.warnings;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
+using System;
+using System.Collections.Generic;
+using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.managers
 {
@@ -41,11 +42,11 @@ namespace HOI4ModBuilder.src.managers
             Instance = this;
         }
 
-        public static void Init()
+        public static IEnumerable<(string, Action)> Init()
         {
             if (Instance == null)
                 Instance = new WarningsManager();
-            Instance.Execute();
+            return Instance.PrepareExecuteActions();
         }
 
         protected override void InitFilters()

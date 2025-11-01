@@ -7,7 +7,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
     public class MapCheckerProvincesBordersMismatches : MapChecker
     {
         public MapCheckerProvincesBordersMismatches()
-            : base((int)EnumMapWarningCode.PROVINCE_BORDERS_MISMATCH, (list) =>
+            : base("MapCheckerProvincesBordersMismatches", (int)EnumMapWarningCode.PROVINCE_BORDERS_MISMATCH, (list) =>
             {
                 foreach (var p in ProvinceManager.GetProvinces())
                 {

@@ -22,7 +22,11 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public static void Init(int[] values, short width, short height)
         {
             Stopwatch stopwatch = new Stopwatch();
+
+            foreach (var p in ProvinceManager.GetProvinces())
+                p.ClearBorders();
             ProvinceBorderCount = 0;
+
             _bordersAssembler.Reset();
 
             MainForm.ExecuteActions(new (EnumLocKey, Action)[]

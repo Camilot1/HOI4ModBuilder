@@ -6,7 +6,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
     public class MapCheckerProvincesTerrains : MapChecker
     {
         public MapCheckerProvincesTerrains()
-            : base((int)EnumMapWarningCode.PROVINCE_WITH_NO_TERRAIN, (list) =>
+            : base("MapCheckerProvincesTerrains", (int)EnumMapWarningCode.PROVINCE_WITH_NO_TERRAIN, (list) =>
             {
                 foreach (var p in ProvinceManager.GetProvinces())
                 {

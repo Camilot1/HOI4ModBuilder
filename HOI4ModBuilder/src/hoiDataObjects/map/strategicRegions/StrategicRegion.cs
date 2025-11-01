@@ -721,8 +721,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
     {
         private readonly bool _isSilentLoad;
         private readonly FileInfo _currentFile;
-        private readonly Dictionary<ushort, StrategicRegion> _regions;
         private StrategicRegion _region;
+        private readonly Dictionary<ushort, StrategicRegion> _regions;
+
+        public Action addAction = () => { };
 
         public StrategicRegionFile(bool isSilentLoad, FileInfo currentFile, Dictionary<ushort, StrategicRegion> regions)
         {
@@ -745,17 +747,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                     parser.Parse(_region);
                     _region.needToSave = _currentFile.needToSave;
 
-                    if (_regions.ContainsKey(_region.Id))
-                        throw new Exception(GuiLocManager.GetLoc(
-                            EnumLocKey.ERROR_REGION_DUPLICATE_ID,
-                            new Dictionary<string, string>
-                            {
-                                { "{reginId}", $"{_region.Id}" },
-                                { "{firstFilePath}", _regions[_region.Id].FileInfo.filePath }
-                            }
-                        ));
+                    addAction = () =>
+                    {
+                        if (_regions.TryGetValue(_region.Id, out var region))
+                            throw new Exception(GuiLocManager.GetLoc(
+                                EnumLocKey.ERROR_REGION_DUPLICATE_ID,
+                                new Dictionary<string, string>
+                                {
+                                { "{regionId}", $"{_region.Id}" },
+                                { "{firstFilePath}", region.FileInfo.filePath }
+                                }
+                            ));
 
-                    _regions[_region.Id] = _region;
+                        _regions[_region.Id] = _region;
+                    };
                 }
                 catch (Exception ex)
                 {

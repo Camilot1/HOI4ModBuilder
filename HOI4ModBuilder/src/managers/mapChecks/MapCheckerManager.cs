@@ -32,9 +32,41 @@ namespace HOI4ModBuilder.src.managers.mapChecks
             _mapCheckers = mapCheckers;
         }
 
-        public void Execute()
+        public static void InitAll()
+        {
+            Task.Run(() =>
+            {
+                var actions = new List<(string, Action)>();
+                actions.AddRange(WarningsManager.Init());
+                actions.AddRange(ErrorManager.Init());
+                MainForm.ExecuteActionsParallelNoDisplay(EnumLocKey.MAP_TAB_PROGRESSBAR_MAP_WARNINGS_AND_ERRORS_SEARCHING, actions);
+
+                WarningsManager.Instance.CollectCheckersData();
+                ErrorManager.Instance.CollectCheckersData();
+            });
+        }
+
+        public IEnumerable<(string, Action)> PrepareExecuteActions()
         {
             _poses = new Dictionary<Point2F, ulong>(_initialCapacity);
+            InitFilters();
+
+            var actions = new List<(string, Action)>(_mapCheckers.Length);
+            foreach (var checker in _mapCheckers)
+            {
+                if (checker.Flag >= 0 && !CheckFilter(checker.Flag))
+                {
+                    checker.Values?.Clear();
+                    continue;
+                }
+
+                actions.Add((checker.Name, () => checker.Execute()));
+            }
+            return actions;
+        }
+
+        public void Execute()
+        {
             InitFilters();
 
             var tasks = RunCheckers();
@@ -71,7 +103,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks
             return tasks;
         }
 
-        private void CollectCheckersData()
+        public void CollectCheckersData()
         {
             foreach (var checker in _mapCheckers)
             {

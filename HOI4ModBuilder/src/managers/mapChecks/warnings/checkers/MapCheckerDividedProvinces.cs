@@ -8,7 +8,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
     public class MapCheckerDividedProvinces : MapChecker
     {
         public MapCheckerDividedProvinces()
-            : base((int)EnumMapWarningCode.PROVINCE_DIVIDED, (list) =>
+            : base("MapCheckerDividedProvinces", (int)EnumMapWarningCode.PROVINCE_DIVIDED, (list) =>
             {
                 int width = MapManager.MapSize.x;
                 int height = MapManager.MapSize.y;
@@ -19,23 +19,33 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
                 int[] values = MapManager.ProvincesPixels;
                 int pixelCount = values.Length;
 
+                int pixelColor;
+                int? prevPixelColor = null;
+
                 for (int i = 0; i < pixelCount; i++)
                 {
-                    if (!usedPixels[i])
+                    if (usedPixels[i])
+                        continue;
+
+                    UseProvinceRegionPixels(ref usedPixels, i);
+
+                    pixelColor = values[i];
+
+                    if (pixelColor == prevPixelColor)
+                        continue;
+                    prevPixelColor = pixelColor;
+
+                    if (!ProvinceManager.TryGetProvince(pixelColor, out Province p))
+                        continue;
+
+                    ushort id = p.Id;
+                    if (usedProvinces[id])
                     {
-                        UseProvinceRegionPixels(ref usedPixels, i);
-                        if (ProvinceManager.TryGetProvince(values[i], out Province p))
-                        {
-                            ushort id = p.Id;
-                            if (usedProvinces[id])
-                            {
-                                x = i % width;
-                                y = i / width;
-                                list.Add(new MapCheckData(x + 0.5f, y + 0.5f, (int)EnumMapWarningCode.PROVINCE_DIVIDED));
-                            }
-                            else usedProvinces[id] = true;
-                        }
+                        x = i % width;
+                        y = i / width;
+                        list.Add(new MapCheckData(x + 0.5f, y + 0.5f, (int)EnumMapWarningCode.PROVINCE_DIVIDED));
                     }
+                    else usedProvinces[id] = true;
                 }
             })
         { }

@@ -6,7 +6,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
     public class MapCheckerProvincesCoastalMismatches : MapChecker
     {
         public MapCheckerProvincesCoastalMismatches()
-            : base((int)EnumMapErrorCode.PROVINCE_COASTAL_MISMATCH, (list) =>
+            : base("MapCheckerProvincesCoastalMismatches", (int)EnumMapErrorCode.PROVINCE_COASTAL_MISMATCH, (list) =>
             {
                 foreach (var p in ProvinceManager.GetProvinces())
                 {

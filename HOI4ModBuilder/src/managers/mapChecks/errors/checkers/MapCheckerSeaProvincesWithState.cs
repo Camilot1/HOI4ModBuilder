@@ -8,7 +8,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
     public class MapCheckerSeaProvincesWithState : MapChecker
     {
         public MapCheckerSeaProvincesWithState()
-            : base((int)EnumMapErrorCode.PROVINCE_SEA_WITH_STATE, (list) =>
+            : base("MapCheckerSeaProvincesWithState", (int)EnumMapErrorCode.PROVINCE_SEA_WITH_STATE, (list) =>
             {
                 foreach (var p in ProvinceManager.GetProvinces())
                 {

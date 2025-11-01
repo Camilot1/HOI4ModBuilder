@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -39,17 +40,44 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
 
             if (fileInfosPairs.TryGetValue("colors.txt", out FileInfo colorsFileInfo))
             {
-                Logger.Log($"Loading CountryGraphics \"colors.txt\"");
-                using (var fs = new FileStream(colorsFileInfo.filePath, FileMode.Open))
-                    ParadoxParser.Parse(fs, new CountryColorsList(colorsFileInfo.filePath, _countryColors));
+                Logger.TryOrCatch(
+                    () =>
+                    {
+                        using (var fs = new FileStream(colorsFileInfo.filePath, FileMode.Open))
+                            ParadoxParser.Parse(fs, new CountryColorsList(colorsFileInfo.filePath, _countryColors));
+                    },
+                    (ex) => Logger.LogException(
+                        EnumLocKey.EXCEPTION_WHILE_COUNTRY_GRAPHICS_LOADING,
+                        new Dictionary<string, string>
+                        {
+                            { "{fileName}", "colors.txt" },
+                            { "{exceptionMessage}", ex.Message }
+                        },
+                        ex
+                    )
+                );
             }
             //else throw new Exception(@"Отсутствует файл common\countries\colors.txt");
 
             if (fileInfosPairs.TryGetValue("cosmetic.txt", out FileInfo cosmeticFileInfo))
             {
-                Logger.Log($"Loading CountryGraphics \"cosmetic.txt\"");
-                using (var fs = new FileStream(cosmeticFileInfo.filePath, FileMode.Open))
-                    ParadoxParser.Parse(fs, new CountryColorsList(cosmeticFileInfo.filePath, _cosmeticCountryColors));
+                Logger.TryOrCatch(
+                    () =>
+                    {
+                        using (var fs = new FileStream(cosmeticFileInfo.filePath, FileMode.Open))
+                            ParadoxParser.Parse(fs, new CountryColorsList(cosmeticFileInfo.filePath, _cosmeticCountryColors));
+                    },
+                    (ex) => Logger.LogException(
+                        EnumLocKey.EXCEPTION_WHILE_COUNTRY_GRAPHICS_LOADING,
+                        new Dictionary<string, string>
+                        {
+                            { "{fileName}", "cosmetic.txt" },
+                            { "{exceptionMessage}", ex.Message }
+                        },
+                        ex
+                    )
+                );
+                //Logger.Log($"Loading CountryGraphics \"cosmetic.txt\"");
             }
             //else throw new Exception(@"Отсутствует файл common\countries\cosmetic.txt");
 
@@ -61,7 +89,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
                 _currentFile = fileInfo;
 
                 var countryGraphics = new CountryGraphics(COUNTRIES_FOLDER_PATH + fileInfo.fileName);
-                Logger.Log($"Loading CountryGraphics = {fileInfo.fileName}");
 
                 Logger.TryOrCatch(
                     () => countryGraphics.ParseFile(fileInfo.filePath),

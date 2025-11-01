@@ -7,7 +7,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
     public class MapCheckerProvincesBordersLimit : MapChecker
     {
         public MapCheckerProvincesBordersLimit()
-            : base((int)EnumMapWarningCode.PROVINCE_HAS_MORE_THAN_8_BORDERS, (list) =>
+            : base("MapCheckerProvincesBordersLimit", (int)EnumMapWarningCode.PROVINCE_HAS_MORE_THAN_8_BORDERS, (list) =>
             {
 
                 foreach (var p in ProvinceManager.GetProvinces())
