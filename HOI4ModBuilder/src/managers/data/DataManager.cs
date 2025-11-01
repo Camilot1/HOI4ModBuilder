@@ -114,11 +114,19 @@ namespace HOI4ModBuilder.managers
 
             Logger.Log("Saving...");
 
+            var stopwatch = Stopwatch.StartNew();
+
             LocalModDataManager.SaveLocalSettings(settings);
-            DataManager.Save(settings);
-            TextureManager.SaveAllMaps(settings);
+
+            var actions = new List<(string, Action)>();
+            actions.AddRange(GetSaveAllActions(settings));
+            actions.AddRange(TextureManager.GetSaveAllActions(settings));
+            MainForm.ExecuteActionsParallel(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING, actions);
 
             Utils.CleanUpMemory();
+
+            stopwatch.Stop();
+            Logger.Log("Saving time: " + stopwatch.ElapsedMilliseconds + " ms");
 
             MainForm.IsMapMainLayerChangeEnabled = true;
         }
@@ -184,68 +192,58 @@ namespace HOI4ModBuilder.managers
             var stopwatch = Stopwatch.StartNew();
             currentDateStamp = null;
 
-            LocalizedAction[] actions =
+            MainForm.ExecuteActions(new (EnumLocKey, Action)[]
             {
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_REPLACE_TAGS, () => ReplaceTagsManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_REPLACE_TAGS, () => ReplaceTagsManager.Load(settings)),
 
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_INFO_ARGS_BLOCKS, () => InfoArgsBlocksManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_INFO_ARGS_BLOCKS, () => InfoArgsBlocksManager.Load(settings)),
 
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_BOOKMARKS, () => BookmarkManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_BOOKMARKS,() => BookmarkManager.Load(settings)),
 
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TERRAINS, () => TerrainManager.Load(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_CONTINENTS, () => ContinentManager.Load(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_COUNTRIES, () => CountryManager.Load(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_BUILDINGS, () => BuildingManager.Load(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_BUILDINGS, () => InfoArgsBlocksManager.LoadBuildingsCustomArgsBlocks()),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_RESOURCES, () => ResourceManager.Load(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_STATE_CATEGORIES, () => StateCategoryManager.Load(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_IDEOLOGIES, () => IdeologyManager.Load(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_DEFINITION, () => ProvinceManager.Load(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_STATES, () => StateManager.Load(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_REGIONS, () => StrategicRegionManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TERRAINS,() => TerrainManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_CONTINENTS,() => ContinentManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_COUNTRIES,() => CountryManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_BUILDINGS, () => BuildingManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_BUILDINGS, () => InfoArgsBlocksManager.LoadBuildingsCustomArgsBlocks()),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_RESOURCES, () => ResourceManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_STATE_CATEGORIES, () => StateCategoryManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_IDEOLOGIES, () => IdeologyManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_DEFINITION, () => ProvinceManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_STATES, () => StateManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_REGIONS, () => StrategicRegionManager.Load(settings)),
 
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_AI_AREAS, () => AiAreaManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_AI_AREAS, () => AiAreaManager.Load(settings)),
 
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_UNITS, () => SubUnitManager.Load(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_DIVISION_NAMES_GROUPS, () => DivisionNamesGroupManager.Load(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_OOBS, () => OOBManager.Load(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_EQUPMENTS, () => EquipmentManager.Load(settings)),
-                //new LocalizedAction(EnumLocKey.NONE, () => LocalizationManager.Load(settings)),
-            };
-
-            MainForm.ExecuteActions(actions);
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_UNITS, () => SubUnitManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_DIVISION_NAMES_GROUPS, () => DivisionNamesGroupManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_OOBS, () => OOBManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_EQUPMENTS, () => EquipmentManager.Load(settings)),
+                //new (EnumLocKey.NONE, () => LocalizationManager.Load(settings)),
+            });
 
             stopwatch.Stop();
             Console.WriteLine("Загрузка DataManager = " + stopwatch.ElapsedMilliseconds + " ms.");
         }
 
-        public static void Save(BaseSettings settings)
-            => SaveManagers(settings);
-        private static void SaveManagers(BaseSettings settings)
+        public static IEnumerable<(string, Action)> GetSaveAllActions(BaseSettings settings)
+            => GetSaveAllManagersActions(settings);
+        private static IEnumerable<(string, Action)> GetSaveAllManagersActions(BaseSettings settings)
         {
-            var stopwatch = Stopwatch.StartNew();
+            return new (string, Action)[] {
+                ("ProvinceManager", () => ProvinceManager.Save(settings)),
+                ("AdjacenciesManager", () => AdjacenciesManager.Save(settings)),
+                ("SupplyManager",() => SupplyManager.SaveAll(settings)),
+                ("StateManager",() => StateManager.SaveAll(settings)),
+                ("StrategicRegionManager",() => StrategicRegionManager.Save(settings)),
 
-            LocalizedAction[] actions =
-            {
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_PROVINCES_DEFINITION, () => ProvinceManager.Save(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_ADJACENCIES, () => AdjacenciesManager.Save(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_SUPPLIES, () => SupplyManager.SaveAll(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_STATES, () => StateManager.Save(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_REGIONS, () => StrategicRegionManager.Save(settings)),
+                ("AiAreaManager",() => AiAreaManager.Save(settings)),
 
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_AI_AREAS, () => AiAreaManager.Save(settings)),
-
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_UNITS, () => SubUnitManager.Save(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_DIVISION_NAMES_GROUPS, () => DivisionNamesGroupManager.Save(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_OOBS, () => OOBManager.Save(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_EQUPMENTS, () => EquipmentManager.Save(settings)),
-                //new LocalizedAction(EnumLocKey.NONE, () => LocalizationManager.Save(settings)),
+                ("SubUnitManager",() => SubUnitManager.Save(settings)),
+                ("DivisionNamesGroupManager",() => DivisionNamesGroupManager.Save(settings)),
+                ("OOBManager",() => OOBManager.Save(settings)),
+                ("EquipmentManager",() => EquipmentManager.Save(settings)),
+                //() => LocalizationManager.Save(settings),
             };
-
-            MainForm.ExecuteActions(actions);
-
-            stopwatch.Stop();
-            Console.WriteLine("Загрузка DataManager = " + stopwatch.ElapsedMilliseconds + " ms.");
         }
 
         private static bool CanStartSave()

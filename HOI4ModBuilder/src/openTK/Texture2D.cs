@@ -7,7 +7,7 @@ using HOI4ModBuilder.src.utils.structs;
 namespace HOI4ModBuilder
 {
 
-    class Texture2D : IDisposable
+    public class Texture2D : IDisposable
     {
         public bool IsDisposed { get; private set; }
         public int TextureId { get; private set; }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HOI4ModBuilder
 {
-    enum EnumTextureType
+    public enum EnumTextureType
     {
         _8bppAlpha,
         _8bppGrayScale,
@@ -13,7 +13,7 @@ namespace HOI4ModBuilder
         _32bppArgb
     }
 
-    struct TextureType
+    public struct TextureType
     {
         public System.Drawing.Imaging.PixelFormat imagePixelFormat;
         public PixelInternalFormat pixelInternalFormat;

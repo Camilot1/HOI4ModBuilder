@@ -91,14 +91,11 @@ namespace HOI4ModBuilder.managers
         {
             TextureManager.LoadTextures(settings);
 
-            LocalizedAction[] actions =
-            {
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXTURE_MAPS, () => LoadTextureMaps()),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_ADJACENCIES_DEFINITION, () => AdjacenciesManager.Load(settings)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_SUPPLIES, () => SupplyManager.Load(settings))
-            };
-
-            MainForm.ExecuteActions(actions);
+            MainForm.ExecuteActions(new (EnumLocKey, Action)[] {
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXTURE_MAPS, () => LoadTextureMaps()),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_ADJACENCIES_DEFINITION, () => AdjacenciesManager.Load(settings)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_SUPPLIES, () => SupplyManager.Load(settings))
+            });
 
             ProvinceBorderManager.Init(ProvincesPixels, (short)MapSize.x, (short)MapSize.y);
             FontRenderController?.Dispose();

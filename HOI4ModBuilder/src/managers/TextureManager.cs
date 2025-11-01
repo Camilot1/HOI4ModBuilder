@@ -18,7 +18,7 @@ using System.Windows.Forms;
 namespace HOI4ModBuilder
 {
 
-    class TextureManager
+    public class TextureManager
     {
         private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "map" });
         private static readonly string PROVINCES_FILE_NAME = "provinces.bmp";
@@ -292,11 +292,10 @@ namespace HOI4ModBuilder
         private static void LoadMapPairs(BaseSettings settings)
         {
             var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
-            LocalizedAction[] actions =
+
+            MainForm.ExecuteActions(new (EnumLocKey, Action)[]
             {
-                new LocalizedAction(
-                     EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXTURE_MAPS,
-                    () => {
+                 (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXTURE_MAPS, () => {
                         provinces = LoadMapPair(fileInfoPairs, PROVINCES_FILE_NAME, _24bppRgb);
                         MapManager.ProvincesPixels = BrgToArgb(Utils.BitmapToArray(provinces.GetBitmap(), ImageLockMode.ReadOnly, _24bppRgb), 255);
                         terrain = LoadMapPair(fileInfoPairs, TERRAIN_FILE_NAME, _8bppIndexed);
@@ -310,10 +309,8 @@ namespace HOI4ModBuilder
                         var texture = new Texture2D(bitmap, _8bppGrayscale, false);
                         none = new MapPair(false, bitmap, texture);
                         texture.Update(_8bppGrayscale, 0, 0, 1, 1, new byte[] { 255 });
-                    })
-            };
-
-            MainForm.ExecuteActions(actions);
+                 }),
+            });
         }
 
         public static int[] BrgToArgb(byte[] data, byte alpha)
@@ -357,24 +354,21 @@ namespace HOI4ModBuilder
 
         public static void LoadBorders()
         {
-            LocalizedAction[] actions =
+            MainForm.ExecuteActions(new (EnumLocKey, Action)[]
             {
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_BORDERS_TEXTURE_MAP, () => provincesBorders = CreateBordersMap(MapManager.ProvincesPixels, provinces.GetBitmap().Width, provinces.GetBitmap().Height)),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_BORDERS_TEXTURE_MAP, () => ProvinceManager.ProcessProvincesPixels(MapManager.ProvincesPixels, provinces.GetBitmap().Width, provinces.GetBitmap().Height))
-            };
-
-            MainForm.ExecuteActions(actions);
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_BORDERS_TEXTURE_MAP, () => provincesBorders = CreateBordersMap(MapManager.ProvincesPixels, provinces.GetBitmap().Width, provinces.GetBitmap().Height)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_BORDERS_TEXTURE_MAP, () => ProvinceManager.ProcessProvincesPixels(MapManager.ProvincesPixels, provinces.GetBitmap().Width, provinces.GetBitmap().Height))
+            });
         }
 
         private static void LoadAdditionalLayers(BaseSettings settings)
         {
             var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
-            LocalizedAction[] actions =
-            {
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_ADDITIONAL_MAP_LAYERS, () => rivers = CreateRiverMap(fileInfoPairs["rivers.bmp"]))
-            };
 
-            MainForm.ExecuteActions(actions);
+            MainForm.ExecuteActions(new (EnumLocKey, Action)[]
+            {
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_ADDITIONAL_MAP_LAYERS, () => rivers = CreateRiverMap(fileInfoPairs["rivers.bmp"]))
+            });
         }
 
         public static Bitmap Transfer8bbpIndexedTo24bpp(Bitmap inputBitmap)
@@ -502,20 +496,19 @@ namespace HOI4ModBuilder
         }
 
         public static void SaveAllMaps(BaseSettings settings)
-        {
-            LocalizedAction[] actions =
-            {
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_TEXTURE_MAPS, () => {
-                    SaveProvincesMap();
-                    SaveRiversMap(settings);
-                    SaveTerrainMap();
-                    SaveTreesMap();
-                    SaveCitiesMap();
-                    SaveHeightMap(settings);
-                })
-            };
+            => MainForm.ExecuteActionsParallel(EnumLocKey.MAP_TAB_PROGRESSBAR_SAVING_TEXTURE_MAPS, GetSaveAllActions(settings));
 
-            MainForm.ExecuteActions(actions);
+        public static (string, Action)[] GetSaveAllActions(BaseSettings settings)
+        {
+            return new (string, Action)[]
+            {
+                ("ProvincesMap", () => SaveProvincesMap()),
+                ("RiversMap", () => SaveRiversMap(settings)),
+                ("TerrainMap", () => SaveTerrainMap()),
+                ("TreesMap", () => SaveTreesMap()),
+                ("CitiesMap", () => SaveCitiesMap()),
+                ("Height and Normal Maps", () => SaveHeightAndNormalMaps(settings))
+            };
         }
 
         public static void SaveProvincesMap()
@@ -542,7 +535,7 @@ namespace HOI4ModBuilder
                 cities.GetBitmap().Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + CITIES_FILE_NAME, ImageFormat.Bmp);
         }
 
-        public static void SaveHeightMap(BaseSettings settings)
+        public static void SaveHeightAndNormalMaps(BaseSettings settings)
         {
             if (height.needToSave)
             {
@@ -602,36 +595,55 @@ namespace HOI4ModBuilder
             int height = inputBitmap.Height;
             int pixelCount = width * height * _32bppArgb.bytesPerPixel;
 
-            byte[] values = Utils.BitmapToArray(inputBitmap, ImageLockMode.ReadOnly, _32bppArgb);
+            byte[] riversBytes = Utils.BitmapToArray(inputBitmap, ImageLockMode.ReadOnly, _32bppArgb);
             byte[] outputValues = new byte[pixelCount];
 
-            int color;
+            int colorRiver;
+            int? prevColorRiver = null;
+
+            int colorProvince;
+            int? prevColorProvince = null;
+
+            byte outputValue = 0;
 
             if (settings.GetModSettings().exportRiversMapWithWaterPixels)
             {
-                for (int i = 0; i < pixelCount; i += _32bppArgb.bytesPerPixel)
+                for (int i = 0; i < pixelCount; i += 4)
                 {
-                    color = Utils.ArgbToInt(values[i + 3], values[i + 2], values[i + 1], values[i]);
-                    int provinceColor = MapManager.ProvincesPixels[i / 4];
+                    colorRiver = Utils.ArgbToInt(riversBytes[i + 3], riversBytes[i + 2], riversBytes[i + 1], riversBytes[i]);
+                    colorProvince = MapManager.ProvincesPixels[i / 4];
 
-                    if (_riverColorsMap.ContainsKey(color))
-                        outputValues[i / _32bppArgb.bytesPerPixel] = _riverColorsMap[color];
-                    else if (ProvinceManager.TryGetProvince(provinceColor, out Province province) && province.Type != EnumProvinceType.LAND)
-                        outputValues[i / _32bppArgb.bytesPerPixel] = 254;
-                    else
-                        outputValues[i / _32bppArgb.bytesPerPixel] = 255;
+                    if (colorRiver != prevColorRiver || colorProvince != prevColorProvince)
+                    {
+                        prevColorRiver = colorRiver;
+                        prevColorProvince = colorProvince;
+
+                        if (_riverColorsMap.ContainsKey(colorRiver))
+                            outputValue = _riverColorsMap[colorRiver];
+                        else if (ProvinceManager.TryGetProvince(colorProvince, out Province province) && province.Type != EnumProvinceType.LAND)
+                            outputValue = 254;
+                        else
+                            outputValue = 255;
+                    }
+                    outputValues[i / 4] = outputValue;
                 }
             }
             else
             {
-                for (int i = 0; i < pixelCount; i += _32bppArgb.bytesPerPixel)
+                for (int i = 0; i < pixelCount; i += 4)
                 {
-                    color = Utils.ArgbToInt(values[i + 3], values[i + 2], values[i + 1], values[i]);
+                    colorRiver = Utils.ArgbToInt(riversBytes[i + 3], riversBytes[i + 2], riversBytes[i + 1], riversBytes[i]);
 
-                    if (_riverColorsMap.ContainsKey(color))
-                        outputValues[i / _32bppArgb.bytesPerPixel] = _riverColorsMap[color];
-                    else
-                        outputValues[i / _32bppArgb.bytesPerPixel] = 255;
+                    if (colorRiver != prevColorRiver)
+                    {
+                        prevColorRiver = colorRiver;
+
+                        if (_riverColorsMap.ContainsKey(colorRiver))
+                            outputValue = _riverColorsMap[colorRiver];
+                        else
+                            outputValue = 255;
+                    }
+                    outputValues[i / 4] = outputValue;
                 }
             }
 
@@ -649,6 +661,8 @@ namespace HOI4ModBuilder
 
             Utils.ArrayToBitmap(outputValues, outputBitmap, ImageLockMode.WriteOnly, width, height, _8bppIndexed);
             outputBitmap.Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + RIVERS_FILE_NAME, ImageFormat.Bmp);
+
+            var a = 1;
         }
 
         private static MapPair CreateRiverMap(src.FileInfo fileInfo)

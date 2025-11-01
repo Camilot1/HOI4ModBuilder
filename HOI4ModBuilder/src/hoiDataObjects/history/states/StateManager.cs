@@ -132,31 +132,36 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
         }
 
-        public static void Save(BaseSettings settings)
+        public static void SaveAll(BaseSettings settings)
         {
-            var sb = new StringBuilder();
-
+            var actions = new List<(string, Action)>(_statesById.Count);
             foreach (var state in _statesById.Values)
+                actions.Add((null, () => Save(settings, state)));
+
+            ParallelUtils.Execute(actions);
+        }
+
+        public static void Save(BaseSettings settings, State state)
+        {
+            var file = (StateGameFile)state.GetParent().GetParent();
+
+            if (file.IsNeedToSave())
             {
-                var file = (StateGameFile)state.GetParent().GetParent();
-                if (file.IsNeedToSave())
-                {
-                    Logger.TryOrCatch(
-                        () => file.Save(sb, "", null, default),
-                        (ex) =>
-                            throw new Exception(GuiLocManager.GetLoc(
-                                EnumLocKey.EXCEPTION_WHILE_STATE_SAVING,
-                                new Dictionary<string, string> { { "{stateId}", $"{state.Id.GetValue()}" } }
-                            ), ex)
-                    );
+                var sb = new StringBuilder();
+                Logger.TryOrCatch(
+                    () => file.Save(sb, "", null, default),
+                    (ex) =>
+                        throw new Exception(GuiLocManager.GetLoc(
+                            EnumLocKey.EXCEPTION_WHILE_STATE_SAVING,
+                            new Dictionary<string, string> { { "{stateId}", $"{state.Id.GetValue()}" } }
+                        ), ex)
+                );
 
-                    File.WriteAllText(settings.modDirectory + FOLDER_PATH + file.FileInfo.fileName, sb.ToString());
-                    sb.Length = 0;
-                }
-
-                if (file.FileInfo.needToDelete)
-                    File.Delete(settings.modDirectory + FOLDER_PATH + file.FileInfo.fileName);
+                File.WriteAllText(settings.modDirectory + FOLDER_PATH + file.FileInfo.fileName, sb.ToString());
             }
+
+            if (file.FileInfo.needToDelete)
+                File.Delete(settings.modDirectory + FOLDER_PATH + file.FileInfo.fileName);
         }
 
         public static void Draw(bool showCenters, bool showCollisions)

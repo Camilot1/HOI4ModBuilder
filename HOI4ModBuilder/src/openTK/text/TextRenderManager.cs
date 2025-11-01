@@ -3,6 +3,7 @@ using QuickFont;
 using System.Collections.Generic;
 using HOI4ModBuilder.src.openTK.text;
 using HOI4ModBuilder.src.utils;
+using System;
 
 namespace HOI4ModBuilder.src.openTK
 {
@@ -35,15 +36,14 @@ namespace HOI4ModBuilder.src.openTK
 
             _drawing = new QFontDrawing();
 
-            var actions = new LocalizedAction[] {
-                //FontData24 = new FontData(24, new QFont("data/fonts/previewer_arial.ttf", 24, new QFontBuilderConfiguration(true)));
-                //FontData32 = new FontData(32, new QFont("data/fonts/previewer_arial.ttf", 32, new QFontBuilderConfiguration(true)));
-                //FontData48 = new FontData(48, new QFont("data/fonts/previewer_arial.ttf", 48, new QFontBuilderConfiguration(true)));
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXT_FONTS, () => LoadFont(ref _fondData64, 64, "data/fonts/previewer_arial.ttf"))
-                //FontData72 = new FontData(72, new QFont("data/fonts/previewer_arial.ttf", 72, new QFontBuilderConfiguration(true)));
-            };
-
-            MainForm.ExecuteActions(actions);
+            MainForm.ExecuteActions(new (EnumLocKey, Action)[]
+            {
+                //(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXT_FONTS, () => LoadFont(ref _fondData24, 24, "data/fonts/previewer_arial.ttf")),
+                //(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXT_FONTS, () => LoadFont(ref _fondData32, 32, "data/fonts/previewer_arial.ttf")),
+                //(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXT_FONTS, () => LoadFont(ref _fondData48, 48, "data/fonts/previewer_arial.ttf")),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXT_FONTS, () => LoadFont(ref _fondData64, 64, "data/fonts/previewer_arial.ttf")),
+                //(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXT_FONTS, () => LoadFont(ref _fondData72, 72, "data/fonts/previewer_arial.ttf"))
+            });
 
             IsLoaded = true;
         }

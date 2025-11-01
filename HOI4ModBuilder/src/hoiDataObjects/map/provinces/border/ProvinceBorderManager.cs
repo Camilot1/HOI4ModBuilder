@@ -25,14 +25,14 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             ProvinceBorderCount = 0;
             _bordersAssembler.Reset();
 
-            LocalizedAction[] actions =
+            MainForm.ExecuteActions(new (EnumLocKey, Action)[]
             {
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => {
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => {
                     stopwatch.Start();
                     InitPixels(values, width, height);
                 }),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => InitBordersPixelsTask()),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => {
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => InitBordersPixelsTask()),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => {
                     AssembleBorderTask();
 
                     stopwatch.Stop();
@@ -40,11 +40,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     Logger.Log($"BordersInitAndAssemble = {stopwatch.ElapsedMilliseconds} ms");
                     Logger.Log($"ProvinceBorderCount = {ProvinceBorderCount}");
                 }),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE, () => StateManager.InitStatesBorders()),
-                new LocalizedAction(EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => StrategicRegionManager.InitRegionsBorders()),
-            };
-
-            MainForm.ExecuteActions(actions);
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE, () => StateManager.InitStatesBorders()),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => StrategicRegionManager.InitRegionsBorders()),
+            });
         }
 
         private static void InitPixels(int[] values, short width, short height)

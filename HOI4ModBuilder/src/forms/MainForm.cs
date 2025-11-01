@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using HOI4ModBuilder.hoiDataObjects;
+﻿using HOI4ModBuilder.hoiDataObjects;
+using HOI4ModBuilder.hoiDataObjects.common.resources;
 using HOI4ModBuilder.hoiDataObjects.common.terrain;
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.forms;
+using HOI4ModBuilder.src.forms.actionForms;
+using HOI4ModBuilder.src.forms.dataForms;
 using HOI4ModBuilder.src.forms.messageForms;
 using HOI4ModBuilder.src.forms.recoveryForms;
+using HOI4ModBuilder.src.forms.scripts;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
@@ -21,28 +17,33 @@ using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.openTK;
+using HOI4ModBuilder.src.scripts;
+using HOI4ModBuilder.src.tools.autotools;
+using HOI4ModBuilder.src.tools.brushes;
 using HOI4ModBuilder.src.tools.map.advanced;
 using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.structs;
 using Newtonsoft.Json;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using static HOI4ModBuilder.utils.Enums;
-using HOI4ModBuilder.src.forms.scripts;
-using HOI4ModBuilder.src.scripts;
-using HOI4ModBuilder.src.utils.structs;
-using HOI4ModBuilder.src.tools.brushes;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Linq;
-using HOI4ModBuilder.src.openTK;
-using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Linq;
+using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
-using HOI4ModBuilder.hoiDataObjects.common.resources;
-using HOI4ModBuilder.src.forms.actionForms;
-using HOI4ModBuilder.src.tools.autotools;
-using HOI4ModBuilder.src.forms.dataForms;
 
 namespace HOI4ModBuilder
 {
@@ -336,14 +337,35 @@ namespace HOI4ModBuilder
             Instance.GLControl_Resize(null, null);
         }
 
-        public static void ExecuteActions(LocalizedAction[] actions)
+        public static void ExecuteActions(IEnumerable<(EnumLocKey, Action)> actions)
         {
-            for (int i = 0; i < actions.Length; i++)
+            var stopwatch = new Stopwatch();
+            int i = 0;
+            int total = actions.Count();
+
+            foreach (var entry in actions)
             {
-                Logger.Log($"Perform action {actions[i].LocKey} ({i + 1}/{actions.Length})...");
-                DisplayProgress(actions[i].LocKey, null, $"({i + 1}/{actions.Length})", (i + 1) / (float)actions.Length);
-                actions[i].Action();
+                string name = $"{entry.Item1} ({i + 1}/{total})";
+                Logger.Log($"Performing action {name}...");
+                stopwatch.Restart();
+                DisplayProgress(entry.Item1, null, $"({i + 1}/{total})", (i + 1) / (float)total);
+                entry.Item2?.Invoke();
+                Logger.Log($"    Perfomed action ({stopwatch.ElapsedMilliseconds} ms): {name}");
+
+                i++;
             }
+        }
+
+
+        public static void ExecuteActionsParallel(EnumLocKey locKey, IEnumerable<(string, Action)> actions)
+        {
+            if (actions == null || actions.Count() == 0)
+                return;
+
+            var stopwatch = Stopwatch.StartNew();
+            Logger.Log($"Performing parallel actions {locKey}...");
+            ParallelUtils.Execute(actions, 50, (cur, max) => DisplayProgress(locKey, null, $"({cur}/{max})", cur / max));
+            Logger.Log($"    Perfomed parallel actions ({stopwatch.ElapsedMilliseconds} ms): {locKey}");
         }
 
         public static void DisplayProgress(EnumLocKey enumLocKey, float progress)
@@ -1241,11 +1263,11 @@ namespace HOI4ModBuilder
         private void ToolStripComboBox_Data_Bookmark_SelectedIndexChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() => DataManager.OnBookmarkChange());
         private void ToolStripMenuItem_Save_States_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => StateManager.Save(SettingsManager.Settings));
+            => Logger.TryOrLog(() => StateManager.SaveAll(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Regions_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => StrategicRegionManager.Save(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Maps_Heights_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => TextureManager.SaveHeightMap(SettingsManager.Settings));
+            => Logger.TryOrLog(() => TextureManager.SaveHeightAndNormalMaps(SettingsManager.Settings));
         private void ToolStripMenuItem_Save_Maps_Terrain_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => TextureManager.SaveTerrainMap());
         private void ToolStripMenuItem_Save_Maps_Trees_Click(object sender, EventArgs e)

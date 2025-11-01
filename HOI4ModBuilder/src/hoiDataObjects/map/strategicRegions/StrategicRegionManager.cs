@@ -70,28 +70,33 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
         public static void Save(BaseSettings settings)
         {
-            var sb = new StringBuilder();
+            var actions = new List<(string, Action)>(_regions.Count);
             foreach (var region in _regions.Values)
+                actions.Add((null, () => Save(settings, region)));
+            ParallelUtils.Execute(actions);
+        }
+
+        public static void Save(BaseSettings settings, StrategicRegion region)
+        {
+            var sb = new StringBuilder();
+            try
             {
-                try
-                {
-                    if (!region.needToSave)
-                        continue;
+                if (!region.needToSave)
+                    return;
 
-                    if (string.IsNullOrEmpty(region.FileInfo.fileName))
-                        throw new Exception(GuiLocManager.GetLoc(EnumLocKey.ERROR_REGION_HAS_NO_FILE));
+                if (string.IsNullOrEmpty(region.FileInfo.fileName))
+                    throw new Exception(GuiLocManager.GetLoc(EnumLocKey.ERROR_REGION_HAS_NO_FILE));
 
-                    region.Save(sb);
-                    File.WriteAllText(settings.modDirectory + FOLDER_PATH + region.FileInfo.fileName, sb.ToString());
-                    sb.Length = 0;
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(GuiLocManager.GetLoc(
-                        EnumLocKey.EXCEPTION_WHILE_REGION_SAVING,
-                        new Dictionary<string, string> { { "{regionId}", $"{region.Id}" } }
-                    ), ex);
-                }
+                region.Save(sb);
+                File.WriteAllText(settings.modDirectory + FOLDER_PATH + region.FileInfo.fileName, sb.ToString());
+                sb.Length = 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GuiLocManager.GetLoc(
+                    EnumLocKey.EXCEPTION_WHILE_REGION_SAVING,
+                    new Dictionary<string, string> { { "{regionId}", $"{region.Id}" } }
+                ), ex);
             }
         }
 

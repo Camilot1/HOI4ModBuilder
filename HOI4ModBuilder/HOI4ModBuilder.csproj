@@ -901,6 +901,7 @@
     <Compile Include="src\utils\MathUtils.cs" />
     <Compile Include="src\utils\NormalMapGenerator.cs" />
     <Compile Include="src\utils\ParadoxUtils.cs" />
+    <Compile Include="src\utils\ParallelUtils.cs" />
     <Compile Include="src\utils\Structs.cs" />
     <Compile Include="src\utils\structs\AtomicInteger.cs" />
     <Compile Include="src\utils\structs\Bound4US.cs" />
