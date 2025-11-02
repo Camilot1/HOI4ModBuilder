@@ -382,7 +382,7 @@ namespace HOI4ModBuilder
 
             var stopwatch = Stopwatch.StartNew();
             Logger.Log($"Performing parallel actions {locKey}...");
-            ParallelUtils.Execute(actions, 10, (cur, max) => DisplayProgress(locKey, null, $"({cur}/{max})", cur / max));
+            ParallelUtils.Execute(actions, 10, (cur, max) => DisplayProgress(locKey, null, $"({cur}/{max})", cur / (float)max));
             Logger.Log($"    Perfomed parallel actions ({stopwatch.ElapsedMilliseconds} ms): {locKey}");
         }
         public static void ExecuteActionsParallelNoDisplay(EnumLocKey locKey, IEnumerable<(string, Action)> actions)
