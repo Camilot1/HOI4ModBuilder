@@ -74,6 +74,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             MainForm.ExecuteActionsParallelNoDisplay(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_REGIONS, actions);
             foreach (var addAction in addActions)
                 addAction();
+            foreach (var region in _regions.Values)
+                region.Validate(out var _);
         }
 
         public static void LoadFile(FileInfo fileInfo)
@@ -87,7 +89,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             var region = new StrategicRegionFile(false, fileInfo, _regions);
             using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
                 ParadoxParser.Parse(fs, region);
-            region.Validate();
             addAction = region.addAction;
         }
 

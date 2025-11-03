@@ -18,6 +18,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -92,6 +93,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             MainForm.ExecuteActionsParallelNoDisplay(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_STATES, actions);
             foreach (var addAction in addActions)
                 addAction();
+            foreach (var state in _statesById.Values)
+                state.Validate(out var _);
         }
 
         public static void LoadFile(GameParser parser, StateGameFile stateFile)
