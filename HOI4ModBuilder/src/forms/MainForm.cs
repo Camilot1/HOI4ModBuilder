@@ -21,6 +21,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.openTK;
 using HOI4ModBuilder.src.scripts;
 using HOI4ModBuilder.src.tools.autotools;
@@ -1833,22 +1834,27 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Map_State_OpenFileInExplorer_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.State == null)
+                State state = StateManager.RMBState;
+
+                if (state == null)
+                    state = ProvinceManager.RMBProvince?.State;
+
+                if (state == null)
                     return;
 
-                if (!StateManager.TryGetState(ProvinceManager.RMBProvince.State.Id.GetValue(), out var state))
-                    return;
-
-                if (!state.TryGetGameFile(out var file))
-                    return;
-
-                NetworkManager.OpenLink(file.FilePath);
+                if (state.TryGetGameFile(out var file))
+                    NetworkManager.OpenLink(file.FilePath);
             });
 
         private void ToolStripMenuItem_Map_State_OpenFileInEditor_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.State == null)
+                State state = StateManager.RMBState;
+
+                if (ProvinceManager.RMBProvince?.State != null)
+                    state = ProvinceManager.RMBProvince?.State;
+
+                if (state == null)
                     return;
 
                 StateListForm stateListForm;
@@ -1860,7 +1866,7 @@ namespace HOI4ModBuilder
                 else stateListForm = StateListForm.Instance;
 
                 stateListForm.Focus();
-                stateListForm.FindState(ProvinceManager.RMBProvince.State.Id.GetValue());
+                stateListForm.FindState(state.Id.GetValue());
             });
 
         private void ToolStripMenuItem_Map_Region_CreateAndSet_Click(object sender, EventArgs e)
@@ -1901,13 +1907,12 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Map_Region_OpenFileInExplorer_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                if (ProvinceManager.RMBProvince == null || ProvinceManager.RMBProvince.Region == null)
-                    return;
+                StrategicRegion region = StrategicRegionManager.RMBRegion;
 
-                if (!StrategicRegionManager.TryGetRegion(ProvinceManager.RMBProvince.Region.Id, out var region))
-                    return;
+                if (region == null)
+                    region = ProvinceManager.RMBProvince?.Region;
 
-                if (region.FileInfo == null)
+                if (region == null)
                     return;
 
                 NetworkManager.OpenLink(region.FileInfo.filePath);
