@@ -18,6 +18,8 @@
         RAILWAY_OVERLAP_CONNECTION, //Железная дорога проходит по пути, который уже прошла другая дорога 
         SUPPLY_HUB_NO_CONNECTION, //Узел снабжения не соединён с Ж/Д
 
-        FRONTLINE_POSSIBLE_ERROR //Вероятная ошибка с линией фронта
+        FRONTLINE_POSSIBLE_ERROR, //Вероятная ошибка с линией фронта
+        DIVIDED_STATE,
+        DIVIDED_REGION,
     }
 }

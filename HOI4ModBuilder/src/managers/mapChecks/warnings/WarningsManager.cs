@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.src.managers.errors;
 using HOI4ModBuilder.src.managers.mapChecks;
+using HOI4ModBuilder.src.managers.mapChecks.errors.checkers;
 using HOI4ModBuilder.src.managers.mapChecks.warnings.checkers;
 using HOI4ModBuilder.src.managers.warnings;
 using HOI4ModBuilder.src.utils;
@@ -36,6 +37,8 @@ namespace HOI4ModBuilder.src.managers
                       new MapCheckerSupplyHubHasNoConnections(),
                       new MapCheckerFrontlinePossibleErrors(),
                       new MapCheckerHeightMapMismatches(),
+                      new MapCheckerDividedStates(),
+                      new MapCheckerDividedRegions()
                   }
               )
         {
