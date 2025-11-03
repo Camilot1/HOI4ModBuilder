@@ -109,8 +109,10 @@ namespace HOI4ModBuilder.src.utils.structs
         {
             left = 0;
             top = 0;
-            left = 0;
+            right = 0;
             bottom = 0;
         }
+        public bool IsZero()
+            => left == top && top == right && right == bottom;
     }
 }

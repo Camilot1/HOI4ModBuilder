@@ -325,7 +325,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
             foreach (var province in Provinces)
             {
-                if (pixelsCount == 0)
+                if (bounds.IsZero())
                     bounds.Set(province.bounds);
                 else
                     bounds.ExpandIfNeeded(province.bounds);
