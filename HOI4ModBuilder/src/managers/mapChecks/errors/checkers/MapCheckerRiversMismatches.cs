@@ -50,6 +50,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
                 else if (pixel < correctColorsCount) correctPixels.Add(i);
             }
 
+            /* // NO NEED TO CHECK FOR THIS CASE
             if (ErrorManager.Instance.CheckFilter((int)EnumMapErrorCode.RIVER_CROSSING))
             {
                 for (int tx = 0; tx < (width - 1); tx++)
@@ -66,6 +67,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
                     }
                 }
             }
+            */
 
             var flows = new Queue<int>(); //Входящие и выходящие соединения (индексы = 1, 2)
             //Проверяем цепочки рек на корректность

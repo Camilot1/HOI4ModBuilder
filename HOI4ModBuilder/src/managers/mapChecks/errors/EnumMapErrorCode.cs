@@ -13,7 +13,6 @@
 
         REGION_USES_NOT_NAVAL_TERRAIN, //У региона установлена неморская местность
 
-        RIVER_CROSSING, //Некорректная точка пересечения речных участков
         RIVER_NO_START_POINT, //Отсутствие точки начала реки
         RIVER_START_POINT_ERROR, //Точка начала реки имеет некорректных пикселей-соседей
         RIVER_FLOW_IN_OR_OUT_ERROR, //
