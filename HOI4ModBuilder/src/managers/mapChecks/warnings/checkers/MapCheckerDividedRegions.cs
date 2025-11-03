@@ -36,8 +36,15 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
                         });
                     }
 
-                    if (usedProvinces.Count != r.Provinces.Count)
-                        list.Add(new MapCheckData(startProvince.center, (int)EnumMapWarningCode.DIVIDED_REGION));
+
+                    foreach (var p in r.Provinces)
+                    {
+                        if (!usedProvinces.Contains(p))
+                        {
+                            list.Add(new MapCheckData(p.center, (int)EnumMapWarningCode.DIVIDED_STATE));
+                            break;
+                        }
+                    }
                 }
             })
         { }
