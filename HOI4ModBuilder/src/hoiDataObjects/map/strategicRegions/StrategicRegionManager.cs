@@ -78,10 +78,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
 
         public static void LoadFile(FileInfo fileInfo)
         {
-            var region = new StrategicRegionFile(false, fileInfo, _regions);
-            using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
-                ParadoxParser.Parse(fs, region);
-            region.addAction?.Invoke();
+            LoadFile(fileInfo, out var addAction);
+            addAction?.Invoke();
         }
 
         public static void LoadFile(FileInfo fileInfo, out Action addAction)
@@ -89,6 +87,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             var region = new StrategicRegionFile(false, fileInfo, _regions);
             using (var fs = new FileStream(fileInfo.filePath, FileMode.Open))
                 ParadoxParser.Parse(fs, region);
+            region.Validate();
             addAction = region.addAction;
         }
 

@@ -408,7 +408,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                 hasChanged = true;
             }
 
-            if (Utils.RemoveDuplicateProvinces(Provinces))
+            if (Provinces.RemoveDuplicates() != 0)
             {
                 needToSave = true;
                 hasChanged = true;
@@ -731,6 +731,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             _isSilentLoad = isSilentLoad;
             _currentFile = currentFile;
             _regions = regions;
+        }
+
+        public void Validate()
+        {
+            _region?.Validate(out var _);
         }
 
         public void TokenCallback(ParadoxParser parser, string token)

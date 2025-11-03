@@ -159,6 +159,23 @@ namespace HOI4ModBuilder.src.newParser.objects
             return count;
         }
 
+        public int RemoveDuplicates()
+        {
+            var set = new HashSet<T>(_list.Count);
+            int removedCount = _list.Count;
+
+            for (int i = _list.Count - 1; i >= 0; i--)
+            {
+                var item = _list[i];
+                if (set.Contains(item))
+                    _list.RemoveAt(i);
+                else
+                    set.Add(item);
+            }
+
+            return removedCount - _list.Count;
+        }
+
         public bool RemoveLastIf(Func<T, bool> predicate)
         {
             for (int i = _list.Count - 1; i >= 0; i--)

@@ -456,28 +456,6 @@ namespace HOI4ModBuilder
             return true;
         }
 
-        public static bool RemoveDuplicateProvinces(GameList<Province> provinces)
-        {
-            bool hasRemovedAny = false;
-            var indexes = new List<int>();
-            if (provinces.Count > 1)
-            {
-                for (int i = 1; i < provinces.Count; i++)
-                {
-                    if (provinces[i].Id == provinces[i - 1].Id) indexes.Add(i);
-                }
-
-                if (indexes.Count > 0)
-                {
-                    hasRemovedAny = true;
-                    indexes.Reverse();
-                }
-
-                foreach (int index in indexes) provinces.RemoveAt(index);
-            }
-            return hasRemovedAny;
-        }
-
 
         public static string FloatToString(float value)
             => ("" + value).Replace(',', '.');

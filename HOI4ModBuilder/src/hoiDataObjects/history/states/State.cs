@@ -525,7 +525,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             }
 
             // Удаляем дубликаты провинций в стейте
-            if (Utils.RemoveDuplicateProvinces(Provinces))
+            if (Provinces.RemoveDuplicates() != 0)
             {
                 SetNeedToSave(true);
                 hasChanged = true;

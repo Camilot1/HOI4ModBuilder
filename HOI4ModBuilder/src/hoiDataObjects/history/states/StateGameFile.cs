@@ -35,6 +35,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             {
                 foreach (var p in state.Provinces)
                     p.State = state;
+
+                state.Validate(out bool _);
             }
 
             base.Validate(layer);
