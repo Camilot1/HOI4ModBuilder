@@ -40,10 +40,8 @@ namespace HOI4ModBuilder.src.tools.autotools
             if (p.GetBuildingsCount() > 0)
             {
                 sb.Append("\n\t")
-                    .Append(p.Id)
-                    .Append(" (State: ")
-                    .Append(p.State?.Id?.GetValue())
-                    .Append(")")
+                    .Append("Province: ").Append(p.Id)
+                    .Append(" (State: " + p.State?.Id.GetValue() ?? "None").Append(")")
                     .Append(": Buildings: ");
                 p.ForEachBuilding((building, count) => sb.Append(building.Name).Append('=').Append(count).Append(' '));
                 return false;
@@ -53,10 +51,8 @@ namespace HOI4ModBuilder.src.tools.autotools
             if (p.GetAdjacenciesCount() > 0)
             {
                 sb.Append("\n\t")
-                    .Append(p.Id)
-                    .Append(" (State: ")
-                    .Append(p.State?.Id?.GetValue())
-                    .Append(")")
+                    .Append("Province: ").Append(p.Id)
+                    .Append(" (State: " + p.State?.Id.GetValue() ?? "None").Append(")")
                     .Append(": Adjacencies: ")
                     .Append(p.GetAdjacenciesCount());
                 return false;
@@ -70,10 +66,8 @@ namespace HOI4ModBuilder.src.tools.autotools
                 if (!ProvinceManager.TryGetProvince(provinceIdToReplace, out Province provinceToReplace))
                 {
                     sb.Append("\n\t")
-                        .Append(p.Id)
-                        .Append(" (State: ")
-                        .Append(p.State?.Id?.GetValue())
-                        .Append(")")
+                        .Append("Province: ").Append(p.Id)
+                        .Append(" (State: " + p.State?.Id.GetValue() ?? "None").Append(")")
                         .Append(": Could not found Province ")
                         .Append(provinceIdToReplace)
                         .Append(" for replacement ");
@@ -84,10 +78,8 @@ namespace HOI4ModBuilder.src.tools.autotools
                 if (provinceToReplace.victoryPoints != 0)
                 {
                     sb.Append("\n\t")
-                        .Append(p.Id)
-                        .Append(" (State: ")
-                        .Append(p.State?.Id?.GetValue())
-                        .Append(")")
+                        .Append("Province: ").Append(p.Id)
+                        .Append(" (State: " + p.State?.Id.GetValue() ?? "None").Append(")")
                         .Append(": Other Province ")
                         .Append(provinceIdToReplace)
                         .Append(" has victory points: ")
