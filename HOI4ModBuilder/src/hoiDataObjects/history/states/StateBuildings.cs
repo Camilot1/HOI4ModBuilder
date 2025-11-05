@@ -145,7 +145,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     EnumLocKey.WARNING_STATE_HAS_BUILDINGS_FOR_NON_LAND_PROVINCES_AND_THEY_WILL_BE_REMOVED,
                     new Dictionary<string, string>
                     {
-                        { "{stateID}", state == null ? "None" : $"{state.Id.GetValue()}" },
+                        { "{stateID}", state == null ? GuiLocManager.GetLoc(EnumLocKey.NONE) : $"{state.Id.GetValue()}" },
                         { "{provincesIDs}", provincesIDs }
                     }
                 );

@@ -58,15 +58,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public bool AddToProvinces()
         {
-            if (_provinces == null || _provinces.Count == 0) return false;
-            foreach (var p in _provinces) p.AddRailway(this);
+            if (_provinces == null || _provinces.Count == 0)
+                return false;
+            foreach (var p in _provinces)
+                p.AddRailway(this);
             return true;
         }
 
         public bool RemoveFromProvinces()
         {
-            if (_provinces == null || _provinces.Count == 0) return false;
-            foreach (var p in _provinces) p.RemoveRailway(this);
+            if (_provinces == null || _provinces.Count == 0)
+                return false;
+            foreach (var p in _provinces)
+                p.RemoveRailway(this);
             return true;
         }
 
@@ -313,7 +317,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         public void Save(StringBuilder sb)
         {
             sb.Append(Level).Append(' ').Append(_provinces.Count);
-            foreach (var province in _provinces) sb.Append(' ').Append(province.Id);
+            foreach (var province in _provinces) 
+                sb.Append(' ').Append(province.Id);
             sb.Append(' ').Append(Constants.NEW_LINE);
         }
 

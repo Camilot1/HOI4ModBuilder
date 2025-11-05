@@ -4,6 +4,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.supply;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.settings;
+using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Shapes;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
 
@@ -78,24 +80,28 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public static void SaveRailways(string dirPath)
         {
-            if (!NeedToSaveRailways) return;
+            if (!NeedToSaveRailways) 
+                return;
 
             string railwaysPath = dirPath + RAILWAYS_FILE_NAME;
             var sb = new StringBuilder();
-            foreach (var railway in Railways) railway.Save(sb);
+            foreach (var railway in Railways) 
+                if (railway.ProvincesCount > 1)
+                    railway.Save(sb);
             File.WriteAllText(railwaysPath, sb.ToString());
         }
 
         public static void SaveSupplyNodes(string dirPath)
         {
-            if (!NeedToSaveSupplyNodes) return;
+            if (!NeedToSaveSupplyNodes) 
+                return;
 
             string supplyNodesPath = dirPath + SUPPLY_NODES_FILE_NAME;
 
             var sb = new StringBuilder();
-            foreach (var supplyNode in SupplyNodes) supplyNode.Save(sb);
+            foreach (var supplyNode in SupplyNodes)
+                supplyNode.Save(sb);
             File.WriteAllText(supplyNodesPath, sb.ToString());
-
         }
 
         public static void Draw(bool showRailways, bool showSupplyHubs)
@@ -106,7 +112,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
                 foreach (var railway in Railways)
                 {
-                    if (railway.ProvincesCount < 2) continue;
+                    if (railway.ProvincesCount < 2) 
+                        continue;
                     GL.LineWidth(2f + railway.Level);
                     GL.Begin(PrimitiveType.LineStrip);
                     railway.Draw();
@@ -243,39 +250,58 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         {
             string[] supplyNodesData = File.ReadAllLines(filePath);
 
-            bool tempNeedToSave = NeedToSaveSupplyNodes;
-
             if (SupplyNodes != null)
-            {
-                foreach (var supplyNode in SupplyNodes) supplyNode.RemoveFromProvince();
-            }
+                foreach (var supplyNode in SupplyNodes)
+                    supplyNode.RemoveFromProvince();
+
             SupplyNodes = new List<SupplyNode>();
 
             string[] data;
             byte level;
+
+            var invalidProvincesIDs = new List<string>();
+
             foreach (string supplyNodeData in supplyNodesData)
             {
                 data = supplyNodeData.Trim().Split(' ');
-                if (data.Length < 2) continue;
+                if (data.Length < 2)
+                    continue;
 
                 level = byte.Parse(data[0]);
-                ProvinceManager.TryGetProvince(ushort.Parse(data[1]), out Province province);
+
+                var rawProvinceID = data[1];
+                if (!ushort.TryParse(rawProvinceID, out var provinceID) ||
+                    !ProvinceManager.TryGetProvince(provinceID, out Province province) ||
+                    !SupplyNode.CanAddToProvince(province))
+                {
+                    invalidProvincesIDs.Add(rawProvinceID);
+                    continue;
+                }
+
                 var node = new SupplyNode(1, province);
-                if (node != null && node.AddToProvince()) SupplyNodes.Add(node);
+                province.SupplyNode = node;
+                SupplyNodes.Add(node);
             }
-            NeedToSaveSupplyNodes = tempNeedToSave;
+
+            if (invalidProvincesIDs.Count > 0)
+                Logger.LogWarning(
+                    EnumLocKey.WARNING_SUPPLY_HUB_IS_NOT_VALID_PROVINCES_AND_WILL_BE_REMOVED,
+                    new Dictionary<string, string> {
+                        { "{filePath}", filePath },
+                        { "{invalidProvincesIDs}", string.Join(", ", invalidProvincesIDs) }
+                    }
+                );
         }
 
         private static void LoadRailways(string filePath)
         {
-            bool tempNeedToSave = NeedToSaveRailways;
             string[] railwaysData = File.ReadAllLines(filePath);
 
             //Очищаем старые данные
             if (Railways != null)
-            {
-                foreach (var railway in Railways) railway.RemoveFromProvinces();
-            }
+                foreach (var railway in Railways)
+                    railway.RemoveFromProvinces();
+
             Railways = new List<Railway>();
 
             string[] data;
@@ -283,30 +309,68 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             int provinceCount;
             List<Province> provinces;
 
+            var invalidProvincesIDs = new List<string>();
+
+            int lineIndex = 0;
             foreach (string railwayData in railwaysData)
             {
-                data = railwayData.Trim().Split(' ');
-                if (data.Length < 2) continue;
+                lineIndex++;
+                var line = railwayData.Trim();
+                data = line.Split(' ');
+                if (data.Length < 2)
+                    continue;
 
                 level = byte.Parse(data[0]);
                 provinceCount = int.Parse(data[1]);
                 int realProvincesCount = data.Length - 2;
                 provinces = new List<Province>(data.Length);
+                invalidProvincesIDs.Clear();
 
                 for (int i = 0; i < provinceCount && i < realProvincesCount; i++)
                 {
-                    if (ProvinceManager.TryGetProvince(ushort.Parse(data[i + 2]), out Province province))
+                    var rawProvinceID = data[i + 2];
+                    if (!ushort.TryParse(rawProvinceID, out var provinceID) ||
+                        !ProvinceManager.TryGetProvince(provinceID, out Province province) ||
+                        province.Type != EnumProvinceType.LAND)
                     {
-                        provinces.Add(province);
+                        invalidProvincesIDs.Add(rawProvinceID);
+                        continue;
                     }
+                    provinces.Add(province);
+                }
+
+                if (invalidProvincesIDs.Count > 0)
+                    Logger.LogWarning(
+                        EnumLocKey.WARNING_RAILWAY_NOT_VALID_PROVINCES_WILL_BE_REMOVED,
+                        new Dictionary<string, string>
+                        {
+                            { "{filePath}", filePath },
+                            { "{lineIndex}", $"{lineIndex}" },
+                            { "{invalidProvincesIDs}", string.Join(", ", invalidProvincesIDs) }
+                        }
+                    );
+
+                if (provinces.Count < 2)
+                {
+                    var invalidProvincesIDsStr = invalidProvincesIDs.Count == 0 ?
+                        GuiLocManager.GetLoc(EnumLocKey.NONE) :
+                        string.Join(", ", invalidProvincesIDs);
+                    Logger.LogWarning(
+                        EnumLocKey.WARNING_RAILWAY_HAS_NOT_ENOUGH_VALID_PROVINCES_AND_WILL_BE_REMOVED,
+                        new Dictionary<string, string>
+                        {
+                            { "{filePath}", filePath },
+                            { "{lineIndex}", $"{lineIndex}" },
+                            { "{invalidProvincesIDs}", invalidProvincesIDsStr }
+                        }
+                    );
+                    continue;
                 }
 
                 var railway = new Railway(level, provinces);
                 railway.AddToProvinces();
                 Railways.Add(railway);
             }
-
-            NeedToSaveRailways = tempNeedToSave;
         }
 
         public static void HandleCursor(MouseButtons button, Point2D pos)

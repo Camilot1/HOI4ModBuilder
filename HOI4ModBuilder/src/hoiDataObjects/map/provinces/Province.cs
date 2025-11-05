@@ -163,7 +163,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 _railways.Add(railway);
                 return true;
             }
-            else return false;
+            else
+                return false;
         }
 
         public bool RemoveRailway(Railway railway)

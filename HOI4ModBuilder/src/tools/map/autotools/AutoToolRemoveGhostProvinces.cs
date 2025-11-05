@@ -2,6 +2,7 @@
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
+using HOI4ModBuilder.src.utils;
 using System.Collections.Generic;
 using System.Text;
 
@@ -41,7 +42,7 @@ namespace HOI4ModBuilder.src.tools.autotools
             {
                 sb.Append("\n\t")
                     .Append("Province: ").Append(p.Id)
-                    .Append(" (State: " + p.State?.Id.GetValue() ?? "None").Append(")")
+                    .Append(" (State: " + p.State?.Id.GetValue() ?? GuiLocManager.GetLoc(EnumLocKey.NONE)).Append(")")
                     .Append(": Buildings: ");
                 p.ForEachBuilding((building, count) => sb.Append(building.Name).Append('=').Append(count).Append(' '));
                 return false;
@@ -52,7 +53,7 @@ namespace HOI4ModBuilder.src.tools.autotools
             {
                 sb.Append("\n\t")
                     .Append("Province: ").Append(p.Id)
-                    .Append(" (State: " + p.State?.Id.GetValue() ?? "None").Append(")")
+                    .Append(" (State: " + p.State?.Id.GetValue() ?? GuiLocManager.GetLoc(EnumLocKey.NONE)).Append(")")
                     .Append(": Adjacencies: ")
                     .Append(p.GetAdjacenciesCount());
                 return false;
@@ -67,7 +68,7 @@ namespace HOI4ModBuilder.src.tools.autotools
                 {
                     sb.Append("\n\t")
                         .Append("Province: ").Append(p.Id)
-                        .Append(" (State: " + p.State?.Id.GetValue() ?? "None").Append(")")
+                        .Append(" (State: " + p.State?.Id.GetValue() ?? GuiLocManager.GetLoc(EnumLocKey.NONE)).Append(")")
                         .Append(": Could not found Province ")
                         .Append(provinceIdToReplace)
                         .Append(" for replacement ");
@@ -79,7 +80,7 @@ namespace HOI4ModBuilder.src.tools.autotools
                 {
                     sb.Append("\n\t")
                         .Append("Province: ").Append(p.Id)
-                        .Append(" (State: " + p.State?.Id.GetValue() ?? "None").Append(")")
+                        .Append(" (State: " + p.State?.Id.GetValue() ?? GuiLocManager.GetLoc(EnumLocKey.NONE)).Append(")")
                         .Append(": Other Province ")
                         .Append(provinceIdToReplace)
                         .Append(" has victory points: ")
