@@ -494,7 +494,7 @@
     <Compile Include="src\managers\data\exceptions\BookmarkNotFoundException.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\CheckRegionWithNotNavalTerrain.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerStateWithNoOwner.cs" />
-    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerCoastalBuildingInNotCoastalLandProvince.cs" />
+    <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerCoastalBuildingInNotCoastalPlace.cs" />
     <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerDividedRegions.cs" />
     <Compile Include="src\managers\mapChecks\warnings\checkers\MapCheckerDividedStates.cs" />
     <Compile Include="src\managers\mapChecks\errors\checkers\MapCheckerLandProvincesWithNoState.cs" />

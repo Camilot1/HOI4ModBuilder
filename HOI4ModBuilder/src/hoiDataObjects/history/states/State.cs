@@ -506,7 +506,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             foreach (var p in Provinces)
             {
-                if (p.Type == EnumProvinceType.SEA)
+                if (p.IsCoastal)
                     return true;
             }
             return false;

@@ -32,7 +32,7 @@ namespace HOI4ModBuilder.src.managers
                       new MapCheckerAdjacencies(),
                       new MapCheckerRiversMismatches(),
                       new MapCheckerStateWithNoOwner(),
-                      new MapCheckerCoastalBuildingInNotCoastalLandProvince(),
+                      new MapCheckerCoastalBuildingInNotCoastalPlace(),
                   }
               )
         {
