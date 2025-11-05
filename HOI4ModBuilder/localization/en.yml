@@ -558,3 +558,7 @@ STATE_CATEGORIES: "State Categories"
 NAVAL_TERRAINS: "Naval Terrains"
 WARNING_TOO_MUCH_PROVINCE_BORDERS: "The number of province borders is {currentCount}, which exceeds the maximum {maxCount} that Hearts of Iron IV can render on the game map. Reduce the number of provinces manually or by using the Merge Provinces tool (Edit -> Advanced Actions -> Merge All Selected Provinces)"
 WARNING_STATE_HAS_BUILDINGS_FOR_NON_LAND_PROVINCES_AND_THEY_WILL_BE_REMOVED: "Building definitions for non-land provinces were found in State with ID = {stateID}. These buildings will be removed from province(-s) with ID(-s): {provincesIDs}"
+
+WARNING_PROVINCES_MAP_WIDTH_IS_NOT_MULTIPLE_OF_256: "The province map width is {width}. This value is not a multiple of 256. This will cause the game to crash. Manually change the province map width in the \"map\" folder in your mod directory."
+WARNING_PROVINCES_MAP_HEIGHT_IS_NOT_MULTIPLE_OF_256: "The province map height is {height}. This value is not a multiple of 256. This will cause the game to crash. Manually change the province map height in the \"map\" folder in your mod directory."
+WARNING_PROVINCES_MAP_TOO_MUCH_PIXELS: "The province map has {currentCount} pixels. This exceeds the maximum allowed value of {maxCount}. This will cause the game to crash. Manually reduce the dimensions of the province map in the \"map\" folder in your mod directory."

@@ -126,6 +126,7 @@ namespace HOI4ModBuilder.managers
         private static void LoadTextureMaps()
         {
             MapSize = TextureManager.provinces.texture.Size;
+            CheckMapSize();
             MapMainLayer = new TexturedPlane(TextureManager.provinces.texture, MapSize.x, MapSize.y);
             BordersMapPlane = new TexturedPlane(TextureManager.provincesBorders.texture, MapSize.x, MapSize.y);
             RiversMapPlane = new TexturedPlane(TextureManager.rivers.texture, MapSize.x, MapSize.y);
@@ -135,6 +136,32 @@ namespace HOI4ModBuilder.managers
                 mapDifX = -MapMainLayer.size.x / 2f;
                 mapDifY = MapMainLayer.size.y / 2f;
             }
+        }
+
+        private static void CheckMapSize()
+        {
+            if (MapSize.x % 256 != 0)
+                Logger.LogWarning(
+                    EnumLocKey.WARNING_PROVINCES_MAP_WIDTH_IS_NOT_MULTIPLE_OF_256,
+                    new Dictionary<string, string> { { "{width}", $"{MapSize.x}" } }
+                );
+            if (MapSize.y % 256 != 0)
+                Logger.LogWarning(
+                    EnumLocKey.WARNING_PROVINCES_MAP_HEIGHT_IS_NOT_MULTIPLE_OF_256,
+                    new Dictionary<string, string> { { "{height}", $"{MapSize.y}" } }
+                );
+
+            int currentMapPixels = MapSize.x * MapSize.y;
+            int maxMapPixels = 13_238_272;
+            if (MapSize.x * MapSize.y > maxMapPixels)
+                Logger.LogWarning(
+                    EnumLocKey.WARNING_PROVINCES_MAP_TOO_MUCH_PIXELS,
+                    new Dictionary<string, string>
+                    {
+                        { "{currentCount}", $"{currentMapPixels}" },
+                        { "{maxCount}", $"{maxMapPixels}" },
+                    }
+                );
         }
 
         public static void FocusOn(Point2F point) => FocusOn(point.x, point.y);
