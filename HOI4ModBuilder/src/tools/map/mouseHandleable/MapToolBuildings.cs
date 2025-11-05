@@ -10,6 +10,7 @@ using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using System.Collections;
+using HOI4ModBuilder.src.managers.mapChecks.errors.checkers;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -79,6 +80,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             var buildingLevelCap = building.LevelCap.GetValue();
             var buildingSlotCategory = buildingLevelCap.GetSlotCategory();
+
+            // Запрет на добавление прибрежных построек в неприбрежные места
+            if (changeCount > 0 && building.IsOnlyCoastal.GetValue())
+            {
+                if (buildingSlotCategory == EnumBuildingSlotCategory.PROVINCIAL && !province.IsCoastal)
+                    return false;
+                if (buildingSlotCategory != EnumBuildingSlotCategory.PROVINCIAL && !province.State.isCoastalState())
+                    return false;
+            }
+
             if (buildingSlotCategory == EnumBuildingSlotCategory.PROVINCIAL)
             {
                 province.TryGetBuildingCount(building, out currentCount);
@@ -125,6 +136,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     province.State.SetProvinceBuildingLevel(province, building, c);
                     MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.BUILDINGS, province);
                     MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
+                    MapCheckerCoastalBuildingInNotCoastalPlace.HandleProvince(province);
                 };
             }
             else
@@ -134,6 +146,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     province.State.SetStateBuildingLevel(building, c);
                     MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.BUILDINGS, province.State);
                     MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
+                    MapCheckerCoastalBuildingInNotCoastalPlace.HandleState(province.State);
                 };
             }
 
