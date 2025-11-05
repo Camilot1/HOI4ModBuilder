@@ -13,16 +13,14 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 {
     public class ProvinceBorderManager
     {
-        private static Value2S size;
-        private static int[,] pixels;
+        private static Value2S _size;
+        private static int[,] _pixels;
         public static int ProvinceBorderCount { get; private set; } = 0;
 
         private static BordersAssembler _bordersAssembler = new BordersAssembler();
 
         public static void Init(int[] values, short width, short height)
         {
-            Stopwatch stopwatch = new Stopwatch();
-
             foreach (var p in ProvinceManager.GetProvinces())
                 p.ClearBorders();
             ProvinceBorderCount = 0;
@@ -31,19 +29,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
             MainForm.ExecuteActions(new (EnumLocKey, Action)[]
             {
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => {
-                    stopwatch.Start();
-                    InitPixels(values, width, height);
-                }),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => InitPixels(values, width, height)),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => InitBordersPixelsTask()),
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => {
-                    AssembleBorderTask();
-
-                    stopwatch.Stop();
-                    pixels = null;
-                    Logger.Log($"BordersInitAndAssemble = {stopwatch.ElapsedMilliseconds} ms");
-                    Logger.Log($"ProvinceBorderCount = {ProvinceBorderCount}");
-                }),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => AssembleBorderTask()),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE, () => StateManager.InitStatesBorders()),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => StrategicRegionManager.InitRegionsBorders()),
             });
@@ -51,9 +39,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         private static void InitPixels(int[] values, short width, short height)
         {
-            size.x = width;
-            size.y = height;
-            pixels = new int[width, height];
+            _size.x = width;
+            _size.y = height;
+            _pixels = new int[width, height];
 
             int pixelCount = width * height;
             int x, y;
@@ -64,34 +52,34 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 x = i % width;
                 y = i / width;
 
-                pixels[x, y] = values[i];
+                _pixels[x, y] = values[i];
             }
         }
 
         private static void InitBordersPixelsTask()
         {
-            int maxX = size.x - 1;
-            int maxY = size.y - 1;
+            int maxX = _size.x - 1;
+            int maxY = _size.y - 1;
 
             //Левый верхний угол
-            _bordersAssembler.AcceptBorderPixel(0, 0, pixels[maxX, 0], pixels[0, 0], pixels[0, 0], pixels[maxX, 0]);
+            _bordersAssembler.AcceptBorderPixel(0, 0, _pixels[maxX, 0], _pixels[0, 0], _pixels[0, 0], _pixels[maxX, 0]);
 
             //Левая граница карты
             for (int y = 0; y < maxY; y++)
             {
                 int y1 = y + 1;
-                _bordersAssembler.AcceptBorderPixel(0, y1, pixels[maxX, y], pixels[0, y], pixels[0, y1], pixels[maxX, y1]);
+                _bordersAssembler.AcceptBorderPixel(0, y1, _pixels[maxX, y], _pixels[0, y], _pixels[0, y1], _pixels[maxX, y1]);
             }
 
             //Левый нижний угол
-            _bordersAssembler.AcceptBorderPixel(0, size.y, pixels[maxX, maxY], pixels[0, maxY], pixels[0, maxY], pixels[maxX, maxY]);
+            _bordersAssembler.AcceptBorderPixel(0, _size.y, _pixels[maxX, maxY], _pixels[0, maxY], _pixels[0, maxY], _pixels[maxX, maxY]);
 
             //Верхняя и нижняя граница карты
             for (int x = 0; x < maxX; x++)
             {
                 int x1 = x + 1;
-                _bordersAssembler.AcceptBorderPixel(x1, 0, pixels[x, 0], pixels[x1, 0], pixels[x1, 0], pixels[x, 0]);
-                _bordersAssembler.AcceptBorderPixel(x1, size.y, pixels[x, maxY], pixels[x1, maxY], pixels[x1, maxY], pixels[x, maxY]);
+                _bordersAssembler.AcceptBorderPixel(x1, 0, _pixels[x, 0], _pixels[x1, 0], _pixels[x1, 0], _pixels[x, 0]);
+                _bordersAssembler.AcceptBorderPixel(x1, _size.y, _pixels[x, maxY], _pixels[x1, maxY], _pixels[x1, maxY], _pixels[x, maxY]);
             }
 
             for (int x = 0; x < maxX; x++)
@@ -101,9 +89,11 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 {
                     int y1 = y + 1;
 
-                    _bordersAssembler.AcceptBorderPixel(x1, y1, pixels[x, y], pixels[x1, y], pixels[x1, y1], pixels[x, y1]);
+                    _bordersAssembler.AcceptBorderPixel(x1, y1, _pixels[x, y], _pixels[x1, y], _pixels[x1, y1], _pixels[x, y1]);
                 }
             }
+
+            _pixels = null;
         }
 
         private static void AssembleBorderTask()
@@ -126,6 +116,15 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     }
                 }
             }
+
+            if (ProvinceBorderCount > ushort.MaxValue + 1)
+                Logger.LogWarning(
+                    EnumLocKey.WARNING_TOO_MUCH_PROVINCE_BORDERS,
+                    new Dictionary<string, string> {
+                        { "{currentCount}", $"{ProvinceBorderCount}"} ,
+                        { "{maxCount}", $"{ushort.MaxValue + 1}"} ,
+                    }
+                );
         }
 
 

@@ -44,22 +44,6 @@ namespace HOI4ModBuilder.src.managers.statistics
         }
         public static StatistictsData Collect(StatisticsFilters filters)
         {
-            /*Func<StatisticsDataType>[] collectors = null;
-            collectors = new Func<StatisticsDataType>[] {
-                    () => new StatisticsDataType(0, EnumLocKey.PROVINCES_BORDERS, ProvinceBorderManager.ProvinceBorderCount, ushort.MaxValue),
-                    () => new StatisticsDataType(1, EnumLocKey.PROVINCES, ProvinceManager.ProvincesCount, null),
-                    () => new StatisticsDataType(2, EnumLocKey.STATES, StateManager.GetStates().Count, null),
-                    () => new StatisticsDataType(3, EnumLocKey.STRATEGIC_REGIONS, StrategicRegionManager.GetRegions().Count, null),
-                    () => new StatisticsDataType(4, EnumLocKey.TERRAINS, TerrainManager.GetAllTerrainKeys().Count, null),
-                    () => new StatisticsDataType(5, EnumLocKey.CONTINENTS, ContinentManager.GetContinents().Count, null),
-                    () => new StatisticsDataType(6, EnumLocKey.BUILDINGS, BuildingManager.GetBuildings().Count, null),
-                    () => new StatisticsDataType(7, EnumLocKey.RESOURCES, ResourceManager.GetResourcesTags().Count, null),
-                    () => new StatisticsDataType(8, EnumLocKey.RAILWAYS, SupplyManager.Railways.Count, null),
-                    () => new StatisticsDataType(9, EnumLocKey.SUPPLY_HUBS, SupplyManager.SupplyNodes.Count, null),
-                    () => new StatisticsDataType(10, EnumLocKey.ADJACENCIES, AdjacenciesManager.GetAdjacencies().Count, null),
-                };*/
-
-
             var collectors = new Func<StatistictsData>[] {
                 () => CollectProvinces(0, filters),
                 () => CollectStates(1, filters),
@@ -183,7 +167,7 @@ namespace HOI4ModBuilder.src.managers.statistics
             /** Границы провинций **/
             var dtProvincesBorders = new StatisticsDataType().SetSortIndex((int)StatisticsSort.PROVINCES_BORDERS);
             data.Add(EnumLocKey.PROVINCES_BORDERS, dtProvincesBorders);
-            dtProvincesBorders.GetOrCreateInner(EnumLocKey.REGISTERED, ProvinceBorderManager.ProvinceBorderCount, ushort.MaxValue, false);
+            dtProvincesBorders.GetOrCreateInner(EnumLocKey.REGISTERED, ProvinceBorderManager.ProvinceBorderCount, ushort.MaxValue + 1, false);
             dtProvincesBorders.GetOrCreateInner(EnumLocKey.FOUNDED, true);
 
             /** Смежности **/
