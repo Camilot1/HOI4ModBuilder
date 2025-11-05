@@ -7,6 +7,7 @@ using HOI4ModBuilder.src.openTK;
 using QuickFont;
 using System;
 using System.Drawing;
+using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 {
@@ -57,6 +58,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             {
                 float maxLevel = buildingLevelCap.GetProvinceMaxCount();
 
+                bool isValidCoastal(Province p)
+                    => !(building.IsOnlyCoastal.GetValue() && !p.IsCoastal);
+
                 func = (p) =>
                 {
                     var type = p.Type;
@@ -65,19 +69,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                     else if (type == EnumProvinceType.LAKE)
                         return Utils.ArgbToInt(255, 127, 255, 255);
 
-                    if (!p.TryGetBuildingCount(building, out uint count))
-                        return Utils.ArgbToInt(255, 0, 0, 0);
+                    if (!p.TryGetBuildingCount(building, out uint count) || count == 0)
+                        return isValidCoastal(p) ?
+                            Utils.ArgbToInt(255, 0, 0, 0) :
+                            Utils.ArgbToInt(255, 32, 0, 0);
+
+                    if (!isValidCoastal(p))
+                        return Utils.ArgbToInt(255, 192, 0, 0);
 
                     float factor = count / maxLevel;
                     if (factor > 1)
                         return Utils.ArgbToInt(255, 255, 0, 0);
                     else if (factor == 1)
                         return Utils.ArgbToInt(255, 0, 196, 255);
-                    else
-                    {
-                        byte value = (byte)(255 * factor);
-                        return Utils.ArgbToInt(255, 0, value, 0);
-                    }
+
+                    byte value = (byte)(255 * factor);
+                    return Utils.ArgbToInt(255, 0, value, 0);
                 };
             }
             else if (buildingSlotCategory == EnumBuildingSlotCategory.SHARED)
@@ -88,6 +95,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                     if (state.stateBuildings.TryGetValue(building, out uint max))
                         if (max > maxCount) maxCount = max;
                 }
+
+                bool isValidCoastal(Province p)
+                    => !(building.IsOnlyCoastal.GetValue() && !p.State.IsCoastalStateCached);
 
                 func = (p) =>
                 {
@@ -100,7 +110,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                         return Utils.ArgbToInt(255, 0, 0, 0);
                     else
                     {
-                        p.State.stateBuildings.TryGetValue(building, out uint count);
+                        if (!p.State.stateBuildings.TryGetValue(building, out uint count) || count == 0)
+                            return isValidCoastal(p) ?
+                                Utils.ArgbToInt(255, 0, 0, 0) :
+                                Utils.ArgbToInt(255, 32, 0, 0);
+
+                        if (!isValidCoastal(p))
+                            return Utils.ArgbToInt(255, 192, 0, 0);
 
                         float factor = count / (float)maxCount;
                         if (factor > 1)
@@ -118,6 +134,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             else //NON_SHARED
             {
                 float maxCount = buildingLevelCap.GetStateMaxCount();
+
+                bool isValidCoastal(Province p)
+                    => !(building.IsOnlyCoastal.GetValue() && !p.State.IsCoastalStateCached);
+
                 func = (p) =>
                 {
                     var type = p.Type;
@@ -129,7 +149,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                         return Utils.ArgbToInt(255, 0, 0, 0);
                     else
                     {
-                        p.State.stateBuildings.TryGetValue(building, out uint count);
+                        if (!p.State.stateBuildings.TryGetValue(building, out uint count) || count == 0)
+                            return isValidCoastal(p) ?
+                                Utils.ArgbToInt(255, 0, 0, 0) :
+                                Utils.ArgbToInt(255, 32, 0, 0);
+
+                        if (!isValidCoastal(p))
+                            return Utils.ArgbToInt(255, 192, 0, 0);
 
                         float factor = count / maxCount;
                         if (factor > 1)

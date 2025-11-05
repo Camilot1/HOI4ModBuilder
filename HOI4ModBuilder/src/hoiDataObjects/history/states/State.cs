@@ -249,6 +249,10 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             Provinces.Add(province);
             Provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
             province.State = this;
+
+            if (!IsCoastalStateCached && province.IsCoastal)
+                IsCoastalStateCached = true;
+
             CalculateCenter();
             MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STATES_IDS, this);
             SetNeedToSave(true);
@@ -259,9 +263,14 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             if (Provinces.Remove(province))
             {
                 province.State = null;
-                SetNeedToSave(true);
                 CalculateCenter();
+
+                if (IsCoastalStateCached && province.IsCoastal)
+                    RecalculateIsCoastalState();
+
                 MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STATES_IDS, this);
+
+                SetNeedToSave(true);
                 return true;
             }
             return false;
@@ -502,12 +511,17 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             }
         }
 
-        public bool isCoastalState()
+        public bool IsCoastalStateCached { get; private set; }
+        public bool RecalculateIsCoastalState()
         {
+            IsCoastalStateCached = false;
             foreach (var p in Provinces)
             {
                 if (p.IsCoastal)
+                {
+                    IsCoastalStateCached = true;
                     return true;
+                }
             }
             return false;
         }
@@ -542,6 +556,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     hasChanged = true;
                 }
             }
+
+            RecalculateIsCoastalState();
 
             //
             var vpInfoList = new List<VPInfo>();

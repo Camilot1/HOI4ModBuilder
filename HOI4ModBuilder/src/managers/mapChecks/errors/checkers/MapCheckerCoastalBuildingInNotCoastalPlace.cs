@@ -68,7 +68,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
 
         private static bool CheckError(State s)
         {
-            if (s == null || s.isCoastalState())
+            if (s == null || s.IsCoastalStateCached)
                 return false;
 
             foreach (var entry in s.stateBuildings)

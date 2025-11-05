@@ -42,7 +42,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.positions
             }
             else
             {
-                if (info.isOnlyCoastal && state != null && !state.isCoastalState())
+                if (info.isOnlyCoastal && state != null && !state.IsCoastalStateCached)
                     return;
 
                 pos = state.center;

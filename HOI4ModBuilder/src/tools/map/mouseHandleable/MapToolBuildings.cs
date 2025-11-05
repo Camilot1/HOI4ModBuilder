@@ -86,7 +86,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             {
                 if (buildingSlotCategory == EnumBuildingSlotCategory.PROVINCIAL && !province.IsCoastal)
                     return false;
-                if (buildingSlotCategory != EnumBuildingSlotCategory.PROVINCIAL && !province.State.isCoastalState())
+                if (buildingSlotCategory != EnumBuildingSlotCategory.PROVINCIAL && !province.State.IsCoastalStateCached)
                     return false;
             }
 

@@ -101,6 +101,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     return;
 
                 _isCoastal = value;
+                State?.RecalculateIsCoastalState();
+
                 ProvinceManager.NeedToSave = true;
             }
         }

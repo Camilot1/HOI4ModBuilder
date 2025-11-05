@@ -152,6 +152,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
                    _name == building._name;
         }
 
+        public EnumBuildingSlotCategory? GetSlotCategory()
+            => LevelCap.GetValue().GetSlotCategory();
+
         public override void Validate(LinkedLayer layer)
         {
             var spawnPoint = SpawnPoint.GetValue();
