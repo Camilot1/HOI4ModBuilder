@@ -31,7 +31,8 @@ namespace HOI4ModBuilder.src.managers
                       new CheckRegionWithNotNavalTerrain(),
                       new MapCheckerAdjacencies(),
                       new MapCheckerRiversMismatches(),
-                      new MapCheckerStateWithNoOwner()
+                      new MapCheckerStateWithNoOwner(),
+                      new MapCheckerCoastalBuildingInNotCoastalLandProvince(),
                   }
               )
         {
