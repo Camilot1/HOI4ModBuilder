@@ -65,44 +65,6 @@ namespace HOI4ModBuilder.src.managers.mapChecks
             return actions;
         }
 
-        public void Execute()
-        {
-            InitFilters();
-
-            var tasks = RunCheckers();
-            int startCount = tasks.Count;
-
-            while (tasks.Any(t => !t.IsCompleted))
-            {
-                int finished = tasks.Count(t => t.IsCompleted);
-                MainForm.DisplayProgress(
-                    _locKey,
-                    null,
-                    $"({finished}/{startCount})",
-                    finished / (float)startCount
-                );
-                Thread.Sleep(100);
-            }
-
-            CollectCheckersData();
-        }
-
-        private List<Task> RunCheckers()
-        {
-            List<Task> tasks = new List<Task>(_mapCheckers.Length);
-            foreach (var checker in _mapCheckers)
-            {
-                if (checker.Flag >= 0 && !CheckFilter(checker.Flag))
-                {
-                    checker.Values?.Clear();
-                    continue;
-                }
-
-                tasks.Add(Task.Run(() => checker.Execute()));
-            }
-            return tasks;
-        }
-
         public void CollectCheckersData()
         {
             foreach (var checker in _mapCheckers)

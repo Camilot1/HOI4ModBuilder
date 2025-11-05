@@ -224,24 +224,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
 
             foreach (var obj in statesErrors)
             {
-                if (obj.Key.GetDistanceTo(pos) <= distance)
-                {
-                    foreach (var inner in obj.Value)
-                    {
-                        output.Add("STATE ERROR: " + inner.ToString());
-                    }
-                }
+                if (obj.Key.GetDistanceTo(pos) > distance)
+                    continue;
+                foreach (var inner in obj.Value)
+                    output.Add("STATE ERROR: " + inner.ToString());
             }
 
             foreach (var obj in provincesErrors)
             {
-                if (obj.Key.GetDistanceTo(pos) <= distance)
-                {
-                    foreach (var inner in obj.Value)
-                    {
-                        output.Add("PROVINCE ERROR: " + inner.ToString());
-                    }
-                }
+                if (obj.Key.GetDistanceTo(pos) > distance)
+                    continue;
+                foreach (var inner in obj.Value)
+                    output.Add("PROVINCE ERROR: " + inner.ToString());
             }
 
             return output;

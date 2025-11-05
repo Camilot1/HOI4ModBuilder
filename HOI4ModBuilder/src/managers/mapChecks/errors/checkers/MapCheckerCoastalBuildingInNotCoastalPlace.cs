@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.managers.errors;
 using System;
@@ -22,31 +23,31 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
             {
                 foreach (var s in StateManager.GetStates())
                     foreach (var entry in s.provincesBuildings)
-                        if (CheckError(entry.Key))
+                        if (GetErrorBuildings(entry.Key).Count > 0)
                             list.Add(new MapCheckData(entry.Key.center, (int)TYPE_PROVINCE));
             }
 
             if (ErrorManager.Instance.CheckFilter((int)TYPE_STATE))
             {
                 foreach (var s in StateManager.GetStates())
-                    if (CheckError(s))
+                    if (GetErrorBuildings(s).Count > 0)
                         list.Add(new MapCheckData(s.center, (int)TYPE_STATE));
             }
         }
 
-        private static bool CheckError(Province p)
+        public static List<Building> GetErrorBuildings(Province p)
         {
+            var list = new List<Building>();
             if (p == null || p.IsCoastal)
-                return false;
+                return list;
 
-            bool flag = false;
             p.ForEachBuilding((building, count) =>
             {
-                if (flag || building.IsOnlyCoastal.GetValue() && count > 0)
-                    flag = true;
+                if (building.IsOnlyCoastal.GetValue() && count > 0)
+                    list.Add(building);
             });
 
-            return flag;
+            return list;
         }
 
         public static void HandleProvince(Province province)
@@ -58,7 +59,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
                 return;
 
             var code = ErrorManager.Instance.GetErrorInfo(province.center);
-            if (CheckError(province))
+            if (GetErrorBuildings(province).Count > 0)
                 code |= (1uL << (int)TYPE_PROVINCE);
             else
                 code &= ~(1uL << (int)TYPE_PROVINCE);
@@ -66,15 +67,16 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
             ErrorManager.Instance.SetErrorInfo(province.center, code);
         }
 
-        private static bool CheckError(State s)
+        public static List<Building> GetErrorBuildings(State s)
         {
+            var list = new List<Building>();
             if (s == null || s.IsCoastalStateCached)
-                return false;
+                return list;
 
             foreach (var entry in s.stateBuildings)
                 if (entry.Value > 0 && entry.Key.IsOnlyCoastal.GetValue())
-                    return true;
-            return false;
+                    list.Add(entry.Key);
+            return list;
         }
 
         public static void HandleState(State state)
@@ -86,7 +88,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
                 return;
 
             var code = ErrorManager.Instance.GetErrorInfo(state.center);
-            if (CheckError(state))
+            if (GetErrorBuildings(state).Count > 0)
                 code |= (1uL << (int)TYPE_STATE);
             else
                 code &= ~(1uL << (int)TYPE_STATE);

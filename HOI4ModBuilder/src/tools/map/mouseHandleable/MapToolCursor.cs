@@ -17,6 +17,8 @@ using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using System.Collections;
 using System;
+using HOI4ModBuilder.src.managers.mapChecks.errors.checkers;
+using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -50,89 +52,24 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
                 return false;
 
-            Province selectedProvince = null;
-            State selectedState = null;
-            StrategicRegion selectedRegion = null;
+            if (HandeMapAdditionalTextures(mouseEventArgs, pos))
+                return true;
 
-            if (mouseEventArgs.Button == MouseButtons.Left && Control.ModifierKeys == Keys.Shift && MapManager.displayLayers[(int)EnumAdditionalLayers.OVERLAY_TEXTURES])
-            {
-                for (int i = MapManager.additionalMapTextures.Count - 1; i >= 0; i--)
-                {
-                    var info = MapManager.additionalMapTextures[i];
-                    if (info.plane.Inbounds(pos))
-                    {
-                        MapManager.selectedTexturedPlane = info.plane;
-                        return true;
-                    }
-                }
-            }
-
-            if (mouseEventArgs.Button == MouseButtons.Left)
-            {
-                var warningCodes = new List<EnumMapWarningCode>();
-                var errorCodes = new List<EnumMapErrorCode>();
-
-                if (MapManager.displayLayers[(int)EnumAdditionalLayers.WARNINGS])
-                    warningCodes = WarningsManager.Instance.GetWarningCodes(pos, 2);
-                if (MapManager.displayLayers[(int)EnumAdditionalLayers.ERRORS])
-                    errorCodes = ErrorManager.Instance.GetErrorCodes(pos, 2);
-
-                var buildings = MapPositionsManager.GetWarningCodes(pos, 2);
-
-                if (warningCodes.Count != 0 || errorCodes.Count != 0 || buildings.Count != 0)
-                {
-                    var sb = new StringBuilder();
-                    if (warningCodes.Count > 0)
-                    {
-                        sb.Append(GuiLocManager.GetLoc(EnumLocKey.WARNINGS)).Append(':').Append(Constants.NEW_LINE);
-                        foreach (EnumMapWarningCode code in warningCodes)
-                            sb.Append("    ").Append(code.ToString()).Append('\n');
-                    }
-                    if (errorCodes.Count > 0)
-                    {
-                        sb.Append(GuiLocManager.GetLoc(EnumLocKey.ERRORS)).Append(':').Append(Constants.NEW_LINE);
-                        foreach (EnumMapErrorCode code in errorCodes)
-                            sb.Append("    ").Append(code.ToString()).Append('\n');
-                    }
-                    if (buildings.Count > 0)
-                    {
-                        sb.Append(GuiLocManager.GetLoc(EnumLocKey.BUILDINGS)).Append(':').Append(Constants.NEW_LINE);
-                        foreach (var data in buildings)
-                            sb.Append("    ").Append(data).Append('\n');
-                    }
-                    Logger.LogSingleErrorMessage(sb.ToString());
-                    return true;
-                }
-            }
+            if (HandleMapOverlayInfoPoints(mouseEventArgs, pos, sizeFactor))
+                return true;
 
             if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
-            {
                 return true;
-            }
-
-            int color = MapManager.GetColor(pos);
 
             if (enumEditLayer == EnumEditLayer.PROVINCES)
-            {
-                if (mouseEventArgs.Button == MouseButtons.Left)
-                    selectedProvince = ProvinceManager.SelectProvince(color);
-                else if (mouseEventArgs.Button == MouseButtons.Right)
-                    selectedProvince = ProvinceManager.SelectRMBProvince(color);
-            }
+                HandleProvinceSelection(mouseEventArgs, pos);
             else if (enumEditLayer == EnumEditLayer.STATES)
-            {
-                if (mouseEventArgs.Button == MouseButtons.Left)
-                    selectedState = StateManager.SelectState(color);
-                else if (mouseEventArgs.Button == MouseButtons.Right)
-                    selectedState = StateManager.SelectRMBState(color);
-            }
+                HandleStateSelection(mouseEventArgs, pos);
             else if (enumEditLayer == EnumEditLayer.STRATEGIC_REGIONS)
-            {
-                if (mouseEventArgs.Button == MouseButtons.Left)
-                    selectedRegion = StrategicRegionManager.SelectRegion(color);
-                else if (mouseEventArgs.Button == MouseButtons.Right)
-                    selectedRegion = StrategicRegionManager.SelectRMBRegion(color);
-            }
+                HandleRegionSelection(mouseEventArgs, pos);
+
+            MainForm.Instance.textBox_PixelPos.Text = (int)pos.x + "; " + (int)pos.y;
+            MainForm.Instance.textBox_HOI4PixelPos.Text = (int)pos.x + "; " + (MapManager.MapSize.y - (int)pos.y);
 
             if (MapManager.displayLayers[(int)EnumAdditionalLayers.ADJACENCIES])
                 AdjacenciesManager.HandleCursor(mouseEventArgs.Button, pos);
@@ -140,45 +77,176 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 MapManager.displayLayers[(int)EnumAdditionalLayers.SUPPLY_HUBS])
                 SupplyManager.HandleCursor(mouseEventArgs.Button, pos);
 
-            if (mouseEventArgs.Button == MouseButtons.Left)
-            {
-                var selectedIds = new List<ushort>();
-                if (selectedProvince != null)
-                {
-                    foreach (var obj in ProvinceManager.GroupSelectedProvinces)
-                        selectedIds.Add(obj.Id);
-
-                    if (selectedIds.Count == 0)
-                        selectedIds.Add(selectedProvince.Id);
-                }
-                else if (selectedState != null)
-                {
-                    foreach (var obj in StateManager.GroupSelectedStates)
-                        selectedIds.Add(obj.Id.GetValue());
-
-                    if (selectedIds.Count == 0)
-                        selectedIds.Add(selectedState.Id.GetValue());
-                }
-                else if (selectedRegion != null)
-                {
-                    foreach (var obj in StrategicRegionManager.GroupSelectedRegions)
-                        selectedIds.Add(obj.Id);
-
-                    if (selectedIds.Count == 0)
-                        selectedIds.Add(selectedRegion.Id);
-                }
-
-                selectedIds.Sort();
-                var sbIds = new StringBuilder();
-                foreach (var id in selectedIds)
-                    sbIds.Append(id).Append(' ');
-                MainForm.Instance.textBox_SelectedObjectId.Text = sbIds.ToString();
-
-            }
-            MainForm.Instance.textBox_PixelPos.Text = (int)pos.x + "; " + (int)pos.y;
-            MainForm.Instance.textBox_HOI4PixelPos.Text = (int)pos.x + "; " + (MapManager.MapSize.y - (int)pos.y);
-
             return true;
+        }
+
+        private void HandleProvinceSelection(MouseEventArgs mouseEventArgs, Point2D pos)
+        {
+            int color = MapManager.GetColor(pos);
+            if (mouseEventArgs.Button == MouseButtons.Left)
+                ProvinceManager.SelectProvince(color);
+            else if (mouseEventArgs.Button == MouseButtons.Right)
+                ProvinceManager.SelectRMBProvince(color);
+
+            var selectedIds = new List<ushort>();
+            foreach (var obj in ProvinceManager.GroupSelectedProvinces)
+                selectedIds.Add(obj.Id);
+
+            if (selectedIds.Count == 0)
+                selectedIds.Add(ProvinceManager.SelectedProvince.Id);
+
+            SortAndDisplayIDs(selectedIds);
+        }
+        private void HandleStateSelection(MouseEventArgs mouseEventArgs, Point2D pos)
+        {
+            int color = MapManager.GetColor(pos);
+            if (mouseEventArgs.Button == MouseButtons.Left)
+                StateManager.SelectState(color);
+            else if (mouseEventArgs.Button == MouseButtons.Right)
+                StateManager.SelectRMBState(color);
+
+            var selectedIds = new List<ushort>();
+            foreach (var obj in StateManager.GroupSelectedStates)
+                selectedIds.Add(obj.Id.GetValue());
+
+            if (selectedIds.Count == 0)
+                selectedIds.Add(StateManager.SelectedState.Id.GetValue());
+
+            SortAndDisplayIDs(selectedIds);
+        }
+
+        private void HandleRegionSelection(MouseEventArgs mouseEventArgs, Point2D pos)
+        {
+            int color = MapManager.GetColor(pos);
+            if (mouseEventArgs.Button == MouseButtons.Left)
+                StrategicRegionManager.SelectRegion(color);
+            else if (mouseEventArgs.Button == MouseButtons.Right)
+                StrategicRegionManager.SelectRegion(color);
+
+            var selectedIds = new List<ushort>();
+            foreach (var obj in StrategicRegionManager.GroupSelectedRegions)
+                selectedIds.Add(obj.Id);
+
+            if (selectedIds.Count == 0)
+                selectedIds.Add(StrategicRegionManager.SelectedRegion.Id);
+
+            SortAndDisplayIDs(selectedIds);
+        }
+
+        private void SortAndDisplayIDs(List<ushort> ids)
+        {
+            ids.Sort();
+            MainForm.Instance.textBox_SelectedObjectId.Text = string.Join(" ", ids);
+        }
+
+        private bool HandeMapAdditionalTextures(MouseEventArgs mouseEventArgs, Point2D pos)
+        {
+            if (!(mouseEventArgs.Button == MouseButtons.Left && Control.ModifierKeys == Keys.Shift && MapManager.displayLayers[(int)EnumAdditionalLayers.OVERLAY_TEXTURES]))
+                return false;
+
+            for (int i = MapManager.additionalMapTextures.Count - 1; i >= 0; i--)
+            {
+                var info = MapManager.additionalMapTextures[i];
+                if (info.plane.Inbounds(pos))
+                {
+                    MapManager.selectedTexturedPlane = info.plane;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool HandleMapOverlayInfoPoints(MouseEventArgs mouseEventArgs, Point2D pos, Point2D sizeFactor)
+        {
+            if (mouseEventArgs.Button != MouseButtons.Left)
+                return false;
+
+            var warningCodes = new List<EnumMapWarningCode>();
+            var errorCodes = new List<EnumMapErrorCode>();
+
+            if (MapManager.displayLayers[(int)EnumAdditionalLayers.WARNINGS])
+                warningCodes = WarningsManager.Instance.GetWarningCodes(pos, 2);
+            if (MapManager.displayLayers[(int)EnumAdditionalLayers.ERRORS])
+                errorCodes = ErrorManager.Instance.GetErrorCodes(pos, 2);
+
+            var buildings = MapPositionsManager.GetWarningCodes(pos, 2);
+
+            if (warningCodes.Count == 0 && errorCodes.Count == 0 && buildings.Count == 0)
+                return false;
+
+            var sb = new StringBuilder();
+
+            HandleWarnings();
+            HandleErrors();
+            HandleBuildings();
+
+            Logger.LogSingleErrorMessage(sb.ToString());
+            return true;
+
+            void HandleWarnings()
+            {
+                if (warningCodes.Count == 0)
+                    return;
+
+                sb.Append(GuiLocManager.GetLoc(EnumLocKey.WARNINGS)).Append(':').Append(Constants.NEW_LINE);
+                foreach (EnumMapWarningCode code in warningCodes)
+                    sb.Append("    ").Append(code.ToString()).Append('\n');
+            }
+
+            void HandleErrors()
+            {
+                if (errorCodes.Count == 0)
+                    return;
+
+                sb.Append(GuiLocManager.GetLoc(EnumLocKey.ERRORS)).Append(':').Append(Constants.NEW_LINE);
+                foreach (EnumMapErrorCode code in errorCodes)
+                {
+                    sb.Append("    ").Append(code.ToString());
+                    HandleMeta(code);
+                    sb.Append('\n');
+                }
+            }
+
+            void HandleMeta(EnumMapErrorCode code)
+            {
+                if (!(code == EnumMapErrorCode.COASTAL_BUILDING_IN_NOT_COASTAL_LAND_PROVINCE ||
+                    code == EnumMapErrorCode.COASTAL_BUILDING_IN_NOT_COASTAL_STATE))
+                    return;
+
+                if (!pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
+                    return;
+
+                int color = MapManager.GetColor(pos);
+                if (!ProvinceManager.TryGetProvince(color, out var province))
+                    return;
+
+                List<Building> errorBuildings = null;
+                if (code == EnumMapErrorCode.COASTAL_BUILDING_IN_NOT_COASTAL_LAND_PROVINCE)
+                    errorBuildings = MapCheckerCoastalBuildingInNotCoastalPlace.GetErrorBuildings(province);
+                else if (code == EnumMapErrorCode.COASTAL_BUILDING_IN_NOT_COASTAL_STATE)
+                    errorBuildings = MapCheckerCoastalBuildingInNotCoastalPlace.GetErrorBuildings(province.State);
+
+                if (errorBuildings.Count == 0)
+                    return;
+
+                sb.Append(" (");
+                foreach (var building in errorBuildings)
+                    sb.Append(building.Name).Append(", ");
+                if (errorBuildings.Count > 0)
+                    sb.Length = sb.Length - 2;
+                sb.Append(")");
+            }
+
+            void HandleBuildings()
+            {
+                if (buildings.Count == 0)
+                    return;
+
+                sb.Append(GuiLocManager.GetLoc(EnumLocKey.BUILDINGS)).Append(':').Append(Constants.NEW_LINE);
+                foreach (var data in buildings)
+                    sb.Append("    ").Append(data).Append('\n');
+            }
         }
     }
 }

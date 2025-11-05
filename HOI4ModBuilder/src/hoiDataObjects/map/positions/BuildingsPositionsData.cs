@@ -101,9 +101,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.positions
         public object data;
 
         public override string ToString()
-        {
-            return buildingInfo?.ToString() + " " + error.ToString() + " " + data;
-        }
+            => buildingInfo?.ToString() + " " + error.ToString() + " " + data;
     }
 
     public enum EnumPositionError
