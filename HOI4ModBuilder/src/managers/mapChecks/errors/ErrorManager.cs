@@ -30,7 +30,8 @@ namespace HOI4ModBuilder.src.managers
                       new MapCheckerStateWithMultiRegions(),
                       new CheckRegionWithNotNavalTerrain(),
                       new MapCheckerAdjacencies(),
-                      new MapCheckerRiversMismatches()
+                      new MapCheckerRiversMismatches(),
+                      new MapCheckerStateWithNoOwner()
                   }
               )
         {
