@@ -414,5 +414,21 @@ namespace HOI4ModBuilder.src.newParser.objects
                     $"to ({nameof(TKey)}) = ({nameof(TValue)}). Exception message: {ex.Message}",
                     ex));
         }
+
+        public int RemoveEntryIf(Func<TKey, TValue, bool> checkFunc)
+        {
+            if (checkFunc == null)
+                return 0;
+
+            List<TKey> keysToRemove = new List<TKey>();
+            foreach (var entry in _dictionary)
+                if (checkFunc.Invoke(entry.Key, entry.Value))
+                    keysToRemove.Add(entry.Key);
+
+            foreach (var key in keysToRemove)
+                _dictionary.Remove(key);
+
+            return keysToRemove.Count;
+        }
     }
 }

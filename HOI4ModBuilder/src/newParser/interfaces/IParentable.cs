@@ -11,6 +11,8 @@ namespace HOI4ModBuilder.src.newParser.interfaces
     public interface IParentable
     {
         IParentable GetParent();
+        IParentable GetParentRecursive(Func<IParentable, bool> checkFunc);
+        bool TryGetParentRecursive(Func<IParentable, bool> checkFunc, out IParentable matchedParent);
         void SetParent(IParentable parent);
         string AssemblePath();
         bool TryGetGameFile(out GameFile gameFile);

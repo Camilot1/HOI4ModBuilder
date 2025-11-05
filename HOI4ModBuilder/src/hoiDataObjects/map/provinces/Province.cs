@@ -386,6 +386,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public void ForEachBuilding(Action<Building, uint> action)
         {
+            if (_buildings == null)
+                return;
             foreach (var entry in _buildings)
                 action(entry.Key, entry.Value);
         }

@@ -21,6 +21,19 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         private IParentable _parent;
         public IParentable GetParent() => _parent;
+        public IParentable GetParentRecursive(Func<IParentable, bool> checkFunc)
+        {
+            var tempParent = GetParent();
+            while (tempParent != null)
+            {
+                if (checkFunc(tempParent))
+                    return tempParent;
+                tempParent = tempParent.GetParent();
+            }
+            return null;
+        }
+        public bool TryGetParentRecursive(Func<IParentable, bool> checkFunc, out IParentable matchedParent)
+            => (matchedParent = GetParentRecursive(checkFunc)) != null;
         public void SetParent(IParentable parent) => _parent = parent;
 
         private GameComments _comments;

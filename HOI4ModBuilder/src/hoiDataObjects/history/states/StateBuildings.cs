@@ -5,9 +5,11 @@ using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
+using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 {
@@ -117,6 +119,37 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             provinceBuildings = new ProvinceBuildings(this);
             Provinces[province] = provinceBuildings;
             return provinceBuildings.SetProvinceBuildingLevel(building, newCount);
+        }
+
+        public override void Validate(LinkedLayer layer)
+        {
+            base.Validate(layer);
+
+            var provincesToRemove = new List<ushort>();
+            var removedCount = Provinces.RemoveEntryIf((k, v) =>
+            {
+                if (k.Type == EnumProvinceType.LAND)
+                    return false;
+
+                provincesToRemove.Add(k.Id);
+                return true;
+            });
+
+            if (removedCount > 0)
+            {
+                SetNeedToSave(true);
+                var state = (State)GetParentRecursive(o => o is State);
+                var provincesIDs = string.Join(" ", provincesToRemove);
+
+                Logger.LogWarning(
+                    EnumLocKey.WARNING_STATE_HAS_BUILDINGS_FOR_NON_LAND_PROVINCES_AND_THEY_WILL_BE_REMOVED,
+                    new Dictionary<string, string>
+                    {
+                        { "{stateID}", state == null ? "None" : $"{state.Id.GetValue()}" },
+                        { "{provincesIDs}", provincesIDs }
+                    }
+                );
+            }
         }
     }
 }
