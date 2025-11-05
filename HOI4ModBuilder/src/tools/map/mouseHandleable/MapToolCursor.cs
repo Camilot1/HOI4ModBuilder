@@ -92,7 +92,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             foreach (var obj in ProvinceManager.GroupSelectedProvinces)
                 selectedIds.Add(obj.Id);
 
-            if (selectedIds.Count == 0)
+            if (selectedIds.Count == 0 && ProvinceManager.SelectedProvince != null)
                 selectedIds.Add(ProvinceManager.SelectedProvince.Id);
 
             SortAndDisplayIDs(selectedIds);
@@ -109,7 +109,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             foreach (var obj in StateManager.GroupSelectedStates)
                 selectedIds.Add(obj.Id.GetValue());
 
-            if (selectedIds.Count == 0)
+            if (selectedIds.Count == 0 && StateManager.SelectedState != null)
                 selectedIds.Add(StateManager.SelectedState.Id.GetValue());
 
             SortAndDisplayIDs(selectedIds);
@@ -127,7 +127,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             foreach (var obj in StrategicRegionManager.GroupSelectedRegions)
                 selectedIds.Add(obj.Id);
 
-            if (selectedIds.Count == 0)
+            if (selectedIds.Count == 0 && StrategicRegionManager.SelectedRegion != null)
                 selectedIds.Add(StrategicRegionManager.SelectedRegion.Id);
 
             SortAndDisplayIDs(selectedIds);
