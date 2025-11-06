@@ -55,7 +55,43 @@ namespace HOI4ModBuilder
         public GLControl GLControl { get; private set; }
         public static bool IsFirstLoaded { get; set; } = false;
         public static bool ErrorsOrExceptionsDuringLoading { get; set; } = false;
-        public static bool IsLoadingOrSaving { get; set; } = false;
+
+        public static bool MainThread_LoadSaveUpdate { get; set; } = false;
+        private static List<Task> Tasks_LoadSaveUpdate = new List<Task>();
+
+        public static void StartNew_LoadSaveUpdate()
+        {
+            MainThread_LoadSaveUpdate = true;
+            ClearTasks_LoadSaveUpdate();
+        }
+        public static void ClearTasks_LoadSaveUpdate()
+        {
+            lock (Tasks_LoadSaveUpdate)
+                Tasks_LoadSaveUpdate.Clear();
+        }
+        public static void AddTask_LoadSaveUpdate(Task task)
+        {
+            lock (Tasks_LoadSaveUpdate)
+                Tasks_LoadSaveUpdate.Add(task);
+        }
+        public static void AddTasks_LoadSaveUpdate(Task[] tasks)
+        {
+            lock (Tasks_LoadSaveUpdate)
+                Tasks_LoadSaveUpdate.AddRange(tasks);
+        }
+        public static bool IsLoadingSavingOrUpdating()
+        {
+            lock (Tasks_LoadSaveUpdate)
+            {
+                if (MainThread_LoadSaveUpdate)
+                    return true;
+                foreach (var task in Tasks_LoadSaveUpdate)
+                    if (task.Status == TaskStatus.Running)
+                        return true;
+                return false;
+            }
+        }
+
         public static bool UpdateGLControl { get; set; } = true;
         public static bool IsMapMainLayerChangeEnabled { get; set; } = false;
 

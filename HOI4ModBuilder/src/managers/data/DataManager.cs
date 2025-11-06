@@ -32,8 +32,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Threading.Tasks;
-using static HOI4ModBuilder.src.tools.autotools.AutoToolRegenerateProvincesColors;
-using static HOI4ModBuilder.utils.Enums;
 
 namespace HOI4ModBuilder.managers
 {
@@ -48,7 +46,7 @@ namespace HOI4ModBuilder.managers
                     if (!CanStartSave())
                         return;
 
-                    MainForm.IsLoadingOrSaving = true;
+                    MainForm.StartNew_LoadSaveUpdate();
                     SaveAllData(SettingsManager.Settings);
                 }, FinishSave);
         }
@@ -59,21 +57,22 @@ namespace HOI4ModBuilder.managers
                 return;
 
             MainForm.IsFirstLoaded = true;
-            MainForm.IsLoadingOrSaving = true;
+
+            MainForm.StartNew_LoadSaveUpdate();
 
             Logger.Log("Loading...");
 
             if (MainForm.Instance.GLControl.Context == null)
             {
                 Logger.LogSingleErrorMessage("Can't load data. glControl.Context == null");
-                MainForm.IsLoadingOrSaving = false;
+                MainForm.MainThread_LoadSaveUpdate = false;
                 return;
             }
 
             MainForm.PauseGLControl();
             MainForm.Instance.SetGroupBoxProgressBackColor(Color.White);
 
-            Task.Run(() =>
+            MainForm.AddTask_LoadSaveUpdate(Task.Run(() =>
             {
                 Logger.TryOrLog(
                     () =>
@@ -98,7 +97,7 @@ namespace HOI4ModBuilder.managers
                             FinishLoad();
                         })
                 );
-            });
+            }));
         }
         public static void UpdateAll()
             => Logger.TryOrLog(() =>
@@ -106,10 +105,11 @@ namespace HOI4ModBuilder.managers
                 if (!CanUpdate())
                     return;
 
-                MainForm.IsLoadingOrSaving = true;
+                MainForm.StartNew_LoadSaveUpdate();
+
                 SavePattern.LoadAll();
                 MapManager.UpdateMapInfo();
-            }, () => MainForm.IsLoadingOrSaving = false);
+            }, () => MainForm.MainThread_LoadSaveUpdate = false);
 
         private static void SaveAllData(BaseSettings settings)
         {
@@ -154,9 +154,11 @@ namespace HOI4ModBuilder.managers
             DataManager.Load(SettingsManager.Settings);
             MapManager.Load(SettingsManager.Settings);
 
-            MapPositionsManager.Load(settings);
-            MapManager.RunTaskRegenerateStateAndRegionsColors();
-            MapCheckerManager.InitAll();
+            MainForm.AddTasks_LoadSaveUpdate(new Task[] {
+                Task.Run(() => MapPositionsManager.Load(settings)),
+                MapManager.RunTaskRegenerateStateAndRegionsColors(),
+                MapCheckerManager.RunTaskInitAll()
+            });
 
             MainForm.IsMapMainLayerChangeEnabled = true;
         }
@@ -180,7 +182,7 @@ namespace HOI4ModBuilder.managers
                     CountryManager.UpdateByDateTimeStamp(dateTime);
                     StateManager.UpdateByDateTimeStamp(dateTime);
 
-                    if (!MainForm.IsLoadingOrSaving)
+                    if (!MainForm.IsLoadingSavingOrUpdating())
                         MapManager.HandleMapMainLayerChange(true, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
                 }, ex => throw new BookmarkLoadingException(dateTimeString, ex));
             });
@@ -254,7 +256,7 @@ namespace HOI4ModBuilder.managers
                 return LogErrorAndReturnFalse(EnumLocKey.CANT_SAVE_BECAUSE_NO_DATA_WAS_LOADED);
             if (MainForm.ErrorsOrExceptionsDuringLoading)
                 return LogErrorAndReturnFalse(EnumLocKey.CANT_SAVE_BECAUSE_OF_LOADING_ERRORS_OR_EXCEPTIONS);
-            if (MainForm.IsLoadingOrSaving)
+            if (MainForm.IsLoadingSavingOrUpdating())
                 return LogErrorAndReturnFalse(EnumLocKey.CANT_SAVE_BECAUSE_ALREADY_SAVING_OR_LOADING);
             if (!SettingsManager.Settings.IsModDirectorySelected())
                 return LogErrorAndReturnFalse(EnumLocKey.CANT_SAVE_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
@@ -263,7 +265,7 @@ namespace HOI4ModBuilder.managers
 
         private static bool CanStartLoad()
         {
-            if (MainForm.IsLoadingOrSaving)
+            if (MainForm.IsLoadingSavingOrUpdating())
                 return LogErrorAndReturnFalse(EnumLocKey.CANT_LOAD_BECAUSE_ALREADY_SAVING_OR_LOADING);
             if (!SettingsManager.Settings.IsModDirectorySelected())
                 return LogErrorAndReturnFalse(EnumLocKey.CANT_LOAD_BECAUSE_MOD_DIRECTORY_ISNT_SELECTED_OR_DOESNT_EXISTS);
@@ -274,7 +276,7 @@ namespace HOI4ModBuilder.managers
         {
             if (!MainForm.IsFirstLoaded)
                 return LogErrorAndReturnFalse(EnumLocKey.CANT_UPDATE_BECAUSE_NO_DATA_WAS_LOADED);
-            if (MainForm.IsLoadingOrSaving)
+            if (MainForm.IsLoadingSavingOrUpdating())
                 return LogErrorAndReturnFalse(EnumLocKey.CANT_UPDATE_BECAUSE_ALREADY_SAVING_OR_LOADING);
             return true;
         }
@@ -331,7 +333,7 @@ namespace HOI4ModBuilder.managers
             Logger.DisplayErrors();
             Logger.DisplayExceptions();
             Utils.CleanUpMemory();
-            MainForm.IsLoadingOrSaving = false;
+            MainForm.MainThread_LoadSaveUpdate = false;
         }
 
         private static Dictionary<string, string> BuildProgressSummary(bool includeTime)

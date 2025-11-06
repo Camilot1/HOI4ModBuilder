@@ -343,7 +343,7 @@ namespace HOI4ModBuilder.src.utils
                 tempEx = tempEx.InnerException;
             }
 
-            if (MainForm.IsLoadingOrSaving)
+            if (MainForm.IsLoadingSavingOrUpdating())
                 _exceptions.Add(message);
             else
                 LogSingleErrorMessage(ex.ToString());
@@ -361,7 +361,7 @@ namespace HOI4ModBuilder.src.utils
                 tempEx = tempEx.InnerException;
             }
 
-            if (MainForm.IsLoadingOrSaving)
+            if (MainForm.IsLoadingSavingOrUpdating())
                 _exceptions.Add(message);
             else
                 LogSingleErrorMessage(ex.ToString());

@@ -103,9 +103,9 @@ namespace HOI4ModBuilder.managers
             showMainLayer = true;
         }
 
-        public static void RunTaskRegenerateStateAndRegionsColors()
+        public static Task RunTaskRegenerateStateAndRegionsColors()
         {
-            Task.Run(() =>
+            return Task.Run(() =>
             {
                 Logger.TryOrLog(() =>
                 {
@@ -620,7 +620,7 @@ namespace HOI4ModBuilder.managers
         {
             MainForm.PauseGLControl();
 
-            Task.Run(() =>
+            MainForm.AddTask_LoadSaveUpdate(Task.Run(() =>
             {
                 Logger.TryOrLog(
                     () =>
@@ -632,8 +632,10 @@ namespace HOI4ModBuilder.managers
                         ProvinceManager.ProcessProvincesPixels(ProvincesPixels, MapSize.x, MapSize.y);
                         ProvinceBorderManager.Init(ProvincesPixels, (short)MapSize.x, (short)MapSize.y);
 
-                        RunTaskRegenerateStateAndRegionsColors();
-                        MapCheckerManager.InitAll();
+                        MainForm.AddTasks_LoadSaveUpdate(new Task[] {
+                            RunTaskRegenerateStateAndRegionsColors(),
+                            MapCheckerManager.RunTaskInitAll()
+                        });
 
                         context.MakeCurrent(null);
                     },
@@ -652,7 +654,7 @@ namespace HOI4ModBuilder.managers
                         });
                     }
                 );
-            });
+            }));
 
         }
 

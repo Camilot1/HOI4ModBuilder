@@ -11,6 +11,7 @@ using HOI4ModBuilder.src.utils.structs;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -44,6 +45,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
             //InitPixels();
             //CalculateAndSaveBuildings(settings);
             //CalculateAndSaveUnitStacks(settings);
+
+            var stopwatch = Stopwatch.StartNew();
             Clear();
 
             var modSettings = SettingsManager.Settings?.GetModSettings();
@@ -52,6 +55,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
                 ParseBuildingsPoses(settings);
                 CheckBuildings(settings);
             }
+            Logger.Log($"Loading MapPositionsManager = {stopwatch.ElapsedMilliseconds} ms");
 
         }
 

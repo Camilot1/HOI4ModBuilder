@@ -32,9 +32,9 @@ namespace HOI4ModBuilder.src.managers.mapChecks
             _mapCheckers = mapCheckers;
         }
 
-        public static void InitAll()
+        public static Task RunTaskInitAll()
         {
-            Task.Run(() =>
+            return Task.Run(() =>
             {
                 var actions = new List<(string, Action)>();
                 actions.AddRange(WarningsManager.Init());
