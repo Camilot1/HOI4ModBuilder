@@ -1624,14 +1624,11 @@ namespace HOI4ModBuilder
             var filePath = @"data\images\" + fileNamePrefix + " " + DateTime.Now.ToString().Replace('.', '-').Replace(':', '-') + ".bmp";
             plane.Texture.Save(filePath);
 
-            MessageBox.Show(
-                GuiLocManager.GetLoc(
-                    EnumLocKey.EXPORT_TEXTURE_RESULT,
-                    new Dictionary<string, string> { { "{filePath}", filePath } }
-                ),
-                GuiLocManager.GetLoc(EnumLocKey.EXPORT_TEXTURE_TITLE),
-                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
+            var text = GuiLocManager.GetLoc(
+                EnumLocKey.EXPORT_TEXTURE_RESULT,
+                new Dictionary<string, string> { { "{filePath}", filePath } }
             );
+            MessageBoxUtils.ShowInformation(text, GuiLocManager.GetLoc(EnumLocKey.EXPORT_TEXTURE_TITLE), MessageBoxButtons.OK);
         }
 
         private void ToolStripComboBox_Map_Adjacency_Type_SelectedIndexChanged(object sender, EventArgs e)

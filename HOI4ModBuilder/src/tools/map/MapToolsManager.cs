@@ -112,7 +112,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public EnumTool EnumToolType { get; private set; }
         public HotKey HotKey { get; private set; }
         public EnumMainLayer[] RecalculateTextOnParameterChange { get; private set; }
-        protected static bool[] _isInDialog = new bool[1];
         private int _handleCheckFlags;
 
         public MapTool(Dictionary<EnumTool, MapTool> mapTools, EnumTool enumTool, EnumMainLayer[] recalculateTextOnParameterChange, HotKey hotKey, int handleCheckFlags)
@@ -162,10 +161,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
         public virtual bool Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value)
         {
-            if (_isInDialog[0])
-                return false;
-
-
             if ((_handleCheckFlags & (int)EnumMapToolHandleChecks.CHECK_INBOUNDS_MAP_BOX) != 0 &&
                 !pos.InboundsPositiveBox(MapManager.MapSize, sizeFactor))
                 return false;
@@ -180,21 +175,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
 
             if (!IsEditLayerAllowed(enumEditLayer))
             {
-                _isInDialog[0] = true;
-                Task.Run(() =>
-                {
-                    var title = GuiLocManager.GetLoc(EnumLocKey.MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED_TITLE);
-                    var text = GuiLocManager.GetLoc(
-                        EnumLocKey.MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED,
-                        new Dictionary<string, string> {
-                            { "{currentEditLayer}", GuiLocManager.GetLoc(enumEditLayer.ToString()) },
-                            { "{allowedEditLayers}", GetAllowedEditLayersLocalizedString() }
-                        }
-                    );
+                var title = GuiLocManager.GetLoc(EnumLocKey.MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED_TITLE);
+                var text = GuiLocManager.GetLoc(
+                    EnumLocKey.MAP_TOOL_EDIT_LAYER_IS_NOT_ALLOWED,
+                    new Dictionary<string, string> {
+                        { "{currentEditLayer}", GuiLocManager.GetLoc(enumEditLayer.ToString()) },
+                        { "{allowedEditLayers}", GetAllowedEditLayersLocalizedString() }
+                    }
+                );
 
-                    MessageBox.Show(text, title, MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
-                    _isInDialog[0] = false;
-                });
+                MessageBoxUtils.ShowInformation(text, title, MessageBoxButtons.OK);
                 return false;
             }
 

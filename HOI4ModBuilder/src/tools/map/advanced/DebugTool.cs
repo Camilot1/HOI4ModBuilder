@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.utils;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,8 +14,7 @@ namespace HOI4ModBuilder.src.tools.map.advanced
                 if (e.Control && !(e.Shift || e.Alt))
                 {
                     MapManager.FontRenderController?.DebugLog();
-
-                    Task.Run(() => MessageBox.Show("FontRenderController DebugLog saved in logs/latest.log"));
+                    MessageBoxUtils.ShowInfoMessage("FontRenderController DebugLog saved in logs/latest.log", MessageBoxButtons.OK);
                 }
             });
         }

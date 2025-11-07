@@ -2,6 +2,7 @@
 using HOI4ModBuilder.src.forms;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.Pdoxcl2Sharp;
+using HOI4ModBuilder.src.utils.exceptions;
 using Pdoxcl2Sharp;
 using System;
 using System.Collections.Concurrent;
@@ -107,7 +108,7 @@ namespace HOI4ModBuilder.src.utils
 
         public static void LogSingleErrorMessage(string message)
         {
-            Task.Run(() => MessageBox.Show(
+            Task.Run(() => MessageBoxUtils.Show(
                 message,
                 GuiLocManager.GetLoc(EnumLocKey.ERROR_HAS_OCCURED),
                 MessageBoxButtons.OK,
@@ -124,11 +125,10 @@ namespace HOI4ModBuilder.src.utils
 
         public static void LogSingleInfoMessage(string message)
         {
-            Task.Run(() => MessageBox.Show(
+            Task.Run(() => MessageBoxUtils.Show(
                 message,
                 GuiLocManager.GetLoc(EnumLocKey.INFORMATION_MESSAGE_TITLE),
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
+                MessageBoxButtons.OK, MessageBoxIcon.Information
             ));
             Log(message);
         }
@@ -137,7 +137,7 @@ namespace HOI4ModBuilder.src.utils
         {
             void ShowBox()
             {
-                MessageBox.Show(message, caption, MessageBoxButtons.OK, icon);
+                MessageBoxUtils.Show(message, caption, MessageBoxButtons.OK, icon);
             }
 
             var mainForm = MainForm.Instance;
@@ -534,6 +534,8 @@ namespace HOI4ModBuilder.src.utils
             {
                 action();
             }
+            catch (CancelException _)
+            { }
             catch (Exception ex)
             {
                 LogException(ex);
@@ -546,6 +548,8 @@ namespace HOI4ModBuilder.src.utils
             {
                 tryAction();
             }
+            catch (CancelException _)
+            { }
             catch (Exception ex)
             {
                 catchAction(ex);
@@ -558,6 +562,8 @@ namespace HOI4ModBuilder.src.utils
             {
                 action();
             }
+            catch (CancelException _)
+            { }
             catch (Exception ex)
             {
                 LogException(ex);
@@ -574,6 +580,8 @@ namespace HOI4ModBuilder.src.utils
             {
                 action();
             }
+            catch (CancelException _)
+            { }
             catch (Exception ex)
             {
                 throw new Exception(layerName + " => ", ex);

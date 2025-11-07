@@ -367,7 +367,7 @@ EXCEPTION_WHILE_STATE_SAVING: "Произошла ошибка при сохра
 EXCEPTION_WHILE_REGION_SAVING: "Произошла ошибка при сохранении региона с id = {regionId}."
 
 EXCEPTION_INCORRECT_DATE_PERIOD: "Не удалось распарсить временной промежуток. Токен \"{token}\" должен быть записан в формате \"<день>.<месяц>\"."
-WARNINGS_TRIED_TO_PAINT_WITH_UNKNOWN_PROVINCE_COLOR: "Вы попытались выполнить заливку цветом несуществующей провинции {color}. Выберите действие: \n\nOK - создать новую провинцию с этим цветом.\nОтменить действие заливки."
+WARNINGS_TRIED_TO_PAINT_WITH_UNKNOWN_PROVINCE_COLOR: "Вы попытались выполнить заливку цветом несуществующей провинции {color}. \n\nВы уверены, что хотите создать новую провинцию?"
 
 ERROR_WHILE_SUB_UNITS_LOADING: "Не удалось загрузить sub_units из файла {filePath}."
 ERROR_WHILE_SUB_UNIT_LOADING: "Произошла ошибка при загрузке sub_unit с именем \"{token}\"."

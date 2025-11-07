@@ -363,7 +363,7 @@ EXCEPTION_WHILE_STATE_SAVING: "The exception has occured while saving State with
 EXCEPTION_WHILE_REGION_SAVING: "The exception has occured while saving Region with id = {regionId}."
 
 EXCEPTION_INCORRECT_DATE_PERIOD: "Could not parse date period. Token \"{token}\" has to be stated in format \"<day>.<month>\"."
-WARNINGS_TRIED_TO_PAINT_WITH_UNKNOWN_PROVINCE_COLOR: "You tried to paint with unknown province color = {color}. Choose an action: \n\nOK - create a new province with this color.\nCancel the paint action."
+WARNINGS_TRIED_TO_PAINT_WITH_UNKNOWN_PROVINCE_COLOR: "You tried to paint with unknown province color = {color}. \n\nAre you sure you want to create a new province?."
 
 ERROR_WHILE_SUB_UNITS_LOADING: "Could not load sub_units from file {filePath}."
 ERROR_WHILE_SUB_UNIT_LOADING: "The exception has occured while loading loading sub_unit with name \"{token}\"."

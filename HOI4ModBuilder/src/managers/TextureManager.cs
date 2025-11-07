@@ -245,7 +245,7 @@ namespace HOI4ModBuilder
                                     new Dictionary<string, string> { { "{count}", "" + maxSteps } }
                                 );
 
-                                if (MessageBox.Show(text, title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                                if (MessageBoxUtils.ShowWarningChooseAction(text, MessageBoxButtons.YesNo) == DialogResult.Yes)
                                     state[0] = stateContinue; // Продолжение
                                 else
                                     state[0] = stateCancel; // Отмена

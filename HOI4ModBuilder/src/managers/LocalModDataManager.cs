@@ -52,7 +52,6 @@ namespace HOI4ModBuilder.src.managers
 
             if (!settings.IsModSettingsDirectoryExists())
             {
-                string title = GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION);
                 string text = GuiLocManager.GetLoc(
                     EnumLocKey.CANT_SAVE_BECAUSE_HOI4MODBUILDER_DIRECTORY_DOESNT_EXISTS,
                     new Dictionary<string, string>
@@ -62,8 +61,7 @@ namespace HOI4ModBuilder.src.managers
                     }
                 );
 
-                var dialogResult = MessageBox.Show(text, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
-                if (dialogResult == DialogResult.OK)
+                if (MessageBoxUtils.ShowExclamationChooseAction(text, MessageBoxButtons.OKCancel) == DialogResult.OK)
                     Directory.CreateDirectory(settings.GetModSettingsDirectoryPath());
                 else
                     throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_SAVING_PROCESS_ABORTED));

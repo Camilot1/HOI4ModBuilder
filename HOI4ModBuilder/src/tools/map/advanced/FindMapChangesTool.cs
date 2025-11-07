@@ -138,15 +138,12 @@ namespace HOI4ModBuilder.src.tools.map.advanced
                 var filePath = directoryPath + DateTime.Now.ToString().Replace('.', '-').Replace(':', '-') + ".png";
                 resultBitmap.Save(filePath, ImageFormat.Png);
 
-                Task.Run(() => MessageBox.Show(
-                    GuiLocManager.GetLoc(
-                        EnumLocKey.AUTOTOOLS_FIND_MAP_CHANGES_PNG_SAVED_TEXT,
-                        new Dictionary<string, string> { { "{filePath}", filePath } }
-                    ),
-                    GuiLocManager.GetLoc(EnumLocKey.AUTOTOOLS_FIND_MAP_CHANGES_PNG_SAVED_TITLE),
-                    MessageBoxButtons.OK, MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
-                ));
+                var text = GuiLocManager.GetLoc(
+                    EnumLocKey.AUTOTOOLS_FIND_MAP_CHANGES_PNG_SAVED_TEXT,
+                    new Dictionary<string, string> { { "{filePath}", filePath } }
+                );
+                var title = GuiLocManager.GetLoc(EnumLocKey.AUTOTOOLS_FIND_MAP_CHANGES_PNG_SAVED_TITLE);
+                MessageBoxUtils.ShowInformation(text, title, MessageBoxButtons.OK);
 
                 Utils.CleanUpMemory();
             }

@@ -32,7 +32,8 @@ namespace HOI4ModBuilder.src.forms
                 listedForms?.Add(form);
                 form.ShowDialog();
             });
-            if (hasSound) SystemSounds.Exclamation.Play();
+            if (hasSound)
+                SystemSounds.Exclamation.Play();
         }
 
 
@@ -88,7 +89,8 @@ namespace HOI4ModBuilder.src.forms
             Logger.TryOrLog(() =>
             {
                 var path = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "logs" });
-                using (Process.Start("explorer", path)) { };
+                using (Process.Start("explorer", path)) { }
+                ;
             });
         }
 

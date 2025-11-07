@@ -251,20 +251,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                 {
                     case EnumCanJoinRailwaysResult.CAN_JOIN: break;
                     case EnumCanJoinRailwaysResult.CAN_JOIN_BUT_RAILWAYS_HAS_DIFFERENT_LEVELS:
-                        var dialogResult = MessageBox.Show(
-                                GuiLocManager.GetLoc(
-                                    EnumLocKey.TOOL_CAN_JOIN_RAILWAYS_BUT_THEY_HAS_DIFFERENT_LEVELS_SHOULD_I_COUNTINUE,
-                                    new Dictionary<string, string> {
-                                        { "{firstRailwayLevel}", $"{Level}" },
-                                        { "{secondRailwayLevel}", $"{otherRailway.Level}" },
-                                        { "{newRailwayLevel}", $"{Level}" }
-                                    }
-                                ),
-                                GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION),
-                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
-                            );
+                        var text = GuiLocManager.GetLoc(
+                            EnumLocKey.TOOL_CAN_JOIN_RAILWAYS_BUT_THEY_HAS_DIFFERENT_LEVELS_SHOULD_I_COUNTINUE,
+                            new Dictionary<string, string> {
+                                { "{firstRailwayLevel}", $"{Level}" },
+                                { "{secondRailwayLevel}", $"{otherRailway.Level}" },
+                                { "{newRailwayLevel}", $"{Level}" }
+                            }
+                        );
 
-                        if (dialogResult != DialogResult.Yes) return false;
+                        if (MessageBoxUtils.ShowWarningChooseAction(text, MessageBoxButtons.YesNo) != DialogResult.Yes)
+                            return false;
                         break;
                     default:
                         throw new NotImplementedException();
@@ -317,7 +314,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         public void Save(StringBuilder sb)
         {
             sb.Append(Level).Append(' ').Append(_provinces.Count);
-            foreach (var province in _provinces) 
+            foreach (var province in _provinces)
                 sb.Append(' ').Append(province.Id);
             sb.Append(' ').Append(Constants.NEW_LINE);
         }

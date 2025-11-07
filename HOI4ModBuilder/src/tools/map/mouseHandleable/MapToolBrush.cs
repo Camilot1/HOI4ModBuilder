@@ -1,16 +1,17 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.managers.mapChecks.warnings.checkers;
+using HOI4ModBuilder.src.tools.brushes;
+using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.src.utils.exceptions;
+using HOI4ModBuilder.src.utils.structs;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static HOI4ModBuilder.utils.Enums;
 using static HOI4ModBuilder.utils.Structs;
-using System.Windows.Forms;
-using HOI4ModBuilder.src.utils;
-using HOI4ModBuilder.src.utils.structs;
-using HOI4ModBuilder.src.tools.brushes;
-using HOI4ModBuilder.src.managers.mapChecks.warnings.checkers;
-using System.Collections;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {
@@ -67,7 +68,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             brush.ForEachPixel(value, pos, (x, y) =>
             {
-                if (!_isInDialog[0] && HandlePixel(x, y, enumEditLayer, newColor, out var redo, out var undo))
+                if (HandlePixel(x, y, enumEditLayer, newColor, out var redo, out var undo))
                 {
                     redoActions.Add(redo);
                     undoActions.Add(undo);
@@ -116,20 +117,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (!ProvinceManager.TryGetProvince(newColor, out Province province))
             {
-                _isInDialog[0] = true;
-                Task.Run(() =>
-                {
-                    var title = GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION);
-                    var text = GuiLocManager.GetLoc(
-                        EnumLocKey.WARNINGS_TRIED_TO_PAINT_WITH_UNKNOWN_PROVINCE_COLOR,
-                        new Dictionary<string, string> { { "{color}", new Color3B(newColor).ToString() } }
-                    );
+                var text = GuiLocManager.GetLoc(
+                    EnumLocKey.WARNINGS_TRIED_TO_PAINT_WITH_UNKNOWN_PROVINCE_COLOR,
+                    new Dictionary<string, string> { { "{color}", new Color3B(newColor).ToString() } }
+                );
 
-                    if (MessageBox.Show(text, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                        ProvinceManager.CreateNewProvince(newColor);
-                    _isInDialog[0] = false;
-                });
-                return false;
+                var result = MessageBoxUtils.ShowQuestionChooseAction(text, MessageBoxButtons.YesNo);
+                if (result != DialogResult.Yes)
+                    throw new CancelException();
+                ProvinceManager.CreateNewProvince(newColor);
             }
 
             int[] pixels = MapManager.ProvincesPixels;

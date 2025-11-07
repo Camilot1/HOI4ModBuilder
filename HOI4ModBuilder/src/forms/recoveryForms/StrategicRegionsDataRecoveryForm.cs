@@ -188,17 +188,14 @@ namespace HOI4ModBuilder.src.forms.recoveryForms
         {
             Logger.TryOrLog(() =>
             {
-                MessageBox.Show(
-                    GuiLocManager.GetLoc(
-                        EnumLocKey.SINGLE_MESSAGE_STRATEGIC_REGION_DATA_RECOVERY_FILTER_HELP,
-                        new Dictionary<string, string> {
+                var text = GuiLocManager.GetLoc(
+                    EnumLocKey.SINGLE_MESSAGE_STRATEGIC_REGION_DATA_RECOVERY_FILTER_HELP,
+                    new Dictionary<string, string> {
                         { "{exampleFilter}", "1-3;4;7" },
                         { "{exampleIds}", "1, 2, 3, 4, 7" }
-                        }
-                    ),
-                    GuiLocManager.GetLoc(EnumLocKey.INFO_MESSAGE), MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
+                    }
                 );
-
+                MessageBoxUtils.ShowInfoMessage(text, MessageBoxButtons.OK);
                 Focus();
             });
         }
@@ -233,17 +230,14 @@ namespace HOI4ModBuilder.src.forms.recoveryForms
 
             Logger.DisplayAdditionalExceptions();
 
-            MessageBox.Show(
-                GuiLocManager.GetLoc(
-                    EnumLocKey.SINGLE_MESSAGE_STRATEGIC_REGION_DATA_RECOVERY_LOAD_RESULT,
-                    new Dictionary<string, string> {
-                    { "{count}", $"{_oldRegions.Count}" },
-                    { "{allCount}", $"{fileInfoPairs.Count}" }
-                    }
-                ),
-                GuiLocManager.GetLoc(EnumLocKey.INFO_MESSAGE), MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
+            var text = GuiLocManager.GetLoc(
+                EnumLocKey.SINGLE_MESSAGE_STRATEGIC_REGION_DATA_RECOVERY_LOAD_RESULT,
+                new Dictionary<string, string> {
+                { "{count}", $"{_oldRegions.Count}" },
+                { "{allCount}", $"{fileInfoPairs.Count}" }
+                }
             );
-
+            MessageBoxUtils.ShowInfoMessage(text, MessageBoxButtons.OK);
             Focus();
         }
 
@@ -264,16 +258,15 @@ namespace HOI4ModBuilder.src.forms.recoveryForms
 
             DisplayData();
 
-            MessageBox.Show(
-                GuiLocManager.GetLoc(
-                    EnumLocKey.SINGLE_MESSAGE_STRATEGIC_REGION_DATA_RECOVERY_FILTER_RESULT,
-                    new Dictionary<string, string> {
-                    { "{count}", $"{_oldFilteredRegions.Count}" },
-                    { "{allCount}", $"{_oldRegions.Count}" }
-                    }
-                ),
-                GuiLocManager.GetLoc(EnumLocKey.INFO_MESSAGE), MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
+            var text = GuiLocManager.GetLoc(
+                EnumLocKey.SINGLE_MESSAGE_STRATEGIC_REGION_DATA_RECOVERY_FILTER_RESULT,
+                new Dictionary<string, string> {
+                { "{count}", $"{_oldFilteredRegions.Count}" },
+                { "{allCount}", $"{_oldRegions.Count}" }
+                }
             );
+
+            MessageBoxUtils.ShowInfoMessage(text, MessageBoxButtons.OK);
 
             Focus();
 
@@ -305,16 +298,14 @@ namespace HOI4ModBuilder.src.forms.recoveryForms
                         (ex) => Logger.LogAdditionalException(ex)
                     );
 
-                MessageBox.Show(
-                    GuiLocManager.GetLoc(
-                        EnumLocKey.SINGLE_MESSAGE_STRATEGIC_REGION_DATA_RECOVERY_RECOVERY_RESULT,
-                        new Dictionary<string, string> {
+                var text = GuiLocManager.GetLoc(
+                    EnumLocKey.SINGLE_MESSAGE_STRATEGIC_REGION_DATA_RECOVERY_RECOVERY_RESULT,
+                    new Dictionary<string, string> {
                         { "{count}", $"{successCounter}" },
                         { "{allCount}", $"{_oldFilteredRegions.Count}" }
-                        }
-                    ),
-                    GuiLocManager.GetLoc(EnumLocKey.INFO_MESSAGE), MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
+                    }
                 );
+                MessageBoxUtils.ShowInfoMessage(text, MessageBoxButtons.OK);
 
                 Focus();
             });

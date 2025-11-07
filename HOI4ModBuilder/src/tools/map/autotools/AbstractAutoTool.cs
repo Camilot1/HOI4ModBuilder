@@ -11,36 +11,28 @@ namespace HOI4ModBuilder.src.tools.autotools
         {
             MapManager.HandleMapMainLayerChange(recalculateAllText, MainForm.Instance.SelectedMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
 
-            MessageBox.Show(
-                GuiLocManager.GetLoc(
-                    EnumLocKey.AUTOTOOL_RESULT_MESSAGE_BOX_TEXT,
-                    new Dictionary<string, string> { { "{count}", $"{count}" } }
-                ),
-                GuiLocManager.GetLoc(
-                    EnumLocKey.AUTOTOOL_RESULT_MESSAGE_BOX_TITLE
-                ),
-                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
+            var text = GuiLocManager.GetLoc(
+                EnumLocKey.AUTOTOOL_RESULT_MESSAGE_BOX_TEXT,
+                new Dictionary<string, string> { { "{count}", $"{count}" } }
             );
+            var title = GuiLocManager.GetLoc(EnumLocKey.AUTOTOOL_RESULT_MESSAGE_BOX_TITLE);
+            MessageBoxUtils.ShowInformation(text, title, MessageBoxButtons.OK);
         }
         protected static void PostExtendedAction(bool recalculateAllTextint, int count, int success, string unsuccessInfo)
         {
             MapManager.HandleMapMainLayerChange(recalculateAllTextint, MainForm.Instance.SelectedMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
 
-            MessageBox.Show(
-                GuiLocManager.GetLoc(
-                    EnumLocKey.AUTOTOOL_RESULT_EXTENDED_MESSAGE_BOX_TEXT,
-                    new Dictionary<string, string> {
-                        { "{count}", $"{count}" },
-                        { "{success}", $"{success}" },
-                        { "{unsuccess}", $"{count - success}" },
-                        { "{unsuccessInfo}", unsuccessInfo }
-                    }
-                ),
-                GuiLocManager.GetLoc(
-                    EnumLocKey.AUTOTOOL_RESULT_EXTENDED_MESSAGE_BOX_TITLE
-                ),
-                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification
+            var text = GuiLocManager.GetLoc(
+                EnumLocKey.AUTOTOOL_RESULT_EXTENDED_MESSAGE_BOX_TEXT,
+                new Dictionary<string, string> {
+                    { "{count}", $"{count}" },
+                    { "{success}", $"{success}" },
+                    { "{unsuccess}", $"{count - success}" },
+                    { "{unsuccessInfo}", unsuccessInfo }
+                }
             );
+            var title = GuiLocManager.GetLoc(EnumLocKey.AUTOTOOL_RESULT_EXTENDED_MESSAGE_BOX_TITLE);
+            MessageBoxUtils.ShowInformation(text, title, MessageBoxButtons.OK);
         }
     }
 }
