@@ -13,6 +13,7 @@ using HOI4ModBuilder.src.utils.structs;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using HOI4ModBuilder.src.utils.exceptions;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map
 {
@@ -62,8 +63,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                     return;
                 if (!_mapTools.TryGetValue(enumTool, out MapTool mapTool))
                     return;
-                mapTool.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value);
 
+                try
+                {
+                    mapTool.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value);
+                }
+                catch (CancelActionException _)
+                {
+                    MapManager.ActionsBatch.Enabled = false;
+                }
             });
         }
 

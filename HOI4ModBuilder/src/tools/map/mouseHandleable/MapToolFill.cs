@@ -94,10 +94,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 );
 
                 var result = MessageBoxUtils.ShowQuestionChooseAction(text, MessageBoxButtons.YesNo);
-                if (result != DialogResult.Yes)
-                    throw new CancelException();
+                if (result == DialogResult.Yes)
+                    ProvinceManager.CreateNewProvince(newColor);
 
-                ProvinceManager.CreateNewProvince(newColor);
+                throw new CancelActionException();
             }
 
             HashSet<Value2US> positions = null;

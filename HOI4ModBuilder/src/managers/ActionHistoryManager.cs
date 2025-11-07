@@ -24,7 +24,7 @@ namespace HOI4ModBuilder.src.managers
             MainForm.SubscribeGlobalKeyEvent(Keys.Y, (sender, e) =>
             {
                 if (e.Control && !(e.Shift || e.Alt)) Redo();
-            });            
+            });
         }
 
         public ActionHistoryManager(EnumTabPage tabPage)
@@ -105,6 +105,8 @@ namespace HOI4ModBuilder.src.managers
                 _manager = manager;
                 _pairs = new List<ActionPair>();
             }
+
+            public int Count() => _pairs.Count;
 
             public void AddWithExecute(List<Action> redoActions, List<Action> undoActions)
             {

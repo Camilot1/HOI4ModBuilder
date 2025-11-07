@@ -890,7 +890,7 @@
     <Compile Include="src\utils\ColorUtils.cs" />
     <Compile Include="src\utils\Constants.cs" />
     <Compile Include="src\utils\Enums.cs" />
-    <Compile Include="src\utils\exceptions\CancelException.cs" />
+    <Compile Include="src\utils\exceptions\CancelActionException.cs" />
     <Compile Include="src\utils\exceptions\CountryNotFoundException.cs" />
     <Compile Include="src\utils\exceptions\DivisionNamesGroupNotFoundException.cs" />
     <Compile Include="src\utils\exceptions\FileAlreadyExistsException.cs" />

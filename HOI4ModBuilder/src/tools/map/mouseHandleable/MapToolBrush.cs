@@ -78,9 +78,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 }
             });
 
-
             MapManager.ActionsBatch.AddWithExecute(redoActions, undoActions);
-            return true;
+            return redoActions.Count > 0;
         }
 
         private bool HandlePixel(int x, int y, EnumEditLayer enumEditLayer, int newColor, out Action redo, out Action undo)
@@ -123,9 +122,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 );
 
                 var result = MessageBoxUtils.ShowQuestionChooseAction(text, MessageBoxButtons.YesNo);
-                if (result != DialogResult.Yes)
-                    throw new CancelException();
-                ProvinceManager.CreateNewProvince(newColor);
+                if (result == DialogResult.Yes)
+                    ProvinceManager.CreateNewProvince(newColor);
+
+                throw new CancelActionException();
             }
 
             int[] pixels = MapManager.ProvincesPixels;

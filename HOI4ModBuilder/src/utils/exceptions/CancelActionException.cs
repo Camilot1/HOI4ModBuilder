@@ -2,7 +2,7 @@
 
 namespace HOI4ModBuilder.src.utils.exceptions
 {
-    public class CancelException : Exception
+    public class CancelActionException : Exception
     {
     }
 }

@@ -534,7 +534,7 @@ namespace HOI4ModBuilder.src.utils
             {
                 action();
             }
-            catch (CancelException _)
+            catch (CancelActionException _)
             { }
             catch (Exception ex)
             {
@@ -548,7 +548,7 @@ namespace HOI4ModBuilder.src.utils
             {
                 tryAction();
             }
-            catch (CancelException _)
+            catch (CancelActionException _)
             { }
             catch (Exception ex)
             {
@@ -562,7 +562,7 @@ namespace HOI4ModBuilder.src.utils
             {
                 action();
             }
-            catch (CancelException _)
+            catch (CancelActionException _)
             { }
             catch (Exception ex)
             {
@@ -580,7 +580,7 @@ namespace HOI4ModBuilder.src.utils
             {
                 action();
             }
-            catch (CancelException _)
+            catch (CancelActionException _)
             { }
             catch (Exception ex)
             {
