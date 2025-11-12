@@ -93,6 +93,9 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon_app_outline_black.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ColorPicker, Version=3.4.2.0, Culture=neutral, PublicKeyToken=1c61eec504ce2276, processorArchitecture=MSIL">
       <HintPath>..\packages\PixiEditor.ColorPicker.3.4.2\lib\net451\ColorPicker.dll</HintPath>
@@ -1070,6 +1073,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon_telegram.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon_app.ico" />
+    <Content Include="icon_app_outline_black.ico" />
+    <Content Include="Resources\icon_app.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="RelocateManagedDependencies" AfterTargets="CopyFilesToOutputDirectory">
