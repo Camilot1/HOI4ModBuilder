@@ -768,7 +768,10 @@ namespace HOI4ModBuilder.managers
             else
             {
                 if (selectedTexturedPlane != null)
-                    selectedTexturedPlane.Move(pos.x - _mousePrevPoint.x, pos.y - _mousePrevPoint.y);
+                    selectedTexturedPlane.Move(
+                        pos.x - _mousePrevPoint.x,
+                        pos.y - _mousePrevPoint.y
+                    );
                 else if (ActionsBatch.Enabled && (_mousePrevPoint.x != pos.x || _mousePrevPoint.y != pos.y))
                 {
                     if (MapToolsManager.TryGetMapTool(enumTool, out var mapTool) && mapTool.isHandlingMouseMove())
