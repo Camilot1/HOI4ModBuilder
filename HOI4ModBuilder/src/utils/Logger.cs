@@ -133,7 +133,7 @@ namespace HOI4ModBuilder.src.utils
             Log(message);
         }
 
-        internal static void ShowMessageOnUiThread(string message, string caption, MessageBoxIcon icon)
+        public static void ShowMessageOnUiThread(string message, string caption, MessageBoxIcon icon)
         {
             void ShowBox()
             {

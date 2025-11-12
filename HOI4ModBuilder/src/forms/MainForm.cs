@@ -53,6 +53,7 @@ namespace HOI4ModBuilder
         public static MainForm Instance { get; private set; }
 
         public GLControl GLControl { get; private set; }
+        public static bool IsFirstInited { get; private set; } = false;
         public static bool IsFirstLoaded { get; set; } = false;
         public static bool ErrorsOrExceptionsDuringLoading { get; set; } = false;
 
@@ -166,6 +167,8 @@ namespace HOI4ModBuilder
 
         public MainForm()
         {
+            Instance = this;
+
             AddMainLayerHotKey(EnumMainLayer.PROVINCES_MAP, new[] { Keys.Alt, Keys.P });
             AddMainLayerHotKey(EnumMainLayer.STATES, new[] { Keys.Alt, Keys.S });
             AddMainLayerHotKey(EnumMainLayer.STRATEGIC_REGIONS, new[] { Keys.Alt, Keys.R });
@@ -305,7 +308,6 @@ namespace HOI4ModBuilder
 
         private void AfterFirstInit()
         {
-            Instance = this;
             Logger.TryOrLog(() =>
             {
                 GuiLocManager.formsReinitEvents.Add(this, () => Reinit());
@@ -325,6 +327,8 @@ namespace HOI4ModBuilder
 
                 NetworkManager.SyncGithubInfo();
             });
+
+            IsFirstInited = true;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

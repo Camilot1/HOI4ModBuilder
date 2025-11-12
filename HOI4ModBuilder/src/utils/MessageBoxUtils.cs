@@ -22,12 +22,17 @@ namespace HOI4ModBuilder.src.utils
                 text, title, buttons, icon,
                 MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly
             );
-            MainForm.Instance.InvokeAction(() =>
+
+            if (MainForm.IsFirstInited)
             {
-                MainForm.Instance.TopMost = true;
-                MainForm.Instance.Refresh();
-                MainForm.Instance.TopMost = false;
-            });
+                MainForm.Instance.InvokeAction(() =>
+                {
+                    MainForm.Instance.TopMost = true;
+                    MainForm.Instance.Refresh();
+                    MainForm.Instance.TopMost = false;
+                });
+            }
+
             return result;
         }
     }

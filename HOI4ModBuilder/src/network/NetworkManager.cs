@@ -38,27 +38,16 @@ public static class NetworkManager
         {
             string data = null;
 
-            try
+            Logger.TryOrLog(() =>
             {
                 data = DownloadString("https://raw.githubusercontent.com/Camilot1/HOI4ModBuilder/master/sync_info.json\r\n");
-            }
-            catch (Exception ex)
-            {
-                MainForm.Instance.InvokeAction(() => Logger.Log(ex.ToString()));
-            }
+            });
 
             SyncInfo syncInfo = null;
 
             if (data != null)
             {
-                try
-                {
-                    syncInfo = JsonConvert.DeserializeObject<SyncInfo>(data);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Log(ex.ToString());
-                }
+                Logger.TryOrLog(() => syncInfo = JsonConvert.DeserializeObject<SyncInfo>(data));
             }
 
             var localFilePath = Path.Combine("configs", "local_sync.json");
