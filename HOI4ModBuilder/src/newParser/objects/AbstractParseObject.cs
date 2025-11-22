@@ -296,9 +296,13 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (key != null)
             {
-                //if (!isInline)
-                //    sb.Append(Constants.NEW_LINE);
-                if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
+                if (!isInline)
+                {
+                    if (sb.Length == 0 || sb[sb.Length - 1] != '\n')
+                        sb.Append(Constants.NEW_LINE);
+                    sb.Append(outIndent);
+                }
+                else if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
                     sb.Append(outIndent);
 
                 sb.Append('}');
