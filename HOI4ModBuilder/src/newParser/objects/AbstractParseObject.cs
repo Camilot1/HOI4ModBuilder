@@ -292,6 +292,9 @@ namespace HOI4ModBuilder.src.newParser.objects
                 else if (dynamicAdapter.TryGetValue(parameter.Name, out var dynamicProvider))
                     ((ISaveable)dynamicProvider.provider.Invoke(this))
                         .Save(sb, innerIndent, null, resolvedParameter);
+
+                if (!isInline && sb.Length > 0 && sb[sb.Length - 1] != '\n')
+                    sb.Append(Constants.NEW_LINE);
             }
 
             if (key != null)

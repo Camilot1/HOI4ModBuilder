@@ -2,14 +2,14 @@
   {
     "Name": "dynamicBuildings",
     "SaveIfEmpty": false,
-    "IsForceInline": true,
+    "IsForceInline": false,
     "IsForceMultiline": false,
     "AddEmptyLineBefore": false
   },
   {
     "Name": "dynamicProvinces",
     "SaveIfEmpty": false,
-    "IsForceInline": true,
+    "IsForceInline": false,
     "IsForceMultiline": false,
     "AddEmptyLineBefore": false
   }
