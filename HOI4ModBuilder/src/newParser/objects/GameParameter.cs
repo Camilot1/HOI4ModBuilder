@@ -52,7 +52,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             T value = GetValue();
             if (value != null)
                 return value;
-            return default;
+            return defaultValue;
         }
         public T GetValueRaw(T defaultValue)
         {
@@ -127,7 +127,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 InitValue();
         }
 
-        public string AssemblePath() => ParserUtils.AsseblePath(this);
+        public string AssemblePath() => ParserUtils.AssemblePath(this);
 
         public virtual void ParseCallback(GameParser parser)
         {

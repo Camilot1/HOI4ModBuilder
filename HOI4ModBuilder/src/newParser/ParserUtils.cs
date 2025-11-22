@@ -279,7 +279,7 @@ namespace HOI4ModBuilder.src.newParser
             return allowedValueTypes != null && Array.IndexOf(allowedValueTypes, valueType) != -1;
         }
 
-        public static string AsseblePath(IParentable obj)
+        public static string AssemblePath(IParentable obj)
         {
             var parent = obj.GetParent();
 

@@ -342,7 +342,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             return false;
         }
 
-        public string AssemblePath() => ParserUtils.AsseblePath(this);
+        public string AssemblePath() => ParserUtils.AssemblePath(this);
 
         public virtual void Validate(LinkedLayer layer)
         {

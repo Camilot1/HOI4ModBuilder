@@ -11,7 +11,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 {
     public class GameDictionary<TKey, TValue> : AbstractParseObject, IDictionary<TKey, TValue>, IKeyValuePushable where TValue : new()
     {
-        private Dictionary<TKey, TValue> _dictionary = new Dictionary<TKey, TValue>();
+        private readonly Dictionary<TKey, TValue> _dictionary = new Dictionary<TKey, TValue>();
 
         private bool _forceValueInline;
         private Func<string, TKey> _keyParseAdapter;
@@ -95,87 +95,103 @@ namespace HOI4ModBuilder.src.newParser.objects
                 (comments) => SetComments(comments),
                 (tokenComments, token) =>
                 {
-                    TKey keyObj = _keyParseAdapter != null ?
-                        _keyParseAdapter(token) :
-                        ParserUtils.Parse<TKey>(token);
-
-                    if (keyObj is IParentable keyParentable)
-                        keyParentable.SetParent(this);
-
-                    parser.SkipWhiteSpaces();
-
-                    parser.ParseDemiliters();
-                    var demiliters = parser.PullParsedDataString();
-
-                    if (demiliters.Length != 1)
-                        throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
-
-                    if (demiliters[0] != '=')
-                        throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
-
-                    parser.SkipWhiteSpaces();
-
-                    if (parser.CurrentToken == Token.LEFT_CURLY)
-                    {
-                        parser.NextChar();
-                        var newComments = parser.ParseAndPullComments();
-
-                        if (tokenComments == null)
-                            tokenComments = newComments;
-                        else if (newComments != null)
-                            tokenComments.Inline = newComments.Inline;
-
-                        if (keyObj is ICommentable commentable)
-                            commentable.SetComments(tokenComments);
-
-                        var valueObj = _valueParseAdapter != null ?
-                            _valueParseAdapter.Invoke(keyObj, null) :
-                            new TValue();
-
-                        if (valueObj is IParentable valueParentable)
-                            valueParentable.SetParent(this);
-
-                        if (valueObj is IParseObject parseObject)
-                            parser.Parse(parseObject);
-
-                        _dictionary[keyObj] = valueObj;
-                        return false;
-                    }
-                    else
-                    {
-
-                        if (parser.CurrentToken == Token.QUOTE)
-                            parser.ParseQuoted();
-                        else
-                            parser.ParseUnquotedValue();
-
-                        var value = parser.PullParsedDataString();
-
-                        var valueObj = _valueParseAdapter != null ?
-                            _valueParseAdapter.Invoke(keyObj, value) :
-                            ParserUtils.Parse<TValue>(value);
-
-                        if (valueObj is IParentable parentable)
-                            parentable.SetParent(this);
-
-                        var newComments = parser.ParseAndPullComments();
-
-                        if (tokenComments == null)
-                            tokenComments = newComments;
-                        else if (newComments != null)
-                            tokenComments.Inline = newComments.Inline;
-
-                        if (keyObj is ICommentable commentable)
-                            commentable.SetComments(tokenComments);
-
-                        if (valueObj is IParseObject parseObject)
-                            parser.Parse(parseObject);
-
-                        _dictionary[keyObj] = valueObj;
-                        return false;
-                    }
+                    var keyObj = ParseKey(token);
+                    ParseKeyValue(parser, keyObj, tokenComments);
+                    return false;
                 }
             );
+        }
+
+        private TKey ParseKey(string token)
+        {
+            var keyObj = _keyParseAdapter != null ?
+                _keyParseAdapter(token) :
+                ParserUtils.Parse<TKey>(token);
+
+            if (keyObj is IParentable keyParentable)
+                keyParentable.SetParent(this);
+
+            return keyObj;
+        }
+
+        private void ParseKeyValue(GameParser parser, TKey keyObj, GameComments tokenComments)
+        {
+            parser.SkipWhiteSpaces();
+            parser.ParseDemiliters();
+            var demiliters = parser.PullParsedDataString();
+
+            if (demiliters.Length != 1 || demiliters[0] != '=')
+                throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+
+            parser.SkipWhiteSpaces();
+
+            if (parser.CurrentToken == Token.LEFT_CURLY)
+            {
+                parser.NextChar();
+                ParseBlockValue(parser, keyObj, tokenComments);
+            }
+            else
+            {
+                if (parser.CurrentToken == Token.QUOTE)
+                    parser.ParseQuoted();
+                else
+                    parser.ParseUnquotedValue();
+
+                var value = parser.PullParsedDataString();
+                ParseInlineValue(parser, keyObj, tokenComments, value);
+            }
+        }
+
+        private void ParseBlockValue(GameParser parser, TKey keyObj, GameComments tokenComments)
+        {
+            var mergedComments = MergeComments(tokenComments, parser.ParseAndPullComments());
+            if (keyObj is ICommentable commentableKey)
+                commentableKey.SetComments(mergedComments);
+
+            var valueObj = CreateValue(keyObj, null);
+
+            if (valueObj is IParseObject parseObject)
+                parser.Parse(parseObject);
+
+            _dictionary[keyObj] = valueObj;
+        }
+
+        private void ParseInlineValue(GameParser parser, TKey keyObj, GameComments tokenComments, string rawValue)
+        {
+            var valueObj = CreateValue(keyObj, rawValue);
+
+            var mergedComments = MergeComments(tokenComments, parser.ParseAndPullComments());
+            if (keyObj is ICommentable commentableKey)
+                commentableKey.SetComments(mergedComments);
+
+            if (valueObj is IParseObject parseObject)
+                parser.Parse(parseObject);
+
+            _dictionary[keyObj] = valueObj;
+        }
+
+        private TValue CreateValue(TKey keyObj, string rawValue)
+        {
+            var valueObj = _valueParseAdapter != null ?
+                _valueParseAdapter.Invoke(keyObj, rawValue) :
+                rawValue == null ? new TValue() : ParserUtils.Parse<TValue>(rawValue);
+
+            if (valueObj is IParentable parentable)
+                parentable.SetParent(this);
+
+            return valueObj;
+        }
+
+        private static GameComments MergeComments(GameComments primary, GameComments secondary)
+        {
+            if (primary == null)
+                return secondary;
+
+            if (secondary == null)
+                return primary;
+
+            primary.Inline = secondary.Inline;
+            return primary;
         }
 
         public override void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
@@ -353,9 +369,28 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public bool Contains(KeyValuePair<TKey, TValue> item) => _dictionary.Contains(item);
 
-        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => throw new NotImplementedException();
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (arrayIndex < 0 || arrayIndex > array.Length)
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+            if (array.Length - arrayIndex < _dictionary.Count)
+                throw new ArgumentException("The target array is too small.", nameof(array));
 
-        public bool Remove(KeyValuePair<TKey, TValue> item) => throw new NotImplementedException();
+            int i = arrayIndex;
+            foreach (var kvp in _dictionary)
+                array[i++] = kvp;
+        }
+
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            if (_dictionary.TryGetValue(item.Key, out var value) &&
+                EqualityComparer<TValue>.Default.Equals(value, item.Value))
+                return _dictionary.Remove(item.Key);
+
+            return false;
+        }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _dictionary.GetEnumerator();
 

@@ -110,17 +110,10 @@ namespace HOI4ModBuilder.src.newParser
                 {
                     case Token.COMMENT:
                         ParseComments();
-                        break;
-                    case Token.CONSTANT:
-                        var constant = ParseConstant();
-                        obj.InitConstantsIfNull();
-                        var constants = obj.GetConstants();
-
-                        if (constants.ContainsKey(constant.Key))
-                            throw new Exception("Constant with key " + constant.Key + " already defined in this block: " + GetCursorInfo());
-
-                        constants[constant.Key] = constant;
-                        break;
+                    break;
+                case Token.CONSTANT:
+                    AddConstant(obj, ParseConstant());
+                    break;
                     case Token.UNTYPED:
                         obj.ParseCallback(this);
                         break;
@@ -142,6 +135,17 @@ namespace HOI4ModBuilder.src.newParser
                         throw new Exception("Character " + _currentChar + " is not allowed: " + GetCursorInfo());
                 }
             }
+        }
+
+        private void AddConstant(IParseObject obj, GameConstant constant)
+        {
+            obj.InitConstantsIfNull();
+            var constants = obj.GetConstants();
+
+            if (constants.ContainsKey(constant.Key))
+                throw new Exception("Constant with key " + constant.Key + " already defined in this block: " + GetCursorInfo());
+
+            constants[constant.Key] = constant;
         }
 
         public void SkipInsideBlock()
