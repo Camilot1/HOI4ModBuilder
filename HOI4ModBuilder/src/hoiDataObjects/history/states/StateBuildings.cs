@@ -65,6 +65,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         public bool HasAnyProvinceBuildings()
             => Provinces.Count > 0;
 
+        public override void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
+        {
+            var resolvedParameter = savePatternParameter;
+
+            if (!resolvedParameter.IsForceInline && Provinces.Count == 0 && Buildings.Count == 1)
+                resolvedParameter.IsForceInline = true;
+
+            base.Save(sb, outIndent, key, resolvedParameter);
+        }
+
         public void Activate(State state)
         {
             foreach (var stateBuilding in Buildings)

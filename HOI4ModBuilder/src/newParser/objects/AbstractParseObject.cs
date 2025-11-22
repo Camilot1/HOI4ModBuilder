@@ -282,12 +282,16 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             foreach (var parameter in savePattern.Parameters)
             {
+                var resolvedParameter = parameter;
+                if (savePatternParameter.IsForceInline)
+                    resolvedParameter.IsForceInline = true;
+
                 if (staticAdapter.TryGetValue(parameter.Name, out var staticProvider))
                     ((ISaveable)staticProvider.Invoke(this))
-                        .Save(sb, innerIndent, parameter.Name, parameter);
+                        .Save(sb, innerIndent, parameter.Name, resolvedParameter);
                 else if (dynamicAdapter.TryGetValue(parameter.Name, out var dynamicProvider))
                     ((ISaveable)dynamicProvider.provider.Invoke(this))
-                        .Save(sb, innerIndent, null, parameter);
+                        .Save(sb, innerIndent, null, resolvedParameter);
             }
 
             if (key != null)

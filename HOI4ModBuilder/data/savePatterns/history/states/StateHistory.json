@@ -23,7 +23,7 @@
   {
     "Name": "buildings",
     "SaveIfEmpty": false,
-    "IsForceInline": false,
+    "IsForceInline": true,
     "IsForceMultiline": false,
     "AddEmptyLineBefore": true
   },

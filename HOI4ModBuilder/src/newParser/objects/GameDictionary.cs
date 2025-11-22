@@ -279,14 +279,14 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (sb.Length > 0)
             {
                 var lastChar = sb[sb.Length - 1];
-                if (lastChar == ' ' && _dictionary.Count > 1)
+                if (!savePatternParameter.IsForceInline && lastChar == ' ' && _dictionary.Count > 1)
                     sb.Append(' ').Append(Constants.NEW_LINE);
             }
 
             if (tempValue is ISaveable saveable && !_forceValueInline)
             {
                 var lastChar = sb[sb.Length - 1];
-                if (lastChar == ' ')
+                if (lastChar == ' ' && !savePatternParameter.IsForceInline)
                     sb.Append(Constants.NEW_LINE);
                 saveable.Save(sb, outIndent, stringKey, savePatternParameter);
             }
