@@ -14,14 +14,17 @@ namespace HOI4ModBuilder.src.newParser.structs
         public bool IsForceMultiline { get; set; }
         [JsonProperty("AddEmptyLineBefore")]
         public bool AddEmptyLineBefore { get; set; }
+        [JsonProperty("InlineIfSingle")]
+        public bool InlineIfSingle { get; set; }
 
-        public SavePatternParameter(string name, bool saveIfEmpty, bool isForceInline, bool isForceMultiline, bool addEmptyLineBefore)
+        public SavePatternParameter(string name, bool saveIfEmpty, bool isForceInline, bool isForceMultiline, bool addEmptyLineBefore, bool inlineIfSingle = false)
         {
             Name = name;
             SaveIfEmpty = saveIfEmpty;
             IsForceInline = isForceInline;
             IsForceMultiline = isForceMultiline;
             AddEmptyLineBefore = addEmptyLineBefore;
+            InlineIfSingle = inlineIfSingle;
         }
     }
 }

@@ -314,6 +314,22 @@ namespace HOI4ModBuilder.src.newParser.objects
                 return;
             }
 
+            var resolvedParameter = savePatternParameter;
+
+            if (!resolvedParameter.IsForceInline &&
+                resolvedParameter.InlineIfSingle &&
+                !_forceSeparateLineSave &&
+                _list.Count == 1)
+            {
+                var single = _list[0];
+                var comments = (single as ICommentable)?.GetComments();
+                bool hasComments = comments != null && (comments.Previous.Length > 0 || comments.Inline.Length > 0);
+                bool isMultilineValue = single is ISizable sizable && sizable.GetSize() > 1;
+
+                if (!hasComments && !isMultilineValue)
+                    resolvedParameter.IsForceInline = true;
+            }
+
             if (savePatternParameter.AddEmptyLineBefore)
                 sb.Append(outIndent).Append(Constants.NEW_LINE);
 
@@ -321,9 +337,9 @@ namespace HOI4ModBuilder.src.newParser.objects
                 _list.Sort();
 
             if (_forceSeparateLineSave)
-                SeparateLineSave(sb, outIndent, key, savePatternParameter);
+                SeparateLineSave(sb, outIndent, key, resolvedParameter);
             else
-                ListSave(sb, outIndent, key, savePatternParameter);
+                ListSave(sb, outIndent, key, resolvedParameter);
         }
 
         private void SeparateLineSave(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)

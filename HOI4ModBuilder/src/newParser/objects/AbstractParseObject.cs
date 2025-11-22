@@ -256,7 +256,25 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             comments.SavePrevComments(sb, outIndent);
 
-            var parametersToSave = new List<(SavePatternParameter param, ISaveable handler, bool isStatic)>();
+            bool CanInlineSingle(SavePatternParameter param, ISaveable handler)
+            {
+                if (!param.InlineIfSingle || param.IsForceMultiline)
+                    return false;
+
+                if (handler is ICommentable commentable)
+                {
+                    var hc = commentable.GetComments();
+                    if (hc != null && (hc.Previous.Length > 0 || hc.Inline.Length > 0))
+                        return false;
+                }
+
+                if (handler is ISizable sizable && sizable.GetSize() > 1)
+                    return false;
+
+                return true;
+            }
+
+            var parametersToSave = new List<(SavePatternParameter param, ISaveable handler, bool isStatic, bool effectiveInline)>();
             foreach (var parameter in savePattern.Parameters)
             {
                 ISaveable handler = null;
@@ -269,13 +287,14 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (handler == null)
                     continue;
 
-                parametersToSave.Add((parameter, handler, staticAdapter.ContainsKey(parameter.Name)));
+                bool inlineBySingle = CanInlineSingle(parameter, handler);
+                parametersToSave.Add((parameter, handler, staticAdapter.ContainsKey(parameter.Name), parameter.IsForceInline || inlineBySingle));
             }
 
             bool childrenForceInline = true;
             foreach (var entry in parametersToSave)
             {
-                if (!entry.param.IsForceInline)
+                if (!entry.effectiveInline)
                 {
                     childrenForceInline = false;
                     break;
@@ -307,6 +326,8 @@ namespace HOI4ModBuilder.src.newParser.objects
                 var parameter = entry.param;
                 var resolvedParameter = parameter;
                 if (savePatternParameter.IsForceInline)
+                    resolvedParameter.IsForceInline = true;
+                else if (entry.effectiveInline)
                     resolvedParameter.IsForceInline = true;
 
                 if (entry.isStatic)

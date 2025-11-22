@@ -2,8 +2,9 @@
   {
     "Name": "dynamicBuildings",
     "SaveIfEmpty": false,
-    "IsForceInline": true,
+    "IsForceInline": true, 
     "IsForceMultiline": false,
-    "AddEmptyLineBefore": false
+    "AddEmptyLineBefore": false,
+    "InlineIfSingle": true
   }
 ]
