@@ -136,12 +136,11 @@ namespace HOI4ModBuilder.src.newParser.objects
                     return;
                 }
 
-                int[] universalParamsCounter = new int[1];
                 parser.ParseInsideBlock(
                     (comments) => SetComments(comments),
                     (tokenComments, token) =>
                     {
-                        InfoArgsBlockInnerParseCallback(parser, token, tokenComments, universalParamsCounter);
+                        InfoArgsBlockInnerParseCallback(parser, token, tokenComments);
                         return false;
                     }
                 );
@@ -157,7 +156,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 );
         }
 
-        private void InfoArgsBlockInnerParseCallback(GameParser parser, string key, GameComments keyComments, int[] universalParamsCounter)
+        private void InfoArgsBlockInnerParseCallback(GameParser parser, string key, GameComments keyComments)
         {
             var innerList = (GameList<ScriptBlockParseObject>)_value;
             var infoArgsBlock = (InfoArgsBlock)_scriptBlockInfo;

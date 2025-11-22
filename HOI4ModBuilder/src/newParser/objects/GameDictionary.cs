@@ -113,12 +113,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         private void ParseKeyValue(GameParser parser, TKey keyObj, GameComments tokenComments)
         {
             parser.SkipWhiteSpaces();
-            parser.ParseDemiliters();
-            var demiliters = parser.PullParsedDataString();
-
-            if (demiliters.Length != 1 || demiliters[0] != '=')
-                throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
-
+            ParserUtils.ParseEqualsDemiliter(parser);
             parser.SkipWhiteSpaces();
 
             if (parser.CurrentToken == Token.LEFT_CURLY)
@@ -186,7 +181,16 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (secondary == null)
                 return primary;
 
-            primary.Inline = secondary.Inline;
+            if (secondary.Previous.Length > 0)
+            {
+                var merged = new string[primary.Previous.Length + secondary.Previous.Length];
+                primary.Previous.CopyTo(merged, 0);
+                secondary.Previous.CopyTo(merged, primary.Previous.Length);
+                primary.Previous = merged;
+            }
+
+            if (!string.IsNullOrEmpty(secondary.Inline))
+                primary.Inline = secondary.Inline;
             return primary;
         }
 

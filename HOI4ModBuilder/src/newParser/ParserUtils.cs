@@ -15,6 +15,7 @@ using HOI4ModBuilder.src.newParser.structs;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace HOI4ModBuilder.src.newParser
 {

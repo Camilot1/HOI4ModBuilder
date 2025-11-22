@@ -350,8 +350,8 @@ namespace HOI4ModBuilder.src.newParser
         public GameComments ParseAndPullComments()
         {
             var prevCommentsString = PullParsedCommentsString();
-            var prevComments = prevCommentsString.Length > 0 ? prevCommentsString.Split('\n') : new string[0];
-            var inlineComments = "";
+            var prevComments = prevCommentsString.Length > 0 ? prevCommentsString.Split('\n') : Array.Empty<string>();
+            var inlineComments = string.Empty;
 
             var nextLine = SkipWhiteSpaces();
             if (_token == Token.COMMENT && !nextLine)
