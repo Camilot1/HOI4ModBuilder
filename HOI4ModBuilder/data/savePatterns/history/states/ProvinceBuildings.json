@@ -2,7 +2,7 @@
   {
     "Name": "dynamicBuildings",
     "SaveIfEmpty": false,
-    "IsForceInline": false,
+    "IsForceInline": true,
     "IsForceMultiline": false,
     "AddEmptyLineBefore": false
   }

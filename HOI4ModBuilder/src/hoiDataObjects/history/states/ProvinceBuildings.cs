@@ -7,11 +7,12 @@ using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 {
 
-    public class ProvinceBuildings : AbstractParseObject
+    public class ProvinceBuildings : AbstractParseObject, ISizable
     {
         public readonly GameList<ScriptBlockParseObject> Buildings = new GameList<ScriptBlockParseObject>();
 
@@ -35,6 +36,16 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         public ProvinceBuildings(StateBuildings parent)
         {
             SetParent(parent);
+        }
+
+        public override void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
+        {
+            var resolved = savePatternParameter;
+
+            if (!resolved.IsForceInline && Buildings.Count <= 1)
+                resolved.IsForceInline = true;
+
+            base.Save(sb, outIndent, key, resolved);
         }
 
         public bool SetProvinceBuildingLevel(Building building, uint newCount)
@@ -166,6 +177,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
             base.Validate(layer);
         }
+
+        public int GetSize() => Buildings.Count;
 
     }
 }

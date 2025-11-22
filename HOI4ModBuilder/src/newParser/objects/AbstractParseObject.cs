@@ -261,6 +261,16 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             comments.SavePrevComments(sb, outIndent);
 
+            bool childrenForceInline = true;
+            foreach (var parameter in savePattern.Parameters)
+            {
+                if (!parameter.IsForceInline)
+                {
+                    childrenForceInline = false;
+                    break;
+                }
+            }
+
             bool isInline = false;
             string innerIndent = outIndent;
 
@@ -273,6 +283,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
                 isInline = savePatternParameter.IsForceInline ||
                     comments.Inline.Length == 0 &&
+                    childrenForceInline &&
                     (staticAdapter.Count + dynamicAdapter.Count <= 1);
                 innerIndent = isInline ? " " : outIndent + Constants.INDENT;
 
