@@ -46,23 +46,36 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         private object _value;
         public object GetValueRaw() => _value;
-        public T GetValue() => _value is GameConstant gameConstant ? gameConstant.GetValue<T>() : (_value != null ? (T)_value : default);
+        public T GetValue()
+        {
+            if (_value is GameConstant gameConstant)
+                return gameConstant.GetValue<T>();
+            else if (_value != null)
+                return (T)_value;
+            return default;
+        }
         public T GetValue(T defaultValue)
         {
-            T value = GetValue();
-            if (value != null)
-                return value;
-            return defaultValue;
+            var value = GetValue();
+            return value != null ? value : defaultValue;
         }
         public T GetValueRaw(T defaultValue)
-        {
-            if (_value == null)
-                return defaultValue;
-            else
-                return (T)_value;
-        }
+            => _value == null ? defaultValue : (T)_value;
 
         public void SetValue(T value)
+        {
+            var resolvedValue = ResolveValueForSet(value);
+
+            if (!Equals(_value, resolvedValue))
+            {
+                _value = resolvedValue;
+                _needToSave = true;
+            }
+        }
+        public void SetSilentValue(T value)
+            => _value = value;
+
+        private object ResolveValueForSet(T value)
         {
             var resolvedValue = _valueSetAdapter != null
                 ? _valueSetAdapter(this, value)
@@ -74,13 +87,8 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (resolvedValue is IParentable parentable)
                 parentable.SetParent(this);
 
-            if (!Equals(_value, resolvedValue))
-            {
-                _value = resolvedValue;
-                _needToSave = true;
-            }
+            return resolvedValue;
         }
-        public void SetSilentValue(T value) => _value = value;
 
         //obj, value, result
         private bool _forceValueInline;
@@ -274,27 +282,9 @@ namespace HOI4ModBuilder.src.newParser.objects
                 validatable.Validate(layer);
         }
         public bool TryGetGameFile(out GameFile gameFile)
-        {
-            IParentable temp = this;
-
-            while (temp != null)
-            {
-                if (temp is GameFile)
-                {
-                    gameFile = (GameFile)temp;
-                    return true;
-                }
-                temp = temp.GetParent();
-            }
-            gameFile = null;
-            return false;
-        }
+            => ParserUtils.TryGetGameFile(this, out gameFile);
 
         public GameFile GetGameFile()
-        {
-            if (TryGetGameFile(out var gameFile))
-                return gameFile;
-            return null;
-        }
+            => ParserUtils.GetGameFile(this);
     }
 }

@@ -211,6 +211,26 @@ namespace HOI4ModBuilder.src.newParser
             return false;
         }
 
+        public static bool TryGetGameFile(IParentable node, out GameFile gameFile)
+        {
+            var current = node;
+            while (current != null)
+            {
+                if (current is GameFile file)
+                {
+                    gameFile = file;
+                    return true;
+                }
+                current = current.GetParent();
+            }
+
+            gameFile = null;
+            return false;
+        }
+
+        public static GameFile GetGameFile(IParentable node)
+            => TryGetGameFile(node, out var gameFile) ? gameFile : null;
+
 
         public static ScriptBlockParseObject GetScriptBlockParseObject(IParentable parent, string token, object value)
         {
@@ -289,13 +309,15 @@ namespace HOI4ModBuilder.src.newParser
 
         public static string AssemblePath(IParentable obj)
         {
-            var parent = obj.GetParent();
+            var parent = obj?.GetParent();
 
             if (parent == null)
                 return null;
 
+            var parentPath = AssemblePath(parent);
+
             if (!(parent is IParseObject parentObj))
-                return parent.AssemblePath();
+                return parentPath;
 
             var staticAdapter = parentObj.GetStaticAdapter();
             if (staticAdapter != null)
@@ -303,8 +325,8 @@ namespace HOI4ModBuilder.src.newParser
                 foreach (var entry in staticAdapter)
                 {
                     var payload = entry.Value.Invoke(parent);
-                    if (payload != null && payload.Equals(obj))
-                        return entry.Key + " => ";
+                    if (ReferenceEquals(payload, obj) || payload?.Equals(obj) == true)
+                        return CombinePath(parentPath, entry.Key);
                 }
             }
 
@@ -314,12 +336,23 @@ namespace HOI4ModBuilder.src.newParser
                 foreach (var entry in dynamicAdapter)
                 {
                     var payload = entry.Value.provider.Invoke(parent);
-                    if (payload != null && payload.Equals(obj))
-                        return entry.Key + " => ";
+                    if (ReferenceEquals(payload, obj) || payload?.Equals(obj) == true)
+                        return CombinePath(parentPath, entry.Key);
                 }
             }
 
-            return "UNKNOWN";
+            return CombinePath(parentPath, "UNKNOWN");
+        }
+
+        private static string CombinePath(string parentPath, string segment)
+        {
+            if (string.IsNullOrEmpty(segment))
+                return parentPath;
+
+            if (string.IsNullOrEmpty(parentPath))
+                return segment;
+
+            return $"{parentPath} => {segment}";
         }
     }
 }

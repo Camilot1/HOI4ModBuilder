@@ -369,28 +369,8 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
         }
 
-        public bool TryGetGameFile(out GameFile gameFile)
-        {
-            IParentable temp = this;
+        public bool TryGetGameFile(out GameFile gameFile) => ParserUtils.TryGetGameFile(this, out gameFile);
 
-            while (temp != null)
-            {
-                if (temp is GameFile)
-                {
-                    gameFile = (GameFile)temp;
-                    return true;
-                }
-                temp = temp.GetParent();
-            }
-            gameFile = null;
-            return false;
-        }
-
-        public GameFile GetGameFile()
-        {
-            if (TryGetGameFile(out var gameFile))
-                return gameFile;
-            return null;
-        }
+        public GameFile GetGameFile() => ParserUtils.GetGameFile(this);
     }
 }
