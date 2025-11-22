@@ -282,7 +282,6 @@ namespace HOI4ModBuilder.src.newParser.objects
         public IEnumerator<T> GetEnumerator() => _list.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        //TODO impelemnt save
         public override SavePattern GetSavePattern() => null;
         public override void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
@@ -346,23 +345,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (key != null)
             {
-                var comments = GetComments();
-                if (comments == null)
-                    comments = new GameComments();
-
-                var parent = GetParent();
-                if (parent is ICommentable parentCommentable)
-                {
-                    var innerComments = parentCommentable.GetComments();
-                    if (innerComments == null)
-                        innerComments = new GameComments();
-
-                    if (innerComments.Previous.Length > 0)
-                        comments.Previous = innerComments.Previous;
-                    if (innerComments.Inline.Length > 0)
-                        comments.Inline = innerComments.Inline;
-                }
-
+                var comments = ResolveKeyComments();
                 comments.SavePrevComments(sb, outIndent);
 
                 sb.Append(outIndent).Append(key).Append(" = { ");
@@ -380,9 +363,6 @@ namespace HOI4ModBuilder.src.newParser.objects
                 else
                     innerIndent = " ";
             }
-
-            if (_sortAtSaving)
-                _list.Sort();
 
             foreach (var value in _list)
                 SaveListValue(sb, outIndent, ref innerIndent, key, value, savePatternParameter);
@@ -416,11 +396,9 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
             else
             {
-                var comments = new GameComments();
-                if (value is ICommentable commentable)
-                    comments = commentable.GetComments();
+                var comments = (value as ICommentable)?.GetComments();
 
-                if (comments.Previous.Length > 0)
+                if (comments?.Previous.Length > 0)
                 {
                     if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
                     {
@@ -433,7 +411,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 var stringValue = ParserUtils.ObjectToSaveString(tempValue);
                 sb.Append(stringValue).Append(innerIndent);
 
-                if (comments.Inline.Length > 0)
+                if (comments != null && comments.Inline.Length > 0)
                 {
                     sb.Append(comments.Inline).Append(' ').Append(Constants.NEW_LINE);
                     innerIndent = outIndent + Constants.INDENT;
@@ -444,6 +422,25 @@ namespace HOI4ModBuilder.src.newParser.objects
                     innerIndent = outIndent + Constants.INDENT;
                 }
             }
+        }
+
+        private GameComments ResolveKeyComments()
+        {
+            var comments = GetComments() ?? new GameComments();
+
+            if (GetParent() is ICommentable parentCommentable)
+            {
+                var innerComments = parentCommentable.GetComments();
+                if (innerComments != null)
+                {
+                    if (innerComments.Previous.Length > 0)
+                        comments.Previous = innerComments.Previous;
+                    if (innerComments.Inline.Length > 0)
+                        comments.Inline = innerComments.Inline;
+                }
+            }
+
+            return comments;
         }
 
         public override void Validate(LinkedLayer layer)

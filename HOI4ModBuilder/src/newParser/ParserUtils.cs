@@ -329,19 +329,25 @@ namespace HOI4ModBuilder.src.newParser
                 return parent.AssemblePath();
 
             var staticAdapter = parentObj.GetStaticAdapter();
-            foreach (var entry in staticAdapter)
+            if (staticAdapter != null)
             {
-                var payload = entry.Value.Invoke(parent);
-                if (payload.Equals(obj))
-                    return entry.Key + " => ";
+                foreach (var entry in staticAdapter)
+                {
+                    var payload = entry.Value.Invoke(parent);
+                    if (payload != null && payload.Equals(obj))
+                        return entry.Key + " => ";
+                }
             }
 
             var dynamicAdapter = parentObj.GetDynamicAdapter();
-            foreach (var entry in staticAdapter)
+            if (dynamicAdapter != null)
             {
-                var payload = entry.Value.Invoke(parent);
-                if (payload.Equals(obj))
-                    return entry.Key + " => ";
+                foreach (var entry in dynamicAdapter)
+                {
+                    var payload = entry.Value.provider.Invoke(parent);
+                    if (payload != null && payload.Equals(obj))
+                        return entry.Key + " => ";
+                }
             }
 
             return "UNKNOWN";

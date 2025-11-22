@@ -270,8 +270,8 @@ namespace HOI4ModBuilder.src.newParser
                     if (_indent < 0)
                         throw new Exception("Invalid indentation (< 0): " + GetCursorInfo());
                     break;
-                case ')': _token = Token.LEFT_PARANTHESIS; break;
-                case '(': _token = Token.RIGHT_PARANTHESIS; break;
+                case '(': _token = Token.LEFT_PARANTHESIS; break;
+                case ')': _token = Token.RIGHT_PARANTHESIS; break;
                 case '#': _token = Token.COMMENT; break;
                 case '@': _token = Token.CONSTANT; break;
                 case '-': _token = Token.MINUS; break;
