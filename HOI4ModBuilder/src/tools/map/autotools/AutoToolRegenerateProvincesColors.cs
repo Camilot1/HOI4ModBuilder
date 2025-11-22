@@ -71,7 +71,7 @@ namespace HOI4ModBuilder.src.tools.autotools
 
             var modSettings = SettingsManager.Settings.GetModSettings();
 
-            var provinces = AssembleProvinces(ProvinceManager.GetProvinces());
+            var provinces = AssembleProvinces(ProvinceManager.GetValues());
             var progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_PROVINCES);
 
             RegenerateProvincesColors(
@@ -183,7 +183,7 @@ namespace HOI4ModBuilder.src.tools.autotools
             ProgressCallback progressCallback;
 
             progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_STATES);
-            var states = AssembleStates(StateManager.GetStates());
+            var states = AssembleStates(StateManager.GetValues());
             int counter = 0;
             foreach (var state in states)
             {
@@ -208,7 +208,7 @@ namespace HOI4ModBuilder.src.tools.autotools
                 );
             }
 
-            provinces = AssembleProvinces(ProvinceManager.GetProvinces(), p => p.Type != EnumProvinceType.LAND);
+            provinces = AssembleProvinces(ProvinceManager.GetValues(), p => p.Type != EnumProvinceType.LAND);
             progressCallback = new ProgressCallback(EnumLocKey.AUTOTOOL_REGENERATE_PROVINCES_COLORS_PROVINCES);
             RegenerateProvincesColors(
                 provinces,

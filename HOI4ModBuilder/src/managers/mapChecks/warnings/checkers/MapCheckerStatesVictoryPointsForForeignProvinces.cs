@@ -8,7 +8,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
         public MapCheckerStatesVictoryPointsForForeignProvinces()
             : base("MapCheckerStatesVictoryPointsForForeignProvinces", (int)EnumMapWarningCode.STATE_VICTORY_POINT_FOR_FOREIGN_PROVINCE, (list) =>
             {
-                foreach (var s in StateManager.GetStates())
+                foreach (var s in StateManager.GetValues())
                 {
                     s.ForEachVictoryPoints((dateTime, stateHistory, victoryPoint) =>
                     {

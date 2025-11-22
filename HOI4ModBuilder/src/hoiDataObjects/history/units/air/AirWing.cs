@@ -100,7 +100,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 if (token == TOKEN_OWNER)
                 {
                     var value = parser.ReadString();
-                    if (CountryManager.TryGetCountry(value, out Country country))
+                    if (CountryManager.TryGet(value, out Country country))
                         Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _owner, country);
                     else
                         Logger.LogLayeredError(
@@ -111,7 +111,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 else if (token == TOKEN_CREATOR)
                 {
                     var value = parser.ReadString();
-                    if (CountryManager.TryGetCountry(value, out Country country))
+                    if (CountryManager.TryGet(value, out Country country))
                         Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _creator, country);
                     else
                         Logger.LogLayeredError(

@@ -19,7 +19,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                 if (!TextRenderRecalculate(parameter))
                     return MapRendererResult.ABORT;
 
-            CountryManager.TryGetCountry(parameter, out var targetCoreOfCountry);
+            CountryManager.TryGet(parameter, out var targetCoreOfCountry);
             func = (p) =>
             {
                 var type = p.Type;

@@ -27,7 +27,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
                 for (int i = 0; i < pixelCount; i++)
                 {
                     if (color != provincesPixels[i])
-                        ProvinceManager.TryGetProvince(color = provincesPixels[i], out p);
+                        ProvinceManager.TryGet(color = provincesPixels[i], out p);
 
                     byte height = heightPixels[i];
                     if (p != null)
@@ -61,7 +61,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
             int i = x + y * width;
             byte height = heightPixels[i];
 
-            ProvinceManager.TryGetProvince(provincesPixels[i], out var province);
+            ProvinceManager.TryGet(provincesPixels[i], out var province);
 
             if (province != null)
             {

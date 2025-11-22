@@ -68,7 +68,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 else if (token == TOKEN_NAVAL_BASE)
                 {
                     var provinceId = parser.ReadUInt16();
-                    if (!ProvinceManager.TryGetProvince(provinceId, out Province newProvince))
+                    if (!ProvinceManager.TryGet(provinceId, out Province newProvince))
                     {
                         Logger.WrapException(token, new ProvinceNotFoundException(provinceId));
 

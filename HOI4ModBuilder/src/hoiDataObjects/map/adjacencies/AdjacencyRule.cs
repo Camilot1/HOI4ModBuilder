@@ -110,7 +110,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
                 case "required_provinces":
                     foreach (int id in parser.ReadIntList())
                     {
-                        if (ProvinceManager.TryGetProvince((ushort)id, out Province p))
+                        if (ProvinceManager.TryGet((ushort)id, out Province p))
                             requiredProvinces.Add(p);
                         else Logger.LogError(
                                 EnumLocKey.ERROR_ADJACENCY_RULE_LOADING_REQUIRED_PROVINCE_DOESNT_EXISTS,
@@ -128,7 +128,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
                     break;
                 case "icon":
                     ushort iconProvinceId = parser.ReadUInt16();
-                    if (!ProvinceManager.TryGetProvince(iconProvinceId, out iconProvince))
+                    if (!ProvinceManager.TryGet(iconProvinceId, out iconProvince))
                         Logger.LogError(
                             EnumLocKey.ERROR_ADJACENCY_RULE_LOADING_ICON_PROVINCE_DOESNT_EXISTS,
                             new Dictionary<string, string>

@@ -300,7 +300,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                         case EnumValueType.VAR: canAcceptVars = true; break;
 
                         case EnumValueType.COUNTRY:
-                            if (CountryManager.TryGetCountry(value, out var country))
+                            if (CountryManager.TryGet(value, out var country))
                             {
                                 ValueType = EnumValueType.COUNTRY;
                                 _value = country;
@@ -356,7 +356,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                             }
                             break;
                         case EnumValueType.PROVINCE:
-                            if (ushort.TryParse(value, out var provinceID) && ProvinceManager.TryGetProvince(provinceID, out var province))
+                            if (ushort.TryParse(value, out var provinceID) && ProvinceManager.TryGet(provinceID, out var province))
                             {
                                 ValueType = EnumValueType.PROVINCE;
                                 _value = province;

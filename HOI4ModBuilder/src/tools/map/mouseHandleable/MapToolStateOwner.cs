@@ -35,7 +35,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             EnumEditLayer.STATES
         };
         public override Func<ICollection> GetParametersProvider()
-            => () => CountryManager.GetCountryTagsSortedStartingWith("");
+            => () => CountryManager.GetTagsSortedStartingWith("");
         public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
@@ -46,9 +46,9 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
                 return false;
 
-            CountryManager.TryGetCountry(parameter, out var newStateOwner);
+            CountryManager.TryGet(parameter, out var newStateOwner);
 
-            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+            if (!ProvinceManager.TryGet(MapManager.GetColor(pos), out Province province))
                 return false;
 
             if (mouseEventArgs.Button == MouseButtons.Left)

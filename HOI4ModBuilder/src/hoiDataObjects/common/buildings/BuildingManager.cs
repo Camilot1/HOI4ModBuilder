@@ -45,8 +45,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             }
         }
 
-        public static Dictionary<string, Building>.KeyCollection GetBuildingNames() => _allBuildings.Keys;
-        public static Dictionary<string, Building>.ValueCollection GetBuildings() => _allBuildings.Values;
+        public static Dictionary<string, Building>.KeyCollection GetBuildingNames()
+            => _allBuildings.Keys;
+        public static Dictionary<string, Building>.ValueCollection GetBuildings()
+            => _allBuildings.Values;
         public static bool TryGetBuilding(string name, out Building building)
             => _allBuildings.TryGetValue(name, out building);
         public static Building GetBuilding(string name)
@@ -68,9 +70,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             return null;
         }
 
-        public static bool HasSpawnPoint(string name) => _allSpawnPoints.ContainsKey(name);
+        public static bool HasSpawnPoint(string name)
+            => _allSpawnPoints.ContainsKey(name);
 
-        public bool Validate(LinkedLayer prevLayer) => true;
+        public bool Validate(LinkedLayer prevLayer)
+            => true;
 
     }
 }

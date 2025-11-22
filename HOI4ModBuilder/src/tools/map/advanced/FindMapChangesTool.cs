@@ -87,8 +87,8 @@ namespace HOI4ModBuilder.src.tools.map.advanced
                     {
                         if ( //Если провинции с новым и старым цветом всё ещё существуют
                             provincesByColor.TryGetValue(oldPixels[i], out var oldProvinceId) &&
-                            ProvinceManager.TryGetProvince(oldProvinceId, out var oldProvince) &&
-                            ProvinceManager.TryGetProvince(MapManager.ProvincesPixels[i], out var newProvince)
+                            ProvinceManager.TryGet(oldProvinceId, out var oldProvince) &&
+                            ProvinceManager.TryGet(MapManager.ProvincesPixels[i], out var newProvince)
                         )
                         {
                             //Если у старой провинции изменился цвет

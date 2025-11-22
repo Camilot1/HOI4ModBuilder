@@ -64,7 +64,7 @@ namespace HOI4ModBuilder.src.tools.autotools
             {
                 ushort provinceIdToReplace = (ushort)(ProvinceManager.NextVacantProvinceId - 1);
 
-                if (!ProvinceManager.TryGetProvince(provinceIdToReplace, out Province provinceToReplace))
+                if (!ProvinceManager.TryGet(provinceIdToReplace, out Province provinceToReplace))
                 {
                     sb.Append("\n\t")
                         .Append("Province: ").Append(p.Id)

@@ -26,7 +26,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                 if (!TextRenderRecalculate(parameter))
                     return MapRendererResult.ABORT;
 
-            var resource = ResourceManager.GetResource(parameter);
+            var resource = ResourceManager.Get(parameter);
             if (resource == null)
                 return MapRendererResult.ABORT;
 
@@ -71,7 +71,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                     (int)EnumMapRenderEvents.RESOURCES | (int)EnumMapRenderEvents.STATES_IDS,
                     (flags, objs) =>
                     {
-                        var resource = ResourceManager.GetResource(parameter);
+                        var resource = ResourceManager.Get(parameter);
                         controller.TryStart(controller.EventsFlags, out var eventResult)?
                         .ForEachState(objs, p => true, (fontRegion, s, pos) =>
                         {

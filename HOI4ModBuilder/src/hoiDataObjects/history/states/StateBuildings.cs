@@ -16,12 +16,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
     public class StateBuildings : AbstractParseObject
     {
-        public readonly GameDictionary<Building, uint> Buildings = new GameDictionary<Building, uint>()
-            .INIT_SetKeyParseAdapter(token => BuildingManager.GetBuilding(token))
-            .INIT_SetKeySaveAdapter(building => building?.Name);
+        public readonly GameDictionary<Building, uint> Buildings = new GameDictionary<Building, uint>();
         public readonly GameDictionary<Province, ProvinceBuildings> Provinces = new GameDictionary<Province, ProvinceBuildings>()
-            .INIT_SetKeyParseAdapter(token => ProvinceManager.GetProvince(ParserUtils.Parse<ushort>(token)))
-            .INIT_SetKeySaveAdapter(province => province?.Id)
             .INIT_SetSortAtSaving(true);
 
         private static readonly Dictionary<string, DynamicGameParameter> DYNAMIC_ADAPTER = new Dictionary<string, DynamicGameParameter>()

@@ -13,7 +13,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
     public class BuildingCountryModifiers : AbstractParseObject
     {
         public readonly GameList<Country> EnableForControllers = new GameList<Country>()
-            .INIT_SetValueParseAdapter((o, token) => CountryManager.GetCountry(token));
+            .INIT_ForceValueInline(true);
         public readonly GameList<ScriptBlockParseObject> Modifiers = new GameList<ScriptBlockParseObject>()
             .INIT_SetValueParseAdapter((o, token) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(token)));
 

@@ -358,7 +358,7 @@ namespace HOI4ModBuilder.src.openTK.text
             Func<StrategicRegion, bool> checker,
             Action<FontRenderRegion, StrategicRegion, Vector3> action)
         {
-            StrategicRegionManager.ForEachRegion(r =>
+            StrategicRegionManager.ForEach(r =>
             {
                 if (!checker(r))
                     return;
@@ -393,7 +393,7 @@ namespace HOI4ModBuilder.src.openTK.text
                 TryStart(EventsFlags, out var eventResult)?
                 .ForEachProvince(objs, p => true, (fontRegion, p, pos) =>
                 {
-                    if (ProvinceManager.TryGetProvince(p.Id, out var province) && province == p)
+                    if (ProvinceManager.TryGet(p.Id, out var province) && province == p)
                         PushAction(pos, r => r.SetTextMulti(
                                 p, TextRenderManager.Instance.FontData64, scale,
                                 p.Id + "", pos, alignment, color, true
@@ -412,7 +412,7 @@ namespace HOI4ModBuilder.src.openTK.text
                 TryStart(EventsFlags, out var eventResult)?
                 .ForEachState(objs, p => true, (fontRegion, s, pos) =>
                 {
-                    if (StateManager.TryGetState(s.Id.GetValue(), out var state) && state == s)
+                    if (StateManager.TryGet(s.Id.GetValue(), out var state) && state == s)
                         PushAction(pos, r => r.SetTextMulti(
                             s, TextRenderManager.Instance.FontData64, scale,
                             s.Id.GetValue() + "", pos, alignment, color, true
@@ -431,7 +431,7 @@ namespace HOI4ModBuilder.src.openTK.text
                 TryStart(EventsFlags, out var eventResult)?
                 .ForEachRegion(objs, r => true, (fontRegion, r, pos) =>
                 {
-                    if (StrategicRegionManager.TryGetRegion(r.Id, out var region) && region == r)
+                    if (StrategicRegionManager.TryGet(r.Id, out var region) && region == r)
                         PushAction(pos, fr => fontRegion.SetTextMulti(
                             r, TextRenderManager.Instance.FontData64, scale,
                             r.Id + "", pos, alignment, color, true

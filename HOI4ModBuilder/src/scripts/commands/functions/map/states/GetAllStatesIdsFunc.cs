@@ -39,7 +39,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions
                     (o) => o is IListObject obj && obj.GetValueType() is INumberObject
                 );
 
-                foreach (var stateId in StateManager.GetStatesIds())
+                foreach (var stateId in StateManager.GetIDs())
                     statesIds.Add(lineIndex, args, new IntObject(stateId));
             };
         }

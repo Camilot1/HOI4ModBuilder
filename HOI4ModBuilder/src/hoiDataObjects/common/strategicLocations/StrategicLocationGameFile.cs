@@ -14,7 +14,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.strategicLocations
 {
     public class StrategicLocationGameFile : GameFile
     {
-        public readonly GameDictionary<string, StrategicLocation> StrategicLocations = new GameDictionary<string, StrategicLocation>();
+        public readonly GameDictionary<string, StrategicLocation> StrategicLocations = new GameDictionary<string, StrategicLocation>()
+            .INIT_SetValueParseAdapter((key, value) => new StrategicLocation((string)key));
 
 
         private static readonly Dictionary<string, DynamicGameParameter> DYNAMIC_ADAPTER = new Dictionary<string, DynamicGameParameter>

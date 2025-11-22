@@ -11,7 +11,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
         public MapCheckerDividedStates()
             : base("MapCheckerDividedStates", (int)EnumMapWarningCode.DIVIDED_STATE, (list) =>
             {
-                foreach (var s in StateManager.GetStates())
+                foreach (var s in StateManager.GetValues())
                 {
                     if (s.Provinces.Count == 0)
                         continue;

@@ -45,7 +45,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             if (!Enum.TryParse(parameter.ToUpper(), out EnumProvinceType newType))
                 return false;
 
-            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+            if (!ProvinceManager.TryGet(MapManager.GetColor(pos), out Province province))
                 return false;
 
             var prevType = province.Type;

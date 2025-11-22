@@ -8,7 +8,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
         public MapCheckerStateWithNoOwner()
             : base("MapCheckerStateWithNoOwner", (int)EnumMapErrorCode.STATE_WITH_NO_OWNER, (list) =>
             {
-                foreach (var s in StateManager.GetStates())
+                foreach (var s in StateManager.GetValues())
                 {
                     if (s.owner == null)
                         list.Add(new MapCheckData(s.center, (int)EnumMapErrorCode.STATE_WITH_NO_OWNER));

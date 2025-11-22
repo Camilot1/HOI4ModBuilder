@@ -35,7 +35,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             EnumEditLayer.PROVINCES, EnumEditLayer.STATES, EnumEditLayer.STRATEGIC_REGIONS
         };
         public override Func<ICollection> GetParametersProvider()
-            => () => StrategicRegionManager.GetRegionsIdsSorted();
+            => () => StrategicRegionManager.GetIDsSorted();
         public override Func<ICollection> GetValuesProvider() => null;
 
 
@@ -47,14 +47,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
                 return false;
 
-            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+            if (!ProvinceManager.TryGet(MapManager.GetColor(pos), out Province province))
                 return false;
 
             if (mouseEventArgs.Button == MouseButtons.Left)
             {
                 var prevRegion = province.Region;
                 if (!ushort.TryParse(parameter, out var newRegionId) ||
-                    !StrategicRegionManager.TryGetRegion(newRegionId, out var newRegion))
+                    !StrategicRegionManager.TryGet(newRegionId, out var newRegion))
                     return false;
 
                 Action<List<Tuple<StrategicRegion, StrategicRegion, Province>>> undoAction = null;

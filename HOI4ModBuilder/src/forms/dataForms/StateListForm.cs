@@ -58,7 +58,7 @@ namespace HOI4ModBuilder.src.forms
                 () =>
                 {
                     ushort id;
-                    ushort[] ids = StateManager.GetStatesIds().OrderBy(x => x).ToArray();
+                    ushort[] ids = StateManager.GetIDs().OrderBy(x => x).ToArray();
 
                     var rows = new DataGridViewRow[ids.Length];
 
@@ -67,7 +67,7 @@ namespace HOI4ModBuilder.src.forms
                     for (int i = 0; i < ids.Length; i++)
                     {
                         id = ids[i];
-                        StateManager.TryGetState(id, out State s);
+                        StateManager.TryGet(id, out State s);
 
                         row = new DataGridViewRow();
                         row.CreateCells(data, new object[] {
@@ -107,7 +107,7 @@ namespace HOI4ModBuilder.src.forms
         {
             Logger.TryOrLog(() =>
             {
-                if (StateManager.TryGetState(id, out State state))
+                if (StateManager.TryGet(id, out State state))
                 {
                     currentState = state;
                     var sb = new StringBuilder();
@@ -173,7 +173,7 @@ namespace HOI4ModBuilder.src.forms
 
                 var s = state;
                 currentState.ClearData();
-                StateManager.RemoveState(currentState.Id.GetValue());
+                StateManager.Remove(currentState.Id.GetValue());
 
                 foreach (var p in currentState.Provinces)
                     p.State = null;
@@ -183,7 +183,7 @@ namespace HOI4ModBuilder.src.forms
                 foreach (var p in state.Provinces)
                     p.State = state;
 
-                StateManager.AddState(state.Id.GetValue(), state);
+                StateManager.Add(state.Id.GetValue(), state);
 
                 state.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
                 LoadData();

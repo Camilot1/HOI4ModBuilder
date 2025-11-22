@@ -39,7 +39,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.regions
                     (o) => o is IListObject obj && obj.GetValueType() is INumberObject
                 );
 
-                foreach (var regionId in StrategicRegionManager.GetRegionsIds())
+                foreach (var regionId in StrategicRegionManager.GetIDs())
                     regionsIds.Add(lineIndex, args, new IntObject(regionId));
             };
         }

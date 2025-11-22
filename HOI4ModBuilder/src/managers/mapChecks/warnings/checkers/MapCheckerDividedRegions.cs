@@ -10,7 +10,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
         public MapCheckerDividedRegions()
             : base("MapCheckerDividedRegions", (int)EnumMapWarningCode.DIVIDED_REGION, (list) =>
             {
-                foreach (var r in StrategicRegionManager.GetRegions())
+                foreach (var r in StrategicRegionManager.GetValues())
                 {
                     if (r.Provinces.Count == 0)
                         continue;

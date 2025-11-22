@@ -103,8 +103,8 @@ namespace HOI4ModBuilder.src.forms.actionForms
         {
             switch (_type)
             {
-                case EnumCreateObjectType.STATE: return Utils.GetRecalculatedFirstEmptyID(StateManager.GetStatesIdsSorted());
-                case EnumCreateObjectType.REGION: return Utils.GetRecalculatedFirstEmptyID(StrategicRegionManager.GetRegionsIdsSorted());
+                case EnumCreateObjectType.STATE: return Utils.GetRecalculatedFirstEmptyID(StateManager.GetIDsSorted());
+                case EnumCreateObjectType.REGION: return Utils.GetRecalculatedFirstEmptyID(StrategicRegionManager.GetIDsSorted());
                 default: throw new Exception("Not implemented type: " + _type);
             }
         }
@@ -135,8 +135,8 @@ namespace HOI4ModBuilder.src.forms.actionForms
         {
             switch (_type)
             {
-                case EnumCreateObjectType.STATE: return (id) => StateManager.RemoveState(id);
-                case EnumCreateObjectType.REGION: return (id) => StrategicRegionManager.RemoveRegion(id);
+                case EnumCreateObjectType.STATE: return (id) => StateManager.Remove(id);
+                case EnumCreateObjectType.REGION: return (id) => StrategicRegionManager.Remove(id);
                 default: throw new Exception("Not implemented type: " + _type);
             }
         }

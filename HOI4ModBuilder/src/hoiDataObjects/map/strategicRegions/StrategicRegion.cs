@@ -293,7 +293,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                                 }
                             );
 
-                        if (!ProvinceManager.TryGetProvince(provinceId, out Province province))
+                        if (!ProvinceManager.TryGet(provinceId, out Province province))
                             Logger.LogError(
                                 EnumLocKey.ERROR_REGION_PROVINCE_NOT_FOUND,
                                 new Dictionary<string, string>
@@ -336,7 +336,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                     if (b.provinceA == null || b.provinceB == null || b.provinceA.Region == null || b.provinceB.Region == null || b.provinceA.Region.Id != b.provinceB.Region.Id)
                     {
                         _borders.Add(b);
-                        StrategicRegionManager.AddRegionsBorder(b);
+                        StrategicRegionManager.AddBorder(b);
                     }
                 }
             }
@@ -372,17 +372,17 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public void UpdateId(ushort id)
         {
             if (Id == id) return;
-            if (StrategicRegionManager.ContainsRegionIdKey(id))
+            if (StrategicRegionManager.Contains(id))
                 throw new Exception(GuiLocManager.GetLoc(
                     EnumLocKey.EXCEPTION_REGION_ID_UPDATE_VALUE_IS_USED,
                     new Dictionary<string, string> { { "{id}", $"{id}" } }
                 ));
-            else StrategicRegionManager.RemoveRegion(Id);
+            else StrategicRegionManager.Remove(Id);
 
             Id = id;
             CalculateColor();
 
-            StrategicRegionManager.AddRegion(Id, this);
+            StrategicRegionManager.Add(Id, this);
         }
 
         public void ForEachProvince(Action<StrategicRegion, Province> action)

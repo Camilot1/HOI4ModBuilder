@@ -13,7 +13,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
                 var borderProvincesIds = new HashSet<ushort>();
                 ushort borderProvinceId;
 
-                foreach (var p in ProvinceManager.GetProvinces())
+                foreach (var p in ProvinceManager.GetValues())
                 {
                     //Пропускаем не наземные провинции
                     if (p.Type != EnumProvinceType.LAND) continue;

@@ -13,12 +13,19 @@ namespace HOI4ModBuilder.src.newParser.objects
     {
         private Dictionary<TKey, TValue> _dictionary = new Dictionary<TKey, TValue>();
 
+        private bool _forceValueInline;
         private Func<string, TKey> _keyParseAdapter;
         private Func<TKey, object> _keySaveAdapter;
         private Func<object, string, TValue> _valueParseAdapter;
         private Func<TValue, object> _valueSaveAdapter;
         private bool _sortAtSaving;
 
+
+        public GameDictionary<TKey, TValue> INIT_ForceValueInline(bool value)
+        {
+            _forceValueInline = value;
+            return this;
+        }
         public GameDictionary<TKey, TValue> INIT_SetKeyParseAdapter(Func<string, TKey> value)
         {
             _keyParseAdapter = value;
@@ -260,7 +267,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     sb.Append(' ').Append(Constants.NEW_LINE);
             }
 
-            if (tempValue is ISaveable saveable)
+            if (tempValue is ISaveable saveable && !_forceValueInline)
             {
                 var lastChar = sb[sb.Length - 1];
                 if (lastChar == ' ')

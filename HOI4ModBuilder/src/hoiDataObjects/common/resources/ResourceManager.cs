@@ -31,16 +31,16 @@ namespace HOI4ModBuilder.hoiDataObjects.common.resources
             }
         }
 
-        public static bool TryGetResource(string tag, out Resource resource)
+        public static bool TryGet(string tag, out Resource resource)
             => _allResources.TryGetValue(tag, out resource);
-        public static Resource GetResource(string tag)
+        public static Resource Get(string tag)
         {
-            if (TryGetResource(tag, out var resource))
+            if (TryGet(tag, out var resource))
                 return resource;
             return null;
         }
-        public static bool HasResource(string tag) => _allResources.ContainsKey(tag);
-        public static Dictionary<string, Resource>.KeyCollection GetResourcesTags() => _allResources.Keys;
+        public static bool Contains(string tag) => _allResources.ContainsKey(tag);
+        public static Dictionary<string, Resource>.KeyCollection GetTags() => _allResources.Keys;
 
         public void TokenCallback(ParadoxParser parser, string token)
         {

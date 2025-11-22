@@ -204,7 +204,7 @@ namespace HOI4ModBuilder.src.managers.statistics
             /** Провинции **/
             var dtProvinces = new StatisticsDataType().SetSortIndex((int)StatisticsSort.PROVINCES);
             data.Add(EnumLocKey.PROVINCES, dtProvinces);
-            dtProvinces.GetOrCreateInner(EnumLocKey.REGISTERED, ProvinceManager.GetProvinces().Count, null, false);
+            dtProvinces.GetOrCreateInner(EnumLocKey.REGISTERED, ProvinceManager.GetValues().Count, null, false);
             dtProvinces.GetOrCreateInner(EnumLocKey.FOUNDED);
 
             dtProvinces.GetOrCreateInner(EnumLocKey.IS_COASTAL);
@@ -304,13 +304,13 @@ namespace HOI4ModBuilder.src.managers.statistics
             var dtResources = new StatisticsDataType().SetSortIndex((int)StatisticsSort.RESOURCES);
             data.Add(EnumLocKey.RESOURCES, dtResources);
 
-            dtResources.GetOrCreateInner(EnumLocKey.REGISTERED, ResourceManager.GetResourcesTags().Count, null, false);
+            dtResources.GetOrCreateInner(EnumLocKey.REGISTERED, ResourceManager.GetTags().Count, null, false);
             dtResources.GetOrCreateInner(EnumLocKey.FOUNDED, true);
 
             /** Категории областей **/
             var dtStateCategories = new StatisticsDataType().SetSortIndex((int)StatisticsSort.STATE_CATEGORIES);
             data.Add(EnumLocKey.STATE_CATEGORIES, dtStateCategories);
-            dtStateCategories.GetOrCreateInner(EnumLocKey.REGISTERED, StateCategoryManager.GetStateCategoriesNames().Count, null, false);
+            dtStateCategories.GetOrCreateInner(EnumLocKey.REGISTERED, StateCategoryManager.GetNames().Count, null, false);
             dtStateCategories.GetOrCreateInner(EnumLocKey.FOUNDED, true);
 
             /** Население **/
@@ -322,7 +322,7 @@ namespace HOI4ModBuilder.src.managers.statistics
             /** Области **/
             var dtStates = new StatisticsDataType().SetSortIndex((int)StatisticsSort.STATES);
             data.Add(EnumLocKey.STATES, dtStates);
-            dtStates.GetOrCreateInner(EnumLocKey.REGISTERED, StateManager.GetStates().Count, null, false);
+            dtStates.GetOrCreateInner(EnumLocKey.REGISTERED, StateManager.GetValues().Count, null, false);
             dtStates.GetOrCreateInner(EnumLocKey.FOUNDED);
 
 
@@ -397,7 +397,7 @@ namespace HOI4ModBuilder.src.managers.statistics
             /** Регионы **/
             var dtRegions = new StatisticsDataType().SetSortIndex((int)StatisticsSort.REGIONS);
             data.Add(EnumLocKey.STRATEGIC_REGIONS, dtRegions);
-            dtRegions.GetOrCreateInner(EnumLocKey.REGISTERED, StrategicRegionManager.GetRegions().Count, null, false);
+            dtRegions.GetOrCreateInner(EnumLocKey.REGISTERED, StrategicRegionManager.GetValues().Count, null, false);
             dtRegions.GetOrCreateInner(EnumLocKey.FOUNDED);
 
             /** Местности **/
@@ -409,7 +409,7 @@ namespace HOI4ModBuilder.src.managers.statistics
             int sumTerrainsCount = 0;
 
             var checkerFunc = GetRegionChecker(filters);
-            StrategicRegionManager.ForEachRegion(r =>
+            StrategicRegionManager.ForEach(r =>
             {
                 if (!checkerFunc(r))
                     return;

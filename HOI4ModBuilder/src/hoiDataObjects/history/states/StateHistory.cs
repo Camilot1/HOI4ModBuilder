@@ -28,11 +28,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         public DateTime dateTime;
 
         public readonly GameParameter<Country> Owner = new GameParameter<Country>()
-            .INIT_SetValueParseAdapter((o, token) => CountryManager.GetCountry((string)token))
-            .INIT_SetValueSaveAdapter((c) => c?.Tag);
+            .INIT_ForceValueInline(true);
         public readonly GameParameter<Country> Controller = new GameParameter<Country>()
-            .INIT_SetValueParseAdapter((o, token) => CountryManager.GetCountry((string)token))
-            .INIT_SetValueSaveAdapter((c) => c?.Tag);
+            .INIT_ForceValueInline(true);
         public readonly GameList<VictoryPoint> VictoryPoints = new GameList<VictoryPoint>()
             .INIT_SetForceSeparateLineSave(true)
             .INIT_SetAllowsInlineAdd(true)
@@ -241,7 +239,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 else if (blockName == "set_demilitarized_zone")
                     state.CurrentIsDemilitarized = (bool)scriptBlock.GetValue();
                 else if (blockName == "set_state_category")
-                    state.CurrentStateCategory = StateCategoryManager.GetStateCategory((string)scriptBlock.GetValue());
+                    state.CurrentStateCategory = StateCategoryManager.Get((string)scriptBlock.GetValue());
                 else if (blockName == "set_state_name")
                     state.CurrentName = (string)scriptBlock.GetValue();
                 else if (blockName == "reset_state_name" && (bool)scriptBlock.GetValue())

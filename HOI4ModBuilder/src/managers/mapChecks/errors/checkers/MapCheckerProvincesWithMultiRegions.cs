@@ -17,7 +17,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
                         list.Add(new MapCheckData(p.center, (int)EnumMapErrorCode.PROVINCE_MULTI_REGIONS));
                 };
 
-                foreach (var r in StrategicRegionManager.GetRegions())
+                foreach (var r in StrategicRegionManager.GetValues())
                     r.ForEachProvince(action);
             })
         { }

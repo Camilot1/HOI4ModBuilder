@@ -42,7 +42,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
                 return false;
 
-            ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province);
+            ProvinceManager.TryGet(MapManager.GetColor(pos), out Province province);
             bool prevCoastal = province.IsCoastal;
             bool newCoastal = false, doAction = false;
 

@@ -1,10 +1,14 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.common.resources;
 using HOI4ModBuilder.hoiDataObjects.history.countries;
 using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
+using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.map;
+using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
@@ -13,93 +17,168 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.src.newParser
 {
     public class ParserUtils
     {
-        private static readonly Dictionary<Type, Func<string, object>> _parseMapping = new Dictionary<Type, Func<string, object>>
+        struct MappingActions
         {
-            { typeof(bool), (v) => {
-                var val = v.ToLower();
-                if (val == "yes") return true;
-                else if (val == "no") return false;
-                else throw new FormatException(val);
+            public Func<object, string> save;
+            public Func<string, object> parse;
+        }
+
+        private static readonly Dictionary<Type, MappingActions> _typesMapping = new Dictionary<Type, MappingActions>
+        {
+            { typeof(bool), new MappingActions {
+                save = o => ((bool)o) ? "yes" : "no",
+                parse = v => {
+                    var val = v.ToLower();
+                    if (val == "yes")
+                        return true;
+                    if (val == "no")
+                        return false;
+                    throw new FormatException(val);
+                }
             } },
-            { typeof(byte), (v) => {
-                if (byte.TryParse(v, out var parsedValue))
-                    return parsedValue;
-                else if (Utils.TryParseFloat(v, out var floatValue)) {
+            { typeof(byte), new MappingActions {
+                save = o => "" + o,
+                parse = v => {
+                    if (byte.TryParse(v, out var parsedValue))
+                        return parsedValue;
+                    if (!Utils.TryParseFloat(v, out var floatValue))
+                        throw new FormatException();
                     if ((byte)floatValue != floatValue || floatValue < byte.MinValue || floatValue > byte.MaxValue)
                         throw new FormatException();
-                    else
-                        return (byte)floatValue;
+                    return (byte)floatValue;
                 }
-                else throw new FormatException();
-            } },
-            { typeof(ushort), (v) => {
-                if (ushort.TryParse(v, out var parsedValue))
-                    return parsedValue;
-                else if (Utils.TryParseFloat(v, out var floatValue)) {
+            }},
+            { typeof(ushort), new MappingActions {
+                save = o => "" + o,
+                parse = v => {
+                    if (ushort.TryParse(v, out var parsedValue))
+                        return parsedValue;
+                    if (!Utils.TryParseFloat(v, out var floatValue))
+                        throw new FormatException();
                     if ((ushort)floatValue != floatValue || floatValue < ushort.MinValue || floatValue > ushort.MaxValue)
                         throw new FormatException();
-                    else
-                        return (ushort)floatValue;
+                    return (ushort)floatValue;
                 }
-                else throw new FormatException();
             } },
-            { typeof(short), (v) => {
-                if (short.TryParse(v, out var parsedValue))
-                    return parsedValue;
-                else if (Utils.TryParseFloat(v, out var floatValue)) {
+            { typeof(short), new MappingActions {
+                save = o => "" + o,
+                parse = v => {
+                    if (short.TryParse(v, out var parsedValue))
+                        return parsedValue;
+                    if (!Utils.TryParseFloat(v, out var floatValue))
+                        throw new FormatException();
                     if ((short)floatValue != floatValue || floatValue < short.MinValue || floatValue > short.MaxValue)
                         throw new FormatException();
-                    else
-                        return (short)floatValue;
+                    return (short)floatValue;
                 }
-                else throw new FormatException();
             } },
-            { typeof(int), (v) => {
-                if (int.TryParse(v, out var parsedValue))
-                    return parsedValue;
-                else if (Utils.TryParseFloat(v, out var floatValue)) {
+            { typeof(int), new MappingActions {
+                save = o => "" + o,
+                parse = v => {
+                    if (int.TryParse(v, out var parsedValue))
+                        return parsedValue;
+                    if (!Utils.TryParseFloat(v, out var floatValue))
+                        throw new FormatException();
                     if ((int)floatValue != floatValue || floatValue < int.MinValue || floatValue > int.MaxValue)
                         throw new FormatException();
-                    else
-                        return (int)floatValue;
+                    return (int)floatValue;
                 }
-                else throw new FormatException();
-            } },
-            { typeof(uint), (v) => {
+            }},
+            { typeof(uint), new MappingActions {
+                save = o => "" + o,
+                parse = v => {
                 if (uint.TryParse(v, out var parsedValue))
                     return parsedValue;
-                else if (Utils.TryParseFloat(v, out var floatValue)) {
-                    if ((uint)floatValue != floatValue || floatValue < uint.MinValue || floatValue > uint.MaxValue)
+                if (!Utils.TryParseFloat(v, out var floatValue))
                         throw new FormatException();
-                    else
-                        return (uint)floatValue;
-                }
-                else throw new FormatException();
+                if ((uint)floatValue != floatValue || floatValue < uint.MinValue || floatValue > uint.MaxValue)
+                    throw new FormatException();
+                return (uint)floatValue;
+            }
+            }},
+            { typeof(float), new MappingActions {
+                save = o => Utils.FloatToString((float)o),
+                parse = v => Utils.ParseFloat(v)
             } },
-            { typeof(float), (v) => Utils.ParseFloat(v) },
-            { typeof(double), (v) => double.Parse(v) },
-            { typeof(GameString), (v) => new GameString { stringValue = v } },
-            { typeof(DateTime), (v) => Utils.TryParseDateTimeStamp(v, out var dateTime) ? dateTime : throw new Exception("Invalid DateTime format: " + v) },
-            { typeof(string), (v) => v },
+            { typeof(double), new MappingActions {
+                save = o => Utils.DoubleToString((double)o),
+                parse = v => Utils.ParseDouble(v)
+            } },
+            { typeof(string), new MappingActions {
+                save = o => "" + o,
+                parse = v => v
+            } },
+            { typeof(GameString), new MappingActions {
+                save = o => ((GameString)o).stringValue,
+                parse = v => new GameString { stringValue = v }
+            } },
+            { typeof(DateTime), new MappingActions {
+                save = o => {
+                    var dateTime = (DateTime)o;
+                    return $"{dateTime.Year}.{dateTime.Month}.{dateTime.Day}";
+                },
+                parse = v => Utils.TryParseDateTimeStamp(v, out var dateTime) ?
+                    dateTime :
+                    throw new Exception($"Invalid DateTime format: {v}")
+            } },
+            { typeof(Province), new MappingActions {
+                save = o => "" + ((Province)o).Id,
+                parse = v => ushort.TryParse(v, out var id) ?
+                    ProvinceManager.Get(id) :
+                    throw new Exception($"Invalid ProvinceID format: {v}")
+            } },
+            { typeof(State), new MappingActions {
+                save = o => "" + ((State)o).Id.GetValue(),
+                parse = v => ushort.TryParse(v, out var id) ?
+                    StateManager.Get(id) :
+                    throw new Exception($"Invalid StateID format: {v}")
+            } },
+            { typeof(StrategicRegion), new MappingActions {
+                save = o => "" + ((StrategicRegion)o).Id,
+                parse = v => ushort.TryParse(v, out var id) ?
+                    StrategicRegionManager.Get(id) :
+                    throw new Exception($"Invalid StrategicRegionID format: {v}")
+            } },
+            { typeof(StateCategory), new MappingActions {
+                save = o => "" + ((StateCategory)o).name,
+                parse = v => StateCategoryManager.Get(v)
+            } },
+            { typeof(Resource), new MappingActions {
+                save = o => "" + ((Resource)o).tag,
+                parse = v => ResourceManager.Get(v)
+            } },
+            { typeof(Building), new MappingActions {
+                save = o => "" + ((Building)o).Name,
+                parse = v => BuildingManager.GetBuilding(v)
+            } },
+            { typeof(SpawnPoint), new MappingActions {
+                save = o => "" + ((SpawnPoint)o).name,
+                parse = v => BuildingManager.GetSpawnPoint(v)
+            } },
+            { typeof(Country), new MappingActions {
+                save = o => "" + ((Country)o).Tag,
+                parse = v => CountryManager.Get(v)
+            } },
         };
 
         public static T Parse<T>(string value)
         {
-            if (_parseMapping.TryGetValue(typeof(T), out var func))
-                return (T)func(value);
+            if (_typesMapping.TryGetValue(typeof(T), out var funcs))
+                return (T)funcs.parse(value);
             else
                 throw new Exception("Unknown value \"" + value + "\" type at ParseUtils.Parse: " + typeof(T));
         }
 
         public static object Parse(Type type, string value)
         {
-            if (_parseMapping.TryGetValue(type, out var func))
-                return func(value);
+            if (_typesMapping.TryGetValue(type, out var funcs))
+                return funcs.parse(value);
             else
                 throw new Exception("Unknown value \"" + value + "\" type at ParseUtils.Parse: " + type);
         }
@@ -122,28 +201,9 @@ namespace HOI4ModBuilder.src.newParser
 
         public static string ObjectToSaveString(object value)
         {
-            if (value is bool valueBool)
-                return valueBool ? "yes" : "no";            
-            if (value is short || value is ushort || value is int || value is uint)
-                return "" + value;
-            if (value is float valueFloat)
-                return Utils.FloatToString(valueFloat);
-            if (value is string valueString)
-                return valueString;
-            if (value is GameString valueGameString)
-                return valueGameString.stringValue;
-            if (value is DateTime dateTime)
-                return $"{dateTime.Year}.{dateTime.Month}.{dateTime.Day}";
-            if (value is Province provinceValue)
-                return "" + provinceValue.Id;
-            if (value is State valueState)
-                return "" + valueState.Id.GetValue();
-            if (value is Country valueCountry)
-                return valueCountry.Tag;
-            if (value is Building buildingValue)
-                return buildingValue.Name;
-            if (value is Resource resourceValue)
-                return resourceValue.tag;
+            if (_typesMapping.TryGetValue(value.GetType(), out var funcs))
+                return funcs.save(value);
+
             if (value is IEnumerable listValue)
             {
                 var sb = new StringBuilder();
@@ -154,7 +214,7 @@ namespace HOI4ModBuilder.src.newParser
                 return sb.ToString();
 
             }
-            
+
             throw new Exception($"Unknown value type: {value} ({value.GetType()})");
         }
 
@@ -166,13 +226,13 @@ namespace HOI4ModBuilder.src.newParser
                 return true;
             }
 
-            if (CountryManager.TryGetCountry(value, out var country))
+            if (CountryManager.TryGet(value, out var country))
             {
                 scope = country;
                 return true;
             }
 
-            if (ushort.TryParse(value, out var intValue) && StateManager.TryGetState(intValue, out var state))
+            if (ushort.TryParse(value, out var intValue) && StateManager.TryGet(intValue, out var state))
             {
                 scope = state;
                 return true;

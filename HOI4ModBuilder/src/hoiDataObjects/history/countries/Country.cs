@@ -28,17 +28,17 @@ namespace HOI4ModBuilder.hoiDataObjects.history.countries
             {
                 if (_tag == value) return;
 
-                if (CountryManager.HasCountry(value))
+                if (CountryManager.Contains(value))
                     throw new Exception(GuiLocManager.GetLoc(
                             EnumLocKey.EXCEPTION_COUNTRY_TAG_UPDATE_VALUE_IS_USED,
                             new Dictionary<string, string> { { "{tag}", $"{value}" } }
                         ));
-                else CountryManager.RemoveCountryByTag(_tag); //TODO Добавить обработчик внутри менеджена на обновление id провинции и словарей с ВП и постройками
+                else CountryManager.Remove(_tag); //TODO Добавить обработчик внутри менеджена на обновление id провинции и словарей с ВП и постройками
 
                 _tag = value;
                 HasChangedTag = true;
 
-                CountryManager.AddCountryByTag(_tag, this);
+                CountryManager.Add(_tag, this);
             }
         }
         public string GetBlockName() => _tag;

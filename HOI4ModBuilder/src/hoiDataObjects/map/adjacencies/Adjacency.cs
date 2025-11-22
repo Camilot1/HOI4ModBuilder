@@ -119,7 +119,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
                 );
             else if (startProvinceId >= 0)
             {
-                if (!ProvinceManager.TryGetProvince((ushort)startProvinceId, out _startProvince))
+                if (!ProvinceManager.TryGet((ushort)startProvinceId, out _startProvince))
                     Logger.LogError(
                         EnumLocKey.ERROR_ADJACENCY_LOADING_FIRST_PROVINCE_DOESNT_EXISTS,
                         new Dictionary<string, string> {
@@ -140,7 +140,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
                 );
             else if (endProvinceId >= 0)
             {
-                if (!ProvinceManager.TryGetProvince((ushort)endProvinceId, out _endProvince))
+                if (!ProvinceManager.TryGet((ushort)endProvinceId, out _endProvince))
                     Logger.LogError(
                         EnumLocKey.ERROR_ADJACENCY_LOADING_SECOND_PROVINCE_DOESNT_EXISTS,
                         new Dictionary<string, string> {
@@ -177,7 +177,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             }
             else if (throughProvinceId >= 0)
             {
-                if (!ProvinceManager.TryGetProvince((ushort)throughProvinceId, out _throughProvince))
+                if (!ProvinceManager.TryGet((ushort)throughProvinceId, out _throughProvince))
                     Logger.LogWarning(
                         EnumLocKey.ERROR_ADJACENCY_LOADING_THIRD_PROVINCE_DOESNT_EXISTS,
                         new Dictionary<string, string> {

@@ -32,8 +32,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.positions
             Point2F pos;
             Dictionary<Point2F, List<BuildingErrorInfo>> errors;
 
-            StateManager.TryGetState(stateId, out var state);
-            ProvinceManager.TryGetProvince(provinceId, out var province);
+            StateManager.TryGet(stateId, out var state);
+            ProvinceManager.TryGet(provinceId, out var province);
 
             if (info.isProvincial)
             {

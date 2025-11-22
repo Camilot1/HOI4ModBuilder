@@ -21,7 +21,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public static void Init(int[] values, short width, short height)
         {
-            foreach (var p in ProvinceManager.GetProvinces())
+            foreach (var p in ProvinceManager.GetValues())
                 p.ClearBorders();
             ProvinceBorderCount = 0;
 
@@ -32,8 +32,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => InitPixels(values, width, height)),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => InitBordersPixelsTask()),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => AssembleBorderTask()),
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE, () => StateManager.InitStatesBorders()),
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => StrategicRegionManager.InitRegionsBorders()),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE, () => StateManager.InitBorders()),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => StrategicRegionManager.InitBorders()),
             });
         }
 
@@ -101,13 +101,13 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             var mapSize = MapManager.MapSize;
             foreach (var entry in _bordersAssembler.BordersData)
             {
-                Province minProvince = ProvinceManager.GetProvince(entry.Key);
+                Province minProvince = ProvinceManager.Get(entry.Key);
 
                 foreach (var data in entry.Value)
                 {
                     var pixelsLists = data.AssembleBorders((short)mapSize.x);
 
-                    var maxProvince = ProvinceManager.GetProvince(data.provinceMaxColor);
+                    var maxProvince = ProvinceManager.Get(data.provinceMaxColor);
 
                     foreach (var pixelsList in pixelsLists)
                     {

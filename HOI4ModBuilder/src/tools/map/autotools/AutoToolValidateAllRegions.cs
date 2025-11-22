@@ -8,7 +8,7 @@ namespace HOI4ModBuilder.src.tools.autotools
         public static void Execute(bool displayResultMessage)
         {
             int counter = 0;
-            StrategicRegionManager.ForEachRegion((r) =>
+            StrategicRegionManager.ForEach((r) =>
             {
                 r.Validate(out bool hasChanged);
                 if (hasChanged)

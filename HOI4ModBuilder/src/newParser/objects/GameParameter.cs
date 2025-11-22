@@ -81,13 +81,13 @@ namespace HOI4ModBuilder.src.newParser.objects
         public void SetSilentValue(T value) => _value = value;
 
         //obj, value, result
-        private bool _forceValueInlineParse;
+        private bool _forceValueInline;
         private Func<object, object, T> _valueParseAdapter;
         private Func<object, object, T> _valueSetAdapter;
         private Func<T, object> _valueSaveAdapter;
-        public GameParameter<T> INIT_ForceValueInlineParse(bool value)
+        public GameParameter<T> INIT_ForceValueInline(bool value)
         {
-            _forceValueInlineParse = value;
+            _forceValueInline = value;
             return this;
         }
         public GameParameter<T> INIT_SetValueParseAdapter(Func<object, object, T> value)
@@ -151,7 +151,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             else if (_isProhibitedOverwriting)
                 throw new Exception("Value cannot be overriden: " + parser.GetCursorInfo());
 
-            if (!_forceValueInlineParse)
+            if (!_forceValueInline)
             {
                 if (_value is IParseObject obj)
                 {
@@ -227,7 +227,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public virtual void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
-            if (_value is ISaveable saveable && _valueSaveAdapter == null)
+            if (_value is ISaveable saveable && !_forceValueInline)
             {
                 saveable.Save(sb, outIndent, key, savePatternParameter);
                 return;

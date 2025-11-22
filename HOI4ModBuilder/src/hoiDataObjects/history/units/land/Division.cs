@@ -100,7 +100,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
                 else if (token == TOKEN_LOCATION)
                 {
                     var provinceId = parser.ReadUInt16();
-                    if (ProvinceManager.TryGetProvince(provinceId, out Province newProvince))
+                    if (ProvinceManager.TryGet(provinceId, out Province newProvince))
                         Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _location, newProvince);
                     else
                         Logger.LogLayeredError(

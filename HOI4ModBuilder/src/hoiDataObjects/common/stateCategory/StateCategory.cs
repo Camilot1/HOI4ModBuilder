@@ -7,13 +7,8 @@ using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
-using Pdoxcl2Sharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
 {
@@ -29,8 +24,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
         public int ColorInt { get; private set; }
         public readonly GameList<byte> Color = new GameList<byte>();
         public readonly GameParameter<uint> LocalBuildingsSlots = new GameParameter<uint>();
-        public readonly GameDictionary<Building, uint> BuildingsMaxLevel = new GameDictionary<Building, uint>()
-            .INIT_SetKeyParseAdapter(token => BuildingManager.GetBuilding(token));
+        public readonly GameDictionary<Building, uint> BuildingsMaxLevel = new GameDictionary<Building, uint>();
 
         private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
         {

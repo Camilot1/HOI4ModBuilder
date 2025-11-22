@@ -39,7 +39,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.provinces
                     (o) => o is IListObject obj && obj.GetValueType() is INumberObject
                 );
 
-                foreach (var provinceId in ProvinceManager.GetProvincesIds())
+                foreach (var provinceId in ProvinceManager.GetIDs())
                     provincesIds.Add(lineIndex, args, new IntObject(provinceId));
             };
         }

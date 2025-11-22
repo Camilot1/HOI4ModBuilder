@@ -93,7 +93,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
 
             ushort provinceIdToReplace = (ushort)(ProvinceManager.NextVacantProvinceId - 1);
 
-            if (!ProvinceManager.TryGetProvince(provinceIdToReplace, out Province provinceToReplace))
+            if (!ProvinceManager.TryGet(provinceIdToReplace, out Province provinceToReplace))
                 throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.EXCEPTION_PROVINCE_MERGE_PROVINCE_TO_REPLACE_NOT_FOUND,
                         new Dictionary<string, string> { { "{provinceIdToReplace}", $"{provinceIdToReplace}" } }

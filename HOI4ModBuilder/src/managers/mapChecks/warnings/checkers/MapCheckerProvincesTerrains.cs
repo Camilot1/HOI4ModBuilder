@@ -8,7 +8,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
         public MapCheckerProvincesTerrains()
             : base("MapCheckerProvincesTerrains", (int)EnumMapWarningCode.PROVINCE_WITH_NO_TERRAIN, (list) =>
             {
-                foreach (var p in ProvinceManager.GetProvinces())
+                foreach (var p in ProvinceManager.GetValues())
                 {
                     var terrain = p.Terrain;
                     if (terrain == null || terrain.name == "unknown")

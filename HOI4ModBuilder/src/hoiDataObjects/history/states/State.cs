@@ -64,16 +64,16 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             .INIT_SetValueSetAdapter((o, value) =>
             {
                 var _id = (ushort)value;
-                if (StateManager.ContainsStateIdKey(_id))
+                if (StateManager.Contains(_id))
                     throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.EXCEPTION_STATE_ID_UPDATE_VALUE_IS_USED,
                         new Dictionary<string, string> { { "{id}", $"{value}" } }
                     ));
-                else StateManager.RemoveState(_id);
+                else StateManager.Remove(_id);
                 var parameter = (GameParameter<ushort>)o;
                 parameter.SetNeedToSave(true);
                 var state = (State)parameter.GetParent();
-                StateManager.AddState(_id, state);
+                StateManager.Add(_id, state);
 
                 return _id;
             });
@@ -82,26 +82,17 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public string CurrentName { get; set; }
 
         public readonly GameParameter<StateCategory> StateCategory = new GameParameter<StateCategory>()
-            .INIT_ForceValueInlineParse(true)
-            .INIT_SetValueParseAdapter((o, token) => StateCategoryManager.GetStateCategory((string)token))
-            .INIT_SetValueSaveAdapter((o) => o.name);
+            .INIT_ForceValueInline(true);
         public StateCategory CurrentStateCategory { get; set; }
 
         public readonly GameParameter<int> Manpower = new GameParameter<int>();
         public int CurrentManpower { get; set; }
 
         public readonly GameDictionary<Resource, uint> Resources = new GameDictionary<Resource, uint>()
-            .INIT_SetKeyParseAdapter((token) => ResourceManager.GetResource(token))
-            .INIT_SetKeySaveAdapter((resource) => resource.tag);
+            .INIT_ForceValueInline(true);
 
         public readonly GameList<Province> Provinces = new GameList<Province>()
-            .INIT_SetValueParseAdapter((o, token) =>
-            {
-                if (ushort.TryParse(token, out var provinceId))
-                    return ProvinceManager.GetProvince(provinceId);
-                return null;
-            })
-            .INIT_SetValueSaveAdapter((province) => province.Id);
+            .INIT_ForceValueInline(true);
 
         public readonly GameParameter<float> BuildingsMaxLevelFactor = new GameParameter<float>();
         public readonly GameParameter<float> LocalSupplies = new GameParameter<float>();
@@ -109,7 +100,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         private ushort? _tempForceLinkOwnershipToState;
         public readonly GameParameter<State> ForceLinkOwnershipToState = new GameParameter<State>()
-            .INIT_ForceValueInlineParse(true)
+            .INIT_ForceValueInline(true)
             .INIT_SetValueParseAdapter((o, token) =>
             {
                 ((State)((IParentable)o).GetParent())._tempForceLinkOwnershipToState = ushort.Parse((string)token);
@@ -305,7 +296,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return true;
         }
 
-        public uint GetResourceCount(string tag) => GetResourceCount(ResourceManager.GetResource(tag));
+        public uint GetResourceCount(string tag) => GetResourceCount(ResourceManager.Get(tag));
         public uint GetResourceCount(Resource resource)
         {
             if (resource == null)
@@ -313,7 +304,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             Resources.TryGetValue(resource, out var count);
             return count;
         }
-        public bool SetResourceCount(string tag, uint count) => SetResourceCount(ResourceManager.GetResource(tag), count);
+        public bool SetResourceCount(string tag, uint count) => SetResourceCount(ResourceManager.Get(tag), count);
         public bool SetResourceCount(Resource resource, uint count)
         {
             if (resource == null)
@@ -521,7 +512,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     if (b.provinceA == null || b.provinceB == null || b.provinceA.State == null || b.provinceB.State == null || !b.provinceA.State.Equals(b.provinceB.State))
                     {
                         borders.Add(b);
-                        StateManager.AddStatesBorder(b);
+                        StateManager.AddBorder(b);
                     }
                 }
             }
@@ -645,7 +636,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
             if (_tempForceLinkOwnershipToState != null)
             {
-                if (!StateManager.TryGetState((ushort)_tempForceLinkOwnershipToState, out var forceLinkState))
+                if (!StateManager.TryGet((ushort)_tempForceLinkOwnershipToState, out var forceLinkState))
                     Logger.LogWarning(
                         EnumLocKey.WARNING_STATE_FORCE_LINK_OWNERSHIP_POINTS_TO_NOT_PRESENT_STATE,
                         new Dictionary<string, string>

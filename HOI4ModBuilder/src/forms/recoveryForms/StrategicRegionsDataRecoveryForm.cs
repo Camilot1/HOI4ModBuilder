@@ -317,7 +317,7 @@ namespace HOI4ModBuilder.src.forms.recoveryForms
 
             foreach (var pair in _oldFilteredRegions)
             {
-                if (!StrategicRegionManager.ContainsRegionIdKey(pair.Key)) regions.Add(pair.Value);
+                if (!StrategicRegionManager.Contains(pair.Key)) regions.Add(pair.Value);
             }
 
             return regions;

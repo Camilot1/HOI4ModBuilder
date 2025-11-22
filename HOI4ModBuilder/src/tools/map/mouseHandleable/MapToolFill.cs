@@ -86,7 +86,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             redo = null;
             undo = null;
 
-            if (!ProvinceManager.TryGetProvince(newColor, out Province province))
+            if (!ProvinceManager.TryGet(newColor, out Province province))
             {
                 var text = GuiLocManager.GetLoc(
                     EnumLocKey.WARNINGS_TRIED_TO_PAINT_WITH_UNKNOWN_PROVINCE_COLOR,

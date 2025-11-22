@@ -84,13 +84,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
             }
         }
 
-        public static Dictionary<string, StateCategory>.KeyCollection GetStateCategoriesNames()
+        public static Dictionary<string, StateCategory>.KeyCollection GetNames()
             => _allStateCategories.Keys;
 
-        public static bool TryGetStateCategory(string name, out StateCategory stateCategory)
+        public static bool TryGet(string name, out StateCategory stateCategory)
             => _allStateCategories.TryGetValue(name, out stateCategory);
 
-        public static StateCategory GetStateCategory(string name)
+        public static StateCategory Get(string name)
         {
             if (_allStateCategories.TryGetValue(name, out var stateCategory))
                 return stateCategory;

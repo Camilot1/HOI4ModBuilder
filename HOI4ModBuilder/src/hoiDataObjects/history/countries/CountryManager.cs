@@ -21,8 +21,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
     {
         private static readonly string COUNTRIES_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "countries" });
         private static readonly string COUNTRY_TAGS_FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "country_tags" });
-        private static FileInfo _currentFile;
-        private static Dictionary<FileInfo, Country> _countriesByFiles = new Dictionary<FileInfo, Country>(0);
         private static Dictionary<string, Country> _contriesByTag = new Dictionary<string, Country>(0);
         private static Dictionary<string, CountryGraphics> _countryGraphicsDictionary = new Dictionary<string, CountryGraphics>(0);
         private static Dictionary<string, CountryColors> _countryColors = new Dictionary<string, CountryColors>(0);
@@ -30,7 +28,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
 
         public static void Load(BaseSettings settings)
         {
-            _countriesByFiles = new Dictionary<FileInfo, Country>();
             _contriesByTag = new Dictionary<string, Country>();
             _countryGraphicsDictionary = new Dictionary<string, CountryGraphics>();
             _countryColors = new Dictionary<string, CountryColors>();
@@ -86,8 +83,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
 
             foreach (var fileInfo in fileInfosPairs.Values)
             {
-                _currentFile = fileInfo;
-
                 var countryGraphics = new CountryGraphics(COUNTRIES_FOLDER_PATH + fileInfo.fileName);
 
                 Logger.TryOrCatch(
@@ -110,25 +105,28 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
 
             foreach (var fileInfo in fileInfosPairs.Values)
             {
-                _currentFile = fileInfo;
                 var countryTagList = new CountryTagList(_contriesByTag, _countryGraphicsDictionary, _countryColors);
                 countryTagList.ParseFile(fileInfo.filePath);
             }
         }
 
-        public static bool TryGetCountry(string tag, out Country country) => _contriesByTag.TryGetValue(tag, out country);
-        public static Country GetCountry(string tag) => _contriesByTag[tag];
-        public static bool HasCountry(string tag) => _contriesByTag.ContainsKey(tag);
-        public static List<string> GetCountryTags() => new List<string>(_contriesByTag.Keys);
-        public static List<string> GetCountryTagsSorted()
+        public static bool TryGet(string tag, out Country country)
+            => _contriesByTag.TryGetValue(tag, out country);
+        public static Country Get(string tag)
+            => _contriesByTag[tag];
+        public static bool Contains(string tag)
+            => _contriesByTag.ContainsKey(tag);
+        public static List<string> GetTags()
+            => new List<string>(_contriesByTag.Keys);
+        public static List<string> GetTagsSorted()
         {
-            var list = GetCountryTags();
+            var list = GetTags();
             list.Sort();
             return list;
         }
-        public static List<string> GetCountryTagsSortedStartingWith(string first)
+        public static List<string> GetTagsSortedStartingWith(string first)
         {
-            var list = GetCountryTagsSorted();
+            var list = GetTagsSorted();
             list.Insert(0, "");
             return list;
         }
@@ -141,13 +139,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
             }
         }
 
-        internal static void RemoveCountryByTag(string tag)
+        internal static void Remove(string tag)
         {
             //TODO
             throw new NotImplementedException();
         }
 
-        internal static void AddCountryByTag(string tag, Country country)
+        internal static void Add(string tag, Country country)
         { //TODO
             throw new NotImplementedException();
         }

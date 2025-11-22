@@ -8,7 +8,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
         public CheckRegionWithNotNavalTerrain()
             : base("CheckRegionWithNotNavalTerrain", (int)EnumMapErrorCode.REGION_USES_NOT_NAVAL_TERRAIN, (list) =>
             {
-                foreach (var r in StrategicRegionManager.GetRegions())
+                foreach (var r in StrategicRegionManager.GetValues())
                 {
                     if (r.Terrain == null) continue;
                     if (!r.Terrain.isNavalTerrain)

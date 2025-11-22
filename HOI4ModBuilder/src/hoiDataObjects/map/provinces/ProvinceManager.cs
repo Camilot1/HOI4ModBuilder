@@ -77,7 +77,7 @@ namespace HOI4ModBuilder.managers
         {
             NextVacantProvinceId = 1;
 
-            DeselectProvinces();
+            Deselect();
 
             _provincesById = new Province[ushort.MaxValue];
             _provincesByColor = new Dictionary<int, Province>();
@@ -174,7 +174,7 @@ namespace HOI4ModBuilder.managers
 
         }
 
-        public static void AddProvince(Province province, out bool canAddById, out bool canAddByColor)
+        public static void Add(Province province, out bool canAddById, out bool canAddByColor)
         {
             ushort id = province.Id;
             int color = province.Color;
@@ -348,8 +348,8 @@ namespace HOI4ModBuilder.managers
                 c => !_provincesByColor.ContainsKey(c)
             ));
 
-        public static bool ContainsProvinceIdKey(ushort id) => _provincesById[id] != null;
-        public static List<ushort> GetProvincesIds()
+        public static bool Contains(ushort id) => _provincesById[id] != null;
+        public static List<ushort> GetIDs()
         {
             var ids = new List<ushort>(_provincesByColor.Count);
             for (ushort id = 0; id < _provincesById.Length; id++)
@@ -359,25 +359,31 @@ namespace HOI4ModBuilder.managers
             }
             return ids;
         }
-        public static bool TryGetProvince(ushort id, out Province province)
+        public static bool TryGet(ushort id, out Province province)
         {
             province = _provincesById[id];
             return province != null;
         }
-        public static bool TryGetProvince(int color, out Province province) => _provincesByColor.TryGetValue(color, out province);
-        public static Province GetProvince(ushort id) => _provincesById[id];
-        public static Province GetProvince(int color) => _provincesByColor[color];
-        public static bool TryGetProvince(Point2D point, out Province province) => TryGetProvince(MapManager.GetColor(point), out province);
-        public static Dictionary<int, Province>.ValueCollection GetProvinces() => _provincesByColor.Values;
-        public static int ProvincesCount => _provincesByColor.Count;
+        public static bool TryGet(int color, out Province province)
+            => _provincesByColor.TryGetValue(color, out province);
+        public static Province Get(ushort id)
+            => _provincesById[id];
+        public static Province Get(int color)
+            => _provincesByColor[color];
+        public static bool TryGet(Point2D point, out Province province)
+            => TryGet(MapManager.GetColor(point), out province);
+        public static Dictionary<int, Province>.ValueCollection GetValues()
+            => _provincesByColor.Values;
+        public static int ProvincesCount
+            => _provincesByColor.Count;
 
-        public static void AddProvince(ushort id, Province province)
+        public static void Add(ushort id, Province province)
         {
             _provincesById[id] = province;
             NeedToSave = true;
         }
 
-        public static void AddProvince(int color, Province province)
+        public static void Add(int color, Province province)
         {
             _provincesByColor[color] = province;
             NeedToSave = true;
@@ -387,7 +393,7 @@ namespace HOI4ModBuilder.managers
         {
             if (_provincesByColor.ContainsKey(color)) return false;
 
-            var ids = new List<ushort>(GetProvincesIds());
+            var ids = new List<ushort>(GetIDs());
             ids.Sort();
 
             ushort prevId = 0;
@@ -593,7 +599,7 @@ namespace HOI4ModBuilder.managers
 
         private static void HandleDelete() { }
 
-        private static void HandleEscape() => DeselectProvinces();
+        private static void HandleEscape() => Deselect();
 
         public static void SelectProvinces(ushort[] ids)
         {
@@ -601,27 +607,27 @@ namespace HOI4ModBuilder.managers
 
             if (ids.Length == 1)
             {
-                if (TryGetProvince(ids[0], out var province))
+                if (TryGet(ids[0], out var province))
                     SelectedProvince = province;
             }
 
             foreach (var id in ids)
             {
-                if (!TryGetProvince(id, out var province))
+                if (!TryGet(id, out var province))
                     continue;
 
                 GroupSelectedProvinces.Add(province);
             }
         }
 
-        public static void DeselectProvinces()
+        public static void Deselect()
         {
             SelectedProvince = null;
             RMBProvince = null;
             GroupSelectedProvinces.Clear();
         }
 
-        public static Province SelectProvince(int color)
+        public static Province Select(int color)
         {
             if (_provincesByColor.TryGetValue(color, out var province))
             {
@@ -650,16 +656,16 @@ namespace HOI4ModBuilder.managers
                 GroupSelectedProvinces.Clear();
             }
 
-            StateManager.DeselectStates();
-            StrategicRegionManager.DeselectRegions();
+            StateManager.Deselect();
+            StrategicRegionManager.Deselect();
             return SelectedProvince;
         }
 
-        public static Province SelectRMBProvince(int color)
+        public static Province SelectRMB(int color)
         {
             RMBProvince = _provincesByColor[color];
-            StateManager.DeselectStates();
-            StrategicRegionManager.DeselectRegions();
+            StateManager.Deselect();
+            StrategicRegionManager.Deselect();
             return SelectedProvince;
         }
 
@@ -951,7 +957,7 @@ namespace HOI4ModBuilder.managers
         private static void CheckDisplayStatesCenters(int[] values, int width)
         {
             int i;
-            foreach (var state in StateManager.GetStates())
+            foreach (var state in StateManager.GetValues())
             {
                 int stateId = state.Id.GetValue();
                 if (state.pixelsCount == 0 && stateId != 0)
@@ -988,7 +994,7 @@ namespace HOI4ModBuilder.managers
         private static void CheckDisplayRegionsCenters(int[] values, int width)
         {
             int i;
-            foreach (var region in StrategicRegionManager.GetRegions())
+            foreach (var region in StrategicRegionManager.GetValues())
             {
                 int regionId = region.Id;
                 if (region.pixelsCount == 0 && regionId != 0)

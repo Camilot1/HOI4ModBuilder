@@ -35,7 +35,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
                         continue;
                     prevPixelColor = pixelColor;
 
-                    if (!ProvinceManager.TryGetProvince(pixelColor, out Province p))
+                    if (!ProvinceManager.TryGet(pixelColor, out Province p))
                         continue;
 
                     ushort id = p.Id;

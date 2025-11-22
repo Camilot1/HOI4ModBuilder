@@ -52,7 +52,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.regions.weather
                     (o) => o is INumberObject
                 );
 
-                if (!StrategicRegionManager.TryGetRegion(Convert.ToUInt16(regionId.GetValue()), out StrategicRegion region))
+                if (!StrategicRegionManager.TryGet(Convert.ToUInt16(regionId.GetValue()), out StrategicRegion region))
                     throw new ValueNotFoundScriptException(lineIndex, args, regionId.GetValue(), argIndexRegionId);
 
                 bool result = region.Weather != null && region.Weather.GetPeriodsCount() != 0;

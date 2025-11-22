@@ -51,7 +51,7 @@ namespace HOI4ModBuilder.src.forms
                 () =>
                 {
                     ushort id;
-                    ushort[] ids = ProvinceManager.GetProvincesIds().ToArray();
+                    ushort[] ids = ProvinceManager.GetIDs().ToArray();
 
                     DataGridViewRow[] rows = new DataGridViewRow[ids.Length];
 
@@ -60,7 +60,7 @@ namespace HOI4ModBuilder.src.forms
                     for (int i = 0; i < ids.Length; i++)
                     {
                         id = ids[i];
-                        ProvinceManager.TryGetProvince(id, out Province p);
+                        ProvinceManager.TryGet(id, out Province p);
                         int color = p.Color;
 
                         row = new DataGridViewRow();
@@ -99,7 +99,7 @@ namespace HOI4ModBuilder.src.forms
             Logger.TryOrLog(() =>
             {
                 ushort id = ushort.Parse(TextBox_Id.Text);
-                if (ProvinceManager.TryGetProvince(id, out selectedProvince))
+                if (ProvinceManager.TryGet(id, out selectedProvince))
                 {
                     SetColor(Color.FromArgb(selectedProvince.Color));
                 }

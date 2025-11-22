@@ -84,9 +84,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         {
             int color = MapManager.GetColor(pos);
             if (mouseEventArgs.Button == MouseButtons.Left)
-                ProvinceManager.SelectProvince(color);
+                ProvinceManager.Select(color);
             else if (mouseEventArgs.Button == MouseButtons.Right)
-                ProvinceManager.SelectRMBProvince(color);
+                ProvinceManager.SelectRMB(color);
 
             var selectedIds = new List<ushort>();
             foreach (var obj in ProvinceManager.GroupSelectedProvinces)
@@ -101,9 +101,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         {
             int color = MapManager.GetColor(pos);
             if (mouseEventArgs.Button == MouseButtons.Left)
-                StateManager.SelectState(color);
+                StateManager.Select(color);
             else if (mouseEventArgs.Button == MouseButtons.Right)
-                StateManager.SelectRMBState(color);
+                StateManager.SelectRMB(color);
 
             var selectedIds = new List<ushort>();
             foreach (var obj in StateManager.GroupSelectedStates)
@@ -119,12 +119,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         {
             int color = MapManager.GetColor(pos);
             if (mouseEventArgs.Button == MouseButtons.Left)
-                StrategicRegionManager.SelectRegion(color);
+                StrategicRegionManager.Select(color);
             else if (mouseEventArgs.Button == MouseButtons.Right)
-                StrategicRegionManager.SelectRegion(color);
+                StrategicRegionManager.Select(color);
 
             var selectedIds = new List<ushort>();
-            foreach (var obj in StrategicRegionManager.GroupSelectedRegions)
+            foreach (var obj in StrategicRegionManager.SelectedGroup)
                 selectedIds.Add(obj.Id);
 
             if (selectedIds.Count == 0 && StrategicRegionManager.SelectedRegion != null)
@@ -218,7 +218,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                     return;
 
                 int color = MapManager.GetColor(pos);
-                if (!ProvinceManager.TryGetProvince(color, out var province))
+                if (!ProvinceManager.TryGet(color, out var province))
                     return;
 
                 List<Building> errorBuildings = null;

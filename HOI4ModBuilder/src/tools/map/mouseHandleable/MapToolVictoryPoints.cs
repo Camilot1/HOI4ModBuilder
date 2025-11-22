@@ -45,7 +45,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
                 return false;
 
-            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+            if (!ProvinceManager.TryGet(MapManager.GetColor(pos), out Province province))
                 return false;
 
             if (province.State == null)

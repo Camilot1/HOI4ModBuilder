@@ -33,7 +33,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             EnumEditLayer.STATES
         };
         public override Func<ICollection> GetParametersProvider()
-            => () => StateCategoryManager.GetStateCategoriesNames();
+            => () => StateCategoryManager.GetNames();
         public override Func<ICollection> GetValuesProvider() => null;
 
         public override bool Handle(
@@ -44,9 +44,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
                 return false;
 
-            StateCategoryManager.TryGetStateCategory(parameter, out StateCategory newCategory);
+            StateCategoryManager.TryGet(parameter, out StateCategory newCategory);
 
-            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+            if (!ProvinceManager.TryGet(MapManager.GetColor(pos), out Province province))
                 return false;
 
             if (mouseEventArgs.Button == MouseButtons.Left)

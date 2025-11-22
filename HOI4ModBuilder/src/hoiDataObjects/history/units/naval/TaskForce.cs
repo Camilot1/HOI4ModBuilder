@@ -66,7 +66,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
                 else if (token == TOKEN_BASE)
                 {
                     var provinceId = parser.ReadUInt16();
-                    if (ProvinceManager.TryGetProvince(provinceId, out Province newProvince))
+                    if (ProvinceManager.TryGet(provinceId, out Province newProvince))
                     {
                         Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _base, newProvince);
 
@@ -86,7 +86,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs.naval
                 else if (token == TOKEN_LOCATION)
                 {
                     var provinceId = parser.ReadUInt16();
-                    if (ProvinceManager.TryGetProvince(provinceId, out Province newProvince))
+                    if (ProvinceManager.TryGet(provinceId, out Province newProvince))
                     {
                         Logger.CheckLayeredValueOverrideAndSet(prevLayer, token, ref _location, newProvince);
                         if (!newProvince.IsSuitableForShips())

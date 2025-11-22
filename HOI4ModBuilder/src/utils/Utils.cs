@@ -468,6 +468,8 @@ namespace HOI4ModBuilder
 
         public static string FloatToString(float value)
             => ("" + value).Replace(',', '.');
+        public static string DoubleToString(double value)
+            => ("" + value).Replace(',', '.');
 
         public static ushort[] ToIdArray(string data, char demiliter)
         {

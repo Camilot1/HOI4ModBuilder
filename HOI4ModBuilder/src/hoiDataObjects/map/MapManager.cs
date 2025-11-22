@@ -109,8 +109,8 @@ namespace HOI4ModBuilder.managers
             {
                 Logger.TryOrLog(() =>
                 {
-                    StateManager.RegenerateStatesColors(null);
-                    StrategicRegionManager.RegenerateRegionsColors(null);
+                    StateManager.RegenerateColors(null);
+                    StrategicRegionManager.RegenerateColors(null);
 
                     var current = MainForm.Instance.GetMainLayer();
                     if (current == EnumMainLayer.STATES || current == EnumMainLayer.STRATEGIC_REGIONS)
@@ -557,7 +557,7 @@ namespace HOI4ModBuilder.managers
                         if (color != ProvincesPixels[i])
                         {
                             color = ProvincesPixels[i];
-                            ProvinceManager.TryGetProvince(color, out Province province);
+                            ProvinceManager.TryGet(color, out Province province);
                             if (province != null)
                                 newColor = func(province, idx);
                             else
@@ -598,7 +598,7 @@ namespace HOI4ModBuilder.managers
                     if (color != ProvincesPixels[i])
                     {
                         color = ProvincesPixels[i];
-                        ProvinceManager.TryGetProvince(color, out Province province);
+                        ProvinceManager.TryGet(color, out Province province);
                         if (province != null)
                             newColor = func(province);
                         else
@@ -782,8 +782,10 @@ namespace HOI4ModBuilder.managers
             _mouseState = EnumMouseState.NONE;
         }
 
-        public static int GetColor(Point2D point) => ProvincesPixels[(int)point.x + (int)point.y * MapSize.x];
-        public static int GetColor(double x, double y) => ProvincesPixels[(int)x + (int)y * MapSize.x];
+        public static int GetColor(Point2D point)
+            => ProvincesPixels[(int)point.x + (int)point.y * MapSize.x];
+        public static int GetColor(double x, double y)
+            => ProvincesPixels[(int)x + (int)y * MapSize.x];
 
         public static void ClearAdditionalMapTextures()
         {

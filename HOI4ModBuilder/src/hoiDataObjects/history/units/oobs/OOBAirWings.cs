@@ -71,7 +71,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.units.oobs
             {
                 if (ushort.TryParse(token, out ushort stateId))
                 {
-                    if (!StateManager.TryGetState(stateId, out State state))
+                    if (!StateManager.TryGet(stateId, out State state))
                         Logger.LogLayeredError(
                             prevLayer, token, EnumLocKey.STATE_NOT_FOUND_BY_ID,
                             new Dictionary<string, string> { { "{stateId}", token } }

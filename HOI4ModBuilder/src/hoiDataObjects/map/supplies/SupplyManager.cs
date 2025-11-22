@@ -183,7 +183,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public static Railway SelectRailway(Point2D point)
         {
-            if (!ProvinceManager.TryGetProvince(point, out Province p))
+            if (!ProvinceManager.TryGet(point, out Province p))
             {
                 SelectedRailway = null;
                 return null;
@@ -206,7 +206,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public static Railway SelectRMBRailway(Point2D point)
         {
-            if (!ProvinceManager.TryGetProvince(point, out Province p))
+            if (!ProvinceManager.TryGet(point, out Province p))
             {
                 RMBRailway = null;
                 return null;
@@ -271,7 +271,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
                 var rawProvinceID = data[1];
                 if (!ushort.TryParse(rawProvinceID, out var provinceID) ||
-                    !ProvinceManager.TryGetProvince(provinceID, out Province province) ||
+                    !ProvinceManager.TryGet(provinceID, out Province province) ||
                     !SupplyNode.CanAddToProvince(province))
                 {
                     invalidProvincesIDs.Add(rawProvinceID);
@@ -330,7 +330,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
                 {
                     var rawProvinceID = data[i + 2];
                     if (!ushort.TryParse(rawProvinceID, out var provinceID) ||
-                        !ProvinceManager.TryGetProvince(provinceID, out Province province) ||
+                        !ProvinceManager.TryGet(provinceID, out Province province) ||
                         province.Type != EnumProvinceType.LAND)
                     {
                         invalidProvincesIDs.Add(rawProvinceID);

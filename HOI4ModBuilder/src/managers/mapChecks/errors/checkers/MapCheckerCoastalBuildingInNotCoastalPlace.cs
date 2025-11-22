@@ -21,7 +21,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
         {
             if (ErrorManager.Instance.CheckFilter((int)TYPE_PROVINCE))
             {
-                foreach (var s in StateManager.GetStates())
+                foreach (var s in StateManager.GetValues())
                     foreach (var entry in s.provincesBuildings)
                         if (GetErrorBuildings(entry.Key).Count > 0)
                             list.Add(new MapCheckData(entry.Key.center, (int)TYPE_PROVINCE));
@@ -29,7 +29,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
 
             if (ErrorManager.Instance.CheckFilter((int)TYPE_STATE))
             {
-                foreach (var s in StateManager.GetStates())
+                foreach (var s in StateManager.GetValues())
                     if (GetErrorBuildings(s).Count > 0)
                         list.Add(new MapCheckData(s.center, (int)TYPE_STATE));
             }

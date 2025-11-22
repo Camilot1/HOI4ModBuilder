@@ -172,7 +172,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.units.equipment
         {
             Logger.WrapTokenCallbackExceptions(token, () =>
             {
-                if (ResourceManager.TryGetResource(token, out var resource))
+                if (ResourceManager.TryGet(token, out var resource))
                 {
                     if (_values.ContainsKey(resource))
                         Logger.LogLayeredWarning(

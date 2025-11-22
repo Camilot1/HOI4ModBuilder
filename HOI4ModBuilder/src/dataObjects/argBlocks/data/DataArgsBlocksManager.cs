@@ -179,7 +179,7 @@ namespace HOI4ModBuilder.src.dataObjects
             bool TryParseScopeBlocks() //Попытаться распарсить блоки стран, областей
             {
                 //Пробуем распарсить тег страны
-                if (CountryManager.TryGetCountry(token, out var country))
+                if (CountryManager.TryGet(token, out var country))
                 {
                     //TODO Разобраться с использованием косметических тегов стран
                     var dataBlock = new DataArgsBlock { SpecialName = country.Tag, CurrentLevelDataBlocks = innerLevelDataBlocks };
@@ -190,7 +190,7 @@ namespace HOI4ModBuilder.src.dataObjects
                     return true;
                 }
                 //Иначе пробуем распарсить id области
-                else if (ushort.TryParse(token, out ushort stateId) && StateManager.ContainsStateIdKey(stateId))
+                else if (ushort.TryParse(token, out ushort stateId) && StateManager.Contains(stateId))
                 {
                     var dataBlock = new DataArgsBlock { SpecialName = $"{stateId}", CurrentLevelDataBlocks = innerLevelDataBlocks };
                     parser.Parse(dataBlock);
@@ -265,7 +265,7 @@ namespace HOI4ModBuilder.src.dataObjects
                     case EnumValueType.VAR: canAcceptVars = true; break;
 
                     case EnumValueType.COUNTRY:
-                        if (CountryManager.TryGetCountry(value, out var country))
+                        if (CountryManager.TryGet(value, out var country))
                         {
                             dataBlock.ValueType = EnumValueType.COUNTRY;
                             dataBlock.SetSilentValue(value);
@@ -315,7 +315,7 @@ namespace HOI4ModBuilder.src.dataObjects
                         }
                         break;
                     case EnumValueType.PROVINCE:
-                        if (ushort.TryParse(value, out var provinceID) && ProvinceManager.TryGetProvince(provinceID, out var province))
+                        if (ushort.TryParse(value, out var provinceID) && ProvinceManager.TryGet(provinceID, out var province))
                         {
                             dataBlock.ValueType = EnumValueType.PROVINCE;
                             dataBlock.SetSilentValue(province);

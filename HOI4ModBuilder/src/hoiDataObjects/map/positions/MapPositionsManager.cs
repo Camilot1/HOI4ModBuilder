@@ -63,7 +63,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
         {
             _pixelsByProvincesIds = new Dictionary<int, Info>(ProvinceManager.ProvincesCount);
 
-            foreach (var p in ProvinceManager.GetProvinces())
+            foreach (var p in ProvinceManager.GetValues())
             {
                 _pixelsByProvincesIds[p.Color] = new Info(0, 0, 0, 0, 0, new Value2US[p.pixelsCount]);
             }
@@ -149,7 +149,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
 
             var info = RequestBuildingInfo(name);
 
-            foreach (var state in StateManager.GetStates())
+            foreach (var state in StateManager.GetValues())
             {
                 if (info.isProvincial)
                 {
@@ -273,7 +273,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
                     continue;
                 }
 
-                if (!StateManager.TryGetState(stateId, out var state))
+                if (!StateManager.TryGet(stateId, out var state))
                 {
                     Logger.LogWarning($"{BUILDINGS_FILE_PATH}:{i} Args[{index}] Not found State with id = {stateId}");
                     continue;
@@ -323,7 +323,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
                     continue;
                 }
 
-                if (!ProvinceManager.TryGetProvince(provinceColor, out var province))
+                if (!ProvinceManager.TryGet(provinceColor, out var province))
                 {
                     Logger.LogWarning($"{BUILDINGS_FILE_PATH}:{i} Args[{index}] Not found Province with Color = {provinceColor}");
                     continue;
@@ -346,7 +346,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
                 Province adjacentProvince = null;
                 if (buildingInfo.shouldHaveAdjacentProvince && buildingInfo.isOnlyCoastal)
                 {
-                    if (!ProvinceManager.TryGetProvince(adjacentProvinceId, out adjacentProvince))
+                    if (!ProvinceManager.TryGet(adjacentProvinceId, out adjacentProvince))
                     {
                         Logger.LogWarning($"{BUILDINGS_FILE_PATH}:{i} Args[{index}] Not found Province with id = {adjacentProvinceId}");
                         continue;
@@ -475,7 +475,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
         {
             var lines = new List<UnitStackLine>(0);
 
-            foreach (var p in ProvinceManager.GetProvinces())
+            foreach (var p in ProvinceManager.GetValues())
             {
                 CalculateUnitStacks(lines, p);
             }

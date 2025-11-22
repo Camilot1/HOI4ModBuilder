@@ -37,7 +37,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             EnumEditLayer.STATES
         };
         public override Func<ICollection> GetParametersProvider()
-            => () => CountryManager.GetCountryTagsSorted();
+            => () => CountryManager.GetTagsSorted();
         public override Func<ICollection> GetValuesProvider() => null;
 
         // TODO: Refactor. Was made in a hurry
@@ -49,9 +49,9 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
                 return false;
 
-            CountryManager.TryGetCountry(parameter, out var targetCountry);
+            CountryManager.TryGet(parameter, out var targetCountry);
 
-            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+            if (!ProvinceManager.TryGet(MapManager.GetColor(pos), out Province province))
                 return false;
 
             if (province.State == null)

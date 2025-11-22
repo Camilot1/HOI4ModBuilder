@@ -90,7 +90,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             else if (buildingSlotCategory == EnumBuildingSlotCategory.SHARED)
             {
                 uint maxCount = 0;
-                foreach (State state in StateManager.GetStates())
+                foreach (State state in StateManager.GetValues())
                 {
                     if (state.stateBuildings.TryGetValue(building, out uint max))
                         if (max > maxCount) maxCount = max;

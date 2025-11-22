@@ -144,7 +144,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
                             continue;
                         }
 
-                        if (!StrategicRegionManager.TryGetRegion(regionId, out var region))
+                        if (!StrategicRegionManager.TryGet(regionId, out var region))
                         {
                             Logger.LogLayeredWarning(
                                 prevLayer, token, EnumLocKey.AI_AREA_CONTAINTS_ID_OF_NOT_EXISTING_STRATEGIC_REGION,

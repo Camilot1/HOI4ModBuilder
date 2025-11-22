@@ -31,8 +31,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public readonly GameParameter<bool> IsDisableGrowAnimation = new GameParameter<bool>();
         public readonly GameParameter<bool> IsCentered = new GameParameter<bool>();
         public readonly GameParameter<SpawnPoint> SpawnPoint = new GameParameter<SpawnPoint>()
-            .INIT_ForceValueInlineParse(true)
-            .INIT_SetValueParseAdapter((o, token) => BuildingManager.GetSpawnPoint((string)token));
+            .INIT_ForceValueInline(true);
         public readonly GameParameter<ushort> IconFrame = new GameParameter<ushort>();
         public readonly GameParameter<GameString> SpecialIcon = new GameParameter<GameString>();
         public readonly GameParameter<bool> IsBuildable = new GameParameter<bool>();
@@ -51,10 +50,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public readonly GameParameter<float> DamageFactor = new GameParameter<float>();
         public readonly GameParameter<float> RepairSpeedFactor = new GameParameter<float>();
         public readonly GameList<ScriptBlockParseObject> ProvinceDamageModifiers = new GameList<ScriptBlockParseObject>()
-            .INIT_ForceInlineParse(true)
+            .INIT_ForceValueInline(true)
             .INIT_SetValueParseAdapter((o, value) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(value)));
         public readonly GameList<ScriptBlockParseObject> StateDamageModifiers = new GameList<ScriptBlockParseObject>()
-            .INIT_ForceInlineParse(true)
+            .INIT_ForceValueInline(true)
             .INIT_SetValueParseAdapter((o, value) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(value)));
         public readonly GameParameter<bool> IsAlliedBuild = new GameParameter<bool>();
         public readonly GameParameter<bool> IsOnlyCoastal = new GameParameter<bool>();

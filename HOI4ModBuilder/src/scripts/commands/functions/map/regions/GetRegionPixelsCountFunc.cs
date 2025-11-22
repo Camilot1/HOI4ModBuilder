@@ -47,7 +47,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.regions
                     (o) => o is INumberObject
                 );
 
-                if (!StrategicRegionManager.TryGetRegion(Convert.ToUInt16(regionId.GetValue()), out var region))
+                if (!StrategicRegionManager.TryGet(Convert.ToUInt16(regionId.GetValue()), out var region))
                     throw new ValueNotFoundScriptException(lineIndex, args, regionId.GetValue(), argIndexRegionId);
 
                 int[] sumPixelsCount = new int[1];

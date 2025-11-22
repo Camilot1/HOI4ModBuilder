@@ -1,15 +1,11 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.common.resources;
-using HOI4ModBuilder.hoiDataObjects.history.countries;
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.newParser;
-using HOI4ModBuilder.src.newParser.interfaces;
-using HOI4ModBuilder.src.tools.autotools;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.classes;
 using HOI4ModBuilder.src.utils.structs;
@@ -18,7 +14,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -72,7 +67,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         {
             Instance = new StateManager();
 
-            DeselectStates();
+            Deselect();
 
             _statesById = new Dictionary<ushort, State>();
             _statesBorders = new HashSet<ProvinceBorder>();
@@ -159,9 +154,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             foreach (var state in _statesById.Values)
                 actions.Add((null, () => Save(settings, state)));
 
-            ParallelUtils.Execute(actions);
-            //foreach (var actionEntry in actions) //DEBUG
-            //    actionEntry.Item2();
+            //ParallelUtils.Execute(actions);
+            foreach (var actionEntry in actions) //DEBUG
+                actionEntry.Item2();
         }
 
         public static void Save(BaseSettings settings, State state)
@@ -281,7 +276,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
         }
 
-        public static void RegenerateStatesColors(ProgressCallback progressCallback)
+        public static void RegenerateColors(ProgressCallback progressCallback)
         {
             var stopwatch = Stopwatch.StartNew();
             var modSettings = SettingsManager.Settings.GetModSettings();
@@ -292,7 +287,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             var regeneratedStatesToColor = new Dictionary<State, int>(512);
             var hsvRanges = modSettings.GetStateHSVRanges();
 
-            var states = AssembleStates(GetStates());
+            var states = AssembleStates(GetValues());
             int counter = 0;
             foreach (var state in states)
             {
@@ -320,7 +315,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             Logger.Log($"RegenerateStatesColors = {stopwatch.ElapsedMilliseconds} ms");
         }
 
-        public static void AddStatesBorder(ProvinceBorder border) => _statesBorders.Add(border);
+        public static void AddBorder(ProvinceBorder border)
+            => _statesBorders.Add(border);
 
         public static bool TransferProvince(Province province, State src, State dest)
         {
@@ -465,7 +461,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
         }
 
-        public static bool TryAddState(string fileName, State state)
+        public static bool TryAdd(string fileName, State state)
         {
             if (!_statesById.ContainsKey(state.Id.GetValue()))
             {
@@ -476,25 +472,31 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             else return false;
         }
 
-        public static bool ContainsStateIdKey(ushort id) => _statesById.ContainsKey(id);
-        public static Dictionary<ushort, State>.KeyCollection GetStatesIds() => _statesById.Keys;
-        public static List<ushort> GetStatesIdsSorted()
+        public static bool Contains(ushort id)
+            => _statesById.ContainsKey(id);
+        public static Dictionary<ushort, State>.KeyCollection GetIDs()
+            => _statesById.Keys;
+        public static List<ushort> GetIDsSorted()
         {
-            var list = new List<ushort>(GetStatesIds());
+            var list = new List<ushort>(GetIDs());
             list.Sort();
             return list;
         }
-        public static Dictionary<ushort, State>.ValueCollection GetStates() => _statesById.Values;
+        public static Dictionary<ushort, State>.ValueCollection GetValues()
+            => _statesById.Values;
 
-        public static bool TryGetState(ushort id, out State state) => _statesById.TryGetValue(id, out state);
+        public static bool TryGet(ushort id, out State state)
+            => _statesById.TryGetValue(id, out state);
+        public static State Get(ushort id)
+            => TryGet(id, out var state) ? state : null;
 
-        public static void AddState(ushort id, State state)
+        public static void Add(ushort id, State state)
         {
             _statesById[id] = state;
             state.SetNeedToSave(true);
         }
 
-        public static void RemoveState(ushort id)
+        public static void Remove(ushort id)
         {
             var state = _statesById[id];
             if (state != null)
@@ -512,7 +514,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         }
 
 
-        public static void InitStatesBorders()
+        public static void InitBorders()
         {
             _statesBorders = new HashSet<ProvinceBorder>(0);
             foreach (var state in _statesById.Values)
@@ -531,37 +533,37 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         }
 
-        private static void HandleEscape() => DeselectStates();
+        private static void HandleEscape() => Deselect();
 
-        public static void DeselectStates()
+        public static void Deselect()
         {
             GroupSelectedStates.Clear();
             SelectedState = null;
             RMBState = null;
         }
 
-        public static void SelectStates(ushort[] ids)
+        public static void Select(ushort[] ids)
         {
             GroupSelectedStates.Clear();
 
             if (ids.Length == 1)
             {
-                if (TryGetState(ids[0], out var state))
+                if (TryGet(ids[0], out var state))
                     SelectedState = state;
             }
 
             foreach (var id in ids)
             {
-                if (!TryGetState(id, out var state))
+                if (!TryGet(id, out var state))
                     continue;
 
                 GroupSelectedStates.Add(state);
             }
         }
 
-        public static State SelectState(int color)
+        public static State Select(int color)
         {
-            if (ProvinceManager.TryGetProvince(color, out Province province) && province.State != null)
+            if (ProvinceManager.TryGet(color, out Province province) && province.State != null)
             {
                 if (MainForm.Instance.IsShiftPressed())
                 {
@@ -588,20 +590,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 GroupSelectedStates.Clear();
             }
 
-            ProvinceManager.DeselectProvinces();
-            StrategicRegionManager.DeselectRegions();
+            ProvinceManager.Deselect();
+            StrategicRegionManager.Deselect();
             return SelectedState;
         }
 
-        public static State SelectRMBState(int color)
+        public static State SelectRMB(int color)
         {
-            if (ProvinceManager.TryGetProvince(color, out Province province) && province.State != null)
+            if (ProvinceManager.TryGet(color, out Province province) && province.State != null)
                 RMBState = province.State;
             else
                 RMBState = null;
 
-            ProvinceManager.DeselectProvinces();
-            StrategicRegionManager.DeselectRegions();
+            ProvinceManager.Deselect();
+            StrategicRegionManager.Deselect();
             return RMBState;
         }
 

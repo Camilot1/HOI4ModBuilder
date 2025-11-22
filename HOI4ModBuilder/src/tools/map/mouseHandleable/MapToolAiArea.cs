@@ -47,7 +47,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
 
             if (!AiAreaManager.TryGetAiArea(parameter, out AiArea aiArea))
                 return false;
-            if (!ProvinceManager.TryGetProvince(MapManager.GetColor(pos), out Province province))
+            if (!ProvinceManager.TryGet(MapManager.GetColor(pos), out Province province))
                 return false;
 
             int i = (int)pos.x + (int)pos.y * MapManager.MapSize.x;

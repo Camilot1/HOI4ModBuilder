@@ -11,7 +11,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 {
     public class GameList<T> : AbstractParseObject, IValuePushable, ISizable, IEnumerable<T> where T : new()
     {
-        private bool _forceInlineParse;
+        private bool _forceValueInline;
         private bool _allowsInlineAdd;
         private bool _forceSeparateLineSave;
         private Func<object, string, T> _valueParseAdapter;
@@ -25,9 +25,9 @@ namespace HOI4ModBuilder.src.newParser.objects
             _forceSeparateLineSave = forceSeparateLineSave;
         }
 
-        public GameList<T> INIT_ForceInlineParse(bool value)
+        public GameList<T> INIT_ForceValueInline(bool value)
         {
-            _forceInlineParse = value;
+            _forceValueInline = value;
             return this;
         }
         public GameList<T> INIT_SetAllowsInlineAdd(bool value)
@@ -106,7 +106,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     if (obj == null)
                         throw new Exception("Parsed value is null for token \"" + token + "\". It is not defined and not found while parsing: " + parser.GetCursorInfo());
 
-                    if (obj is IParseObject parseObject && !_forceInlineParse)
+                    if (obj is IParseObject parseObject && !_forceValueInline)
                         parseObject.ParseCallback(parser);
                     if (obj is ICommentable commentable)
                         commentable.SetComments(tokenComments);
@@ -135,14 +135,12 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (obj is IParentable parentable)
                 parentable.SetParent(this);
 
-            if (obj is IParseObject parseObject)
+            if (obj is IParseObject parseObject && !_forceValueInline)
                 parseObject.ParseCallback(parser);
-            else
-            {
-                var comments = parser.ParseAndPullComments();
-                if (obj is ICommentable commentable)
-                    commentable.SetComments(comments);
-            }
+
+            var comments = parser.ParseAndPullComments();
+            if (obj is ICommentable commentable)
+                commentable.SetComments(comments);
 
             AddSilent(obj);
         }
@@ -405,7 +403,7 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (_valueSaveAdapter != null)
                 tempValue = _valueSaveAdapter.Invoke(value);
 
-            if (value is ISaveable saveable)
+            if (value is ISaveable saveable && !_forceValueInline)
             {
                 saveable.Save(sb, innerIndent, key, savePatternParameter);
 
@@ -432,7 +430,8 @@ namespace HOI4ModBuilder.src.newParser.objects
                     comments.SavePrevComments(sb, innerIndent);
                 }
 
-                sb.Append(tempValue).Append(innerIndent);
+                var stringValue = ParserUtils.ObjectToSaveString(tempValue);
+                sb.Append(stringValue).Append(innerIndent);
 
                 if (comments.Inline.Length > 0)
                 {

@@ -48,7 +48,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.provinces
                     (o) => o is INumberObject
                 );
 
-                if (!ProvinceManager.TryGetProvince(Convert.ToUInt16(provinceId.GetValue()), out var province))
+                if (!ProvinceManager.TryGet(Convert.ToUInt16(provinceId.GetValue()), out var province))
                     throw new ValueNotFoundScriptException(lineIndex, args, provinceId.GetValue(), argIndexProvinceId);
 
                 var listProvincesIds = new List<ushort>();

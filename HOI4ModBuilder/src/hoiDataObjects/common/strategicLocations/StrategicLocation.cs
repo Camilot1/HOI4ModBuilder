@@ -15,8 +15,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.strategicLocations
     {
         public string Name { get; private set; }
 
-        public readonly GameDictionary<Building, int> Buildings = new GameDictionary<Building, int>()
-            .INIT_SetKeyParseAdapter(token => BuildingManager.GetBuilding(token));
+        public readonly GameDictionary<Building, int> Buildings = new GameDictionary<Building, int>();
 
         private static readonly Dictionary<string, DynamicGameParameter> DYNAMIC_ADAPTER = new Dictionary<string, DynamicGameParameter>
         {

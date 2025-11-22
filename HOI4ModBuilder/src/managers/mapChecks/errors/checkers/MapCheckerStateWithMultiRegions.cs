@@ -8,7 +8,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
         public MapCheckerStateWithMultiRegions()
             : base("MapCheckerStateWithMultiRegions", (int)EnumMapErrorCode.STATE_MULTI_REGIONS, (list) =>
             {
-                foreach (var s in StateManager.GetStates())
+                foreach (var s in StateManager.GetValues())
                 {
                     int regionId = -1;
                     foreach (var p in s.Provinces)

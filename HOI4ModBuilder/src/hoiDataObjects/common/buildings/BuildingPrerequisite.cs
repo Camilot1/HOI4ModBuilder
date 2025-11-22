@@ -30,8 +30,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
     public class BuildingPrerequisiteDependency : AbstractParseObject
     {
         public readonly GameParameter<Building> Building = new GameParameter<Building>()
-            .INIT_ForceValueInlineParse(true)
-            .INIT_SetValueParseAdapter((o, token) => BuildingManager.GetBuilding((string)token));
+            .INIT_ForceValueInline(true);
         public readonly GameParameter<uint> Level = new GameParameter<uint>();
 
         private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>

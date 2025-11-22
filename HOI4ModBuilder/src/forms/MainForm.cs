@@ -851,8 +851,8 @@ namespace HOI4ModBuilder
                 onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.BUILDINGS)
             } },
             { EnumMainLayer.RESOURCES, new LayerActions {
-                isValidChecker = (s) => ResourceManager.HasResource(s),
-                parameterProvider = () => ResourceManager.GetResourcesTags(),
+                isValidChecker = (s) => ResourceManager.Contains(s),
+                parameterProvider = () => ResourceManager.GetTags(),
                 onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.RESOURCES)
             } },
             { EnumMainLayer.AI_AREAS, new LayerActions {
@@ -861,13 +861,13 @@ namespace HOI4ModBuilder
                 onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.AI_AREAS)
             } },
             { EnumMainLayer.CORES_OF, new LayerActions {
-                isValidChecker = (s) => CountryManager.HasCountry(s),
-                parameterProvider = () => CountryManager.GetCountryTagsSorted(),
+                isValidChecker = (s) => CountryManager.Contains(s),
+                parameterProvider = () => CountryManager.GetTagsSorted(),
                 onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.STATE_CORE_OF)
             } },
             { EnumMainLayer.CLAIMS_BY, new LayerActions {
-                isValidChecker = (s) => CountryManager.HasCountry(s),
-                parameterProvider = () => CountryManager.GetCountryTagsSorted(),
+                isValidChecker = (s) => CountryManager.Contains(s),
+                parameterProvider = () => CountryManager.GetTagsSorted(),
                 onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.STATE_CLAIM_BY)
             } },
         };
@@ -1304,15 +1304,15 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Map_Search_State_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                StateManager.SelectStates(Utils.ToIdArray(ToolStripTextBox_Map_Search_Input.Text, ' '));
+                StateManager.Select(Utils.ToIdArray(ToolStripTextBox_Map_Search_Input.Text, ' '));
                 MapManager.FocusOn(StateManager.GetGroupSelectedStatesCenter());
             });
 
         private void ToolStripMenuItem_Map_Search_Region_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                StrategicRegionManager.SelectRegions(Utils.ToIdArray(ToolStripTextBox_Map_Search_Input.Text, ' '));
-                MapManager.FocusOn(StrategicRegionManager.GetGroupSelectedRegionsCenter());
+                StrategicRegionManager.Select(Utils.ToIdArray(ToolStripTextBox_Map_Search_Input.Text, ' '));
+                MapManager.FocusOn(StrategicRegionManager.GetSelectedGroupCenter());
             });
         private void ToolStripMenuItem_Map_SupplyHub_DropDownOpened(object sender, EventArgs e)
         {
@@ -1763,7 +1763,7 @@ namespace HOI4ModBuilder
             ToolStripComboBox_Map_State_Id.Items.Clear();
             ToolStripComboBox_Map_State_Id.Items.Add("");
 
-            ushort[] ids = StateManager.GetStatesIds().OrderBy(x => x).ToArray();
+            ushort[] ids = StateManager.GetIDs().OrderBy(x => x).ToArray();
             object[] objIds = new object[ids.Length];
 
             ushort? currentId = null;
@@ -1805,7 +1805,7 @@ namespace HOI4ModBuilder
             ToolStripComboBox_Map_Region_Id.Items.Clear();
             ToolStripComboBox_Map_Region_Id.Items.Add("");
 
-            ushort[] ids = StrategicRegionManager.GetRegionsIds().OrderBy(x => x).ToArray();
+            ushort[] ids = StrategicRegionManager.GetIDs().OrderBy(x => x).ToArray();
             object[] objIds = new object[ids.Length];
 
             ushort? currentId = null;
@@ -1845,7 +1845,7 @@ namespace HOI4ModBuilder
                     EnumCreateObjectType.STATE, true,
                     (id) => //On redo
                     {
-                        if (StateManager.TryGetState((ushort)id, out var newState))
+                        if (StateManager.TryGet((ushort)id, out var newState))
                         {
                             if (prevState != null)
                                 StateManager.TransferProvince(province, prevState, newState);
@@ -1856,7 +1856,7 @@ namespace HOI4ModBuilder
                     },
                     (id) => //On undo
                     {
-                        if (StateManager.TryGetState((ushort)id, out var newState))
+                        if (StateManager.TryGet((ushort)id, out var newState))
                         {
                             if (prevState == null)
                                 newState.RemoveProvince(province);
@@ -1918,7 +1918,7 @@ namespace HOI4ModBuilder
                     EnumCreateObjectType.REGION, true,
                     (id) => //On redo
                     {
-                        if (StrategicRegionManager.TryGetRegion((ushort)id, out var newRegion))
+                        if (StrategicRegionManager.TryGet((ushort)id, out var newRegion))
                         {
                             if (prevRegion != null)
                                 StrategicRegionManager.TransferProvince(province, prevRegion, newRegion);
@@ -1929,7 +1929,7 @@ namespace HOI4ModBuilder
                     },
                     (id) => //On undo
                     {
-                        if (StrategicRegionManager.TryGetRegion((ushort)id, out var newRegion))
+                        if (StrategicRegionManager.TryGet((ushort)id, out var newRegion))
                         {
                             if (prevRegion == null)
                                 newRegion.RemoveProvince(province);
@@ -1969,7 +1969,7 @@ namespace HOI4ModBuilder
                 State newState = null;
 
                 if (ushort.TryParse(ToolStripComboBox_Map_State_Id.Text, out var id))
-                    StateManager.TryGetState(id, out newState);
+                    StateManager.TryGet(id, out newState);
 
                 if (ProvinceManager.RMBProvince == null)
                     return;
@@ -1995,7 +1995,7 @@ namespace HOI4ModBuilder
                 StrategicRegion newRegion = null;
 
                 if (ushort.TryParse(ToolStripComboBox_Map_Region_Id.Text, out var id))
-                    StrategicRegionManager.TryGetRegion(id, out newRegion);
+                    StrategicRegionManager.TryGet(id, out newRegion);
 
                 if (ProvinceManager.RMBProvince == null)
                     return;
