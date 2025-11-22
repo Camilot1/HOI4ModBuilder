@@ -106,40 +106,41 @@ namespace HOI4ModBuilder.src.newParser
             {
                 SkipWhiteSpaces();
 
-                if (_token == Token.COMMENT)
-                    ParseComments();
-                else if (_token == Token.CONSTANT)
+                switch (_token)
                 {
-                    var constant = ParseConstant();
-                    obj.InitConstantsIfNull();
-                    var constants = obj.GetConstants();
+                    case Token.COMMENT:
+                        ParseComments();
+                        break;
+                    case Token.CONSTANT:
+                        var constant = ParseConstant();
+                        obj.InitConstantsIfNull();
+                        var constants = obj.GetConstants();
 
-                    if (constants.ContainsKey(constant.Key))
-                        throw new Exception("Constant with key " + constant.Key + " already defined in this block: " + GetCursorInfo());
+                        if (constants.ContainsKey(constant.Key))
+                            throw new Exception("Constant with key " + constant.Key + " already defined in this block: " + GetCursorInfo());
 
-                    constants[constant.Key] = constant;
-                }
-                else if (_token == Token.UNTYPED)
-                    obj.ParseCallback(this);
-                else if (_token == Token.LEFT_CURLY)
-                {
-                    NextChar();
-
-                    var comments = ParseAndPullComments();
-                    var parent = obj.GetParent();
-                    if (parent is ICommentable commentable)
-                        commentable.SetComments(comments);
-                }
-                else if (_token == Token.RIGHT_CURLY)
-                {
-                    if (_index < _dataLength - 1)
+                        constants[constant.Key] = constant;
+                        break;
+                    case Token.UNTYPED:
+                        obj.ParseCallback(this);
+                        break;
+                    case Token.LEFT_CURLY:
                         NextChar();
-                    return;
+
+                        var comments = ParseAndPullComments();
+                        var parent = obj.GetParent();
+                        if (parent is ICommentable commentable)
+                            commentable.SetComments(comments);
+                        break;
+                    case Token.RIGHT_CURLY:
+                        if (_index < _dataLength - 1)
+                            NextChar();
+                        return;
+                    default:
+                        if (_index == _dataLength - 1)
+                            return;
+                        throw new Exception("Character " + _currentChar + " is not allowed: " + GetCursorInfo());
                 }
-                else if (_index == _dataLength - 1)
-                    return;
-                else
-                    throw new Exception("Character " + _currentChar + " is not allowed: " + GetCursorInfo());
             }
         }
 

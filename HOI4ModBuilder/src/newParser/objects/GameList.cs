@@ -17,6 +17,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         private Func<object, string, T> _valueParseAdapter;
         private Func<T, object> _valueSaveAdapter;
         private bool _sortAtSaving;
+        private readonly List<T> _list = new List<T>();
 
         public GameList() : base() { }
         public GameList(bool allowsInlineAdd, bool forceSeparateLineSave) : this()
@@ -94,25 +95,11 @@ namespace HOI4ModBuilder.src.newParser.objects
         private void TryParseBlockValue(GameParser parser)
         {
             parser.ParseInsideBlock(
-                (comments) => SetComments(comments),
+                SetComments,
                 (tokenComments, token) =>
                 {
-                    T obj = _valueParseAdapter != null ?
-                        _valueParseAdapter(this, token) :
-                        ParserUtils.Parse<T>(token);
-
-                    if (obj is IParentable parentable)
-                        parentable.SetParent(this);
-
-                    if (obj == null)
-                        throw new Exception("Parsed value is null for token \"" + token + "\". It is not defined and not found while parsing: " + parser.GetCursorInfo());
-
-                    if (obj is IParseObject parseObject && !_forceValueInline)
-                        parseObject.ParseCallback(parser);
-                    if (obj is ICommentable commentable)
-                        commentable.SetComments(tokenComments);
-                    AddSilent(obj);
-
+                    var obj = ParseValue(token, parser);
+                    FinalizeParsedValue(parser, obj, tokenComments);
                     return false;
                 }
             );
@@ -129,27 +116,38 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (!_allowsInlineAdd || value.Length == 0)
                 throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
+            var obj = ParseValue(value, parser);
+            var comments = parser.ParseAndPullComments();
+            FinalizeParsedValue(parser, obj, comments);
+        }
+
+        public override IParseObject GetEmptyCopy() => new GameList<T>();
+
+        private T ParseValue(string token, GameParser parser)
+        {
             var obj = _valueParseAdapter != null ?
-                _valueParseAdapter.Invoke(this, value) :
-                ParserUtils.Parse<T>(value);
+                _valueParseAdapter(this, token) :
+                ParserUtils.Parse<T>(token);
+
+            if (obj == null)
+                throw new Exception("Parsed value is null for token \"" + token + "\". It is not defined and not found while parsing: " + parser.GetCursorInfo());
 
             if (obj is IParentable parentable)
                 parentable.SetParent(this);
 
+            return obj;
+        }
+
+        private void FinalizeParsedValue(GameParser parser, T obj, GameComments comments)
+        {
             if (obj is IParseObject parseObject && !_forceValueInline)
                 parseObject.ParseCallback(parser);
 
-            var comments = parser.ParseAndPullComments();
             if (obj is ICommentable commentable)
                 commentable.SetComments(comments);
 
             AddSilent(obj);
         }
-
-        public override IParseObject GetEmptyCopy() => new GameList<T>();
-
-
-        private List<T> _list = new List<T>();
 
         public int RemoveAllIf(Func<T, bool> predicate)
         {
@@ -253,6 +251,10 @@ namespace HOI4ModBuilder.src.newParser.objects
                     }
                 }
             }
+
+            if (isRemovedAny)
+                _needToSave = true;
+
             return isRemovedAny;
         }
 
@@ -332,21 +334,17 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             foreach (var value in _list)
             {
-                object tempValue = value;
-                if (_valueSaveAdapter != null)
-                    tempValue = _valueSaveAdapter.Invoke(value);
+                var (saveValue, saveable, comments) = PrepareValueForSave(value, true);
 
-                if (tempValue is ISaveable saveable)
+                if (saveable != null)
+                {
                     saveable.Save(sb, outIndent, key, savePatternParameter);
+                }
                 else
                 {
-                    GameComments comments = null;
-                    if (value is ICommentable commentable)
-                        comments = commentable.GetComments();
-
                     comments?.SavePrevComments(sb, outIndent);
 
-                    sb.Append(outIndent).Append(key).Append(" = ").Append(tempValue);
+                    sb.Append(outIndent).Append(key).Append(" = ").Append(saveValue);
 
                     if (comments != null && comments.Inline.Length > 0)
                         sb.Append(' ').Append(comments.Inline);
@@ -396,11 +394,9 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         private void SaveListValue(StringBuilder sb, string outIndent, ref string innerIndent, string key, T value, SavePatternParameter savePatternParameter)
         {
-            object tempValue = value;
-            if (_valueSaveAdapter != null)
-                tempValue = _valueSaveAdapter.Invoke(value);
+            var (saveValue, saveable, comments) = PrepareValueForSave(value, !_forceValueInline);
 
-            if (value is ISaveable saveable && !_forceValueInline)
+            if (saveable != null)
             {
                 saveable.Save(sb, innerIndent, key, savePatternParameter);
 
@@ -413,8 +409,6 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
             else
             {
-                var comments = (value as ICommentable)?.GetComments();
-
                 if (comments?.Previous.Length > 0)
                 {
                     if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
@@ -425,7 +419,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                     comments.SavePrevComments(sb, innerIndent);
                 }
 
-                var stringValue = ParserUtils.ObjectToSaveString(tempValue);
+                var stringValue = ParserUtils.ObjectToSaveString(saveValue);
                 sb.Append(stringValue).Append(innerIndent);
 
                 if (comments != null && comments.Inline.Length > 0)
@@ -439,6 +433,17 @@ namespace HOI4ModBuilder.src.newParser.objects
                     innerIndent = outIndent + Constants.INDENT;
                 }
             }
+        }
+
+        private (object saveValue, ISaveable saveable, GameComments comments) PrepareValueForSave(T value, bool allowSaveable)
+        {
+            object saveValue = value;
+            if (_valueSaveAdapter != null)
+                saveValue = _valueSaveAdapter.Invoke(value);
+
+            var saveable = allowSaveable ? saveValue as ISaveable ?? value as ISaveable : null;
+            var comments = (value as ICommentable)?.GetComments();
+            return (saveValue, saveable, comments);
         }
 
         private GameComments ResolveKeyComments()

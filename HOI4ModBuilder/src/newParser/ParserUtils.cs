@@ -15,7 +15,6 @@ using HOI4ModBuilder.src.newParser.structs;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace HOI4ModBuilder.src.newParser
 {
@@ -179,13 +178,11 @@ namespace HOI4ModBuilder.src.newParser
 
             if (value is IEnumerable listValue)
             {
-                var sb = new StringBuilder();
+                var parts = new List<string>();
                 foreach (var obj in listValue)
-                    sb.Append(ObjectToSaveString(obj)).Append(" ");
-                if (sb.Length > 0)
-                    sb.Length = sb.Length - 1;
-                return sb.ToString();
+                    parts.Add(ObjectToSaveString(obj));
 
+                return string.Join(" ", parts);
             }
 
             throw new Exception($"Unknown value type: {value} ({value.GetType()})");
@@ -279,16 +276,7 @@ namespace HOI4ModBuilder.src.newParser
 
         public static bool IsAllowedValueType(EnumValueType valueType, EnumValueType[] allowedValueTypes)
         {
-            if (allowedValueTypes == null)
-                return false;
-
-            foreach (var allowedValueType in allowedValueTypes)
-            {
-                if (allowedValueType == valueType)
-                    return true;
-            }
-
-            return false;
+            return allowedValueTypes != null && Array.IndexOf(allowedValueTypes, valueType) != -1;
         }
 
         public static string AsseblePath(IParentable obj)
