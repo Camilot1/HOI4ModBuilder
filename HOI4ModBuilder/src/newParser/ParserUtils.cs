@@ -176,6 +176,9 @@ namespace HOI4ModBuilder.src.newParser
             if (_typesMapping.TryGetValue(value.GetType(), out var funcs))
                 return funcs.save(value);
 
+            if (value is GameConstant gameConstant)
+                return "@" + gameConstant.Key;
+
             if (value is IEnumerable listValue)
             {
                 var parts = new List<string>();

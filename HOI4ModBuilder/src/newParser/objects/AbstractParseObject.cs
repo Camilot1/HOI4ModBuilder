@@ -238,6 +238,14 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             var savePattern = GetSavePattern();
 
+            if (_constants != null && _constants.Count > 0)
+            {
+                foreach (var constant in _constants)
+                    constant.Value.Save(sb, outIndent);
+
+                sb.Append(outIndent).Append(Constants.NEW_LINE);
+            }
+
             var staticAdapter = GetStaticAdapter() ?? _defaultStaticAdapter;
             var dynamicAdapter = GetDynamicAdapter() ?? _defaultDynamicAdapter;
 
