@@ -28,6 +28,8 @@ namespace HOI4ModBuilder.src.newParser
             public Func<string, object> parse;
         }
 
+        private static bool TryGetMapping(Type type, out MappingActions actions) => _typesMapping.TryGetValue(type, out actions);
+
         private static MappingActions CreateIntegerMapping<T>(TryParseDelegate<T> tryParse, float minValue, float maxValue, Func<float, T> cast)
         {
             return new MappingActions
@@ -58,7 +60,7 @@ namespace HOI4ModBuilder.src.newParser
             { typeof(bool), new MappingActions {
                 save = o => ((bool)o) ? "yes" : "no",
                 parse = v => {
-                    var val = v.ToLower();
+                    var val = v.ToLowerInvariant();
                     if (val == "yes")
                         return true;
                     if (val == "no")
@@ -138,28 +140,25 @@ namespace HOI4ModBuilder.src.newParser
 
         public static T Parse<T>(string value)
         {
-            if (_typesMapping.TryGetValue(typeof(T), out var funcs))
-                return (T)funcs.parse(value);
-            else
-                throw new Exception("Unknown value \"" + value + "\" type at ParseUtils.Parse: " + typeof(T));
+            return (T)Parse(typeof(T), value);
         }
 
         public static object Parse(Type type, string value)
         {
-            if (_typesMapping.TryGetValue(type, out var funcs))
+            if (TryGetMapping(type, out var funcs))
                 return funcs.parse(value);
-            else
-                throw new Exception("Unknown value \"" + value + "\" type at ParseUtils.Parse: " + type);
+
+            throw new Exception("Unknown value \"" + value + "\" type at ParseUtils.Parse: " + type);
         }
 
         public static object ParseObject(string value)
         {
             if (int.TryParse(value, out var intResult))
                 return intResult;
-            else if (float.TryParse(value, out var floatResult))
+            else if (Utils.TryParseFloat(value, out var floatResult))
                 return floatResult;
 
-            var loweredValue = value.ToLower();
+            var loweredValue = value.ToLowerInvariant();
             if (loweredValue == "yes")
                 return true;
             else if (loweredValue == "no")

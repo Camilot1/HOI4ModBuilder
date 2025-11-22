@@ -64,17 +64,19 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         public void SetValue(T value)
         {
-            if (_value == null && value != null || _value != null && !_value.Equals(value))
-            {
-                if (_valueSetAdapter != null)
-                    _value = _valueSetAdapter(this, value);
-                if (value is GameConstant valueConstant)
-                    _value = valueConstant;
-                else if (value is GameString valueString && valueString.stringValue.StartsWith("@"))
-                    ParseValueConstant(null, valueString.stringValue);
-                else
-                    _value = value;
+            var resolvedValue = _valueSetAdapter != null
+                ? _valueSetAdapter(this, value)
+                : (object)value;
 
+            if (resolvedValue is GameString valueString && valueString.stringValue.StartsWith("@"))
+                resolvedValue = ParseValueConstant(null, valueString.stringValue, false);
+
+            if (resolvedValue is IParentable parentable)
+                parentable.SetParent(this);
+
+            if (!Equals(_value, resolvedValue))
+            {
+                _value = resolvedValue;
                 _needToSave = true;
             }
         }
@@ -167,7 +169,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         }
 
-        private void ParseValueConstant(GameParser parser, string rawValue)
+        private object ParseValueConstant(GameParser parser, string rawValue, bool setValue = true)
         {
             IParentable tempParent = GetParent();
             GameConstant tempConstant = null;
@@ -175,22 +177,19 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (tempParent is IConstantable commentable)
                 commentable.TryGetConstantParentable(rawValue.Substring(1), out tempConstant);
 
+            object result;
+
             if (tempConstant != null)
-            {
-                if (_valueParseAdapter != null)
-                    _value = _valueParseAdapter.Invoke(this, tempConstant);
-                else
-                    _value = tempConstant;
-            }
+                result = _valueParseAdapter != null ? (object)_valueParseAdapter.Invoke(this, tempConstant) : tempConstant;
             else if (parser == null)
-            {
-                if (_valueParseAdapter != null)
-                    _value = _valueParseAdapter.Invoke(this, rawValue);
-                else
-                    _value = rawValue;
-            }
+                result = _valueParseAdapter != null ? _valueParseAdapter.Invoke(this, rawValue) : (object)rawValue;
             else
                 throw new Exception("Constant with name " + rawValue + " not found or this scope does not support constants: " + parser?.GetCursorInfo());
+
+            if (setValue)
+                _value = result;
+
+            return result;
         }
 
         private void ParseValueRaw(GameParser parser, string rawValue)
