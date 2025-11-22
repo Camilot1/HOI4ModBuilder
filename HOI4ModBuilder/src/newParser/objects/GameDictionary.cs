@@ -285,10 +285,32 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             if (tempValue is ISaveable saveable && !_forceValueInline)
             {
-                var lastChar = sb[sb.Length - 1];
-                if (lastChar == ' ' && !savePatternParameter.IsForceInline)
-                    sb.Append(Constants.NEW_LINE);
-                saveable.Save(sb, outIndent, stringKey, savePatternParameter);
+                if (savePatternParameter.IsForceInline)
+                {
+                    var inlineParameter = savePatternParameter;
+                    inlineParameter.IsForceInline = true;
+
+                    var tempSb = new StringBuilder();
+                    saveable.Save(tempSb, string.Empty, stringKey, inlineParameter);
+
+                    var inlineValue = tempSb.ToString().Trim();
+                    if (inlineValue.Length > 0)
+                    {
+                        if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
+                            sb.Append(innerIndent);
+                        else if (sb.Length > 0 && sb[sb.Length - 1] != ' ')
+                            sb.Append(' ');
+
+                        sb.Append(inlineValue).Append(' ');
+                    }
+                }
+                else
+                {
+                    var lastChar = sb[sb.Length - 1];
+                    if (lastChar == ' ')
+                        sb.Append(Constants.NEW_LINE);
+                    saveable.Save(sb, outIndent, stringKey, savePatternParameter);
+                }
             }
             else
             {
