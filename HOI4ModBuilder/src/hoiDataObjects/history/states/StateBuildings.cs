@@ -132,6 +132,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             base.Validate(layer);
 
             var provincesToRemove = new List<ushort>();
+
+            Provinces.RemoveEntryIf((k, v) => v.Buildings.Count == 0);
+
             var removedCount = Provinces.RemoveEntryIf((k, v) =>
             {
                 if (k.Type == EnumProvinceType.LAND)
