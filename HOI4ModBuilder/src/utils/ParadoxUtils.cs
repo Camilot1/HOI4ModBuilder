@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HOI4ModBuilder.src.newParser;
+using System.Collections.Generic;
 using System.Text;
 
 namespace HOI4ModBuilder.src.utils
@@ -15,24 +16,16 @@ namespace HOI4ModBuilder.src.utils
         }
 
         public static void StartBlock(StringBuilder sb, string indent, string blockName)
-        {
-            sb.Append(indent).Append(blockName).Append(" = {").Append(Constants.NEW_LINE);
-        }
+            => sb.Append(indent).Append(blockName).Append(" = {").Append(Constants.NEW_LINE);
 
         public static void StartInlineBlock(StringBuilder sb, string indent, string blockName)
-        {
-            sb.Append(indent).Append(blockName).Append(" = {");
-        }
+            => sb.Append(indent).Append(blockName).Append(" = {");
 
         public static void EndBlock(StringBuilder sb, string indent)
-        {
-            sb.Append(indent).Append('}').Append(Constants.NEW_LINE);
-        }
+            => sb.Append(indent).Append('}').Append(Constants.NEW_LINE);
 
         public static void EndInlineBlock(StringBuilder sb, string indent)
-        {
-            sb.Append(indent).Append("}");
-        }
+            => sb.Append(indent).Append("}");
 
         public static bool Save<T>(StringBuilder sb, string indent, string parameter, T value, T defaultValue)
         {
@@ -93,54 +86,36 @@ namespace HOI4ModBuilder.src.utils
         }
 
         public static bool SaveInline<T>(StringBuilder sb, string indent, string parameter, T value, T defaultValue)
-        {
-            if (value == null || value.Equals(defaultValue)) return false;
-            else return SaveInline(sb, indent, parameter, value);
-        }
+            => (value == null || value.Equals(defaultValue)) ?
+                false : SaveInline(sb, indent, parameter, value);
+
         public static bool SaveQuotedInline<T>(StringBuilder sb, string indent, string parameter, T value, T defaultValue)
-        {
-            if (value == null || value.Equals(defaultValue)) return false;
-            else return SaveQuotedInline(sb, indent, parameter, value);
-        }
+            => (value == null || value.Equals(defaultValue)) ?
+                false : SaveQuotedInline(sb, indent, parameter, value);
 
         public static bool SaveInline<T>(StringBuilder sb, string indent, string parameter, T value)
-        {
-            return SaveInlineWithDemiliter(sb, indent, parameter, "=", value);
-        }
+            => SaveInlineWithDemiliter(sb, indent, parameter, "=", value);
 
         public static bool SaveInlineWithDemiliter<T>(StringBuilder sb, string indent, string parameter, string demiliter, T value)
         {
-            if (value == null) return false;
+            if (value == null)
+                return false;
 
-            sb.Append(indent).Append(parameter).Append(' ').Append(demiliter).Append(' ');
-
-            if (value is bool boolVal) sb.Append(boolVal ? "yes" : "no");
-            else if (value is float floatValue) sb.Append(Utils.FloatToString(floatValue));
-            else if (value is List<object> list) Utils.ListToString(list, sb);
-            else sb.Append(value);
-
+            var strValue = ParserUtils.ObjectToSaveString(value);
+            sb.Append(indent).Append(parameter).Append(' ').Append(demiliter).Append(' ').Append(strValue);
             return true;
         }
 
         public static bool SaveQuotedInline<T>(StringBuilder sb, string indent, string parameter, T value)
-        {
-            return SaveQuotedInlineWithDemiliter(sb, indent, parameter, "=", value);
-        }
+            => SaveQuotedInlineWithDemiliter(sb, indent, parameter, "=", value);
+
         public static bool SaveQuotedInlineWithDemiliter<T>(StringBuilder sb, string indent, string parameter, string demiliter, T value)
         {
-            if (value == null) return false;
+            if (value == null)
+                return false;
 
-            sb.Append(indent).Append(parameter).Append(' ').Append(demiliter).Append(' ');
-
-            sb.Append('\"');
-
-            if (value is bool boolVal) sb.Append(boolVal ? "yes" : "no");
-            else if (value is float floatValue) sb.Append(Utils.FloatToString(floatValue));
-            else if (value is string sValue) sb.Append(sValue.Replace("\"", "\\\""));
-            else sb.Append(value);
-
-            sb.Append('\"');
-
+            var strValue = ParserUtils.ObjectToSaveString(value).Replace("\"", "\\\"");
+            sb.Append(indent).Append(parameter).Append(' ').Append(demiliter).Append(" \"").Append(strValue).Append('\"');
             return true;
         }
     }

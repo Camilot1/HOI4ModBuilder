@@ -387,6 +387,7 @@
     <Compile Include="src\hoiDataObjects\common\buildings\BuildingCountryModifiers.cs" />
     <Compile Include="src\hoiDataObjects\common\buildings\BuildingLevelCap.cs" />
     <Compile Include="src\hoiDataObjects\common\buildings\BuildingManager.cs" />
+    <Compile Include="src\hoiDataObjects\common\buildings\BuildingPrerequisite.cs" />
     <Compile Include="src\hoiDataObjects\common\buildings\BuildingsGameFile.cs" />
     <Compile Include="src\hoiDataObjects\common\buildings\SpawnPoint.cs" />
     <Compile Include="src\hoiDataObjects\common\characters\Character.cs" />
@@ -405,7 +406,11 @@
     <Compile Include="src\hoiDataObjects\common\resources\Resource.cs" />
     <Compile Include="src\hoiDataObjects\common\resources\ResourceManager.cs" />
     <Compile Include="src\hoiDataObjects\common\stateCategory\StateCategory.cs" />
+    <Compile Include="src\hoiDataObjects\common\stateCategory\StateCategoryGameFile.cs" />
     <Compile Include="src\hoiDataObjects\common\stateCategory\StateCategoryManager.cs" />
+    <Compile Include="src\hoiDataObjects\common\strategicLocations\StrategicLocation.cs" />
+    <Compile Include="src\hoiDataObjects\common\strategicLocations\StrategicLocationGameFile.cs" />
+    <Compile Include="src\hoiDataObjects\common\strategicLocations\StrategicLocationManager.cs" />
     <Compile Include="src\hoiDataObjects\common\terrain\GraphicalTerrain.cs" />
     <Compile Include="src\hoiDataObjects\common\terrain\ProvincialTerrain.cs" />
     <Compile Include="src\hoiDataObjects\common\terrain\TerrainManager.cs" />
@@ -563,7 +568,6 @@
     <Compile Include="src\newParser\objects\ScriptBlockParseObject.cs" />
     <Compile Include="src\newParser\ParserUtils.cs" />
     <Compile Include="src\newParser\structs\DynamicGameParameter.cs" />
-    <Compile Include="src\newParser\structs\GameKeyObject.cs" />
     <Compile Include="src\newParser\structs\GameString.cs" />
     <Compile Include="src\newParser\structs\SavePatternParameter.cs" />
     <Compile Include="src\newParser\test\TestGameFile.cs" />

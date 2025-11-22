@@ -8,6 +8,7 @@ using Pdoxcl2Sharp;
 using HOI4ModBuilder.src.utils;
 using System.Text;
 using HOI4ModBuilder.src.parser;
+using HOI4ModBuilder.managers;
 
 namespace HOI4ModBuilder.src.dataObjects
 {
@@ -310,6 +311,14 @@ namespace HOI4ModBuilder.src.dataObjects
                         {
                             dataBlock.ValueType = EnumValueType.FLOAT;
                             dataBlock.SetSilentValue(floatValue);
+                            hasParsedValue = true;
+                        }
+                        break;
+                    case EnumValueType.PROVINCE:
+                        if (ushort.TryParse(value, out var provinceID) && ProvinceManager.TryGetProvince(provinceID, out var province))
+                        {
+                            dataBlock.ValueType = EnumValueType.PROVINCE;
+                            dataBlock.SetSilentValue(province);
                             hasParsedValue = true;
                         }
                         break;

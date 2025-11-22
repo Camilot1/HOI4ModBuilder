@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.hoiDataObjects.history.countries;
+﻿using HOI4ModBuilder.hoiDataObjects.common.resources;
+using HOI4ModBuilder.hoiDataObjects.history.countries;
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
@@ -8,8 +9,10 @@ using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 
 namespace HOI4ModBuilder.src.newParser
 {
@@ -81,7 +84,6 @@ namespace HOI4ModBuilder.src.newParser
             { typeof(float), (v) => Utils.ParseFloat(v) },
             { typeof(double), (v) => double.Parse(v) },
             { typeof(GameString), (v) => new GameString { stringValue = v } },
-            { typeof(GameKeyObject<>), (v) => new GameKeyObject<object>() { key = v } },
             { typeof(DateTime), (v) => Utils.TryParseDateTimeStamp(v, out var dateTime) ? dateTime : throw new Exception("Invalid DateTime format: " + v) },
             { typeof(string), (v) => v },
         };
@@ -121,23 +123,39 @@ namespace HOI4ModBuilder.src.newParser
         public static string ObjectToSaveString(object value)
         {
             if (value is bool valueBool)
-                return valueBool ? "yes" : "no";
-            else if (value is short || value is ushort || value is int || value is uint)
+                return valueBool ? "yes" : "no";            
+            if (value is short || value is ushort || value is int || value is uint)
                 return "" + value;
-            else if (value is float valueFloat)
+            if (value is float valueFloat)
                 return Utils.FloatToString(valueFloat);
-            else if (value is DateTime dateTime)
-                return $"{dateTime.Year}.{dateTime.Month}.{dateTime.Day}";
-            else if (value is Country valueCountry)
-                return valueCountry.Tag;
-            else if (value is State valueState)
-                return "" + valueState.Id.GetValue();
-            else if (value is GameString valueGameString)
-                return valueGameString.stringValue;
-            else if (value is string valueString)
+            if (value is string valueString)
                 return valueString;
-            else
-                throw new Exception($"Unknown value type: {value} ({value.GetType()})");
+            if (value is GameString valueGameString)
+                return valueGameString.stringValue;
+            if (value is DateTime dateTime)
+                return $"{dateTime.Year}.{dateTime.Month}.{dateTime.Day}";
+            if (value is Province provinceValue)
+                return "" + provinceValue.Id;
+            if (value is State valueState)
+                return "" + valueState.Id.GetValue();
+            if (value is Country valueCountry)
+                return valueCountry.Tag;
+            if (value is Building buildingValue)
+                return buildingValue.Name;
+            if (value is Resource resourceValue)
+                return resourceValue.tag;
+            if (value is IEnumerable listValue)
+            {
+                var sb = new StringBuilder();
+                foreach (var obj in listValue)
+                    sb.Append(ObjectToSaveString(obj)).Append(" ");
+                if (sb.Length > 0)
+                    sb.Length = sb.Length - 1;
+                return sb.ToString();
+
+            }
+            
+            throw new Exception($"Unknown value type: {value} ({value.GetType()})");
         }
 
         public static bool TryParseScope(string value, out IScriptBlockInfo scope)

@@ -1410,5 +1410,22 @@
     "name": "set_garrison_strength",
     "specificScopes": [ "STATE" ],
 	"allowedValueTypes": [ "FLOAT" ]
+  },
+  
+  {
+    "name": "strategic_province_location",
+    "specificScopes": [ "STATE" ],
+    "allowedUniversalParamsInfo": {
+      "maxUniversalParamsCount": -1,
+      "allowedValueTypes": [ "PROVINCE" ]
+    }
+  },
+  {
+    "name": "strategic_state_location",
+    "specificScopes": [ "STATE" ],
+    "allowedUniversalParamsInfo": {
+      "maxUniversalParamsCount": -1,
+      "allowedValueTypes": [ "PROVINCE" ]
+    }
   }
 ]

@@ -13,7 +13,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "buildings" });
         private static List<BuildingsGameFile> _gameFiles = new List<BuildingsGameFile>();
         private static Dictionary<string, Building> _allBuildings = new Dictionary<string, Building>();
-        public static Dictionary<string, Building> PARSER_AllBuildings => _allBuildings;
         private static Dictionary<string, SpawnPoint> _allSpawnPoints = new Dictionary<string, SpawnPoint>();
         public static Dictionary<string, SpawnPoint> PARSER_AllSpawnPoints => _allSpawnPoints;
 
@@ -58,6 +57,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         }
 
         public static bool HasBuilding(string name) => _allBuildings.ContainsKey(name);
+        public static void AddBuildingSilent(Building building)
+            => _allBuildings[building.Name] = building;
         public static bool TryGetSpawnPoint(string name, out SpawnPoint spawnPoint)
             => _allSpawnPoints.TryGetValue(name, out spawnPoint);
         public static SpawnPoint GetSpawnPoint(string name)

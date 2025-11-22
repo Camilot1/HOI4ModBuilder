@@ -77,63 +77,26 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public void SetSilentColor(int color) => _color = color;
 
         private EnumProvinceType _type;
-        public EnumProvinceType Type
-        {
-            get => _type;
-            set
-            {
-                if (_type == value)
-                    return;
+        public EnumProvinceType Type { get => _type; set => Utils.Setter(ref _type, ref value, v => ProvinceManager.NeedToSave = v); }
 
-                _type = value;
-                ProvinceManager.NeedToSave = true;
-            }
-        }
         public string GetTypeString() => _type.ToString().ToLower();
 
         private bool _isCoastal;
         public bool IsCoastal
         {
             get => _isCoastal;
-            set
+            set => Utils.Setter(ref _isCoastal, ref value, v =>
             {
-                if (_isCoastal == value)
-                    return;
-
-                _isCoastal = value;
                 State?.RecalculateIsCoastalState();
-
-                ProvinceManager.NeedToSave = true;
-            }
+                ProvinceManager.NeedToSave = v;
+            });
         }
 
         private ProvincialTerrain _terrain;
-        public ProvincialTerrain Terrain
-        {
-            get => _terrain;
-            set
-            {
-                if (_terrain == value)
-                    return;
-
-                _terrain = value;
-                ProvinceManager.NeedToSave = true;
-            }
-        }
+        public ProvincialTerrain Terrain { get => _terrain; set => Utils.Setter(ref _terrain, ref value, v => ProvinceManager.NeedToSave = v); }
 
         private int _continentId;
-        public int ContinentId
-        {
-            get => _continentId;
-            set
-            {
-                if (_continentId == value)
-                    return;
-
-                _continentId = value;
-                ProvinceManager.NeedToSave = true;
-            }
-        }
+        public int ContinentId { get => _continentId; set => Utils.Setter(ref _continentId, ref value, v => ProvinceManager.NeedToSave = v); }
 
         public uint victoryPoints;
 
@@ -144,44 +107,143 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         private List<Railway> _railways;
 
-        public int GetRailwaysCount()
+        private List<Adjacency> _adjacencies;
+
+        public List<ProvinceBorder> borders = new List<ProvinceBorder>(4);
+
+        private Dictionary<Building, uint> _buildings;
+
+        public int pixelsCount;
+        public bool dislayCenter;
+        public Point2F center;
+        public Bounds4S bounds;
+
+        public Province()
+        { }
+
+        public Province(ushort id, int color) : this()
         {
-            if (_railways == null)
-                return 0;
-            return _railways.Count;
+            _id = id;
+            _color = color;
         }
+
+        public Province(ushort id, int color, EnumProvinceType type, bool isCoastal, ProvincialTerrain terrain, byte continentId)
+        {
+            _id = id;
+            _color = color;
+            _isCoastal = isCoastal;
+            _type = type;
+            _terrain = terrain;
+            _continentId = continentId;
+        }
+
+        public void AddPixel(int x, int y)
+        {
+            if (pixelsCount == 0)
+                bounds.Set((short)x, (short)y);
+            else
+                bounds.ExpandIfNeeded((short)x, (short)y);
+
+            pixelsCount++;
+            center.x += (x - center.x) / pixelsCount;
+            center.y += (y - center.y) / pixelsCount;
+        }
+
+        public void ResetPixels()
+        {
+            pixelsCount = 0;
+            center.x = 0;
+            center.y = 0;
+            bounds.SetZero();
+        }
+
+        public void Save(StringBuilder sb)
+        {
+            sb.Append(_id).Append(';').
+                Append((byte)(_color >> 16)).Append(';').
+                Append((byte)(_color >> 8)).Append(';').
+                Append((byte)_color).Append(';').
+                Append(GetTypeString()).Append(';');
+            if (_isCoastal) sb.Append("true;");
+            else sb.Append("false;");
+            if (_terrain == null) sb.Append("unknown;");
+            else sb.Append(_terrain.name).Append(';');
+            sb.Append(_continentId).Append(Constants.NEW_LINE);
+        }
+
+        public bool CheckCoastalType()
+        {
+            return _type == EnumProvinceType.SEA ?
+                HasBorderWithOtherThanThisTypeId(EnumProvinceType.SEA) :
+                HasBorderWithTypeId(EnumProvinceType.SEA);
+        }
+
+        public void AddBorder(ProvinceBorder border)
+            => borders.Add(border);
+        public void ClearBorders()
+            => borders.Clear();
+
+        public void ForEachBorder(Action<ProvinceBorder> action)
+        {
+            foreach (var b in borders)
+                action(b);
+        }
+        public void ForEachAdjacentProvince(Action<Province, Province> action)
+        {
+            foreach (var b in borders)
+            {
+                if (b.provinceA == this)
+                    action(this, b.provinceB);
+                else if (b.provinceB == this)
+                    action(this, b.provinceA);
+            }
+
+            if (_adjacencies != null)
+            {
+                foreach (var adj in _adjacencies)
+                {
+                    if (adj.GetEnumType() == EnumAdjaciencyType.IMPASSABLE)
+                        continue;
+
+                    if (adj.StartProvince == this)
+                        action(this, adj.EndProvince);
+                    if (adj.EndProvince == this)
+                        action(this, adj.StartProvince);
+                }
+            }
+        }
+
+        public List<Province> FindPathTo(Province goal)
+            => ProvinceManager.FindPathAStar(this, goal);
+
+        public int GetRailwaysCount()
+            => _railways == null ? 0 : _railways.Count;
 
         public bool AddRailway(Railway railway)
         {
+            if (railway == null)
+                return false;
+
             if (_railways == null)
             {
                 _railways = new List<Railway>() { railway };
                 return true;
             }
-            else if (!_railways.Contains(railway))
+
+            if (!_railways.Contains(railway))
             {
                 _railways.Add(railway);
                 return true;
             }
-            else
-                return false;
+
+            return false;
         }
 
         public bool RemoveRailway(Railway railway)
-        {
-            if (_railways == null)
-                return false;
-            return
-                _railways.Remove(railway);
-        }
+            => _railways == null ? false : _railways.Remove(railway);
 
         public bool ContainsRailway(Railway railway)
-        {
-            if (_railways == null)
-                return false;
-            return
-                _railways.Contains(railway);
-        }
+            => _railways == null ? false : _railways.Contains(railway);
 
         public void ForEachRailway(Action<Railway> action)
         {
@@ -244,49 +306,35 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return false;
         }
 
-        private List<Adjacency> _adjacencies;
         public int GetAdjacenciesCount()
-        {
-            if (_adjacencies == null)
-                return 0;
-            return
-                _adjacencies.Count;
-        }
+            => _adjacencies == null ? 0 : _adjacencies.Count;
         public List<Adjacency> GetAdjacenciesCopy()
-        {
-            return new List<Adjacency>(_adjacencies);
-        }
+            => new List<Adjacency>(_adjacencies);
 
         public bool AddAdjacency(Adjacency adjacency)
         {
+            if (adjacency == null)
+                return false;
             if (_adjacencies == null)
             {
                 _adjacencies = new List<Adjacency>() { adjacency };
                 return true;
             }
-            else if (!_adjacencies.Contains(adjacency))
+
+            if (!_adjacencies.Contains(adjacency))
             {
                 _adjacencies.Add(adjacency);
                 return true;
             }
-            else return false;
+
+            return false;
         }
 
         public bool RemoveAdjacency(Adjacency adjacency)
-        {
-            if (_adjacencies == null)
-                return false;
-            return
-                _adjacencies.Remove(adjacency);
-        }
+            => _adjacencies == null ? false : _adjacencies.Remove(adjacency);
 
         public bool ContainsAdjacency(Adjacency adjacency)
-        {
-            if (_adjacencies == null)
-                return false;
-            return
-                _adjacencies.Contains(adjacency);
-        }
+            => _adjacencies == null ? false : _adjacencies.Contains(adjacency);
 
         public void ForEachAdjacency(Action<Adjacency> action)
         {
@@ -309,185 +357,6 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             }
 
             return null;
-        }
-
-        public List<ProvinceBorder> borders = new List<ProvinceBorder>(4);
-        public void ForEachBorder(Action<ProvinceBorder> action)
-        {
-            foreach (var b in borders)
-                action(b);
-        }
-        public void ForEachAdjacentProvince(Action<Province, Province> action)
-        {
-            foreach (var b in borders)
-            {
-                if (b.provinceA == this)
-                    action(this, b.provinceB);
-                else if (b.provinceB == this)
-                    action(this, b.provinceA);
-            }
-
-            if (_adjacencies != null)
-            {
-                foreach (var adj in _adjacencies)
-                {
-                    if (adj.GetEnumType() == EnumAdjaciencyType.IMPASSABLE)
-                        continue;
-
-                    if (adj.StartProvince == this)
-                        action(this, adj.EndProvince);
-                    if (adj.EndProvince == this)
-                        action(this, adj.StartProvince);
-                }
-            }
-        }
-
-        private Dictionary<Building, uint> _buildings;
-
-        public int GetBuildingsCount()
-        {
-            if (_buildings == null)
-                return 0;
-            return
-                _buildings.Count;
-        }
-        public void SetBuilding(Building building, uint count)
-        {
-            if (_buildings == null)
-                _buildings = new Dictionary<Building, uint>() { { building, count } };
-            else
-                _buildings[building] = count;
-        }
-
-        public bool RemoveBuilding(Building building)
-        {
-            if (_buildings == null)
-                return false;
-            return
-                _buildings.Remove(building);
-        }
-
-        public bool TryGetBuildingCount(Building building, out uint count)
-        {
-            count = 0;
-            if (_buildings == null)
-                return false;
-            return
-                _buildings.TryGetValue(building, out count);
-        }
-
-        public uint GetBuildingCount(Building building)
-        {
-            if (_buildings == null)
-                return 0;
-
-            _buildings.TryGetValue(building, out uint count);
-            return count;
-        }
-
-        public void SetBuildings(Dictionary<Building, uint> buildings) => _buildings = buildings;
-
-        public void ForEachBuilding(Action<Building, uint> action)
-        {
-            if (_buildings == null)
-                return;
-            foreach (var entry in _buildings)
-                action(entry.Key, entry.Value);
-        }
-
-        public bool HasPort()
-        {
-            if (_buildings == null || _buildings.Count == 0)
-                return false;
-
-            foreach (var building in _buildings.Keys)
-                if (building.IsPort.GetValue())
-                    return true;
-
-            return false;
-        }
-        public bool WillHavePortInHistory()
-        {
-            var history = State?.History.GetValue();
-            if (history == null)
-                return false;
-
-            return history.WillHavePortInHistory(this);
-        }
-        public void ClearBuildings() => _buildings = null;
-
-        public bool IsSuitableForShips() => _type == EnumProvinceType.SEA || CanBeNavalBaseForShips();
-        public bool CanBeNavalBaseForShips() => _type == EnumProvinceType.LAND && (HasPort() || WillHavePortInHistory());
-
-        public int pixelsCount;
-        public bool dislayCenter;
-        public Point2F center;
-        public Bounds4S bounds;
-
-        public Province()
-        {
-
-        }
-
-        public Province(ushort id, int color)
-        {
-            _id = id;
-            _color = color;
-        }
-
-        public Province(ushort id, int color, EnumProvinceType type, bool isCoastal, ProvincialTerrain terrain, byte continentId)
-        {
-            _id = id;
-            _color = color;
-            _isCoastal = isCoastal;
-            _type = type;
-            _terrain = terrain;
-            _continentId = continentId;
-        }
-
-        public void AddPixel(int x, int y)
-        {
-            if (pixelsCount == 0)
-                bounds.Set((short)x, (short)y);
-            else
-                bounds.ExpandIfNeeded((short)x, (short)y);
-
-            pixelsCount++;
-            center.x += (x - center.x) / pixelsCount;
-            center.y += (y - center.y) / pixelsCount;
-        }
-
-        public void ResetPixels()
-        {
-            pixelsCount = 0;
-            center.x = 0;
-            center.y = 0;
-            bounds.SetZero();
-        }
-
-        public void AddBorder(ProvinceBorder border) => borders.Add(border);
-        public void ClearBorders() => borders.Clear();
-
-        public List<Province> FindPathTo(Province goal) => ProvinceManager.FindPathAStar(this, goal);
-
-        public void Save(StringBuilder sb)
-        {
-            sb.Append(_id).Append(';').
-                Append((byte)(_color >> 16)).Append(';').
-                Append((byte)(_color >> 8)).Append(';').
-                Append((byte)_color).Append(';').
-                Append(GetTypeString()).Append(';');
-            if (_isCoastal) sb.Append("true;");
-            else sb.Append("false;");
-            if (_terrain == null) sb.Append("unknown;");
-            else sb.Append(_terrain.name).Append(';');
-            sb.Append(_continentId).Append(Constants.NEW_LINE);
-        }
-
-        public bool CheckCoastalType()
-        {
-            if (_type == EnumProvinceType.SEA) return HasBorderWithOtherThanThisTypeId(EnumProvinceType.SEA);
-            else return HasBorderWithTypeId(EnumProvinceType.SEA);
         }
 
         public bool HasBorderWithOtherThanThisTypeId(EnumProvinceType otherType)
@@ -594,13 +463,72 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return false;
         }
 
-        public int CompareTo(Province other)
+        public int GetBuildingsCount()
+            => _buildings == null ? 0 : _buildings.Count;
+
+        public void SetBuilding(Building building, uint count)
         {
-            if (other == null)
-                return 0;
-            return
-                _id - other._id;
+            if (building == null)
+                return;
+
+            if (_buildings == null)
+                _buildings = new Dictionary<Building, uint>() { { building, count } };
+            else
+                _buildings[building] = count;
         }
+
+        public bool RemoveBuilding(Building building)
+            => _buildings == null ? false : _buildings.Remove(building);
+
+        public bool TryGetBuildingCount(Building building, out uint count)
+        {
+            count = 0;
+            return _buildings == null ? false : _buildings.TryGetValue(building, out count);
+        }
+
+        public uint GetBuildingCount(Building building)
+            => (_buildings == null || !_buildings.TryGetValue(building, out var count)) ? 0 : count;
+
+        public void SetBuildings(Dictionary<Building, uint> buildings)
+            => _buildings = buildings;
+
+        public void ForEachBuilding(Action<Building, uint> action)
+        {
+            if (_buildings == null)
+                return;
+            foreach (var entry in _buildings)
+                action(entry.Key, entry.Value);
+        }
+
+        public bool HasPort()
+        {
+            if (_buildings == null || _buildings.Count == 0)
+                return false;
+
+            foreach (var building in _buildings.Keys)
+                if (building.IsPort.GetValue())
+                    return true;
+
+            return false;
+        }
+        public bool WillHavePortInHistory()
+        {
+            var history = State?.History.GetValue();
+            if (history == null)
+                return false;
+
+            return history.WillHavePortInHistory(this);
+        }
+        public void ClearBuildings()
+            => _buildings = null;
+
+        public bool IsSuitableForShips()
+            => _type == EnumProvinceType.SEA || CanBeNavalBaseForShips();
+        public bool CanBeNavalBaseForShips()
+            => _type == EnumProvinceType.LAND && (HasPort() || WillHavePortInHistory());
+
+        public int CompareTo(Province other)
+            => other == null ? 0 : _id - other._id;
 
     }
 

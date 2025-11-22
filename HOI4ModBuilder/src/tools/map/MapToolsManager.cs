@@ -59,7 +59,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         {
             Logger.TryOrLog(() =>
             {
-                if (!MainForm.IsFirstLoaded)
+                if (!MainForm.IsFirstLoaded || MapManager.ProvincesPixels == null)
                     return;
                 if (!_mapTools.TryGetValue(enumTool, out MapTool mapTool))
                     return;

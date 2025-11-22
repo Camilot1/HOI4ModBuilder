@@ -439,6 +439,13 @@ namespace HOI4ModBuilder.src.utils
         public static int ErrorsCount => _errors.Count;
         public static int ExceptionsCount => _exceptions.Count;
 
+        public static void ClearAllWarningsErrorsAndExceptions()
+        {
+            _warnings = new List<string>();
+            _errors = new List<string>();
+            _exceptions = new List<string>();
+        }
+
         public static void DisplayWarnings()
         {
             if (_warnings.Count == 0)

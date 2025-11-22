@@ -91,6 +91,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 ));
 
             MainForm.ExecuteActionsParallelNoDisplay(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_STATES, actions);
+            //foreach (var action in actions) //DEBUG
+            //    action.Item2();
             foreach (var addAction in addActions)
                 addAction();
             foreach (var state in _statesById.Values)
@@ -158,6 +160,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 actions.Add((null, () => Save(settings, state)));
 
             ParallelUtils.Execute(actions);
+            //foreach (var actionEntry in actions) //DEBUG
+            //    actionEntry.Item2();
         }
 
         public static void Save(BaseSettings settings, State state)

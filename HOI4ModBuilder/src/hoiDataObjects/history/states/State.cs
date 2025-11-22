@@ -4,9 +4,11 @@ using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
+using HOI4ModBuilder.src.hoiDataObjects.common.strategicLocations;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
+using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
@@ -80,6 +82,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public string CurrentName { get; set; }
 
         public readonly GameParameter<StateCategory> StateCategory = new GameParameter<StateCategory>()
+            .INIT_ForceValueInlineParse(true)
             .INIT_SetValueParseAdapter((o, token) => StateCategoryManager.GetStateCategory((string)token))
             .INIT_SetValueSaveAdapter((o) => o.name);
         public StateCategory CurrentStateCategory { get; set; }
@@ -103,6 +106,15 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public readonly GameParameter<float> BuildingsMaxLevelFactor = new GameParameter<float>();
         public readonly GameParameter<float> LocalSupplies = new GameParameter<float>();
         public readonly GameParameter<bool> IsImpassable = new GameParameter<bool>();
+
+        private ushort? _tempForceLinkOwnershipToState;
+        public readonly GameParameter<State> ForceLinkOwnershipToState = new GameParameter<State>()
+            .INIT_ForceValueInlineParse(true)
+            .INIT_SetValueParseAdapter((o, token) =>
+            {
+                ((State)((IParentable)o).GetParent())._tempForceLinkOwnershipToState = ushort.Parse((string)token);
+                return null;
+            });
         public bool CurrentIsDemilitarized { get; set; }
         public List<Country> CurrentCoresOf { get; set; } = new List<Country>(0);
         public List<Country> CurrentClaimsBy { get; set; } = new List<Country>(0);
@@ -123,6 +135,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             { "buildings_max_level_factor", (o) => ((State)o).BuildingsMaxLevelFactor },
             { "local_supplies", (o) => ((State)o).LocalSupplies },
             { "impassable", (o) => ((State)o).IsImpassable },
+            { "force_link_ownership_to", (o) => ((State)o).ForceLinkOwnershipToState },
             { "history", (o) => ((State)o).History },
         };
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
@@ -165,6 +178,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         public Dictionary<Building, uint> stateBuildings = new Dictionary<Building, uint>(0);
         public Dictionary<Province, Dictionary<Building, uint>> provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
+
+        public Dictionary<Province, StrategicLocation> provinceStrategicLocations = new Dictionary<Province, StrategicLocation>(0);
+        public Dictionary<Province, StrategicLocation> stateStrategicLocations = new Dictionary<Province, StrategicLocation>(0);
 
         public uint GetStateBuildingCount(Building building)
         {
@@ -560,13 +576,21 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             RecalculateIsCoastalState();
 
             //
+
+
+            var vpToRemoveList = new List<VPInfo>();
             var vpInfoList = new List<VPInfo>();
             ForEachVictoryPoints((dateTime, stateHistory, victoryPoint) =>
             {
-                if (victoryPoint.province != null && victoryPoint.province.State != this)
+                if (victoryPoint.province.State == null || victoryPoint.province.Type != EnumProvinceType.LAND)
+                    vpToRemoveList.Add(new VPInfo(dateTime, stateHistory, victoryPoint));
+                else if (victoryPoint.province != null && victoryPoint.province.State != this)
                     vpInfoList.Add(new VPInfo(dateTime, stateHistory, victoryPoint));
                 return false;
             });
+
+            foreach (var vpInfo in vpToRemoveList)
+                vpInfo.stateHistory.RemoveVictoryPoint(vpInfo.victoryPoint);
 
             foreach (var vpInfo in vpInfoList)
             {
@@ -617,6 +641,26 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
                     hasChanged = true;
                 }
+            }
+
+            if (_tempForceLinkOwnershipToState != null)
+            {
+                if (!StateManager.TryGetState((ushort)_tempForceLinkOwnershipToState, out var forceLinkState))
+                    Logger.LogWarning(
+                        EnumLocKey.WARNING_STATE_FORCE_LINK_OWNERSHIP_POINTS_TO_NOT_PRESENT_STATE,
+                        new Dictionary<string, string>
+                        {
+                            { "{stateID}", $"{Id.GetValue()}" },
+                            { "{filePath}", GetGameFile()?.FilePath },
+                            { "{forceLinkOwnershipToId}", $"{_tempForceLinkOwnershipToState}" }
+                        }
+                    );
+                else
+                {
+                    ForceLinkOwnershipToState.SetValue(forceLinkState);
+                    _tempForceLinkOwnershipToState = null;
+                }
+
             }
         }
 

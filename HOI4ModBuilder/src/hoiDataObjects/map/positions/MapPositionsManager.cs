@@ -144,8 +144,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
             string name = building.Name;
 
             var spawnPoint = building.SpawnPoint.GetValue();
-            if (spawnPoint.value != null)
-                name = spawnPoint.value.name;
+            if (spawnPoint != null)
+                name = spawnPoint.name;
 
             var info = RequestBuildingInfo(name);
 

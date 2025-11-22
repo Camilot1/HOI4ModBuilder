@@ -105,7 +105,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         currentCount += province.State.stateBuildings[b];
                 }
 
-                maxCount = (uint)Math.Round(province.State.CurrentStateCategory.localBuildingsSlots * province.State.BuildingsMaxLevelFactor.GetValueRaw(1f));
+                maxCount = (uint)Math.Round(
+                    province.State.CurrentStateCategory.LocalBuildingsSlots.GetValueRaw(0) *
+                    province.State.BuildingsMaxLevelFactor.GetValueRaw(1f)
+                );
                 freeSlots = maxCount - currentCount;
                 province.State.stateBuildings.TryGetValue(building, out prevCount);
             }

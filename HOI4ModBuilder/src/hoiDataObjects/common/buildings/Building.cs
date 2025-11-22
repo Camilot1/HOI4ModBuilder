@@ -26,12 +26,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public readonly GameParameter<ushort> ShowOnMapCount = new GameParameter<ushort>();
         public readonly GameParameter<ushort> ShowOnMapMeshes = new GameParameter<ushort>();
         public readonly GameParameter<bool> IsAlwaysShown = new GameParameter<bool>();
+        public readonly GameParameter<bool> IsDrawAtDistance = new GameParameter<bool>();
         public readonly GameParameter<bool> HasDestroyedMesh = new GameParameter<bool>();
         public readonly GameParameter<bool> IsDisableGrowAnimation = new GameParameter<bool>();
         public readonly GameParameter<bool> IsCentered = new GameParameter<bool>();
-        public readonly GameParameter<GameKeyObject<SpawnPoint>> SpawnPoint = new GameParameter<GameKeyObject<SpawnPoint>>()
-            .INIT_SetValueParseAdapter((o, value) => new GameKeyObject<SpawnPoint> { key = value })
-            .INIT_SetValueSaveAdapter((o) => o.key is GameConstant ? o.key : (o.value != null ? o.value.name : o.key));
+        public readonly GameParameter<SpawnPoint> SpawnPoint = new GameParameter<SpawnPoint>()
+            .INIT_ForceValueInlineParse(true)
+            .INIT_SetValueParseAdapter((o, token) => BuildingManager.GetSpawnPoint((string)token));
         public readonly GameParameter<ushort> IconFrame = new GameParameter<ushort>();
         public readonly GameParameter<GameString> SpecialIcon = new GameParameter<GameString>();
         public readonly GameParameter<bool> IsBuildable = new GameParameter<bool>();
@@ -43,24 +44,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public readonly GameParameter<uint> ExtraCostPerControllerBuilding = new GameParameter<uint>();
         public readonly GameParameter<bool> HasInfrastructureConstructionEffect = new GameParameter<bool>();
 
+        public readonly GameParameter<BuildingPrerequisite> BuildingPrerequisite = new GameParameter<BuildingPrerequisite>();
         public readonly GameParameter<BuildingLevelCap> LevelCap = new GameParameter<BuildingLevelCap>();
 
         public readonly GameParameter<float> BaseHealth = new GameParameter<float>();
         public readonly GameParameter<float> DamageFactor = new GameParameter<float>();
         public readonly GameParameter<float> RepairSpeedFactor = new GameParameter<float>();
-        public readonly GameList<GameKeyObject<ScriptBlockParseObject>> ProvinceDamageModifiers = new GameList<GameKeyObject<ScriptBlockParseObject>>()
-            .INIT_SetValueParseAdapter((o, value) => new GameKeyObject<ScriptBlockParseObject>
-            {
-                key = ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(value))
-            });
-        public readonly GameList<GameKeyObject<ScriptBlockParseObject>> StateDamageModifiers = new GameList<GameKeyObject<ScriptBlockParseObject>>()
-            .INIT_SetValueParseAdapter((o, value) => new GameKeyObject<ScriptBlockParseObject>
-            {
-                key = ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(value))
-            });
+        public readonly GameList<ScriptBlockParseObject> ProvinceDamageModifiers = new GameList<ScriptBlockParseObject>()
+            .INIT_ForceInlineParse(true)
+            .INIT_SetValueParseAdapter((o, value) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(value)));
+        public readonly GameList<ScriptBlockParseObject> StateDamageModifiers = new GameList<ScriptBlockParseObject>()
+            .INIT_ForceInlineParse(true)
+            .INIT_SetValueParseAdapter((o, value) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(value)));
         public readonly GameParameter<bool> IsAlliedBuild = new GameParameter<bool>();
         public readonly GameParameter<bool> IsOnlyCoastal = new GameParameter<bool>();
         public readonly GameParameter<bool> IsPort = new GameParameter<bool>();
+        public readonly GameParameter<bool> IsNavalSupplyHub = new GameParameter<bool>();
         public readonly GameParameter<bool> IsDisabledInDMZ = new GameParameter<bool>();
         public readonly GameParameter<bool> IsShowModifier = new GameParameter<bool>();
         public readonly GameList<ScriptBlockParseObject> StateModifiers = new GameList<ScriptBlockParseObject>()
@@ -74,6 +73,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public readonly GameParameter<bool> IsOnlyDisplayIfExists = new GameParameter<bool>();
         public readonly GameList<GameString> Specialization = new GameList<GameString>();
         public readonly GameList<GameString> Tags = new GameList<GameString>();
+        public readonly GameList<GameString> Modules = new GameList<GameString>();
 
         private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
         {
@@ -81,6 +81,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             { "show_on_map", o => ((Building)o).ShowOnMapCount },
             { "show_on_map_meshes", o => ((Building)o).ShowOnMapMeshes },
             { "always_shown", o => ((Building)o).IsAlwaysShown },
+            { "drawn_at_distance", o => ((Building)o).IsDrawAtDistance },
             { "has_destroyed_mesh", o => ((Building)o).HasDestroyedMesh },
             { "disable_grow_animation", o => ((Building)o).IsDisableGrowAnimation },
             { "centered", o => ((Building)o).IsCentered },
@@ -102,7 +103,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             { "allied_build", o => ((Building)o).IsAlliedBuild },
             { "only_costal", o => ((Building)o).IsOnlyCoastal },
             { "is_port", o => ((Building)o).IsPort },
+            { "naval_supply_hub", o => ((Building)o).IsNavalSupplyHub },
             { "disabled_in_dmz", o => ((Building)o).IsDisabledInDMZ },
+            { "building_prerequisite", o => ((Building)o).BuildingPrerequisite },
             { "level_cap", o => ((Building)o).LevelCap },
             { "show_modifier", o => ((Building)o).IsShowModifier },
             { "state_modifiers", o => ((Building)o).StateModifiers },
@@ -115,6 +118,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             { "only_display_if_exists", o => ((Building)o).IsOnlyDisplayIfExists },
             { "specialization", o => ((Building)o).Specialization },
             { "tags", o => ((Building)o).Tags },
+            { "modules", o => ((Building)o).Modules },
         };
 
         public readonly GameList<ScriptBlockParseObject> Modifiers = new GameList<ScriptBlockParseObject>();
@@ -158,21 +162,21 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         public override void Validate(LinkedLayer layer)
         {
             var spawnPoint = SpawnPoint.GetValue();
-            if (spawnPoint.key != null)
+            if (spawnPoint != null)
             {
-                if (!(spawnPoint.key is string spawnPointKeyString))
+                if (!(spawnPoint.name is string spawnPointKeyString))
                     Logger.LogLayeredError(layer, EnumLocKey.ERROR_OBJECT_PARAMETER_INVALID_VALUE, new Dictionary<string, string>
                     {
                         { "{object}", _name },
                         { "{parameter}", "spawn_point" },
-                        { "{value}", $"{spawnPoint.key}" },
+                        { "{value}", $"{spawnPoint.name}" },
                     });
-                else if (!BuildingManager.PARSER_AllSpawnPoints.TryGetValue(spawnPointKeyString, out spawnPoint.value))
+                else if (!BuildingManager.PARSER_AllSpawnPoints.TryGetValue(spawnPointKeyString, out spawnPoint))
                     Logger.LogLayeredWarning(layer, EnumLocKey.WARNING_OBJECT_PARAMETER_VALUE_NOT_FOUND, new Dictionary<string, string>
                     {
                         { "{object}", _name },
                         { "{parameter}", "spawn_point" },
-                        { "{value}", $"{spawnPoint.key}" },
+                        { "{value}", $"{spawnPoint.name}" },
                     });
                 else
                     SpawnPoint.SetSilentValue(spawnPoint);

@@ -45,7 +45,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
         public virtual void Save(StringBuilder sb, string outTab, string tab)
         {
-            if (innerArgsBlocks.Count == 0 && Value != null && (InfoArgsBlock == null || Value != InfoArgsBlock.DefaultValue || InfoArgsBlock.DefaultValueType == EnumValueType.NONE))
+            if (innerArgsBlocks.Count == 0 && Value != null &&
+                (InfoArgsBlock == null || Value != InfoArgsBlock.DefaultValue || InfoArgsBlock.DefaultValueType == EnumValueType.NONE))
             {
                 if (CurrentLevelDataBlocks.Count == 1)
                     ParadoxUtils.SaveInlineWithDemiliter(sb, "", GetName(), Demiliter, Value);
@@ -74,7 +75,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             else if (innerArgsBlocks.Count > 1)
             {
                 ParadoxUtils.StartBlock(sb, outTab, GetName());
-                foreach (var block in innerArgsBlocks) block.Save(sb, outTab + tab, tab);
+                foreach (var block in innerArgsBlocks)
+                    block.Save(sb, outTab + tab, tab);
                 ParadoxUtils.EndBlock(sb, outTab);
             }
         }
@@ -98,11 +100,13 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
             foreach (var innerBlock in innerArgsBlocks)
             {
-                if (innerBlock.IsUniversalParameter) universalParametersCount++;
-                else commonParametersCount++;
+                if (innerBlock.IsUniversalParameter)
+                    universalParametersCount++;
+                else
+                    commonParametersCount++;
             }
 
-            if (universalParamsInfo.MaxUniversalParamsCount < universalParametersCount)
+            if (universalParamsInfo.MaxUniversalParamsCount < universalParametersCount && universalParamsInfo.MaxUniversalParamsCount != -1)
                 throw new Exception(GuiLocManager.GetLoc(
                     EnumLocKey.EXCEPTION_DATA_ARGS_BLOCK_HAS_MORE_UNIVERSAL_PARAMS_THAN_ALLOWED,
                     new Dictionary<string, string>

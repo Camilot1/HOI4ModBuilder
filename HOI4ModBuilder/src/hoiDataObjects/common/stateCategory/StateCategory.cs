@@ -1,5 +1,11 @@
-﻿using HOI4ModBuilder.src.dataObjects;
+﻿using HOI4ModBuilder.hoiDataObjects.history.countries;
+using HOI4ModBuilder.src.dataObjects;
 using HOI4ModBuilder.src.dataObjects.argBlocks;
+using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
+using HOI4ModBuilder.src.newParser;
+using HOI4ModBuilder.src.newParser.interfaces;
+using HOI4ModBuilder.src.newParser.objects;
+using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
 using Pdoxcl2Sharp;
 using System;
@@ -11,7 +17,7 @@ using static HOI4ModBuilder.utils.Structs;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
 {
-    public class StateCategory : IParadoxRead
+    public class StateCategory : AbstractParseObject
     {
         private readonly int _hashCode = NextHashCode;
         private static int _nextHashCode;
@@ -19,9 +25,40 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
         public override int GetHashCode() => _hashCode;
 
         public string name;
-        public int color;
-        public uint localBuildingsSlots;
-        public List<DataArgsBlock> modifiers = new List<DataArgsBlock>(0);
+
+        public int ColorInt { get; private set; }
+        public readonly GameList<byte> Color = new GameList<byte>();
+        public readonly GameParameter<uint> LocalBuildingsSlots = new GameParameter<uint>();
+        public readonly GameDictionary<Building, uint> BuildingsMaxLevel = new GameDictionary<Building, uint>()
+            .INIT_SetKeyParseAdapter(token => BuildingManager.GetBuilding(token));
+
+        private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
+        {
+            { "color", o => ((StateCategory)o).Color },
+            { "local_building_slots", o => ((StateCategory)o).LocalBuildingsSlots },
+            { "buildings_max_level", o => ((StateCategory)o).BuildingsMaxLevel },
+        };
+        public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
+
+
+        public readonly GameList<ScriptBlockParseObject> Modifiers = new GameList<ScriptBlockParseObject>();
+
+        private static readonly Dictionary<string, DynamicGameParameter> DYNAMIC_ADAPTER = new Dictionary<string, DynamicGameParameter>
+        {
+            { "modifiers", new DynamicGameParameter {
+                provider = o => ((StateCategory)o).Modifiers,
+                factory = (o, key) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(key))
+            } },
+        };
+        public override Dictionary<string, DynamicGameParameter> GetDynamicAdapter() => DYNAMIC_ADAPTER;
+
+        private static readonly SavePattern SAVE_PATTERN = new SavePattern(new[] { "common" }, "StateCategory")
+            .Add(STATIC_ADAPTER.Keys)
+            .Add(DYNAMIC_ADAPTER.Keys)
+            .Load();
+        public override SavePattern GetSavePattern() => SAVE_PATTERN;
+
+        public override IParseObject GetEmptyCopy() => new StateCategory();
 
         public StateCategory() { }
         public StateCategory(string name) : this()
@@ -29,35 +66,24 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
             this.name = name;
         }
 
-        public void TokenCallback(ParadoxParser parser, string token)
+        public override void Validate(LinkedLayer layer)
         {
-            switch (token)
+            base.Validate(layer);
+
+            if (Color.Count != 3)
             {
-                case "color":
-                    var colorList = parser.ReadIntList();
-                    if (colorList.Count == 3) color = Utils.ArgbToInt(255, (byte)colorList[0], (byte)colorList[1], (byte)colorList[2]);
-                    break;
-                case "local_building_slots":
-                    localBuildingsSlots = parser.ReadUInt32();
-                    break;
-                default:
-                    try
+                Logger.LogWarning(
+                    EnumLocKey.WARNING_STATE_CATEGORY_INVALID_COLOR,
+                    new Dictionary<string, string>
                     {
-                        DataArgsBlocksManager.ParseDataArgsBlocks(parser, token, modifiers);
+                        { "{name}", name },
+                        { "{filePath}", GetGameFile()?.FilePath },
+                        { "{color}", "{" + string.Join(" ", Color) + "}" }
                     }
-                    catch (Exception ex)
-                    {
-                        throw new Exception(GuiLocManager.GetLoc(
-                            EnumLocKey.EXCEPTION_WHILE_STATE_CATEGORY_LOADING,
-                            new Dictionary<string, string>
-                            {
-                                { "{name}", name },
-                                { "{token}", token }
-                            }
-                        ), ex);
-                    }
-                    break;
+                );
             }
+
+            ColorInt = Utils.RgbToInt(Color[0], Color[1], Color[2]);
         }
     }
 }

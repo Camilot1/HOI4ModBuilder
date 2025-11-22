@@ -118,6 +118,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             }
         }
 
+        public void RemoveVictoryPoint(VictoryPoint vp)
+        {
+            if (VictoryPoints.Remove(vp))
+            {
+                vp.province.victoryPoints = 0;
+                SetNeedToSave(true);
+            }
+        }
+
 
         public bool SetVictoryPoints(Province province, uint newValue)
         {
@@ -287,8 +296,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         {
             InnerHistories.SortIfNeeded();
             base.Validate(layer);
-
-            VictoryPoints.RemoveIf(vp => vp.province.State == null || vp.province.Type != EnumProvinceType.LAND);
         }
 
         public bool SortInnerHistoriesIfNeeded() => InnerHistories.SortIfNeeded();

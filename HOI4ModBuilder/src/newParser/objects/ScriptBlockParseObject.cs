@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.src.dataObjects.argBlocks;
+﻿using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.structs;
@@ -351,6 +352,14 @@ namespace HOI4ModBuilder.src.newParser.objects
                             {
                                 ValueType = EnumValueType.FLOAT;
                                 _value = floatValue;
+                                hasParsedValue = true;
+                            }
+                            break;
+                        case EnumValueType.PROVINCE:
+                            if (ushort.TryParse(value, out var provinceID) && ProvinceManager.TryGetProvince(provinceID, out var province))
+                            {
+                                ValueType = EnumValueType.PROVINCE;
+                                _value = province;
                                 hasParsedValue = true;
                             }
                             break;

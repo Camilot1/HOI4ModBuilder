@@ -20,7 +20,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
             CanHaveAnyInnerBlocks ||
             MandatoryInnerArgsBlocks != null && MandatoryInnerArgsBlocks.Count > 0 ||
             AllowedInnerArgsBlocks != null && AllowedInnerArgsBlocks.Count > 0 ||
-            AllowedUniversalParamsInfo != null && AllowedUniversalParamsInfo.MaxUniversalParamsCount > 0;
+            AllowedUniversalParamsInfo != null &&
+            (AllowedUniversalParamsInfo.MaxUniversalParamsCount == -1 || AllowedUniversalParamsInfo.MaxUniversalParamsCount > 0);
 
         [JsonConverter(typeof(EnumArrayToStringConverter<EnumArgsBlockFunctions>))]
         [JsonProperty("functions")] private EnumArgsBlockFunctions[] _functions;
@@ -165,7 +166,8 @@ namespace HOI4ModBuilder.src.dataObjects.argBlocks
 
         [JsonIgnore]
         public bool CanHaveUniversalParams
-            => MaxUniversalParamsCount > 0 && AllowedValueTypes != null && AllowedValueTypes.Length > 0;
+            => (MaxUniversalParamsCount == -1 || MaxUniversalParamsCount > 0) &&
+                AllowedValueTypes != null && AllowedValueTypes.Length > 0;
 
     }
 }

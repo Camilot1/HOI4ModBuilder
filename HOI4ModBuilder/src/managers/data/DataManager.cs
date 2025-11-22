@@ -9,6 +9,7 @@ using HOI4ModBuilder.src.hoiDataObjects.common.bookmarks;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.ideologies;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
+using HOI4ModBuilder.src.hoiDataObjects.common.strategicLocations;
 using HOI4ModBuilder.src.hoiDataObjects.common.units;
 using HOI4ModBuilder.src.hoiDataObjects.common.units.divisionsNames;
 using HOI4ModBuilder.src.hoiDataObjects.common.units.equipment;
@@ -56,6 +57,7 @@ namespace HOI4ModBuilder.managers
             if (!CanStartLoad())
                 return;
 
+            Logger.ClearAllWarningsErrorsAndExceptions();
             MainForm.IsFirstLoaded = true;
 
             MainForm.StartNew_LoadSaveUpdate();
@@ -209,6 +211,7 @@ namespace HOI4ModBuilder.managers
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_COUNTRIES,() => CountryManager.Load(settings)),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_BUILDINGS, () => BuildingManager.Load(settings)),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_BUILDINGS, () => InfoArgsBlocksManager.LoadBuildingsCustomArgsBlocks()),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_STRATEGIC_LOCATIONS, () => StrategicLocationManager.Load(settings)),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_RESOURCES, () => ResourceManager.Load(settings)),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_STATE_CATEGORIES, () => StateCategoryManager.Load(settings)),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_IDEOLOGIES, () => IdeologyManager.Load(settings)),

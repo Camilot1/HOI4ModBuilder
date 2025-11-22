@@ -54,10 +54,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 
         private void CustomValidateBuildings(LinkedLayer layer)
         {
-            var allBuildings = BuildingManager.PARSER_AllBuildings;
             foreach (var buildingEntry in Buildings)
             {
-                if (allBuildings.ContainsKey(buildingEntry.Key))
+                if (BuildingManager.HasBuilding(buildingEntry.Key))
                     Logger.LogLayeredWarning(layer, EnumLocKey.WARNING_OBJECT_PARAMETER_OVERRIDE, new Dictionary<string, string>
                     {
                         { "{object}", "buildings" },
@@ -65,7 +64,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
                         { "{value}", $"{buildingEntry.Key}" },
                     });
                 else
-                    allBuildings[buildingEntry.Key] = buildingEntry.Value;
+                    BuildingManager.AddBuildingSilent(buildingEntry.Value);
             }
         }
 

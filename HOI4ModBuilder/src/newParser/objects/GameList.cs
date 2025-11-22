@@ -11,6 +11,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 {
     public class GameList<T> : AbstractParseObject, IValuePushable, ISizable, IEnumerable<T> where T : new()
     {
+        private bool _forceInlineParse;
         private bool _allowsInlineAdd;
         private bool _forceSeparateLineSave;
         private Func<object, string, T> _valueParseAdapter;
@@ -22,6 +23,12 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             _allowsInlineAdd = allowsInlineAdd;
             _forceSeparateLineSave = forceSeparateLineSave;
+        }
+
+        public GameList<T> INIT_ForceInlineParse(bool value)
+        {
+            _forceInlineParse = value;
+            return this;
         }
         public GameList<T> INIT_SetAllowsInlineAdd(bool value)
         {
@@ -99,9 +106,9 @@ namespace HOI4ModBuilder.src.newParser.objects
                     if (obj == null)
                         throw new Exception("Parsed value is null for token \"" + token + "\". It is not defined and not found while parsing: " + parser.GetCursorInfo());
 
-                    if (obj is IParseObject parseObject)
+                    if (obj is IParseObject parseObject && !_forceInlineParse)
                         parseObject.ParseCallback(parser);
-                    else if (obj is ICommentable commentable)
+                    if (obj is ICommentable commentable)
                         commentable.SetComments(tokenComments);
                     AddSilent(obj);
 
@@ -145,7 +152,7 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         private List<T> _list = new List<T>();
 
-        public int RemoveIf(Func<T, bool> predicate)
+        public int RemoveAllIf(Func<T, bool> predicate)
         {
             int count = 0;
             for (int i = _list.Count - 1; i >= 0; i--)

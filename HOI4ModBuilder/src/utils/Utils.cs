@@ -91,6 +91,15 @@ namespace HOI4ModBuilder
             return true;
         }
 
+
+        public static void Setter<T>(ref T parameter, ref T value, Action<bool> needToSaveAction)
+        {
+            bool needToSave = false;
+            Setter(ref parameter, ref value, ref needToSave);
+            if (needToSave)
+                needToSaveAction?.Invoke(true);
+        }
+
         public static void Setter<T>(ref T parameter, ref T value, ref bool needToSave)
         {
             if (SetFieldIfChanged(ref parameter, ref value))

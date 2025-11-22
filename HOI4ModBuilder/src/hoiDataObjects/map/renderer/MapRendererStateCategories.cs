@@ -22,10 +22,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             {
                 if (p.State == null)
                     return Utils.ArgbToInt(255, 0, 0, 0);
-                else if (p.State.StateCategory.GetValue() == null)
+
+                var stateCategory = p.State.StateCategory.GetValue();
+
+                if (stateCategory == null)
                     return Utils.ArgbToInt(255, 255, 0, 0);
-                else
-                    return p.State.StateCategory.GetValue().color;
+
+                return p.State.StateCategory.GetValue().ColorInt;
             };
 
             return MapRendererResult.CONTINUE;

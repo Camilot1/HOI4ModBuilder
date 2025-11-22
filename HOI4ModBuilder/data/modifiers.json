@@ -71,6 +71,13 @@
     "defaultValue": 0
   },
   {
+    "name": "naval_headquarter",
+    "specificScopes": [ "BUILDING" ],
+    "allowedValueTypes": [ "BOOLEAN" ],
+    "defaultValueType": "BOOLEAN",
+    "defaultValue": false
+  },
+  {
     "name": "refinery",
     "specificScopes": [ "BUILDING" ],
     "allowedValueTypes": [ "BOOLEAN" ],
@@ -2271,6 +2278,13 @@
   },
   {
     "name": "local_building_slots_factor",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_factory_energy_consumption",
     "specificScopes": [ "STATE" ],
     "allowedValueTypes": [ "FLOAT" ],
     "defaultValueType": "FLOAT",

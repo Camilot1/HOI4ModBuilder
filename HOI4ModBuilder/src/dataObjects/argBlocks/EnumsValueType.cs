@@ -15,6 +15,7 @@
         BOOLEAN,
         INT,
         FLOAT,
-        DECIMAL
+        DECIMAL,
+        PROVINCE
     }
 }

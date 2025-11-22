@@ -128,6 +128,8 @@ namespace HOI4ModBuilder.src.newParser.objects
                 return false;
 
             object newObj = null;
+            bool doNotParseNewObj = false;
+            Type valueType = null;
             object providerHandler = null;
             bool parseInnerBlock = false;
             foreach (var entry in dynamicAdapter)
@@ -135,8 +137,10 @@ namespace HOI4ModBuilder.src.newParser.objects
                 newObj = entry.Value.factory.Invoke(this, key);
                 if (newObj != null)
                 {
+                    doNotParseNewObj = entry.Value.doNotParseNewObj;
                     parseInnerBlock = entry.Value.parseInnerBlock;
                     providerHandler = entry.Value.provider.Invoke(this);
+                    valueType = entry.Value.valueType;
                     break;
                 }
             }
@@ -144,7 +148,10 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (newObj == null)
                 return false;
 
-            if (newObj is IParseCallbackable parseCallbackable)
+            if (valueType == null)
+                valueType = newObj.GetType();
+
+            if (newObj is IParseCallbackable parseCallbackable && !doNotParseNewObj)
             {
                 if (parseInnerBlock)
                 {
@@ -202,7 +209,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (value.Length == 0)
                     throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
 
-                newObj = ParserUtils.Parse(newObj.GetType(), value);
+                newObj = ParserUtils.Parse(valueType, value);
 
                 var comments = parser.ParseAndPullComments();
                 if (newObj is ICommentable commentable)

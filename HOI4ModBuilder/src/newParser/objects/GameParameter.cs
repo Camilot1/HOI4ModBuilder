@@ -47,6 +47,13 @@ namespace HOI4ModBuilder.src.newParser.objects
         private object _value;
         public object GetValueRaw() => _value;
         public T GetValue() => _value is GameConstant gameConstant ? gameConstant.GetValue<T>() : (_value != null ? (T)_value : default);
+        public T GetValue(T defaultValue)
+        {
+            T value = GetValue();
+            if (value != null)
+                return value;
+            return default;
+        }
         public T GetValueRaw(T defaultValue)
         {
             if (_value == null)
@@ -74,9 +81,15 @@ namespace HOI4ModBuilder.src.newParser.objects
         public void SetSilentValue(T value) => _value = value;
 
         //obj, value, result
+        private bool _forceValueInlineParse;
         private Func<object, object, T> _valueParseAdapter;
         private Func<object, object, T> _valueSetAdapter;
         private Func<T, object> _valueSaveAdapter;
+        public GameParameter<T> INIT_ForceValueInlineParse(bool value)
+        {
+            _forceValueInlineParse = value;
+            return this;
+        }
         public GameParameter<T> INIT_SetValueParseAdapter(Func<object, object, T> value)
         {
             _valueParseAdapter = value;
@@ -138,17 +151,19 @@ namespace HOI4ModBuilder.src.newParser.objects
             else if (_isProhibitedOverwriting)
                 throw new Exception("Value cannot be overriden: " + parser.GetCursorInfo());
 
-            if (_value is IParseObject obj)
+            if (!_forceValueInlineParse)
             {
-                parser.Parse(obj);
-                return;
-            }
+                if (_value is IParseObject obj)
+                {
+                    parser.Parse(obj);
+                    return;
+                }
 
-
-            if (_value is IPostParseCallbackable obj1)
-            {
-                obj1.PostParseCallback(parser);
-                return;
+                if (_value is IPostParseCallbackable obj1)
+                {
+                    obj1.PostParseCallback(parser);
+                    return;
+                }
             }
 
             if (parser.CurrentToken == Token.QUOTE)
@@ -206,13 +221,13 @@ namespace HOI4ModBuilder.src.newParser.objects
             }
             catch (Exception ex)
             {
-                throw new Exception("Unable to parse value type: " + rawValue + parser.GetCursorInfo(), ex);
+                throw new Exception($"Unable to parse value type: {rawValue} {parser.GetCursorInfo()}", ex);
             }
         }
 
         public virtual void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)
         {
-            if (_value is ISaveable saveable)
+            if (_value is ISaveable saveable && _valueSaveAdapter == null)
             {
                 saveable.Save(sb, outIndent, key, savePatternParameter);
                 return;
