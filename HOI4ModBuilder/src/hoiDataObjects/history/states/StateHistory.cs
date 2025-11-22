@@ -3,14 +3,17 @@ using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.stateCategory;
+using HOI4ModBuilder.src.hoiDataObjects.common.strategicLocations;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.map;
+using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
 using HOI4ModBuilder.src.utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -234,51 +237,94 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                     continue;
 
                 var blockName = info.GetBlockName();
-                if (blockName == "add_manpower")
-                    state.CurrentManpower += (int)scriptBlock.GetValue();
-                else if (blockName == "set_demilitarized_zone")
-                    state.CurrentIsDemilitarized = (bool)scriptBlock.GetValue();
-                else if (blockName == "set_state_category")
-                    state.CurrentStateCategory = StateCategoryManager.Get((string)scriptBlock.GetValue());
-                else if (blockName == "set_state_name")
-                    state.CurrentName = (string)scriptBlock.GetValue();
-                else if (blockName == "reset_state_name" && (bool)scriptBlock.GetValue())
-                    state.CurrentName = state.Name.GetValue().stringValue;
-                else if (blockName == "add_core_of")
-                {
-                    if (scriptBlock.GetValue() is Country country)
-                    {
-                        state.CurrentCoresOf.Add(country);
-                        country.hasCoresAtStates.Add(state);
-                    }
-                }
-                else if (blockName == "remove_core_of")
-                {
-                    if (scriptBlock.GetValue() is Country country)
-                    {
-                        state.CurrentCoresOf.Remove(country);
-                        country.hasCoresAtStates.Remove(state);
-                    }
-                }
-                else if (blockName == "add_claim_by")
-                {
-                    if (scriptBlock.GetValue() is Country country)
-                    {
-                        state.CurrentClaimsBy.Add(country);
-                        country.hasClaimsAtState.Add(state);
-                    }
-                }
-                else if (blockName == "remove_claim_by")
-                {
-                    if (scriptBlock.GetValue() is Country country)
-                    {
-                        state.CurrentClaimsBy.Remove(country);
-                        country.hasClaimsAtState.Remove(state);
-                    }
-                }
+
 
 
                 //TODO add resources and victory points effects support
+                switch (blockName)
+                {
+                    case "add_manpower":
+                        state.CurrentManpower += (int)scriptBlock.GetValue();
+                        break;
+                    case "set_demilitarized_zone":
+                        state.CurrentIsDemilitarized = (bool)scriptBlock.GetValue();
+                        break;
+                    case "set_state_category":
+                        state.CurrentStateCategory = StateCategoryManager.Get((string)scriptBlock.GetValue());
+                        break;
+                    case "set_state_name":
+                        state.CurrentName = (string)scriptBlock.GetValue();
+                        break;
+                    case "reset_state_name":
+                        if ((bool)scriptBlock.GetValue())
+                            state.CurrentName = state.Name.GetValue().stringValue;
+                        break;
+                    case "add_core_of":
+                        if (scriptBlock.GetValue() is Country)
+                        {
+                            var country = (Country)scriptBlock.GetValue();
+                            state.CurrentCoresOf.Add(country);
+                            country.hasCoresAtStates.Add(state);
+                        }
+                        break;
+                    case "remove_core_of":
+                        if (scriptBlock.GetValue() is Country)
+                        {
+                            var country = (Country)scriptBlock.GetValue();
+                            state.CurrentCoresOf.Remove(country);
+                            country.hasCoresAtStates.Remove(state);
+                        }
+                        break;
+                    case "add_claim_by":
+                        if (scriptBlock.GetValue() is Country)
+                        {
+                            var country = (Country)scriptBlock.GetValue();
+                            state.CurrentClaimsBy.Add(country);
+                            country.hasClaimsAtState.Add(state);
+                        }
+                        break;
+                    case "remove_claim_by":
+                        if (scriptBlock.GetValue() is Country)
+                        {
+                            var country = (Country)scriptBlock.GetValue();
+                            state.CurrentClaimsBy.Remove(country);
+                            country.hasClaimsAtState.Remove(state);
+                        }
+                        break;
+                    case "strategic_province_location":
+                    case "strategic_state_location":
+                        var innerBlocks = scriptBlock.GetValue();
+                        if (!(innerBlocks is IEnumerable))
+                            break;
+
+                        foreach (var innerBlockObj in (IEnumerable)innerBlocks)
+                        {
+                            var innerBlock = (ScriptBlockParseObject)innerBlockObj;
+
+                            if (!(innerBlock.GetValue() is Province))
+                                break;
+
+                            var province = (Province)innerBlock.GetValue();
+
+                            if (!StrategicLocationManager.TryGet(innerBlock.ScriptBlockInfo.GetBlockName(), out var strategicLocation))
+                                break;
+
+                            Dictionary<Province, List<StrategicLocation>> dict = null;
+                            if (blockName == "strategic_province_location")
+                                dict = state.provinceStrategicLocations;
+                            else if (blockName == "strategic_state_location")
+                                dict = state.stateStrategicLocations;
+
+                            if (!dict.TryGetValue(province, out var list))
+                            {
+                                list = new List<StrategicLocation>();
+                                dict[province] = list;
+                            }
+
+                            list.Add(strategicLocation);
+                        }
+                        break;
+                }
             }
 
             foreach (var innerHistory in InnerHistories.Values)

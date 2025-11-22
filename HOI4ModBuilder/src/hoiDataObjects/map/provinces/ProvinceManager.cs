@@ -92,9 +92,11 @@ namespace HOI4ModBuilder.managers
         }
         public static void Save(BaseSettings settings)
         {
-            if (!NeedToSave) return;
+            if (!NeedToSave) 
+                return;
 
-            string filePath = settings.modDirectory + FOLDER_PATH + DEFINITION_FILE_NAME;
+            var dirPath = settings.modDirectory + FOLDER_PATH;
+            string filePath = dirPath + DEFINITION_FILE_NAME;
 
             var sb = new StringBuilder();
             if (_provincesById[0] == null)
@@ -107,6 +109,10 @@ namespace HOI4ModBuilder.managers
                     continue;
                 province.Save(sb);
             }
+
+            if (!Directory.Exists(dirPath))
+                Directory.CreateDirectory(dirPath);
+
             File.WriteAllText(filePath, sb.ToString());
         }
 

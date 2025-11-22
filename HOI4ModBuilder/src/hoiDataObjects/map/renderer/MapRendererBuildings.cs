@@ -224,7 +224,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             var controller = MapManager.FontRenderController;
             controller.TryStart(out var result)?
                 .SetEventsHandler(
-                    (int)EnumMapRenderEvents.BUILDINGS | (int)EnumMapRenderEvents.PROVINCES_IDS | (int)EnumMapRenderEvents.STATES_IDS,
+                    (int)EnumMapRenderEvents.BUILDINGS | (int)EnumMapRenderEvents.PROVINCES | (int)EnumMapRenderEvents.STATES,
                     (flags, objs) =>
                 {
                     controller.TryStart(controller.EventsFlags, out var eventResult)?

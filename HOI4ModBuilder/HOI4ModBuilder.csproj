@@ -491,6 +491,7 @@
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererProvincesTypes.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererRegionsTerrains.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererStateCategories.cs" />
+    <Compile Include="src\hoiDataObjects\map\renderer\MapRendererStategicLocations.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererStates.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererStrategicRegions.cs" />
     <Compile Include="src\hoiDataObjects\map\renderer\MapRendererTerrainMap.cs" />

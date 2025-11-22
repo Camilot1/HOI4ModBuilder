@@ -41,6 +41,7 @@ namespace HOI4ModBuilder.utils
             PROVINCES_MAP,
             STATES,
             STRATEGIC_REGIONS,
+            STRATEGIC_LOCATIONS,
             AI_AREAS,
             COUNTRIES,
             CORES_OF,

@@ -68,7 +68,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             var controller = MapManager.FontRenderController;
             controller.TryStart(out var result)?
                 .SetEventsHandler(
-                    (int)EnumMapRenderEvents.RESOURCES | (int)EnumMapRenderEvents.STATES_IDS,
+                    (int)EnumMapRenderEvents.RESOURCES | (int)EnumMapRenderEvents.STATES,
                     (flags, objs) =>
                     {
                         var resource = ResourceManager.Get(parameter);

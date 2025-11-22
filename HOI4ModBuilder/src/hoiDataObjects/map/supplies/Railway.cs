@@ -34,7 +34,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public Railway(byte level, Province p0, Province p1)
         {
-            Level = level;
+            _level = level;
             _provinces = new List<Province>
             {
                 p0,
@@ -44,7 +44,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public Railway(byte level, List<Province> provinces)
         {
-            Level = level;
+            _level = level;
             _provinces = provinces;
         }
 

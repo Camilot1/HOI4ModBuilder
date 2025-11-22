@@ -55,7 +55,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             var controller = MapManager.FontRenderController;
             controller.TryStart(out var result)?
                 .SetEventsHandler(
-                    (int)EnumMapRenderEvents.MANPOWER | (int)EnumMapRenderEvents.STATES_IDS,
+                    (int)EnumMapRenderEvents.MANPOWER | (int)EnumMapRenderEvents.STATES,
                     (flags, objs) =>
                 {
                     controller.TryStart(controller.EventsFlags, out var eventResult)?

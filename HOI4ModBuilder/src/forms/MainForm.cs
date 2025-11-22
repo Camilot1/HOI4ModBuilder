@@ -172,6 +172,7 @@ namespace HOI4ModBuilder
             AddMainLayerHotKey(EnumMainLayer.PROVINCES_MAP, new[] { Keys.Alt, Keys.P });
             AddMainLayerHotKey(EnumMainLayer.STATES, new[] { Keys.Alt, Keys.S });
             AddMainLayerHotKey(EnumMainLayer.STRATEGIC_REGIONS, new[] { Keys.Alt, Keys.R });
+            AddMainLayerHotKey(EnumMainLayer.STRATEGIC_LOCATIONS, new[] { Keys.Alt, Keys.L });
             AddMainLayerHotKey(EnumMainLayer.AI_AREAS, new[] { Keys.Alt, Keys.A });
             AddMainLayerHotKey(EnumMainLayer.COUNTRIES, new[] { Keys.Control, Keys.Alt, Keys.C });
             AddMainLayerHotKey(EnumMainLayer.PROVINCES_TERRAINS, new[] { Keys.Alt, Keys.T });

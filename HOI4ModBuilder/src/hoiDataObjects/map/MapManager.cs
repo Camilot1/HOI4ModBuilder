@@ -411,6 +411,7 @@ namespace HOI4ModBuilder.managers
             array[(int)EnumMainLayer.PROVINCES_MAP] = new MapRendererProvincesMap();
             array[(int)EnumMainLayer.STATES] = new MapRendererStates();
             array[(int)EnumMainLayer.STRATEGIC_REGIONS] = new MapRendererStrategicRegions();
+            array[(int)EnumMainLayer.STRATEGIC_LOCATIONS] = new MapRendererStategicLocations();
             array[(int)EnumMainLayer.AI_AREAS] = new MapRendererAiAreas();
             array[(int)EnumMainLayer.COUNTRIES] = new MapRendererCountries();
             array[(int)EnumMainLayer.CORES_OF] = new MapRendererCoresOf();

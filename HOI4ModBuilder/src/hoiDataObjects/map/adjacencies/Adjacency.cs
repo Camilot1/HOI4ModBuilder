@@ -151,10 +151,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             }
 
             //Тип
-            if (data[2] == "") EnumType = EnumAdjaciencyType.NONE;
-            else if (data[2] == "sea") EnumType = EnumAdjaciencyType.SEA;
-            else if (data[2] == "lake") EnumType = EnumAdjaciencyType.LAKE;
-            else if (data[2] == "impassable") EnumType = EnumAdjaciencyType.IMPASSABLE;
+            if (data[2] == "")
+                _enumType = EnumAdjaciencyType.NONE;
+            else if (data[2] == "sea")
+                _enumType = EnumAdjaciencyType.SEA;
+            else if (data[2] == "lake")
+                _enumType = EnumAdjaciencyType.LAKE;
+            else if (data[2] == "impassable")
+                _enumType = EnumAdjaciencyType.IMPASSABLE;
             else Logger.LogError(
                     EnumLocKey.ERROR_ADJACENCY_LOADING_INCORRECT_TYPE,
                     new Dictionary<string, string> {

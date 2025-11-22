@@ -24,7 +24,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
         private static readonly string RAILWAYS_FILE_NAME = "railways.txt";
         private static readonly string SUPPLY_NODES_FILE_NAME = "supply_nodes.txt";
 
-        public static bool NeedToSaveSupplyNodes { get; set; }
+        private static bool _needToSaveSupplyNodes;
+        public static bool NeedToSaveSupplyNodes
+        {
+            get => _needToSaveSupplyNodes;
+            set => _needToSaveSupplyNodes = value;
+        }
         public static SupplyNode SelectedSupplyNode = null;
         public static List<SupplyNode> SupplyNodes { get; private set; }
 
@@ -35,7 +40,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
             NeedToSaveSupplyNodes = true;
         }
 
-        public static bool NeedToSaveRailways { get; set; }
+        private static bool _needToSaveRailways;
+        public static bool NeedToSaveRailways
+        {
+            get => _needToSaveRailways;
+            set => _needToSaveRailways = value;
+        }
         public static Railway SelectedRailway { get; set; }
         public static Railway RMBRailway { get; set; }
 
@@ -80,12 +90,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public static void SaveRailways(string dirPath)
         {
-            if (!NeedToSaveRailways) 
+            if (!NeedToSaveRailways)
                 return;
+
+            if (!Directory.Exists(dirPath))
+                Directory.CreateDirectory(dirPath);
 
             string railwaysPath = dirPath + RAILWAYS_FILE_NAME;
             var sb = new StringBuilder();
-            foreach (var railway in Railways) 
+            foreach (var railway in Railways)
                 if (railway.ProvincesCount > 1)
                     railway.Save(sb);
             File.WriteAllText(railwaysPath, sb.ToString());
@@ -93,8 +106,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
         public static void SaveSupplyNodes(string dirPath)
         {
-            if (!NeedToSaveSupplyNodes) 
+            if (!NeedToSaveSupplyNodes)
                 return;
+
+            if (!Directory.Exists(dirPath))
+                Directory.CreateDirectory(dirPath);
 
             string supplyNodesPath = dirPath + SUPPLY_NODES_FILE_NAME;
 
@@ -112,7 +128,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.railways
 
                 foreach (var railway in Railways)
                 {
-                    if (railway.ProvincesCount < 2) 
+                    if (railway.ProvincesCount < 2)
                         continue;
                     GL.LineWidth(2f + railway.Level);
                     GL.Begin(PrimitiveType.LineStrip);

@@ -63,6 +63,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
         {
             var sb = new StringBuilder();
 
+            var dirPath = settings.modDirectory + FOLDER_PATH;
+
             foreach (var aiAreasFile in _aiAreasFiles.Values)
             {
                 if (aiAreasFile.FileInfo.needToSave)
@@ -76,12 +78,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.ai_areas
                             ), ex)
                     );
 
-                    File.WriteAllText(settings.modDirectory + FOLDER_PATH + aiAreasFile.FileInfo.fileName, sb.ToString());
+                    if (!Directory.Exists(dirPath))
+                        Directory.CreateDirectory(dirPath);
+
+                    File.WriteAllText(dirPath + aiAreasFile.FileInfo.fileName, sb.ToString());
                     sb.Length = 0;
                 }
 
                 if (!aiAreasFile.HasAnyInnerInfo)
-                    File.Delete(settings.modDirectory + FOLDER_PATH + aiAreasFile.FileInfo.fileName);
+                    File.Delete(dirPath + aiAreasFile.FileInfo.fileName);
             }
         }
 

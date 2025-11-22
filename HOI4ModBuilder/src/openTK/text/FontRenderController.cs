@@ -388,7 +388,7 @@ namespace HOI4ModBuilder.src.openTK.text
 
         public FontRenderController SetEventsHandlerProvincesIdsReinit(float scale, Color color, QFontAlignment alignment)
         {
-            return SetEventsHandler((int)EnumMapRenderEvents.PROVINCES_IDS, (flags, objs) =>
+            return SetEventsHandler((int)EnumMapRenderEvents.PROVINCES, (flags, objs) =>
             {
                 TryStart(EventsFlags, out var eventResult)?
                 .ForEachProvince(objs, p => true, (fontRegion, p, pos) =>
@@ -407,7 +407,7 @@ namespace HOI4ModBuilder.src.openTK.text
 
         public FontRenderController SetEventsHandlerStatesIdsReinit(float scale, Color color, QFontAlignment alignment)
         {
-            return SetEventsHandler((int)EnumMapRenderEvents.STATES_IDS, (flags, objs) =>
+            return SetEventsHandler((int)EnumMapRenderEvents.STATES, (flags, objs) =>
             {
                 TryStart(EventsFlags, out var eventResult)?
                 .ForEachState(objs, p => true, (fontRegion, s, pos) =>
@@ -426,7 +426,7 @@ namespace HOI4ModBuilder.src.openTK.text
 
         public FontRenderController SetEventsHandlerRegionsIdsReinit(float scale, Color color, QFontAlignment alignment)
         {
-            return SetEventsHandler((int)EnumMapRenderEvents.REGIONS_IDS, (flags, objs) =>
+            return SetEventsHandler((int)EnumMapRenderEvents.REGIONS, (flags, objs) =>
             {
                 TryStart(EventsFlags, out var eventResult)?
                 .ForEachRegion(objs, r => true, (fontRegion, r, pos) =>

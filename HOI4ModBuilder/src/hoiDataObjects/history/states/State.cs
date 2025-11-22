@@ -19,6 +19,7 @@ using HOI4ModBuilder.src.utils.classes;
 using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
@@ -170,8 +171,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public Dictionary<Building, uint> stateBuildings = new Dictionary<Building, uint>(0);
         public Dictionary<Province, Dictionary<Building, uint>> provincesBuildings = new Dictionary<Province, Dictionary<Building, uint>>(0);
 
-        public Dictionary<Province, StrategicLocation> provinceStrategicLocations = new Dictionary<Province, StrategicLocation>(0);
-        public Dictionary<Province, StrategicLocation> stateStrategicLocations = new Dictionary<Province, StrategicLocation>(0);
+        public Dictionary<Province, List<StrategicLocation>> provinceStrategicLocations = new Dictionary<Province, List<StrategicLocation>>(0);
+        public Dictionary<Province, List<StrategicLocation>> stateStrategicLocations = new Dictionary<Province, List<StrategicLocation>>(0);
 
         public uint GetStateBuildingCount(Building building)
         {
@@ -261,7 +262,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 IsCoastalStateCached = true;
 
             CalculateCenter();
-            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STATES_IDS, this);
+            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STATES, this);
             SetNeedToSave(true);
         }
 
@@ -275,7 +276,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 if (IsCoastalStateCached && province.IsCoastal)
                     RecalculateIsCoastalState();
 
-                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STATES_IDS, this);
+                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STATES, this);
 
                 SetNeedToSave(true);
                 return true;
@@ -486,6 +487,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 country.hasClaimsAtState.Remove(this);
             CurrentClaimsBy = new List<Country>(0);
 
+            provinceStrategicLocations = new Dictionary<Province, List<StrategicLocation>>(0);
+            stateStrategicLocations = new Dictionary<Province, List<StrategicLocation>>(0);
+
             CurrentHistory = null;
 
         }
@@ -648,7 +652,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     );
                 else
                 {
-                    ForceLinkOwnershipToState.SetValue(forceLinkState);
+                    ForceLinkOwnershipToState.SetSilentValue(forceLinkState);
                     _tempForceLinkOwnershipToState = null;
                 }
 

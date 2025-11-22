@@ -21,8 +21,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
         private static readonly string ADJACENCIES_FILE_NAME = "adjacencies.csv";
         private static readonly string ADJACENCY_RULES_FILE_NAME = "adjacency_rules.txt";
 
-        public static bool NeedToSaveAdjacencyRules { get; set; }
-        public static bool NeedToSaveAdjacencies { get; set; }
+        private static bool _needToSaveAdjacencyRules;
+        public static bool NeedToSaveAdjacencyRules
+        {
+            get => _needToSaveAdjacencyRules;
+            set => _needToSaveAdjacencyRules = value;
+        }
+        private static bool _needToSaveAdjacencies;
+        public static bool NeedToSaveAdjacencies
+        {
+            get => _needToSaveAdjacencies;
+            set => _needToSaveAdjacencies = value;
+        }
         private static string _header;
         private static Adjacency _selectedSeaCross = null;
         private static Dictionary<string, AdjacencyRule> _adjacencyRules = new Dictionary<string, AdjacencyRule>();
@@ -38,12 +48,18 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
 
         public static void Save(BaseSettings settings)
         {
+            var dirPath = settings.modDirectory + FOLDER_PATH;
             if (NeedToSaveAdjacencies)
             {
-                string adjacenciesPath = settings.modDirectory + FOLDER_PATH + ADJACENCIES_FILE_NAME;
+                string adjacenciesPath = dirPath + ADJACENCIES_FILE_NAME;
                 var sb = new StringBuilder();
                 sb.Append(_header).Append(Constants.NEW_LINE);
-                foreach (Adjacency adjacency in _adjacencies) adjacency.Save(sb);
+                foreach (Adjacency adjacency in _adjacencies)
+                    adjacency.Save(sb);
+
+                if (!Directory.Exists(dirPath))
+                    Directory.CreateDirectory(dirPath);
+
                 File.WriteAllText(adjacenciesPath, sb.ToString());
             }
 
@@ -51,7 +67,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.adjacencies
             {
                 string adjacencyRulesPath = settings.modDirectory + FOLDER_PATH + ADJACENCY_RULES_FILE_NAME;
                 StringBuilder sb = new StringBuilder();
-                foreach (var rule in _adjacencyRules.Values) rule.Save(sb, "\t");
+                foreach (var rule in _adjacencyRules.Values)
+                    rule.Save(sb, "\t");
+
+                if (!Directory.Exists(dirPath))
+                    Directory.CreateDirectory(dirPath);
                 File.WriteAllText(adjacencyRulesPath, sb.ToString());
             }
         }
