@@ -75,11 +75,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             parser.SkipWhiteSpaces();
 
-            parser.ParseDemiliters();
-            var demiliters = parser.PullParsedDataString();
-
-            if (demiliters.Length != 1 || demiliters[0] != '=')
-                throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+            ParserUtils.ParseEqualsDemiliter(parser);
 
             parser.SkipWhiteSpaces();
 

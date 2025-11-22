@@ -133,17 +133,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             parser.SkipWhiteSpaces();
 
-            parser.ParseDemiliters();
-            var demiliter = parser.PullParsedDataString();
-
-            if (demiliter.Length != 1)
-                throw new Exception("Invalid demiliter: " + demiliter + ": " + parser.GetCursorInfo());
-
-            if (demiliter[0] != '=' && !_isAnyDemiliter)
-                throw new Exception("Invalid demiliter: " + demiliter + ": " + parser.GetCursorInfo());
-            else
-                _enumDemiliter = (EnumDemiliter)demiliter[0];
-
+            _enumDemiliter = ReadDemiliter(parser);
             parser.SkipWhiteSpaces();
 
             if (_value == null)
@@ -166,15 +156,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 }
             }
 
-            if (parser.CurrentToken == Token.QUOTE)
-                parser.ParseQuoted();
-            else
-                parser.ParseUnquotedValue();
-
-            var rawValue = parser.PullParsedDataString();
-
-            if (rawValue.Length == 0)
-                throw new Exception("Invalid value: " + parser.GetCursorInfo());
+            var rawValue = ReadRawValue(parser);
 
             if (rawValue[0] == '@')
                 ParseValueConstant(parser, rawValue);
@@ -223,6 +205,35 @@ namespace HOI4ModBuilder.src.newParser.objects
             {
                 throw new Exception($"Unable to parse value type: {rawValue} {parser.GetCursorInfo()}", ex);
             }
+        }
+
+        private EnumDemiliter ReadDemiliter(GameParser parser)
+        {
+            parser.ParseDemiliters();
+            var demiliter = parser.PullParsedDataString();
+
+            if (demiliter.Length != 1)
+                throw new Exception("Invalid demiliter: " + demiliter + ": " + parser.GetCursorInfo());
+
+            var symbol = demiliter[0];
+            if (symbol != '=' && !_isAnyDemiliter)
+                throw new Exception("Invalid demiliter: " + demiliter + ": " + parser.GetCursorInfo());
+
+            return (EnumDemiliter)symbol;
+        }
+
+        private string ReadRawValue(GameParser parser)
+        {
+            if (parser.CurrentToken == Token.QUOTE)
+                parser.ParseQuoted();
+            else
+                parser.ParseUnquotedValue();
+
+            var rawValue = parser.PullParsedDataString();
+            if (rawValue.Length == 0)
+                throw new Exception("Invalid value: " + parser.GetCursorInfo());
+
+            return rawValue;
         }
 
         public virtual void Save(StringBuilder sb, string outIndent, string key, SavePatternParameter savePatternParameter)

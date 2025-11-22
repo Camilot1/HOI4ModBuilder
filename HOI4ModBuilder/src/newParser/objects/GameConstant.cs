@@ -16,7 +16,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         private GameComments _comments;
         public GameComments GetComments() => _comments;
 
-        public void SetComments(GameComments comments) => _comments = comments; //TODO isNeedToSave;
+        public void SetComments(GameComments comments) => _comments = comments;
 
 
         public T GetValue<T>() => ParserUtils.Parse<T>(Value);

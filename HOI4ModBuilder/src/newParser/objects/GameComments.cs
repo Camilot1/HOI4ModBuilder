@@ -34,8 +34,8 @@ namespace HOI4ModBuilder.src.newParser.objects
         }
 
         public bool HasAnyData()
-            => _previous != null && _previous.Length > 0 &&
-            _inline != null && _inline.Length > 0;
+            => (_previous != null && _previous.Length > 0) ||
+               (_inline != null && _inline.Length > 0);
 
         public void SavePrevComments(StringBuilder sb, string indent)
         {

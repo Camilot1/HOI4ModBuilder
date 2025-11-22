@@ -279,6 +279,15 @@ namespace HOI4ModBuilder.src.newParser
             return allowedValueTypes != null && Array.IndexOf(allowedValueTypes, valueType) != -1;
         }
 
+        public static void ParseEqualsDemiliter(GameParser parser)
+        {
+            parser.ParseDemiliters();
+            var demiliters = parser.PullParsedDataString();
+
+            if (demiliters.Length != 1 || demiliters[0] != '=')
+                throw new Exception("Invalid parse inside block structure: " + parser.GetCursorInfo());
+        }
+
         public static string AssemblePath(IParentable obj)
         {
             var parent = obj.GetParent();
