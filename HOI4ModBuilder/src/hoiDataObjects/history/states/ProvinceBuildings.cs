@@ -42,8 +42,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         {
             var resolved = savePatternParameter;
 
-            if (!resolved.IsForceInline && Buildings.Count <= 1)
-                resolved.IsForceInline = true;
+            if (!resolved.IsForceInline && Buildings.Count == 1)
+            {
+                var onlyBuilding = Buildings[0];
+                var buildingComments = (onlyBuilding as ICommentable)?.GetComments();
+                var provinceComments = GetComments();
+                bool hasComments = (buildingComments != null && (buildingComments.Previous.Length > 0 || buildingComments.Inline.Length > 0)) ||
+                                   (provinceComments != null && (provinceComments.Previous.Length > 0 || provinceComments.Inline.Length > 0));
+
+                var sizable = onlyBuilding as ISizable;
+                bool buildingIsMultiline = sizable != null && sizable.GetSize() > 1;
+
+                if (!hasComments && !buildingIsMultiline)
+                    resolved.IsForceInline = true;
+            }
 
             base.Save(sb, outIndent, key, resolved);
         }

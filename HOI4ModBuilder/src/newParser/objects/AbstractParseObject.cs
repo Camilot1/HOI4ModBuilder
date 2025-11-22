@@ -238,13 +238,8 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             var savePattern = GetSavePattern();
 
-            var staticAdapter = GetStaticAdapter();
-            if (staticAdapter == null)
-                staticAdapter = _defaultStaticAdapter;
-
-            var dynamicAdapter = GetDynamicAdapter();
-            if (dynamicAdapter == null)
-                dynamicAdapter = _defaultDynamicAdapter;
+            var staticAdapter = GetStaticAdapter() ?? _defaultStaticAdapter;
+            var dynamicAdapter = GetDynamicAdapter() ?? _defaultDynamicAdapter;
 
             if (savePatternParameter.AddEmptyLineBefore)
                 sb.Append(outIndent).Append(Constants.NEW_LINE);
@@ -261,10 +256,26 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             comments.SavePrevComments(sb, outIndent);
 
-            bool childrenForceInline = true;
+            var parametersToSave = new List<(SavePatternParameter param, ISaveable handler, bool isStatic)>();
             foreach (var parameter in savePattern.Parameters)
             {
-                if (!parameter.IsForceInline)
+                ISaveable handler = null;
+
+                if (staticAdapter.TryGetValue(parameter.Name, out var staticProvider))
+                    handler = (ISaveable)staticProvider.Invoke(this);
+                else if (dynamicAdapter.TryGetValue(parameter.Name, out var dynamicProvider))
+                    handler = (ISaveable)dynamicProvider.provider.Invoke(this);
+
+                if (handler == null)
+                    continue;
+
+                parametersToSave.Add((parameter, handler, staticAdapter.ContainsKey(parameter.Name)));
+            }
+
+            bool childrenForceInline = true;
+            foreach (var entry in parametersToSave)
+            {
+                if (!entry.param.IsForceInline)
                 {
                     childrenForceInline = false;
                     break;
@@ -284,25 +295,24 @@ namespace HOI4ModBuilder.src.newParser.objects
                 isInline = savePatternParameter.IsForceInline ||
                     comments.Inline.Length == 0 &&
                     childrenForceInline &&
-                    (staticAdapter.Count + dynamicAdapter.Count <= 1);
+                    parametersToSave.Count <= 1;
                 innerIndent = isInline ? " " : outIndent + Constants.INDENT;
 
                 if (!isInline)
                     sb.Append(Constants.NEW_LINE);
             }
 
-            foreach (var parameter in savePattern.Parameters)
+            foreach (var entry in parametersToSave)
             {
+                var parameter = entry.param;
                 var resolvedParameter = parameter;
                 if (savePatternParameter.IsForceInline)
                     resolvedParameter.IsForceInline = true;
 
-                if (staticAdapter.TryGetValue(parameter.Name, out var staticProvider))
-                    ((ISaveable)staticProvider.Invoke(this))
-                        .Save(sb, innerIndent, parameter.Name, resolvedParameter);
-                else if (dynamicAdapter.TryGetValue(parameter.Name, out var dynamicProvider))
-                    ((ISaveable)dynamicProvider.provider.Invoke(this))
-                        .Save(sb, innerIndent, null, resolvedParameter);
+                if (entry.isStatic)
+                    entry.handler.Save(sb, innerIndent, parameter.Name, resolvedParameter);
+                else
+                    entry.handler.Save(sb, innerIndent, null, resolvedParameter);
 
                 if (!isInline && sb.Length > 0 && sb[sb.Length - 1] != '\n')
                     sb.Append(Constants.NEW_LINE);

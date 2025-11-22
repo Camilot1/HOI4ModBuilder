@@ -399,7 +399,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (sb.Length > 0)
                 {
                     var lastChar = sb[sb.Length - 1];
-                    if (lastChar == ' ' && !savePatternParameter.IsForceInline && innerIndent != " ")
+                    if (lastChar == ' ' && !savePatternParameter.IsForceInline)
                         sb.Append(Constants.NEW_LINE);
                 }
             }
