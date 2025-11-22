@@ -15,18 +15,43 @@ using HOI4ModBuilder.src.newParser.structs;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
-using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.src.newParser
 {
     public class ParserUtils
     {
+        private delegate bool TryParseDelegate<T>(string value, out T result);
+
         struct MappingActions
         {
             public Func<object, string> save;
             public Func<string, object> parse;
+        }
+
+        private static MappingActions CreateIntegerMapping<T>(TryParseDelegate<T> tryParse, float minValue, float maxValue, Func<float, T> cast)
+        {
+            return new MappingActions
+            {
+                save = o => "" + o,
+                parse = v =>
+                {
+                    if (tryParse(v, out var parsedValue))
+                        return parsedValue;
+
+                    if (!Utils.TryParseFloat(v, out var floatValue))
+                        throw new FormatException();
+
+                    if (floatValue < minValue || floatValue > maxValue)
+                        throw new FormatException();
+
+                    var converted = cast(floatValue);
+                    if (Math.Abs(floatValue - Convert.ToSingle(converted)) > float.Epsilon)
+                        throw new FormatException();
+
+                    return converted;
+                }
+            };
         }
 
         private static readonly Dictionary<Type, MappingActions> _typesMapping = new Dictionary<Type, MappingActions>
@@ -42,66 +67,11 @@ namespace HOI4ModBuilder.src.newParser
                     throw new FormatException(val);
                 }
             } },
-            { typeof(byte), new MappingActions {
-                save = o => "" + o,
-                parse = v => {
-                    if (byte.TryParse(v, out var parsedValue))
-                        return parsedValue;
-                    if (!Utils.TryParseFloat(v, out var floatValue))
-                        throw new FormatException();
-                    if ((byte)floatValue != floatValue || floatValue < byte.MinValue || floatValue > byte.MaxValue)
-                        throw new FormatException();
-                    return (byte)floatValue;
-                }
-            }},
-            { typeof(ushort), new MappingActions {
-                save = o => "" + o,
-                parse = v => {
-                    if (ushort.TryParse(v, out var parsedValue))
-                        return parsedValue;
-                    if (!Utils.TryParseFloat(v, out var floatValue))
-                        throw new FormatException();
-                    if ((ushort)floatValue != floatValue || floatValue < ushort.MinValue || floatValue > ushort.MaxValue)
-                        throw new FormatException();
-                    return (ushort)floatValue;
-                }
-            } },
-            { typeof(short), new MappingActions {
-                save = o => "" + o,
-                parse = v => {
-                    if (short.TryParse(v, out var parsedValue))
-                        return parsedValue;
-                    if (!Utils.TryParseFloat(v, out var floatValue))
-                        throw new FormatException();
-                    if ((short)floatValue != floatValue || floatValue < short.MinValue || floatValue > short.MaxValue)
-                        throw new FormatException();
-                    return (short)floatValue;
-                }
-            } },
-            { typeof(int), new MappingActions {
-                save = o => "" + o,
-                parse = v => {
-                    if (int.TryParse(v, out var parsedValue))
-                        return parsedValue;
-                    if (!Utils.TryParseFloat(v, out var floatValue))
-                        throw new FormatException();
-                    if ((int)floatValue != floatValue || floatValue < int.MinValue || floatValue > int.MaxValue)
-                        throw new FormatException();
-                    return (int)floatValue;
-                }
-            }},
-            { typeof(uint), new MappingActions {
-                save = o => "" + o,
-                parse = v => {
-                if (uint.TryParse(v, out var parsedValue))
-                    return parsedValue;
-                if (!Utils.TryParseFloat(v, out var floatValue))
-                        throw new FormatException();
-                if ((uint)floatValue != floatValue || floatValue < uint.MinValue || floatValue > uint.MaxValue)
-                    throw new FormatException();
-                return (uint)floatValue;
-            }
-            }},
+            { typeof(byte), CreateIntegerMapping(byte.TryParse, byte.MinValue, byte.MaxValue, v => (byte)v) },
+            { typeof(ushort), CreateIntegerMapping(ushort.TryParse, ushort.MinValue, ushort.MaxValue, v => (ushort)v) },
+            { typeof(short), CreateIntegerMapping(short.TryParse, short.MinValue, short.MaxValue, v => (short)v) },
+            { typeof(int), CreateIntegerMapping(int.TryParse, int.MinValue, int.MaxValue, v => (int)v) },
+            { typeof(uint), CreateIntegerMapping(uint.TryParse, uint.MinValue, uint.MaxValue, v => (uint)v) },
             { typeof(float), new MappingActions {
                 save = o => Utils.FloatToString((float)o),
                 parse = v => Utils.ParseFloat(v)
@@ -201,6 +171,9 @@ namespace HOI4ModBuilder.src.newParser
 
         public static string ObjectToSaveString(object value)
         {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
             if (_typesMapping.TryGetValue(value.GetType(), out var funcs))
                 return funcs.save(value);
 

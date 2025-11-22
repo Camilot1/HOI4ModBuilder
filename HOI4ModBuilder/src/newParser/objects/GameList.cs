@@ -62,10 +62,11 @@ namespace HOI4ModBuilder.src.newParser.objects
             if (base.IsNeedToSave())
                 return true;
 
-            if (_list is List<AbstractParseObject> @list)
-                foreach (var item in @list)
-                    if (item.IsNeedToSave())
-                        return true;
+            foreach (var item in _list)
+            {
+                if (item is INeedToSave needSave && needSave.IsNeedToSave())
+                    return true;
+            }
 
             return false;
         }
@@ -155,12 +156,16 @@ namespace HOI4ModBuilder.src.newParser.objects
             int count = 0;
             for (int i = _list.Count - 1; i >= 0; i--)
             {
-                if (predicate(_list[i]))
-                {
-                    _list.RemoveAt(i);
-                    count++;
-                }
+                if (!predicate(_list[i]))
+                    continue;
+
+                _list.RemoveAt(i);
+                count++;
             }
+
+            if (count > 0)
+                _needToSave = true;
+
             return count;
         }
 
@@ -178,7 +183,11 @@ namespace HOI4ModBuilder.src.newParser.objects
                     set.Add(item);
             }
 
-            return removedCount - _list.Count;
+            var removed = removedCount - _list.Count;
+            if (removed > 0)
+                _needToSave = true;
+
+            return removed;
         }
 
         public bool RemoveLastIf(Func<T, bool> predicate)
@@ -188,6 +197,7 @@ namespace HOI4ModBuilder.src.newParser.objects
                 if (predicate(_list[i]))
                 {
                     _list.RemoveAt(i);
+                    _needToSave = true;
                     return true;
                 }
             }
@@ -275,7 +285,14 @@ namespace HOI4ModBuilder.src.newParser.objects
             _needToSave |= result;
             return result;
         }
-        public void Clear() => _list.Clear();
+        public void Clear()
+        {
+            if (_list.Count == 0)
+                return;
+
+            _list.Clear();
+            _needToSave = true;
+        }
         public bool Contains(T obj) => _list.Contains(obj);
         public int Count => _list.Count;
 
