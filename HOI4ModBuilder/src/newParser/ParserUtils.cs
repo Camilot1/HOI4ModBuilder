@@ -16,6 +16,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.src.newParser
 {
@@ -239,12 +240,28 @@ namespace HOI4ModBuilder.src.newParser
         public static ScriptBlockParseObject GetScriptBlockParseObject(IParentable parent, string token, object value)
         {
             if (InfoArgsBlocksManager.TryGetInfoArgsBlock(token, out var infoBlock))
+                return new ScriptBlockParseObject(parent, infoBlock).SetValue(value);
+            return null;
+        }
+        public static ScriptBlockParseObject GetScriptBlockParseObject(IParentable parent, string token, List<(string, object)> universalParams)
+        {
+            if (InfoArgsBlocksManager.TryGetInfoArgsBlock(token, out var infoBlock))
             {
                 var block = new ScriptBlockParseObject(parent, infoBlock);
-                block.SetValue(value);
+                var innerList = new GameList<ScriptBlockParseObject>();
+                block.SetValue(innerList);
+
+                foreach (var entry in universalParams)
+                {
+                    var innerBlock = new ScriptBlockParseObject(
+                        block, new InfoArgsBlock(entry.Item1, infoBlock.AllowedUniversalParamsInfo.AllowedValueTypes)
+                    );
+                    innerBlock.SetParent(innerList);
+                    innerList.Add(innerBlock);
+                }
+
                 return block;
             }
-
             return null;
         }
 

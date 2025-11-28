@@ -36,7 +36,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
         };
         public override Func<ICollection> GetParametersProvider()
             => () => CountryManager.GetTagsSortedStartingWith("");
-        public override Func<ICollection> GetValuesProvider() => null;
+        public override Func<ICollection> GetParameterValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
@@ -66,7 +66,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                 {
                     stateHistory.Owner.SetValue(stateOwner);
                     province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
+                    MapManager.HandleMapMainLayerChange(false);
                 };
 
                 MapManager.ActionsBatch.AddWithExecute(

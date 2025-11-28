@@ -12,6 +12,7 @@ using HOI4ModBuilder.src.forms.recoveryForms;
 using HOI4ModBuilder.src.forms.scripts;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
+using HOI4ModBuilder.src.hoiDataObjects.common.strategicLocations;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
@@ -691,7 +692,7 @@ namespace HOI4ModBuilder
                 MapManager.displayLayers[i] = checkedItems.Contains(i);
 
             if (!prevTextEnabled && MapManager.displayLayers[(int)EnumAdditionalLayers.TEXT])
-                MapManager.HandleMapMainLayerChange(true, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
+                MapManager.HandleMapMainLayerChange(true);
         }
 
         private void Button_TextureAdd_Click(object sender, EventArgs e)
@@ -847,59 +848,80 @@ namespace HOI4ModBuilder
         private static readonly Dictionary<EnumMainLayer, LayerActions> _mainLayerActions = new Dictionary<EnumMainLayer, LayerActions>
         {
             { EnumMainLayer.BUILDINGS, new LayerActions {
-                isValidChecker = (s) => BuildingManager.HasBuilding(s),
+                isValidChecker = (p, pv) => BuildingManager.HasBuilding(p),
                 parameterProvider = () => BuildingManager.GetBuildingNames(),
                 onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.BUILDINGS)
             } },
             { EnumMainLayer.RESOURCES, new LayerActions {
-                isValidChecker = (s) => ResourceManager.Contains(s),
+                isValidChecker = (p, pv) => ResourceManager.Contains(p),
                 parameterProvider = () => ResourceManager.GetTags(),
                 onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.RESOURCES)
             } },
             { EnumMainLayer.AI_AREAS, new LayerActions {
-                isValidChecker = (s) => AiAreaManager.HasAiArea(s),
+                isValidChecker = (p, pv) => AiAreaManager.HasAiArea(p),
                 parameterProvider = () => AiAreaManager.GetAiAreasNames(),
                 onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.AI_AREAS)
             } },
             { EnumMainLayer.CORES_OF, new LayerActions {
-                isValidChecker = (s) => CountryManager.Contains(s),
+                isValidChecker = (p, pv) => CountryManager.Contains(p),
                 parameterProvider = () => CountryManager.GetTagsSorted(),
                 onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.STATE_CORE_OF)
             } },
             { EnumMainLayer.CLAIMS_BY, new LayerActions {
-                isValidChecker = (s) => CountryManager.Contains(s),
+                isValidChecker = (p, pv) => CountryManager.Contains(p),
                 parameterProvider = () => CountryManager.GetTagsSorted(),
                 onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.STATE_CLAIM_BY)
+            } },
+            { EnumMainLayer.STRATEGIC_LOCATIONS, new LayerActions {
+                isValidChecker = (p, pv) => pv == "" || StrategicLocationManager.Contains(pv),
+                parameterProvider = () => new List<string>
+                {
+                    GuiLocManager.GetLoc(EnumLocKey.PROVINCE),
+                    GuiLocManager.GetLoc(EnumLocKey.STATE)
+                },
+                parameterValuesProvider = () => StrategicLocationManager.GetNamesSortedStartingWith(""),
+                updateOnParameterValueChange = true,
+                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.STRATEGIC_LOCATION)
             } },
         };
 
         public class LayerActions
         {
-            public Func<string, bool> isValidChecker;
+            public Func<string, string, bool> isValidChecker;
             public Func<ICollection> parameterProvider;
+            public Func<ICollection> parameterValuesProvider;
+            public bool updateOnParameterChange;
+            public bool updateOnParameterValueChange;
             public Action onSelect;
         }
 
         private bool IsUpdatingMainLayerAndTool { get; set; }
-        public void UpdateSelectedMainLayerAndTool(bool mainLayerChange, bool toolChange)
+        public void UpdateSelectedMainLayerAndTool(bool mainLayerChange, bool toolChange, bool parameterChange, bool parameterValueChange)
         {
             Logger.TryOrLog(() =>
             {
                 if (IsUpdatingMainLayerAndTool)
                     return;
 
+                _mainLayerActions.TryGetValue(SelectedMainLayer, out var actions);
+                if (parameterChange && !actions.updateOnParameterChange)
+                    return;
+                if (parameterValueChange && !actions.updateOnParameterValueChange)
+                    return;
+
                 IsUpdatingMainLayerAndTool = true;
 
                 MapToolsManager.TryGetMapToolParametersProvider(SelectedTool, out var toolParametersProvider);
-                MapToolsManager.TryGetMapToolValuesProvider(SelectedTool, out var valuesProvider);
+                MapToolsManager.TryGetMapToolParameterValuesProvider(SelectedTool, out var toolParameterValuesProvider);
 
                 Func<ICollection> parametersProvider = null;
+                Func<ICollection> parameterValuesProvider = null;
 
-                _mainLayerActions.TryGetValue(SelectedMainLayer, out var actions);
                 if (mainLayerChange && actions != null && actions.onSelect != null)
                 {
                     actions.onSelect.Invoke();
                     toolParametersProvider = actions.parameterProvider;
+                    toolParameterValuesProvider = actions.parameterValuesProvider;
                 }
 
                 if (toolParametersProvider != null)
@@ -907,7 +929,13 @@ namespace HOI4ModBuilder
                 else if (actions != null)
                     parametersProvider = actions.parameterProvider;
 
-                UpdateToolParameterComboBox(SelectedTool, parametersProvider, valuesProvider);
+                if (toolParameterValuesProvider != null)
+                    parameterValuesProvider = toolParameterValuesProvider;
+                else if (actions != null)
+                    parameterValuesProvider = actions.parameterValuesProvider;
+
+                if (mainLayerChange || toolChange)
+                    UpdateToolParameterComboBox(SelectedTool, parametersProvider, parameterValuesProvider);
 
                 Panel_Map.ContextMenuStrip = (SelectedTool != EnumTool.CURSOR) ? null : ContextMenuStrip_Map;
 
@@ -915,8 +943,8 @@ namespace HOI4ModBuilder
                 if (!(mainLayerChange || toolChange))
                     shouldRecalculateAll = MapToolsManager.ShouldRecalculateAllText(SelectedMainLayer, SelectedTool);
 
-                if (actions == null || actions.isValidChecker == null || actions.isValidChecker.Invoke(GetParameter()))
-                    MapManager.HandleMapMainLayerChange(shouldRecalculateAll, SelectedMainLayer, GetParameter());
+                if (actions == null || actions.isValidChecker == null || actions.isValidChecker.Invoke(GetParameter(), GetParameterValue()))
+                    MapManager.HandleMapMainLayerChange(shouldRecalculateAll);
 
                 IsUpdatingMainLayerAndTool = false;
             });
@@ -925,10 +953,10 @@ namespace HOI4ModBuilder
         private static readonly string[] preferedParameter = new string[Enum.GetValues(typeof(EnumTool)).Length];
         private static readonly string[] preferedParameterValue = new string[Enum.GetValues(typeof(EnumTool)).Length];
 
-        private void UpdateToolParameterComboBox(EnumTool tool, Func<ICollection> parametersProvider, Func<ICollection> valuesProvider)
+        private void UpdateToolParameterComboBox(EnumTool tool, Func<ICollection> parametersProvider, Func<ICollection> parameterValuesProvider)
         {
             var parameterItems = parametersProvider?.Invoke();
-            var parameterValueItems = valuesProvider?.Invoke();
+            var parameterValueItems = parameterValuesProvider?.Invoke();
 
             InterfaceUtils.UpdateComboBoxToolValues(GroupBox_Tool_Parameter, ComboBox_Tool_Parameter, parameterItems, preferedParameter, tool);
 
@@ -961,7 +989,7 @@ namespace HOI4ModBuilder
             {
                 SelectedMainLayer = (EnumMainLayer)СomboBox_MapMainLayer.SelectedIndex;
                 UpdateMainLayerParameterButton(SelectedMainLayer);
-                UpdateSelectedMainLayerAndTool(true, false);
+                UpdateSelectedMainLayerAndTool(true, false, false, false);
             });
 
         private void Button_MapMainLayer_Parameter_Click(object sender, EventArgs e)
@@ -978,7 +1006,7 @@ namespace HOI4ModBuilder
 
                     ScriptParser.CompileMapMainLayerCustomScript(filePath);
                     UpdateMainLayerParameterButton(SelectedMainLayer);
-                    MapManager.HandleMapMainLayerChange(true, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
+                    MapManager.HandleMapMainLayerChange(true);
                 });
 
         public bool IsControlPressed() => (ModifierKeys & Keys.Control) != 0;
@@ -1153,7 +1181,7 @@ namespace HOI4ModBuilder
                 void action(EnumProvinceType type)
                 {
                     ProvinceManager.RMBProvince.Type = type;
-                    MapManager.HandleMapMainLayerChange(false, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
+                    MapManager.HandleMapMainLayerChange(false);
                 }
 
                 MapManager.ActionHistory.Add(() => action(newType), () => action(prevType));
@@ -1171,7 +1199,7 @@ namespace HOI4ModBuilder
                 {
                     ToolStripMenuItem_Map_Province_IsCoastal.Checked = isCoastal;
                     ProvinceManager.RMBProvince.IsCoastal = isCoastal;
-                    MapManager.HandleMapMainLayerChange(false, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
+                    MapManager.HandleMapMainLayerChange(false);
                 }
 
                 MapManager.ActionHistory.Add(() => action(newIsCoastal), () => action(prevIsCoastal));
@@ -1188,7 +1216,7 @@ namespace HOI4ModBuilder
                 void action(ProvincialTerrain terrain)
                 {
                     ProvinceManager.RMBProvince.Terrain = terrain;
-                    MapManager.HandleMapMainLayerChange(false, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
+                    MapManager.HandleMapMainLayerChange(false);
                 }
 
                 MapManager.ActionHistory.Add(() => action(newTerrain), () => action(prevTerrain));
@@ -1205,7 +1233,7 @@ namespace HOI4ModBuilder
                 void action(int continentId)
                 {
                     ProvinceManager.RMBProvince.ContinentId = continentId;
-                    MapManager.HandleMapMainLayerChange(false, SelectedMainLayer, ComboBox_Tool_Parameter.Text);
+                    MapManager.HandleMapMainLayerChange(false);
                 }
 
                 MapManager.ActionHistory.Add(() => action(newContinentId), () => action(prevContinentId));
@@ -1600,17 +1628,21 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() =>
             {
                 SelectedTool = (EnumTool)ComboBox_Tool.SelectedIndex;
-                UpdateSelectedMainLayerAndTool(false, true);
+                UpdateSelectedMainLayerAndTool(false, true, false, false);
             });
 
         private void ComboBox_Tool_Parameter_SelectedIndexChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
                 preferedParameter[(int)SelectedTool] = ComboBox_Tool_Parameter.Text;
-                UpdateSelectedMainLayerAndTool(false, false);
+                UpdateSelectedMainLayerAndTool(false, false, true, false);
             });
         private void ComboBox_Tool_Parameter_Value_SelectedIndexChanged(object sender, EventArgs e)
-            => Logger.TryOrLog(() => preferedParameterValue[(int)SelectedTool] = ComboBox_Tool_Parameter_Value.Text);
+            => Logger.TryOrLog(() =>
+            {
+                preferedParameterValue[(int)SelectedTool] = ComboBox_Tool_Parameter_Value.Text;
+                UpdateSelectedMainLayerAndTool(false, false, false, true);
+            });
 
         private void ToolStripMenuItem_Export_MainLayer_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => ExportTexturePlane(MapManager.MapMainLayer, "main_layer"));
@@ -1698,7 +1730,7 @@ namespace HOI4ModBuilder
                     {
                         MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.VICTORY_POINTS, province);
                         Update_ToolStripMenuItem_Map_Province_Items(province);
-                        MapManager.HandleMapMainLayerChange(false, GetMainLayer(), GetParameter());
+                        MapManager.HandleMapMainLayerChange(false);
                     }
                 };
 
@@ -1710,6 +1742,7 @@ namespace HOI4ModBuilder
 
         public EnumMainLayer GetMainLayer() => SelectedMainLayer;
         public string GetParameter() => ComboBox_Tool_Parameter.Text;
+        public string GetParameterValue() => ComboBox_Tool_Parameter_Value.Text;
         private void ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AutoToolRemoveGhostProvinces.Execute(true));
         private void ToolStripMenuItem_Map_Actions_Merge_All_Click(object sender, EventArgs e)
@@ -1852,7 +1885,7 @@ namespace HOI4ModBuilder
                                 StateManager.TransferProvince(province, prevState, newState);
                             else
                                 newState.AddProvince(province);
-                            InvokeAction(() => MapManager.HandleMapMainLayerChange());
+                            InvokeAction(() => MapManager.HandleMapMainLayerChange(false));
                         }
                     },
                     (id) => //On undo
@@ -1863,7 +1896,7 @@ namespace HOI4ModBuilder
                                 newState.RemoveProvince(province);
                             else
                                 StateManager.TransferProvince(province, newState, prevState);
-                            InvokeAction(() => MapManager.HandleMapMainLayerChange());
+                            InvokeAction(() => MapManager.HandleMapMainLayerChange(false));
                         }
                     }
                 ).ShowDialog();
@@ -1925,7 +1958,7 @@ namespace HOI4ModBuilder
                                 StrategicRegionManager.TransferProvince(province, prevRegion, newRegion);
                             else
                                 newRegion.AddProvince(province);
-                            InvokeAction(() => MapManager.HandleMapMainLayerChange());
+                            InvokeAction(() => MapManager.HandleMapMainLayerChange(false));
                         }
                     },
                     (id) => //On undo
@@ -1936,7 +1969,7 @@ namespace HOI4ModBuilder
                                 newRegion.RemoveProvince(province);
                             else
                                 StrategicRegionManager.TransferProvince(province, newRegion, prevRegion);
-                            InvokeAction(() => MapManager.HandleMapMainLayerChange());
+                            InvokeAction(() => MapManager.HandleMapMainLayerChange(false));
                         }
                     }
                 ).ShowDialog();
@@ -1980,7 +2013,7 @@ namespace HOI4ModBuilder
                 if (StateManager.TransferProvince(ProvinceManager.RMBProvince, currentState, newState))
                 {
                     Update_ContextMenuStrip_Map();
-                    MapManager.HandleMapMainLayerChange();
+                    MapManager.HandleMapMainLayerChange(false);
                 }
 
                 ToolStripMenuItem_Map_State_OpenFileInEditor.Enabled = newState != null;
@@ -2006,7 +2039,7 @@ namespace HOI4ModBuilder
                 if (StrategicRegionManager.TransferProvince(ProvinceManager.RMBProvince, currentRegion, newRegion))
                 {
                     Update_ContextMenuStrip_Map();
-                    MapManager.HandleMapMainLayerChange();
+                    MapManager.HandleMapMainLayerChange(false);
                 }
 
                 //ToolStripMenuItem_Map_Region_OpenFileInEditor.Enabled = newRegion != null;

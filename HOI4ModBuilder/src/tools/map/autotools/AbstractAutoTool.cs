@@ -9,7 +9,7 @@ namespace HOI4ModBuilder.src.tools.autotools
     {
         protected static void PostAction(bool recalculateAllText, int count)
         {
-            MapManager.HandleMapMainLayerChange(recalculateAllText, MainForm.Instance.SelectedMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+            MapManager.HandleMapMainLayerChange(recalculateAllText);
 
             var text = GuiLocManager.GetLoc(
                 EnumLocKey.AUTOTOOL_RESULT_MESSAGE_BOX_TEXT,
@@ -20,7 +20,7 @@ namespace HOI4ModBuilder.src.tools.autotools
         }
         protected static void PostExtendedAction(bool recalculateAllTextint, int count, int success, string unsuccessInfo)
         {
-            MapManager.HandleMapMainLayerChange(recalculateAllTextint, MainForm.Instance.SelectedMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text);
+            MapManager.HandleMapMainLayerChange(recalculateAllTextint);
 
             var text = GuiLocManager.GetLoc(
                 EnumLocKey.AUTOTOOL_RESULT_EXTENDED_MESSAGE_BOX_TEXT,

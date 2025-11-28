@@ -185,7 +185,7 @@ namespace HOI4ModBuilder.managers
                     StateManager.UpdateByDateTimeStamp(dateTime);
 
                     if (!MainForm.IsLoadingSavingOrUpdating())
-                        MapManager.HandleMapMainLayerChange(true, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
+                        MapManager.HandleMapMainLayerChange(true);
                 }, ex => throw new BookmarkLoadingException(dateTimeString, ex));
             });
         }
@@ -302,7 +302,7 @@ namespace HOI4ModBuilder.managers
 
             MainForm.Instance.SetGroupBoxProgressBackColor(success ? ResolveStatusColor() : Color.Red);
 
-            MapManager.HandleMapMainLayerChange(true, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
+            MapManager.HandleMapMainLayerChange(true);
 
             AfterFinish();
         }
@@ -323,7 +323,7 @@ namespace HOI4ModBuilder.managers
             if (MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Count > 0)
                 MainForm.Instance.ToolStripComboBox_Data_Bookmark.SelectedIndex = 0;
 
-            MainForm.Instance.UpdateSelectedMainLayerAndTool(true, false);
+            MainForm.Instance.UpdateSelectedMainLayerAndTool(true, false, false, false);
             MainForm.Instance.UpdateBordersType();
 
             MainForm.ErrorsOrExceptionsDuringLoading = Logger.ErrorsCount > 0 || Logger.ExceptionsCount > 0;

@@ -104,7 +104,8 @@ namespace HOI4ModBuilder.utils
             BUILDINGS,
             VICTORY_POINTS,
             AI_AREAS,
-            RESOURCES
+            RESOURCES,
+            STRATEGIC_LOCATION,
         }
 
         public enum EnumMouseState

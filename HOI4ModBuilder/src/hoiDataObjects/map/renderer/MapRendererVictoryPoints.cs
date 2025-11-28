@@ -15,10 +15,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
     {
         private static readonly float scale = 0.04f;
         private static readonly Color color = Color.Yellow;
-        public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
+        public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter, string parameterValue)
         {
             if (recalculateAllText)
-                if (!TextRenderRecalculate(parameter))
+                if (!TextRenderRecalculate(parameter, parameterValue))
                     return MapRendererResult.ABORT;
 
             ProvinceManager.GetMinMaxVictoryPoints(out uint victoryPointsMin, out uint victoryPointsMax);
@@ -43,7 +43,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             return MapRendererResult.CONTINUE;
         }
 
-        public bool TextRenderRecalculate(string parameter)
+        public bool TextRenderRecalculate(string parameter, string parameterValue)
         {
             var controller = MapManager.FontRenderController;
             controller.TryStart(out var result)?

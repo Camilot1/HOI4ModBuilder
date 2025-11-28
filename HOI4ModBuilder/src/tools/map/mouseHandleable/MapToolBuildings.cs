@@ -38,7 +38,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         };
         public override Func<ICollection> GetParametersProvider()
             => () => BuildingManager.GetBuildingNames();
-        public override Func<ICollection> GetValuesProvider() => null;
+        public override Func<ICollection> GetParameterValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
@@ -138,7 +138,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 {
                     province.State.SetProvinceBuildingLevel(province, building, c);
                     MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.BUILDINGS, province);
-                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
+                    MapManager.HandleMapMainLayerChange(false);
                     MapCheckerCoastalBuildingInNotCoastalPlace.HandleProvince(province);
                 };
             }
@@ -148,7 +148,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 {
                     province.State.SetStateBuildingLevel(building, c);
                     MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.BUILDINGS, province.State);
-                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
+                    MapManager.HandleMapMainLayerChange(false);
                     MapCheckerCoastalBuildingInNotCoastalPlace.HandleState(province.State);
                 };
             }

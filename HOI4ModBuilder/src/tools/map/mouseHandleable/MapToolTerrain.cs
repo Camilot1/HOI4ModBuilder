@@ -36,7 +36,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         };
         public override Func<ICollection> GetParametersProvider()
             => () => TerrainManager.GetAllTerrainKeys();
-        public override Func<ICollection> GetValuesProvider() => null;
+        public override Func<ICollection> GetParameterValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
@@ -70,7 +70,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                             bool newToHandleMapChange = prevTerrain == null || !province.Terrain.Equals(t);
                             province.Terrain = t;
                             if (newToHandleMapChange)
-                                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
+                                MapManager.HandleMapMainLayerChange(false);
                         };
                     }
                     else if (enumEditLayer == EnumEditLayer.STRATEGIC_REGIONS)
@@ -80,7 +80,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                             bool newToHandleMapChange = prevTerrain == null || !province.Region.Terrain.Equals(t);
                             province.Region.UpdateTerrain(t);
                             if (newToHandleMapChange)
-                                MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
+                                MapManager.HandleMapMainLayerChange(false);
                         };
                     }
                     else return false;

@@ -222,6 +222,28 @@ namespace HOI4ModBuilder.src.newParser.objects
             return false;
         }
 
+        public T GetLastIf(Func<T, bool> predicate)
+        {
+            if (TryGetLast(predicate, out var result))
+                return result;
+            return default;
+        }
+
+        public bool TryGetLast(Func<T, bool> predicate, out T result)
+        {
+            result = default;
+            for (int i = _list.Count - 1; i > 0; i--)
+            {
+                var obj = _list[i];
+                if (predicate(obj))
+                {
+                    result = obj;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool RemoveAllExceptLast(Func<T, bool> predicate, out int matchCount, out int lastResultIndex)
         {
             bool isLast = true;

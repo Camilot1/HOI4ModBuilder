@@ -21,10 +21,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         private static readonly float scale = 0.075f;
         private static readonly Color color = Color.Yellow;
 
-        public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
+        public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter, string parameterValue)
         {
             if (recalculateAllText)
-                if (!TextRenderRecalculate(parameter))
+                if (!TextRenderRecalculate(parameter, parameterValue))
                     return MapRendererResult.ABORT;
 
             func = (p) =>
@@ -43,20 +43,48 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                 if (p.State == null)
                     return Utils.ArgbToInt(255, 255, 0, 0);
 
-                
-                if (p.State.stateStrategicLocations.TryGetValue(p, out var ssl))
+
+                if (CheckContains(p, p.State.stateStrategicLocations))
                     return Utils.ArgbToInt(255, 255, 0, 255);
-                if (p.State.provinceStrategicLocations.TryGetValue(p, out var psl))
+                if (CheckContains(p, p.State.provinceStrategicLocations))
                     return Utils.ArgbToInt(255, 0, 255, 0);
-                if (p.State.stateStrategicLocations.Count > 0)
+                if (CheckContains2(p.State.stateStrategicLocations))
                     return Utils.ArgbToInt(255, 128, 0, 128);
                 return Utils.ArgbToInt(255, 0, 0, 0);
             };
 
+            bool CheckContains(Province p, Dictionary<Province, List<StrategicLocation>> dict)
+            {
+                if (!dict.TryGetValue(p, out var list))
+                    return false;
+                if (parameterValue == "")
+                    return true;
+                foreach (var obj in list)
+                    if (obj.Name == parameterValue)
+                        return true;
+                return false;
+            }
+
+            bool CheckContains2(Dictionary<Province, List<StrategicLocation>> dict)
+            {
+                if (dict.Count == 0)
+                    return false;
+
+                if (parameterValue == "")
+                    return true;
+
+                foreach (var list in dict.Values)
+                    foreach (var obj in list)
+                        if (obj.Name == parameterValue)
+                            return true;
+
+                return false;
+            }
+
             return MapRendererResult.CONTINUE;
         }
 
-        public bool TextRenderRecalculate(string parameter)
+        public bool TextRenderRecalculate(string parameter, string parameterValue)
         {
             var controller = MapManager.FontRenderController;
             controller.TryStart(out var result)?
@@ -67,7 +95,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                         controller.TryStart(controller.EventsFlags, out var eventResult)?
                         .ForEachProvince(objs, p => true, (fontRegion, p, pos) =>
                         {
-                            var text = AssembleText(p);
+                            var text = AssembleText(p, parameterValue);
 
                             if (text == null)
                                 controller.PushAction(pos, r => r.RemoveTextMulti(p));
@@ -87,7 +115,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                         p.State.stateStrategicLocations.ContainsKey(p)),
                     (fontRegion, p, pos) =>
                     {
-                        var text = AssembleText(p);
+                        var text = AssembleText(p, parameterValue);
                         if (text == null)
                             return;
 
@@ -101,7 +129,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             return result;
         }
 
-        private string AssembleText(Province p)
+        private string AssembleText(Province p, string parameterValue)
         {
             if (p.State == null)
                 return null;
@@ -114,15 +142,46 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 
             string firstName = null;
             int count = 0;
-            if (listP != null && listP.Count > 0)
+
+            if (parameterValue == "")
             {
-                firstName = listP[0].Name;
-                count += listP.Count;
+                if (listP != null && listP.Count > 0)
+                {
+                    firstName = listP[0].Name;
+                    count += listP.Count;
+                }
+                if (listS != null && listS.Count > 0)
+                {
+                    firstName = listS[0].Name;
+                    count += listS.Count;
+                }
             }
-            if (listS != null && listS.Count > 0)
+            else
             {
-                firstName = listS[0].Name;
-                count += listS.Count;
+                if (listP != null)
+                {
+                    foreach (var obj in listP)
+                    {
+                        if (obj.Name == parameterValue)
+                        {
+                            firstName = parameterValue;
+                            count += 1;
+                            break;
+                        }
+                    }
+                }
+                if (listS != null)
+                {
+                    foreach (var obj in listS)
+                    {
+                        if (obj.Name == parameterValue)
+                        {
+                            firstName = parameterValue;
+                            count += 1;
+                            break;
+                        }
+                    }
+                }
             }
 
             if (count == 1)

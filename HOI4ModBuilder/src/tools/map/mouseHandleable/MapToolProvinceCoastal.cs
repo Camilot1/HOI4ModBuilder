@@ -31,7 +31,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             EnumEditLayer.PROVINCES
         };
         public override Func<ICollection> GetParametersProvider() => null;
-        public override Func<ICollection> GetValuesProvider() => null;
+        public override Func<ICollection> GetParameterValuesProvider() => null;
 
 
         public override bool Handle(
@@ -62,7 +62,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 Action<bool> action = (b) =>
                 {
                     province.IsCoastal = b;
-                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
+                    MapManager.HandleMapMainLayerChange(false);
                 };
 
                 MapManager.ActionsBatch.AddWithExecute(

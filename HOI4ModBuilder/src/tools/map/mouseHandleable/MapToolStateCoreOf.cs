@@ -37,7 +37,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
         };
         public override Func<ICollection> GetParametersProvider()
             => () => CountryManager.GetTagsSorted();
-        public override Func<ICollection> GetValuesProvider() => null;
+        public override Func<ICollection> GetParameterValuesProvider() => null;
 
         // TODO: Refactor. Was made in a hurry
         public override bool Handle(
@@ -99,7 +99,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                             stateHistory, "add_core_of", country
                         ));
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false);
                     };
                     undoAction = (stateHistory, country) =>
                     {
@@ -109,7 +109,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                                 block.GetValue() == targetCountry
                         );
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false);
                     };
                 }
                 else if (
@@ -128,7 +128,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
 
                         stateHistory.DynamicScriptBlocks.RemoveAt(lastResultIndex);
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false);
                     };
                     undoAction = (stateHistory, country) =>
                     {
@@ -136,7 +136,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                             stateHistory, "remove_core_of", country
                         ));
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false);
                     };
                 }
 
@@ -188,7 +188,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                             stateHistory, "remove_core_of", country
                         ));
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false);
                     };
                     undoAction = (stateHistory, country) =>
                     {
@@ -198,7 +198,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                                 block.GetValue() == targetCountry
                         );
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false);
                     };
                 }
                 else if (
@@ -217,7 +217,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
 
                         stateHistory.DynamicScriptBlocks.RemoveAt(lastResultIndex);
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false);
                     };
                     undoAction = (stateHistory, country) =>
                     {
@@ -225,7 +225,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                             stateHistory, "add_core_of", country
                         ));
                         province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, parameter);
+                        MapManager.HandleMapMainLayerChange(false);
                     };
                 }
 

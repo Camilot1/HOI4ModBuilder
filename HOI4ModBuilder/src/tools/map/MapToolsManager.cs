@@ -44,6 +44,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             new MapToolAiArea(_mapTools);
             new MapToolVictoryPoints(_mapTools);
             new MapToolResources(_mapTools);
+            new MapToolStrategicLocations(_mapTools);
 
             new DebugTool();
 
@@ -89,15 +90,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             parametersProvider = tool.GetParametersProvider();
             return true;
         }
-        public static bool TryGetMapToolValuesProvider(EnumTool enumTool, out Func<ICollection> valuesProvider)
+        public static bool TryGetMapToolParameterValuesProvider(EnumTool enumTool, out Func<ICollection> valuesProvider)
         {
-            if (!_mapTools.TryGetValue(enumTool, out var tool) || tool.GetValuesProvider() == null)
+            if (!_mapTools.TryGetValue(enumTool, out var tool) || tool.GetParameterValuesProvider() == null)
             {
                 valuesProvider = null;
                 return false;
             }
 
-            valuesProvider = tool.GetValuesProvider();
+            valuesProvider = tool.GetParameterValuesProvider();
             return true;
         }
 
@@ -200,7 +201,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         }
 
         public abstract Func<ICollection> GetParametersProvider();
-        public abstract Func<ICollection> GetValuesProvider();
+        public abstract Func<ICollection> GetParameterValuesProvider();
     }
 
     public interface IMouseHandleableMapTool
@@ -208,7 +209,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         bool Handle(MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor, EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value);
         EnumEditLayer[] GetAllowedEditLayers();
         Func<ICollection> GetParametersProvider();
-        Func<ICollection> GetValuesProvider();
+        Func<ICollection> GetParameterValuesProvider();
     }
 
     public enum EnumMapToolHandleChecks

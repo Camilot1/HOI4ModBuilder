@@ -114,7 +114,7 @@ namespace HOI4ModBuilder.managers
 
                     var current = MainForm.Instance.GetMainLayer();
                     if (current == EnumMainLayer.STATES || current == EnumMainLayer.STRATEGIC_REGIONS)
-                        MainForm.Instance.InvokeAction(() => HandleMapMainLayerChange());
+                        MainForm.Instance.InvokeAction(() => HandleMapMainLayerChange(false));
                 });
             });
         }
@@ -437,12 +437,10 @@ namespace HOI4ModBuilder.managers
             return array;
         }
 
-        public static void HandleMapMainLayerChange()
-            => HandleMapMainLayerChange(false);
         public static void HandleMapMainLayerChange(bool recalculateAllText)
-            => HandleMapMainLayerChange(recalculateAllText, MainForm.Instance.GetMainLayer(), MainForm.Instance.GetParameter());
+            => HandleMapMainLayerChange(recalculateAllText, MainForm.Instance.GetMainLayer(), MainForm.Instance.GetParameter(), MainForm.Instance.GetParameterValue());
 
-        public static void HandleMapMainLayerChange(bool recalculateAllText, EnumMainLayer enumMainLayer, string parameter)
+        private static void HandleMapMainLayerChange(bool recalculateAllText, EnumMainLayer enumMainLayer, string parameter, string parameterValue)
         {
             if (ProvincesPixels == null)
                 return;
@@ -454,7 +452,7 @@ namespace HOI4ModBuilder.managers
             Func<Province, int, int> customFunc = null;
 
             MapRendererResult result = _mapRenderers[(int)enumMainLayer]
-                .Execute(recalculateAllText, ref func, ref customFunc, parameter);
+                .Execute(recalculateAllText, ref func, ref customFunc, parameter, parameterValue);
 
             if (result == MapRendererResult.ABORT)
                 return;
@@ -649,7 +647,7 @@ namespace HOI4ModBuilder.managers
                                 UpdateDisplayBorders();
                                 MainForm.DisplayProgress(EnumLocKey.PROGRESSBAR_UPDATED, 0);
                                 MainForm.ResumeGLControl();
-                                HandleMapMainLayerChange(true, MainForm.Instance.SelectedMainLayer, MainForm.Instance.GetParameter());
+                                HandleMapMainLayerChange(true);
                                 Utils.CleanUpMemory();
                             });
                         });
@@ -908,7 +906,7 @@ namespace HOI4ModBuilder.managers
             if (needToSave)
             {
                 Utils.ArrayToBitmap(bytes, provincesBitmap, ImageLockMode.WriteOnly, provincesBitmap.Width, provincesBitmap.Height, TextureManager._24bppRgb);
-                HandleMapMainLayerChange();
+                HandleMapMainLayerChange(false);
                 TextureManager.provinces.needToSave = true;
             }
         }

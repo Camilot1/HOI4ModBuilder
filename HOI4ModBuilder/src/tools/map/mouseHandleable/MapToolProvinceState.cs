@@ -36,7 +36,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         };
         public override Func<ICollection> GetParametersProvider()
             => () => StateManager.GetIDsSorted();
-        public override Func<ICollection> GetValuesProvider() => null;
+        public override Func<ICollection> GetParameterValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
@@ -95,14 +95,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                         bool needToRedraw = false;
                         foreach (var tuple in list)
                             needToRedraw |= StateManager.TransferProvince(tuple.Item3, tuple.Item1, tuple.Item2);
-                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
+                        MapManager.HandleMapMainLayerChange(false);
                     };
                     undoAction = (list) =>
                     {
                         bool needToRedraw = false;
                         foreach (var tuple in list)
                             needToRedraw |= StateManager.TransferProvince(tuple.Item3, tuple.Item2, tuple.Item1);
-                        MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
+                        MapManager.HandleMapMainLayerChange(false);
                     };
                 }
 

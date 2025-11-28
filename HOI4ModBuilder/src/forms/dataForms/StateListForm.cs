@@ -194,7 +194,7 @@ namespace HOI4ModBuilder.src.forms
                 RichTextBox_StateInfo.Text = text;
 
                 MainForm.Instance?.TryInvokeActionOrLog(
-                    () => MapManager.HandleMapMainLayerChange(true, MainForm.Instance.SelectedMainLayer, MainForm.Instance.ComboBox_Tool_Parameter.Text),
+                    () => MapManager.HandleMapMainLayerChange(true),
                     (ex) => Logger.LogException(ex)
                 );
             });

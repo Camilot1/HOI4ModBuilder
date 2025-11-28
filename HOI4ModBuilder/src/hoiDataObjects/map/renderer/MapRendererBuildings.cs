@@ -17,12 +17,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         private static readonly float scaleState = 0.125f;
         private static readonly Color color = Color.Yellow;
 
-        public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter)
+        public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter, string parameterValue)
         {
             if (!BuildingManager.TryGetBuilding(parameter, out Building building))
             {
                 if (recalculateAllText)
-                    if (!TextRenderRecalculate(parameter))
+                    if (!TextRenderRecalculate(parameter, parameterValue))
                         return MapRendererResult.ABORT;
 
                 func = (p) =>
@@ -44,13 +44,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             if (buildingSlotCategory == EnumBuildingSlotCategory.PROVINCIAL)
             {
                 if (recalculateAllText)
-                    if (!TextRenderRecalculateProvinces(building))
+                    if (!TextRenderRecalculateProvinces(building, parameterValue))
                         return MapRendererResult.ABORT;
             }
             else
             {
                 if (recalculateAllText)
-                    if (!TextRenderRecalculateStates(building))
+                    if (!TextRenderRecalculateStates(building, parameterValue))
                         return MapRendererResult.ABORT;
             }
 
@@ -174,7 +174,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             return MapRendererResult.CONTINUE;
         }
 
-        public bool TextRenderRecalculate(string parameter)
+        public bool TextRenderRecalculate(string parameter, string parameterValue)
         {
             MapManager.FontRenderController.TryStart(out var result)?
                 .SetEventsHandler((int)EnumMapRenderEvents.NONE, (flags, obj) => { })
@@ -184,7 +184,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             return result;
         }
 
-        public bool TextRenderRecalculateProvinces(Building building)
+        public bool TextRenderRecalculateProvinces(Building building, string parameterValue)
         {
             var scale = scaleProvince;
             var controller = MapManager.FontRenderController;
@@ -218,7 +218,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             return result;
         }
 
-        public bool TextRenderRecalculateStates(Building building)
+        public bool TextRenderRecalculateStates(Building building, string parameterValue)
         {
             var scale = scaleState;
             var controller = MapManager.FontRenderController;

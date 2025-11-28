@@ -36,8 +36,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.strategicLocations
 
         }
 
-        public static Dictionary<string, StrategicLocation>.KeyCollection GetNames() => _allStrategicLocations.Keys;
-        public static Dictionary<string, StrategicLocation>.ValueCollection GetValues() => _allStrategicLocations.Values;
+        public static List<string> GetNames() =>
+            new List<string>(_allStrategicLocations.Keys);
+        public static List<string> GetNamesSorted()
+        {
+            var list = GetNames();
+            list.Sort();
+            return list;
+        }
+        public static List<string> GetNamesSortedStartingWith(string first)
+        {
+            var list = GetNames();
+            list.Insert(0, "");
+            return list;
+        }
+        public static Dictionary<string, StrategicLocation>.ValueCollection GetValues()
+            => _allStrategicLocations.Values;
         public static bool TryGet(string name, out StrategicLocation strategicLocation)
             => _allStrategicLocations.TryGetValue(name, out strategicLocation);
         public static StrategicLocation Get(string name)
@@ -47,7 +61,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.strategicLocations
             return null;
         }
 
-        public static bool Has(string name) => _allStrategicLocations.ContainsKey(name);
+        public static bool Contains(string name) => _allStrategicLocations.ContainsKey(name);
         public static void AddSilent(StrategicLocation strategicLocation)
             => _allStrategicLocations[strategicLocation.Name] = strategicLocation;
 

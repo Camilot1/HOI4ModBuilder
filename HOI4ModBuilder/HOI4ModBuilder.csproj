@@ -854,6 +854,7 @@
     <Compile Include="src\tools\map\mouseHandleable\MapToolProvinceContinent.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolProvinceRegion.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolProvinceState.cs" />
+    <Compile Include="src\tools\map\mouseHandleable\MapToolStrategicLocations.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolTerrain.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolProvinceType.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolRectangle.cs" />

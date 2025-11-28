@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.dataObjects.argBlocks;
+using HOI4ModBuilder.src.dataObjects.replaceTags;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.structs;
@@ -25,7 +26,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         private object _value;
         public object GetValue() => _value is GameConstant gameConstant ? gameConstant.Value : _value;
         public object GetValueRaw() => _value;
-        public void SetValue(object value)
+        public ScriptBlockParseObject SetValue(object value)
         {
             var resolvedValue = value;
 
@@ -41,6 +42,8 @@ namespace HOI4ModBuilder.src.newParser.objects
                 _value = resolvedValue;
                 _needToSave = true;
             }
+
+            return this;
         }
 
         public ScriptBlockParseObject() { }
@@ -225,6 +228,50 @@ namespace HOI4ModBuilder.src.newParser.objects
                 throw new Exception("Unknown token: " + key + " " + parser.GetCursorInfo());
 
 
+        }
+
+        public bool TryAddUniversalParams(List<(string, EnumValueType, object)> universalParams)
+        {
+            if (!(ScriptBlockInfo is InfoArgsBlock infoArgsBlock))
+                return false;
+
+            if (!infoArgsBlock.CanHaveUniversalParams)
+                return false;
+
+            GameList<ScriptBlockParseObject> innerList;
+            if (_value == null)
+                innerList = new GameList<ScriptBlockParseObject>();
+            else if (_value is GameList<ScriptBlockParseObject>)
+                innerList = (GameList<ScriptBlockParseObject>)_value;
+            else
+                return false;
+
+            var maxUniversalParamsCount = infoArgsBlock.AllowedUniversalParamsInfo.MaxUniversalParamsCount;
+            if (maxUniversalParamsCount >= 0 && universalParams.Count + innerList.Count > maxUniversalParamsCount)
+                return false;
+
+            foreach (var obj in universalParams)
+                if (Utils.Contains(infoArgsBlock.AllowedUniversalParamsInfo.AllowedValueTypes, obj.Item2))
+                    return false;
+
+            foreach (var obj in universalParams)
+                foreach (var objList in innerList)
+                    if (objList.ScriptBlockInfo.GetBlockName() == obj.Item1)
+                        return false;
+
+            foreach (var obj in universalParams)
+            {
+                var innerBlock = new ScriptBlockParseObject(
+                    this, new InfoArgsBlock(obj.Item1, infoArgsBlock.AllowedUniversalParamsInfo.AllowedValueTypes)
+                ).SetValue(obj.Item3);
+                innerBlock.SetParent(innerList);
+                innerList.Add(innerBlock);
+            }
+
+            if (_value == null)
+                SetValue(innerList);
+
+            return true;
         }
 
         private void ParseInnerScriptInfoBlock(GameParser parser, GameList<ScriptBlockParseObject> innerList, IScriptBlockInfo innerInfo, GameComments keyComments)

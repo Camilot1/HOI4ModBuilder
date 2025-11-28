@@ -35,7 +35,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         };
         public override Func<ICollection> GetParametersProvider()
             => () => BrushManager.GetBrushesNames(SettingsManager.Settings);
-        public override Func<ICollection> GetValuesProvider() => null;
+        public override Func<ICollection> GetParameterValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,

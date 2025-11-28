@@ -49,7 +49,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.strategicLocations
 
             foreach (var strategicLocation in StrategicLocations.Values)
             {
-                if (StrategicLocationManager.Has(strategicLocation.Name))
+                if (StrategicLocationManager.Contains(strategicLocation.Name))
                     Logger.LogLayeredWarning(layer, EnumLocKey.WARNING_OBJECT_PARAMETER_OVERRIDE, new Dictionary<string, string>
                     {
                         { "{object}", "strategic_locations" },

@@ -63,6 +63,7 @@ STATE_OWNER: "State Owner"
 STATE_CONTROLLER: "State Controller"
 STATE_CORE_OF: "Country State Core"
 STATE_CLAIM_BY: "Country State Claim"
+STRATEGIC_LOCATION: "Strategic Location"
 
 PROVINCES_BLACK: "Provinces (b)"
 PROVINCES_WHITE: "Provinces (w)"

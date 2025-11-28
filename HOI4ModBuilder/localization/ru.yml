@@ -63,6 +63,7 @@ STATE_OWNER: "Владелец области"
 STATE_CONTROLLER: "Контроль области"
 STATE_CORE_OF: "Национальная область"
 STATE_CLAIM_BY: "Претензия на область"
+STRATEGIC_LOCATION: "Стратегическая локация"
 
 PROVINCES_BLACK: "Провинции (ч)"
 PROVINCES_WHITE: "Провинции (б)"

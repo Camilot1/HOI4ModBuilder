@@ -32,7 +32,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         };
         public override Func<ICollection> GetParametersProvider()
             => () => Enum.GetValues(typeof(EnumProvinceType));
-        public override Func<ICollection> GetValuesProvider() => null;
+        public override Func<ICollection> GetParameterValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
@@ -55,7 +55,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 void action(EnumProvinceType type)
                 {
                     province.Type = type;
-                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
+                    MapManager.HandleMapMainLayerChange(false);
                 }
 
                 MapManager.ActionsBatch.AddWithExecute(

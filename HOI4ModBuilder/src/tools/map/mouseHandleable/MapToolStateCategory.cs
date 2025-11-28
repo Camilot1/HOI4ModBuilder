@@ -34,7 +34,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
         };
         public override Func<ICollection> GetParametersProvider()
             => () => StateCategoryManager.GetNames();
-        public override Func<ICollection> GetValuesProvider() => null;
+        public override Func<ICollection> GetParameterValuesProvider() => null;
 
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
@@ -63,7 +63,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
                 Action<State, StateCategory> action = (state, stateCategory) =>
                 {
                     state.StateCategory.SetValue(stateCategory);
-                    MapManager.HandleMapMainLayerChange(false, MainForm.Instance.SelectedMainLayer, null);
+                    MapManager.HandleMapMainLayerChange(false);
                 };
 
                 MapManager.ActionsBatch.AddWithExecute(
