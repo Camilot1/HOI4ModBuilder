@@ -101,7 +101,7 @@ FOUND_ADDITIONAL_EXCEPTIONS_COUNT: "Additional Exceptions count: {exceptionsCoun
 FOLDER_BROWSER_DIALOG_CHOOSE_GAME_DIRECTORY_TITLE: "Choose game directory"
 SINGLE_MESSAGE_NO_HOI4EXE_FILE_IN_GAME_DIRECTORY: "The game directory should contain file \"{fileName}\"."
 FOLDER_BROWSER_DIALOG_CHOOSE_DIRECTORY_IN_DOCUMENTS_TITLE: "Choose game directory in Documents"
-SINGLE_MESSAGE_NO_SAVEGAMES_FOULDER_IN_DIRECTORY_IN_DOCUMENTS: "The game directory in Documents should contain the folder \"{directoryName}\"."
+SINGLE_MESSAGE_NO_REQUIRED_FOLDER_IN_DIRECTORY_IN_DOCUMENTS: "The game directory in Documents should contain the folder \"{directoryName}\"."
 FOLDER_BROWSER_DIALOG_CHOOSE_DIRECTORY_OF_MOD_TITLE: "Choose the directory of the mod"
 SINGLE_MESSAGE_NO_MOD_DESCRIPTOR_IN_DIRECTORY_OF_MOD: "The directory of the mod should contain the mod descriptor file (\"*.mod\")."
 SINGLE_MESSAGE_MULTIPLE_MOD_DESCRIPTOR_IN_DIRECTORY_OF_MOD: "The directory of the mod should not contain more than one mod descriptor file (\"*.mod\")."

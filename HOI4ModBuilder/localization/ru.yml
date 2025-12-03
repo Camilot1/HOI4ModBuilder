@@ -103,7 +103,7 @@ FOUND_ADDITIONAL_EXCEPTIONS_COUNT: "Обнаружено доп. критич. �
 FOLDER_BROWSER_DIALOG_CHOOSE_GAME_DIRECTORY_TITLE: "Выбор основной директории игры"
 SINGLE_MESSAGE_NO_HOI4EXE_FILE_IN_GAME_DIRECTORY: "В выбранной папке игры не найден файл \"{fileName}\"."
 FOLDER_BROWSER_DIALOG_CHOOSE_DIRECTORY_IN_DOCUMENTS_TITLE: "Выбор папки игры в Документах"
-SINGLE_MESSAGE_NO_SAVEGAMES_FOULDER_IN_DIRECTORY_IN_DOCUMENTS: "В выбранной папке игры в Документах не найдена папка \"{directoryName}\"."
+SINGLE_MESSAGE_NO_REQUIRED_FOLDER_IN_DIRECTORY_IN_DOCUMENTS: "В выбранной папке игры в Документах не найдена папка \"{directoryName}\"."
 FOLDER_BROWSER_DIALOG_CHOOSE_DIRECTORY_OF_MOD_TITLE: "Выбор папки мода"
 SINGLE_MESSAGE_NO_MOD_DESCRIPTOR_IN_DIRECTORY_OF_MOD: "В выбранной папке мода не найден дескриптор мода (\"*.mod\")."
 SINGLE_MESSAGE_MULTIPLE_MOD_DESCRIPTOR_IN_DIRECTORY_OF_MOD: "В выбранной папке мода найдено больше одного дескриптора модов (\"*.mod\")."

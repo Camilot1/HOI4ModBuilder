@@ -130,7 +130,7 @@ namespace HOI4ModBuilder.src.forms
 
                     if (!IsValidGameTempDirectory(path))
                     {
-                        Logger.LogSingleErrorMessage(EnumLocKey.SINGLE_MESSAGE_NO_SAVEGAMES_FOULDER_IN_DIRECTORY_IN_DOCUMENTS, new Dictionary<string, string> { { "{directoryName}", "save games" } });
+                        Logger.LogSingleErrorMessage(EnumLocKey.SINGLE_MESSAGE_NO_REQUIRED_FOLDER_IN_DIRECTORY_IN_DOCUMENTS, new Dictionary<string, string> { { "{directoryName}", "mod" } });
                         return;
                     }
                     Invoke(new Action(() => TextBox_GameTempDirectory.Text = path));
@@ -141,7 +141,7 @@ namespace HOI4ModBuilder.src.forms
         }
 
         public bool IsValidGameTempDirectory(string path)
-            => Directory.Exists(path + "save games");
+            => Directory.Exists(path + "mod");
 
         private void Button_ModDirectory_Click(object sender, EventArgs e)
         {
