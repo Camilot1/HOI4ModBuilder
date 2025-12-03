@@ -23,6 +23,8 @@ namespace HOI4ModBuilder.src.newParser.objects
         public EnumDemiliter Demiliter { get => _demiliter; set => Utils.Setter(ref _demiliter, ref value, ref _needToSave); }
         public EnumValueType ValueType { get; set; }
 
+        public string GetBlockName() => _scriptBlockInfo.GetBlockName();
+
         private object _value;
         public object GetValue() => _value is GameConstant gameConstant ? gameConstant.Value : _value;
         public object GetValueRaw() => _value;
@@ -230,7 +232,8 @@ namespace HOI4ModBuilder.src.newParser.objects
 
         }
 
-        public bool TryAddUniversalParams(List<(string, EnumValueType, object)> universalParams)
+        // List<(name, valueType, value)>
+        public bool TryAddUniversalParams(bool allowSameKeys, List<(string, EnumValueType, object)> universalParams)
         {
             if (!(ScriptBlockInfo is InfoArgsBlock infoArgsBlock))
                 return false;
@@ -251,12 +254,12 @@ namespace HOI4ModBuilder.src.newParser.objects
                 return false;
 
             foreach (var obj in universalParams)
-                if (Utils.Contains(infoArgsBlock.AllowedUniversalParamsInfo.AllowedValueTypes, obj.Item2))
+                if (!Utils.Contains(infoArgsBlock.AllowedUniversalParamsInfo.AllowedValueTypes, obj.Item2))
                     return false;
 
             foreach (var obj in universalParams)
                 foreach (var objList in innerList)
-                    if (objList.ScriptBlockInfo.GetBlockName() == obj.Item1)
+                    if (objList.ScriptBlockInfo.GetBlockName() == obj.Item1 && (!allowSameKeys || allowSameKeys && objList.GetValue() == obj.Item3))
                         return false;
 
             foreach (var obj in universalParams)

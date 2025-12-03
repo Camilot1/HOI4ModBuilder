@@ -362,5 +362,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             foreach (var innerHistory in InnerHistories.Values)
                 innerHistory.RemoveProvinceData(province);
         }
+
+        public void ForEachHistory(Func<StateHistory, bool> predicate)
+        {
+            foreach (var innerHistory in InnerHistories.Values)
+                predicate(innerHistory);
+        }
     }
 }

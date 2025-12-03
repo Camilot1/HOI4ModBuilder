@@ -42,7 +42,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
                     return Utils.ArgbToInt(255, 127, 255, 255);
                 if (p.State == null)
                     return Utils.ArgbToInt(255, 255, 0, 0);
-
+                if (p.State.stateStrategicLocations.Count == 0 &&
+                    p.State.provinceStrategicLocations.Count == 0)
+                {
+                    return Utils.ArgbToInt(255, 0, 0, 0);
+                }
 
                 if (CheckContains(p, p.State.stateStrategicLocations))
                     return Utils.ArgbToInt(255, 255, 0, 255);

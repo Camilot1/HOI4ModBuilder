@@ -249,6 +249,16 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             return states;
         }
 
+        public void ForEachHistory(Func<StateHistory, bool> predicate)
+        {
+            var history = History.GetValue();
+            if (history == null)
+                return;
+
+            predicate(history);
+            history.ForEachHistory(predicate);
+        }
+
         public void AddProvince(Province province)
         {
             if (province == null)

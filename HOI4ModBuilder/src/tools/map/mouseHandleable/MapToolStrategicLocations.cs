@@ -1,10 +1,12 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.history.countries;
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.dataObjects.argBlocks;
 using HOI4ModBuilder.src.hoiDataObjects.common.strategicLocations;
 using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.utils;
@@ -49,7 +51,6 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
         public override Func<ICollection> GetParameterValuesProvider()
             => () => StrategicLocationManager.GetNamesSortedStartingWith("");
 
-        // TODO: Refactor. Was made in a hurry
         public override bool Handle(
             MouseEventArgs mouseEventArgs, EnumMouseState mouseState, Point2D pos, Point2D sizeFactor,
             EnumEditLayer enumEditLayer, Bounds4US bounds, string parameter, string value
@@ -58,223 +59,108 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             if (!base.Handle(mouseEventArgs, mouseState, pos, sizeFactor, enumEditLayer, bounds, parameter, value))
                 return false;
 
-            /*
-            StrategicLocationManager.TryGet(parameter, out var targetStrategicLocation);
+            if (!StrategicLocationManager.TryGet(value, out var targetStrategicLocation))
+                return false;
 
             if (!ProvinceManager.TryGet(MapManager.GetColor(pos), out Province province))
                 return false;
 
-            if (province.State == null)
+            var state = province.State;
+            if (state == null)
                 return false;
 
-            if (province.State.CurrentHistory == null)
+            if (state.CurrentHistory == null)
+                return false;
+
+            var history = state.History.GetValue();
+            if (history == null) 
                 return false;
 
             bool provinceMode = GuiLocManager.GetLoc(EnumLocKey.PROVINCE) == parameter;
             bool stateMode = GuiLocManager.GetLoc(EnumLocKey.STATE) == parameter;
+
 
             if (!provinceMode && !stateMode)
                 return false;
 
             var dict = provinceMode ? province.State.provinceStrategicLocations : province.State.stateStrategicLocations;
             var blockTag = provinceMode ? "strategic_province_location" : "strategic_state_location";
-            var contains = false;
 
-            if (dict.TryGetValue(province, out var list))
-                foreach (var obj in list)
-                    if (obj.Name == value)
+            bool contains = dict.TryGetValue(province, out var tempList) && tempList.Contains(targetStrategicLocation);
+
+
+            Action addAction = () =>
+            {
+                var blocks = state.CurrentHistory.DynamicScriptBlocks;
+                if (!blocks.TryGetLast(b => b.GetBlockName() == blockTag, out var targetBlock))
+                {
+                    targetBlock = ParserUtils.GetScriptBlockParseObject(blocks, blockTag, new GameList<ScriptBlockParseObject>());
+                    blocks.Add(targetBlock);
+                }
+
+                targetBlock.TryAddUniversalParams(true, new List<(string, EnumValueType, object)> {
+                    (targetStrategicLocation.Name, EnumValueType.PROVINCE, province)
+                });
+
+                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STRATEGIC_LOCATIONS, province);
+
+                province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
+                MapManager.HandleMapMainLayerChange(false);
+            };
+
+            Action removeAction = () =>
+            {
+                var targetParameter = new ScriptBlockParseObject[1];
+
+                state.ForEachHistory((h) =>
+                {
+                    if (h.dateTime > DataManager.currentDateStamp[0])
+                        return true;
+
+                    foreach (var b in h.DynamicScriptBlocks)
                     {
-                        contains = true;
-                        break;
+                        if (b.GetBlockName() != blockTag)
+                            continue;
+
+                        var v = b.GetValue();
+                        if (!(v is GameList<ScriptBlockParseObject> vList))
+                            continue;
+
+                        vList.RemoveAllIf(o => o.GetBlockName() == targetStrategicLocation.Name && o.GetValue() == province);
                     }
+
+                    return false;
+                });
+
+                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STRATEGIC_LOCATIONS, province);
+
+                province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
+                MapManager.HandleMapMainLayerChange(false);
+            };
+
 
             if (mouseEventArgs.Button == MouseButtons.Left)
             {
                 if (contains)
                     return false;
 
-                int lastResultIndex = -1;
-                var blocks = province.State.CurrentHistory.DynamicScriptBlocks;
-                for (int i = blocks.Count - 1; i >= 0; i--)
-                {
-                    var block = blocks[i];
-                    if (block.ScriptBlockInfo.GetBlockName() == blockTag)
-                    {
-                        lastResultIndex = i;
-                        break;
-                    }
-                }
-
-                Action<StateHistory, StrategicLocation> redoAction = null;
-                Action<StateHistory, StrategicLocation> undoAction = null;
-
-                // Если подходящих эффектов не было
-                if (lastResultIndex == -1)
-                {
-                    redoAction = (stateHistory, location) =>
-                    {
-                        if (stateHistory.DynamicScriptBlocks.HasAny(
-                            (block) => block.ScriptBlockInfo.GetBlockName() == blockTag &&
-                                block.GetValue() is GameList<ScriptBlockParseObject> innerList &&
-                                innerList.HasAny(
-                                    innerBlock => innerBlock.ScriptBlockInfo.GetBlockName() == location.Name
-                                )
-                         ))
-                            return;
-
-                        if (!stateHistory.DynamicScriptBlocks.TryGetLast(block => block.ScriptBlockInfo.GetBlockName() == blockTag, out var lastBlock))
-                        {
-                            lastBlock = ParserUtils.GetScriptBlockParseObject(
-                                stateHistory.DynamicScriptBlocks, blockTag, new GameList<ScriptBlockParseObject>()
-                            );
-                            stateHistory.DynamicScriptBlocks.Add(lastBlock);
-                        }
-
-                        if (lastBlock.TryAddUniversalParams(new List<(string, dataObjects.argBlocks.EnumValueType, object)>
-                        {
-                            (value, dataObjects.argBlocks.EnumValueType.PROVINCE, province)
-                        }))
-
-                            province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false);
-                    };
-                    undoAction = (stateHistory, country) =>
-                    {
-                        stateHistory.DynamicScriptBlocks.RemoveLastIf(
-                            (block) =>
-                                block.ScriptBlockInfo.GetBlockName() == "add_claim_by" &&
-                                block.GetValue() == targetCountry
-                        );
-                        province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false);
-                    };
-                }
-                else if (
-                    blocks[lastResultIndex].ScriptBlockInfo.GetBlockName() == "remove_claim_by" &&
-                    blocks[lastResultIndex].GetValue() == targetCountry)
-                {
-                    redoAction = (stateHistory, country) =>
-                    {
-                        if (stateHistory.DynamicScriptBlocks.Count <= lastResultIndex)
-                            return;
-
-                        var block = stateHistory.DynamicScriptBlocks[lastResultIndex];
-                        if (block.ScriptBlockInfo.GetBlockName() != "remove_claim_by" ||
-                            block.GetValue() != country)
-                            return;
-
-                        stateHistory.DynamicScriptBlocks.RemoveAt(lastResultIndex);
-                        province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false);
-                    };
-                    undoAction = (stateHistory, country) =>
-                    {
-                        stateHistory.DynamicScriptBlocks.Add(ParserUtils.GetScriptBlockParseObject(
-                            stateHistory, "remove_claim_by", country
-                        ));
-                        province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false);
-                    };
-                }
-
-                if (redoAction == null || undoAction == null)
-                    return false;
 
                 MapManager.ActionsBatch.AddWithExecute(
-                    () => redoAction(province.State.CurrentHistory, targetCountry),
-                    () => undoAction(province.State.CurrentHistory, targetCountry)
+                    () => addAction(),
+                    () => removeAction()
                 );
             }
             else if (mouseEventArgs.Button == MouseButtons.Right)
             {
-                //Если нет core_of на текущий момент
-                if (!province.State.CurrentClaimsBy.Contains(targetCountry))
+                if (!contains)
                     return false;
 
-                // Удаляем все лишние add_claim_by или remove_claim_by
-                var blocks = province.State.CurrentHistory.DynamicScriptBlocks;
-                blocks.RemoveAllExceptLast(
-                    (block) => // Ищем эффекты, связанные с выбранной страной
-                    {
-                        var blockName = block.ScriptBlockInfo.GetBlockName();
-                        if (blockName != "add_claim_by" && blockName != "remove_claim_by")
-                            return false;
-
-                        return block.GetValue() == targetCountry;
-                    },
-                    out int matchCount,
-                    out int lastResultIndex
-                );
-
-                Action<StateHistory, Country> redoAction = null;
-                Action<StateHistory, Country> undoAction = null;
-
-                // Если подходящих эффектов не было
-                if (lastResultIndex == -1)
-                {
-                    redoAction = (stateHistory, country) =>
-                    {
-                        if (stateHistory.DynamicScriptBlocks.HasAny(
-                            (block) =>
-                                block.ScriptBlockInfo.GetBlockName() == "remove_claim_by" &&
-                                block.GetValue() == country)
-                        )
-                            return;
-
-                        stateHistory.DynamicScriptBlocks.Add(ParserUtils.GetScriptBlockParseObject(
-                            stateHistory, "remove_claim_by", country
-                        ));
-                        province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false);
-                    };
-                    undoAction = (stateHistory, country) =>
-                    {
-                        stateHistory.DynamicScriptBlocks.RemoveLastIf(
-                            (block) =>
-                                block.ScriptBlockInfo.GetBlockName() == "remove_claim_by" &&
-                                block.GetValue() == targetCountry
-                        );
-                        province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false);
-                    };
-                }
-                else if (
-                    blocks[lastResultIndex].ScriptBlockInfo.GetBlockName() == "add_claim_by" &&
-                    blocks[lastResultIndex].GetValue() == targetCountry)
-                {
-                    redoAction = (stateHistory, country) =>
-                    {
-                        if (stateHistory.DynamicScriptBlocks.Count <= lastResultIndex)
-                            return;
-
-                        var block = stateHistory.DynamicScriptBlocks[lastResultIndex];
-                        if (block.ScriptBlockInfo.GetBlockName() != "add_claim_by" ||
-                            block.GetValue() != country)
-                            return;
-
-                        stateHistory.DynamicScriptBlocks.RemoveAt(lastResultIndex);
-                        province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false);
-                    };
-                    undoAction = (stateHistory, country) =>
-                    {
-                        stateHistory.DynamicScriptBlocks.Add(ParserUtils.GetScriptBlockParseObject(
-                            stateHistory, "add_claim_by", country
-                        ));
-                        province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
-                        MapManager.HandleMapMainLayerChange(false);
-                    };
-                }
-
-                if (redoAction == null || undoAction == null)
-                    return false;
 
                 MapManager.ActionsBatch.AddWithExecute(
-                    () => redoAction(province.State.CurrentHistory, targetCountry),
-                    () => undoAction(province.State.CurrentHistory, targetCountry)
+                    () => removeAction(),
+                    () => addAction()
                 );
             }
-            */
 
             return true;
         }
