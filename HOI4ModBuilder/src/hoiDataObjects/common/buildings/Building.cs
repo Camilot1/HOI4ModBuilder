@@ -56,6 +56,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             .INIT_ForceValueInline(true)
             .INIT_SetValueParseAdapter((o, value) => ParserUtils.ScriptBlockFabricProvide((IParentable)o, InfoArgsBlocksManager.GetModifier(value)));
         public readonly GameParameter<bool> IsAlliedBuild = new GameParameter<bool>();
+        public readonly GameParameter<bool> IsAffectsEnergy = new GameParameter<bool>();
         public readonly GameParameter<bool> IsOnlyCoastal = new GameParameter<bool>();
         public readonly GameParameter<bool> IsPort = new GameParameter<bool>();
         public readonly GameParameter<bool> IsNavalSupplyHub = new GameParameter<bool>();
@@ -100,6 +101,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
             { "province_damage_modifiers", o => ((Building)o).ProvinceDamageModifiers },
             { "state_damage_modifier", o => ((Building)o).StateDamageModifiers },
             { "allied_build", o => ((Building)o).IsAlliedBuild },
+            { "affects_energy", o => ((Building)o).IsAffectsEnergy },
             { "only_costal", o => ((Building)o).IsOnlyCoastal },
             { "is_port", o => ((Building)o).IsPort },
             { "naval_supply_hub", o => ((Building)o).IsNavalSupplyHub },
