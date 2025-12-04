@@ -1,3 +1,15 @@
+### HOI4 Mod Builder v0.2.9.1 (HotFix)
+
+### List of changes and fixes:
+> - Added support for the "affects_energy" modifier in buildings (HOI4 v1.17.2)
+> - Disabled the check for multiple State Categories declared in a single file
+> - Disabled the use of default mod settings in the Program Settings
+> - Temporarily disabled the WIP "MapPositions" setting in the Program Settings
+
+---
+
+### HOI4 Mod Builder v0.2.9
+
 ### Changelog:
 
 - Compatibility with Hearts of Iron 4 v1.17.*:
