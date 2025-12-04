@@ -2520,5 +2520,19 @@
     "allowedValueTypes": [ "FLOAT" ],
     "defaultValueType": "FLOAT",
     "defaultValue": 0
+  },
+  {
+    "name": "local_factory_energy_consumption_per_infrastructure",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
+  },
+  {
+    "name": "local_resource_gain_efficiency_per_infrastructure",
+    "specificScopes": [ "STATE" ],
+    "allowedValueTypes": [ "FLOAT" ],
+    "defaultValueType": "FLOAT",
+    "defaultValue": 0
   }
 ]
