@@ -1,4 +1,121 @@
-### List of changes:
+### Changelog:
 
-- :
-> - .
+- Compatibility with Hearts of Iron 4 v1.17.*:
+> - Added support for loading and displaying strategic locations on the map
+> - Added support for new building parameters
+> - Added support for new State category parameters
+
+- Interface and map:
+> - Added application icon
+> - Significantly reworked the map context menu
+> - Added a context menu option to merge all selected provinces into a single province
+> - Added automatic camera focus on the center of a group of selected objects when searching via the context menu
+> - The “Update All” button now also updates the rendering of the main map layer and its text
+> - Added cursor position tracking during map zoom
+> - Added display of additional cursor icons depending on the current action and context
+> - Improved visibility of the cursor against the map background — it is now equally visible on both light and dark backgrounds
+> - Added hotkeys for quick selection of the displayed main map layer
+> - Improved visualization of adjacencies (sea crossings) on the map
+> - Improved display of national States and country claims on States
+> - Added automatic sorting of game bookmarks by date
+> - Improved the building layer rendering algorithm: provinces and States are now colored dark red if the selected building cannot be placed due to a coastal mismatch, and bright red if it is already placed with an error
+
+- Settings window:
+> - Added the “Auto Path Search” button for quick search and selection of game directories
+> - Added the WIP setting “Map Positions” for loading and searching for incorrect or missing data on 3D building model positions (helps identify States that require validation in Nudge)
+> - Added a setting for minimum and maximum allowed height offset for land and water, beyond which the program no longer ignores mismatches between the heightmap pixel and the province type and displays the HEIGHTMAP_MISMATCH warning
+> - Added HSV color generation template settings for land, sea, and lake provinces, States, and Strategic Regions, as well as for provinces derived from States
+
+- Color generation and palette:
+> - Added a color picker (ColorPicker) invoked by clicking on the “Colors:” item in the top panel
+> - Added a history of the last 10 selected colors (displayed in the color palette)
+> - Reworked the color generation algorithm for land, sea, and lake provinces — now uses an HSV generator with parameters from the program settings window
+> - Added a new HSV color generation algorithm for States and Strategic Regions on load to reduce similarity of colors between neighboring States and Strategic Regions on the map
+> - Added a province color regeneration tool in two modes: random colors based on province IDs, and province colors based on State colors. The tool is available via “Edit → Auto-Calculation Tools → Regenerate Province Colors”
+
+- Statistics window:
+> - Added a statistics window opened via “Data → Statistics”
+> - Supports filtering by State IDs and Strategic Region IDs, as well as by country tags
+> - Displays data on provinces and their borders, continents, terrains, railways, supply hubs, adjacencies, buildings, resources, population, States and their categories, Strategic Regions
+> - For a number of parameters, engine maximum limits are displayed (for example, no more than 65536 province borders)
+
+- Map warnings and errors:
+> - Added settings for acceptable mismatches between heightmap pixels and province types
+> - Added search for errors related to splitting States and Strategic Regions into disconnected parts on the map (in some cases this causes game crashes)
+> - Disabled search for RIVER_CROSSING errors (overridden by other checks)
+> - Added a warning when the 65536 province border limit is exceeded
+> - Added search for the STATE_WITH_NO_OWNER error (a State without an owner causes a crash)
+> - Added search for the COASTAL_BUILDING_IN_NOT_COASTAL_LAND_PROVINCE error
+> - Disabled search for PROVINCE_WRONG_COLOR warnings
+> - Added warnings that the width or height of the province map is not evenly divisible by 256, or that it contains too many pixels (game engine limitations, causes crashes)
+> - Added warnings about buildings in sea and lake provinces with their automatic removal from States on load
+> - Added warnings about railways and supply hubs in sea and lake provinces with their automatic removal on load
+> - Added a warning about railways shorter than two provinces with their automatic removal on load
+
+- Tools:
+> - Added automatic sorting of country tags
+> - Added automatic recalculation of State and Strategic Region centers when the province composition changes
+> - Added the ability to lay railways between any land provinces, not just neighboring ones (uses the A* pathfinding algorithm)
+> - The map change search tool has been moved from auto-calculation tools to advanced tools
+> - Added a resource editing tool and a map mode for displaying them on the main layer
+> - Added support for custom brushes in "data/custom/brushes"
+> - Improved the MapToolEraser tool
+> - Added automatic HEIGHTMAP_MISMATCH validation for modified pixels on the map for MapToolBrush and MapToolFill
+> - Added MapToolFill support for the heightmap
+> - Added a warning when filling more than 500,000 pixels in a single click, with the option to cancel the action
+> - In MapToolBuildings, added a restriction on placing buildings in provinces and States if their coastal type does not match
+> - Added text update on the main layer when merging provinces
+> - Added a Strategic Location editing tool and a map mode for displaying them on the main layer
+
+- Data:
+> - Enabled automatic validation of States and Strategic Regions on load (not to be confused with auto-validation in Nudge)
+> - Added quick creation of new States and Strategic Regions from a template (either via the context menu or via "Data" → "Create Object and Script")
+> - Added automatic removal of invalid victory points
+> - Added support for new modifiers: "state_resource_cost_<resource>", "naval_headquarter", "local_factory_energy_consumption"
+
+- Optimization:
+> - Application startup significantly accelerated
+> - Data loading and saving sped up by 2–3 times
+> - The MergeProvincesTool tool has been significantly optimized
+
+- Technical:
+> - DLL libraries moved out of the EXE into a separate "dll" folder
+> - Improved game file parser
+> - Searching for the game folder in “Documents” now ориентируется on the "mod" folder instead of "save games"
+> - Added a correct error message when it is impossible to check for program updates due to internet connection issues
+
+- Localization:
+> - Numerous translation fixes and clarifications
+
+---
+
+### Bug Fixes:
+
+> - Fixed incorrect text rendering due to low float precision in the shader
+> - Fixed a video memory leak when reloading text
+> - Fixed map flickering when updating text
+> - Fixed an error in collecting search results for errors and warnings
+> - Fixed an error loading settings when the mod directory is missing
+> - Fixed errors in activating and deactivating items in the filter list in the error and warning search settings window
+> - Main map layer export partially fixed
+> - Fixed incorrect removal of buildings from States when their new count becomes 0
+> - Fixed MapToolVictoryPoints behavior
+> - Fixed missing main map layer redraw when merging provinces if any layer other than the province map was selected
+> - Fixed the ability to move an empty map
+> - Fixed the algorithm for calculating pixel color values of the main map layer on a logarithmic scale
+> - Fixed the ability to select hidden railways and supply hubs
+> - Fixed incorrect updating of tool parameters when rotating the mouse wheel with SHIFT held down
+> - Fixed an error loading a game bookmark when the History block is missing in any State
+> - Fixed the first launch error
+> - Fixed province merge errors
+> - Fixed numerous errors in the program settings window
+> - Fixed incorrect clearing of old warning and error search results after disabling the corresponding filters in the error and warning search settings window
+> - Fixed possible errors in the province window
+> - Fixed errors in State and Strategic Region border calculations
+> - Fixed an error that caused informational windows to appear under the main application window
+> - Fixed validation of victory points on load
+> - Fixed list formatting when saving game files
+> - Fixed an error that occurred when clicking on the map after a failed mod data load
+> - Fixed incorrect display of the error list after reloading mod data
+> - Fixed incorrect saving of constants in game files after reloading mod data
+> - Fixed incorrect saving of constants in game files
