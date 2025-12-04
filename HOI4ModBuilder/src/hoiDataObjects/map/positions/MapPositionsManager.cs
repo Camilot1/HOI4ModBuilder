@@ -205,8 +205,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
             GL.PointSize(10f);
             GL.Begin(PrimitiveType.Points);
 
-            foreach (var entry in statesErrors)
-                GL.Vertex2(entry.Key.x, entry.Key.y);
+            Logger.TryOrLog(() =>
+            {
+                foreach (var entry in statesErrors)
+                    GL.Vertex2(entry.Key.x, entry.Key.y);
+            });
 
             GL.End();
 
@@ -215,8 +218,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
             GL.PointSize(10f);
             GL.Begin(PrimitiveType.Points);
 
-            foreach (var entry in provincesErrors)
-                GL.Vertex2(entry.Key.x, entry.Key.y);
+            Logger.TryOrLog(() =>
+            {
+                foreach (var entry in provincesErrors)
+                    GL.Vertex2(entry.Key.x, entry.Key.y);
+            });
 
             GL.End();
         }
