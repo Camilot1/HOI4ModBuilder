@@ -51,21 +51,25 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
                 if (file.StateCategory.Count == 0)
                     return;
 
-                if (file.StateCategory.Count > 1)
-                    throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_MORE_THAN_ONE_STATE_CATEGORY_IN_FILE));
+                //if (file.StateCategory.Count > 1)
+                //    throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_MORE_THAN_ONE_STATE_CATEGORY_IN_FILE));
+                // var category = file.StateCategory.Last().Value;
 
-                var category = file.StateCategory.Last().Value;
-
-                if (!_allStateCategories.ContainsKey(category.name))
-                    _allStateCategories[category.name] = category;
-                else throw new Exception(GuiLocManager.GetLoc(
-                    EnumLocKey.EXCEPTION_STATE_CATEGORY_DUPLICATE_NAME_IN_FILE,
-                    new Dictionary<string, string>
-                    {
+                foreach (var category in file.StateCategory.Values)
+                {
+                    if (!_allStateCategories.ContainsKey(category.name))
+                        _allStateCategories[category.name] = category;
+                    else throw new Exception(GuiLocManager.GetLoc(
+                        EnumLocKey.EXCEPTION_STATE_CATEGORY_DUPLICATE_NAME_IN_FILE,
+                        new Dictionary<string, string>
+                        {
                             { "{filePath}", file.FilePath},
                             { "{categoryName}", category.name }
-                    }
-                ));
+                        }
+                    ));
+                }
+
+                
             }
             catch (Exception ex)
             {
