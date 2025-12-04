@@ -26,7 +26,7 @@ namespace HOI4ModBuilder.src.managers.settings
         public string[] unchangableModDirectories = new string[0];
         public string[] changableModDirectories = new string[0];
         public string modDirectory;
-        public bool useModSettings = true;
+        public bool useModSettings = false;
         public int actionHistorySize = 50;
         public byte textureOpacity = 180;
         public float MAP_VIEWPORT_HEIGHT = 1004;
