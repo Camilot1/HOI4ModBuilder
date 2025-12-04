@@ -574,3 +574,5 @@ EXCEPTION_MORE_THAN_ONE_STATE_CATEGORY_IN_FILE: "В файле прописан�
 WARNING_STATE_FORCE_LINK_OWNERSHIP_POINTS_TO_NOT_PRESENT_STATE: "В файле {filePath} у области {stateID} значение forceLinkOwnershipTo = {forceLinkOwnershipToId} указывает на несуществующую область."
 ERROR_WHILE_STRATEGIC_LOCATIONS_LOADING: "При загрузке файла {filePath} произошла ошибка."
 WARNING_STATE_CATEGORY_INVALID_COLOR: "В файле {filePath} у категори области \"{name}\" указано некорректное значение цвета {color}"
+
+EXCEPTION_NETWORK_UNABLE_TO_CHECK_FOR_UPDATE: "Не удалось проверить наличие обновлений. Проверьте своё Интернет соединение"

@@ -575,3 +575,5 @@ EXCEPTION_MORE_THAN_ONE_STATE_CATEGORY_IN_FILE: "File constains more than one st
 WARNING_STATE_FORCE_LINK_OWNERSHIP_POINTS_TO_NOT_PRESENT_STATE: "In file {filePath} state with ID = {stateID} has value forceLinkOwnershipTo = {forceLinkOwnershipToId} that points to an unknown state."
 ERROR_WHILE_STRATEGIC_LOCATIONS_LOADING: "While loading file {filePath} an exception has occured."
 WARNING_STATE_CATEGORY_INVALID_COLOR: "In file {filePath} the state category with name \"{name}\" has invalid value color {color}"
+
+EXCEPTION_NETWORK_UNABLE_TO_CHECK_FOR_UPDATE: "Unable to check for updates. Please check your internet connection"

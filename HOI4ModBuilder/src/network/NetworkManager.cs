@@ -38,9 +38,13 @@ public static class NetworkManager
         {
             string data = null;
 
-            Logger.TryOrLog(() =>
+            Logger.TryOrCatch(() =>
             {
                 data = DownloadString("https://raw.githubusercontent.com/Camilot1/HOI4ModBuilder/master/sync_info.json\r\n");
+            }, ex =>
+            {
+                Logger.LogSingleErrorMessage(EnumLocKey.EXCEPTION_NETWORK_UNABLE_TO_CHECK_FOR_UPDATE);
+                Logger.Log(ex.StackTrace);
             });
 
             SyncInfo syncInfo = null;
