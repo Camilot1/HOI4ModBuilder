@@ -1,3 +1,13 @@
+### HOI4 Mod Builder v0.2.9.2 (HotFix)
+
+### List of changes and fixes:
+
+> - Fixed incorrect behavior of the auto-calculation tool when removing provinces with 0 pixels on the map
+> - Fixed a bug where an extra space could be added at the end of inline comments inside GameDictionary with every subsequent data save
+> - Fixed incorrect condition check for availability of the “merge provinces group” action on the map
+
+---
+
 ### HOI4 Mod Builder v0.2.9.1 (HotFix)
 
 ### List of changes and fixes:
