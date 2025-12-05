@@ -25,7 +25,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         public GameComments(string[] previous, string inline) : this()
         {
             _previous = previous ?? Array.Empty<string>();
-            _inline = inline ?? string.Empty;
+            _inline = inline != null ? inline.Trim() : string.Empty;
         }
 
         public void CopyTo(GameComments obj)
