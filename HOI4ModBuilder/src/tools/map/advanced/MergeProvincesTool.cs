@@ -49,6 +49,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
         }
         public static void MergeProvinces(Province main, ICollection<Province> list)
         {
+            list.Remove(main);
             var colorsToReplace = new Dictionary<int, int>(list.Count);
             foreach (var province in list)
                 MergeProvincesInternal(colorsToReplace, main, province);
