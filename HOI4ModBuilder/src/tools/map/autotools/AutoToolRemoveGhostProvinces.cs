@@ -2,6 +2,7 @@
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.utils;
 using System.Collections.Generic;
 using System.Text;
@@ -93,25 +94,21 @@ namespace HOI4ModBuilder.src.tools.autotools
 
                 //Удаляем из словарей
                 ProvinceManager.RemoveProvinceById(p.Id);
-                ProvinceManager.RemoveProvinceByColor(p.Color);
 
-                //Удаление из областей и регионов
-                p.State?.RemoveProvince(p);
-                p.Region?.RemoveProvince(p);
+                //Отправляем ивент о удалении и обновлении
+                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES, p);
+                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES, provinceToReplace);
 
                 //Заменяем id самой старшей провинции
                 provinceToReplace.Id = p.Id;
-                ProvinceManager.NextVacantProvinceId--;
             }
             else
             {
                 //Удаляем из словарей
                 ProvinceManager.RemoveProvinceById(p.Id);
-                ProvinceManager.RemoveProvinceByColor(p.Color);
 
-                //Удаление из областей и регионов
-                p.State?.RemoveProvince(p);
-                p.Region?.RemoveProvince(p);
+                //Отправляем ивент о удалении и обновлении
+                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES, p);
             }
 
             // Если через провинцию идут дороги, то удаляем
