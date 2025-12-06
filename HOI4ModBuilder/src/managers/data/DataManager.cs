@@ -156,6 +156,8 @@ namespace HOI4ModBuilder.managers
             DataManager.Load(SettingsManager.Settings);
             MapManager.Load(SettingsManager.Settings);
 
+            OnBookmarkChange();
+
             MainForm.AddTasks_LoadSaveUpdate(new Task[] {
                 Task.Run(() => MapPositionsManager.Load(settings)),
                 MapManager.RunTaskRegenerateStateAndRegionsColors(),
