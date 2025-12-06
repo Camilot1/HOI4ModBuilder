@@ -156,15 +156,18 @@ namespace HOI4ModBuilder.managers
             DataManager.Load(SettingsManager.Settings);
             MapManager.Load(SettingsManager.Settings);
 
-            MainForm.Instance.InvokeAction(() => OnBookmarkChange());
+            MainForm.Instance.InvokeAction(() =>
+            {
+                OnBookmarkChange();
 
-            MainForm.AddTasks_LoadSaveUpdate(new Task[] {
-                Task.Run(() => MapPositionsManager.Load(settings)),
-                MapManager.RunTaskRegenerateStateAndRegionsColors(),
-                MapCheckerManager.RunTaskInitAll()
+                MainForm.AddTasks_LoadSaveUpdate(new Task[] {
+                    Task.Run(() => MapPositionsManager.Load(settings)),
+                    MapManager.RunTaskRegenerateStateAndRegionsColors(),
+                    MapCheckerManager.RunTaskInitAll()
+                });
+
+                MainForm.IsMapMainLayerChangeEnabled = true;
             });
-
-            MainForm.IsMapMainLayerChangeEnabled = true;
         }
 
         public static void OnBookmarkChange()
