@@ -906,7 +906,7 @@ namespace HOI4ModBuilder
                 _mainLayerActions.TryGetValue(SelectedMainLayer, out var actions);
                 if (parameterChange && !actions.updateOnParameterChange)
                     return;
-                if (parameterValueChange && !actions.updateOnParameterValueChange)
+                if (parameterValueChange && (actions == null || !actions.updateOnParameterValueChange))
                     return;
 
                 IsUpdatingMainLayerAndTool = true;
