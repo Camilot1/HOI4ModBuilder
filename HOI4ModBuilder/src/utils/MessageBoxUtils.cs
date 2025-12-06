@@ -27,9 +27,15 @@ namespace HOI4ModBuilder.src.utils
             {
                 MainForm.Instance.InvokeAction(() =>
                 {
-                    MainForm.Instance.TopMost = true;
-                    MainForm.Instance.Refresh();
-                    MainForm.Instance.TopMost = false;
+                    var mainForm = MainForm.Instance;
+                    var prevTopMost = mainForm.TopMost;
+
+                    mainForm.TopMost = true;
+                    mainForm.Activate();
+                    mainForm.BringToFront();
+                    mainForm.Focus();
+
+                    mainForm.TopMost = prevTopMost;
                 });
             }
 
