@@ -156,7 +156,7 @@ namespace HOI4ModBuilder.managers
             DataManager.Load(SettingsManager.Settings);
             MapManager.Load(SettingsManager.Settings);
 
-            OnBookmarkChange();
+            MainForm.Instance.InvokeAction(() => OnBookmarkChange());
 
             MainForm.AddTasks_LoadSaveUpdate(new Task[] {
                 Task.Run(() => MapPositionsManager.Load(settings)),
