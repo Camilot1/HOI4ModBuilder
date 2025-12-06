@@ -1557,9 +1557,9 @@ namespace HOI4ModBuilder
         }
 
         private void Button_OpenSearchWarningsSettings_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => Task.Run(() => new SearchSettingsForm(EnumSearchSettingsType.WARNINGS).ShowDialog()));
+            => Logger.TryOrLog(() => new SearchSettingsForm(EnumSearchSettingsType.WARNINGS).ShowDialog());
         private void Button_OpenSearchErrorsSettings_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => Task.Run(() => new SearchSettingsForm(EnumSearchSettingsType.ERRORS).ShowDialog()));
+            => Logger.TryOrLog(() => new SearchSettingsForm(EnumSearchSettingsType.ERRORS).ShowDialog());
 
         private void ToolStripTextBox_Map_Adjacency_Comment_TextChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() => AdjacenciesManager.GetSelectedSeaCross()?.SetComment(ToolStripTextBox_Map_Adjacency_Comment.Text));
