@@ -178,7 +178,8 @@ namespace HOI4ModBuilder.src.dataObjects.replaceTags
             {
                 if (fileInfosPairs.TryGetValue(rtInfo.specificFileName, out FileInfo fileInfo))
                     fileInfosPairs = new Dictionary<string, FileInfo> { { rtInfo.specificFileName, fileInfo } };
-                else fileInfosPairs = new Dictionary<string, FileInfo>();
+                else 
+                    fileInfosPairs = new Dictionary<string, FileInfo>();
             }
 
             var FoundedTokens = new Dictionary<string, FileInfo>();
@@ -189,7 +190,8 @@ namespace HOI4ModBuilder.src.dataObjects.replaceTags
                     ParadoxParser.Parse(fs, new ReplaceTagDummyFile(FoundedTokens, fileInfo, rtInfo.replaceTag, rtInfo.groupTokenInFile, rtInfo.tokenInFileStartsWith, list));
             }
 
-            if (list.Count > 0) _replaceTagsListsMap[rtInfo.replaceTag] = list;
+            if (list.Count > 0)
+                _replaceTagsListsMap[rtInfo.replaceTag] = list;
         }
     }
 

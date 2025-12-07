@@ -717,8 +717,8 @@
             // ToolStripTextBox_Map_Search_Input
             // 
             this.ToolStripTextBox_Map_Search_Input.BackColor = System.Drawing.SystemColors.Control;
-            this.ToolStripTextBox_Map_Search_Input.Name = "ToolStripTextBox_Map_Search_Input";
             resources.ApplyResources(this.ToolStripTextBox_Map_Search_Input, "ToolStripTextBox_Map_Search_Input");
+            this.ToolStripTextBox_Map_Search_Input.Name = "ToolStripTextBox_Map_Search_Input";
             // 
             // ToolStripMenuItem_Map_Search_Position
             // 
@@ -813,8 +813,8 @@
             // 
             // ToolStripTextBox_Map_Province_VictoryPoints_Info_Value
             // 
-            this.ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Name = "ToolStripTextBox_Map_Province_VictoryPoints_Info_Value";
             resources.ApplyResources(this.ToolStripTextBox_Map_Province_VictoryPoints_Info_Value, "ToolStripTextBox_Map_Province_VictoryPoints_Info_Value");
+            this.ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Name = "ToolStripTextBox_Map_Province_VictoryPoints_Info_Value";
             this.ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.TextChanged += new System.EventHandler(this.ToolStripTextBox_Map_Province_VictoryPoints_Info_Value_TextChanged);
             // 
             // ToolStripMenuItem_Map_State
@@ -984,9 +984,9 @@
             // ToolStripTextBox_Map_Adjacency_FirstProvinceId
             // 
             this.ToolStripTextBox_Map_Adjacency_FirstProvinceId.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            resources.ApplyResources(this.ToolStripTextBox_Map_Adjacency_FirstProvinceId, "ToolStripTextBox_Map_Adjacency_FirstProvinceId");
             this.ToolStripTextBox_Map_Adjacency_FirstProvinceId.Name = "ToolStripTextBox_Map_Adjacency_FirstProvinceId";
             this.ToolStripTextBox_Map_Adjacency_FirstProvinceId.ReadOnly = true;
-            resources.ApplyResources(this.ToolStripTextBox_Map_Adjacency_FirstProvinceId, "ToolStripTextBox_Map_Adjacency_FirstProvinceId");
             // 
             // ToolStripMenuItem_Map_Adjacency_SetFirstPoint
             // 
@@ -998,9 +998,9 @@
             // ToolStripTextBox_Map_Adjacency_FirstPointPos
             // 
             this.ToolStripTextBox_Map_Adjacency_FirstPointPos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            resources.ApplyResources(this.ToolStripTextBox_Map_Adjacency_FirstPointPos, "ToolStripTextBox_Map_Adjacency_FirstPointPos");
             this.ToolStripTextBox_Map_Adjacency_FirstPointPos.Name = "ToolStripTextBox_Map_Adjacency_FirstPointPos";
             this.ToolStripTextBox_Map_Adjacency_FirstPointPos.ReadOnly = true;
-            resources.ApplyResources(this.ToolStripTextBox_Map_Adjacency_FirstPointPos, "ToolStripTextBox_Map_Adjacency_FirstPointPos");
             // 
             // ToolStripMenuItem_Map_Adjacency_ResetFirstPoint
             // 
@@ -1024,9 +1024,9 @@
             // ToolStripTextBox_Map_Adjacency_SecondProvinceId
             // 
             this.ToolStripTextBox_Map_Adjacency_SecondProvinceId.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            resources.ApplyResources(this.ToolStripTextBox_Map_Adjacency_SecondProvinceId, "ToolStripTextBox_Map_Adjacency_SecondProvinceId");
             this.ToolStripTextBox_Map_Adjacency_SecondProvinceId.Name = "ToolStripTextBox_Map_Adjacency_SecondProvinceId";
             this.ToolStripTextBox_Map_Adjacency_SecondProvinceId.ReadOnly = true;
-            resources.ApplyResources(this.ToolStripTextBox_Map_Adjacency_SecondProvinceId, "ToolStripTextBox_Map_Adjacency_SecondProvinceId");
             // 
             // ToolStripMenuItem_Map_Adjacency_SetSecondPoint
             // 
@@ -1038,9 +1038,9 @@
             // ToolStripTextBox_Map_Adjacency_SecondPointPos
             // 
             this.ToolStripTextBox_Map_Adjacency_SecondPointPos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            resources.ApplyResources(this.ToolStripTextBox_Map_Adjacency_SecondPointPos, "ToolStripTextBox_Map_Adjacency_SecondPointPos");
             this.ToolStripTextBox_Map_Adjacency_SecondPointPos.Name = "ToolStripTextBox_Map_Adjacency_SecondPointPos";
             this.ToolStripTextBox_Map_Adjacency_SecondPointPos.ReadOnly = true;
-            resources.ApplyResources(this.ToolStripTextBox_Map_Adjacency_SecondPointPos, "ToolStripTextBox_Map_Adjacency_SecondPointPos");
             // 
             // ToolStripMenuItem_Map_Adjacency_ResetSecondPoint
             // 
@@ -1064,9 +1064,9 @@
             // ToolStripTextBox_Map_Adjacency_ThroughProvinceId
             // 
             this.ToolStripTextBox_Map_Adjacency_ThroughProvinceId.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            resources.ApplyResources(this.ToolStripTextBox_Map_Adjacency_ThroughProvinceId, "ToolStripTextBox_Map_Adjacency_ThroughProvinceId");
             this.ToolStripTextBox_Map_Adjacency_ThroughProvinceId.Name = "ToolStripTextBox_Map_Adjacency_ThroughProvinceId";
             this.ToolStripTextBox_Map_Adjacency_ThroughProvinceId.ReadOnly = true;
-            resources.ApplyResources(this.ToolStripTextBox_Map_Adjacency_ThroughProvinceId, "ToolStripTextBox_Map_Adjacency_ThroughProvinceId");
             // 
             // toolStripSeparator14
             // 
@@ -1106,8 +1106,8 @@
             // 
             // ToolStripTextBox_Map_Adjacency_Comment
             // 
-            this.ToolStripTextBox_Map_Adjacency_Comment.Name = "ToolStripTextBox_Map_Adjacency_Comment";
             resources.ApplyResources(this.ToolStripTextBox_Map_Adjacency_Comment, "ToolStripTextBox_Map_Adjacency_Comment");
+            this.ToolStripTextBox_Map_Adjacency_Comment.Name = "ToolStripTextBox_Map_Adjacency_Comment";
             this.ToolStripTextBox_Map_Adjacency_Comment.TextChanged += new System.EventHandler(this.ToolStripTextBox_Map_Adjacency_Comment_TextChanged);
             // 
             // ToolStripMenuItem_Map_Railway

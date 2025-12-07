@@ -23,7 +23,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.localisation
         public override Dictionary<string, Func<object, object>> GetStaticAdapter() => STATIC_ADAPTER;
 
         public readonly GameDictionary<GameString, GameString> Parameters = new GameDictionary<GameString, GameString>()
-            .INIT_SetKeyParseAdapter(token => new GameString { stringValue = token });
+            .INIT_SetKeyParseAdapter((o, token) => new GameString { stringValue = token });
 
         private static readonly Dictionary<string, DynamicGameParameter> DYNAMIC_ADAPTER = new Dictionary<string, DynamicGameParameter>
         {

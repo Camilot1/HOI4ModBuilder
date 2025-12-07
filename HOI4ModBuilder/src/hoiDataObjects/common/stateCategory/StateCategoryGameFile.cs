@@ -8,7 +8,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
     public class StateCategoryGameFile : GameFile
     {
         public readonly GameDictionary<string, StateCategory> StateCategory = new GameDictionary<string, StateCategory>()
-            .INIT_SetValueParseAdapter((key, value) => new StateCategory((string)key));
+            .INIT_SetValueParseAdapter((o, key, value) => new StateCategory((string)key));
 
         private static readonly Dictionary<string, Func<object, object>> STATIC_ADAPTER = new Dictionary<string, Func<object, object>>
         {

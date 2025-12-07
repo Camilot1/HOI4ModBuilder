@@ -850,27 +850,32 @@ namespace HOI4ModBuilder
             { EnumMainLayer.BUILDINGS, new LayerActions {
                 isValidChecker = (p, pv) => BuildingManager.HasBuilding(p),
                 parameterProvider = () => BuildingManager.GetBuildingNames(),
-                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.BUILDINGS)
+                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.BUILDINGS),
+                updateOnParameterChange = true
             } },
             { EnumMainLayer.RESOURCES, new LayerActions {
-                isValidChecker = (p, pv) => ResourceManager.Contains(p),
+                isValidChecker = (p, pv) => ResourceManager.Has(p),
                 parameterProvider = () => ResourceManager.GetTags(),
-                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.RESOURCES)
+                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.RESOURCES),
+                updateOnParameterChange = true
             } },
             { EnumMainLayer.AI_AREAS, new LayerActions {
                 isValidChecker = (p, pv) => AiAreaManager.HasAiArea(p),
                 parameterProvider = () => AiAreaManager.GetAiAreasNames(),
-                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.AI_AREAS)
+                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.AI_AREAS),
+                updateOnParameterChange = true
             } },
             { EnumMainLayer.CORES_OF, new LayerActions {
                 isValidChecker = (p, pv) => CountryManager.Contains(p),
                 parameterProvider = () => CountryManager.GetTagsSorted(),
-                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.STATE_CORE_OF)
+                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.STATE_CORE_OF),
+                updateOnParameterChange = true
             } },
             { EnumMainLayer.CLAIMS_BY, new LayerActions {
                 isValidChecker = (p, pv) => CountryManager.Contains(p),
                 parameterProvider = () => CountryManager.GetTagsSorted(),
-                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.STATE_CLAIM_BY)
+                onSelect = () => Instance.SetSelectedToolWithRefresh(EnumTool.STATE_CLAIM_BY),
+                updateOnParameterChange = true
             } },
             { EnumMainLayer.STRATEGIC_LOCATIONS, new LayerActions {
                 isValidChecker = (p, pv) => pv == "" || StrategicLocationManager.Contains(pv),

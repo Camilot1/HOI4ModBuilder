@@ -144,6 +144,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 
         public override IParseObject GetEmptyCopy() => new Building();
 
+        public override bool IsSkipInsideBlock()
+        {
+            if (!TryGetGameFile(out var gameFile))
+                return false;
+
+            return gameFile.IsPreload;
+        }
+
 
         public Building() { }
         public Building(string name)
@@ -152,10 +160,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
         }
 
         public override bool Equals(object obj)
-        {
-            return obj is Building building &&
+            => obj is Building building &&
                    _name == building._name;
-        }
 
         public EnumBuildingSlotCategory? GetSlotCategory()
             => LevelCap.GetValue().GetSlotCategory();

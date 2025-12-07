@@ -46,9 +46,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.buildings
             //CalculateAndSaveBuildings(settings);
             //CalculateAndSaveUnitStacks(settings);
 
-            if (true) //TEMP REMOVE AFTER FIX
-                return;
-
             var stopwatch = Stopwatch.StartNew();
             Clear();
 

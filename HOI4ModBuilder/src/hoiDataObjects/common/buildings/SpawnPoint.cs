@@ -31,6 +31,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
 
         public override IParseObject GetEmptyCopy() => new SpawnPoint();
 
+        public override bool IsSkipInsideBlock()
+        {
+            if (!TryGetGameFile(out var gameFile))
+                return false;
+
+            return gameFile.IsPreload;
+        }
+
         public SpawnPoint() { }
 
         public SpawnPoint(string buildingName)

@@ -650,6 +650,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
             if (_tempForceLinkOwnershipToState != null)
             {
+
                 if (!StateManager.TryGet((ushort)_tempForceLinkOwnershipToState, out var forceLinkState))
                     Logger.LogWarning(
                         EnumLocKey.WARNING_STATE_FORCE_LINK_OWNERSHIP_POINTS_TO_NOT_PRESENT_STATE,

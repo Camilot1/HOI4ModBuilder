@@ -156,18 +156,20 @@ namespace HOI4ModBuilder.managers
             DataManager.Load(SettingsManager.Settings);
             MapManager.Load(SettingsManager.Settings);
 
-            MainForm.Instance.InvokeAction(() =>
-            {
-                OnBookmarkChange();
+            var bookmarks = BookmarkManager.GetAllBookramksSorted();
+            DateTime dateTime = default;
+            if (bookmarks.Count > 0)
+                dateTime = bookmarks[0].dateTimeStamp;
 
-                MainForm.AddTasks_LoadSaveUpdate(new Task[] {
-                    Task.Run(() => MapPositionsManager.Load(settings)),
-                    MapManager.RunTaskRegenerateStateAndRegionsColors(),
-                    MapCheckerManager.RunTaskInitAll()
-                });
+            UpdateByDateTimeStamp(dateTime);
 
-                MainForm.IsMapMainLayerChangeEnabled = true;
+            MainForm.AddTasks_LoadSaveUpdate(new Task[] {
+                Task.Run(() => MapPositionsManager.Load(settings)),
+                MapManager.RunTaskRegenerateStateAndRegionsColors(),
+                MapCheckerManager.RunTaskInitAll()
             });
+
+            MainForm.IsMapMainLayerChangeEnabled = true;
         }
 
         public static void OnBookmarkChange()
@@ -186,13 +188,18 @@ namespace HOI4ModBuilder.managers
                         throw new BookmarkNotFoundException(dateTimeString);
 
                     currentDateStamp = new DateTime[] { dateTime };
-                    CountryManager.UpdateByDateTimeStamp(dateTime);
-                    StateManager.UpdateByDateTimeStamp(dateTime);
+                    UpdateByDateTimeStamp(dateTime);
 
                     if (!MainForm.IsLoadingSavingOrUpdating())
                         MapManager.HandleMapMainLayerChange(true);
                 }, ex => throw new BookmarkLoadingException(dateTimeString, ex));
             });
+        }
+
+        private static void UpdateByDateTimeStamp(DateTime dateTime)
+        {
+            CountryManager.UpdateByDateTimeStamp(dateTime);
+            StateManager.UpdateByDateTimeStamp(dateTime);
         }
 
         private static void Load(BaseSettings settings)

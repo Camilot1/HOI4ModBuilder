@@ -398,7 +398,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
         public static void UpdateByDateTimeStamp(DateTime dateTime)
         {
-            foreach (var state in _statesById.Values) state.UpdateByDateTimeStamp(dateTime);
+            foreach (var state in _statesById.Values)
+                state.UpdateByDateTimeStamp(dateTime);
         }
 
         public static void GetMinMaxManpower(out int min, out int max)

@@ -5,6 +5,8 @@ namespace HOI4ModBuilder.src.newParser.objects
 {
     public abstract class GameFile : AbstractParseObject
     {
+        public bool IsPreload { get; set; }
+        public bool IsPostload { get; set; }
         private FileInfo _fileInfo;
         public string FilePath => _fileInfo.filePath;
         public FileInfo FileInfo => _fileInfo;

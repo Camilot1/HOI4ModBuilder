@@ -7,7 +7,7 @@
     <ProjectGuid>{9FBDB842-4874-408E-9A1F-62BADF60A88E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>HOI4ModBuilder</RootNamespace>
-    <AssemblyName>HOI4ModBuilder</AssemblyName>
+    <AssemblyName>h4mb</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -65,9 +65,7 @@
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <SignManifests>false</SignManifests>
   </PropertyGroup>
@@ -94,7 +92,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon_app_outline_black.ico</ApplicationIcon>
+    <ApplicationIcon>icon_app_v2.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ColorPicker, Version=3.4.2.0, Culture=neutral, PublicKeyToken=1c61eec504ce2276, processorArchitecture=MSIL">
@@ -1081,8 +1082,7 @@
     <None Include="Resources\icon_telegram.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="icon_app.ico" />
-    <Content Include="icon_app_outline_black.ico" />
+    <Content Include="icon_app_v2.ico" />
     <Content Include="Resources\icon_app.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

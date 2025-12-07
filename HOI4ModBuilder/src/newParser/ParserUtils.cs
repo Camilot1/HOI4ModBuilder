@@ -96,61 +96,92 @@ namespace HOI4ModBuilder.src.newParser
                     var dateTime = (DateTime)o;
                     return $"{dateTime.Year}.{dateTime.Month}.{dateTime.Day}";
                 },
-                parse = v => Utils.TryParseDateTimeStamp(v, out var dateTime) ?
-                    dateTime :
-                    throw new Exception($"Invalid DateTime format: {v}")
+                parse = v => {
+                    if (!Utils.TryParseDateTimeStamp(v, out var dateTime))
+                        throw new Exception($"Invalid DateTime format: {v}");
+                    return dateTime;
+                }
             } },
             { typeof(Province), new MappingActions {
                 save = o => "" + ((Province)o).Id,
-                parse = v => ushort.TryParse(v, out var id) ?
-                    ProvinceManager.Get(id) :
-                    throw new Exception($"Invalid ProvinceID format: {v}")
+                parse = v => !ushort.TryParse(v, out var id) ?
+                    throw new Exception($"Invalid ProvinceID format: {v}") :
+                    !ProvinceManager.TryGet(id, out var province) ?
+                        throw new Exception($"Invalid ProvinceID format: {v}") :
+                        province
             } },
             { typeof(State), new MappingActions {
                 save = o => "" + ((State)o).Id.GetValue(),
-                parse = v => ushort.TryParse(v, out var id) ?
-                    StateManager.Get(id) :
-                    throw new Exception($"Invalid StateID format: {v}")
+                parse = v => {
+                    if (!ushort.TryParse(v, out var id))
+                        throw new Exception($"Invalid StateID format: {v}");
+                    if (!StateManager.TryGet(id, out var state))
+                        throw new Exception($"State with ID {v} not found");
+                    return state;
+                }
             } },
             { typeof(StrategicRegion), new MappingActions {
                 save = o => "" + ((StrategicRegion)o).Id,
-                parse = v => ushort.TryParse(v, out var id) ?
-                    StrategicRegionManager.Get(id) :
-                    throw new Exception($"Invalid StrategicRegionID format: {v}")
+                parse = v => {
+                    if (!ushort.TryParse(v, out var id))
+                        throw new Exception($"Invalid Strategic Region ID format: {v}");
+                    if (!StrategicRegionManager.TryGet(id, out var region))
+                        throw new Exception($"Strategic Region with ID {v} not found");
+                    return region;
+                }
             } },
             { typeof(StateCategory), new MappingActions {
                 save = o => "" + ((StateCategory)o).name,
-                parse = v => StateCategoryManager.Get(v)
+                parse = v => {
+                    if (StateCategoryManager.TryGet(v, out var stateCategory))
+                        return stateCategory;
+                    if (v.StartsWith("\"") && v.EndsWith("\"") && StateCategoryManager.TryGet(v.Substring(1, v.Length - 2), out stateCategory))
+                        return stateCategory;
+                    throw new Exception($"Invalid StateCategory name: {v}");
+                }
             } },
             { typeof(Resource), new MappingActions {
                 save = o => "" + ((Resource)o).tag,
-                parse = v => ResourceManager.Get(v)
+                parse = v => {
+                    if (!ResourceManager.TryGet(v, out var resource))
+                        throw new Exception($"Resource with Name {v} not found");
+                    return resource;
+                }
             } },
             { typeof(Building), new MappingActions {
                 save = o => "" + ((Building)o).Name,
-                parse = v => BuildingManager.GetBuilding(v)
+                parse = v => {
+                    if (!BuildingManager.TryGetBuilding(v, out var building))
+                        throw new Exception($"Building with Name {v} not found");
+                    return building;
+                }
             } },
             { typeof(SpawnPoint), new MappingActions {
                 save = o => "" + ((SpawnPoint)o).name,
-                parse = v => BuildingManager.GetSpawnPoint(v)
+                parse = v => {
+                    if (!BuildingManager.TryGetSpawnPoint(v, out var spawnPoint))
+                        throw new Exception($"Spawn Point with Name {v} not found");
+                    return spawnPoint;
+                }
             } },
             { typeof(Country), new MappingActions {
                 save = o => "" + ((Country)o).Tag,
-                parse = v => CountryManager.Get(v)
+                parse = v => {
+                    if (!CountryManager.TryGet(v, out var country))
+                        throw new Exception($"Country with Tag {v} not found");
+                    return country;
+                }
             } },
         };
 
         public static T Parse<T>(string value)
-        {
-            return (T)Parse(typeof(T), value);
-        }
+            => (T)Parse(typeof(T), value);
 
         public static object Parse(Type type, string value)
         {
-            if (TryGetMapping(type, out var funcs))
-                return funcs.parse(value);
-
-            throw new Exception("Unknown value \"" + value + "\" type at ParseUtils.Parse: " + type);
+            if (!TryGetMapping(type, out var funcs))
+                throw new Exception("Unknown value \"" + value + "\" type at ParseUtils.Parse: " + type);
+            return funcs.parse(value);
         }
 
         public static object ParseObject(string value)

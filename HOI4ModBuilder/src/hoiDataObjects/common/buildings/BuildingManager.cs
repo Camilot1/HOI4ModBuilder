@@ -31,7 +31,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.buildings
                 Logger.TryOrCatch(() =>
                 {
                     var buildingFile = new BuildingsGameFile(fileInfo, true);
+
+                    buildingFile.IsPreload = true;
                     gameParser.ParseFile(buildingFile);
+                    buildingFile.ClearConstans();
+
+                    buildingFile.IsPostload = true;
+                    buildingFile.IsPreload = false;
+                    gameParser.ParseFile(buildingFile);
+
                     _gameFiles.Add(buildingFile);
                 },
                 (ex) =>

@@ -28,6 +28,8 @@ namespace HOI4ModBuilder.src.newParser.objects
         public abstract IParseObject GetEmptyCopy();
         public AbstractParseObject GetThis() => this;
 
+        public virtual bool IsSkipInsideBlock() => false;
+
         private IParentable _parent;
         public IParentable GetParent() => _parent;
         public IParentable GetParentRecursive(Func<IParentable, bool> checkFunc)
@@ -87,7 +89,15 @@ namespace HOI4ModBuilder.src.newParser.objects
             parser.ParseUnquoted();
             var key = parser.PullParsedDataString();
 
-            ParseAdapters(parser, key);
+            if (IsSkipInsideBlock())
+            {
+                parser.SkipWhiteSpaces();
+                ParserUtils.ParseEqualsDemiliter(parser);
+                parser.SkipWhiteSpaces();
+                parser.SkipInsideBlock();
+            }
+            else
+                ParseAdapters(parser, key);
         }
 
         public void ParseAdapters(GameParser parser, string key)
@@ -380,6 +390,9 @@ namespace HOI4ModBuilder.src.newParser.objects
             constant = null;
             return false;
         }
+
+        public void ClearConstans()
+            => _constants?.Clear();
 
         public bool TryGetConstantParentable(string name, out GameConstant constant)
         {

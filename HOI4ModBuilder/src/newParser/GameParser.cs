@@ -148,6 +148,27 @@ namespace HOI4ModBuilder.src.newParser
             constants[constant.Key] = constant;
         }
 
+        public void SkipCurrentBlock()
+        {
+            int targetIndent = _indent - 1;
+
+            int flags = (int)(Token.COMMENT | Token.QUOTE | Token.NEW_LINE);
+            while (_index < _dataLength - 1 && targetIndent != _indent)
+            {
+                if (_token == Token.COMMENT)
+                    SkipComments();
+                else if (_token == Token.QUOTE)
+                    SkipQuoted();
+                else if (_token == Token.NEW_LINE)
+                    SkipWhiteSpaces();
+                else
+                    SkipUntil(flags);
+            }
+
+            if (_token == Token.RIGHT_CURLY && _index < _dataLength - 1)
+                NextChar();
+        }
+
         public void SkipInsideBlock()
         {
             int targetIndent = _indent - 1;

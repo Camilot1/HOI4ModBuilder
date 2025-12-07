@@ -14,35 +14,41 @@ namespace HOI4ModBuilder.src.newParser.objects
         private readonly Dictionary<TKey, TValue> _dictionary = new Dictionary<TKey, TValue>();
 
         private bool _forceValueInline;
-        private Func<string, TKey> _keyParseAdapter;
-        private Func<TKey, object> _keySaveAdapter;
-        private Func<object, string, TValue> _valueParseAdapter;
-        private Func<TValue, object> _valueSaveAdapter;
+        private Func<GameDictionary<TKey, TValue>, string, TKey> _keyParseAdapter;
+        private Func<GameDictionary<TKey, TValue>, TKey, object> _keySaveAdapter;
+        private Func<GameDictionary<TKey, TValue>, object, string, TValue> _valueParseAdapter;
+        private Func<GameDictionary<TKey, TValue>, TValue, object> _valueSaveAdapter;
         private bool _sortAtSaving;
+        private bool _checkForPreload;
 
+        public GameDictionary<TKey, TValue> INIT_SetCheckForPreload(bool value)
+        {
+            _checkForPreload = value;
+            return this;
+        }
 
         public GameDictionary<TKey, TValue> INIT_ForceValueInline(bool value)
         {
             _forceValueInline = value;
             return this;
         }
-        public GameDictionary<TKey, TValue> INIT_SetKeyParseAdapter(Func<string, TKey> value)
+        public GameDictionary<TKey, TValue> INIT_SetKeyParseAdapter(Func<GameDictionary<TKey, TValue>, string, TKey> value)
         {
             _keyParseAdapter = value;
             return this;
         }
-        public GameDictionary<TKey, TValue> INIT_SetKeySaveAdapter(Func<TKey, object> value)
+        public GameDictionary<TKey, TValue> INIT_SetKeySaveAdapter(Func<GameDictionary<TKey, TValue>, TKey, object> value)
         {
             _keySaveAdapter = value;
             return this;
         }
 
-        public GameDictionary<TKey, TValue> INIT_SetValueParseAdapter(Func<object, string, TValue> value)
+        public GameDictionary<TKey, TValue> INIT_SetValueParseAdapter(Func<GameDictionary<TKey, TValue>, object, string, TValue> value)
         {
             _valueParseAdapter = value;
             return this;
         }
-        public GameDictionary<TKey, TValue> INIT_SetValueSaveAdapter(Func<TValue, object> value)
+        public GameDictionary<TKey, TValue> INIT_SetValueSaveAdapter(Func<GameDictionary<TKey, TValue>, TValue, object> value)
         {
             _valueSaveAdapter = value;
             return this;
@@ -101,7 +107,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         private TKey ParseKey(string token)
         {
             var keyObj = _keyParseAdapter != null ?
-                _keyParseAdapter(token) :
+                _keyParseAdapter(this, token) :
                 ParserUtils.Parse<TKey>(token);
 
             if (keyObj is IParentable keyParentable)
@@ -141,7 +147,11 @@ namespace HOI4ModBuilder.src.newParser.objects
 
             var valueObj = CreateValue(keyObj, null);
 
-            if (valueObj is IParseObject parseObject)
+            if (_checkForPreload && TryGetGameFile(out var gameFile) && gameFile.IsPreload)
+            {
+                parser.SkipCurrentBlock();
+            }
+            else if (valueObj is IParseObject parseObject)
                 parser.Parse(parseObject);
 
             _dictionary[keyObj] = valueObj;
@@ -164,7 +174,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         private TValue CreateValue(TKey keyObj, string rawValue)
         {
             var valueObj = _valueParseAdapter != null ?
-                _valueParseAdapter.Invoke(keyObj, rawValue) :
+                _valueParseAdapter.Invoke(this, keyObj, rawValue) :
                 rawValue == null ? new TValue() : ParserUtils.Parse<TValue>(rawValue);
 
             if (valueObj is IParentable parentable)
@@ -268,13 +278,13 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             object tempKey = key;
             if (_keySaveAdapter != null)
-                tempKey = _keySaveAdapter.Invoke(key);
+                tempKey = _keySaveAdapter.Invoke(this,key);
 
             string stringKey = ParserUtils.ObjectToSaveString(tempKey);
 
             object tempValue = value;
             if (_valueSaveAdapter != null)
-                tempValue = _valueSaveAdapter.Invoke(value);
+                tempValue = _valueSaveAdapter.Invoke(this,value);
 
             if (sb.Length > 0)
             {
@@ -467,7 +477,7 @@ namespace HOI4ModBuilder.src.newParser.objects
         {
             object tempKey = key;
             if (_keyParseAdapter != null)
-                tempKey = _keyParseAdapter.Invoke(key);
+                tempKey = _keyParseAdapter.Invoke(this,key);
             else
                 tempKey = ParserUtils.Parse<TKey>(key);
 

@@ -526,7 +526,7 @@ EXCEPTION_BITMAP_INVALID_PIXEL_FORMAT: "Некорректный формат п
 EXCEPTION_BITMAP_IS_TOO_SMALL: "Размер текстурной карты {name} слишком мал: {width}x{height}"
 EXCEPTION_INVALID_BLUR_SIGMA_VALUE: "Указано некорректное значение блюра (Сигма) для {name}: {blurSigma}"
 
-EXCEPTION_LOADING_BULDINGS_CUSTOM_ARGS_BLOCKS_BUILDING_WASNT_LOADED: "Не удалось найти постройку \"{name}\" при загрузке BuildingsCustomArgsBlocks. Проверьте список обнаруженнех ошибок. Вероятно, при загрузке файла с постройкой \"{name}\" произошла ошибка"
+EXCEPTION_LOADING_BULDINGS_CUSTOM_ARGS_BLOCKS_BUILDING_WASNT_LOADED: "Не удалось найти постройку \"{name}\" при загрузке BuildingsCustomArgsBlocks. Проверьте список обнаруженных ошибок. Вероятно, при загрузке файла с постройкой \"{name}\" произошла ошибка"
 EXCEPTION_FILE_ALREADY_EXISTS: "Файл уже существует: {filePath}"
 
 WARNINGS_ACTION_WILL_AFFECT_MORE_THAN_X_PIXELS: "Внимание! Действие затронет более {count} пикселей на карте. Вы уверены, что хотите его выполнить?"

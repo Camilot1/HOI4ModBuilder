@@ -100,5 +100,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
                 return stateCategory;
             return null;
         }
+
+        public static bool Has(string name)
+            => _allStateCategories.ContainsKey(name);
     }
 }
