@@ -578,3 +578,6 @@ WARNING_STATE_CATEGORY_INVALID_COLOR: "In file {filePath} the state category wit
 
 EXCEPTION_NETWORK_UNABLE_TO_CHECK_FOR_UPDATE: "Unable to check for updates. Please check your internet connection"
 DESKTOP_SHORCUT_CREATED: "Desktop shortcut created"
+
+EXCEPTION_PARSED_OBJECT_NOT_FOUND: "{objectName} with {parameterName} = {parameterValue} not found"
+EXCEPTION_PARSED_OBJECT_INVALID_VALUE: "Invalid value {objectName} {parameterName} = {parameterValue}"

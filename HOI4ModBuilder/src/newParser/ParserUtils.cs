@@ -9,6 +9,7 @@ using HOI4ModBuilder.src.hoiDataObjects.history.countries;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
+using HOI4ModBuilder.src.newParser.exceptions;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
@@ -98,25 +99,25 @@ namespace HOI4ModBuilder.src.newParser
                 },
                 parse = v => {
                     if (!Utils.TryParseDateTimeStamp(v, out var dateTime))
-                        throw new Exception($"Invalid DateTime format: {v}");
+                        throw new ParsedObjectInvalidValueException("DateTime", "Value", v);
                     return dateTime;
                 }
             } },
             { typeof(Province), new MappingActions {
                 save = o => "" + ((Province)o).Id,
                 parse = v => !ushort.TryParse(v, out var id) ?
-                    throw new Exception($"Invalid ProvinceID format: {v}") :
+                    throw new ParsedObjectInvalidValueException("Province", "ID", v) :
                     !ProvinceManager.TryGet(id, out var province) ?
-                        throw new Exception($"Invalid ProvinceID format: {v}") :
+                        throw new ParsedObjectNotFoundException("Province", "ID", v) :
                         province
             } },
             { typeof(State), new MappingActions {
                 save = o => "" + ((State)o).Id.GetValue(),
                 parse = v => {
                     if (!ushort.TryParse(v, out var id))
-                        throw new Exception($"Invalid StateID format: {v}");
+                        throw new ParsedObjectInvalidValueException("State", "ID", v);
                     if (!StateManager.TryGet(id, out var state))
-                        throw new Exception($"State with ID {v} not found");
+                        throw new ParsedObjectNotFoundException("State", "ID", v);
                     return state;
                 }
             } },
@@ -124,9 +125,9 @@ namespace HOI4ModBuilder.src.newParser
                 save = o => "" + ((StrategicRegion)o).Id,
                 parse = v => {
                     if (!ushort.TryParse(v, out var id))
-                        throw new Exception($"Invalid Strategic Region ID format: {v}");
+                        throw new ParsedObjectInvalidValueException("Strategic Region", "ID", v);
                     if (!StrategicRegionManager.TryGet(id, out var region))
-                        throw new Exception($"Strategic Region with ID {v} not found");
+                        throw new ParsedObjectNotFoundException("Strategic Region", "ID", v);
                     return region;
                 }
             } },
@@ -137,14 +138,14 @@ namespace HOI4ModBuilder.src.newParser
                         return stateCategory;
                     if (v.StartsWith("\"") && v.EndsWith("\"") && StateCategoryManager.TryGet(v.Substring(1, v.Length - 2), out stateCategory))
                         return stateCategory;
-                    throw new Exception($"Invalid StateCategory name: {v}");
+                    throw new ParsedObjectNotFoundException("State Category", "Name", v);
                 }
             } },
             { typeof(Resource), new MappingActions {
                 save = o => "" + ((Resource)o).tag,
                 parse = v => {
                     if (!ResourceManager.TryGet(v, out var resource))
-                        throw new Exception($"Resource with Name {v} not found");
+                        throw new ParsedObjectNotFoundException("Resource", "Name", v);
                     return resource;
                 }
             } },
@@ -152,7 +153,7 @@ namespace HOI4ModBuilder.src.newParser
                 save = o => "" + ((Building)o).Name,
                 parse = v => {
                     if (!BuildingManager.TryGetBuilding(v, out var building))
-                        throw new Exception($"Building with Name {v} not found");
+                        throw new ParsedObjectNotFoundException("Building", "Name", v);
                     return building;
                 }
             } },
@@ -160,7 +161,7 @@ namespace HOI4ModBuilder.src.newParser
                 save = o => "" + ((SpawnPoint)o).name,
                 parse = v => {
                     if (!BuildingManager.TryGetSpawnPoint(v, out var spawnPoint))
-                        throw new Exception($"Spawn Point with Name {v} not found");
+                        throw new ParsedObjectNotFoundException("Spawn Point", "Name", v);
                     return spawnPoint;
                 }
             } },
@@ -168,7 +169,7 @@ namespace HOI4ModBuilder.src.newParser
                 save = o => "" + ((Country)o).Tag,
                 parse = v => {
                     if (!CountryManager.TryGet(v, out var country))
-                        throw new Exception($"Country with Tag {v} not found");
+                        throw new ParsedObjectNotFoundException("Country", "Tag", v);
                     return country;
                 }
             } },

@@ -577,3 +577,6 @@ WARNING_STATE_CATEGORY_INVALID_COLOR: "В файле {filePath} у катего�
 
 EXCEPTION_NETWORK_UNABLE_TO_CHECK_FOR_UPDATE: "Не удалось проверить наличие обновлений. Проверьте своё Интернет соединение"
 DESKTOP_SHORCUT_CREATED: "Ярлык создан на рабочем столе"
+
+EXCEPTION_PARSED_OBJECT_NOT_FOUND: "{objectName} с {parameterName} = {parameterValue} не найден"
+EXCEPTION_PARSED_OBJECT_INVALID_VALUE: "Некорректное значение {objectName} {parameterName} = {parameterValue}"

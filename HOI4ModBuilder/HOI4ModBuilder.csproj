@@ -545,6 +545,8 @@
     <Compile Include="src\managers\statistics\StatistictsData.cs" />
     <Compile Include="src\network\NetworkManager.cs" />
     <Compile Include="src\network\SyncInfo.cs" />
+    <Compile Include="src\newParser\exceptions\ParsedObjectInvalidValueException.cs" />
+    <Compile Include="src\newParser\exceptions\ParsedObjectNotFoundException.cs" />
     <Compile Include="src\newParser\GameParser.cs" />
     <Compile Include="src\newParser\interfaces\ICommentable.cs" />
     <Compile Include="src\newParser\interfaces\IConstantable.cs" />
