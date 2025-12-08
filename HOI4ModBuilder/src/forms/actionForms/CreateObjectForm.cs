@@ -175,6 +175,7 @@ namespace HOI4ModBuilder.src.forms.actionForms
                             copy[i] = copy[i].Replace("{id}", stringID);
                         File.WriteAllLines(filePath, copy);
                         loadAction.Invoke(new FileInfo(fileName, filePath, true));
+                        Logger.DisplayErrors();
                         _onRedo.Invoke(id);
 
                         InvokeAction(() => UpdateDisplayID());
