@@ -65,6 +65,15 @@ namespace HOI4ModBuilder.src.forms
                 });
             });
             IsClosed = false;
+
+            var prevTopMost = TopMost;
+
+            TopMost = true;
+            Activate();
+            BringToFront();
+            Focus();
+
+            TopMost = prevTopMost;
         }
 
         protected override void OnClosed(EventArgs e)
