@@ -1,3 +1,23 @@
+### HOI4 Mod Builder v0.2.9.3 (HotFix)
+
+### Changelog:
+
+> - Added a new application icon (thanks to the icon author: jCAT)
+> - Added a button in the program settings for creating a desktop shortcut to launch the program
+> - Settings windows for search filters of errors and warnings on the map now always appear on top of the main program window
+> - Re-enabled the WIP "MapPositions" setting in the program settings
+
+### Fixes:
+
+> - Fixed a missing display of an exception when the program failed to load a State or Strategic Region created via the in-app object and script creation window
+> - Fixed missing display of an exception in cases where some parameter values could not be correctly parsed from game or mod script files
+> - Fixed a bug where the program incorrectly intercepted keyboard presses if a previously opened information window had been closed
+> - Fixed a bug where changing a selected tool’s parameter did not trigger a redraw of the main map layer
+> - Fixed a bug that occurred when attempting to change a selected tool’s parameter by scrolling the mouse wheel while holding SHIFT
+> - Fixed a bug that in some cases led to incorrect detection of warnings and errors on the map
+
+
+
 ### HOI4 Mod Builder v0.2.9.2 (HotFix)
 
 ### List of changes and fixes:
@@ -6,7 +26,7 @@
 > - Fixed a bug where an extra space could be added at the end of inline comments inside GameDictionary with every subsequent data save
 > - Fixed incorrect condition check for availability of the “merge provinces group” action on the map
 
----
+
 
 ### HOI4 Mod Builder v0.2.9.1 (HotFix)
 
@@ -16,7 +36,7 @@
 > - Disabled the use of default mod settings in the Program Settings
 > - Temporarily disabled the WIP "MapPositions" setting in the Program Settings
 
----
+
 
 ### HOI4 Mod Builder v0.2.9
 
@@ -108,8 +128,6 @@
 
 - Localization:
 > - Numerous translation fixes and clarifications
-
----
 
 ### Bug Fixes:
 
