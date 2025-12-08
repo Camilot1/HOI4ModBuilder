@@ -577,3 +577,4 @@ ERROR_WHILE_STRATEGIC_LOCATIONS_LOADING: "While loading file {filePath} an excep
 WARNING_STATE_CATEGORY_INVALID_COLOR: "In file {filePath} the state category with name \"{name}\" has invalid value color {color}"
 
 EXCEPTION_NETWORK_UNABLE_TO_CHECK_FOR_UPDATE: "Unable to check for updates. Please check your internet connection"
+DESKTOP_SHORCUT_CREATED: "Desktop shortcut created"

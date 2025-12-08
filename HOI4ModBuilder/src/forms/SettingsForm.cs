@@ -627,5 +627,47 @@ namespace HOI4ModBuilder.src.forms
             => Logger.TryOrLog(() => modSettingsControls.InitColorGenerationPatterns(
                 SettingsManager.Settings.GetModSettings()
             ));
+
+        private void Button_CreateDesktopShortcut_Click(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                var executablePath = Application.ExecutablePath;
+                if (string.IsNullOrWhiteSpace(executablePath) || !File.Exists(executablePath))
+                {
+                    Logger.LogSingleErrorMessage("Failed to locate current executable.");
+                    return;
+                }
+
+                var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                if (string.IsNullOrWhiteSpace(desktopPath))
+                {
+                    Logger.LogSingleErrorMessage("Failed to resolve desktop path.");
+                    return;
+                }
+                if (!Directory.Exists(desktopPath))
+                    Directory.CreateDirectory(desktopPath);
+
+                var shortcutName = "HOI4 Mod Builder";
+                var shortcutPath = Path.Combine(desktopPath, shortcutName + ".lnk");
+
+                var shellType = Type.GetTypeFromProgID("WScript.Shell");
+                if (shellType == null)
+                {
+                    Logger.LogSingleErrorMessage("Failed to initialize WScript.Shell for shortcut creation.");
+                    return;
+                }
+
+                dynamic shell = Activator.CreateInstance(shellType);
+                dynamic shortcut = shell.CreateShortcut(shortcutPath);
+                shortcut.TargetPath = executablePath;
+                shortcut.WorkingDirectory = Path.GetDirectoryName(executablePath);
+                shortcut.IconLocation = executablePath;
+                shortcut.Description = Application.ProductName;
+                shortcut.Save();
+
+                Logger.LogSingleInfoMessage(EnumLocKey.DESKTOP_SHORCUT_CREATED);
+            });
+        }
     }
 }

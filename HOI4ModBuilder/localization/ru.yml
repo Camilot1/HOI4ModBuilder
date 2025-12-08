@@ -576,3 +576,4 @@ ERROR_WHILE_STRATEGIC_LOCATIONS_LOADING: "При загрузке файла {fi
 WARNING_STATE_CATEGORY_INVALID_COLOR: "В файле {filePath} у категори области \"{name}\" указано некорректное значение цвета {color}"
 
 EXCEPTION_NETWORK_UNABLE_TO_CHECK_FOR_UPDATE: "Не удалось проверить наличие обновлений. Проверьте своё Интернет соединение"
+DESKTOP_SHORCUT_CREATED: "Ярлык создан на рабочем столе"

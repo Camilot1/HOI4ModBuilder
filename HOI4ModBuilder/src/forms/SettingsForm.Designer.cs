@@ -80,6 +80,7 @@
             this.CheckBox_IgnoreUpdateVersion = new System.Windows.Forms.CheckBox();
             this.TextBox_IgnoreUpdateVersion = new System.Windows.Forms.TextBox();
             this.Button_Directory_AutoDetect = new System.Windows.Forms.Button();
+            this.Button_CreateDesktopShortcut = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -90,12 +91,12 @@
             // 
             // ComboBox_Language
             // 
+            resources.ApplyResources(this.ComboBox_Language, "ComboBox_Language");
             this.ComboBox_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBox_Language.FormattingEnabled = true;
             this.ComboBox_Language.Items.AddRange(new object[] {
             resources.GetString("ComboBox_Language.Items"),
             resources.GetString("ComboBox_Language.Items1")});
-            resources.ApplyResources(this.ComboBox_Language, "ComboBox_Language");
             this.ComboBox_Language.Name = "ComboBox_Language";
             // 
             // label1
@@ -193,6 +194,7 @@
             // 
             // ComboBox_MaxAdditionalTextureSize
             // 
+            resources.ApplyResources(this.ComboBox_MaxAdditionalTextureSize, "ComboBox_MaxAdditionalTextureSize");
             this.ComboBox_MaxAdditionalTextureSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBox_MaxAdditionalTextureSize.FormattingEnabled = true;
             this.ComboBox_MaxAdditionalTextureSize.Items.AddRange(new object[] {
@@ -200,7 +202,6 @@
             resources.GetString("ComboBox_MaxAdditionalTextureSize.Items1"),
             resources.GetString("ComboBox_MaxAdditionalTextureSize.Items2"),
             resources.GetString("ComboBox_MaxAdditionalTextureSize.Items3")});
-            resources.ApplyResources(this.ComboBox_MaxAdditionalTextureSize, "ComboBox_MaxAdditionalTextureSize");
             this.ComboBox_MaxAdditionalTextureSize.Name = "ComboBox_MaxAdditionalTextureSize";
             // 
             // label7
@@ -225,6 +226,7 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.CheckBox_UseCustomSavePatterns);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.label13);
@@ -233,7 +235,6 @@
             this.groupBox1.Controls.Add(this.CheckedListBox_SaveSettings);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.TextBox_NormalMapStrength);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -275,6 +276,7 @@
             // 
             // groupBox2
             // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.groupBox4);
             this.groupBox2.Controls.Add(this.Button_ModSettings_ApplyChanges);
             this.groupBox2.Controls.Add(this.groupBox6);
@@ -282,16 +284,15 @@
             this.groupBox2.Controls.Add(this.ComboBox_UsingSettingsType);
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Controls.Add(this.groupBox1);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
             // groupBox4
             // 
+            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.DataGridView_ColorGenerationPatterns);
             this.groupBox4.Controls.Add(this.ComboBox_SelectedColorGenerationPattern);
-            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
@@ -302,11 +303,11 @@
             // 
             // DataGridView_ColorGenerationPatterns
             // 
+            resources.ApplyResources(this.DataGridView_ColorGenerationPatterns, "DataGridView_ColorGenerationPatterns");
             this.DataGridView_ColorGenerationPatterns.AllowUserToAddRows = false;
             this.DataGridView_ColorGenerationPatterns.AllowUserToDeleteRows = false;
             this.DataGridView_ColorGenerationPatterns.AllowUserToResizeColumns = false;
             this.DataGridView_ColorGenerationPatterns.AllowUserToResizeRows = false;
-            resources.ApplyResources(this.DataGridView_ColorGenerationPatterns, "DataGridView_ColorGenerationPatterns");
             this.DataGridView_ColorGenerationPatterns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DataGridView_ColorGenerationPatterns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column_ParameterName,
@@ -340,9 +341,9 @@
             // 
             // ComboBox_SelectedColorGenerationPattern
             // 
+            resources.ApplyResources(this.ComboBox_SelectedColorGenerationPattern, "ComboBox_SelectedColorGenerationPattern");
             this.ComboBox_SelectedColorGenerationPattern.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBox_SelectedColorGenerationPattern.FormattingEnabled = true;
-            resources.ApplyResources(this.ComboBox_SelectedColorGenerationPattern, "ComboBox_SelectedColorGenerationPattern");
             this.ComboBox_SelectedColorGenerationPattern.Name = "ComboBox_SelectedColorGenerationPattern";
             this.ComboBox_SelectedColorGenerationPattern.SelectedIndexChanged += new System.EventHandler(this.ComboBox_SelectedColorGenerationPattern_SelectedIndexChanged);
             // 
@@ -355,8 +356,8 @@
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.CheckedListBox_Wips);
             resources.ApplyResources(this.groupBox6, "groupBox6");
+            this.groupBox6.Controls.Add(this.CheckedListBox_Wips);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
             // 
@@ -382,17 +383,18 @@
             // 
             // ComboBox_UsingSettingsType
             // 
+            resources.ApplyResources(this.ComboBox_UsingSettingsType, "ComboBox_UsingSettingsType");
             this.ComboBox_UsingSettingsType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBox_UsingSettingsType.FormattingEnabled = true;
             this.ComboBox_UsingSettingsType.Items.AddRange(new object[] {
             resources.GetString("ComboBox_UsingSettingsType.Items"),
             resources.GetString("ComboBox_UsingSettingsType.Items1")});
-            resources.ApplyResources(this.ComboBox_UsingSettingsType, "ComboBox_UsingSettingsType");
             this.ComboBox_UsingSettingsType.Name = "ComboBox_UsingSettingsType";
             this.ComboBox_UsingSettingsType.SelectedIndexChanged += new System.EventHandler(this.ComboBox_UsingSettingsType_SelectedIndexChanged);
             // 
             // groupBox3
             // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.TextBox_WATER_HEIGHT_max_water_offset);
             this.groupBox3.Controls.Add(this.TextBox_WATER_HEIGHT_min_land_offset);
             this.groupBox3.Controls.Add(this.label19);
@@ -401,7 +403,6 @@
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.TextBox_MAP_SCALE_PIXEL_TO_KM);
             this.groupBox3.Controls.Add(this.TextBox_WATER_HEIGHT);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -444,10 +445,18 @@
             this.Button_Directory_AutoDetect.UseVisualStyleBackColor = false;
             this.Button_Directory_AutoDetect.Click += new System.EventHandler(this.Button_Directory_AutoDetect_Click);
             // 
+            // Button_CreateDesktopShortcut
+            // 
+            resources.ApplyResources(this.Button_CreateDesktopShortcut, "Button_CreateDesktopShortcut");
+            this.Button_CreateDesktopShortcut.Name = "Button_CreateDesktopShortcut";
+            this.Button_CreateDesktopShortcut.UseVisualStyleBackColor = true;
+            this.Button_CreateDesktopShortcut.Click += new System.EventHandler(this.Button_CreateDesktopShortcut_Click);
+            // 
             // SettingsForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Button_CreateDesktopShortcut);
             this.Controls.Add(this.Button_Directory_AutoDetect);
             this.Controls.Add(this.TextBox_IgnoreUpdateVersion);
             this.Controls.Add(this.CheckBox_IgnoreUpdateVersion);
@@ -537,5 +546,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column_ParameterName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column_MinValue;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column_MaxValue;
+        private System.Windows.Forms.Button Button_CreateDesktopShortcut;
     }
 }
