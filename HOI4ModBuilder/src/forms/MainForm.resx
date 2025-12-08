@@ -117,135 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;TabPage_Map.Name" xml:space="preserve">
-    <value>TabPage_Map</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Map.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Map.Parent" xml:space="preserve">
-    <value>TabControl_Main</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Map.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Buildings.Name" xml:space="preserve">
-    <value>TabPage_Buildings</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Buildings.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Buildings.Parent" xml:space="preserve">
-    <value>TabControl_Main</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Buildings.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Resources.Name" xml:space="preserve">
-    <value>TabPage_Resources</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Resources.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Resources.Parent" xml:space="preserve">
-    <value>TabControl_Main</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Resources.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Localization.Name" xml:space="preserve">
-    <value>TabPage_Localization</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Localization.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Localization.Parent" xml:space="preserve">
-    <value>TabControl_Main</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Localization.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Home.Name" xml:space="preserve">
-    <value>TabPage_Home</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Home.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Home.Parent" xml:space="preserve">
-    <value>TabControl_Main</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Home.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TabControl_Main.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="TabControl_Main.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 24</value>
-  </data>
-  <data name="TabControl_Main.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1584, 937</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TabControl_Main.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;TabControl_Main.Name" xml:space="preserve">
-    <value>TabControl_Main</value>
-  </data>
-  <data name="&gt;&gt;TabControl_Main.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabControl_Main.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TabControl_Main.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
-    <value>TabPage_Map</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="FlowLayoutPanel_ToolBar" Row="0" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="flowLayoutPanel2" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="Panel_Map" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="TabPage_Map.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
-  </data>
-  <data name="TabPage_Map.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="TabPage_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1576, 911</value>
-  </data>
-  <data name="TabPage_Map.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="TabPage_Map.Text" xml:space="preserve">
-    <value>Карта</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Map.Name" xml:space="preserve">
-    <value>TabPage_Map</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Map.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Map.Parent" xml:space="preserve">
-    <value>TabControl_Main</value>
-  </data>
-  <data name="&gt;&gt;TabPage_Map.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="tableLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -255,413 +127,25 @@
   <data name="FlowLayoutPanel_ToolBar.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="FlowLayoutPanel_ToolBar.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Main_Layer.Name" xml:space="preserve">
-    <value>GroupBox_Main_Layer</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Main_Layer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Main_Layer.Parent" xml:space="preserve">
-    <value>FlowLayoutPanel_ToolBar</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Main_Layer.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Main_Layer_Parameter.Name" xml:space="preserve">
-    <value>GroupBox_Main_Layer_Parameter</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Main_Layer_Parameter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Main_Layer_Parameter.Parent" xml:space="preserve">
-    <value>FlowLayoutPanel_ToolBar</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Main_Layer_Parameter.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Edit_Layer.Name" xml:space="preserve">
-    <value>GroupBox_Edit_Layer</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Edit_Layer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Edit_Layer.Parent" xml:space="preserve">
-    <value>FlowLayoutPanel_ToolBar</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Edit_Layer.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Tool.Name" xml:space="preserve">
-    <value>GroupBox_Tool</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Tool.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Tool.Parent" xml:space="preserve">
-    <value>FlowLayoutPanel_ToolBar</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Tool.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Tool_Parameter.Name" xml:space="preserve">
-    <value>GroupBox_Tool_Parameter</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Tool_Parameter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Tool_Parameter.Parent" xml:space="preserve">
-    <value>FlowLayoutPanel_ToolBar</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Tool_Parameter.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Tool_Parameter_Value.Name" xml:space="preserve">
-    <value>GroupBox_Tool_Parameter_Value</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Tool_Parameter_Value.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Tool_Parameter_Value.Parent" xml:space="preserve">
-    <value>FlowLayoutPanel_ToolBar</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Tool_Parameter_Value.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
-    <value>FlowLayoutPanel_ToolBar</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_GenerateColor.Name" xml:space="preserve">
-    <value>GroupBox_GenerateColor</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_GenerateColor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_GenerateColor.Parent" xml:space="preserve">
-    <value>FlowLayoutPanel_ToolBar</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_GenerateColor.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Palette.Name" xml:space="preserve">
-    <value>GroupBox_Palette</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Palette.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Palette.Parent" xml:space="preserve">
-    <value>FlowLayoutPanel_ToolBar</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Palette.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Progress.Name" xml:space="preserve">
-    <value>GroupBox_Progress</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Progress.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Progress.Parent" xml:space="preserve">
-    <value>FlowLayoutPanel_ToolBar</value>
-  </data>
-  <data name="&gt;&gt;GroupBox_Progress.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="FlowLayoutPanel_ToolBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="FlowLayoutPanel_ToolBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="FlowLayoutPanel_ToolBar.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="FlowLayoutPanel_ToolBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1570, 37</value>
-  </data>
-  <data name="FlowLayoutPanel_ToolBar.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
-  </data>
-  <data name="&gt;&gt;FlowLayoutPanel_ToolBar.Name" xml:space="preserve">
-    <value>FlowLayoutPanel_ToolBar</value>
-  </data>
-  <data name="&gt;&gt;FlowLayoutPanel_ToolBar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FlowLayoutPanel_ToolBar.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;FlowLayoutPanel_ToolBar.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="flowLayoutPanel2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;groupBox7.Name" xml:space="preserve">
-    <value>groupBox7</value>
-  </data>
-  <data name="&gt;&gt;groupBox7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox7.Parent" xml:space="preserve">
-    <value>flowLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;groupBox7.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;groupBox8.Name" xml:space="preserve">
-    <value>groupBox8</value>
-  </data>
-  <data name="&gt;&gt;groupBox8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox8.Parent" xml:space="preserve">
-    <value>flowLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;groupBox8.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;groupBox10.Name" xml:space="preserve">
-    <value>groupBox10</value>
-  </data>
-  <data name="&gt;&gt;groupBox10.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox10.Parent" xml:space="preserve">
-    <value>flowLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;groupBox10.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
-    <value>flowLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Parent" xml:space="preserve">
-    <value>flowLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;groupBox11.Name" xml:space="preserve">
-    <value>groupBox11</value>
-  </data>
-  <data name="&gt;&gt;groupBox11.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox11.Parent" xml:space="preserve">
-    <value>flowLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;groupBox11.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;groupBox9.Name" xml:space="preserve">
-    <value>groupBox9</value>
-  </data>
-  <data name="&gt;&gt;groupBox9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox9.Parent" xml:space="preserve">
-    <value>flowLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;groupBox9.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="flowLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="flowLayoutPanel2.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
-    <value>TopDown</value>
-  </data>
-  <data name="flowLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 37</value>
-  </data>
-  <data name="flowLayoutPanel2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="flowLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 868</value>
-  </data>
-  <data name="flowLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel2.Name" xml:space="preserve">
-    <value>flowLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel2.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="Panel_Map.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="Panel_Map.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <metadata name="ContextMenuStrip_Map.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>128, 19</value>
-  </metadata>
-  <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 198</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip_Map.Name" xml:space="preserve">
-    <value>ContextMenuStrip_Map</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip_Map.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Panel_ColorPicker_Button_Close.Name" xml:space="preserve">
-    <value>Panel_ColorPicker_Button_Close</value>
-  </data>
-  <data name="&gt;&gt;Panel_ColorPicker_Button_Close.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Panel_ColorPicker_Button_Close.Parent" xml:space="preserve">
-    <value>Panel_ColorPicker</value>
-  </data>
-  <data name="&gt;&gt;Panel_ColorPicker_Button_Close.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Panel_ColorPicker_Button_Save.Name" xml:space="preserve">
-    <value>Panel_ColorPicker_Button_Save</value>
-  </data>
-  <data name="&gt;&gt;Panel_ColorPicker_Button_Save.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Panel_ColorPicker_Button_Save.Parent" xml:space="preserve">
-    <value>Panel_ColorPicker</value>
-  </data>
-  <data name="&gt;&gt;Panel_ColorPicker_Button_Save.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;ElementHost_ColorPicker.Name" xml:space="preserve">
-    <value>ElementHost_ColorPicker</value>
-  </data>
-  <data name="&gt;&gt;ElementHost_ColorPicker.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Integration.ElementHost, WindowsFormsIntegration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</value>
-  </data>
-  <data name="&gt;&gt;ElementHost_ColorPicker.Parent" xml:space="preserve">
-    <value>Panel_ColorPicker</value>
-  </data>
-  <data name="&gt;&gt;ElementHost_ColorPicker.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="Panel_ColorPicker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="Panel_ColorPicker.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 419</value>
-  </data>
-  <data name="Panel_ColorPicker.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="Panel_ColorPicker.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;Panel_ColorPicker.Name" xml:space="preserve">
-    <value>Panel_ColorPicker</value>
-  </data>
-  <data name="&gt;&gt;Panel_ColorPicker.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Panel_ColorPicker.Parent" xml:space="preserve">
-    <value>Panel_Map</value>
-  </data>
-  <data name="&gt;&gt;Panel_ColorPicker.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Panel_Map.Location" type="System.Drawing.Point, System.Drawing">
-    <value>136, 40</value>
-  </data>
-  <data name="Panel_Map.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 3, 0, 0</value>
-  </data>
-  <data name="Panel_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1434, 865</value>
-  </data>
-  <data name="Panel_Map.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;Panel_Map.Name" xml:space="preserve">
-    <value>Panel_Map</value>
-  </data>
-  <data name="&gt;&gt;Panel_Map.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Panel_Map.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;Panel_Map.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="tableLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1570, 905</value>
-  </data>
-  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
-    <value>TabPage_Map</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="FlowLayoutPanel_ToolBar" Row="0" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="flowLayoutPanel2" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="Panel_Map" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="GroupBox_Main_Layer.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="GroupBox_Main_Layer.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="СomboBox_MapMainLayer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 15</value>
+  </data>
+  <data name="СomboBox_MapMainLayer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 21</value>
+  </data>
+  <data name="СomboBox_MapMainLayer.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
   </data>
   <data name="&gt;&gt;СomboBox_MapMainLayer.Name" xml:space="preserve">
     <value>СomboBox_MapMainLayer</value>
@@ -711,32 +195,23 @@
   <data name="&gt;&gt;GroupBox_Main_Layer.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="СomboBox_MapMainLayer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 21</value>
-  </data>
-  <data name="СomboBox_MapMainLayer.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;СomboBox_MapMainLayer.Name" xml:space="preserve">
-    <value>СomboBox_MapMainLayer</value>
-  </data>
-  <data name="&gt;&gt;СomboBox_MapMainLayer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;СomboBox_MapMainLayer.Parent" xml:space="preserve">
-    <value>GroupBox_Main_Layer</value>
-  </data>
-  <data name="&gt;&gt;СomboBox_MapMainLayer.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="GroupBox_Main_Layer_Parameter.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="GroupBox_Main_Layer_Parameter.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
+  </data>
+  <data name="Button_MapMainLayer_Parameter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Button_MapMainLayer_Parameter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1, 13</value>
+  </data>
+  <data name="Button_MapMainLayer_Parameter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 23</value>
+  </data>
+  <data name="Button_MapMainLayer_Parameter.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
   </data>
   <data name="&gt;&gt;Button_MapMainLayer_Parameter.Name" xml:space="preserve">
     <value>Button_MapMainLayer_Parameter</value>
@@ -789,35 +264,20 @@
   <data name="&gt;&gt;GroupBox_Main_Layer_Parameter.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="Button_MapMainLayer_Parameter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Button_MapMainLayer_Parameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1, 13</value>
-  </data>
-  <data name="Button_MapMainLayer_Parameter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 23</value>
-  </data>
-  <data name="Button_MapMainLayer_Parameter.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;Button_MapMainLayer_Parameter.Name" xml:space="preserve">
-    <value>Button_MapMainLayer_Parameter</value>
-  </data>
-  <data name="&gt;&gt;Button_MapMainLayer_Parameter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button_MapMainLayer_Parameter.Parent" xml:space="preserve">
-    <value>GroupBox_Main_Layer_Parameter</value>
-  </data>
-  <data name="&gt;&gt;Button_MapMainLayer_Parameter.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="GroupBox_Edit_Layer.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="GroupBox_Edit_Layer.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
+  </data>
+  <data name="ComboBox_EditLayer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 15</value>
+  </data>
+  <data name="ComboBox_EditLayer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 21</value>
+  </data>
+  <data name="ComboBox_EditLayer.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;ComboBox_EditLayer.Name" xml:space="preserve">
     <value>ComboBox_EditLayer</value>
@@ -867,32 +327,20 @@
   <data name="&gt;&gt;GroupBox_Edit_Layer.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="ComboBox_EditLayer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
-  </data>
-  <data name="ComboBox_EditLayer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 21</value>
-  </data>
-  <data name="ComboBox_EditLayer.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_EditLayer.Name" xml:space="preserve">
-    <value>ComboBox_EditLayer</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_EditLayer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_EditLayer.Parent" xml:space="preserve">
-    <value>GroupBox_Edit_Layer</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_EditLayer.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="GroupBox_Tool.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="GroupBox_Tool.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
+  </data>
+  <data name="ComboBox_Tool.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 15</value>
+  </data>
+  <data name="ComboBox_Tool.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 21</value>
+  </data>
+  <data name="ComboBox_Tool.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
   </data>
   <data name="&gt;&gt;ComboBox_Tool.Name" xml:space="preserve">
     <value>ComboBox_Tool</value>
@@ -942,32 +390,20 @@
   <data name="&gt;&gt;GroupBox_Tool.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="ComboBox_Tool.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
-  </data>
-  <data name="ComboBox_Tool.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 21</value>
-  </data>
-  <data name="ComboBox_Tool.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_Tool.Name" xml:space="preserve">
-    <value>ComboBox_Tool</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_Tool.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_Tool.Parent" xml:space="preserve">
-    <value>GroupBox_Tool</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_Tool.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="GroupBox_Tool_Parameter.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="GroupBox_Tool_Parameter.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
+  </data>
+  <data name="ComboBox_Tool_Parameter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 15</value>
+  </data>
+  <data name="ComboBox_Tool_Parameter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="ComboBox_Tool_Parameter.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
   </data>
   <data name="&gt;&gt;ComboBox_Tool_Parameter.Name" xml:space="preserve">
     <value>ComboBox_Tool_Parameter</value>
@@ -1020,32 +456,20 @@
   <data name="&gt;&gt;GroupBox_Tool_Parameter.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="ComboBox_Tool_Parameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
-  </data>
-  <data name="ComboBox_Tool_Parameter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 21</value>
-  </data>
-  <data name="ComboBox_Tool_Parameter.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_Tool_Parameter.Name" xml:space="preserve">
-    <value>ComboBox_Tool_Parameter</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_Tool_Parameter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_Tool_Parameter.Parent" xml:space="preserve">
-    <value>GroupBox_Tool_Parameter</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_Tool_Parameter.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="GroupBox_Tool_Parameter_Value.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="GroupBox_Tool_Parameter_Value.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
+  </data>
+  <data name="ComboBox_Tool_Parameter_Value.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 15</value>
+  </data>
+  <data name="ComboBox_Tool_Parameter_Value.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="ComboBox_Tool_Parameter_Value.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
   </data>
   <data name="&gt;&gt;ComboBox_Tool_Parameter_Value.Name" xml:space="preserve">
     <value>ComboBox_Tool_Parameter_Value</value>
@@ -1098,81 +522,6 @@
   <data name="&gt;&gt;GroupBox_Tool_Parameter_Value.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="ComboBox_Tool_Parameter_Value.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
-  </data>
-  <data name="ComboBox_Tool_Parameter_Value.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 21</value>
-  </data>
-  <data name="ComboBox_Tool_Parameter_Value.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_Tool_Parameter_Value.Name" xml:space="preserve">
-    <value>ComboBox_Tool_Parameter_Value</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_Tool_Parameter_Value.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_Tool_Parameter_Value.Parent" xml:space="preserve">
-    <value>GroupBox_Tool_Parameter_Value</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_Tool_Parameter_Value.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Panel_SecondColor.Name" xml:space="preserve">
-    <value>Panel_SecondColor</value>
-  </data>
-  <data name="&gt;&gt;Panel_SecondColor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Panel_SecondColor.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;Panel_SecondColor.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Panel_FirstColor.Name" xml:space="preserve">
-    <value>Panel_FirstColor</value>
-  </data>
-  <data name="&gt;&gt;Panel_FirstColor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Panel_FirstColor.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;Panel_FirstColor.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>646, 0</value>
-  </data>
-  <data name="groupBox3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
-  </data>
-  <data name="groupBox3.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 37</value>
-  </data>
-  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Цвета:</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
-    <value>FlowLayoutPanel_ToolBar</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="Panel_SecondColor.Location" type="System.Drawing.Point, System.Drawing">
     <value>31, 14</value>
   </data>
@@ -1215,71 +564,35 @@
   <data name="&gt;&gt;Panel_FirstColor.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;Button_GenerateColor_OpenSettings.Name" xml:space="preserve">
-    <value>Button_GenerateColor_OpenSettings</value>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>646, 0</value>
   </data>
-  <data name="&gt;&gt;Button_GenerateColor_OpenSettings.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button_GenerateColor_OpenSettings.Parent" xml:space="preserve">
-    <value>GroupBox_GenerateColor</value>
-  </data>
-  <data name="&gt;&gt;Button_GenerateColor_OpenSettings.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Button_GenerateColor.Name" xml:space="preserve">
-    <value>Button_GenerateColor</value>
-  </data>
-  <data name="&gt;&gt;Button_GenerateColor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button_GenerateColor.Parent" xml:space="preserve">
-    <value>GroupBox_GenerateColor</value>
-  </data>
-  <data name="&gt;&gt;Button_GenerateColor.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_GenerateColor_Type.Name" xml:space="preserve">
-    <value>ComboBox_GenerateColor_Type</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_GenerateColor_Type.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_GenerateColor_Type.Parent" xml:space="preserve">
-    <value>GroupBox_GenerateColor</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_GenerateColor_Type.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="GroupBox_GenerateColor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>706, 0</value>
-  </data>
-  <data name="GroupBox_GenerateColor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="groupBox3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
-  <data name="GroupBox_GenerateColor.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="groupBox3.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="GroupBox_GenerateColor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 37</value>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 37</value>
   </data>
-  <data name="GroupBox_GenerateColor.TabIndex" type="System.Int32, mscorlib">
-    <value>30</value>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
   </data>
-  <data name="GroupBox_GenerateColor.Text" xml:space="preserve">
-    <value>Сгенерировать цвет:</value>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Цвета:</value>
   </data>
-  <data name="&gt;&gt;GroupBox_GenerateColor.Name" xml:space="preserve">
-    <value>GroupBox_GenerateColor</value>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
-  <data name="&gt;&gt;GroupBox_GenerateColor.Type" xml:space="preserve">
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;GroupBox_GenerateColor.Parent" xml:space="preserve">
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
     <value>FlowLayoutPanel_ToolBar</value>
   </data>
-  <data name="&gt;&gt;GroupBox_GenerateColor.ZOrder" xml:space="preserve">
-    <value>7</value>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="Button_GenerateColor_OpenSettings.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1368,11 +681,68 @@
   <data name="&gt;&gt;ComboBox_GenerateColor_Type.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="GroupBox_GenerateColor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>706, 0</value>
+  </data>
+  <data name="GroupBox_GenerateColor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="GroupBox_GenerateColor.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="GroupBox_GenerateColor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 37</value>
+  </data>
+  <data name="GroupBox_GenerateColor.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="GroupBox_GenerateColor.Text" xml:space="preserve">
+    <value>Сгенерировать цвет:</value>
+  </data>
+  <data name="&gt;&gt;GroupBox_GenerateColor.Name" xml:space="preserve">
+    <value>GroupBox_GenerateColor</value>
+  </data>
+  <data name="&gt;&gt;GroupBox_GenerateColor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox_GenerateColor.Parent" xml:space="preserve">
+    <value>FlowLayoutPanel_ToolBar</value>
+  </data>
+  <data name="&gt;&gt;GroupBox_GenerateColor.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
   <data name="GroupBox_Palette.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="GroupBox_Palette.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
+  </data>
+  <data name="FlowLayoutPanel_Color.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="FlowLayoutPanel_Color.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="FlowLayoutPanel_Color.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="FlowLayoutPanel_Color.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 15</value>
+  </data>
+  <data name="FlowLayoutPanel_Color.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="FlowLayoutPanel_Color.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 21</value>
+  </data>
+  <data name="FlowLayoutPanel_Color.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>120, 21</value>
+  </data>
+  <data name="FlowLayoutPanel_Color.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 21</value>
+  </data>
+  <data name="FlowLayoutPanel_Color.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
   </data>
   <data name="&gt;&gt;FlowLayoutPanel_Color.Name" xml:space="preserve">
     <value>FlowLayoutPanel_Color</value>
@@ -1422,47 +792,23 @@
   <data name="&gt;&gt;GroupBox_Palette.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="FlowLayoutPanel_Color.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="FlowLayoutPanel_Color.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
-  <data name="FlowLayoutPanel_Color.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="FlowLayoutPanel_Color.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
-  </data>
-  <data name="FlowLayoutPanel_Color.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="FlowLayoutPanel_Color.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 21</value>
-  </data>
-  <data name="FlowLayoutPanel_Color.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>120, 21</value>
-  </data>
-  <data name="FlowLayoutPanel_Color.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 21</value>
-  </data>
-  <data name="FlowLayoutPanel_Color.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="&gt;&gt;FlowLayoutPanel_Color.Name" xml:space="preserve">
-    <value>FlowLayoutPanel_Color</value>
-  </data>
-  <data name="&gt;&gt;FlowLayoutPanel_Color.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FlowLayoutPanel_Color.Parent" xml:space="preserve">
-    <value>GroupBox_Palette</value>
-  </data>
-  <data name="&gt;&gt;FlowLayoutPanel_Color.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="GroupBox_Progress.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
+  </data>
+  <data name="ProgressBar1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="ProgressBar1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ProgressBar1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 15</value>
+  </data>
+  <data name="ProgressBar1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 21</value>
+  </data>
+  <data name="ProgressBar1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;ProgressBar1.Name" xml:space="preserve">
     <value>ProgressBar1</value>
@@ -1503,35 +849,50 @@
   <data name="&gt;&gt;GroupBox_Progress.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
-  <data name="ProgressBar1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+  <data name="FlowLayoutPanel_ToolBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="ProgressBar1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="FlowLayoutPanel_ToolBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="ProgressBar1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
+  <data name="FlowLayoutPanel_ToolBar.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
   </data>
-  <data name="ProgressBar1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>300, 21</value>
+  <data name="FlowLayoutPanel_ToolBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1570, 37</value>
   </data>
-  <data name="ProgressBar1.TabIndex" type="System.Int32, mscorlib">
+  <data name="FlowLayoutPanel_ToolBar.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="&gt;&gt;FlowLayoutPanel_ToolBar.Name" xml:space="preserve">
+    <value>FlowLayoutPanel_ToolBar</value>
+  </data>
+  <data name="&gt;&gt;FlowLayoutPanel_ToolBar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FlowLayoutPanel_ToolBar.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;FlowLayoutPanel_ToolBar.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;ProgressBar1.Name" xml:space="preserve">
-    <value>ProgressBar1</value>
-  </data>
-  <data name="&gt;&gt;ProgressBar1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ProgressBar1.Parent" xml:space="preserve">
-    <value>GroupBox_Progress</value>
-  </data>
-  <data name="&gt;&gt;ProgressBar1.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="flowLayoutPanel2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="groupBox7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="CheckedListBox_MapAdditionalLayers.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 19</value>
+  </data>
+  <data name="CheckedListBox_MapAdditionalLayers.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="CheckedListBox_MapAdditionalLayers.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 139</value>
+  </data>
+  <data name="CheckedListBox_MapAdditionalLayers.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
   </data>
   <data name="&gt;&gt;CheckedListBox_MapAdditionalLayers.Name" xml:space="preserve">
     <value>CheckedListBox_MapAdditionalLayers</value>
@@ -1575,28 +936,13 @@
   <data name="&gt;&gt;groupBox7.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="CheckedListBox_MapAdditionalLayers.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 19</value>
+  <data name="ComboBox_BordersType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 13</value>
   </data>
-  <data name="CheckedListBox_MapAdditionalLayers.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
+  <data name="ComboBox_BordersType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 21</value>
   </data>
-  <data name="CheckedListBox_MapAdditionalLayers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 139</value>
-  </data>
-  <data name="CheckedListBox_MapAdditionalLayers.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;CheckedListBox_MapAdditionalLayers.Name" xml:space="preserve">
-    <value>CheckedListBox_MapAdditionalLayers</value>
-  </data>
-  <data name="&gt;&gt;CheckedListBox_MapAdditionalLayers.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckedListBox_MapAdditionalLayers.Parent" xml:space="preserve">
-    <value>groupBox7</value>
-  </data>
-  <data name="&gt;&gt;CheckedListBox_MapAdditionalLayers.ZOrder" xml:space="preserve">
+  <data name="ComboBox_BordersType.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="&gt;&gt;ComboBox_BordersType.Name" xml:space="preserve">
@@ -1635,26 +981,20 @@
   <data name="&gt;&gt;groupBox8.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="ComboBox_BordersType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 13</value>
+  <data name="Button_OpenSearchWarningsSettings.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="ComboBox_BordersType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 21</value>
+  <data name="Button_OpenSearchWarningsSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 14</value>
   </data>
-  <data name="ComboBox_BordersType.TabIndex" type="System.Int32, mscorlib">
+  <data name="Button_OpenSearchWarningsSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 23</value>
+  </data>
+  <data name="Button_OpenSearchWarningsSettings.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;ComboBox_BordersType.Name" xml:space="preserve">
-    <value>ComboBox_BordersType</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_BordersType.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_BordersType.Parent" xml:space="preserve">
-    <value>groupBox8</value>
-  </data>
-  <data name="&gt;&gt;ComboBox_BordersType.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="Button_OpenSearchWarningsSettings.Text" xml:space="preserve">
+    <value>Открыть настройки</value>
   </data>
   <data name="&gt;&gt;Button_OpenSearchWarningsSettings.Name" xml:space="preserve">
     <value>Button_OpenSearchWarningsSettings</value>
@@ -1692,32 +1032,20 @@
   <data name="&gt;&gt;groupBox10.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="Button_OpenSearchWarningsSettings.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="Button_OpenSearchErrorsSettings.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="Button_OpenSearchWarningsSettings.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="Button_OpenSearchErrorsSettings.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 14</value>
   </data>
-  <data name="Button_OpenSearchWarningsSettings.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="Button_OpenSearchErrorsSettings.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 23</value>
   </data>
-  <data name="Button_OpenSearchWarningsSettings.TabIndex" type="System.Int32, mscorlib">
+  <data name="Button_OpenSearchErrorsSettings.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="Button_OpenSearchWarningsSettings.Text" xml:space="preserve">
+  <data name="Button_OpenSearchErrorsSettings.Text" xml:space="preserve">
     <value>Открыть настройки</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenSearchWarningsSettings.Name" xml:space="preserve">
-    <value>Button_OpenSearchWarningsSettings</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenSearchWarningsSettings.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenSearchWarningsSettings.Parent" xml:space="preserve">
-    <value>groupBox10</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenSearchWarningsSettings.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;Button_OpenSearchErrorsSettings.Name" xml:space="preserve">
     <value>Button_OpenSearchErrorsSettings</value>
@@ -1754,141 +1082,6 @@
   </data>
   <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="Button_OpenSearchErrorsSettings.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Button_OpenSearchErrorsSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 14</value>
-  </data>
-  <data name="Button_OpenSearchErrorsSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 23</value>
-  </data>
-  <data name="Button_OpenSearchErrorsSettings.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="Button_OpenSearchErrorsSettings.Text" xml:space="preserve">
-    <value>Открыть настройки</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenSearchErrorsSettings.Name" xml:space="preserve">
-    <value>Button_OpenSearchErrorsSettings</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenSearchErrorsSettings.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenSearchErrorsSettings.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenSearchErrorsSettings.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureMoveDown.Name" xml:space="preserve">
-    <value>Button_TextureMoveDown</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureMoveDown.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureMoveDown.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureMoveDown.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureMoveUp.Name" xml:space="preserve">
-    <value>Button_TextureMoveUp</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureMoveUp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureMoveUp.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureMoveUp.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;Button_TexturesLoad.Name" xml:space="preserve">
-    <value>Button_TexturesLoad</value>
-  </data>
-  <data name="&gt;&gt;Button_TexturesLoad.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button_TexturesLoad.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;Button_TexturesLoad.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;Button_TexturesSave.Name" xml:space="preserve">
-    <value>Button_TexturesSave</value>
-  </data>
-  <data name="&gt;&gt;Button_TexturesSave.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button_TexturesSave.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;Button_TexturesSave.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureAdd.Name" xml:space="preserve">
-    <value>Button_TextureAdd</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureAdd.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureAdd.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureAdd.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;ListBox_Textures.Name" xml:space="preserve">
-    <value>ListBox_Textures</value>
-  </data>
-  <data name="&gt;&gt;ListBox_Textures.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ListBox_Textures.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;ListBox_Textures.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureRemove.Name" xml:space="preserve">
-    <value>Button_TextureRemove</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureRemove.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureRemove.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;Button_TextureRemove.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 320</value>
-  </data>
-  <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 267</value>
-  </data>
-  <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>Текстур. объекты:</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Parent" xml:space="preserve">
-    <value>flowLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <data name="Button_TextureMoveDown.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2076,6 +1269,39 @@
   <data name="&gt;&gt;Button_TextureRemove.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 320</value>
+  </data>
+  <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 267</value>
+  </data>
+  <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Текстур. объекты:</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Parent" xml:space="preserve">
+    <value>flowLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="textBox_HOI4PixelPos.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 15</value>
+  </data>
+  <data name="textBox_HOI4PixelPos.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 20</value>
+  </data>
+  <data name="textBox_HOI4PixelPos.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
   <data name="&gt;&gt;textBox_HOI4PixelPos.Name" xml:space="preserve">
     <value>textBox_HOI4PixelPos</value>
   </data>
@@ -2111,99 +1337,6 @@
   </data>
   <data name="&gt;&gt;groupBox11.ZOrder" xml:space="preserve">
     <value>5</value>
-  </data>
-  <data name="textBox_HOI4PixelPos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 15</value>
-  </data>
-  <data name="textBox_HOI4PixelPos.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 20</value>
-  </data>
-  <data name="textBox_HOI4PixelPos.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;textBox_HOI4PixelPos.Name" xml:space="preserve">
-    <value>textBox_HOI4PixelPos</value>
-  </data>
-  <data name="&gt;&gt;textBox_HOI4PixelPos.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox_HOI4PixelPos.Parent" xml:space="preserve">
-    <value>groupBox11</value>
-  </data>
-  <data name="&gt;&gt;textBox_HOI4PixelPos.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>groupBox9</value>
-  </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;textBox_PixelPos.Name" xml:space="preserve">
-    <value>textBox_PixelPos</value>
-  </data>
-  <data name="&gt;&gt;textBox_PixelPos.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox_PixelPos.Parent" xml:space="preserve">
-    <value>groupBox9</value>
-  </data>
-  <data name="&gt;&gt;textBox_PixelPos.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;textBox_SelectedObjectId.Name" xml:space="preserve">
-    <value>textBox_SelectedObjectId</value>
-  </data>
-  <data name="&gt;&gt;textBox_SelectedObjectId.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox_SelectedObjectId.Parent" xml:space="preserve">
-    <value>groupBox9</value>
-  </data>
-  <data name="&gt;&gt;textBox_SelectedObjectId.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>groupBox9</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="groupBox9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 640</value>
-  </data>
-  <data name="groupBox9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 73</value>
-  </data>
-  <data name="groupBox9.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="groupBox9.Text" xml:space="preserve">
-    <value>Выбор объекта:</value>
-  </data>
-  <data name="&gt;&gt;groupBox9.Name" xml:space="preserve">
-    <value>groupBox9</value>
-  </data>
-  <data name="&gt;&gt;groupBox9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox9.Parent" xml:space="preserve">
-    <value>flowLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;groupBox9.ZOrder" xml:space="preserve">
-    <value>6</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2307,12 +1440,69 @@
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Search.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 22</value>
+  <data name="groupBox9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 640</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Search.Text" xml:space="preserve">
-    <value>Поиск</value>
+  <data name="groupBox9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 73</value>
   </data>
+  <data name="groupBox9.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>Выбор объекта:</value>
+  </data>
+  <data name="&gt;&gt;groupBox9.Name" xml:space="preserve">
+    <value>groupBox9</value>
+  </data>
+  <data name="&gt;&gt;groupBox9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox9.Parent" xml:space="preserve">
+    <value>flowLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;groupBox9.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="flowLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="flowLayoutPanel2.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="flowLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 37</value>
+  </data>
+  <data name="flowLayoutPanel2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="flowLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 868</value>
+  </data>
+  <data name="flowLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel2.Name" xml:space="preserve">
+    <value>flowLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel2.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Panel_Map.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="Panel_Map.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <metadata name="ContextMenuStrip_Map.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>128, 19</value>
+  </metadata>
   <data name="ToolStripTextBox_Map_Search_Input.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
@@ -2343,14 +1533,14 @@
   <data name="ToolStripMenuItem_Map_Search_Region.Text" xml:space="preserve">
     <value>Найти регион(-ы)</value>
   </data>
-  <data name="toolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 6</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripMenuItem_Map_Search.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 22</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Province.Text" xml:space="preserve">
-    <value>Провинция: 0</value>
+  <data name="ToolStripMenuItem_Map_Search.Text" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="toolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 6</value>
   </data>
   <data name="ToolStripComboBox_Map_Province_Type.Items" xml:space="preserve">
     <value>land</value>
@@ -2379,23 +1569,23 @@
   <data name="toolStripSeparator24.Size" type="System.Drawing.Size, System.Drawing">
     <value>178, 6</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Province_VictoryPoints_Info.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Province_VictoryPoints_Info.Text" xml:space="preserve">
-    <value>Очки победы:</value>
-  </data>
   <data name="ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
   </data>
-  <data name="ToolStripMenuItem_Map_State.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripMenuItem_Map_Province_VictoryPoints_Info.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province_VictoryPoints_Info.Text" xml:space="preserve">
+    <value>Очки победы:</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Province.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 22</value>
   </data>
-  <data name="ToolStripMenuItem_Map_State.Text" xml:space="preserve">
-    <value>Область: 0</value>
+  <data name="ToolStripMenuItem_Map_Province.Text" xml:space="preserve">
+    <value>Провинция: 0</value>
   </data>
   <data name="ToolStripComboBox_Map_State_Id.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 23</value>
@@ -2424,11 +1614,11 @@
   <data name="ToolStripMenuItem_Map_State_OpenFileInEditor.Text" xml:space="preserve">
     <value>Открыть в Редакторе</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Region.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripMenuItem_Map_State.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 22</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Region.Text" xml:space="preserve">
-    <value>Регион: 0</value>
+  <data name="ToolStripMenuItem_Map_State.Text" xml:space="preserve">
+    <value>Область: 0</value>
   </data>
   <data name="ToolStripComboBox_Map_Region_Id.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 23</value>
@@ -2460,14 +1650,14 @@
   <data name="ToolStripMenuItem_Map_Region_OpenFileInEditor.Text" xml:space="preserve">
     <value>Открыть в Редакторе</value>
   </data>
-  <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 6</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Adjacency.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripMenuItem_Map_Region.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 22</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Adjacency.Text" xml:space="preserve">
-    <value>Смежность</value>
+  <data name="ToolStripMenuItem_Map_Region.Text" xml:space="preserve">
+    <value>Регион: 0</value>
+  </data>
+  <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_Create.Size" type="System.Drawing.Size, System.Drawing">
     <value>260, 22</value>
@@ -2595,11 +1785,11 @@
   <data name="ToolStripTextBox_Map_Adjacency_Comment.Size" type="System.Drawing.Size, System.Drawing">
     <value>200, 23</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Railway.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripMenuItem_Map_Adjacency.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 22</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Railway.Text" xml:space="preserve">
-    <value>Железная дорога</value>
+  <data name="ToolStripMenuItem_Map_Adjacency.Text" xml:space="preserve">
+    <value>Смежность</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Create.ShortcutKeyDisplayString" xml:space="preserve">
     <value>CTRL+R</value>
@@ -2691,11 +1881,11 @@
   <data name="ToolStripMenuItem_Map_Railway_Remove.Text" xml:space="preserve">
     <value>Удалить Ж/Д</value>
   </data>
-  <data name="ToolStripMenuItem_Map_SupplyHub.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripMenuItem_Map_Railway.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 22</value>
   </data>
-  <data name="ToolStripMenuItem_Map_SupplyHub.Text" xml:space="preserve">
-    <value>Узел снабжения</value>
+  <data name="ToolStripMenuItem_Map_Railway.Text" xml:space="preserve">
+    <value>Железная дорога</value>
   </data>
   <data name="ToolStripMenuItem_Map_SupplyHub_Create.ShortcutKeyDisplayString" xml:space="preserve">
     <value>CTRL+H</value>
@@ -2715,14 +1905,14 @@
   <data name="ToolStripMenuItem_Map_SupplyHub_Remove.Text" xml:space="preserve">
     <value>Удалить узел</value>
   </data>
-  <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 6</value>
-  </data>
-  <data name="ToolStripMenuItem_Map_Actions.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripMenuItem_Map_SupplyHub.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 22</value>
   </data>
-  <data name="ToolStripMenuItem_Map_Actions.Text" xml:space="preserve">
-    <value>Дополнительные действия</value>
+  <data name="ToolStripMenuItem_Map_SupplyHub.Text" xml:space="preserve">
+    <value>Узел снабжения</value>
+  </data>
+  <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions_Merge.Size" type="System.Drawing.Size, System.Drawing">
     <value>221, 22</value>
@@ -2735,6 +1925,21 @@
   </data>
   <data name="ToolStripMenuItem_Map_Actions_Merge_All.Text" xml:space="preserve">
     <value>Объединить все с заменой</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Actions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>222, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Actions.Text" xml:space="preserve">
+    <value>Дополнительные действия</value>
+  </data>
+  <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 198</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip_Map.Name" xml:space="preserve">
+    <value>ContextMenuStrip_Map</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip_Map.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Panel_ColorPicker_Button_Close.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2814,6 +2019,114 @@
   <data name="&gt;&gt;ElementHost_ColorPicker.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="Panel_ColorPicker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="Panel_ColorPicker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 419</value>
+  </data>
+  <data name="Panel_ColorPicker.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Panel_ColorPicker.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker.Name" xml:space="preserve">
+    <value>Panel_ColorPicker</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker.Parent" xml:space="preserve">
+    <value>Panel_Map</value>
+  </data>
+  <data name="&gt;&gt;Panel_ColorPicker.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Panel_Map.Location" type="System.Drawing.Point, System.Drawing">
+    <value>136, 40</value>
+  </data>
+  <data name="Panel_Map.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 3, 0, 0</value>
+  </data>
+  <data name="Panel_Map.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1434, 865</value>
+  </data>
+  <data name="Panel_Map.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Panel_Map.Name" xml:space="preserve">
+    <value>Panel_Map</value>
+  </data>
+  <data name="&gt;&gt;Panel_Map.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Panel_Map.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;Panel_Map.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="tableLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1570, 905</value>
+  </data>
+  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
+    <value>TabPage_Map</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="FlowLayoutPanel_ToolBar" Row="0" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="flowLayoutPanel2" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="Panel_Map" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="TabPage_Map.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="TabPage_Map.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPage_Map.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1576, 911</value>
+  </data>
+  <data name="TabPage_Map.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TabPage_Map.Text" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="&gt;&gt;TabPage_Map.Name" xml:space="preserve">
+    <value>TabPage_Map</value>
+  </data>
+  <data name="&gt;&gt;TabPage_Map.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPage_Map.Parent" xml:space="preserve">
+    <value>TabControl_Main</value>
+  </data>
+  <data name="&gt;&gt;TabPage_Map.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="TabPage_Buildings.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
   </data>
@@ -2840,6 +2153,21 @@
   </data>
   <data name="&gt;&gt;TabPage_Buildings.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="flowLayoutPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left</value>
+  </data>
+  <data name="flowLayoutPanel1.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 6</value>
+  </data>
+  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>542, 410</value>
+  </data>
+  <data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;flowLayoutPanel1.Name" xml:space="preserve">
     <value>flowLayoutPanel1</value>
@@ -2879,33 +2207,6 @@
   </data>
   <data name="&gt;&gt;TabPage_Resources.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="flowLayoutPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left</value>
-  </data>
-  <data name="flowLayoutPanel1.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 6</value>
-  </data>
-  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>542, 410</value>
-  </data>
-  <data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel1.Name" xml:space="preserve">
-    <value>flowLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel1.Parent" xml:space="preserve">
-    <value>TabPage_Resources</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel1.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="TabPage_Localization.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -2955,51 +2256,33 @@
   <data name="&gt;&gt;TabPage_Home.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="TabControl_Main.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="TabControl_Main.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 24</value>
+  </data>
+  <data name="TabControl_Main.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1584, 937</value>
+  </data>
+  <data name="TabControl_Main.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TabControl_Main.Name" xml:space="preserve">
+    <value>TabControl_Main</value>
+  </data>
+  <data name="&gt;&gt;TabControl_Main.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabControl_Main.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TabControl_Main.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <metadata name="MenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="MenuStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="MenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1584, 24</value>
-  </data>
-  <data name="MenuStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="MenuStrip1.Text" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.Name" xml:space="preserve">
-    <value>MenuStrip1</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="ToolStripMenuItem_File.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 20</value>
-  </data>
-  <data name="ToolStripMenuItem_File.Text" xml:space="preserve">
-    <value>Файл</value>
-  </data>
-  <data name="ToolStripMenuItem_Save.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save.Text" xml:space="preserve">
-    <value>Сохранить</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Maps.Text" xml:space="preserve">
-    <value>Карты</value>
-  </data>
   <data name="ToolStripMenuItem_Save_Maps_All.Size" type="System.Drawing.Size, System.Drawing">
     <value>210, 22</value>
   </data>
@@ -3045,6 +2328,12 @@
   <data name="ToolStripMenuItem_Save_Maps_Heights.Text" xml:space="preserve">
     <value>Карта высот и нормалей</value>
   </data>
+  <data name="ToolStripMenuItem_Save_Maps.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Maps.Text" xml:space="preserve">
+    <value>Карты</value>
+  </data>
   <data name="ToolStripMenuItem_Save_Definition.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 22</value>
   </data>
@@ -3059,12 +2348,6 @@
   </data>
   <data name="ToolStripMenuItem_Save_Adjacencies.Text" xml:space="preserve">
     <value>Смежности</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Supply.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Save_Supply.Text" xml:space="preserve">
-    <value>Снабжение</value>
   </data>
   <data name="ToolStripMenuItem_Save_Supply_All.Size" type="System.Drawing.Size, System.Drawing">
     <value>173, 22</value>
@@ -3087,6 +2370,12 @@
   <data name="ToolStripMenuItem_Save_Supply_Hubs.Text" xml:space="preserve">
     <value>Узлы снабжения</value>
   </data>
+  <data name="ToolStripMenuItem_Save_Supply.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save_Supply.Text" xml:space="preserve">
+    <value>Снабжение</value>
+  </data>
   <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
     <value>135, 6</value>
   </data>
@@ -3102,6 +2391,12 @@
   <data name="ToolStripMenuItem_Save_Regions.Text" xml:space="preserve">
     <value>Регионы</value>
   </data>
+  <data name="ToolStripMenuItem_Save.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Save.Text" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
   <data name="ToolStripMenuItem_SaveAll.ShortcutKeyDisplayString" xml:space="preserve">
     <value>Ctrl+S</value>
   </data>
@@ -3110,21 +2405,6 @@
   </data>
   <data name="ToolStripMenuItem_SaveAll.Text" xml:space="preserve">
     <value>Сохранить всё</value>
-  </data>
-  <data name="ToolStripMenuItem_Load.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="ToolStripMenuItem_Load.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load.Text" xml:space="preserve">
-    <value>Загрузить</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Maps.Text" xml:space="preserve">
-    <value>Карты</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_All.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 22</value>
@@ -3171,6 +2451,12 @@
   <data name="ToolStripMenuItem_Load_Maps_Heights.Text" xml:space="preserve">
     <value>Карта высот</value>
   </data>
+  <data name="ToolStripMenuItem_Load_Maps.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Maps.Text" xml:space="preserve">
+    <value>Карты</value>
+  </data>
   <data name="ToolStripMenuItem_Load_Definitions.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 22</value>
   </data>
@@ -3182,12 +2468,6 @@
   </data>
   <data name="ToolStripMenuItem_Load_Adjacencies.Text" xml:space="preserve">
     <value>Смежности</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Supply.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Load_Supply.Text" xml:space="preserve">
-    <value>Снабжение</value>
   </data>
   <data name="ToolStripMenuItem_Load_Supply_All.Size" type="System.Drawing.Size, System.Drawing">
     <value>173, 22</value>
@@ -3209,6 +2489,21 @@
   </data>
   <data name="ToolStripMenuItem_Load_Supply_Hubs.Text" xml:space="preserve">
     <value>Узлы снабжения</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Supply.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load_Supply.Text" xml:space="preserve">
+    <value>Снабжение</value>
+  </data>
+  <data name="ToolStripMenuItem_Load.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ToolStripMenuItem_Load.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Load.Text" xml:space="preserve">
+    <value>Загрузить</value>
   </data>
   <data name="ToolStripMenuItem_LoadAll.ShortcutKeyDisplayString" xml:space="preserve">
     <value>Ctrl+L</value>
@@ -3237,12 +2532,6 @@
   <data name="ToolStripMenuItem_UpdateAll.Text" xml:space="preserve">
     <value>Обновить всё</value>
   </data>
-  <data name="ToolStripMenuItem_Export.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Export.Text" xml:space="preserve">
-    <value>Экспорт</value>
-  </data>
   <data name="ToolStripMenuItem_Export_MainLayer.Size" type="System.Drawing.Size, System.Drawing">
     <value>190, 22</value>
   </data>
@@ -3254,6 +2543,12 @@
   </data>
   <data name="ToolStripMenuItem_Export_SelectedBorders.Text" xml:space="preserve">
     <value>Выбранные границы</value>
+  </data>
+  <data name="ToolStripMenuItem_Export.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Export.Text" xml:space="preserve">
+    <value>Экспорт</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>190, 6</value>
@@ -3276,11 +2571,11 @@
   <data name="ToolStripMenuItem_Exit.Text" xml:space="preserve">
     <value>Выход</value>
   </data>
-  <data name="ToolStripMenuItem_Edit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
+  <data name="ToolStripMenuItem_File.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 20</value>
   </data>
-  <data name="ToolStripMenuItem_Edit.Text" xml:space="preserve">
-    <value>Правка</value>
+  <data name="ToolStripMenuItem_File.Text" xml:space="preserve">
+    <value>Файл</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Undo.ShortcutKeyDisplayString" xml:space="preserve">
     <value>Ctrl+Z</value>
@@ -3303,12 +2598,6 @@
   <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
     <value>217, 6</value>
   </data>
-  <data name="ToolStripMenuItem_Edit_Actions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Edit_Actions.Text" xml:space="preserve">
-    <value>Расширенные действия</value>
-  </data>
   <data name="ToolStripMenuItem_Edit_Actions_CreateObject.Size" type="System.Drawing.Size, System.Drawing">
     <value>332, 22</value>
   </data>
@@ -3330,11 +2619,11 @@
   <data name="ToolStripMenuItem_Edit_Actions_FindMapChanges.Text" xml:space="preserve">
     <value>Найти изменения карты</value>
   </data>
-  <data name="ToolStripMenuItem_Edit_AutoTools.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripMenuItem_Edit_Actions.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 22</value>
   </data>
-  <data name="ToolStripMenuItem_Edit_AutoTools.Text" xml:space="preserve">
-    <value>Инструменты авторасчёта</value>
+  <data name="ToolStripMenuItem_Edit_Actions.Text" xml:space="preserve">
+    <value>Расширенные действия</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Size" type="System.Drawing.Size, System.Drawing">
     <value>297, 22</value>
@@ -3363,12 +2652,6 @@
   <data name="toolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
     <value>294, 6</value>
   </data>
-  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Text" xml:space="preserve">
-    <value>Перегенерировать цвета провинций</value>
-  </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random.Size" type="System.Drawing.Size, System.Drawing">
     <value>250, 22</value>
   </data>
@@ -3389,6 +2672,12 @@
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings.Text" xml:space="preserve">
     <value>Открыть настройки генерации</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Text" xml:space="preserve">
+    <value>Перегенерировать цвета провинций</value>
   </data>
   <data name="toolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
     <value>294, 6</value>
@@ -3414,17 +2703,23 @@
   <data name="ToolStripMenuItem_Edit_AutoTools_RegionsValidation.Text" xml:space="preserve">
     <value>Валидация регионов</value>
   </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Edit_AutoTools.Text" xml:space="preserve">
+    <value>Инструменты авторасчёта</value>
+  </data>
   <data name="ToolStripMenuItem_Edit_Scripts.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 22</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Scripts.Text" xml:space="preserve">
     <value>Скрипты</value>
   </data>
-  <data name="ToolStripMenuItem_Data.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 20</value>
+  <data name="ToolStripMenuItem_Edit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
   </data>
-  <data name="ToolStripMenuItem_Data.Text" xml:space="preserve">
-    <value>Данные</value>
+  <data name="ToolStripMenuItem_Edit.Text" xml:space="preserve">
+    <value>Правка</value>
   </data>
   <data name="ToolStripComboBox_Data_Bookmark.Size" type="System.Drawing.Size, System.Drawing">
     <value>250, 23</value>
@@ -3456,23 +2751,23 @@
   <data name="toolStripSeparator31.Size" type="System.Drawing.Size, System.Drawing">
     <value>307, 6</value>
   </data>
-  <data name="ToolStripMenuItem_Data_Recovery.Size" type="System.Drawing.Size, System.Drawing">
-    <value>310, 22</value>
-  </data>
-  <data name="ToolStripMenuItem_Data_Recovery.Text" xml:space="preserve">
-    <value>Восстановление старых данных</value>
-  </data>
   <data name="ToolStripMenuItem_Data_Recovery_Regions.Size" type="System.Drawing.Size, System.Drawing">
     <value>212, 22</value>
   </data>
   <data name="ToolStripMenuItem_Data_Recovery_Regions.Text" xml:space="preserve">
     <value>Стратегические регионы</value>
   </data>
-  <data name="ToolStripMenuItem_Help.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 20</value>
+  <data name="ToolStripMenuItem_Data_Recovery.Size" type="System.Drawing.Size, System.Drawing">
+    <value>310, 22</value>
   </data>
-  <data name="ToolStripMenuItem_Help.Text" xml:space="preserve">
-    <value>Помощь</value>
+  <data name="ToolStripMenuItem_Data_Recovery.Text" xml:space="preserve">
+    <value>Восстановление старых данных</value>
+  </data>
+  <data name="ToolStripMenuItem_Data.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 20</value>
+  </data>
+  <data name="ToolStripMenuItem_Data.Text" xml:space="preserve">
+    <value>Данные</value>
   </data>
   <data name="ToolStripMenuItem_Help_Documentation.Size" type="System.Drawing.Size, System.Drawing">
     <value>154, 22</value>
@@ -3486,11 +2781,11 @@
   <data name="ToolStripMenuItem_Help_About.Text" xml:space="preserve">
     <value>О программе</value>
   </data>
-  <data name="ToolStripMenuItem_Language.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 20</value>
+  <data name="ToolStripMenuItem_Help.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 20</value>
   </data>
-  <data name="ToolStripMenuItem_Language.Text" xml:space="preserve">
-    <value>Русский (RU)</value>
+  <data name="ToolStripMenuItem_Help.Text" xml:space="preserve">
+    <value>Помощь</value>
   </data>
   <data name="ToolStripMenuItem_Language_RU.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 22</value>
@@ -3503,6 +2798,12 @@
   </data>
   <data name="ToolStripMenuItem_Language_EN.Text" xml:space="preserve">
     <value>Английский (EN)</value>
+  </data>
+  <data name="ToolStripMenuItem_Language.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 20</value>
+  </data>
+  <data name="ToolStripMenuItem_Language.Text" xml:space="preserve">
+    <value>Русский (RU)</value>
   </data>
   <data name="ToolStripMenuItem_GitHub.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 20</value>
@@ -3521,6 +2822,30 @@
   </data>
   <data name="ToolStripMenuItem_Telegram.Text" xml:space="preserve">
     <value>Telegram</value>
+  </data>
+  <data name="MenuStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="MenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1584, 24</value>
+  </data>
+  <data name="MenuStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="MenuStrip1.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.Name" xml:space="preserve">
+    <value>MenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

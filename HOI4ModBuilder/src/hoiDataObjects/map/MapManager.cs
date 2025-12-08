@@ -744,7 +744,8 @@ namespace HOI4ModBuilder.managers
             var button = e.Button;
             _mouseState = EnumMouseState.UP;
 
-            ActionsBatch.Execute();
+            if (ActionsBatch.Enabled)
+                ActionsBatch.Execute();
             ActionsBatch.Enabled = false;
 
             if (enumTool == EnumTool.CURSOR)
