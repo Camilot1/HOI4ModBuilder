@@ -625,6 +625,7 @@
     <Compile Include="src\scripts\commands\functions\files\GetModDirectoryPathFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\GetMapSizeFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\provinces\GetAllProvincesIdsFunc.cs" />
+    <Compile Include="src\scripts\commands\functions\map\provinces\GetMaxProvinceIdFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\provinces\GetProvinceAdjacentProvincesIdsFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\provinces\GetProvinceCenterFunc.cs" />
     <Compile Include="src\scripts\commands\functions\map\provinces\GetProvincePixelsCountFunc.cs" />
