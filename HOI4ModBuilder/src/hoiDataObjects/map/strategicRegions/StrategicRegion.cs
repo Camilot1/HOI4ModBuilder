@@ -302,8 +302,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                                     { "{provinceId}", $"{provinceId}" }
                                 }
                             );
-                        Provinces.Add(province);
-                        if (!_silentLoad) province.Region = this;
+
+                        if (province != null)
+                        {
+                            Provinces.Add(province);
+                            if (!_silentLoad)
+                                province.Region = this;
+                        }
                     }
                     Provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
                     break;

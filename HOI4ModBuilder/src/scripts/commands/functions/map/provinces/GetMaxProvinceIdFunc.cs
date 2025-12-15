@@ -43,7 +43,7 @@ namespace HOI4ModBuilder.src.scripts.commands.functions.map.provinces
                     (o) => o is INumberObject obj
                 );
 
-                maxProvinceId.Set(lineIndex, args, new IntObject(ProvinceManager.NextVacantProvinceId - 1));
+                maxProvinceId.Set(lineIndex, args, new IntObject(ProvinceManager.MaxProvinceId));
             };
         }
     }

@@ -70,7 +70,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 if (_color == value)
                     return;
 
-                ProvinceManager.HandleProvinceColorColor(_color, value);
+                ProvinceManager.HandleProvinceColorChange(_color, value);
                 _color = value;
             }
         }

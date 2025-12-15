@@ -14,7 +14,7 @@ namespace HOI4ModBuilder.src.managers.mapChecks.warnings.checkers
                 int height = MapManager.MapSize.y;
                 int x, y;
 
-                bool[] usedProvinces = new bool[ushort.MaxValue];
+                bool[] usedProvinces = new bool[ProvinceManager.MAX_PROVINCES_COUNT];
                 bool[] usedPixels = new bool[width * height];
                 int[] values = MapManager.ProvincesPixels;
                 int pixelCount = values.Length;

@@ -31,7 +31,8 @@ namespace HOI4ModBuilder.managers
 
         public static bool NeedToSave { get; set; }
         private static bool _hasProcessedDefinitionFile;
-        public static ushort NextVacantProvinceId { get; set; }
+        public static ushort NextVacantProvinceId { get; private set; }
+        public static ushort MaxProvinceId { get; private set; }
         public static List<Province> GroupSelectedProvinces { get; private set; } = new List<Province> { };
         public static Point2F GetGroupSelectedProvincesCenter()
         {
@@ -44,7 +45,8 @@ namespace HOI4ModBuilder.managers
         public static Province SelectedProvince { get; set; }
 
         public static Province RMBProvince { get; set; }
-        private static Province[] _provincesById = new Province[ushort.MaxValue];
+        public static readonly ushort MAX_PROVINCES_COUNT = ushort.MaxValue;
+        private static Province[] _provincesById = new Province[MAX_PROVINCES_COUNT];
         private static Dictionary<int, Province> _provincesByColor = new Dictionary<int, Province>();
         public static void ForEachProvince(Action<Province> action)
         {
@@ -76,10 +78,11 @@ namespace HOI4ModBuilder.managers
         public static void Load(BaseSettings settings)
         {
             NextVacantProvinceId = 1;
+            MaxProvinceId = 0;
 
             Deselect();
 
-            _provincesById = new Province[ushort.MaxValue];
+            _provincesById = new Province[MAX_PROVINCES_COUNT];
             _provincesByColor = new Dictionary<int, Province>();
 
             var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
@@ -178,21 +181,6 @@ namespace HOI4ModBuilder.managers
 
             return true;
 
-        }
-
-        public static void Add(Province province, out bool canAddById, out bool canAddByColor)
-        {
-            ushort id = province.Id;
-            int color = province.Color;
-            canAddById = _provincesById[id] == null;
-            canAddByColor = !_provincesByColor.ContainsKey(color);
-
-            if (canAddById && canAddByColor)
-            {
-                _provincesById[id] = province;
-                _provincesByColor[color] = province;
-                NeedToSave = true;
-            }
         }
 
         public static void GetMinMaxMapProvinceSizes(out int minCount, out int maxCount)
@@ -299,16 +287,6 @@ namespace HOI4ModBuilder.managers
             return totalPath;
         }
 
-        private static void GetMaxAndSum(Color3B color, out int max, out int sum)
-        {
-            max = color.red;
-            if (color.green > max)
-                max = color.green;
-            if (color.blue > max)
-                max = color.blue;
-            sum = color.red + color.green + color.blue;
-        }
-
         public static bool IsValidLandColor(Color3B color, EnumProvinceType type)
         {
             ColorUtils.RgbToHsv(color.red, color.green, color.blue, out var h, out var s, out var v);
@@ -354,7 +332,8 @@ namespace HOI4ModBuilder.managers
                 c => !_provincesByColor.ContainsKey(c)
             ));
 
-        public static bool Contains(ushort id) => _provincesById[id] != null;
+        public static bool Contains(ushort id)
+            => _provincesById[id] != null;
         public static List<ushort> GetIDs()
         {
             var ids = new List<ushort>(_provincesByColor.Count);
@@ -383,51 +362,57 @@ namespace HOI4ModBuilder.managers
         public static int ProvincesCount
             => _provincesByColor.Count;
 
-        public static void Add(ushort id, Province province)
-        {
-            _provincesById[id] = province;
-            NeedToSave = true;
-        }
-
-        public static void Add(int color, Province province)
-        {
-            _provincesByColor[color] = province;
-            NeedToSave = true;
-        }
-
         public static bool CreateNewProvince(int color)
         {
-            if (_provincesByColor.ContainsKey(color)) return false;
+            if (_provincesByColor.ContainsKey(color)) 
+                return false;
 
-            var ids = new List<ushort>(GetIDs());
-            ids.Sort();
+            var p = new Province(NextVacantProvinceId, color);
 
-            ushort prevId = 0;
-            Province p;
-            ushort newId;
-            foreach (ushort id in ids)
-            {
-                if (id - prevId > 1)
-                {
-                    newId = (ushort)(prevId + 1);
-                    p = new Province(newId, color);
-
-                    _provincesById[newId] = p;
-                    _provincesByColor[color] = p;
-                    NeedToSave = true;
-                    return true;
-                }
-                else prevId = id;
-            }
-
-            newId = (ushort)(prevId + 1);
-            p = new Province(newId, color);
-
-            _provincesById[newId] = p;
+            _provincesById[p.Id] = p;
             _provincesByColor[color] = p;
-            NextVacantProvinceId = (ushort)(newId + 1);
+
+            OnIdUse(p.Id);
+
             NeedToSave = true;
             return true;
+        }
+
+        public static void OnIdUse(ushort id)
+        {
+            if (id > MaxProvinceId)
+                MaxProvinceId = id;
+
+            if (NextVacantProvinceId != id)
+                return;
+
+            for (int i = id; i < _provincesById.Length; i++)
+            {
+                if (_provincesById[i] == null)
+                {
+                    NextVacantProvinceId = (ushort)i;
+                    break;
+                }
+            }
+        }
+
+        public static void OnIdDeuse(ushort id)
+        {
+            if (NextVacantProvinceId > id)
+                NextVacantProvinceId = id;
+
+            if (MaxProvinceId != id)
+                return;
+
+            for (int i = id; i > 0; i--)
+            {
+                if (_provincesById[i] != null)
+                {
+                    MaxProvinceId = (ushort)i;
+                    return;
+                }
+            }
+            MaxProvinceId = 0;
         }
 
         public static bool RemoveProvinceByColor(int color)
@@ -438,7 +423,7 @@ namespace HOI4ModBuilder.managers
             return RemoveProvinceData(province);
         }
 
-        public static void HandleProvinceColorColor(int fromColor, int toColor)
+        public static void HandleProvinceColorChange(int fromColor, int toColor)
         {
             if (_provincesByColor.ContainsKey(toColor))
                 throw new Exception(GuiLocManager.GetLoc(
@@ -461,16 +446,7 @@ namespace HOI4ModBuilder.managers
             _provincesById[toID] = _provincesById[fromID];
             _provincesById[fromID] = null;
 
-            if (fromID == NextVacantProvinceId - 1)
-            {
-                for (int i = NextVacantProvinceId - 1; i > 0; i--)
-                {
-                    if (_provincesById[i] == null)
-                        NextVacantProvinceId = (ushort)i;
-                    else
-                        break;
-                }
-            }
+            OnIdDeuse(fromID);
 
             NeedToSave = true;
         }
@@ -496,6 +472,8 @@ namespace HOI4ModBuilder.managers
             AdjacenciesManager.RemoveProvinceData(province);
             StateManager.RemoveProvinceData(province);
             StrategicRegionManager.RemoveProvinceData(province);
+
+            OnIdDeuse(province.Id);
 
             NeedToSave = true;
             return true;
@@ -835,6 +813,8 @@ namespace HOI4ModBuilder.managers
                     var province = new Province(id, color, type, isCoastal, terrain, continentId);
                     _provincesById[id] = province;
                     _provincesByColor.Add(color, province);
+
+                    OnIdUse(id);
                 }
                 catch (Exception)
                 {
