@@ -446,6 +446,7 @@ namespace HOI4ModBuilder.managers
             _provincesById[toID] = _provincesById[fromID];
             _provincesById[fromID] = null;
 
+            OnIdUse(toID);
             OnIdDeuse(fromID);
 
             NeedToSave = true;

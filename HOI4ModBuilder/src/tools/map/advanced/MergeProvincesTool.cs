@@ -92,7 +92,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             if (ProvinceManager.NextVacantProvinceId == 0)
                 throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_PROVINCE_MERGE_NEXT_VACANT_PROVINCE_ID_IS_ZERO));
 
-            ushort provinceIdToReplace = (ushort)(ProvinceManager.NextVacantProvinceId - 1);
+            ushort provinceIdToReplace = ProvinceManager.MaxProvinceId;
 
             if (!ProvinceManager.TryGet(provinceIdToReplace, out Province provinceToReplace))
                 throw new Exception(GuiLocManager.GetLoc(
