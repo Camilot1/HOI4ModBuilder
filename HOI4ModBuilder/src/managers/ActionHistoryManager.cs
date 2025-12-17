@@ -154,6 +154,20 @@ namespace HOI4ModBuilder.src.managers
                 _pairs.Clear();
                 _pairs.Capacity = 0;
             }
+
+            public void CancelAndRollback()
+            {
+                if (_pairs.Count > 0)
+                {
+                    for (int i = _pairs.Count - 1; i >= 0; i--)
+                        _pairs[i].undo?.Invoke();
+
+                    _pairs.Clear();
+                    _pairs.Capacity = 0;
+                }
+
+                Enabled = false;
+            }
         }
 
         class ActionPair

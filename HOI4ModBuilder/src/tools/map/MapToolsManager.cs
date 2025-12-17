@@ -71,7 +71,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                 }
                 catch (CancelActionException _)
                 {
-                    MapManager.ActionsBatch.Enabled = false;
+                    MapManager.IgnoreNextMouseDown();
+                    MapManager.ActionsBatch.CancelAndRollback();
                 }
             });
         }

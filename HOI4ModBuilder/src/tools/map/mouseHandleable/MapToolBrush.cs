@@ -116,6 +116,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 
             if (!ProvinceManager.TryGet(newColor, out Province province))
             {
+                MapManager.ActionsBatch.Enabled = false;
+
                 var text = GuiLocManager.GetLoc(
                     EnumLocKey.WARNINGS_TRIED_TO_PAINT_WITH_UNKNOWN_PROVINCE_COLOR,
                     new Dictionary<string, string> { { "{color}", new Color3B(newColor).ToString() } }

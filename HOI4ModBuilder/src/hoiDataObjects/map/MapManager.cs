@@ -24,6 +24,7 @@ using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Threading;
@@ -44,6 +45,7 @@ namespace HOI4ModBuilder.managers
         public static Point2D MapSizeFactor { get => _mapSizeFactor; private set => _mapSizeFactor = value; }
         private static Point2D _pointerSize = new Point2D { x = 1, y = 1 };
         private static EnumMouseState _mouseState = EnumMouseState.NONE;
+        private static long _ignoreNextMouseDownSetTimestamp;
         public static Bounds4US selectBounds;
 
         public static int[] ProvincesPixels { get; set; } //RGBA
@@ -725,6 +727,19 @@ namespace HOI4ModBuilder.managers
         {
             Point2D pos = CalculateMapPos(e.X, e.Y, viewportInfo);
             _mousePrevPoint = pos;
+
+            if (_ignoreNextMouseDownSetTimestamp != 0)
+            {
+                var elapsedMs = (Stopwatch.GetTimestamp() - _ignoreNextMouseDownSetTimestamp) * 1000d / Stopwatch.Frequency;
+                _ignoreNextMouseDownSetTimestamp = 0;
+
+                if (elapsedMs < 50)
+                {
+                    ActionsBatch.Enabled = false;
+                    return;
+                }
+            }
+
             _mouseState = EnumMouseState.DOWN;
 
             if (enumTool != EnumTool.CURSOR)
@@ -736,6 +751,11 @@ namespace HOI4ModBuilder.managers
                 IsMapDragged = true;
 
             _mouseState = EnumMouseState.NONE;
+        }
+
+        public static void IgnoreNextMouseDown()
+        {
+            _ignoreNextMouseDownSetTimestamp = Stopwatch.GetTimestamp();
         }
 
         public static void HandleMouseUp(MouseEventArgs e, ViewportInfo viewportInfo, EnumTool enumTool, EnumEditLayer enumEditLayer)
