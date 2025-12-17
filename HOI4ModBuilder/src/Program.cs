@@ -67,6 +67,7 @@ namespace HOI4ModBuilder
             CopyFiles(basePath, debugPath, releasePath, new[] { "data", "shaders" });
             CopyFiles(basePath, debugPath, releasePath, new[] { "localization" });
             CopyDirectoryRecursive(basePath, debugPath, releasePath, new[] { "data", "savePatterns" });
+            CopyDirectoryRecursive(basePath, debugPath, releasePath, new[] { "data", "scripts" });
         }
 
         private static void EnsurePrivateDllResolution()
