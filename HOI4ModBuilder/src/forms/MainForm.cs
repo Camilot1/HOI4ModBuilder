@@ -2077,6 +2077,36 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Statistics_Click(object sender, EventArgs e)
             => new StatisticsForm().Show();
 
+        private void ToolStripMenuItem_Map_Search_Position_Game_Click(object sender, EventArgs e)
+        {
+            Logger.TryOrLog(() =>
+            {
+                string[] values = ToolStripTextBox_Map_Search_Input.Text.Split(',');
+                if (values.Length != 2) values = ToolStripTextBox_Map_Search_Input.Text.Split(';');
+                if (values.Length != 2) values = ToolStripTextBox_Map_Search_Input.Text.Split(' ');
+                if (values.Length != 2)
+                {
+                    Logger.LogSingleErrorMessage(
+                        EnumLocKey.SINGLE_MESSAGE_SEARCH_POSITION_INCORRECT_SEPARATOR,
+                        new Dictionary<string, string> { { "{allowedSeparators}", "1) ',' 2) ';' 3) ' '" } }
+                    );
+                    return;
+                }
+
+                try
+                {
+                    float x = float.Parse(values[0].Trim());
+                    float y = float.Parse(values[1].Trim());
+                    MapManager.FocusOn(x, MapManager.MapSize.y - y);
+                }
+                catch (Exception _)
+                {
+                    Logger.LogSingleErrorMessage(EnumLocKey.SINGLE_MESSAGE_SEARCH_POSITION_INCORRECT_COORDS);
+                    return;
+                }
+            });
+        }
+
         public void SetGroupBoxProgressBackColor(Color color)
             => GroupBox_Progress.BackColor = color;
     }

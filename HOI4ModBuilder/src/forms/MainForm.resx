@@ -1510,25 +1510,34 @@
     <value>100, 23</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Position.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
+    <value>229, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Position.Text" xml:space="preserve">
     <value>Найти точку</value>
   </data>
+  <data name="ToolStripMenuItem_Map_Search_Position_Game.Size" type="System.Drawing.Size, System.Drawing">
+    <value>229, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Map_Search_Position_Game.Text" xml:space="preserve">
+    <value>Найти точку (HOI4 позиция)</value>
+  </data>
+  <data name="toolStripSeparator32.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 6</value>
+  </data>
   <data name="ToolStripMenuItem_Map_Search_Province.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
+    <value>229, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Province.Text" xml:space="preserve">
     <value>Найти провинцию(-и)</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_State.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
+    <value>229, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_State.Text" xml:space="preserve">
     <value>Найти область(-и)</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Region.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
+    <value>229, 22</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Region.Text" xml:space="preserve">
     <value>Найти регион(-ы)</value>
@@ -1933,7 +1942,7 @@
     <value>Дополнительные действия</value>
   </data>
   <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 198</value>
+    <value>223, 220</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip_Map.Name" xml:space="preserve">
     <value>ContextMenuStrip_Map</value>
@@ -6393,6 +6402,18 @@
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Map_Search_Position.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Search_Position_Game.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Map_Search_Position_Game</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Map_Search_Position_Game.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator32.Name" xml:space="preserve">
+    <value>toolStripSeparator32</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator32.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Map_Search_Province.Name" xml:space="preserve">
     <value>ToolStripMenuItem_Map_Search_Province</value>

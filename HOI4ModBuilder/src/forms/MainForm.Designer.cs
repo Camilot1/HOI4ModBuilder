@@ -86,6 +86,8 @@
             this.ToolStripMenuItem_Map_Search = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripTextBox_Map_Search_Input = new System.Windows.Forms.ToolStripTextBox();
             this.ToolStripMenuItem_Map_Search_Position = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Map_Search_Position_Game = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator32 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Map_Search_Province = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Search_State = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Map_Search_Region = new System.Windows.Forms.ToolStripMenuItem();
@@ -708,6 +710,8 @@
             this.ToolStripMenuItem_Map_Search.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripTextBox_Map_Search_Input,
             this.ToolStripMenuItem_Map_Search_Position,
+            this.ToolStripMenuItem_Map_Search_Position_Game,
+            this.toolStripSeparator32,
             this.ToolStripMenuItem_Map_Search_Province,
             this.ToolStripMenuItem_Map_Search_State,
             this.ToolStripMenuItem_Map_Search_Region});
@@ -725,6 +729,17 @@
             this.ToolStripMenuItem_Map_Search_Position.Name = "ToolStripMenuItem_Map_Search_Position";
             resources.ApplyResources(this.ToolStripMenuItem_Map_Search_Position, "ToolStripMenuItem_Map_Search_Position");
             this.ToolStripMenuItem_Map_Search_Position.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Search_Position_Click);
+            // 
+            // ToolStripMenuItem_Map_Search_Position_Game
+            // 
+            this.ToolStripMenuItem_Map_Search_Position_Game.Name = "ToolStripMenuItem_Map_Search_Position_Game";
+            resources.ApplyResources(this.ToolStripMenuItem_Map_Search_Position_Game, "ToolStripMenuItem_Map_Search_Position_Game");
+            this.ToolStripMenuItem_Map_Search_Position_Game.Click += new System.EventHandler(this.ToolStripMenuItem_Map_Search_Position_Game_Click);
+            // 
+            // toolStripSeparator32
+            // 
+            this.toolStripSeparator32.Name = "toolStripSeparator32";
+            resources.ApplyResources(this.toolStripSeparator32, "toolStripSeparator32");
             // 
             // ToolStripMenuItem_Map_Search_Province
             // 
@@ -2215,6 +2230,8 @@
         private System.Windows.Forms.Button Button_GenerateColor_OpenSettings;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Statistics;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator31;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Search_Position_Game;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator32;
     }
 }
 
