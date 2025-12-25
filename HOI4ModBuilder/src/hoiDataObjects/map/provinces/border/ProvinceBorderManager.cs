@@ -14,6 +14,8 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 {
     public class ProvinceBorderManager
     {
+        private const int ParallelMinBorderData = 256;
+
         private static Value2S _size;
         private static int[,] _pixels;
         public static int ProvinceBorderCount { get; private set; } = 0;
@@ -144,13 +146,11 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             short mapWidth = (short)MapManager.MapSize.x;
             var bordersData = _bordersAssembler.BordersData;
+            if (bordersData == null || bordersData.Count == 0)
+                return;
 
-            int dataCount = 0;
-            foreach (var entry in bordersData)
-                dataCount += entry.Value.Count;
-
-            const int parallelMinData = 256;
-            bool canParallel = dataCount >= parallelMinData && Environment.ProcessorCount > 1;
+            int dataCount = GetBorderDataCount(bordersData);
+            bool canParallel = dataCount >= ParallelMinBorderData && Environment.ProcessorCount > 1;
 
             if (canParallel)
             {
@@ -158,7 +158,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
                 Parallel.ForEach(
                     bordersData,
-                    () => new List<BorderBuildInfo>(),
+                    () => new List<BorderBuildInfo>(8),
                     (entry, state, local) =>
                     {
                         int minColor = entry.Key;
@@ -187,13 +187,14 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     }
                 );
 
+                var provinceCache = new Dictionary<int, Province>(bordersData.Count * 2);
                 foreach (var list in results)
                 {
                     for (int i = 0; i < list.Count; i++)
                     {
                         var info = list[i];
-                        var minProvince = ProvinceManager.Get(info.MinColor);
-                        var maxProvince = ProvinceManager.Get(info.MaxColor);
+                        var minProvince = GetProvinceCached(provinceCache, info.MinColor);
+                        var maxProvince = GetProvinceCached(provinceCache, info.MaxColor);
                         new ProvinceBorder(ProvinceBorderCount, info.Pixels, minProvince, maxProvince).AddToProvinces();
                         ProvinceBorderCount++;
                     }
@@ -201,9 +202,10 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             }
             else
             {
+                var provinceCache = new Dictionary<int, Province>(bordersData.Count * 2);
                 foreach (var entry in bordersData)
                 {
-                    Province minProvince = ProvinceManager.Get(entry.Key);
+                    Province minProvince = GetProvinceCached(provinceCache, entry.Key);
                     var dataList = entry.Value;
 
                     for (int i = 0; i < dataList.Count; i++)
@@ -215,7 +217,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                         if (pixelsLists == null || pixelsLists.Count == 0)
                             continue;
 
-                        var maxProvince = ProvinceManager.Get(data.provinceMaxColor);
+                        var maxProvince = GetProvinceCached(provinceCache, data.provinceMaxColor);
                         for (int p = 0; p < pixelsLists.Count; p++)
                         {
                             new ProvinceBorder(ProvinceBorderCount, pixelsLists[p], minProvince, maxProvince).AddToProvinces();
@@ -233,6 +235,24 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                         { "{maxCount}", $"{ushort.MaxValue + 1}"} ,
                     }
                 );
+        }
+
+        private static int GetBorderDataCount(Dictionary<int, List<BorderData>> bordersData)
+        {
+            int count = 0;
+            foreach (var entry in bordersData)
+                count += entry.Value.Count;
+            return count;
+        }
+
+        private static Province GetProvinceCached(Dictionary<int, Province> cache, int color)
+        {
+            if (!cache.TryGetValue(color, out var province))
+            {
+                province = ProvinceManager.Get(color);
+                cache[color] = province;
+            }
+            return province;
         }
 
 

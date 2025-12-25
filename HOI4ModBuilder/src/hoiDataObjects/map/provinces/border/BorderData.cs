@@ -41,27 +41,23 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
             if (points == null || points.Count == 0)
                 return new List<List<Value2S>>(0);
 
-            var nodes = new Dictionary<Value2S, byte>(points.Count);
-            foreach (var point in points)
-                nodes[point.pos] = point.flags;
-
             var adjacency = new Dictionary<Value2S, NeighborList>(points.Count);
 
-            foreach (var entry in nodes)
+            foreach (var point in points)
             {
-                var pos = entry.Key;
-                var flags = entry.Value;
+                var pos = point.pos;
+                var flags = point.flags;
 
                 if ((flags & 0b1000) != 0)
                 {
                     var left = new Value2S((short)(pos.x - 1), pos.y);
-                    if (nodes.ContainsKey(left))
+                    if (HasPoint(points, left))
                         AddEdge(adjacency, pos, left);
                 }
                 if ((flags & 0b0100) != 0)
                 {
                     var up = new Value2S(pos.x, (short)(pos.y - 1));
-                    if (nodes.ContainsKey(up))
+                    if (HasPoint(points, up))
                         AddEdge(adjacency, pos, up);
                 }
                 if ((flags & 0b0010) != 0)
@@ -69,13 +65,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
                     var right = new Value2S((short)(pos.x + 1), pos.y);
                     if (right.x == width)
                         right.x = 0;
-                    if (nodes.ContainsKey(right))
+                    if (HasPoint(points, right))
                         AddEdge(adjacency, pos, right);
                 }
                 if ((flags & 0b0001) != 0)
                 {
                     var down = new Value2S(pos.x, (short)(pos.y + 1));
-                    if (nodes.ContainsKey(down))
+                    if (HasPoint(points, down))
                         AddEdge(adjacency, pos, down);
                 }
             }
@@ -83,10 +79,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
             var result = new List<List<Value2S>>();
             var visitedEdges = new HashSet<EdgeKey>(adjacency.Count * 2);
 
-            foreach (var entry in nodes)
+            foreach (var point in points)
             {
-                if (!adjacency.ContainsKey(entry.Key))
-                    result.Add(new List<Value2S> { entry.Key });
+                if (!adjacency.ContainsKey(point.pos))
+                    result.Add(new List<Value2S> { point.pos });
             }
 
             foreach (var entry in adjacency)
@@ -180,6 +176,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
             list = new NeighborList();
             list.Add(neighbor);
             adjacency[key] = list;
+        }
+
+        private static bool HasPoint(HashSet<ValueDirectionalPos> points, Value2S pos)
+        {
+            var key = default(ValueDirectionalPos);
+            key.pos = pos;
+            return points.Contains(key);
         }
 
         private static List<Value2S> TracePath(
