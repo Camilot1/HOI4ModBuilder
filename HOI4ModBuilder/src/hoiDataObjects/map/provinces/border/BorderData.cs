@@ -45,7 +45,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
             foreach (var point in points)
                 nodes[point.pos] = point.flags;
 
-            var adjacency = new Dictionary<Value2S, List<Value2S>>(points.Count);
+            var adjacency = new Dictionary<Value2S, NeighborList>(points.Count);
 
             foreach (var entry in nodes)
             {
@@ -93,13 +93,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
             {
                 var start = entry.Key;
                 var neighbors = entry.Value;
-                if (neighbors.Count == 0)
+                int neighborsCount = neighbors.Count;
+                if (neighborsCount == 0)
                     continue;
-                if (neighbors.Count == 2)
+                if (neighborsCount == 2)
                     continue;
 
-                foreach (var neighbor in neighbors)
+                for (int i = 0; i < neighborsCount; i++)
                 {
+                    var neighbor = neighbors.Get(i);
                     var edge = new EdgeKey(start, neighbor);
                     if (!visitedEdges.Contains(edge))
                         result.Add(TracePath(start, neighbor, adjacency, visitedEdges, width));
@@ -109,8 +111,11 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
             foreach (var entry in adjacency)
             {
                 var start = entry.Key;
-                foreach (var neighbor in entry.Value)
+                var neighbors = entry.Value;
+                int neighborsCount = neighbors.Count;
+                for (int i = 0; i < neighborsCount; i++)
                 {
+                    var neighbor = neighbors.Get(i);
                     var edge = new EdgeKey(start, neighbor);
                     if (!visitedEdges.Contains(edge))
                         result.Add(TracePath(start, neighbor, adjacency, visitedEdges, width));
@@ -157,29 +162,30 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
             points.Add(point);
         }
 
-        private static void AddEdge(Dictionary<Value2S, List<Value2S>> adjacency, Value2S a, Value2S b)
+        private static void AddEdge(Dictionary<Value2S, NeighborList> adjacency, Value2S a, Value2S b)
         {
-            if (!adjacency.TryGetValue(a, out var listA))
-            {
-                listA = new List<Value2S>(2);
-                adjacency[a] = listA;
-            }
-            if (!listA.Contains(b))
-                listA.Add(b);
+            AddNeighbor(adjacency, a, b);
+            AddNeighbor(adjacency, b, a);
+        }
 
-            if (!adjacency.TryGetValue(b, out var listB))
+        private static void AddNeighbor(Dictionary<Value2S, NeighborList> adjacency, Value2S key, Value2S neighbor)
+        {
+            if (adjacency.TryGetValue(key, out var list))
             {
-                listB = new List<Value2S>(2);
-                adjacency[b] = listB;
+                if (list.Add(neighbor))
+                    adjacency[key] = list;
+                return;
             }
-            if (!listB.Contains(a))
-                listB.Add(a);
+
+            list = new NeighborList();
+            list.Add(neighbor);
+            adjacency[key] = list;
         }
 
         private static List<Value2S> TracePath(
             Value2S start,
             Value2S next,
-            Dictionary<Value2S, List<Value2S>> adjacency,
+            Dictionary<Value2S, NeighborList> adjacency,
             HashSet<EdgeKey> visitedEdges,
             short width)
         {
@@ -198,7 +204,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
                 if (!adjacency.TryGetValue(candidate, out var neighbors) || neighbors.Count != 2)
                     break;
 
-                var nextCandidate = neighbors[0].Equals(current) ? neighbors[1] : neighbors[0];
+                var nextCandidate = neighbors.Get(0).Equals(current) ? neighbors.Get(1) : neighbors.Get(0);
                 current = candidate;
                 candidate = nextCandidate;
             }
@@ -255,6 +261,73 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
                 if (a.x != b.x)
                     return a.x.CompareTo(b.x);
                 return a.y.CompareTo(b.y);
+            }
+        }
+
+        private struct NeighborList
+        {
+            private Value2S _a;
+            private Value2S _b;
+            private Value2S _c;
+            private Value2S _d;
+            private byte _count;
+
+            public int Count => _count;
+
+            public bool Add(Value2S value)
+            {
+                if (_count == 0)
+                {
+                    _a = value;
+                    _count = 1;
+                    return true;
+                }
+                if (_a.Equals(value))
+                    return false;
+
+                if (_count == 1)
+                {
+                    _b = value;
+                    _count = 2;
+                    return true;
+                }
+                if (_b.Equals(value))
+                    return false;
+
+                if (_count == 2)
+                {
+                    _c = value;
+                    _count = 3;
+                    return true;
+                }
+                if (_c.Equals(value))
+                    return false;
+
+                if (_count == 3)
+                {
+                    _d = value;
+                    _count = 4;
+                    return true;
+                }
+                if (_d.Equals(value))
+                    return false;
+
+                return false;
+            }
+
+            public Value2S Get(int index)
+            {
+                switch (index)
+                {
+                    case 0:
+                        return _a;
+                    case 1:
+                        return _b;
+                    case 2:
+                        return _c;
+                    default:
+                        return _d;
+                }
             }
         }
     }
