@@ -6,8 +6,9 @@ using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.borders;
 using HOI4ModBuilder.src.utils.structs;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
 {
@@ -60,36 +61,66 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         {
             int maxX = _size.x - 1;
             int maxY = _size.y - 1;
+            var pixels = _pixels;
 
             //Левый верхний угол
-            _bordersAssembler.AcceptBorderPixel(0, 0, _pixels[maxX, 0], _pixels[0, 0], _pixels[0, 0], _pixels[maxX, 0]);
+            _bordersAssembler.AcceptBorderPixel(0, 0, pixels[maxX, 0], pixels[0, 0], pixels[0, 0], pixels[maxX, 0]);
 
             //Левая граница карты
             for (int y = 0; y < maxY; y++)
             {
                 int y1 = y + 1;
-                _bordersAssembler.AcceptBorderPixel(0, y1, _pixels[maxX, y], _pixels[0, y], _pixels[0, y1], _pixels[maxX, y1]);
+                _bordersAssembler.AcceptBorderPixel(0, y1, pixels[maxX, y], pixels[0, y], pixels[0, y1], pixels[maxX, y1]);
             }
 
             //Левый нижний угол
-            _bordersAssembler.AcceptBorderPixel(0, _size.y, _pixels[maxX, maxY], _pixels[0, maxY], _pixels[0, maxY], _pixels[maxX, maxY]);
+            _bordersAssembler.AcceptBorderPixel(0, _size.y, pixels[maxX, maxY], pixels[0, maxY], pixels[0, maxY], pixels[maxX, maxY]);
 
             //Верхняя и нижняя граница карты
             for (int x = 0; x < maxX; x++)
             {
                 int x1 = x + 1;
-                _bordersAssembler.AcceptBorderPixel(x1, 0, _pixels[x, 0], _pixels[x1, 0], _pixels[x1, 0], _pixels[x, 0]);
-                _bordersAssembler.AcceptBorderPixel(x1, _size.y, _pixels[x, maxY], _pixels[x1, maxY], _pixels[x1, maxY], _pixels[x, maxY]);
+                _bordersAssembler.AcceptBorderPixel(x1, 0, pixels[x, 0], pixels[x1, 0], pixels[x1, 0], pixels[x, 0]);
+                _bordersAssembler.AcceptBorderPixel(x1, _size.y, pixels[x, maxY], pixels[x1, maxY], pixels[x1, maxY], pixels[x, maxY]);
             }
 
-            for (int x = 0; x < maxX; x++)
-            {
-                int x1 = x + 1;
-                for (int y = 0; y < maxY; y++)
-                {
-                    int y1 = y + 1;
+            long innerCells = (long)maxX * maxY;
+            const int parallelMinCells = 262144;
 
-                    _bordersAssembler.AcceptBorderPixel(x1, y1, _pixels[x, y], _pixels[x1, y], _pixels[x1, y1], _pixels[x, y1]);
+            if (innerCells >= parallelMinCells && Environment.ProcessorCount > 1)
+            {
+                var locals = new ConcurrentBag<BordersAssembler>();
+
+                Parallel.For(
+                    0,
+                    maxX,
+                    () => new BordersAssembler(),
+                    (x, state, local) =>
+                    {
+                        int x1 = x + 1;
+                        for (int y = 0; y < maxY; y++)
+                        {
+                            int y1 = y + 1;
+                            local.AcceptBorderPixel(x1, y1, pixels[x, y], pixels[x1, y], pixels[x1, y1], pixels[x, y1]);
+                        }
+                        return local;
+                    },
+                    local => locals.Add(local)
+                );
+
+                foreach (var local in locals)
+                    _bordersAssembler.MergeFrom(local);
+            }
+            else
+            {
+                for (int x = 0; x < maxX; x++)
+                {
+                    int x1 = x + 1;
+                    for (int y = 0; y < maxY; y++)
+                    {
+                        int y1 = y + 1;
+                        _bordersAssembler.AcceptBorderPixel(x1, y1, pixels[x, y], pixels[x1, y], pixels[x1, y1], pixels[x, y1]);
+                    }
                 }
             }
 

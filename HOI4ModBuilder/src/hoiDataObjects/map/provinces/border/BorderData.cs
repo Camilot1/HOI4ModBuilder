@@ -18,7 +18,21 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
 
         public BorderData Add(ValueDirectionalPos point)
         {
-            points.Add(point);
+            AddOrMerge(point);
+            return this;
+        }
+
+        public BorderData Merge(BorderData other)
+        {
+            if (other.points == null || other.points.Count == 0)
+                return this;
+
+            if (points == null)
+                points = new HashSet<ValueDirectionalPos>(other.points.Count);
+
+            foreach (var point in other.points)
+                AddOrMerge(point);
+
             return this;
         }
 
@@ -194,6 +208,26 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
             hashCode = hashCode * -1521134295 + provinceMinColor.GetHashCode();
             hashCode = hashCode * -1521134295 + provinceMaxColor.GetHashCode();
             return hashCode;
+        }
+
+        private void AddOrMerge(ValueDirectionalPos point)
+        {
+            if (points == null)
+                points = new HashSet<ValueDirectionalPos>(16);
+
+            if (points.TryGetValue(point, out var existing))
+            {
+                byte mergedFlags = (byte)(existing.flags | point.flags);
+                if (mergedFlags != existing.flags)
+                {
+                    existing.flags = mergedFlags;
+                    points.Remove(existing);
+                    points.Add(existing);
+                }
+                return;
+            }
+
+            points.Add(point);
         }
     }
 }

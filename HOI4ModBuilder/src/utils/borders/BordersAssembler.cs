@@ -1,7 +1,6 @@
 ﻿using HOI4ModBuilder.src.hoiDataObjects.map.provinces.border;
 using HOI4ModBuilder.src.utils.structs;
 using System.Collections.Generic;
-using System;
 
 namespace HOI4ModBuilder.src.utils.borders
 {
@@ -9,7 +8,6 @@ namespace HOI4ModBuilder.src.utils.borders
     {
         private Dictionary<int, List<BorderData>> _bordersData;
         public Dictionary<int, List<BorderData>> BordersData => _bordersData;
-        private Action<short, short, int, int, int, int, byte>[] _actionsTable;
 
         public void Reset()
         {
@@ -19,105 +17,6 @@ namespace HOI4ModBuilder.src.utils.borders
         public BordersAssembler()
         {
             _bordersData = new Dictionary<int, List<BorderData>>();
-            _actionsTable = new Action<short, short, int, int, int, int, byte>[]
-            {
-                (x, y, lu, ru, rd, ld, f) => { //0b0000
-                    //PushData(x, y, ld, lu, f);
-                    //PushData(x, y, lu, ru, f);
-                    //PushData(x, y, ru, rd, f);
-                    //PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b0001
-                    //PushData(x, y, ld, lu, f);
-                    //PushData(x, y, lu, ru, f);
-                    //PushData(x, y, ru, rd, f);
-                    PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b0010
-                    //PushData(x, y, ld, lu, f);
-                    //PushData(x, y, lu, ru, f);
-                    PushData(x, y, ru, rd, f);
-                    //PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b0011
-                    //PushData(x, y, ld, lu, f);
-                    //PushData(x, y, lu, ru, f);
-                    PushData(x, y, ru, rd, f);
-                    PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b0100
-                    //PushData(x, y, ld, lu, f);
-                    PushData(x, y, lu, ru, f);
-                    //PushData(x, y, ru, rd, f);
-                    //PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b0101
-                    //PushData(x, y, ld, lu, f);
-                    PushData(x, y, lu, ru, f);
-                    //PushData(x, y, ru, rd, f);
-                    PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b0110
-                    //PushData(x, y, ld, lu, f);
-                    PushData(x, y, lu, ru, f);
-                    PushData(x, y, ru, rd, f);
-                    //PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b0111
-                    //PushData(x, y, ld, lu, f);
-                    PushData(x, y, lu, ru, f);
-                    PushData(x, y, ru, rd, f);
-                    PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b1000
-                    PushData(x, y, ld, lu, f);
-                    //PushData(x, y, lu, ru, f);
-                    //PushData(x, y, ru, rd, f);
-                    //PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b1001
-                    PushData(x, y, ld, lu, f);
-                    //PushData(x, y, lu, ru, f);
-                    //PushData(x, y, ru, rd, f);
-                    PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b1010
-                    PushData(x, y, ld, lu, f);
-                    //PushData(x, y, lu, ru, f);
-                    PushData(x, y, ru, rd, f);
-                    //PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b1011
-                    PushData(x, y, ld, lu, f);
-                    //PushData(x, y, lu, ru, f);
-                    PushData(x, y, ru, rd, f);
-                    PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b1100
-                    PushData(x, y, ld, lu, f);
-                    PushData(x, y, lu, ru, f);
-                    //PushData(x, y, ru, rd, f);
-                    //PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b1101
-                    PushData(x, y, ld, lu, f);
-                    PushData(x, y, lu, ru, f);
-                    //PushData(x, y, ru, rd, f);
-                    PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b1110
-                    PushData(x, y, ld, lu, f);
-                    PushData(x, y, lu, ru, f);
-                    PushData(x, y, ru, rd, f);
-                    //PushData(x, y, rd, ld, f);
-                },
-                (x, y, lu, ru, rd, ld, f) => { //0b1111
-                    PushData(x, y, ld, lu, f);
-                    PushData(x, y, lu, ru, f);
-                    PushData(x, y, ru, rd, f);
-                    PushData(x, y, rd, ld, f);
-                },
-            };
         }
 
         public void AcceptBorderPixel(int x, int y, int lu, int ru, int rd, int ld)
@@ -126,33 +25,17 @@ namespace HOI4ModBuilder.src.utils.borders
             if (lu == ru && ru == rd && rd == ld)
                 return;
 
-            List<BorderData> dataList = null;
-
-            byte flags = 0;
-            int notEqualsCounter = 0;
+            short sx = (short)x;
+            short sy = (short)y;
 
             if (lu != ld)
-            {
-                flags |= 0b1000;
-                notEqualsCounter++;
-            }
+                PushData(sx, sy, lu, ld, 0b1000);
             if (lu != ru)
-            {
-                flags |= 0b0100;
-                notEqualsCounter++;
-            }
+                PushData(sx, sy, lu, ru, 0b0100);
             if (ru != rd)
-            {
-                flags |= 0b0010;
-                notEqualsCounter++;
-            }
+                PushData(sx, sy, ru, rd, 0b0010);
             if (rd != ld)
-            {
-                flags |= 0b0001;
-                notEqualsCounter++;
-            }
-
-            _actionsTable[flags]((short)x, (short)y, lu, ru, rd, ld, flags);
+                PushData(sx, sy, rd, ld, 0b0001);
         }
 
         public void PushData(short x, short y, int colorA, int colorB, byte flags)
@@ -182,19 +65,48 @@ namespace HOI4ModBuilder.src.utils.borders
                 flags = flags
             };
 
-            bool hasFound = false;
-            foreach (var data in dataList)
+            for (int i = 0; i < dataList.Count; i++)
             {
-                if (data.provinceMinColor == tempMinColor && data.provinceMaxColor == tempMaxColor)
+                if (dataList[i].provinceMinColor == tempMinColor && dataList[i].provinceMaxColor == tempMaxColor)
                 {
-                    data.points.Add(pos);
-                    hasFound = true;
-                    break;
+                    dataList[i] = dataList[i].Add(pos);
+                    return;
                 }
             }
 
-            if (!hasFound)
-                dataList.Add(new BorderData(tempMinColor, tempMaxColor).Add(pos));
+            dataList.Add(new BorderData(tempMinColor, tempMaxColor).Add(pos));
+        }
+
+        public void MergeFrom(BordersAssembler other)
+        {
+            if (other == null || other._bordersData == null || other._bordersData.Count == 0)
+                return;
+
+            foreach (var entry in other._bordersData)
+            {
+                if (!_bordersData.TryGetValue(entry.Key, out var dataList))
+                {
+                    dataList = new List<BorderData>(entry.Value.Count);
+                    _bordersData[entry.Key] = dataList;
+                }
+
+                foreach (var data in entry.Value)
+                    MergeBorderData(dataList, data);
+            }
+        }
+
+        private void MergeBorderData(List<BorderData> dataList, BorderData data)
+        {
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                if (dataList[i].provinceMinColor == data.provinceMinColor && dataList[i].provinceMaxColor == data.provinceMaxColor)
+                {
+                    dataList[i] = dataList[i].Merge(data);
+                    return;
+                }
+            }
+
+            dataList.Add(data);
         }
     }
 }
