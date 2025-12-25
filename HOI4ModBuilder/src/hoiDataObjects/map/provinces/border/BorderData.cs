@@ -38,156 +38,83 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
 
         public List<List<Value2S>> AssembleBorders(short width)
         {
-            var linkedDataDictionary = new Dictionary<Value2S, LinkedData<ValueDirectionalPos>>(points.Count);
+            if (points == null || points.Count == 0)
+                return new List<List<Value2S>>(0);
 
+            var nodes = new Dictionary<Value2S, byte>(points.Count);
             foreach (var point in points)
+                nodes[point.pos] = point.flags;
+
+            var adjacency = new Dictionary<Value2S, List<Value2S>>(points.Count);
+
+            foreach (var entry in nodes)
             {
-                var linkedData = new LinkedData<ValueDirectionalPos>
+                var pos = entry.Key;
+                var flags = entry.Value;
+
+                if ((flags & 0b1000) != 0)
                 {
-                    data = point
-                };
-
-                Value2S left = new Value2S((short)(point.pos.x - 1), point.pos.y);
-                Value2S up = new Value2S(point.pos.x, (short)(point.pos.y - 1));
-                Value2S right = new Value2S((short)(point.pos.x + 1), point.pos.y);
-                Value2S down = new Value2S(point.pos.x, (short)(point.pos.y + 1));
-
-                if (right.x == width)
-                    right.x = 0;
-
-                if (((point.flags & 0b1000) != 0) && linkedDataDictionary.TryGetValue(left, out var data))
-                    TryConnect(linkedData, data);
-                if (((point.flags & 0b0100) != 0) && linkedDataDictionary.TryGetValue(up, out data))
-                    TryConnect(linkedData, data);
-                if (((point.flags & 0b0010) != 0) && linkedDataDictionary.TryGetValue(right, out data))
-                    TryConnect(linkedData, data);
-                if (((point.flags & 0b0001) != 0) && linkedDataDictionary.TryGetValue(down, out data))
-                    TryConnect(linkedData, data);
-
-                linkedDataDictionary[point.pos] = linkedData;
-
-                void TryConnect(LinkedData<ValueDirectionalPos> thisData, LinkedData<ValueDirectionalPos> otherData)
+                    var left = new Value2S((short)(pos.x - 1), pos.y);
+                    if (nodes.ContainsKey(left))
+                        AddEdge(adjacency, pos, left);
+                }
+                if ((flags & 0b0100) != 0)
                 {
-                    if (otherData.prev == null)
-                    {
-                        if (thisData.next == null)
-                        {
-                            otherData.prev = thisData;
-                            thisData.next = otherData;
-                        }
-                        else if (thisData.prev == null)
-                        {
-                            otherData.prev = thisData;
-                            Utils.ReverseLinkedData(thisData);
-                            thisData.next = otherData;
-                        }
-                    }
-                    else if (otherData.next == null)
-                    {
-                        if (thisData.prev == null)
-                        {
-                            otherData.next = thisData;
-                            thisData.prev = otherData;
-                        }
-                        else if (thisData.next == null)
-                        {
-                            otherData.next = thisData;
-                            Utils.ReverseLinkedData(thisData);
-                            thisData.prev = otherData;
-                        }
-                    }
+                    var up = new Value2S(pos.x, (short)(pos.y - 1));
+                    if (nodes.ContainsKey(up))
+                        AddEdge(adjacency, pos, up);
+                }
+                if ((flags & 0b0010) != 0)
+                {
+                    var right = new Value2S((short)(pos.x + 1), pos.y);
+                    if (right.x == width)
+                        right.x = 0;
+                    if (nodes.ContainsKey(right))
+                        AddEdge(adjacency, pos, right);
+                }
+                if ((flags & 0b0001) != 0)
+                {
+                    var down = new Value2S(pos.x, (short)(pos.y + 1));
+                    if (nodes.ContainsKey(down))
+                        AddEdge(adjacency, pos, down);
                 }
             }
 
             var result = new List<List<Value2S>>();
-            Value2S tempPos = default;
+            var visitedEdges = new HashSet<EdgeKey>(adjacency.Count * 2);
 
-            foreach (var linkedData in linkedDataDictionary.Values)
+            foreach (var entry in nodes)
             {
-                if (linkedData.data.isUsed)
-                    continue;
-
-                if (linkedData.prev != null && linkedData.next != null)
-                    continue;
-
-                AcceptLinkedData(linkedData);
+                if (!adjacency.ContainsKey(entry.Key))
+                    result.Add(new List<Value2S> { entry.Key });
             }
 
-            foreach (var linkedData in linkedDataDictionary.Values)
+            foreach (var entry in adjacency)
             {
-                if (linkedData.data.isUsed)
+                var start = entry.Key;
+                var neighbors = entry.Value;
+                if (neighbors.Count == 0)
+                    continue;
+                if (neighbors.Count == 2)
                     continue;
 
-                linkedData.data.isUsed = true;
-                var pixels = new List<Value2S> { linkedData.data.pos };
-                tempPos = linkedData.data.pos;
-
-                var temp = linkedData.next;
-                while (temp != null && !temp.data.isUsed)
+                foreach (var neighbor in neighbors)
                 {
-                    if (tempPos.GetSquareDistanceTo(temp.data.pos) > 1)
-                    {
-                        if (pixels.Count == 1 && pixels[0].x == 0)
-                            pixels[0] = new Value2S { x = width, y = pixels[0].y };
-                    }
-                    pixels.Add(temp.data.pos);
-
-                    tempPos = temp.data.pos;
-
-                    temp.data.isUsed = true;
-                    temp = temp.next;
+                    var edge = new EdgeKey(start, neighbor);
+                    if (!visitedEdges.Contains(edge))
+                        result.Add(TracePath(start, neighbor, adjacency, visitedEdges, width));
                 }
-
-                result.Add(pixels);
             }
 
-            void AcceptLinkedData(LinkedData<ValueDirectionalPos> linkedData)
+            foreach (var entry in adjacency)
             {
-                linkedData.data.isUsed = true;
-
-                var pixels = new List<Value2S> { linkedData.data.pos };
-                tempPos = linkedData.data.pos;
-
-                if (linkedData.prev == null)
+                var start = entry.Key;
+                foreach (var neighbor in entry.Value)
                 {
-                    var temp = linkedData.next;
-                    while (temp != null)
-                    {
-                        if (tempPos.GetSquareDistanceTo(temp.data.pos) > 1)
-                        {
-                            if (pixels.Count == 1 && pixels[0].x == 0)
-                                pixels[0] = new Value2S { x = width, y = pixels[0].y };
-                        }
-                        pixels.Add(temp.data.pos);
-
-                        tempPos = temp.data.pos;
-
-                        temp.data.isUsed = true;
-                        temp = temp.next;
-                    }
+                    var edge = new EdgeKey(start, neighbor);
+                    if (!visitedEdges.Contains(edge))
+                        result.Add(TracePath(start, neighbor, adjacency, visitedEdges, width));
                 }
-                else if (linkedData.next == null)
-                {
-                    var temp = linkedData.prev;
-                    while (temp != null)
-                    {
-                        if (tempPos.GetSquareDistanceTo(temp.data.pos) > 1)
-                        {
-                            if (pixels.Count == 1 && pixels[0].x == 0)
-                                pixels[0] = new Value2S { x = width, y = pixels[0].y };
-                        }
-                        pixels.Add(temp.data.pos);
-
-                        tempPos = temp.data.pos;
-                        temp.data.isUsed = true;
-                        temp = temp.prev;
-                    }
-                }
-
-                if (pixels.Count == 0)
-                    throw new Exception("Invalid LinkedData border info: " + linkedData.data.ToString());
-
-                result.Add(pixels);
             }
 
             points = null;
@@ -228,6 +155,107 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
             }
 
             points.Add(point);
+        }
+
+        private static void AddEdge(Dictionary<Value2S, List<Value2S>> adjacency, Value2S a, Value2S b)
+        {
+            if (!adjacency.TryGetValue(a, out var listA))
+            {
+                listA = new List<Value2S>(2);
+                adjacency[a] = listA;
+            }
+            if (!listA.Contains(b))
+                listA.Add(b);
+
+            if (!adjacency.TryGetValue(b, out var listB))
+            {
+                listB = new List<Value2S>(2);
+                adjacency[b] = listB;
+            }
+            if (!listB.Contains(a))
+                listB.Add(a);
+        }
+
+        private static List<Value2S> TracePath(
+            Value2S start,
+            Value2S next,
+            Dictionary<Value2S, List<Value2S>> adjacency,
+            HashSet<EdgeKey> visitedEdges,
+            short width)
+        {
+            var pixels = new List<Value2S> { start };
+            var current = start;
+            var candidate = next;
+
+            while (true)
+            {
+                var edge = new EdgeKey(current, candidate);
+                if (!visitedEdges.Add(edge))
+                    break;
+
+                AppendPoint(pixels, candidate, width);
+
+                if (!adjacency.TryGetValue(candidate, out var neighbors) || neighbors.Count != 2)
+                    break;
+
+                var nextCandidate = neighbors[0].Equals(current) ? neighbors[1] : neighbors[0];
+                current = candidate;
+                candidate = nextCandidate;
+            }
+
+            return pixels;
+        }
+
+        private static void AppendPoint(List<Value2S> pixels, Value2S point, short width)
+        {
+            if (pixels.Count > 0)
+            {
+                var last = pixels[pixels.Count - 1];
+                if (last.GetSquareDistanceTo(point) > 1 && pixels.Count == 1 && pixels[0].x == 0)
+                {
+                    var first = pixels[0];
+                    first.x = width;
+                    pixels[0] = first;
+                }
+            }
+
+            pixels.Add(point);
+        }
+
+        private struct EdgeKey : IEquatable<EdgeKey>
+        {
+            private readonly Value2S _a;
+            private readonly Value2S _b;
+
+            public EdgeKey(Value2S a, Value2S b)
+            {
+                if (Compare(a, b) <= 0)
+                {
+                    _a = a;
+                    _b = b;
+                }
+                else
+                {
+                    _a = b;
+                    _b = a;
+                }
+            }
+
+            public bool Equals(EdgeKey other)
+                => _a.Equals(other._a) && _b.Equals(other._b);
+
+            public override bool Equals(object obj)
+                => obj is EdgeKey other && Equals(other);
+
+            public override int GetHashCode()
+                => (_a.GetHashCode() * 397) ^ _b.GetHashCode();
+
+            private static int Compare(Value2S a, Value2S b)
+            {
+                if (a.x != b.x)
+                    return a.x.CompareTo(b.x);
+                return a.y.CompareTo(b.y);
+            }
         }
     }
 }
