@@ -17,7 +17,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         private const int ParallelMinBorderData = 256;
 
         private static Value2S _size;
-        private static int[,] _pixels;
+        private static int[] _pixels;
         public static int ProvinceBorderCount { get; private set; } = 0;
 
         private static BordersAssembler _bordersAssembler = new BordersAssembler();
@@ -43,9 +43,12 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
             _bordersAssembler.Reset();
 
+            _size.x = width;
+            _size.y = height;
+            _pixels = values;
+
             MainForm.ExecuteActions(new (EnumLocKey, Action)[]
             {
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_PROVINCES_BORDERS_ASSEMBLE, () => InitPixels(values, width, height)),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_PROVINCES_BORDERS_ASSEMBLE, () => InitBordersPixelsTask()),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_PROVINCES_BORDERS_ASSEMBLE, () => AssembleBorderTask()),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE, () => StateManager.InitBorders()),
@@ -53,50 +56,57 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             });
         }
 
-        private static void InitPixels(int[] values, short width, short height)
-        {
-            _size.x = width;
-            _size.y = height;
-            _pixels = new int[width, height];
-
-            int pixelCount = width * height;
-            int x, y;
-
-            for (int i = 0; i < pixelCount; i++)
-            {
-                //Вычисляем координаты пикселя
-                x = i % width;
-                y = i / width;
-
-                _pixels[x, y] = values[i];
-            }
-        }
-
         private static void InitBordersPixelsTask()
         {
-            int maxX = _size.x - 1;
-            int maxY = _size.y - 1;
+            int width = _size.x;
+            int height = _size.y;
+            int maxX = width - 1;
+            int maxY = height - 1;
             var pixels = _pixels;
+            int lastRowStart = maxY * width;
 
             //Левый верхний угол
-            _bordersAssembler.AcceptBorderPixel(0, 0, pixels[maxX, 0], pixels[0, 0], pixels[0, 0], pixels[maxX, 0]);
+            _bordersAssembler.AcceptBorderPixel(0, 0, pixels[maxX], pixels[0], pixels[0], pixels[maxX]);
 
             //Левая граница карты
             for (int y = 0; y < maxY; y++)
             {
                 int y1 = y + 1;
-                _bordersAssembler.AcceptBorderPixel(0, y1, pixels[maxX, y], pixels[0, y], pixels[0, y1], pixels[maxX, y1]);
+                int rowStart = y * width;
+                int nextRowStart = rowStart + width;
+                _bordersAssembler.AcceptBorderPixel(
+                    0,
+                    y1,
+                    pixels[rowStart + maxX],
+                    pixels[rowStart],
+                    pixels[nextRowStart],
+                    pixels[nextRowStart + maxX]
+                );
             }
 
             //Левый нижний угол
-            _bordersAssembler.AcceptBorderPixel(0, _size.y, pixels[maxX, maxY], pixels[0, maxY], pixels[0, maxY], pixels[maxX, maxY]);
+            _bordersAssembler.AcceptBorderPixel(
+                0,
+                height,
+                pixels[lastRowStart + maxX],
+                pixels[lastRowStart],
+                pixels[lastRowStart],
+                pixels[lastRowStart + maxX]
+            );
 
             //Верхняя и нижняя граница карты
             for (int x = 0; x < maxX; x++)
             {
                 int x1 = x + 1;
-                _bordersAssembler.AcceptBorderPixel(x1, 0, pixels[x, 0], pixels[x1, 0], pixels[x1, 0], pixels[x, 0]);
-                _bordersAssembler.AcceptBorderPixel(x1, _size.y, pixels[x, maxY], pixels[x1, maxY], pixels[x1, maxY], pixels[x, maxY]);
+                _bordersAssembler.AcceptBorderPixel(x1, 0, pixels[x], pixels[x1], pixels[x1], pixels[x]);
+                _bordersAssembler.AcceptBorderPixel(
+                    x1,
+                    height,
+                    pixels[lastRowStart + x],
+                    pixels[lastRowStart + x1],
+                    pixels[lastRowStart + x1],
+                    pixels[lastRowStart + x]
+                );
             }
 
             long innerCells = (long)maxX * maxY;
@@ -108,15 +118,24 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
                 Parallel.For(
                     0,
-                    maxX,
+                    maxY,
                     () => new BordersAssembler(),
-                    (x, state, local) =>
+                    (y, state, local) =>
                     {
-                        int x1 = x + 1;
-                        for (int y = 0; y < maxY; y++)
+                        int y1 = y + 1;
+                        int rowStart = y * width;
+                        int nextRowStart = rowStart + width;
+                        for (int x = 0; x < maxX; x++)
                         {
-                            int y1 = y + 1;
-                            local.AcceptBorderPixel(x1, y1, pixels[x, y], pixels[x1, y], pixels[x1, y1], pixels[x, y1]);
+                            int x1 = x + 1;
+                            local.AcceptBorderPixel(
+                                x1,
+                                y1,
+                                pixels[rowStart + x],
+                                pixels[rowStart + x1],
+                                pixels[nextRowStart + x1],
+                                pixels[nextRowStart + x]
+                            );
                         }
                         return local;
                     },
@@ -128,13 +147,22 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             }
             else
             {
-                for (int x = 0; x < maxX; x++)
+                for (int y = 0; y < maxY; y++)
                 {
-                    int x1 = x + 1;
-                    for (int y = 0; y < maxY; y++)
+                    int y1 = y + 1;
+                    int rowStart = y * width;
+                    int nextRowStart = rowStart + width;
+                    for (int x = 0; x < maxX; x++)
                     {
-                        int y1 = y + 1;
-                        _bordersAssembler.AcceptBorderPixel(x1, y1, pixels[x, y], pixels[x1, y], pixels[x1, y1], pixels[x, y1]);
+                        int x1 = x + 1;
+                        _bordersAssembler.AcceptBorderPixel(
+                            x1,
+                            y1,
+                            pixels[rowStart + x],
+                            pixels[rowStart + x1],
+                            pixels[nextRowStart + x1],
+                            pixels[nextRowStart + x]
+                        );
                     }
                 }
             }
@@ -149,7 +177,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             if (bordersData == null || bordersData.Count == 0)
                 return;
 
-            int dataCount = GetBorderDataCount(bordersData);
+            int dataCount = _bordersAssembler.BorderDataCount;
             bool canParallel = dataCount >= ParallelMinBorderData && Environment.ProcessorCount > 1;
 
             if (canParallel)
@@ -235,14 +263,6 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                         { "{maxCount}", $"{ushort.MaxValue + 1}"} ,
                     }
                 );
-        }
-
-        private static int GetBorderDataCount(Dictionary<int, List<BorderData>> bordersData)
-        {
-            int count = 0;
-            foreach (var entry in bordersData)
-                count += entry.Value.Count;
-            return count;
         }
 
         private static Province GetProvinceCached(Dictionary<int, Province> cache, int color)

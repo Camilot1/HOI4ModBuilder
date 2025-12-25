@@ -7,16 +7,23 @@ namespace HOI4ModBuilder.src.utils.borders
     public class BordersAssembler
     {
         private Dictionary<int, List<BorderData>> _bordersData;
+        private Dictionary<int, Dictionary<int, int>> _bordersIndex;
+        private int _borderDataCount;
         public Dictionary<int, List<BorderData>> BordersData => _bordersData;
+        public int BorderDataCount => _borderDataCount;
 
         public void Reset()
         {
             _bordersData = new Dictionary<int, List<BorderData>>();
+            _bordersIndex = new Dictionary<int, Dictionary<int, int>>();
+            _borderDataCount = 0;
         }
 
         public BordersAssembler()
         {
             _bordersData = new Dictionary<int, List<BorderData>>();
+            _bordersIndex = new Dictionary<int, Dictionary<int, int>>();
+            _borderDataCount = 0;
         }
 
         public void AcceptBorderPixel(int x, int y, int lu, int ru, int rd, int ld)
@@ -58,6 +65,11 @@ namespace HOI4ModBuilder.src.utils.borders
                 dataList = new List<BorderData>(4);
                 _bordersData[tempMinColor] = dataList;
             }
+            if (!_bordersIndex.TryGetValue(tempMinColor, out var dataIndex))
+            {
+                dataIndex = new Dictionary<int, int>(4);
+                _bordersIndex[tempMinColor] = dataIndex;
+            }
 
             var pos = new ValueDirectionalPos()
             {
@@ -65,16 +77,15 @@ namespace HOI4ModBuilder.src.utils.borders
                 flags = flags
             };
 
-            for (int i = 0; i < dataList.Count; i++)
+            if (dataIndex.TryGetValue(tempMaxColor, out var index))
             {
-                if (dataList[i].provinceMinColor == tempMinColor && dataList[i].provinceMaxColor == tempMaxColor)
-                {
-                    dataList[i] = dataList[i].Add(pos);
-                    return;
-                }
+                dataList[index] = dataList[index].Add(pos);
+                return;
             }
 
             dataList.Add(new BorderData(tempMinColor, tempMaxColor).Add(pos));
+            dataIndex[tempMaxColor] = dataList.Count - 1;
+            _borderDataCount++;
         }
 
         public void MergeFrom(BordersAssembler other)
@@ -89,24 +100,28 @@ namespace HOI4ModBuilder.src.utils.borders
                     dataList = new List<BorderData>(entry.Value.Count);
                     _bordersData[entry.Key] = dataList;
                 }
+                if (!_bordersIndex.TryGetValue(entry.Key, out var dataIndex))
+                {
+                    dataIndex = new Dictionary<int, int>(entry.Value.Count);
+                    _bordersIndex[entry.Key] = dataIndex;
+                }
 
                 foreach (var data in entry.Value)
-                    MergeBorderData(dataList, data);
+                    MergeBorderData(dataList, dataIndex, data);
             }
         }
 
-        private void MergeBorderData(List<BorderData> dataList, BorderData data)
+        private void MergeBorderData(List<BorderData> dataList, Dictionary<int, int> dataIndex, BorderData data)
         {
-            for (int i = 0; i < dataList.Count; i++)
+            if (dataIndex.TryGetValue(data.provinceMaxColor, out var index))
             {
-                if (dataList[i].provinceMinColor == data.provinceMinColor && dataList[i].provinceMaxColor == data.provinceMaxColor)
-                {
-                    dataList[i] = dataList[i].Merge(data);
-                    return;
-                }
+                dataList[index] = dataList[index].Merge(data);
+                return;
             }
 
             dataList.Add(data);
+            dataIndex[data.provinceMaxColor] = dataList.Count - 1;
+            _borderDataCount++;
         }
     }
 }

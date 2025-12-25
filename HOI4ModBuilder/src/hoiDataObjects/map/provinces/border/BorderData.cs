@@ -7,13 +7,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
     public struct BorderData
     {
         public int provinceMinColor, provinceMaxColor;
-        public HashSet<ValueDirectionalPos> points;
+        public Dictionary<Value2S, byte> points;
 
         public BorderData(int provinceMinColor, int provinceMaxColor)
         {
             this.provinceMinColor = provinceMinColor;
             this.provinceMaxColor = provinceMaxColor;
-            points = new HashSet<ValueDirectionalPos>(16);
+            points = new Dictionary<Value2S, byte>(16);
         }
 
         public BorderData Add(ValueDirectionalPos point)
@@ -28,10 +28,10 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
                 return this;
 
             if (points == null)
-                points = new HashSet<ValueDirectionalPos>(other.points.Count);
+                points = new Dictionary<Value2S, byte>(other.points.Count);
 
             foreach (var point in other.points)
-                AddOrMerge(point);
+                AddOrMerge(point.Key, point.Value);
 
             return this;
         }
@@ -45,19 +45,19 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
 
             foreach (var point in points)
             {
-                var pos = point.pos;
-                var flags = point.flags;
+                var pos = point.Key;
+                var flags = point.Value;
 
                 if ((flags & 0b1000) != 0)
                 {
                     var left = new Value2S((short)(pos.x - 1), pos.y);
-                    if (HasPoint(points, left))
+                    if (points.ContainsKey(left))
                         AddEdge(adjacency, pos, left);
                 }
                 if ((flags & 0b0100) != 0)
                 {
                     var up = new Value2S(pos.x, (short)(pos.y - 1));
-                    if (HasPoint(points, up))
+                    if (points.ContainsKey(up))
                         AddEdge(adjacency, pos, up);
                 }
                 if ((flags & 0b0010) != 0)
@@ -65,13 +65,13 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
                     var right = new Value2S((short)(pos.x + 1), pos.y);
                     if (right.x == width)
                         right.x = 0;
-                    if (HasPoint(points, right))
+                    if (points.ContainsKey(right))
                         AddEdge(adjacency, pos, right);
                 }
                 if ((flags & 0b0001) != 0)
                 {
                     var down = new Value2S(pos.x, (short)(pos.y + 1));
-                    if (HasPoint(points, down))
+                    if (points.ContainsKey(down))
                         AddEdge(adjacency, pos, down);
                 }
             }
@@ -81,8 +81,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
 
             foreach (var point in points)
             {
-                if (!adjacency.ContainsKey(point.pos))
-                    result.Add(new List<Value2S> { point.pos });
+                if (!adjacency.ContainsKey(point.Key))
+                    result.Add(new List<Value2S> { point.Key });
             }
 
             foreach (var entry in adjacency)
@@ -139,23 +139,22 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
         }
 
         private void AddOrMerge(ValueDirectionalPos point)
+            => AddOrMerge(point.pos, point.flags);
+
+        private void AddOrMerge(Value2S pos, byte flags)
         {
             if (points == null)
-                points = new HashSet<ValueDirectionalPos>(16);
+                points = new Dictionary<Value2S, byte>(16);
 
-            if (points.TryGetValue(point, out var existing))
+            if (points.TryGetValue(pos, out var existingFlags))
             {
-                byte mergedFlags = (byte)(existing.flags | point.flags);
-                if (mergedFlags != existing.flags)
-                {
-                    existing.flags = mergedFlags;
-                    points.Remove(existing);
-                    points.Add(existing);
-                }
+                byte mergedFlags = (byte)(existingFlags | flags);
+                if (mergedFlags != existingFlags)
+                    points[pos] = mergedFlags;
                 return;
             }
 
-            points.Add(point);
+            points[pos] = flags;
         }
 
         private static void AddEdge(Dictionary<Value2S, NeighborList> adjacency, Value2S a, Value2S b)
@@ -176,13 +175,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.provinces.border
             list = new NeighborList();
             list.Add(neighbor);
             adjacency[key] = list;
-        }
-
-        private static bool HasPoint(HashSet<ValueDirectionalPos> points, Value2S pos)
-        {
-            var key = default(ValueDirectionalPos);
-            key.pos = pos;
-            return points.Contains(key);
         }
 
         private static List<Value2S> TracePath(
