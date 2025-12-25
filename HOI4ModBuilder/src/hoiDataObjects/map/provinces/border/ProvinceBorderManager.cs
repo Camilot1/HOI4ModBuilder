@@ -19,6 +19,19 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public static int ProvinceBorderCount { get; private set; } = 0;
 
         private static BordersAssembler _bordersAssembler = new BordersAssembler();
+        private struct BorderBuildInfo
+        {
+            public readonly int MinColor;
+            public readonly int MaxColor;
+            public readonly List<Value2S> Pixels;
+
+            public BorderBuildInfo(int minColor, int maxColor, List<Value2S> pixels)
+            {
+                MinColor = minColor;
+                MaxColor = maxColor;
+                Pixels = pixels;
+            }
+        }
 
         public static void Init(int[] values, short width, short height)
         {
@@ -30,9 +43,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
             MainForm.ExecuteActions(new (EnumLocKey, Action)[]
             {
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => InitPixels(values, width, height)),
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => InitBordersPixelsTask()),
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => AssembleBorderTask()),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_PROVINCES_BORDERS_ASSEMBLE, () => InitPixels(values, width, height)),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_PROVINCES_BORDERS_ASSEMBLE, () => InitBordersPixelsTask()),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_PROVINCES_BORDERS_ASSEMBLE, () => AssembleBorderTask()),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE, () => StateManager.InitBorders()),
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => StrategicRegionManager.InitBorders()),
             });
@@ -129,21 +142,85 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         private static void AssembleBorderTask()
         {
-            var mapSize = MapManager.MapSize;
-            foreach (var entry in _bordersAssembler.BordersData)
+            short mapWidth = (short)MapManager.MapSize.x;
+            var bordersData = _bordersAssembler.BordersData;
+
+            int dataCount = 0;
+            foreach (var entry in bordersData)
+                dataCount += entry.Value.Count;
+
+            const int parallelMinData = 256;
+            bool canParallel = dataCount >= parallelMinData && Environment.ProcessorCount > 1;
+
+            if (canParallel)
             {
-                Province minProvince = ProvinceManager.Get(entry.Key);
+                var results = new ConcurrentBag<List<BorderBuildInfo>>();
 
-                foreach (var data in entry.Value)
-                {
-                    var pixelsLists = data.AssembleBorders((short)mapSize.x);
-
-                    var maxProvince = ProvinceManager.Get(data.provinceMaxColor);
-
-                    foreach (var pixelsList in pixelsLists)
+                Parallel.ForEach(
+                    bordersData,
+                    () => new List<BorderBuildInfo>(),
+                    (entry, state, local) =>
                     {
-                        new ProvinceBorder(ProvinceBorderCount, pixelsList, minProvince, maxProvince).AddToProvinces();
+                        int minColor = entry.Key;
+                        var dataList = entry.Value;
+
+                        for (int i = 0; i < dataList.Count; i++)
+                        {
+                            var data = dataList[i];
+                            var pixelsLists = data.AssembleBorders(mapWidth);
+                            dataList[i] = data;
+
+                            if (pixelsLists == null || pixelsLists.Count == 0)
+                                continue;
+
+                            int maxColor = data.provinceMaxColor;
+                            for (int p = 0; p < pixelsLists.Count; p++)
+                                local.Add(new BorderBuildInfo(minColor, maxColor, pixelsLists[p]));
+                        }
+
+                        return local;
+                    },
+                    local =>
+                    {
+                        if (local.Count > 0)
+                            results.Add(local);
+                    }
+                );
+
+                foreach (var list in results)
+                {
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        var info = list[i];
+                        var minProvince = ProvinceManager.Get(info.MinColor);
+                        var maxProvince = ProvinceManager.Get(info.MaxColor);
+                        new ProvinceBorder(ProvinceBorderCount, info.Pixels, minProvince, maxProvince).AddToProvinces();
                         ProvinceBorderCount++;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var entry in bordersData)
+                {
+                    Province minProvince = ProvinceManager.Get(entry.Key);
+                    var dataList = entry.Value;
+
+                    for (int i = 0; i < dataList.Count; i++)
+                    {
+                        var data = dataList[i];
+                        var pixelsLists = data.AssembleBorders(mapWidth);
+                        dataList[i] = data;
+
+                        if (pixelsLists == null || pixelsLists.Count == 0)
+                            continue;
+
+                        var maxProvince = ProvinceManager.Get(data.provinceMaxColor);
+                        for (int p = 0; p < pixelsLists.Count; p++)
+                        {
+                            new ProvinceBorder(ProvinceBorderCount, pixelsLists[p], minProvince, maxProvince).AddToProvinces();
+                            ProvinceBorderCount++;
+                        }
                     }
                 }
             }
