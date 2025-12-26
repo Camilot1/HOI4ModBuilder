@@ -255,6 +255,9 @@
             this.ToolStripMenuItem_Data_Recovery_Regions = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Help_Documentation = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Help_Logs = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Help_Logs_OpenFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Help_Logs_OpenFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Help_About = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Language = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Language_RU = new System.Windows.Forms.ToolStripMenuItem();
@@ -1889,6 +1892,7 @@
             // 
             this.ToolStripMenuItem_Help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_Help_Documentation,
+            this.ToolStripMenuItem_Help_Logs,
             this.ToolStripMenuItem_Help_About});
             this.ToolStripMenuItem_Help.Name = "ToolStripMenuItem_Help";
             resources.ApplyResources(this.ToolStripMenuItem_Help, "ToolStripMenuItem_Help");
@@ -1898,6 +1902,26 @@
             this.ToolStripMenuItem_Help_Documentation.Name = "ToolStripMenuItem_Help_Documentation";
             resources.ApplyResources(this.ToolStripMenuItem_Help_Documentation, "ToolStripMenuItem_Help_Documentation");
             this.ToolStripMenuItem_Help_Documentation.Click += new System.EventHandler(this.ToolStripMenuItem_Help_Documentation_Click);
+            // 
+            // ToolStripMenuItem_Help_Logs
+            // 
+            this.ToolStripMenuItem_Help_Logs.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_Help_Logs_OpenFile,
+            this.ToolStripMenuItem_Help_Logs_OpenFolder});
+            this.ToolStripMenuItem_Help_Logs.Name = "ToolStripMenuItem_Help_Logs";
+            resources.ApplyResources(this.ToolStripMenuItem_Help_Logs, "ToolStripMenuItem_Help_Logs");
+            // 
+            // ToolStripMenuItem_Help_Logs_OpenFile
+            // 
+            this.ToolStripMenuItem_Help_Logs_OpenFile.Name = "ToolStripMenuItem_Help_Logs_OpenFile";
+            resources.ApplyResources(this.ToolStripMenuItem_Help_Logs_OpenFile, "ToolStripMenuItem_Help_Logs_OpenFile");
+            this.ToolStripMenuItem_Help_Logs_OpenFile.Click += new System.EventHandler(this.ToolStripMenuItem_Help_Logs_OpenFile_Click);
+            // 
+            // ToolStripMenuItem_Help_Logs_OpenFolder
+            // 
+            this.ToolStripMenuItem_Help_Logs_OpenFolder.Name = "ToolStripMenuItem_Help_Logs_OpenFolder";
+            resources.ApplyResources(this.ToolStripMenuItem_Help_Logs_OpenFolder, "ToolStripMenuItem_Help_Logs_OpenFolder");
+            this.ToolStripMenuItem_Help_Logs_OpenFolder.Click += new System.EventHandler(this.ToolStripMenuItem_Help_Logs_OpenFolder_Click);
             // 
             // ToolStripMenuItem_Help_About
             // 
@@ -2232,6 +2256,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator31;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Map_Search_Position_Game;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator32;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Help_Logs;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Help_Logs_OpenFile;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Help_Logs_OpenFolder;
     }
 }
 

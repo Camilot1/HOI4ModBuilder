@@ -2107,6 +2107,24 @@ namespace HOI4ModBuilder
             });
         }
 
+        private void ToolStripMenuItem_Help_Logs_OpenFile_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                var path = Path.Combine("logs", "latest.log");
+                if (!File.Exists(path))
+                    throw new DirectoryNotFoundException(path);
+                NetworkManager.OpenLink(path);
+            });
+
+        private void ToolStripMenuItem_Help_Logs_OpenFolder_Click(object sender, EventArgs e)
+            => Logger.TryOrLog(() =>
+            {
+                var path = "logs";
+                if (!Directory.Exists(path))
+                    throw new DirectoryNotFoundException(path);
+                NetworkManager.OpenLink(path);
+            });
+
         public void SetGroupBoxProgressBackColor(Color color)
             => GroupBox_Progress.BackColor = color;
     }

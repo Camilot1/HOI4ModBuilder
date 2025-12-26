@@ -1942,7 +1942,7 @@
     <value>Дополнительные действия</value>
   </data>
   <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 220</value>
+    <value>223, 198</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip_Map.Name" xml:space="preserve">
     <value>ContextMenuStrip_Map</value>
@@ -2779,13 +2779,31 @@
     <value>Данные</value>
   </data>
   <data name="ToolStripMenuItem_Help_Documentation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 22</value>
+    <value>170, 22</value>
   </data>
   <data name="ToolStripMenuItem_Help_Documentation.Text" xml:space="preserve">
     <value>Документация</value>
   </data>
+  <data name="ToolStripMenuItem_Help_Logs_OpenFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Help_Logs_OpenFile.Text" xml:space="preserve">
+    <value>Открыть файл latest.log</value>
+  </data>
+  <data name="ToolStripMenuItem_Help_Logs_OpenFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Help_Logs_OpenFolder.Text" xml:space="preserve">
+    <value>Открыть папку logs</value>
+  </data>
+  <data name="ToolStripMenuItem_Help_Logs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Help_Logs.Text" xml:space="preserve">
+    <value>Логи программы</value>
+  </data>
   <data name="ToolStripMenuItem_Help_About.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 22</value>
+    <value>170, 22</value>
   </data>
   <data name="ToolStripMenuItem_Help_About.Text" xml:space="preserve">
     <value>О программе</value>
@@ -7355,6 +7373,24 @@
     <value>ToolStripMenuItem_Help_Documentation</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Help_Documentation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Help_Logs.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Help_Logs</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Help_Logs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Help_Logs_OpenFile.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Help_Logs_OpenFile</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Help_Logs_OpenFile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Help_Logs_OpenFolder.Name" xml:space="preserve">
+    <value>ToolStripMenuItem_Help_Logs_OpenFolder</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItem_Help_Logs_OpenFolder.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem_Help_About.Name" xml:space="preserve">

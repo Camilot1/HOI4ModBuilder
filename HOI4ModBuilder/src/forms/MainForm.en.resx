@@ -886,14 +886,23 @@
   <data name="ToolStripMenuItem_Help.Text" xml:space="preserve">
     <value>Help</value>
   </data>
-  <data name="ToolStripMenuItem_Help_Documentation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 22</value>
-  </data>
   <data name="ToolStripMenuItem_Help_Documentation.Text" xml:space="preserve">
     <value>Documentation</value>
   </data>
-  <data name="ToolStripMenuItem_Help_About.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 22</value>
+  <data name="ToolStripMenuItem_Help_Logs.Text" xml:space="preserve">
+    <value>Application Logs</value>
+  </data>
+  <data name="ToolStripMenuItem_Help_Logs_OpenFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Help_Logs_OpenFile.Text" xml:space="preserve">
+    <value>Open File: latest.log</value>
+  </data>
+  <data name="ToolStripMenuItem_Help_Logs_OpenFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="ToolStripMenuItem_Help_Logs_OpenFolder.Text" xml:space="preserve">
+    <value>Open Folder: logs</value>
   </data>
   <data name="ToolStripMenuItem_Help_About.Text" xml:space="preserve">
     <value>About Application</value>
@@ -905,13 +914,13 @@
     <value>Russian (RU)</value>
   </data>
   <data name="ToolStripMenuItem_Language_RU.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Language_RU.Text" xml:space="preserve">
     <value>Russian (RU)</value>
   </data>
   <data name="ToolStripMenuItem_Language_EN.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="ToolStripMenuItem_Language_EN.Text" xml:space="preserve">
     <value>English (EN)</value>
