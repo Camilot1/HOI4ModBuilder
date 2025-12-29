@@ -200,9 +200,11 @@ namespace HOI4ModBuilder.managers
         private static void UpdateByDateTimeStamp(DateTime dateTime)
         {
             Logger.Log("Started UpdateByDateTimeStamp");
-            CountryManager.UpdateByDateTimeStamp(dateTime);
-            StateManager.UpdateByDateTimeStamp(dateTime);
-            Logger.Log("Finished UpdateByDateTimeStamp");
+            Logger.LogTime("Finished UpdateByDateTimeStamp", () =>
+            {
+                CountryManager.UpdateByDateTimeStamp(dateTime);
+                StateManager.UpdateByDateTimeStamp(dateTime);
+            });
         }
 
         private static void Load(BaseSettings settings)
