@@ -94,6 +94,7 @@ namespace HOI4ModBuilder.src.managers.texture
 
             int width = _bitmap.Width;
             int height = _bitmap.Height;
+            int bytesPerPixel = textureType.bytesPerPixel;
 
             byte[] values = Utils.BitmapToArray(_bitmap, ImageLockMode.ReadOnly, textureType);
 
@@ -103,7 +104,7 @@ namespace HOI4ModBuilder.src.managers.texture
                 foreach (var pos in positions)
                 {
                     int i = (pos.x + pos.y * width);
-                    int byteI = i * textureType.bytesPerPixel;
+                    int byteI = i * bytesPerPixel;
                     pixels[i] = fillColor;
                     values[byteI] = (byte)fillColor;
                     values[byteI + 1] = (byte)(fillColor >> 8);
@@ -137,6 +138,7 @@ namespace HOI4ModBuilder.src.managers.texture
             var nextPoses = new Queue<Value2US>();
             int width = _bitmap.Width;
             int height = _bitmap.Height;
+            int bytesPerPixel = textureType.bytesPerPixel;
 
             //Проверять x < 0 && y < 0 нет смысла, т.к. они они ushort и будут x > width или y > height
             if (x >= width || y >= height) return poses;
@@ -178,7 +180,7 @@ namespace HOI4ModBuilder.src.managers.texture
                 if (poses.Contains(pos) || pos.x >= width || pos.y >= height)
                     continue;
 
-                int i = (pos.x + pos.y * width) * textureType.bytesPerPixel;
+                int i = (pos.x + pos.y * width) * bytesPerPixel;
 
                 if (colorChecker(i))
                 {

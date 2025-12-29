@@ -87,8 +87,19 @@ namespace HOI4ModBuilder
         public void Set(in TextureType textureType, int x, int y, int width, int height, byte[] data)
         {
             GL.BindTexture(TextureTarget.Texture2D, TextureId);
-            GL.TexImage2D(TextureTarget.Texture2D, 0, textureType.pixelInternalFormat, width, height, 0, textureType.openGLPixelFormat, PixelType.UnsignedByte, IntPtr.Zero);
-            GL.TexSubImage2D(TextureTarget.Texture2D, 0, x, y, width, height, textureType.openGLPixelFormat, PixelType.UnsignedByte, data);
+            if (data == null)
+            {
+                GL.TexImage2D(TextureTarget.Texture2D, 0, textureType.pixelInternalFormat, width, height, 0, textureType.openGLPixelFormat, PixelType.UnsignedByte, IntPtr.Zero);
+            }
+            else if (x == 0 && y == 0)
+            {
+                GL.TexImage2D(TextureTarget.Texture2D, 0, textureType.pixelInternalFormat, width, height, 0, textureType.openGLPixelFormat, PixelType.UnsignedByte, data);
+            }
+            else
+            {
+                GL.TexImage2D(TextureTarget.Texture2D, 0, textureType.pixelInternalFormat, width, height, 0, textureType.openGLPixelFormat, PixelType.UnsignedByte, IntPtr.Zero);
+                GL.TexSubImage2D(TextureTarget.Texture2D, 0, x, y, width, height, textureType.openGLPixelFormat, PixelType.UnsignedByte, data);
+            }
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 

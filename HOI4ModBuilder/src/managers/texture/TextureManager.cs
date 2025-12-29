@@ -157,11 +157,12 @@ namespace HOI4ModBuilder.src.managers.texture
 
         public static int[] BrgToArgb(byte[] data, byte alpha)
         {
-            int[] values = new int[data.Length / 3];
+            int pixelCount = data.Length / 3;
+            int[] values = new int[pixelCount];
             int a = alpha << 24;
-            for (int i = 0; i < data.Length; i += 3)
+            for (int i = 0, j = 0; j < pixelCount; i += 3, j++)
             {
-                values[i / 3] = a | (data[i + 2] << 16) | (data[i + 1] << 8) | data[i];
+                values[j] = a | (data[i + 2] << 16) | (data[i + 1] << 8) | data[i];
             }
             return values;
         }
@@ -436,10 +437,11 @@ namespace HOI4ModBuilder.src.managers.texture
         {
             int width = inputBitmap.Width;
             int height = inputBitmap.Height;
-            int pixelCount = width * height * _32bppArgb.bytesPerPixel;
+            int pixelCount = width * height;
 
             byte[] riversBytes = Utils.BitmapToArray(inputBitmap, ImageLockMode.ReadOnly, _32bppArgb);
             byte[] outputValues = new byte[pixelCount];
+            int riversByteCount = riversBytes.Length;
 
             var modSettings = settings.GetModSettings();
             bool exportWithWaterPixels = modSettings.exportRiversMapWithWaterPixels;
@@ -454,10 +456,10 @@ namespace HOI4ModBuilder.src.managers.texture
 
             if (exportWithWaterPixels)
             {
-                for (int i = 0; i < pixelCount; i += 4)
+                for (int i = 0, pixelIndex = 0; i < riversByteCount; i += 4, pixelIndex++)
                 {
                     colorRiver = Utils.ArgbToInt(riversBytes[i + 3], riversBytes[i + 2], riversBytes[i + 1], riversBytes[i]);
-                    colorProvince = MapManager.ProvincesPixels[i / 4];
+                    colorProvince = MapManager.ProvincesPixels[pixelIndex];
 
                     if (colorRiver != prevColorRiver || colorProvince != prevColorProvince)
                     {
@@ -471,12 +473,12 @@ namespace HOI4ModBuilder.src.managers.texture
                         else
                             outputValue = 255;
                     }
-                    outputValues[i / 4] = outputValue;
+                    outputValues[pixelIndex] = outputValue;
                 }
             }
             else
             {
-                for (int i = 0; i < pixelCount; i += 4)
+                for (int i = 0, pixelIndex = 0; i < riversByteCount; i += 4, pixelIndex++)
                 {
                     colorRiver = Utils.ArgbToInt(riversBytes[i + 3], riversBytes[i + 2], riversBytes[i + 1], riversBytes[i]);
 
@@ -489,7 +491,7 @@ namespace HOI4ModBuilder.src.managers.texture
                         else
                             outputValue = 255;
                     }
-                    outputValues[i / 4] = outputValue;
+                    outputValues[pixelIndex] = outputValue;
                 }
             }
 
