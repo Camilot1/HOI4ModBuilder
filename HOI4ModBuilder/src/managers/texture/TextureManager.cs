@@ -109,7 +109,7 @@ namespace HOI4ModBuilder.src.managers.texture
             {
                 (PROVINCES_FILE_NAME, () => {
                     CreateMapPairProducer(fileInfoPairs, PROVINCES_FILE_NAME, _24bppRgb, out var producerProvincesPixes, out var bitmap);
-                    MapManager.ProvincesPixels = BrgToArgb(Utils.BitmapToArray(bitmap, ImageLockMode.ReadOnly, _24bppRgb), 255);
+                    MapManager.ProvincesPixels = Bitmap24bppToArgb(bitmap, 255);
                     actions.Enqueue(() => provinces = producerProvincesPixes());
                 }),
                 (TERRAIN_FILE_NAME, () => {
@@ -166,6 +166,83 @@ namespace HOI4ModBuilder.src.managers.texture
             return values;
         }
 
+        private static int[] Bitmap24bppToArgb(Bitmap bitmap, byte alpha)
+        {
+            int width = bitmap.Width;
+            int height = bitmap.Height;
+            int[] values = new int[width * height];
+            int a = alpha << 24;
+
+            var data = bitmap.LockBits(
+                new Rectangle(0, 0, width, height),
+                ImageLockMode.ReadOnly, _24bppRgb.imagePixelFormat
+            );
+
+            unsafe
+            {
+                byte* ptr = (byte*)data.Scan0;
+                int stride = data.Stride;
+                int index = 0;
+
+                for (int y = 0; y < height; y++)
+                {
+                    byte* row = ptr + y * stride;
+                    for (int x = 0; x < width; x++)
+                    {
+                        int offset = x * _24bppRgb.bytesPerPixel;
+                        values[index++] = a | (row[offset + 2] << 16) | (row[offset + 1] << 8) | row[offset];
+                    }
+                }
+            }
+
+            bitmap.UnlockBits(data);
+            return values;
+        }
+
+        private static byte[] Indexed8bppToBgr24Bytes(Bitmap inputBitmap)
+        {
+            int width = inputBitmap.Width;
+            int height = inputBitmap.Height;
+            byte[] output = new byte[width * height * _24bppRgb.bytesPerPixel];
+
+            Color[] paletteEntries = inputBitmap.Palette.Entries;
+            int[] paletteBgr = new int[paletteEntries.Length];
+            for (int i = 0; i < paletteEntries.Length; i++)
+            {
+                var color = paletteEntries[i];
+                paletteBgr[i] = color.B | (color.G << 8) | (color.R << 16);
+            }
+
+            var rect = new Rectangle(0, 0, width, height);
+            var inputData = inputBitmap.LockBits(rect, ImageLockMode.ReadOnly, _8bppIndexed.imagePixelFormat);
+
+            unsafe
+            {
+                byte* inputPtr = (byte*)inputData.Scan0;
+                int inputStride = inputData.Stride;
+
+                fixed (byte* outputPtr = output)
+                {
+                    byte* outputRow = outputPtr;
+                    for (int y = 0; y < height; y++)
+                    {
+                        byte* inputRow = inputPtr + y * inputStride;
+                        for (int x = 0; x < width; x++)
+                        {
+                            int color = paletteBgr[inputRow[x]];
+                            outputRow[0] = (byte)color;
+                            outputRow[1] = (byte)(color >> 8);
+                            outputRow[2] = (byte)(color >> 16);
+                            outputRow += _24bppRgb.bytesPerPixel;
+                        }
+                    }
+                }
+            }
+
+            inputBitmap.UnlockBits(inputData);
+            return output;
+        }
+
         private static void CreateMapPairProducer(Dictionary<string, src.FileInfo> fileInfos, string fileName, TextureType textureType, out Func<MapPair> producer, out Bitmap outBitmap)
         {
             if (!fileInfos.TryGetValue(fileName, out src.FileInfo fileInfo))
@@ -182,21 +259,28 @@ namespace HOI4ModBuilder.src.managers.texture
             }
 
             Bitmap bitmap;
-            using (var stream = new FileStream(fileInfo.filePath, FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream(
+                fileInfo.filePath,
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.Read,
+                1024 * 1024,
+                FileOptions.SequentialScan
+            ))
             {
-                var tempBitmap = new Bitmap(stream);
-                bitmap = tempBitmap.Clone(new Rectangle(0, 0, tempBitmap.Width, tempBitmap.Height), textureType.imagePixelFormat);
-                tempBitmap.Dispose();
+                using (var tempBitmap = new Bitmap(stream))
+                    bitmap = tempBitmap.Clone(new Rectangle(0, 0, tempBitmap.Width, tempBitmap.Height), textureType.imagePixelFormat);
             }
 
             outBitmap = bitmap;
             if (textureType == _8bppIndexed)
             {
-                var resultBitmap = Transfer8bbpIndexedTo24bpp(bitmap);
+                int width = bitmap.Width;
+                int height = bitmap.Height;
+                var resultBytes = Indexed8bppToBgr24Bytes(bitmap);
                 producer = () =>
                 {
-                    var texture = new Texture2D(resultBitmap, _24bppRgb, false);
-                    resultBitmap.Dispose();
+                    var texture = new Texture2D(_24bppRgb, false, null, width, height, resultBytes);
                     return new MapPair(fileInfo.needToSave, bitmap, texture);
                 };
             }
@@ -219,38 +303,8 @@ namespace HOI4ModBuilder.src.managers.texture
             int width = inputBitmap.Width;
             int height = inputBitmap.Height;
             var outputBitmap = new Bitmap(width, height, _24bppRgb.imagePixelFormat);
-            var rect = new Rectangle(0, 0, width, height);
-            var inputData = inputBitmap.LockBits(rect, ImageLockMode.ReadWrite, _8bppIndexed.imagePixelFormat);
-            var outputData = outputBitmap.LockBits(rect, ImageLockMode.ReadWrite, _24bppRgb.imagePixelFormat);
-
-            int pixelCount = inputData.Stride * height;
-            Color[] colors = inputBitmap.Palette.Entries;
-            Color color;
-
-            unsafe
-            {
-                byte* inputPtr = (byte*)inputData.Scan0;
-                byte* outputPtr = (byte*)outputData.Scan0;
-                for (int y = 0; y < height; y++)
-                {
-                    byte* inputPtrRow = inputPtr + y * inputData.Stride;
-                    byte* outputPtrRow = outputPtr + y * outputData.Stride;
-
-                    for (int x = 0; x < width; x++)
-                    {
-                        int outputIndex = x * _24bppRgb.bytesPerPixel;
-
-                        color = colors[inputPtrRow[x]];
-
-                        outputPtrRow[outputIndex] = color.B;
-                        outputPtrRow[outputIndex + 1] = color.G;
-                        outputPtrRow[outputIndex + 2] = color.R;
-                    }
-                }
-            }
-
-            inputBitmap.UnlockBits(inputData);
-            outputBitmap.UnlockBits(outputData);
+            var values = Indexed8bppToBgr24Bytes(inputBitmap);
+            Utils.ArrayToBitmap(values, outputBitmap, ImageLockMode.WriteOnly, width, height, _24bppRgb);
             return outputBitmap;
         }
 
@@ -273,7 +327,6 @@ namespace HOI4ModBuilder.src.managers.texture
             InitRiverPallete();
             int width = inputBitmap.Width;
             int height = inputBitmap.Height;
-            int pixelCount = width * height;
             var palette = inputBitmap.Palette;
 
             for (int i = 0; i < palette.Entries.Length; i++)
@@ -283,27 +336,28 @@ namespace HOI4ModBuilder.src.managers.texture
                 else _indexesToColors[i] = 0;
             }
 
-            byte[] values = Utils.BitmapToArray(inputBitmap, ImageLockMode.ReadOnly, _8bppGrayscale);
-            byte[] newValues = new byte[pixelCount * _32bppArgb.bytesPerPixel];
+            outputBitmap = new Bitmap(width, height, _32bppArgb.imagePixelFormat);
+            var rect = new Rectangle(0, 0, width, height);
+            var inputData = inputBitmap.LockBits(rect, ImageLockMode.ReadOnly, _8bppGrayscale.imagePixelFormat);
+            outputData = outputBitmap.LockBits(rect, ImageLockMode.WriteOnly, _32bppArgb.imagePixelFormat);
 
-            int tempIndex;
-            for (int i = 0; i < pixelCount; i++)
+            unsafe
             {
-                Utils.IntToArgb(_indexesToColors[values[i]], out byte a, out byte r, out byte g, out byte b);
-                tempIndex = i * 4;
-                newValues[tempIndex] = b;
-                newValues[tempIndex + 1] = g;
-                newValues[tempIndex + 2] = r;
-                newValues[tempIndex + 3] = a;
+                byte* inputPtr = (byte*)inputData.Scan0;
+                byte* outputPtr = (byte*)outputData.Scan0;
+                int inputStride = inputData.Stride;
+                int outputStride = outputData.Stride;
+
+                for (int y = 0; y < height; y++)
+                {
+                    byte* inputRow = inputPtr + y * inputStride;
+                    int* outputRow = (int*)(outputPtr + y * outputStride);
+                    for (int x = 0; x < width; x++)
+                        outputRow[x] = _indexesToColors[inputRow[x]];
+                }
             }
 
-            outputBitmap = new Bitmap(width, height, _32bppArgb.imagePixelFormat);
-            outputData = outputBitmap.LockBits(
-                new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadWrite, _32bppArgb.imagePixelFormat
-            );
-
-            Marshal.Copy(newValues, 0, outputData.Scan0, newValues.Length);
+            inputBitmap.UnlockBits(inputData);
         }
 
         public static void SaveAllMaps(BaseSettings settings)
