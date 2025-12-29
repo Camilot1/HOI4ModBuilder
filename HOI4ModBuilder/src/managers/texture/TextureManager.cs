@@ -60,12 +60,12 @@ namespace HOI4ModBuilder.src.managers.texture
         private static Dictionary<int, byte> _riverColorsMap = new Dictionary<int, byte>();
         private static readonly int[] _indexesToColors = new int[256];
 
-        private static HashSet<Texture2D> _mapPairTextures = new HashSet<Texture2D>();
-        private static HashSet<Texture2D> _textures = new HashSet<Texture2D>();
+        private static readonly HashSet<Texture2D> _mapPairTextures = new HashSet<Texture2D>();
+        private static readonly HashSet<Texture2D> _textures = new HashSet<Texture2D>();
 
         public static void DisposeMapTextures()
         {
-            foreach (var mapPairTexture in _mapPairTextures)
+            foreach (var mapPairTexture in new HashSet<Texture2D>(_mapPairTextures))
                 mapPairTexture.Dispose();
             _mapPairTextures.Clear();
         }
@@ -79,7 +79,17 @@ namespace HOI4ModBuilder.src.managers.texture
         }
 
         public static void AddTexture(Texture2D texture) => _textures.Add(texture);
-        public static void RemoveTexture(Texture2D texture) => _textures.Remove(texture);
+        public static void RemoveTexture(Texture2D texture)
+        {
+            _textures.Remove(texture);
+            _mapPairTextures.Remove(texture);
+        }
+
+        public static void AddMapPairTexture(Texture2D texture)
+        {
+            if (texture != null)
+                _mapPairTextures.Add(texture);
+        }
 
         public static void LoadTextures(BaseSettings settings)
         {
@@ -183,10 +193,17 @@ namespace HOI4ModBuilder.src.managers.texture
             if (textureType == _8bppIndexed)
             {
                 var resultBitmap = Transfer8bbpIndexedTo24bpp(bitmap);
-                producer = () => new MapPair(fileInfo.needToSave, bitmap, new Texture2D(resultBitmap, _24bppRgb, false));
+                producer = () =>
+                {
+                    var texture = new Texture2D(resultBitmap, _24bppRgb, false);
+                    resultBitmap.Dispose();
+                    return new MapPair(fileInfo.needToSave, bitmap, texture);
+                };
             }
             else
+            {
                 producer = () => new MapPair(fileInfo.needToSave, bitmap, new Texture2D(bitmap, textureType, false));
+            }
         }
 
         public static void LoadBorders()
@@ -312,7 +329,7 @@ namespace HOI4ModBuilder.src.managers.texture
                 newValues[tempIndex + 3] = a;
             }
 
-            outputBitmap = new Bitmap(width, height);
+            outputBitmap = new Bitmap(width, height, _32bppArgb.imagePixelFormat);
             outputData = outputBitmap.LockBits(
                 new Rectangle(0, 0, width, height),
                 ImageLockMode.ReadWrite, _32bppArgb.imagePixelFormat
@@ -424,6 +441,9 @@ namespace HOI4ModBuilder.src.managers.texture
             byte[] riversBytes = Utils.BitmapToArray(inputBitmap, ImageLockMode.ReadOnly, _32bppArgb);
             byte[] outputValues = new byte[pixelCount];
 
+            var modSettings = settings.GetModSettings();
+            bool exportWithWaterPixels = modSettings.exportRiversMapWithWaterPixels;
+
             int colorRiver;
             int? prevColorRiver = null;
 
@@ -432,7 +452,7 @@ namespace HOI4ModBuilder.src.managers.texture
 
             byte outputValue = 0;
 
-            if (settings.GetModSettings().exportRiversMapWithWaterPixels)
+            if (exportWithWaterPixels)
             {
                 for (int i = 0; i < pixelCount; i += 4)
                 {
@@ -444,8 +464,8 @@ namespace HOI4ModBuilder.src.managers.texture
                         prevColorRiver = colorRiver;
                         prevColorProvince = colorProvince;
 
-                        if (_riverColorsMap.ContainsKey(colorRiver))
-                            outputValue = _riverColorsMap[colorRiver];
+                        if (_riverColorsMap.TryGetValue(colorRiver, out var mappedRiver))
+                            outputValue = mappedRiver;
                         else if (ProvinceManager.TryGet(colorProvince, out Province province) && province.Type != EnumProvinceType.LAND)
                             outputValue = 254;
                         else
@@ -464,8 +484,8 @@ namespace HOI4ModBuilder.src.managers.texture
                     {
                         prevColorRiver = colorRiver;
 
-                        if (_riverColorsMap.ContainsKey(colorRiver))
-                            outputValue = _riverColorsMap[colorRiver];
+                        if (_riverColorsMap.TryGetValue(colorRiver, out var mappedRiver))
+                            outputValue = mappedRiver;
                         else
                             outputValue = 255;
                     }
@@ -491,9 +511,23 @@ namespace HOI4ModBuilder.src.managers.texture
 
         private static void CreateRiverMapProducer(Dictionary<string, src.FileInfo> fileInfos, string fileName, out Func<MapPair> producer)
         {
-            var fileInfo = fileInfos[fileName];
-            LoadRiverMap(new Bitmap(fileInfo.filePath), out Bitmap outputBitmap, out BitmapData outputData);
-            producer = () => new MapPair(fileInfo.needToSave, outputBitmap, new Texture2D(outputBitmap, outputData, _32bppArgb, false));
+            if (!fileInfos.TryGetValue(fileName, out src.FileInfo fileInfo))
+            {
+                var errorBitmap = new Bitmap(0, 0);
+                Logger.LogError(
+                    EnumLocKey.ERROR_MAP_FILE_NOT_FOUND,
+                    new Dictionary<string, string> { { "{fileName}", fileName } }
+                );
+
+                producer = () => new MapPair(false, errorBitmap, new Texture2D(errorBitmap, _32bppArgb, false));
+                return;
+            }
+
+            using (var inputBitmap = new Bitmap(fileInfo.filePath))
+            {
+                LoadRiverMap(inputBitmap, out Bitmap outputBitmap, out BitmapData outputData);
+                producer = () => new MapPair(fileInfo.needToSave, outputBitmap, new Texture2D(outputBitmap, outputData, _32bppArgb, false));
+            }
         }
 
         public static void LoadSegmentedTextures(
@@ -645,8 +679,6 @@ namespace HOI4ModBuilder.src.managers.texture
             var inputBitmap = new Bitmap(filePath);
             int width = inputBitmap.Width;
             int height = inputBitmap.Height;
-            int pixelCount;
-            byte bytesPerPixel;
 
             if (inputBitmap.PixelFormat == _24bppRgb.imagePixelFormat)
             {
@@ -660,10 +692,8 @@ namespace HOI4ModBuilder.src.managers.texture
 
                 var outputBitmap = new Bitmap(width, height, _32bppArgb.imagePixelFormat);
                 var rect = new Rectangle(0, 0, width, height);
-                var inputData = inputBitmap.LockBits(rect, ImageLockMode.ReadWrite, _24bppRgb.imagePixelFormat);
-                var outputData = outputBitmap.LockBits(rect, ImageLockMode.ReadWrite, _32bppArgb.imagePixelFormat);
-
-                pixelCount = inputData.Stride * height;
+                var inputData = inputBitmap.LockBits(rect, ImageLockMode.ReadOnly, _24bppRgb.imagePixelFormat);
+                var outputData = outputBitmap.LockBits(rect, ImageLockMode.WriteOnly, _32bppArgb.imagePixelFormat);
 
                 unsafe
                 {
@@ -698,11 +728,15 @@ namespace HOI4ModBuilder.src.managers.texture
             }
             else if (inputBitmap.PixelFormat == _32bppArgb.imagePixelFormat)
             {
+                if (alpha == 255)
+                {
+                    var tempTexture = new Texture2D(inputBitmap, _32bppArgb, true);
+                    inputBitmap.Dispose();
+                    return tempTexture;
+                }
+
                 var rect = new Rectangle(0, 0, width, height);
                 var data = inputBitmap.LockBits(rect, ImageLockMode.ReadWrite, _32bppArgb.imagePixelFormat);
-                bytesPerPixel = _32bppArgb.bytesPerPixel;
-
-                pixelCount = data.Stride * height;
 
                 float alphaFactor = alpha / 255f;
 
@@ -739,6 +773,7 @@ namespace HOI4ModBuilder.src.managers.texture
                         { "{correctPixelFormats}", $"{_24bppRgb.imagePixelFormat}, {_32bppArgb.imagePixelFormat}" },
                     }
                 );
+                inputBitmap.Dispose();
                 return null;
             }
         }

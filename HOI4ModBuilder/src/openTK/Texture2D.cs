@@ -17,6 +17,13 @@ namespace HOI4ModBuilder
         private int BufferID { get; set; }
         private float[] Coordinates { get; set; }
         public TextureType TextureType { get; private set; }
+        private static readonly float[] DefaultCoordinates = new float[]
+        {
+            0f, 1f, //LU
+            1f, 1f, //RU
+            1f, 0f, //RD
+            0f, 0f //LD
+        };
 
 
         public Texture2D(Bitmap bitmap, TextureType textureType, bool linear)
@@ -64,13 +71,7 @@ namespace HOI4ModBuilder
                 Update(data, textureType);
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
-            Coordinates = coordinates != null ? coordinates : new float[]
-            {
-                0f, 1f, //LU
-                1f, 1f, //RU
-                1f, 0f, //RD
-                0f, 0f //LD
-            };
+            Coordinates = coordinates ?? DefaultCoordinates;
 
             BufferID = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, BufferID);

@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -27,7 +25,7 @@ namespace HOI4ModBuilder.src.managers.texture
             this.needToSave = needToSave;
             this._bitmap = bitmap;
             this.texture = texture;
-            TextureManager.AddTexture(texture);
+            TextureManager.AddMapPairTexture(texture);
         }
 
         public void SetColor(int x, int y, int color)
@@ -61,7 +59,7 @@ namespace HOI4ModBuilder.src.managers.texture
 
         public byte GetByte(int x, int y)
         {
-            var bitmapData = _bitmap.LockBits(new Rectangle(0, 0, _bitmap.Width, _bitmap.Height), ImageLockMode.ReadWrite, _bitmap.PixelFormat);
+            var bitmapData = _bitmap.LockBits(new Rectangle(0, 0, _bitmap.Width, _bitmap.Height), ImageLockMode.ReadOnly, _bitmap.PixelFormat);
             var scan0 = bitmapData.Scan0;
 
             byte value = Marshal.ReadByte(scan0, y * bitmapData.Stride + x);
