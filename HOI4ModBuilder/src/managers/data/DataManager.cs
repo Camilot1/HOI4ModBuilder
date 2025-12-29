@@ -199,8 +199,10 @@ namespace HOI4ModBuilder.managers
 
         private static void UpdateByDateTimeStamp(DateTime dateTime)
         {
+            Logger.Log("Started UpdateByDateTimeStamp");
             CountryManager.UpdateByDateTimeStamp(dateTime);
             StateManager.UpdateByDateTimeStamp(dateTime);
+            Logger.Log("Finished UpdateByDateTimeStamp");
         }
 
         private static void Load(BaseSettings settings)
@@ -333,8 +335,8 @@ namespace HOI4ModBuilder.managers
             MainForm.Instance.SetGroupBoxProgressBackColor(success ? ResolveStatusColor() : Color.Red);
 
             MainForm.ResumeGLControl();
-            if (MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Count > 0)
-                MainForm.Instance.ToolStripComboBox_Data_Bookmark.SelectedIndex = 0;
+            //if (MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Count > 0)
+            //    MainForm.Instance.ToolStripComboBox_Data_Bookmark.SelectedIndex = 0;
 
             MainForm.Instance.UpdateSelectedMainLayerAndTool(true, false, false, false);
             MainForm.Instance.UpdateBordersType();
