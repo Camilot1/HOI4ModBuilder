@@ -34,7 +34,7 @@ namespace HOI4ModBuilder.src.utils
                 }
             });
             if (anyFailed[0])
-                throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_SAVING_PROCESS_ABORTED));
+                throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_ACTION_EXECUTION_FAILED));
         }
 
         public static void Execute(IEnumerable<(string, Action)> entries, int checkDelayMS, Action<int, int> onTaskEnd)
@@ -82,7 +82,7 @@ namespace HOI4ModBuilder.src.utils
             } while (completed + failed < total);
 
             if (failed != 0)
-                throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_SAVING_PROCESS_ABORTED));
+                throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_ACTION_EXECUTION_FAILED));
         }
     }
 }

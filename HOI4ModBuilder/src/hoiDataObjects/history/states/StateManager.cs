@@ -516,12 +516,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         }
 
 
-        public static void InitBorders()
+        public static HashSet<ProvinceBorder> InitBorders()
         {
             _statesBorders = new HashSet<ProvinceBorder>(0);
             foreach (var state in _statesById.Values)
                 state.InitBorders();
-            TextureManager.InitStateBordersMap(_statesBorders);
+            return _statesBorders;
         }
 
         public static void CalculateCenters()

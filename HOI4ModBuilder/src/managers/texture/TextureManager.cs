@@ -7,6 +7,7 @@ using HOI4ModBuilder.src.managers.texture;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -102,41 +103,39 @@ namespace HOI4ModBuilder.src.managers.texture
         {
             var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.ANY_FORMAT);
 
-            List<Action> actions = new List<Action>();
+            var actions = new ConcurrentQueue<Action>();
 
             MainForm.ExecuteActionsParallel(EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_TEXTURE_MAPS, new (string, Action)[]
             {
                 (PROVINCES_FILE_NAME, () => {
                     CreateMapPairProducer(fileInfoPairs, PROVINCES_FILE_NAME, _24bppRgb, out var producerProvincesPixes, out var bitmap);
                     MapManager.ProvincesPixels = BrgToArgb(Utils.BitmapToArray(bitmap, ImageLockMode.ReadOnly, _24bppRgb), 255);
-                    CreateBordersMap(MapManager.ProvincesPixels, bitmap.Width, bitmap.Height, out var producerProvincesBorders);
-                    actions.Add(() => provinces = producerProvincesPixes());
-                    actions.Add(() => provincesBorders = producerProvincesBorders());
+                    actions.Enqueue(() => provinces = producerProvincesPixes());
                 }),
                 (TERRAIN_FILE_NAME, () => {
                     CreateMapPairProducer(fileInfoPairs, TERRAIN_FILE_NAME, _8bppIndexed, out var producer, out var _);
-                    actions.Add(() => terrain = producer());
+                    actions.Enqueue(() => terrain = producer());
                 }),
                 (TREES_FILE_NAME, () => {
                     CreateMapPairProducer(fileInfoPairs, TREES_FILE_NAME, _8bppIndexed, out var producer, out var _);
-                    actions.Add(() => trees = producer());
+                    actions.Enqueue(() => trees = producer());
                 }),
                 (CITIES_FILE_NAME, () => {
                     CreateMapPairProducer(fileInfoPairs, CITIES_FILE_NAME, _8bppIndexed, out var producer, out var _);
-                    actions.Add(() => cities = producer());
+                    actions.Enqueue(() => cities = producer());
                 }),
                 (HEIGHTMAP_FILE_NAME, () => {
                     CreateMapPairProducer(fileInfoPairs, HEIGHTMAP_FILE_NAME, _8bppGrayscale, out var producer, out var bitmap);
                      MapManager.HeightsPixels = Utils.BitmapToArray(bitmap, ImageLockMode.ReadOnly, _8bppGrayscale);
-                    actions.Add(() => height = producer());
+                    actions.Enqueue(() => height = producer());
                 }),
                 (WORLD_NORMAL_FILE_NAME, () => {
                     CreateMapPairProducer(fileInfoPairs, WORLD_NORMAL_FILE_NAME, _24bppRgb, out var producer, out var _);
-                    actions.Add(() => normal = producer());
+                    actions.Enqueue(() => normal = producer());
                 }),
                 (RIVERS_FILE_NAME, () => {
                     CreateRiverMapProducer(fileInfoPairs, RIVERS_FILE_NAME, out var producer);
-                    actions.Add(() => rivers = producer());
+                    actions.Enqueue(() => rivers = producer());
                 })
             });
 
@@ -253,38 +252,6 @@ namespace HOI4ModBuilder.src.managers.texture
             inputBitmap.UnlockBits(inputData);
             outputBitmap.UnlockBits(outputData);
             return outputBitmap;
-        }
-
-        private static void CreateBordersMap(int[] values, int width, int height, out Func<MapPair> producer)
-        {
-            int pixelCount = width * height;
-
-            byte[] tempValues = new byte[pixelCount];
-
-            int checkBytesCount = pixelCount - width - 1;
-
-            int color;
-            for (int i = 0; i < checkBytesCount; i++)
-            {
-                color = values[i];
-
-                if (!(color == values[i + 1] && //Сравниваем с пикселем справа
-                    color == values[i + width] && //Сравниваем с пикселем снизу
-                    color == values[i + width + 1])) //Сравниваем с пикселем справа снизу
-                {
-                    tempValues[i] = 127; //Если пиксель рядом другого цвета, то делаем непрозрачным пиксель на текстуре границ
-                }
-            }
-
-            var outputBitmap = new Bitmap(width, height, _8bppAlpha.imagePixelFormat);
-            var outData = outputBitmap.LockBits(
-                new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadWrite, _8bppAlpha.imagePixelFormat
-            );
-
-            Marshal.Copy(tempValues, 0, outData.Scan0, tempValues.Length);
-
-            producer = () => new MapPair(false, outputBitmap, new Texture2D(outputBitmap, outData, _8bppAlpha, false));
         }
 
         public static void InitRiverPallete()
@@ -780,31 +747,10 @@ namespace HOI4ModBuilder.src.managers.texture
             }
         }
 
-        public static void InitRegionsBordersMap(HashSet<ProvinceBorder> borders) => regionsBorders = InitBordersMapPair(borders);
-        public static void InitStateBordersMap(HashSet<ProvinceBorder> borders) => statesBorders = InitBordersMapPair(borders);
-
-        private static MapPair InitBordersMapPair(HashSet<ProvinceBorder> borders)
+        public static Func<MapPair> GetBordersMapPairProducer(ICollection<ProvinceBorder> borders)
         {
-            var mainBitmap = provincesBorders.GetBitmap();
-            if (mainBitmap == null) return new MapPair();
-
-            int width = mainBitmap.Width;
-            int height = mainBitmap.Height;
-            int pixelCount = width * height;
-
-            byte[] newValues = new byte[pixelCount];
-
-            short mapWidth = (short)MapManager.MapSize.x;
-
-            foreach (var b in borders)
-            {
-                foreach (var p in b.pixels)
-                {
-                    if (p.x == 0 || p.x == mapWidth || p.y == 0)
-                        continue;
-                    newValues[(p.y - 1) * width + p.x - 1] = 127;
-                }
-            }
+            int width = MapManager.MapSize.x + 1;
+            int height = MapManager.MapSize.y + 1;
 
             var outputBitmap = new Bitmap(width, height, _8bppAlpha.imagePixelFormat);
             var outData = outputBitmap.LockBits(
@@ -812,9 +758,21 @@ namespace HOI4ModBuilder.src.managers.texture
                 ImageLockMode.ReadWrite, _8bppAlpha.imagePixelFormat
             );
 
-            Marshal.Copy(newValues, 0, outData.Scan0, newValues.Length);
+            unsafe
+            {
+                byte* basePtr = (byte*)outData.Scan0;
+                int stride = outData.Stride;
 
-            return new MapPair(false, outputBitmap, new Texture2D(outputBitmap, outData, _8bppAlpha, false));
+                foreach (var b in borders)
+                {
+                    foreach (var p in b.pixels)
+                    {
+                        basePtr[p.y * stride + p.x] = 127;
+                    }
+                }
+            }
+
+            return () => new MapPair(false, outputBitmap, new Texture2D(outputBitmap, outData, _8bppAlpha, false));
         }
     }
 }

@@ -146,6 +146,7 @@ MAP_TAB_PROGRESSBAR_LOADING_SUPPLIES: "Loading Supplies: "
 MAP_TAB_PROGRESSBAR_PROVINCES_BORDERS_ASSEMBLE: "Assembling Provinces Borders: "
 MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE: "Assembling States Borders: "
 MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE: "Assembling Regions Borders: "
+MAP_TAB_PROGRESSBAR_BORDERS_TEXTURES_ASSEMBLE: "Assembling Borders Texture Maps: "
 MAP_TAB_PROGRESSBAR_LOADING_UNITS: "Loading SubUnits: "
 MAP_TAB_PROGRESSBAR_LOADING_OOBS: "Loading OOBs: "
 MAP_TAB_PROGRESSBAR_LOADING_DIVISION_NAMES_GROUPS: "Loading Division Names Groups: "
@@ -581,3 +582,5 @@ DESKTOP_SHORCUT_CREATED: "Desktop shortcut created"
 
 EXCEPTION_PARSED_OBJECT_NOT_FOUND: "{objectName} with {parameterName} = {parameterValue} not found"
 EXCEPTION_PARSED_OBJECT_INVALID_VALUE: "Invalid value {objectName} {parameterName} = {parameterValue}"
+
+EXCEPTION_ACTION_EXECUTION_FAILED: "Failed to execute action"

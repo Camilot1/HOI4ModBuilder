@@ -77,6 +77,9 @@ namespace HOI4ModBuilder
 
         public void Draw()
         {
+            if (Texture == null)
+                return;
+
             EnableStates();
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferID);

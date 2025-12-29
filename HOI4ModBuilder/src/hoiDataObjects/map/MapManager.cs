@@ -127,7 +127,7 @@ namespace HOI4ModBuilder.managers
             MapSize = TextureManager.provinces.texture.Size;
             CheckMapSize();
             MapMainLayer = new TexturedPlane(TextureManager.provinces.texture, MapSize.x, MapSize.y);
-            BordersMapPlane = new TexturedPlane(TextureManager.provincesBorders.texture, MapSize.x, MapSize.y);
+            BordersMapPlane = new TexturedPlane(TextureManager.provincesBorders.texture, MapSize.x + 1, MapSize.y + 1);
             RiversMapPlane = new TexturedPlane(TextureManager.rivers.texture, MapSize.x, MapSize.y);
 
             if (mapDifX == 0 && mapDifY == 0)
@@ -194,11 +194,11 @@ namespace HOI4ModBuilder.managers
 
             if (displayLayers[(int)EnumAdditionalLayers.BORDERS])
             {
-                GL.Translate(0.5f, -0.5f, 0f);
+                GL.Translate(-0.5f, -0.5f, 0f);
                 if (blackBorders) GL.Color3(0f, 0f, 0f);
                 BordersMapPlane.Draw();
                 GL.Color3(1f, 1f, 1f);
-                GL.Translate(-0.5f, 0.5f, 0f);
+                GL.Translate(0.5f, 0.5f, 0f);
             }
 
             if (displayLayers[(int)EnumAdditionalLayers.RIVERS])

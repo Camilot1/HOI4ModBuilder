@@ -1,13 +1,17 @@
 ﻿using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.map.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.map.provinces.border;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
+using HOI4ModBuilder.src.managers.texture;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.borders;
 using HOI4ModBuilder.src.utils.structs;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Security.Policy;
 using System.Threading.Tasks;
 
 namespace HOI4ModBuilder.hoiDataObjects.map
@@ -21,6 +25,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public static int ProvinceBorderCount { get; private set; } = 0;
 
         private static BordersAssembler _bordersAssembler = new BordersAssembler();
+        private static List<ProvinceBorder> _provinceBorders = new List<ProvinceBorder>(ushort.MaxValue);
         private struct BorderBuildInfo
         {
             public readonly int MinColor;
@@ -50,9 +55,33 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             MainForm.ExecuteActions(new (EnumLocKey, Action)[]
             {
                 (EnumLocKey.MAP_TAB_PROGRESSBAR_PROVINCES_BORDERS_ASSEMBLE, () => InitBordersPixelsTask()),
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_PROVINCES_BORDERS_ASSEMBLE, () => AssembleBorderTask()),
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE, () => StateManager.InitBorders()),
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE, () => StrategicRegionManager.InitBorders()),
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_PROVINCES_BORDERS_ASSEMBLE, () => AssembleBorderTask())
+            });
+
+
+            var actions = new ConcurrentQueue<Action>();
+            MainForm.ExecuteActionsParallelNoDisplay(EnumLocKey.MAP_TAB_PROGRESSBAR_BORDERS_TEXTURES_ASSEMBLE, new (string, Action)[]
+            {
+                ("ProvincesBordersTextureAssemble", () => {
+                    var producer = TextureManager.GetBordersMapPairProducer(_provinceBorders);
+                    actions.Enqueue(() => TextureManager.provincesBorders = producer());
+                }),
+                ("StatesBordersTextureAssemble", () => {
+                    var producer = TextureManager.GetBordersMapPairProducer(StateManager.InitBorders());
+                    actions.Enqueue(() => TextureManager.statesBorders = producer());
+                }),
+                ("RegionsBordersTextureAssemble", () => {
+                    var producer = TextureManager.GetBordersMapPairProducer(StrategicRegionManager.InitBorders());
+                    actions.Enqueue(() => TextureManager.regionsBorders = producer());
+                })
+            });
+
+            MainForm.ExecuteActions(new (EnumLocKey, Action)[] {
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_BORDERS_TEXTURES_ASSEMBLE, () =>
+                {
+                    foreach (var action in actions)
+                        action();
+                })
             });
         }
 
@@ -172,6 +201,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         private static void AssembleBorderTask()
         {
+            _provinceBorders.Clear();
             short mapWidth = (short)MapManager.MapSize.x;
             var bordersData = _bordersAssembler.BordersData;
             if (bordersData == null || bordersData.Count == 0)
@@ -223,7 +253,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                         var info = list[i];
                         var minProvince = GetProvinceCached(provinceCache, info.MinColor);
                         var maxProvince = GetProvinceCached(provinceCache, info.MaxColor);
-                        new ProvinceBorder(ProvinceBorderCount, info.Pixels, minProvince, maxProvince).AddToProvinces();
+                        var border = new ProvinceBorder(ProvinceBorderCount, info.Pixels, minProvince, maxProvince);
+                        border.AddToProvinces();
+                        _provinceBorders.Add(border);
                         ProvinceBorderCount++;
                     }
                 }
@@ -248,7 +280,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                         var maxProvince = GetProvinceCached(provinceCache, data.provinceMaxColor);
                         for (int p = 0; p < pixelsLists.Count; p++)
                         {
-                            new ProvinceBorder(ProvinceBorderCount, pixelsLists[p], minProvince, maxProvince).AddToProvinces();
+                            var border = new ProvinceBorder(ProvinceBorderCount, pixelsLists[p], minProvince, maxProvince);
+                            border.AddToProvinces();
+                            _provinceBorders.Add(border);
                             ProvinceBorderCount++;
                         }
                     }

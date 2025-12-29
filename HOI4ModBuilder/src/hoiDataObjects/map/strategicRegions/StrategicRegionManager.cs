@@ -325,12 +325,12 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
         }
 
 
-        public static void InitBorders()
+        public static HashSet<ProvinceBorder> InitBorders()
         {
             _regionsBorders = new HashSet<ProvinceBorder>();
             foreach (var region in _regions.Values)
                 region.InitBorders();
-            TextureManager.InitRegionsBordersMap(_regionsBorders);
+            return _regionsBorders;
         }
 
         private static void HandleDelete()

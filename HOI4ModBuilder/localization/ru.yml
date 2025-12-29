@@ -151,6 +151,7 @@ MAP_TAB_PROGRESSBAR_LOADING_SUPPLIES: "Загрузка снабжения: "
 MAP_TAB_PROGRESSBAR_PROVINCES_BORDERS_ASSEMBLE: "Сборка границ провинций: "
 MAP_TAB_PROGRESSBAR_STATES_BORDERS_ASSEMBLE: "Сборка границ областей: "
 MAP_TAB_PROGRESSBAR_REGIONS_BORDERS_ASSEMBLE: "Сборка границ регионов: "
+MAP_TAB_PROGRESSBAR_BORDERS_TEXTURES_ASSEMBLE: "Сборка текстурных карт границ: "
 MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING: "Поиск ошибок на карте: "
 MAP_TAB_PROGRESSBAR_MAP_WARNINGS_SEARCHING: "Поиск предупреждений на карте: "
 MAP_TAB_PROGRESSBAR_LOADING_AI_AREAS: "Загрузка зон ИИ: "
@@ -580,3 +581,5 @@ DESKTOP_SHORCUT_CREATED: "Ярлык создан на рабочем столе
 
 EXCEPTION_PARSED_OBJECT_NOT_FOUND: "{objectName} с {parameterName} = {parameterValue} не найден"
 EXCEPTION_PARSED_OBJECT_INVALID_VALUE: "Некорректное значение {objectName} {parameterName} = {parameterValue}"
+
+EXCEPTION_ACTION_EXECUTION_FAILED: "Не удалось выполнить действие"
