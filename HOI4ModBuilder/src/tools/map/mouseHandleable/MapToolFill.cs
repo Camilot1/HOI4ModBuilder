@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.managers.mapChecks.warnings.checkers;
+using HOI4ModBuilder.src.managers.texture;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.exceptions;
 using HOI4ModBuilder.src.utils.structs;
@@ -109,7 +110,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             if (bounds.HasSpace())
                 positions = bounds.ToPositions((ushort)MapManager.MapSize.x, (ushort)MapManager.MapSize.y);
             else if (newColor != prevColor)
-                positions = TextureManager.provinces.NewGetRGBPositions((ushort)pos.x, (ushort)pos.y, TextureManager._24bppRgb);
+                positions = TextureManager.provinces.GetRGBPositions((ushort)pos.x, (ushort)pos.y, TextureManager._24bppRgb);
             if (positions == null || positions.Count == 0)
                 return false;
 
@@ -140,7 +141,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
             if (bounds.HasSpace())
                 positions = bounds.ToPositions((ushort)MapManager.MapSize.x, (ushort)MapManager.MapSize.y);
             else if (newColor != prevColor)
-                positions = TextureManager.height.NewGetRGBPositions((ushort)pos.x, (ushort)pos.y, TextureManager._8bppGrayscale);
+                positions = TextureManager.height.GetRGBPositions((ushort)pos.x, (ushort)pos.y, TextureManager._8bppGrayscale);
             if (positions == null || positions.Count == 0)
                 return false;
 

@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.managers.mapChecks.warnings.checkers;
+using HOI4ModBuilder.src.managers.texture;
 using HOI4ModBuilder.src.tools.brushes;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.exceptions;

@@ -543,6 +543,7 @@
     <Compile Include="src\managers\settings\SettingsManager.cs" />
     <Compile Include="src\managers\statistics\StatisticsManager.cs" />
     <Compile Include="src\managers\statistics\StatistictsData.cs" />
+    <Compile Include="src\managers\texture\MapPair.cs" />
     <Compile Include="src\network\NetworkManager.cs" />
     <Compile Include="src\network\SyncInfo.cs" />
     <Compile Include="src\newParser\exceptions\ParsedObjectInvalidValueException.cs" />
@@ -894,7 +895,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\openTK\Texture2D.cs" />
     <Compile Include="src\openTK\TexturedPlane.cs" />
-    <Compile Include="src\managers\TextureManager.cs" />
+    <Compile Include="src\managers\texture\TextureManager.cs" />
     <Compile Include="src\openTK\TextureTypes.cs" />
     <Compile Include="src\tools\map\mouseHandleable\MapToolVictoryPoints.cs" />
     <Compile Include="src\utils\borders\BordersAssembler.cs" />

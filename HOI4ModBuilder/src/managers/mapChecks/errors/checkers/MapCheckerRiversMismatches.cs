@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Drawing;
+using HOI4ModBuilder.src.managers.texture;
 
 namespace HOI4ModBuilder.src.managers.mapChecks.errors.checkers
 {

@@ -24,6 +24,7 @@ using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.data.exceptions;
 using HOI4ModBuilder.src.managers.mapChecks;
 using HOI4ModBuilder.src.managers.settings;
+using HOI4ModBuilder.src.managers.texture;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.openTK;
 using HOI4ModBuilder.src.utils;

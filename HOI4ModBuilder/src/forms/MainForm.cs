@@ -22,6 +22,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.managers;
+using HOI4ModBuilder.src.managers.texture;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.openTK;
 using HOI4ModBuilder.src.scripts;

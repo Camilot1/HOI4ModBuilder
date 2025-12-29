@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HOI4ModBuilder.src.managers.texture;
 
 namespace HOI4ModBuilder.src.tools.map.advanced
 {

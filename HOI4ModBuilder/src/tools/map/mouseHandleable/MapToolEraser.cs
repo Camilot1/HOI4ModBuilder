@@ -9,6 +9,7 @@ using HOI4ModBuilder.src.tools.brushes;
 using HOI4ModBuilder.hoiDataObjects.map;
 using System.Threading.Tasks;
 using System.Collections;
+using HOI4ModBuilder.src.managers.texture;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.tools
 {

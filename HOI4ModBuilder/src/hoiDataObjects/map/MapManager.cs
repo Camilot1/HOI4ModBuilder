@@ -11,6 +11,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.mapChecks;
 using HOI4ModBuilder.src.managers.settings;
+using HOI4ModBuilder.src.managers.texture;
 using HOI4ModBuilder.src.openTK;
 using HOI4ModBuilder.src.openTK.text;
 using HOI4ModBuilder.src.scripts;

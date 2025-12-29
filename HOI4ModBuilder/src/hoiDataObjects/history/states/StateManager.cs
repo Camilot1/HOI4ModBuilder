@@ -5,6 +5,7 @@ using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.settings;
+using HOI4ModBuilder.src.managers.texture;
 using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.classes;

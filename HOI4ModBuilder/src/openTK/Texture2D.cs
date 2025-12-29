@@ -3,6 +3,7 @@ using System.Drawing.Imaging;
 using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 using HOI4ModBuilder.src.utils.structs;
+using HOI4ModBuilder.src.managers.texture;
 
 namespace HOI4ModBuilder
 {

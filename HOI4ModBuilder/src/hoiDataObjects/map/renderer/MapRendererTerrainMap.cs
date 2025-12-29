@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.managers.texture;
 using HOI4ModBuilder.src.openTK;
 using System;
 
