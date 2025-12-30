@@ -157,6 +157,7 @@ MAP_TAB_PROGRESSBAR_MAP_WARNINGS_SEARCHING: "Поиск предупрежден
 MAP_TAB_PROGRESSBAR_LOADING_AI_AREAS: "Загрузка зон ИИ: "
 MAP_TAB_PROGRESSBAR_LOADING_EQUPMENTS: "Загрузка снаряжения: "
 MAP_TAB_PROGRESSBAR_MAP_WARNINGS_AND_ERRORS_SEARCHING: "Поиск ошибок и предупреждений на карте:"
+MAP_TAB_PROGRESSBAR_PROCESS_PROVINCES_PIXELS: "Обработка пикселей провинций"
 
 MAP_TAB_PROGRESSBAR_SAVING: "Сохранение данных:"
 MAP_TAB_PROGRESSBAR_SAVING_PROVINCES_DEFINITION: "Сохранение файла провинций: "
@@ -216,6 +217,7 @@ WARNING_COUNTRY_TAGS_PARSING_INCORRECT_LINE: "Некорректная стро�
 WARNING_COUNTRY_TAGS_PARSING_INLINE_FILEPATH_FILE_DOESNT_EXISTS: "Не найден файл {inlineFilePath} для загрузки информации о стране {countryTag} из строки в файле {filePath}."
 
 ERROR_MAP_FILE_NOT_FOUND: "Не найден файл карты \"{fileName}\"."
+ERROR_MAP_FAILED_TO_LOAD_MAP_FILE: "Не удалось загрузить файл карты \"{fileName}\" по пути \"{fileInfo.filePath}\"."
 
 ERROR_PROVINCE_INCORRECT_PARAMS_COUNT: "У провинции на строке {lineIndex} указано некорректное количество параметров ({currentCount} вместо {correctCount}})"
 ERROR_PROVINCE_INCORRECT_ID_VALUE: "У провинции на строке {lineIndex} указано некорректное значение id = {provinceId}"

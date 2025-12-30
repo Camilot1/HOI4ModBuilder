@@ -630,7 +630,7 @@ namespace HOI4ModBuilder.managers
                         var context = new GraphicsContext(GraphicsMode.Default, MainForm.Instance.GLControl.WindowInfo);
                         context.MakeCurrent(MainForm.Instance.GLControl.WindowInfo);
 
-                        TextureManager.LoadBorders();
+                        TextureManager.ProcessProvincesPixels();
                         ProvinceManager.ProcessProvincesPixels(ProvincesPixels, MapSize.x, MapSize.y);
                         ProvinceBorderManager.Init(ProvincesPixels, (short)MapSize.x, (short)MapSize.y);
 

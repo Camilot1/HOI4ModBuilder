@@ -155,6 +155,7 @@ MAP_TAB_PROGRESSBAR_LOADING_EQUPMENTS: "Loading Equipments: "
 MAP_TAB_PROGRESSBAR_MAP_ERRORS_SEARCHING: "Finding Map Errors: "
 MAP_TAB_PROGRESSBAR_MAP_WARNINGS_SEARCHING: "Finding Map Warnings: "
 MAP_TAB_PROGRESSBAR_MAP_WARNINGS_AND_ERRORS_SEARCHING: "Searching for Map Errors and Warnings:"
+MAP_TAB_PROGRESSBAR_PROCESS_PROVINCES_PIXELS: "Processing Provinces Pixels"
 
 MAP_TAB_PROGRESSBAR_SAVING: "Saving Data:"
 MAP_TAB_PROGRESSBAR_SAVING_PROVINCES_DEFINITION: "Saving Provinces Def. File: "
@@ -214,6 +215,7 @@ WARNING_COUNTRY_TAGS_PARSING_INCORRECT_LINE: "Incorrect {line} if the file: {fil
 WARNING_COUNTRY_TAGS_PARSING_INLINE_FILEPATH_FILE_DOESNT_EXISTS: "The file {inlineFilePath} with info about the country {countryTag} from the {filePath} not found."
 
 ERROR_MAP_FILE_NOT_FOUND: "The map file \"{fileName}\" not found."
+ERROR_MAP_FAILED_TO_LOAD_MAP_FILE: "Failed to load map file \"{fileName}\" from \"{fileInfo.filePath}\"."
 
 ERROR_PROVINCE_INCORRECT_PARAMS_COUNT: "The province at line {lineIndex} has incorrect count of parameters ({currentCount} instead of {correctCount}})"
 ERROR_PROVINCE_INCORRECT_ID_VALUE: "The province at line {lineIndex} has incorrect id = {provinceId}"

@@ -96,7 +96,7 @@ namespace HOI4ModBuilder.src.managers.texture
         {
             DisposeMapTextures();
             LoadMapPairs(settings);
-            LoadBorders();
+            ProcessProvincesPixels();
         }
 
         private static void LoadMapPairs(BaseSettings settings)
@@ -126,7 +126,7 @@ namespace HOI4ModBuilder.src.managers.texture
                 }),
                 (HEIGHTMAP_FILE_NAME, () => {
                     CreateMapPairProducer(fileInfoPairs, HEIGHTMAP_FILE_NAME, _8bppGrayscale, out var producer, out var bitmap);
-                     MapManager.HeightsPixels = Utils.BitmapToArray(bitmap, ImageLockMode.ReadOnly, _8bppGrayscale);
+                    MapManager.HeightsPixels = Utils.BitmapToArray(bitmap, ImageLockMode.ReadOnly, _8bppGrayscale);
                     actions.Enqueue(() => height = producer());
                 }),
                 (WORLD_NORMAL_FILE_NAME, () => {
@@ -259,17 +259,36 @@ namespace HOI4ModBuilder.src.managers.texture
             }
 
             Bitmap bitmap;
-            using (var stream = new FileStream(
-                fileInfo.filePath,
-                FileMode.Open,
-                FileAccess.Read,
-                FileShare.Read,
-                1024 * 1024,
-                FileOptions.SequentialScan
-            ))
+            try
             {
-                using (var tempBitmap = new Bitmap(stream))
-                    bitmap = tempBitmap.Clone(new Rectangle(0, 0, tempBitmap.Width, tempBitmap.Height), textureType.imagePixelFormat);
+                using (var stream = new FileStream(
+                    fileInfo.filePath,
+                    FileMode.Open,
+                    FileAccess.Read,
+                    FileShare.Read,
+                    1024 * 1024,
+                    FileOptions.SequentialScan
+                ))
+                {
+                    using (var tempBitmap = new Bitmap(stream))
+                        bitmap = tempBitmap.Clone(new Rectangle(0, 0, tempBitmap.Width, tempBitmap.Height), textureType.imagePixelFormat);
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorBitmap = new Bitmap(0, 0);
+                Logger.LogExceptionAsError(
+                    EnumLocKey.ERROR_MAP_FAILED_TO_LOAD_MAP_FILE,
+                    new Dictionary<string, string> { 
+                        { "{fileName}", fileName },
+                        { "{filePath}", fileInfo.filePath },
+                    },
+                    ex
+                );
+
+                producer = () => new MapPair(false, errorBitmap, new Texture2D(errorBitmap, textureType, false));
+                outBitmap = errorBitmap;
+                return;
             }
 
             outBitmap = bitmap;
@@ -290,11 +309,11 @@ namespace HOI4ModBuilder.src.managers.texture
             }
         }
 
-        public static void LoadBorders()
+        public static void ProcessProvincesPixels()
         {
             MainForm.ExecuteActions(new (EnumLocKey, Action)[]
             {
-                (EnumLocKey.MAP_TAB_PROGRESSBAR_LOADING_PROVINCES_BORDERS_TEXTURE_MAP, () => ProvinceManager.ProcessProvincesPixels(MapManager.ProvincesPixels, provinces.GetBitmap().Width, provinces.GetBitmap().Height))
+                (EnumLocKey.MAP_TAB_PROGRESSBAR_PROCESS_PROVINCES_PIXELS, () => ProvinceManager.ProcessProvincesPixels(MapManager.ProvincesPixels, provinces.GetBitmap().Width, provinces.GetBitmap().Height))
             });
         }
 
@@ -385,19 +404,19 @@ namespace HOI4ModBuilder.src.managers.texture
         public static void SaveTerrainMap()
         {
             if (terrain.needToSave)
-                terrain.GetBitmap().Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + TERRAIN_FILE_NAME, ImageFormat.Bmp);
+                SaveIndexedMap(terrain.GetBitmap(), SettingsManager.Settings.modDirectory + FOLDER_PATH + TERRAIN_FILE_NAME);
         }
 
         public static void SaveTreesMap()
         {
             if (trees.needToSave)
-                trees.GetBitmap().Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + TREES_FILE_NAME, ImageFormat.Bmp);
+                SaveIndexedMap(trees.GetBitmap(), SettingsManager.Settings.modDirectory + FOLDER_PATH + TREES_FILE_NAME);
         }
 
         public static void SaveCitiesMap()
         {
             if (cities.needToSave)
-                cities.GetBitmap().Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + CITIES_FILE_NAME, ImageFormat.Bmp);
+                SaveIndexedMap(cities.GetBitmap(), SettingsManager.Settings.modDirectory + FOLDER_PATH + CITIES_FILE_NAME);
         }
 
         public static void SaveHeightAndNormalMaps(BaseSettings settings)
@@ -530,6 +549,38 @@ namespace HOI4ModBuilder.src.managers.texture
 
             Utils.ArrayToBitmap(outputValues, outputBitmap, ImageLockMode.WriteOnly, width, height, _8bppIndexed);
             outputBitmap.Save(SettingsManager.Settings.modDirectory + FOLDER_PATH + RIVERS_FILE_NAME, ImageFormat.Bmp);
+        }
+
+        private static void SaveIndexedMap(Bitmap inputBitmap, string filePath)
+        {
+            int width = inputBitmap.Width;
+            int height = inputBitmap.Height;
+            byte[] values = Utils.BitmapToArray(inputBitmap, ImageLockMode.ReadOnly, _8bppIndexed);
+
+            var directory = Path.GetDirectoryName(filePath);
+            if (!string.IsNullOrWhiteSpace(directory) && !Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            var tempPath = filePath + ".tmp";
+            try
+            {
+                using (var outputBitmap = new Bitmap(width, height, _8bppIndexed.imagePixelFormat))
+                {
+                    outputBitmap.Palette = inputBitmap.Palette;
+                    Utils.ArrayToBitmap(values, outputBitmap, ImageLockMode.WriteOnly, width, height, _8bppIndexed);
+                    outputBitmap.Save(tempPath, ImageFormat.Bmp);
+                }
+
+                if (File.Exists(filePath))
+                    File.Replace(tempPath, filePath, null);
+                else
+                    File.Move(tempPath, filePath);
+            }
+            finally
+            {
+                if (File.Exists(tempPath))
+                    File.Delete(tempPath);
+            }
         }
 
         private static void CreateRiverMapProducer(Dictionary<string, src.FileInfo> fileInfos, string fileName, out Func<MapPair> producer)
