@@ -162,7 +162,8 @@ namespace HOI4ModBuilder.managers
             if (bookmarks.Count > 0)
                 dateTime = bookmarks[0].dateTimeStamp;
 
-            UpdateByDateTimeStamp(dateTime);
+            if (MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Count > 0)
+                MainForm.Instance.ToolStripComboBox_Data_Bookmark.SelectedIndex = 0;
 
             MainForm.AddTasks_LoadSaveUpdate(new Task[] {
                 Task.Run(() => MapPositionsManager.Load(settings)),
@@ -337,8 +338,6 @@ namespace HOI4ModBuilder.managers
             MainForm.Instance.SetGroupBoxProgressBackColor(success ? ResolveStatusColor() : Color.Red);
 
             MainForm.ResumeGLControl();
-            //if (MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Count > 0)
-            //    MainForm.Instance.ToolStripComboBox_Data_Bookmark.SelectedIndex = 0;
 
             MainForm.Instance.UpdateSelectedMainLayerAndTool(true, false, false, false);
             MainForm.Instance.UpdateBordersType();

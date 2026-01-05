@@ -25,5 +25,8 @@
                    fileName == info.fileName &&
                    filePath == info.filePath;
         }
+
+        public override string ToString()
+            => $"FileName: {fileName}; FilePath: {filePath}; NeedToSave: {needToSave}; NeedToDelete: {needToDelete}";
     }
 }
