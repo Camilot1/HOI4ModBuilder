@@ -157,13 +157,7 @@ namespace HOI4ModBuilder.managers
             DataManager.Load(SettingsManager.Settings);
             MapManager.Load(SettingsManager.Settings);
 
-            var bookmarks = BookmarkManager.GetAllBookramksSorted();
-            DateTime dateTime = default;
-            if (bookmarks.Count > 0)
-                dateTime = bookmarks[0].dateTimeStamp;
-
-            if (MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Count > 0)
-                MainForm.Instance.ToolStripComboBox_Data_Bookmark.SelectedIndex = 0;
+            MainForm.Instance.InvokeAction(() => InitBookmark());
 
             MainForm.AddTasks_LoadSaveUpdate(new Task[] {
                 Task.Run(() => MapPositionsManager.Load(settings)),
@@ -174,15 +168,57 @@ namespace HOI4ModBuilder.managers
             MainForm.IsMapMainLayerChangeEnabled = true;
         }
 
+        private static void InitBookmark()
+        {
+            var activeBookmarkText = MainForm.Instance.ToolStripComboBox_Data_Bookmark.Text;
+            var hasActiveBookmark = TryParseBookmarkDateTimeString(activeBookmarkText, out var dateTimeString);
+
+            if (!hasActiveBookmark)
+            {
+                if (MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Count > 0)
+                    MainForm.Instance.ToolStripComboBox_Data_Bookmark.SelectedIndex = 0;
+                return;
+            }
+
+            var availableBookmarks = MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items;
+
+            bool bookmarkIsAllowed = false;
+            foreach ( var bookmark in availableBookmarks ) {
+                if (activeBookmarkText == (string)bookmark)
+                    bookmarkIsAllowed = true;
+            }
+
+            if (!bookmarkIsAllowed && availableBookmarks.Count > 0)
+            {
+                MainForm.Instance.ToolStripComboBox_Data_Bookmark.SelectedIndex = 0;
+                return;
+            }
+            else if (bookmarkIsAllowed && Utils.TryParseDateTimeStamp(dateTimeString, out var dateTime))
+            {
+                UpdateByDateTimeStamp(dateTime);
+            }
+        }
+
+        private static bool TryParseBookmarkDateTimeString(string text, out string dateTimeString)
+        {
+            dateTimeString = null;
+
+            var startIndex = text.IndexOf('[');
+            var endIndex = text.IndexOf("]");
+
+            if (startIndex < 0 || endIndex < 0 || endIndex < startIndex)
+                return false;
+
+            dateTimeString = text.Substring(startIndex + 1, endIndex - startIndex - 1).Trim();
+            return dateTimeString.Length > 0;
+        }
+
         public static void OnBookmarkChange()
         {
             Logger.TryOrLog(() =>
             {
-                string[] value = MainForm.Instance.ToolStripComboBox_Data_Bookmark.Text.Split(']');
-                if (value.Length <= 1)
+                if (!TryParseBookmarkDateTimeString(MainForm.Instance.ToolStripComboBox_Data_Bookmark.Text, out var dateTimeString))
                     return;
-
-                string dateTimeString = value[0].Replace('[', ' ').Trim();
 
                 Logger.TryOrCatch(() =>
                 {

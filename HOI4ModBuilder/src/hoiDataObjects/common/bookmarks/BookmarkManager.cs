@@ -20,7 +20,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.bookmarks
         private static Dictionary<FileInfo, List<Bookmark>> _bookmarksByFilesMap = new Dictionary<FileInfo, List<Bookmark>>();
         private static Dictionary<string, Bookmark> _allBookmarks = new Dictionary<string, Bookmark>();
         public static Dictionary<string, Bookmark>.ValueCollection GetAllBookmarks => _allBookmarks.Values;
-        public static List<Bookmark> GetAllBookramksSorted()
+        public static List<Bookmark> GetAllBookmarksSorted()
         {
             var bookmarks = new List<Bookmark>(GetAllBookmarks);
             bookmarks.Sort();
@@ -52,7 +52,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.bookmarks
             {
                 _guiReinitAction = () =>
                 {
-                    foreach (var bookmark in GetAllBookramksSorted())
+                    foreach (var bookmark in GetAllBookmarksSorted())
                         MainForm.Instance.ToolStripComboBox_Data_Bookmark.Items.Add($"[{Utils.DateTimeStampToString(bookmark.dateTimeStamp)}] {bookmark.name}");
                 };
                 MainForm.SubscribeGuiReinitAction(_guiReinitAction);
