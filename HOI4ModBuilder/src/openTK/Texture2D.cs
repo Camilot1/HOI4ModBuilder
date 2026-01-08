@@ -4,6 +4,7 @@ using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 using HOI4ModBuilder.src.utils.structs;
 using HOI4ModBuilder.src.managers.texture;
+using System.Diagnostics;
 
 namespace HOI4ModBuilder
 {
@@ -81,22 +82,27 @@ namespace HOI4ModBuilder
 
         private void Update(in BitmapData data, in TextureType textureType)
         {
+            ValidateBitmapDataSize(data, textureType, _size.x, _size.y);
+            GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
             GL.TexImage2D(TextureTarget.Texture2D, 0, textureType.pixelInternalFormat, _size.x, _size.y, 0, textureType.openGLPixelFormat, PixelType.UnsignedByte, data.Scan0);
         }
 
         public void Set(in TextureType textureType, int x, int y, int width, int height, byte[] data)
         {
             GL.BindTexture(TextureTarget.Texture2D, TextureId);
+            GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
             if (data == null)
             {
                 GL.TexImage2D(TextureTarget.Texture2D, 0, textureType.pixelInternalFormat, width, height, 0, textureType.openGLPixelFormat, PixelType.UnsignedByte, IntPtr.Zero);
             }
             else if (x == 0 && y == 0)
             {
+                ValidateByteDataSize(data, textureType, width, height);
                 GL.TexImage2D(TextureTarget.Texture2D, 0, textureType.pixelInternalFormat, width, height, 0, textureType.openGLPixelFormat, PixelType.UnsignedByte, data);
             }
             else
             {
+                ValidateByteDataSize(data, textureType, width, height);
                 GL.TexImage2D(TextureTarget.Texture2D, 0, textureType.pixelInternalFormat, width, height, 0, textureType.openGLPixelFormat, PixelType.UnsignedByte, IntPtr.Zero);
                 GL.TexSubImage2D(TextureTarget.Texture2D, 0, x, y, width, height, textureType.openGLPixelFormat, PixelType.UnsignedByte, data);
             }
@@ -106,8 +112,33 @@ namespace HOI4ModBuilder
         public void Update(in TextureType textureType, int x, int y, int width, int height, byte[] data)
         {
             GL.BindTexture(TextureTarget.Texture2D, TextureId);
+            GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
+            ValidateByteDataSize(data, textureType, width, height);
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, x, y, width, height, textureType.openGLPixelFormat, PixelType.UnsignedByte, data);
             GL.BindTexture(TextureTarget.Texture2D, 0);
+        }
+
+        private static void ValidateByteDataSize(byte[] data, in TextureType textureType, int width, int height)
+        {
+            if (data == null)
+                return;
+
+            int expected = width * height * textureType.bytesPerPixel;
+            Debug.Assert(data.Length == expected, $"Texture data size mismatch. Expected {expected}, got {data.Length}.");
+            if (data.Length != expected)
+                throw new ArgumentException($"Texture data size mismatch. Expected {expected}, got {data.Length}.");
+        }
+
+        private static void ValidateBitmapDataSize(in BitmapData data, in TextureType textureType, int width, int height)
+        {
+            if (data == null)
+                return;
+
+            int required = width * height * textureType.bytesPerPixel;
+            int available = Math.Abs(data.Stride) * height;
+            Debug.Assert(available >= required, $"BitmapData size mismatch. Required {required}, available {available}.");
+            if (available < required)
+                throw new ArgumentException($"BitmapData size mismatch. Required {required}, available {available}.");
         }
 
         /** Deprecated **/
