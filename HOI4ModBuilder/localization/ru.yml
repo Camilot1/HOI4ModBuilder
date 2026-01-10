@@ -159,7 +159,7 @@ MAP_TAB_PROGRESSBAR_LOADING_EQUPMENTS: "Загрузка снаряжения: "
 MAP_TAB_PROGRESSBAR_MAP_WARNINGS_AND_ERRORS_SEARCHING: "Поиск ошибок и предупреждений на карте: "
 MAP_TAB_PROGRESSBAR_PROCESS_PROVINCES_PIXELS: "Обработка пикселей провинций: "
 
-MAP_TAB_PROGRESSBAR_SAVING: "Сохранение данных:"
+MAP_TAB_PROGRESSBAR_SAVING: "Сохранение данных: "
 MAP_TAB_PROGRESSBAR_SAVING_PROVINCES_DEFINITION: "Сохранение файла провинций: "
 MAP_TAB_PROGRESSBAR_SAVING_ADJACENCIES: "Сохранение файла смежностей: "
 MAP_TAB_PROGRESSBAR_SAVING_SUPPLIES: "Сохранение снабжения: "
