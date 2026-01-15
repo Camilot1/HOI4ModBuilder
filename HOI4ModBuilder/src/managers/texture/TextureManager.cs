@@ -866,13 +866,12 @@ namespace HOI4ModBuilder.src.managers.texture
             unsafe
             {
                 byte* basePtr = (byte*)outData.Scan0;
-                int stride = outData.Stride;
 
                 foreach (var b in borders)
                 {
                     foreach (var p in b.pixels)
                     {
-                        basePtr[p.y * stride + p.x] = 127;
+                        basePtr[p.y * width + p.x] = 127;
                     }
                 }
             }
