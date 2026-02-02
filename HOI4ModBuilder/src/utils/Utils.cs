@@ -179,14 +179,65 @@ namespace HOI4ModBuilder
 
         public static void ArrayToBitmap(byte[] values, Bitmap bitmap, ImageLockMode lockMode, int width, int height, TextureType textureType)
         {
+            if (values == null) throw new ArgumentNullException(nameof(values));
+            if (width <= 0 || height <= 0) return;
+
             var data = bitmap.LockBits(
                 new Rectangle(0, 0, width, height),
                 lockMode, textureType.imagePixelFormat
             );
-            int bytesCount = height * data.Stride;
-            var ptr = data.Scan0;
-            Marshal.Copy(values, 0, ptr, bytesCount);
-            bitmap.UnlockBits(data);
+
+            try
+            {
+                int stride = data.Stride;
+
+                int bytesPerPixel = textureType.bytesPerPixel;
+                int expectedRowBytes = width * bytesPerPixel;
+                int destBytesCount = height * stride;
+                int tightBytesCount = height * expectedRowBytes;
+
+                bool sourceIsPadded;
+                if (values.Length == destBytesCount) 
+                    sourceIsPadded = true;
+                else if (values.Length == tightBytesCount) 
+                    sourceIsPadded = false;
+                else
+                    throw new ArgumentException(
+                        $"Input buffer has an unexpected size for bitmap copy. " +
+                        $"values.Length={values.Length}, expected(tight)={tightBytesCount}, expected(padded)={destBytesCount}, " +
+                        $"width={width}, height={height}, pixelFormat={textureType.imagePixelFormat}, stride={stride}.",
+                        nameof(values)
+                    );
+
+                if (sourceIsPadded && stride > 0)
+                {
+                    Marshal.Copy(values, 0, data.Scan0, destBytesCount);
+                    return;
+                }
+
+                int sourceStride = sourceIsPadded ? stride : expectedRowBytes;
+                int copyBytesPerRow = sourceIsPadded ? Math.Min(sourceStride, stride) : Math.Min(expectedRowBytes, stride);
+
+                byte[] paddingBytes = null;
+                int paddingCount = stride - expectedRowBytes;
+                if (!sourceIsPadded && paddingCount > 0)
+                    paddingBytes = new byte[paddingCount];
+
+                for (int y = 0; y < height; y++)
+                {
+                    int srcOffset = checked(y * sourceStride);
+                    IntPtr destRow = IntPtr.Add(data.Scan0, y * stride);
+
+                    Marshal.Copy(values, srcOffset, destRow, copyBytesPerRow);
+
+                    if (paddingBytes != null)
+                        Marshal.Copy(paddingBytes, 0, IntPtr.Add(destRow, expectedRowBytes), paddingBytes.Length);
+                }
+            }
+            finally
+            {
+                bitmap.UnlockBits(data);
+            }
         }
 
         public static byte[] ArgbToBgr(int[] data)
