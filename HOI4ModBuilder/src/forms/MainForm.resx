@@ -139,10 +139,13 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="СomboBox_MapMainLayer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
+    <value>0, 18</value>
+  </data>
+  <data name="СomboBox_MapMainLayer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="СomboBox_MapMainLayer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 21</value>
+    <value>185, 24</value>
   </data>
   <data name="СomboBox_MapMainLayer.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -160,22 +163,22 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Main_Layer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 0</value>
+    <value>3, 0</value>
   </data>
   <data name="GroupBox_Main_Layer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
+    <value>3, 0, 3, 0</value>
   </data>
   <data name="GroupBox_Main_Layer.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 37</value>
+    <value>0, 46</value>
   </data>
   <data name="GroupBox_Main_Layer.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 37</value>
+    <value>0, 46</value>
   </data>
   <data name="GroupBox_Main_Layer.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="GroupBox_Main_Layer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 37</value>
+    <value>189, 46</value>
   </data>
   <data name="GroupBox_Main_Layer.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -205,10 +208,13 @@
     <value>NoControl</value>
   </data>
   <data name="Button_MapMainLayer_Parameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1, 13</value>
+    <value>1, 16</value>
+  </data>
+  <data name="Button_MapMainLayer_Parameter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_MapMainLayer_Parameter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 23</value>
+    <value>103, 28</value>
   </data>
   <data name="Button_MapMainLayer_Parameter.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -226,22 +232,22 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Main_Layer_Parameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>149, 0</value>
+    <value>198, 0</value>
   </data>
   <data name="GroupBox_Main_Layer_Parameter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
+    <value>3, 0, 3, 0</value>
   </data>
   <data name="GroupBox_Main_Layer_Parameter.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 37</value>
+    <value>0, 46</value>
   </data>
   <data name="GroupBox_Main_Layer_Parameter.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 37</value>
+    <value>0, 46</value>
   </data>
   <data name="GroupBox_Main_Layer_Parameter.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="GroupBox_Main_Layer_Parameter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 37</value>
+    <value>108, 46</value>
   </data>
   <data name="GroupBox_Main_Layer_Parameter.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
@@ -271,10 +277,13 @@
     <value>GrowAndShrink</value>
   </data>
   <data name="ComboBox_EditLayer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
+    <value>0, 18</value>
+  </data>
+  <data name="ComboBox_EditLayer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="ComboBox_EditLayer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 21</value>
+    <value>137, 24</value>
   </data>
   <data name="ComboBox_EditLayer.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -292,22 +301,22 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Edit_Layer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>234, 0</value>
+    <value>312, 0</value>
   </data>
   <data name="GroupBox_Edit_Layer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
+    <value>3, 0, 3, 0</value>
   </data>
   <data name="GroupBox_Edit_Layer.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 37</value>
+    <value>0, 46</value>
   </data>
   <data name="GroupBox_Edit_Layer.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 37</value>
+    <value>0, 46</value>
   </data>
   <data name="GroupBox_Edit_Layer.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="GroupBox_Edit_Layer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 37</value>
+    <value>141, 46</value>
   </data>
   <data name="GroupBox_Edit_Layer.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
@@ -334,10 +343,13 @@
     <value>GrowAndShrink</value>
   </data>
   <data name="ComboBox_Tool.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
+    <value>0, 18</value>
+  </data>
+  <data name="ComboBox_Tool.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="ComboBox_Tool.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 21</value>
+    <value>159, 24</value>
   </data>
   <data name="ComboBox_Tool.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -355,22 +367,22 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Tool.Location" type="System.Drawing.Point, System.Drawing">
-    <value>345, 0</value>
+    <value>459, 0</value>
   </data>
   <data name="GroupBox_Tool.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
+    <value>3, 0, 3, 0</value>
   </data>
   <data name="GroupBox_Tool.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 37</value>
+    <value>0, 46</value>
   </data>
   <data name="GroupBox_Tool.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 37</value>
+    <value>0, 46</value>
   </data>
   <data name="GroupBox_Tool.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="GroupBox_Tool.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 37</value>
+    <value>163, 46</value>
   </data>
   <data name="GroupBox_Tool.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -397,10 +409,13 @@
     <value>GrowAndShrink</value>
   </data>
   <data name="ComboBox_Tool_Parameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
+    <value>0, 18</value>
+  </data>
+  <data name="ComboBox_Tool_Parameter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="ComboBox_Tool_Parameter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 21</value>
+    <value>105, 24</value>
   </data>
   <data name="ComboBox_Tool_Parameter.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -418,22 +433,22 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Tool_Parameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>472, 0</value>
+    <value>628, 0</value>
   </data>
   <data name="GroupBox_Tool_Parameter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
+    <value>3, 0, 3, 0</value>
   </data>
   <data name="GroupBox_Tool_Parameter.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 37</value>
+    <value>0, 46</value>
   </data>
   <data name="GroupBox_Tool_Parameter.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 37</value>
+    <value>0, 46</value>
   </data>
   <data name="GroupBox_Tool_Parameter.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="GroupBox_Tool_Parameter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 37</value>
+    <value>109, 46</value>
   </data>
   <data name="GroupBox_Tool_Parameter.TabIndex" type="System.Int32, mscorlib">
     <value>29</value>
@@ -463,10 +478,13 @@
     <value>GrowAndShrink</value>
   </data>
   <data name="ComboBox_Tool_Parameter_Value.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
+    <value>0, 18</value>
+  </data>
+  <data name="ComboBox_Tool_Parameter_Value.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="ComboBox_Tool_Parameter_Value.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 21</value>
+    <value>105, 24</value>
   </data>
   <data name="ComboBox_Tool_Parameter_Value.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -484,22 +502,22 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Tool_Parameter_Value.Location" type="System.Drawing.Point, System.Drawing">
-    <value>559, 0</value>
+    <value>743, 0</value>
   </data>
   <data name="GroupBox_Tool_Parameter_Value.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
+    <value>3, 0, 3, 0</value>
   </data>
   <data name="GroupBox_Tool_Parameter_Value.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 37</value>
+    <value>0, 46</value>
   </data>
   <data name="GroupBox_Tool_Parameter_Value.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 37</value>
+    <value>0, 46</value>
   </data>
   <data name="GroupBox_Tool_Parameter_Value.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="GroupBox_Tool_Parameter_Value.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 37</value>
+    <value>109, 46</value>
   </data>
   <data name="GroupBox_Tool_Parameter_Value.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
@@ -523,10 +541,13 @@
     <value>5</value>
   </data>
   <data name="Panel_SecondColor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>31, 14</value>
+    <value>41, 17</value>
+  </data>
+  <data name="Panel_SecondColor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Panel_SecondColor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>21, 21</value>
+    <value>27, 25</value>
   </data>
   <data name="Panel_SecondColor.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -544,10 +565,13 @@
     <value>0</value>
   </data>
   <data name="Panel_FirstColor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 14</value>
+    <value>4, 17</value>
+  </data>
+  <data name="Panel_FirstColor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Panel_FirstColor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>21, 21</value>
+    <value>27, 25</value>
   </data>
   <data name="Panel_FirstColor.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -565,16 +589,16 @@
     <value>1</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>646, 0</value>
+    <value>858, 0</value>
   </data>
   <data name="groupBox3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
+    <value>3, 0, 3, 0</value>
   </data>
   <data name="groupBox3.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 37</value>
+    <value>75, 46</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>25</value>
@@ -598,10 +622,13 @@
     <value>NoControl</value>
   </data>
   <data name="Button_GenerateColor_OpenSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>91, 14</value>
+    <value>121, 17</value>
+  </data>
+  <data name="Button_GenerateColor_OpenSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_GenerateColor_OpenSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>24, 23</value>
+    <value>32, 28</value>
   </data>
   <data name="Button_GenerateColor_OpenSettings.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -625,10 +652,13 @@
     <value>NoControl</value>
   </data>
   <data name="Button_GenerateColor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>115, 14</value>
+    <value>153, 17</value>
+  </data>
+  <data name="Button_GenerateColor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_GenerateColor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>24, 23</value>
+    <value>32, 28</value>
   </data>
   <data name="Button_GenerateColor.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -661,10 +691,13 @@
     <value>Озёрный</value>
   </data>
   <data name="ComboBox_GenerateColor_Type.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
+    <value>0, 18</value>
+  </data>
+  <data name="ComboBox_GenerateColor_Type.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="ComboBox_GenerateColor_Type.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 21</value>
+    <value>119, 24</value>
   </data>
   <data name="ComboBox_GenerateColor_Type.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -682,16 +715,16 @@
     <value>2</value>
   </data>
   <data name="GroupBox_GenerateColor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>706, 0</value>
+    <value>939, 0</value>
   </data>
   <data name="GroupBox_GenerateColor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
+    <value>3, 0, 3, 0</value>
   </data>
   <data name="GroupBox_GenerateColor.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="GroupBox_GenerateColor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 37</value>
+    <value>187, 46</value>
   </data>
   <data name="GroupBox_GenerateColor.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
@@ -727,19 +760,19 @@
     <value>Fill</value>
   </data>
   <data name="FlowLayoutPanel_Color.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
+    <value>0, 17</value>
   </data>
   <data name="FlowLayoutPanel_Color.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="FlowLayoutPanel_Color.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 21</value>
+    <value>0, 26</value>
   </data>
   <data name="FlowLayoutPanel_Color.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>120, 21</value>
+    <value>160, 26</value>
   </data>
   <data name="FlowLayoutPanel_Color.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 21</value>
+    <value>160, 26</value>
   </data>
   <data name="FlowLayoutPanel_Color.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -757,22 +790,22 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Palette.Location" type="System.Drawing.Point, System.Drawing">
-    <value>850, 0</value>
+    <value>1132, 0</value>
   </data>
   <data name="GroupBox_Palette.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
+    <value>3, 0, 3, 0</value>
   </data>
   <data name="GroupBox_Palette.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>300, 37</value>
+    <value>400, 46</value>
   </data>
   <data name="GroupBox_Palette.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>120, 37</value>
+    <value>160, 46</value>
   </data>
   <data name="GroupBox_Palette.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 2, 0, 0</value>
   </data>
   <data name="GroupBox_Palette.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 37</value>
+    <value>160, 46</value>
   </data>
   <data name="GroupBox_Palette.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
@@ -802,10 +835,13 @@
     <value>NoControl</value>
   </data>
   <data name="ProgressBar1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
+    <value>0, 18</value>
+  </data>
+  <data name="ProgressBar1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="ProgressBar1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>300, 21</value>
+    <value>400, 26</value>
   </data>
   <data name="ProgressBar1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -823,16 +859,16 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Progress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>974, 0</value>
+    <value>1298, 0</value>
   </data>
   <data name="GroupBox_Progress.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
+    <value>3, 0, 3, 0</value>
   </data>
   <data name="GroupBox_Progress.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="GroupBox_Progress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>300, 37</value>
+    <value>400, 46</value>
   </data>
   <data name="GroupBox_Progress.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
@@ -859,7 +895,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="FlowLayoutPanel_ToolBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1570, 37</value>
+    <value>2096, 46</value>
   </data>
   <data name="FlowLayoutPanel_ToolBar.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -883,13 +919,13 @@
     <value>True</value>
   </data>
   <data name="CheckedListBox_MapAdditionalLayers.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 19</value>
+    <value>5, 23</value>
   </data>
   <data name="CheckedListBox_MapAdditionalLayers.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="CheckedListBox_MapAdditionalLayers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 139</value>
+    <value>163, 157</value>
   </data>
   <data name="CheckedListBox_MapAdditionalLayers.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -907,16 +943,19 @@
     <value>0</value>
   </data>
   <data name="groupBox7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>4, 4</value>
+  </data>
+  <data name="groupBox7.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="groupBox7.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>100, 30</value>
+    <value>133, 37</value>
   </data>
   <data name="groupBox7.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 0, 3, 0</value>
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="groupBox7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 171</value>
+    <value>172, 195</value>
   </data>
   <data name="groupBox7.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -937,10 +976,13 @@
     <value>0</value>
   </data>
   <data name="ComboBox_BordersType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 13</value>
+    <value>5, 16</value>
+  </data>
+  <data name="ComboBox_BordersType.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="ComboBox_BordersType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 21</value>
+    <value>163, 24</value>
   </data>
   <data name="ComboBox_BordersType.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -958,10 +1000,16 @@
     <value>0</value>
   </data>
   <data name="groupBox8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 180</value>
+    <value>4, 207</value>
+  </data>
+  <data name="groupBox8.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="groupBox8.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="groupBox8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 40</value>
+    <value>173, 49</value>
   </data>
   <data name="groupBox8.TabIndex" type="System.Int32, mscorlib">
     <value>25</value>
@@ -985,10 +1033,13 @@
     <value>NoControl</value>
   </data>
   <data name="Button_OpenSearchWarningsSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 14</value>
+    <value>5, 17</value>
+  </data>
+  <data name="Button_OpenSearchWarningsSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_OpenSearchWarningsSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 23</value>
+    <value>164, 28</value>
   </data>
   <data name="Button_OpenSearchWarningsSettings.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1009,10 +1060,16 @@
     <value>0</value>
   </data>
   <data name="groupBox10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 226</value>
+    <value>4, 264</value>
+  </data>
+  <data name="groupBox10.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="groupBox10.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="groupBox10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 41</value>
+    <value>173, 50</value>
   </data>
   <data name="groupBox10.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
@@ -1036,10 +1093,13 @@
     <value>NoControl</value>
   </data>
   <data name="Button_OpenSearchErrorsSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 14</value>
+    <value>5, 17</value>
+  </data>
+  <data name="Button_OpenSearchErrorsSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_OpenSearchErrorsSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 23</value>
+    <value>164, 28</value>
   </data>
   <data name="Button_OpenSearchErrorsSettings.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1060,10 +1120,16 @@
     <value>0</value>
   </data>
   <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 273</value>
+    <value>4, 322</value>
+  </data>
+  <data name="groupBox4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="groupBox4.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 41</value>
+    <value>173, 50</value>
   </data>
   <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
@@ -1087,10 +1153,13 @@
     <value>NoControl</value>
   </data>
   <data name="Button_TextureMoveDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>65, 42</value>
+    <value>87, 52</value>
+  </data>
+  <data name="Button_TextureMoveDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_TextureMoveDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 23</value>
+    <value>35, 28</value>
   </data>
   <data name="Button_TextureMoveDown.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -1114,10 +1183,13 @@
     <value>NoControl</value>
   </data>
   <data name="Button_TextureMoveUp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>36, 42</value>
+    <value>48, 52</value>
+  </data>
+  <data name="Button_TextureMoveUp.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_TextureMoveUp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 23</value>
+    <value>35, 28</value>
   </data>
   <data name="Button_TextureMoveUp.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -1141,10 +1213,13 @@
     <value>NoControl</value>
   </data>
   <data name="Button_TexturesLoad.Location" type="System.Drawing.Point, System.Drawing">
-    <value>65, 16</value>
+    <value>87, 20</value>
+  </data>
+  <data name="Button_TexturesLoad.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_TexturesLoad.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 23</value>
+    <value>73, 28</value>
   </data>
   <data name="Button_TexturesLoad.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -1168,10 +1243,13 @@
     <value>NoControl</value>
   </data>
   <data name="Button_TexturesSave.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 16</value>
+    <value>9, 20</value>
+  </data>
+  <data name="Button_TexturesSave.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_TexturesSave.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 23</value>
+    <value>73, 28</value>
   </data>
   <data name="Button_TexturesSave.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -1195,10 +1273,13 @@
     <value>NoControl</value>
   </data>
   <data name="Button_TextureAdd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 42</value>
+    <value>8, 52</value>
+  </data>
+  <data name="Button_TextureAdd.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_TextureAdd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 23</value>
+    <value>35, 28</value>
   </data>
   <data name="Button_TextureAdd.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -1221,11 +1302,17 @@
   <data name="ListBox_Textures.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left</value>
   </data>
+  <data name="ListBox_Textures.ItemHeight" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
   <data name="ListBox_Textures.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 69</value>
+    <value>8, 85</value>
+  </data>
+  <data name="ListBox_Textures.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="ListBox_Textures.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 186</value>
+    <value>152, 228</value>
   </data>
   <data name="ListBox_Textures.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -1246,10 +1333,13 @@
     <value>NoControl</value>
   </data>
   <data name="Button_TextureRemove.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 42</value>
+    <value>125, 52</value>
+  </data>
+  <data name="Button_TextureRemove.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_TextureRemove.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 23</value>
+    <value>35, 28</value>
   </data>
   <data name="Button_TextureRemove.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -1270,10 +1360,16 @@
     <value>6</value>
   </data>
   <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 320</value>
+    <value>4, 380</value>
+  </data>
+  <data name="groupBox5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="groupBox5.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 267</value>
+    <value>169, 329</value>
   </data>
   <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
@@ -1294,10 +1390,13 @@
     <value>4</value>
   </data>
   <data name="textBox_HOI4PixelPos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 15</value>
+    <value>8, 18</value>
+  </data>
+  <data name="textBox_HOI4PixelPos.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="textBox_HOI4PixelPos.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 20</value>
+    <value>152, 22</value>
   </data>
   <data name="textBox_HOI4PixelPos.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -1315,10 +1414,16 @@
     <value>0</value>
   </data>
   <data name="groupBox11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 593</value>
+    <value>4, 717</value>
+  </data>
+  <data name="groupBox11.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="groupBox11.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="groupBox11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 41</value>
+    <value>169, 50</value>
   </data>
   <data name="groupBox11.TabIndex" type="System.Int32, mscorlib">
     <value>24</value>
@@ -1345,10 +1450,13 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 48</value>
+    <value>5, 59</value>
+  </data>
+  <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>28, 13</value>
+    <value>34, 16</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -1369,10 +1477,13 @@
     <value>0</value>
   </data>
   <data name="textBox_PixelPos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 45</value>
+    <value>43, 55</value>
+  </data>
+  <data name="textBox_PixelPos.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="textBox_PixelPos.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 20</value>
+    <value>116, 22</value>
   </data>
   <data name="textBox_PixelPos.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -1390,10 +1501,13 @@
     <value>1</value>
   </data>
   <data name="textBox_SelectedObjectId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 20</value>
+    <value>31, 25</value>
+  </data>
+  <data name="textBox_SelectedObjectId.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="textBox_SelectedObjectId.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 20</value>
+    <value>128, 22</value>
   </data>
   <data name="textBox_SelectedObjectId.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1417,10 +1531,13 @@
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 23</value>
+    <value>7, 28</value>
+  </data>
+  <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>18, 13</value>
+    <value>21, 16</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1441,10 +1558,16 @@
     <value>3</value>
   </data>
   <data name="groupBox9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 640</value>
+    <value>4, 775</value>
+  </data>
+  <data name="groupBox9.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="groupBox9.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="groupBox9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 73</value>
+    <value>169, 90</value>
   </data>
   <data name="groupBox9.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -1471,13 +1594,13 @@
     <value>TopDown</value>
   </data>
   <data name="flowLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 37</value>
+    <value>0, 46</value>
   </data>
   <data name="flowLayoutPanel2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="flowLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 868</value>
+    <value>181, 1072</value>
   </data>
   <data name="flowLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -1507,49 +1630,49 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="ToolStripTextBox_Map_Search_Input.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 23</value>
+    <value>100, 27</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Position.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 22</value>
+    <value>288, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Position.Text" xml:space="preserve">
     <value>Найти точку</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Position_Game.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 22</value>
+    <value>288, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Position_Game.Text" xml:space="preserve">
     <value>Найти точку (HOI4 позиция)</value>
   </data>
   <data name="toolStripSeparator32.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 6</value>
+    <value>285, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Province.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 22</value>
+    <value>288, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Province.Text" xml:space="preserve">
     <value>Найти провинцию(-и)</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_State.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 22</value>
+    <value>288, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_State.Text" xml:space="preserve">
     <value>Найти область(-и)</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Region.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 22</value>
+    <value>288, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search_Region.Text" xml:space="preserve">
     <value>Найти регион(-ы)</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 22</value>
+    <value>266, 24</value>
   </data>
   <data name="ToolStripMenuItem_Map_Search.Text" xml:space="preserve">
     <value>Поиск</value>
   </data>
   <data name="toolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 6</value>
+    <value>263, 6</value>
   </data>
   <data name="ToolStripComboBox_Map_Province_Type.Items" xml:space="preserve">
     <value>land</value>
@@ -1561,91 +1684,91 @@
     <value>lake</value>
   </data>
   <data name="ToolStripComboBox_Map_Province_Type.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 23</value>
+    <value>121, 28</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province_IsCoastal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
+    <value>195, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province_IsCoastal.Text" xml:space="preserve">
     <value>Прибрежная</value>
   </data>
   <data name="ToolStripComboBox_Map_Province_Terrain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 23</value>
+    <value>121, 28</value>
   </data>
   <data name="ToolStripComboBox_Map_Province_Continent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 23</value>
+    <value>121, 28</value>
   </data>
   <data name="toolStripSeparator24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>178, 6</value>
+    <value>192, 6</value>
   </data>
   <data name="ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="ToolStripTextBox_Map_Province_VictoryPoints_Info_Value.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 23</value>
+    <value>100, 27</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province_VictoryPoints_Info.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 22</value>
+    <value>195, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province_VictoryPoints_Info.Text" xml:space="preserve">
     <value>Очки победы:</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 22</value>
+    <value>266, 24</value>
   </data>
   <data name="ToolStripMenuItem_Map_Province.Text" xml:space="preserve">
     <value>Провинция: 0</value>
   </data>
   <data name="ToolStripComboBox_Map_State_Id.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 23</value>
+    <value>121, 28</value>
   </data>
   <data name="toolStripSeparator18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 6</value>
+    <value>297, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_State_CreateAndSet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>238, 22</value>
+    <value>300, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_State_CreateAndSet.Text" xml:space="preserve">
     <value>Создать и установить область</value>
   </data>
   <data name="toolStripSeparator27.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 6</value>
+    <value>297, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_State_OpenFileInExplorer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>238, 22</value>
+    <value>300, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_State_OpenFileInExplorer.Text" xml:space="preserve">
     <value>Открыть в Проводнике</value>
   </data>
   <data name="ToolStripMenuItem_Map_State_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>238, 22</value>
+    <value>300, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_State_OpenFileInEditor.Text" xml:space="preserve">
     <value>Открыть в Редакторе</value>
   </data>
   <data name="ToolStripMenuItem_Map_State.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 22</value>
+    <value>266, 24</value>
   </data>
   <data name="ToolStripMenuItem_Map_State.Text" xml:space="preserve">
     <value>Область: 0</value>
   </data>
   <data name="ToolStripComboBox_Map_Region_Id.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 23</value>
+    <value>121, 28</value>
   </data>
   <data name="toolStripSeparator28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 6</value>
+    <value>292, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Region_CreateAndSet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>233, 22</value>
+    <value>295, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Region_CreateAndSet.Text" xml:space="preserve">
     <value>Создать и установить регион</value>
   </data>
   <data name="toolStripSeparator29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 6</value>
+    <value>292, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Region_OpenFileInExplorer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>233, 22</value>
+    <value>295, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Region_OpenFileInExplorer.Text" xml:space="preserve">
     <value>Открыть в Проводнике</value>
@@ -1654,40 +1777,40 @@
     <value>False</value>
   </data>
   <data name="ToolStripMenuItem_Map_Region_OpenFileInEditor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>233, 22</value>
+    <value>295, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Region_OpenFileInEditor.Text" xml:space="preserve">
     <value>Открыть в Редакторе</value>
   </data>
   <data name="ToolStripMenuItem_Map_Region.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 22</value>
+    <value>266, 24</value>
   </data>
   <data name="ToolStripMenuItem_Map_Region.Text" xml:space="preserve">
     <value>Регион: 0</value>
   </data>
   <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 6</value>
+    <value>263, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_Create.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 22</value>
+    <value>327, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_Create.Text" xml:space="preserve">
     <value>Создать смежность</value>
   </data>
   <data name="ToolStripComboBox_Map_Adjacency_Type.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 23</value>
+    <value>200, 28</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_Remove.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 22</value>
+    <value>327, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_Remove.Text" xml:space="preserve">
     <value>Удалить смежность</value>
   </data>
   <data name="toolStripSeparator16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>257, 6</value>
+    <value>324, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_SetFirstProvince.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 22</value>
+    <value>327, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_SetFirstProvince.Text" xml:space="preserve">
     <value>Установить первую провинцию</value>
@@ -1696,10 +1819,10 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="ToolStripTextBox_Map_Adjacency_FirstProvinceId.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 23</value>
+    <value>100, 27</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_SetFirstPoint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 22</value>
+    <value>327, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_SetFirstPoint.Text" xml:space="preserve">
     <value>Установить первую точку</value>
@@ -1708,19 +1831,19 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="ToolStripTextBox_Map_Adjacency_FirstPointPos.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 23</value>
+    <value>100, 27</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_ResetFirstPoint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 22</value>
+    <value>327, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_ResetFirstPoint.Text" xml:space="preserve">
     <value>Сбросить первую точку</value>
   </data>
   <data name="toolStripSeparator12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>257, 6</value>
+    <value>324, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_SetSecondProvince.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 22</value>
+    <value>327, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_SetSecondProvince.Text" xml:space="preserve">
     <value>Установить вторую провинцию</value>
@@ -1729,10 +1852,10 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="ToolStripTextBox_Map_Adjacency_SecondProvinceId.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 23</value>
+    <value>100, 27</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_SetSecondPoint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 22</value>
+    <value>327, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_SetSecondPoint.Text" xml:space="preserve">
     <value>Установить вторую точку</value>
@@ -1741,19 +1864,19 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="ToolStripTextBox_Map_Adjacency_SecondPointPos.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 23</value>
+    <value>100, 27</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_ResetSecondPoint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 22</value>
+    <value>327, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_ResetSecondPoint.Text" xml:space="preserve">
     <value>Сбросить вторую точку</value>
   </data>
   <data name="toolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>257, 6</value>
+    <value>324, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_SetThroughProvince.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 22</value>
+    <value>327, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_SetThroughProvince.Text" xml:space="preserve">
     <value>Установить среднюю провинцию</value>
@@ -1762,40 +1885,40 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="ToolStripTextBox_Map_Adjacency_ThroughProvinceId.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 23</value>
+    <value>100, 27</value>
   </data>
   <data name="toolStripSeparator14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>257, 6</value>
+    <value>324, 6</value>
   </data>
   <data name="ToolStripComboBox_Map_Adjacency_Rule.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 23</value>
+    <value>200, 28</value>
   </data>
   <data name="toolStripSeparator15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>257, 6</value>
+    <value>324, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_Rule_AddRequiredProvince.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 22</value>
+    <value>327, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_Rule_AddRequiredProvince.Text" xml:space="preserve">
     <value>Добавить требуемую провинцию</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_Rule_RemoveRequiredProvince.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 22</value>
+    <value>327, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency_Rule_RemoveRequiredProvince.Text" xml:space="preserve">
     <value>Удалить требуемую провинцию</value>
   </data>
   <data name="toolStripSeparator17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>257, 6</value>
+    <value>324, 6</value>
   </data>
   <data name="ToolStripTextBox_Map_Adjacency_Comment.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="ToolStripTextBox_Map_Adjacency_Comment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 23</value>
+    <value>200, 27</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 22</value>
+    <value>266, 24</value>
   </data>
   <data name="ToolStripMenuItem_Map_Adjacency.Text" xml:space="preserve">
     <value>Смежность</value>
@@ -1804,7 +1927,7 @@
     <value>CTRL+R</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Create.Size" type="System.Drawing.Size, System.Drawing">
-    <value>263, 22</value>
+    <value>330, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Create.Text" xml:space="preserve">
     <value>Создать Ж/Д</value>
@@ -1840,16 +1963,16 @@
     <value>Уровень 5</value>
   </data>
   <data name="ToolStripComboBox_Map_Railway_Level.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 23</value>
+    <value>121, 28</value>
   </data>
   <data name="toolStripSeparator22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 6</value>
+    <value>327, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_AddProvince.ShortcutKeyDisplayString" xml:space="preserve">
     <value>CTRL+ЛКМ</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_AddProvince.Size" type="System.Drawing.Size, System.Drawing">
-    <value>263, 22</value>
+    <value>330, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_AddProvince.Text" xml:space="preserve">
     <value>Добавить провинцию</value>
@@ -1858,40 +1981,40 @@
     <value>CTRL+ЛКМ</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_RemoveProvince.Size" type="System.Drawing.Size, System.Drawing">
-    <value>263, 22</value>
+    <value>330, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_RemoveProvince.Text" xml:space="preserve">
     <value>Убрать провинцию</value>
   </data>
   <data name="toolStripSeparator23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 6</value>
+    <value>327, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Join.Size" type="System.Drawing.Size, System.Drawing">
-    <value>263, 22</value>
+    <value>330, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Join.Text" xml:space="preserve">
     <value>Соединить Ж/Д</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Split.Size" type="System.Drawing.Size, System.Drawing">
-    <value>263, 22</value>
+    <value>330, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Split.Text" xml:space="preserve">
     <value>Разделить Ж/Д</value>
   </data>
   <data name="toolStripSeparator21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 6</value>
+    <value>327, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Remove.ShortcutKeyDisplayString" xml:space="preserve">
     <value>DELETE</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Remove.Size" type="System.Drawing.Size, System.Drawing">
-    <value>263, 22</value>
+    <value>330, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway_Remove.Text" xml:space="preserve">
     <value>Удалить Ж/Д</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 22</value>
+    <value>266, 24</value>
   </data>
   <data name="ToolStripMenuItem_Map_Railway.Text" xml:space="preserve">
     <value>Железная дорога</value>
@@ -1900,7 +2023,7 @@
     <value>CTRL+H</value>
   </data>
   <data name="ToolStripMenuItem_Map_SupplyHub_Create.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 22</value>
+    <value>309, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_SupplyHub_Create.Text" xml:space="preserve">
     <value>Создать узел</value>
@@ -1909,40 +2032,40 @@
     <value>CTRL+H / DELETE</value>
   </data>
   <data name="ToolStripMenuItem_Map_SupplyHub_Remove.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 22</value>
+    <value>309, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_SupplyHub_Remove.Text" xml:space="preserve">
     <value>Удалить узел</value>
   </data>
   <data name="ToolStripMenuItem_Map_SupplyHub.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 22</value>
+    <value>266, 24</value>
   </data>
   <data name="ToolStripMenuItem_Map_SupplyHub.Text" xml:space="preserve">
     <value>Узел снабжения</value>
   </data>
   <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 6</value>
+    <value>263, 6</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions_Merge.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 22</value>
+    <value>281, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions_Merge.Text" xml:space="preserve">
     <value>Объединить с заменой</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions_Merge_All.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 22</value>
+    <value>281, 26</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions_Merge_All.Text" xml:space="preserve">
     <value>Объединить все с заменой</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 22</value>
+    <value>266, 24</value>
   </data>
   <data name="ToolStripMenuItem_Map_Actions.Text" xml:space="preserve">
     <value>Дополнительные действия</value>
   </data>
   <data name="ContextMenuStrip_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 198</value>
+    <value>267, 214</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip_Map.Name" xml:space="preserve">
     <value>ContextMenuStrip_Map</value>
@@ -1954,10 +2077,13 @@
     <value>NoControl</value>
   </data>
   <data name="Panel_ColorPicker_Button_Close.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 386</value>
+    <value>136, 475</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Close.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Panel_ColorPicker_Button_Close.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 23</value>
+    <value>117, 28</value>
   </data>
   <data name="Panel_ColorPicker_Button_Close.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1981,10 +2107,13 @@
     <value>NoControl</value>
   </data>
   <data name="Panel_ColorPicker_Button_Save.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 386</value>
+    <value>13, 475</value>
+  </data>
+  <data name="Panel_ColorPicker_Button_Save.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Panel_ColorPicker_Button_Save.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 23</value>
+    <value>117, 28</value>
   </data>
   <data name="Panel_ColorPicker_Button_Save.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -2007,8 +2136,11 @@
   <data name="ElementHost_ColorPicker.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="ElementHost_ColorPicker.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
   <data name="ElementHost_ColorPicker.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 386</value>
+    <value>267, 475</value>
   </data>
   <data name="ElementHost_ColorPicker.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2029,10 +2161,13 @@
     <value>2</value>
   </data>
   <data name="Panel_ColorPicker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>4, 4</value>
+  </data>
+  <data name="Panel_ColorPicker.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Panel_ColorPicker.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 419</value>
+    <value>267, 516</value>
   </data>
   <data name="Panel_ColorPicker.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -2053,13 +2188,13 @@
     <value>0</value>
   </data>
   <data name="Panel_Map.Location" type="System.Drawing.Point, System.Drawing">
-    <value>136, 40</value>
+    <value>181, 50</value>
   </data>
   <data name="Panel_Map.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 3, 0, 0</value>
+    <value>0, 4, 0, 0</value>
   </data>
   <data name="Panel_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1434, 865</value>
+    <value>1915, 1068</value>
   </data>
   <data name="Panel_Map.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -2080,7 +2215,7 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>4, 4</value>
   </data>
   <data name="tableLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -2089,7 +2224,7 @@
     <value>2</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1570, 905</value>
+    <value>2096, 1118</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
@@ -2110,13 +2245,16 @@
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="FlowLayoutPanel_ToolBar" Row="0" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="flowLayoutPanel2" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="Panel_Map" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="TabPage_Map.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 25</value>
+  </data>
+  <data name="TabPage_Map.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="TabPage_Map.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="TabPage_Map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1576, 911</value>
+    <value>2104, 1126</value>
   </data>
   <data name="TabPage_Map.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2137,13 +2275,16 @@
     <value>0</value>
   </data>
   <data name="TabPage_Buildings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 25</value>
+  </data>
+  <data name="TabPage_Buildings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="TabPage_Buildings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="TabPage_Buildings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1576, 911</value>
+    <value>2104, 1124</value>
   </data>
   <data name="TabPage_Buildings.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -2170,10 +2311,13 @@
     <value>True</value>
   </data>
   <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 6</value>
+    <value>8, 7</value>
+  </data>
+  <data name="flowLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>542, 410</value>
+    <value>723, 505</value>
   </data>
   <data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2191,13 +2335,16 @@
     <value>0</value>
   </data>
   <data name="TabPage_Resources.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 25</value>
+  </data>
+  <data name="TabPage_Resources.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="TabPage_Resources.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="TabPage_Resources.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1576, 911</value>
+    <value>2104, 1124</value>
   </data>
   <data name="TabPage_Resources.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -2218,10 +2365,13 @@
     <value>2</value>
   </data>
   <data name="TabPage_Localization.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 25</value>
+  </data>
+  <data name="TabPage_Localization.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="TabPage_Localization.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1576, 911</value>
+    <value>2104, 1124</value>
   </data>
   <data name="TabPage_Localization.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -2242,10 +2392,13 @@
     <value>3</value>
   </data>
   <data name="TabPage_Home.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 25</value>
+  </data>
+  <data name="TabPage_Home.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="TabPage_Home.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1576, 911</value>
+    <value>2104, 1124</value>
   </data>
   <data name="TabPage_Home.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -2269,10 +2422,13 @@
     <value>Fill</value>
   </data>
   <data name="TabControl_Main.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 24</value>
+    <value>0, 28</value>
+  </data>
+  <data name="TabControl_Main.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="TabControl_Main.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1584, 937</value>
+    <value>2112, 1155</value>
   </data>
   <data name="TabControl_Main.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -2293,58 +2449,58 @@
     <value>17, 17</value>
   </metadata>
   <data name="ToolStripMenuItem_Save_Maps_All.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 22</value>
+    <value>265, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps_All.Text" xml:space="preserve">
     <value>Все карты</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 6</value>
+    <value>262, 6</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps_Provinces.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 22</value>
+    <value>265, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps_Provinces.Text" xml:space="preserve">
     <value>Карта провинций</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps_Rivers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 22</value>
+    <value>265, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps_Rivers.Text" xml:space="preserve">
     <value>Карта рек</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps_Terrain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 22</value>
+    <value>265, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps_Terrain.Text" xml:space="preserve">
     <value>Карта местности</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps_Trees.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 22</value>
+    <value>265, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps_Trees.Text" xml:space="preserve">
     <value>Карта деревьев</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps_Cities.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 22</value>
+    <value>265, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps_Cities.Text" xml:space="preserve">
     <value>Карта городов</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps_Heights.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 22</value>
+    <value>265, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps_Heights.Text" xml:space="preserve">
     <value>Карта высот и нормалей</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
+    <value>174, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Maps.Text" xml:space="preserve">
     <value>Карты</value>
   </data>
   <data name="ToolStripMenuItem_Save_Definition.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
+    <value>174, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Definition.Text" xml:space="preserve">
     <value>Провинции</value>
@@ -2353,55 +2509,55 @@
     <value>False</value>
   </data>
   <data name="ToolStripMenuItem_Save_Adjacencies.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
+    <value>174, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Adjacencies.Text" xml:space="preserve">
     <value>Смежности</value>
   </data>
   <data name="ToolStripMenuItem_Save_Supply_All.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 22</value>
+    <value>218, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Supply_All.Text" xml:space="preserve">
     <value>Всё снабжение</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 6</value>
+    <value>215, 6</value>
   </data>
   <data name="ToolStripMenuItem_Save_Supply_Railways.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 22</value>
+    <value>218, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Supply_Railways.Text" xml:space="preserve">
     <value>Железные дороги</value>
   </data>
   <data name="ToolStripMenuItem_Save_Supply_Hubs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 22</value>
+    <value>218, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Supply_Hubs.Text" xml:space="preserve">
     <value>Узлы снабжения</value>
   </data>
   <data name="ToolStripMenuItem_Save_Supply.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
+    <value>174, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Supply.Text" xml:space="preserve">
     <value>Снабжение</value>
   </data>
   <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 6</value>
+    <value>171, 6</value>
   </data>
   <data name="ToolStripMenuItem_Save_States.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
+    <value>174, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_States.Text" xml:space="preserve">
     <value>Области</value>
   </data>
   <data name="ToolStripMenuItem_Save_Regions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
+    <value>174, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save_Regions.Text" xml:space="preserve">
     <value>Регионы</value>
   </data>
   <data name="ToolStripMenuItem_Save.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
+    <value>243, 26</value>
   </data>
   <data name="ToolStripMenuItem_Save.Text" xml:space="preserve">
     <value>Сохранить</value>
@@ -2410,97 +2566,97 @@
     <value>Ctrl+S</value>
   </data>
   <data name="ToolStripMenuItem_SaveAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
+    <value>243, 26</value>
   </data>
   <data name="ToolStripMenuItem_SaveAll.Text" xml:space="preserve">
     <value>Сохранить всё</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_All.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>216, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_All.Text" xml:space="preserve">
     <value>Все карты</value>
   </data>
   <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 6</value>
+    <value>213, 6</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_Provinces.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>216, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_Provinces.Text" xml:space="preserve">
     <value>Карта провинций</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_Rivers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>216, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_Rivers.Text" xml:space="preserve">
     <value>Карта рек</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_Terrain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>216, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_Terrain.Text" xml:space="preserve">
     <value>Карта местности</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_Trees.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>216, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_Trees.Text" xml:space="preserve">
     <value>Карта деревьев</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_Cities.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>216, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_Cities.Text" xml:space="preserve">
     <value>Карта городов</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_Heights.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>216, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps_Heights.Text" xml:space="preserve">
     <value>Карта высот</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
+    <value>174, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Maps.Text" xml:space="preserve">
     <value>Карты</value>
   </data>
   <data name="ToolStripMenuItem_Load_Definitions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
+    <value>174, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Definitions.Text" xml:space="preserve">
     <value>Провинции</value>
   </data>
   <data name="ToolStripMenuItem_Load_Adjacencies.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
+    <value>174, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Adjacencies.Text" xml:space="preserve">
     <value>Смежности</value>
   </data>
   <data name="ToolStripMenuItem_Load_Supply_All.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 22</value>
+    <value>218, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Supply_All.Text" xml:space="preserve">
     <value>Всё снабжение</value>
   </data>
   <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 6</value>
+    <value>215, 6</value>
   </data>
   <data name="ToolStripMenuItem_Load_Supply_Railways.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 22</value>
+    <value>218, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Supply_Railways.Text" xml:space="preserve">
     <value>Железные дороги</value>
   </data>
   <data name="ToolStripMenuItem_Load_Supply_Hubs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 22</value>
+    <value>218, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Supply_Hubs.Text" xml:space="preserve">
     <value>Узлы снабжения</value>
   </data>
   <data name="ToolStripMenuItem_Load_Supply.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
+    <value>174, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load_Supply.Text" xml:space="preserve">
     <value>Снабжение</value>
@@ -2509,7 +2665,7 @@
     <value>False</value>
   </data>
   <data name="ToolStripMenuItem_Load.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
+    <value>243, 26</value>
   </data>
   <data name="ToolStripMenuItem_Load.Text" xml:space="preserve">
     <value>Загрузить</value>
@@ -2518,7 +2674,7 @@
     <value>Ctrl+L</value>
   </data>
   <data name="ToolStripMenuItem_LoadAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
+    <value>243, 26</value>
   </data>
   <data name="ToolStripMenuItem_LoadAll.Text" xml:space="preserve">
     <value>Загрузить всё</value>
@@ -2527,7 +2683,7 @@
     <value>False</value>
   </data>
   <data name="ToolStripMenuItem_Update.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
+    <value>243, 26</value>
   </data>
   <data name="ToolStripMenuItem_Update.Text" xml:space="preserve">
     <value>Обновить</value>
@@ -2536,52 +2692,52 @@
     <value>Ctrl+U</value>
   </data>
   <data name="ToolStripMenuItem_UpdateAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
+    <value>243, 26</value>
   </data>
   <data name="ToolStripMenuItem_UpdateAll.Text" xml:space="preserve">
     <value>Обновить всё</value>
   </data>
   <data name="ToolStripMenuItem_Export_MainLayer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
+    <value>240, 26</value>
   </data>
   <data name="ToolStripMenuItem_Export_MainLayer.Text" xml:space="preserve">
     <value>Основной слой</value>
   </data>
   <data name="ToolStripMenuItem_Export_SelectedBorders.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
+    <value>240, 26</value>
   </data>
   <data name="ToolStripMenuItem_Export_SelectedBorders.Text" xml:space="preserve">
     <value>Выбранные границы</value>
   </data>
   <data name="ToolStripMenuItem_Export.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
+    <value>243, 26</value>
   </data>
   <data name="ToolStripMenuItem_Export.Text" xml:space="preserve">
     <value>Экспорт</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="ToolStripMenuItem_Settings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
+    <value>243, 26</value>
   </data>
   <data name="ToolStripMenuItem_Settings.Text" xml:space="preserve">
     <value>Настройки</value>
   </data>
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="ToolStripMenuItem_Exit.ShortcutKeyDisplayString" xml:space="preserve">
     <value />
   </data>
   <data name="ToolStripMenuItem_Exit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
+    <value>243, 26</value>
   </data>
   <data name="ToolStripMenuItem_Exit.Text" xml:space="preserve">
     <value>Выход</value>
   </data>
   <data name="ToolStripMenuItem_File.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 20</value>
+    <value>59, 24</value>
   </data>
   <data name="ToolStripMenuItem_File.Text" xml:space="preserve">
     <value>Файл</value>
@@ -2590,7 +2746,7 @@
     <value>Ctrl+Z</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Undo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
+    <value>275, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Undo.Text" xml:space="preserve">
     <value>Отмена</value>
@@ -2599,16 +2755,16 @@
     <value>Ctrl+Y</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Redo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
+    <value>275, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Redo.Text" xml:space="preserve">
     <value>Повтор</value>
   </data>
   <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 6</value>
+    <value>272, 6</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Actions_CreateObject.Size" type="System.Drawing.Size, System.Drawing">
-    <value>332, 22</value>
+    <value>419, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Actions_CreateObject.Text" xml:space="preserve">
     <value>Создать объект и скрипт</value>
@@ -2617,235 +2773,235 @@
     <value>CTRL+M</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Size" type="System.Drawing.Size, System.Drawing">
-    <value>332, 22</value>
+    <value>419, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Actions_MergeSelectedProvinces.Text" xml:space="preserve">
     <value>Объединить выделенные провинции</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Actions_FindMapChanges.Size" type="System.Drawing.Size, System.Drawing">
-    <value>332, 22</value>
+    <value>419, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Actions_FindMapChanges.Text" xml:space="preserve">
     <value>Найти изменения карты</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Actions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
+    <value>275, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Actions.Text" xml:space="preserve">
     <value>Расширенные действия</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
+    <value>377, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RemoveGhostProvinces.Text" xml:space="preserve">
     <value>Удалить провинции с 0 пикселями</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
+    <value>377, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_ProvincesIsCoastal.Text" xml:space="preserve">
     <value>Исправить прибрежности провинций</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
+    <value>377, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RemoveSeaAndLakesContinents.Text" xml:space="preserve">
     <value>Убрать континенты у озёр и морей</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
+    <value>377, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RemoveSeaProvincesFromStates.Text" xml:space="preserve">
     <value>Убрать морские провинции из областей</value>
   </data>
   <data name="toolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 6</value>
+    <value>374, 6</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 22</value>
+    <value>317, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_Random.Text" xml:space="preserve">
     <value>Случайные HSV цвета</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 22</value>
+    <value>317, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_BasedOnStatesColors.Text" xml:space="preserve">
     <value>На основе HSV цветов областей</value>
   </data>
   <data name="toolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 6</value>
+    <value>314, 6</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 22</value>
+    <value>317, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings.Text" xml:space="preserve">
     <value>Открыть настройки генерации</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
+    <value>377, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors.Text" xml:space="preserve">
     <value>Перегенерировать цвета провинций</value>
   </data>
   <data name="toolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 6</value>
+    <value>374, 6</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_ProvincesValidation.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_ProvincesValidation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
+    <value>377, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_ProvincesValidation.Text" xml:space="preserve">
     <value>Валидация провинций</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_StatesValidation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
+    <value>377, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_StatesValidation.Text" xml:space="preserve">
     <value>Валидация областей</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegionsValidation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
+    <value>377, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools_RegionsValidation.Text" xml:space="preserve">
     <value>Валидация регионов</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
+    <value>275, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_AutoTools.Text" xml:space="preserve">
     <value>Инструменты авторасчёта</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Scripts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
+    <value>275, 26</value>
   </data>
   <data name="ToolStripMenuItem_Edit_Scripts.Text" xml:space="preserve">
     <value>Скрипты</value>
   </data>
   <data name="ToolStripMenuItem_Edit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
+    <value>74, 24</value>
   </data>
   <data name="ToolStripMenuItem_Edit.Text" xml:space="preserve">
     <value>Правка</value>
   </data>
   <data name="ToolStripComboBox_Data_Bookmark.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 23</value>
+    <value>250, 28</value>
   </data>
   <data name="toolStripSeparator20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>307, 6</value>
+    <value>321, 6</value>
   </data>
   <data name="ToolStripMenuItem_Data_Provinces.Size" type="System.Drawing.Size, System.Drawing">
-    <value>310, 22</value>
+    <value>324, 26</value>
   </data>
   <data name="ToolStripMenuItem_Data_Provinces.Text" xml:space="preserve">
     <value>Провинции</value>
   </data>
   <data name="ToolStripMenuItem_Data_States.Size" type="System.Drawing.Size, System.Drawing">
-    <value>310, 22</value>
+    <value>324, 26</value>
   </data>
   <data name="ToolStripMenuItem_Data_States.Text" xml:space="preserve">
     <value>Области</value>
   </data>
   <data name="toolStripSeparator19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>307, 6</value>
+    <value>321, 6</value>
   </data>
   <data name="ToolStripMenuItem_Statistics.Size" type="System.Drawing.Size, System.Drawing">
-    <value>310, 22</value>
+    <value>324, 26</value>
   </data>
   <data name="ToolStripMenuItem_Statistics.Text" xml:space="preserve">
     <value>Статистика</value>
   </data>
   <data name="toolStripSeparator31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>307, 6</value>
+    <value>321, 6</value>
   </data>
   <data name="ToolStripMenuItem_Data_Recovery_Regions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>212, 22</value>
+    <value>265, 26</value>
   </data>
   <data name="ToolStripMenuItem_Data_Recovery_Regions.Text" xml:space="preserve">
     <value>Стратегические регионы</value>
   </data>
   <data name="ToolStripMenuItem_Data_Recovery.Size" type="System.Drawing.Size, System.Drawing">
-    <value>310, 22</value>
+    <value>324, 26</value>
   </data>
   <data name="ToolStripMenuItem_Data_Recovery.Text" xml:space="preserve">
     <value>Восстановление старых данных</value>
   </data>
   <data name="ToolStripMenuItem_Data.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 20</value>
+    <value>78, 24</value>
   </data>
   <data name="ToolStripMenuItem_Data.Text" xml:space="preserve">
     <value>Данные</value>
   </data>
   <data name="ToolStripMenuItem_Help_Documentation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>213, 26</value>
   </data>
   <data name="ToolStripMenuItem_Help_Documentation.Text" xml:space="preserve">
     <value>Документация</value>
   </data>
   <data name="ToolStripMenuItem_Help_Logs_OpenFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>204, 22</value>
+    <value>254, 26</value>
   </data>
   <data name="ToolStripMenuItem_Help_Logs_OpenFile.Text" xml:space="preserve">
     <value>Открыть файл latest.log</value>
   </data>
   <data name="ToolStripMenuItem_Help_Logs_OpenFolder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>204, 22</value>
+    <value>254, 26</value>
   </data>
   <data name="ToolStripMenuItem_Help_Logs_OpenFolder.Text" xml:space="preserve">
     <value>Открыть папку logs</value>
   </data>
   <data name="ToolStripMenuItem_Help_Logs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>213, 26</value>
   </data>
   <data name="ToolStripMenuItem_Help_Logs.Text" xml:space="preserve">
     <value>Логи программы</value>
   </data>
   <data name="ToolStripMenuItem_Help_About.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>213, 26</value>
   </data>
   <data name="ToolStripMenuItem_Help_About.Text" xml:space="preserve">
     <value>О программе</value>
   </data>
   <data name="ToolStripMenuItem_Help.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 20</value>
+    <value>83, 24</value>
   </data>
   <data name="ToolStripMenuItem_Help.Text" xml:space="preserve">
     <value>Помощь</value>
   </data>
   <data name="ToolStripMenuItem_Language_RU.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>208, 26</value>
   </data>
   <data name="ToolStripMenuItem_Language_RU.Text" xml:space="preserve">
     <value>Русский (RU)</value>
   </data>
   <data name="ToolStripMenuItem_Language_EN.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>208, 26</value>
   </data>
   <data name="ToolStripMenuItem_Language_EN.Text" xml:space="preserve">
     <value>Английский (EN)</value>
   </data>
   <data name="ToolStripMenuItem_Language.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 20</value>
+    <value>130, 24</value>
   </data>
   <data name="ToolStripMenuItem_Language.Text" xml:space="preserve">
     <value>Русский (RU)</value>
   </data>
   <data name="ToolStripMenuItem_GitHub.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 20</value>
+    <value>90, 24</value>
   </data>
   <data name="ToolStripMenuItem_GitHub.Text" xml:space="preserve">
     <value>GitHub</value>
   </data>
   <data name="ToolStripMenuItem_Discord.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 20</value>
+    <value>94, 24</value>
   </data>
   <data name="ToolStripMenuItem_Discord.Text" xml:space="preserve">
     <value>Discord</value>
   </data>
   <data name="ToolStripMenuItem_Telegram.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 20</value>
+    <value>105, 24</value>
   </data>
   <data name="ToolStripMenuItem_Telegram.Text" xml:space="preserve">
     <value>Telegram</value>
@@ -2854,7 +3010,7 @@
     <value>0, 0</value>
   </data>
   <data name="MenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1584, 24</value>
+    <value>2112, 28</value>
   </data>
   <data name="MenuStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -2881,10 +3037,10 @@
     <value>67</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>8, 16</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>1584, 961</value>
+    <value>2112, 1183</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -6399,6 +6555,9 @@
         meUF8gvkr/vkB9RtAAL5dSrLcH1wlxfIr5+eBCcfy5EfUE0BBPLrpSy+kd+eDX6aOhHIb37yA8D/A/df
         UDuPdTjmAAAAAElFTkSuQmCC
 </value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>HoI IV Mod Builder</value>

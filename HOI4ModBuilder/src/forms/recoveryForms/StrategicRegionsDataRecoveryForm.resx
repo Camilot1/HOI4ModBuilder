@@ -119,10 +119,14 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Button_ChooseOldRegionsDirectory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 5</value>
+    <value>7, 6</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Button_ChooseOldRegionsDirectory.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_ChooseOldRegionsDirectory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>280, 23</value>
+    <value>373, 28</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Button_ChooseOldRegionsDirectory.TabIndex" type="System.Int32, mscorlib">
@@ -147,10 +151,13 @@
     <value>True</value>
   </data>
   <data name="Label_OldDirectoryPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 35</value>
+    <value>9, 43</value>
+  </data>
+  <data name="Label_OldDirectoryPath.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label_OldDirectoryPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 13</value>
+    <value>113, 16</value>
   </data>
   <data name="Label_OldDirectoryPath.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -170,15 +177,17 @@
   <data name="&gt;&gt;Label_OldDirectoryPath.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ProgressBar_LoadingProcess.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
   <data name="ProgressBar_LoadingProcess.Location" type="System.Drawing.Point, System.Drawing">
-    <value>372, 5</value>
+    <value>496, 6</value>
+  </data>
+  <data name="ProgressBar_LoadingProcess.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="ProgressBar_LoadingProcess.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 23</value>
+    <value>276, 28</value>
   </data>
   <data name="ProgressBar_LoadingProcess.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -198,14 +207,107 @@
   <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
+  <data name="&gt;&gt;Label_FilteredOldRegionsThatDontExistCount.Name" xml:space="preserve">
+    <value>Label_FilteredOldRegionsThatDontExistCount</value>
+  </data>
+  <data name="&gt;&gt;Label_FilteredOldRegionsThatDontExistCount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label_FilteredOldRegionsThatDontExistCount.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;Label_FilteredOldRegionsThatDontExistCount.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Label_FilteredOldRegionsCount.Name" xml:space="preserve">
+    <value>Label_FilteredOldRegionsCount</value>
+  </data>
+  <data name="&gt;&gt;Label_FilteredOldRegionsCount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label_FilteredOldRegionsCount.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;Label_FilteredOldRegionsCount.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Button_FilterHelp.Name" xml:space="preserve">
+    <value>Button_FilterHelp</value>
+  </data>
+  <data name="&gt;&gt;Button_FilterHelp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_FilterHelp.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;Button_FilterHelp.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Button_FilterById.Name" xml:space="preserve">
+    <value>Button_FilterById</value>
+  </data>
+  <data name="&gt;&gt;Button_FilterById.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_FilterById.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;Button_FilterById.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TextBox_IdsFilter.Name" xml:space="preserve">
+    <value>TextBox_IdsFilter</value>
+  </data>
+  <data name="&gt;&gt;TextBox_IdsFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_IdsFilter.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;TextBox_IdsFilter.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1, 92</value>
+  </data>
+  <data name="groupBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="groupBox1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>776, 80</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Фильтр регионов по ID:</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
   <data name="Label_FilteredOldRegionsThatDontExistCount.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="Label_FilteredOldRegionsThatDontExistCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>250, 45</value>
+    <value>333, 55</value>
+  </data>
+  <data name="Label_FilteredOldRegionsThatDontExistCount.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label_FilteredOldRegionsThatDontExistCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 13</value>
+    <value>235, 16</value>
   </data>
   <data name="Label_FilteredOldRegionsThatDontExistCount.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -229,10 +331,13 @@
     <value>True</value>
   </data>
   <data name="Label_FilteredOldRegionsCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 45</value>
+    <value>8, 55</value>
+  </data>
+  <data name="Label_FilteredOldRegionsCount.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label_FilteredOldRegionsCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 13</value>
+    <value>261, 16</value>
   </data>
   <data name="Label_FilteredOldRegionsCount.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -256,10 +361,13 @@
     <value>Top, Right</value>
   </data>
   <data name="Button_FilterHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>448, 18</value>
+    <value>597, 22</value>
+  </data>
+  <data name="Button_FilterHelp.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_FilterHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>24, 22</value>
+    <value>32, 27</value>
   </data>
   <data name="Button_FilterHelp.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -283,10 +391,13 @@
     <value>Top, Right</value>
   </data>
   <data name="Button_FilterById.Location" type="System.Drawing.Point, System.Drawing">
-    <value>478, 18</value>
+    <value>637, 22</value>
+  </data>
+  <data name="Button_FilterById.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_FilterById.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 22</value>
+    <value>133, 27</value>
   </data>
   <data name="Button_FilterById.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -310,10 +421,13 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="TextBox_IdsFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 19</value>
+    <value>5, 23</value>
+  </data>
+  <data name="TextBox_IdsFilter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="TextBox_IdsFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>438, 20</value>
+    <value>583, 22</value>
   </data>
   <data name="TextBox_IdsFilter.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -330,38 +444,17 @@
   <data name="&gt;&gt;TextBox_IdsFilter.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1, 75</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>582, 65</value>
-  </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Фильтр регионов по ID:</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="Label_FoundOldRegionsCount.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="Label_FoundOldRegionsCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 55</value>
+    <value>9, 68</value>
+  </data>
+  <data name="Label_FoundOldRegionsCount.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label_FoundOldRegionsCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 13</value>
+    <value>179, 16</value>
   </data>
   <data name="Label_FoundOldRegionsCount.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -385,10 +478,13 @@
     <value>True</value>
   </data>
   <data name="Label_OldRegionsIds.Location" type="System.Drawing.Point, System.Drawing">
-    <value>170, 55</value>
+    <value>227, 68</value>
+  </data>
+  <data name="Label_OldRegionsIds.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label_OldRegionsIds.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 13</value>
+    <value>100, 16</value>
   </data>
   <data name="Label_OldRegionsIds.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -409,10 +505,13 @@
     <value>3</value>
   </data>
   <data name="Button_LoadOldRegionsDirectory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>291, 5</value>
+    <value>388, 6</value>
+  </data>
+  <data name="Button_LoadOldRegionsDirectory.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_LoadOldRegionsDirectory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>100, 28</value>
   </data>
   <data name="Button_LoadOldRegionsDirectory.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -436,13 +535,16 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="ProgressBar_RecoveryProcess.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+    <value>Bottom, Left, Right</value>
   </data>
   <data name="ProgressBar_RecoveryProcess.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 193</value>
+    <value>213, 215</value>
+  </data>
+  <data name="ProgressBar_RecoveryProcess.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="ProgressBar_RecoveryProcess.Size" type="System.Drawing.Size, System.Drawing">
-    <value>241, 23</value>
+    <value>321, 28</value>
   </data>
   <data name="ProgressBar_RecoveryProcess.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -463,10 +565,13 @@
     <value>Bottom, Right</value>
   </data>
   <data name="Button_ExecuteRecovery.Location" type="System.Drawing.Point, System.Drawing">
-    <value>407, 193</value>
+    <value>543, 215</value>
+  </data>
+  <data name="Button_ExecuteRecovery.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_ExecuteRecovery.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 23</value>
+    <value>227, 28</value>
   </data>
   <data name="Button_ExecuteRecovery.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -490,10 +595,13 @@
     <value>True</value>
   </data>
   <data name="CheckBox_TransferFilesIfRegionIdNotFound.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 19</value>
+    <value>9, 23</value>
+  </data>
+  <data name="CheckBox_TransferFilesIfRegionIdNotFound.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="CheckBox_TransferFilesIfRegionIdNotFound.Size" type="System.Drawing.Size, System.Drawing">
-    <value>459, 17</value>
+    <value>579, 20</value>
   </data>
   <data name="CheckBox_TransferFilesIfRegionIdNotFound.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -513,9 +621,6 @@
   <data name="&gt;&gt;CheckBox_TransferFilesIfRegionIdNotFound.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="CheckedListBox_ParamsToRecover.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left</value>
-  </data>
   <data name="CheckedListBox_ParamsToRecover.Items" xml:space="preserve">
     <value>name</value>
   </data>
@@ -532,10 +637,13 @@
     <value>weather</value>
   </data>
   <data name="CheckedListBox_ParamsToRecover.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 42</value>
+    <value>5, 52</value>
+  </data>
+  <data name="CheckedListBox_ParamsToRecover.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="CheckedListBox_ParamsToRecover.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 169</value>
+    <value>199, 191</value>
   </data>
   <data name="CheckedListBox_ParamsToRecover.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -553,10 +661,16 @@
     <value>3</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1, 140</value>
+    <value>1, 172</value>
+  </data>
+  <data name="groupBox2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="groupBox2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>582, 220</value>
+    <value>776, 256</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -580,10 +694,13 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="TextBox_OldRegionsIds.Location" type="System.Drawing.Point, System.Drawing">
-    <value>252, 52</value>
+    <value>336, 64</value>
+  </data>
+  <data name="TextBox_OldRegionsIds.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="TextBox_OldRegionsIds.Size" type="System.Drawing.Size, System.Drawing">
-    <value>327, 20</value>
+    <value>435, 22</value>
   </data>
   <data name="TextBox_OldRegionsIds.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -604,10 +721,10 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>8, 16</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>584, 361</value>
+    <value>776, 428</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -4123,11 +4240,14 @@
         UDuPdTjmAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
   <data name="$this.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>600, 400</value>
+    <value>794, 475</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>600, 400</value>
+    <value>794, 475</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Восстановление данных Стратегических регионов</value>

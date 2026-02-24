@@ -237,7 +237,7 @@ namespace HOI4ModBuilder
             CheckedListBox_MapAdditionalLayers.Items.Clear();
             foreach (var type in Enum.GetValues(typeof(EnumAdditionalLayers)))
                 CheckedListBox_MapAdditionalLayers.Items.Add(GuiLocManager.GetLoc(type.ToString()));
-            CheckedListBox_MapAdditionalLayers.Height = 15 * CheckedListBox_MapAdditionalLayers.Items.Count + 10;
+            CheckedListBox_MapAdditionalLayers.Height = 18 * CheckedListBox_MapAdditionalLayers.Items.Count;
 
             CheckedListBox_MapAdditionalLayers.SetItemChecked((int)EnumAdditionalLayers.TEXT, true);
             MapManager.displayLayers[(int)EnumAdditionalLayers.TEXT] = true;

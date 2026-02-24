@@ -692,6 +692,7 @@
             // 
             // ContextMenuStrip_Map
             // 
+            this.ContextMenuStrip_Map.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ContextMenuStrip_Map.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_Map_Search,
             this.toolStripSeparator25,
@@ -1324,6 +1325,7 @@
             // 
             // MenuStrip1
             // 
+            this.MenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.MenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_File,
             this.ToolStripMenuItem_Edit,

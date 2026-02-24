@@ -123,10 +123,13 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="RichTextBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 5</value>
+    <value>7, 6</value>
+  </data>
+  <data name="RichTextBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="RichTextBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>495, 225</value>
+    <value>659, 274</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="RichTextBox1.TabIndex" type="System.Int32, mscorlib">
@@ -148,13 +151,16 @@
     <value>4</value>
   </data>
   <data name="Button_Releases.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
+    <value>Top, Bottom, Left</value>
   </data>
   <data name="Button_Releases.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 235</value>
+    <value>7, 287</value>
+  </data>
+  <data name="Button_Releases.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_Releases.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 23</value>
+    <value>160, 28</value>
   </data>
   <data name="Button_Releases.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -175,13 +181,16 @@
     <value>3</value>
   </data>
   <data name="Button_Discord.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
+    <value>Top, Bottom, Left</value>
   </data>
   <data name="Button_Discord.Location" type="System.Drawing.Point, System.Drawing">
-    <value>255, 235</value>
+    <value>340, 287</value>
+  </data>
+  <data name="Button_Discord.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_Discord.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 23</value>
+    <value>160, 28</value>
   </data>
   <data name="Button_Discord.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -202,13 +211,16 @@
     <value>2</value>
   </data>
   <data name="Button_GitHubRepo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
+    <value>Top, Bottom, Left</value>
   </data>
   <data name="Button_GitHubRepo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>130, 235</value>
+    <value>173, 287</value>
+  </data>
+  <data name="Button_GitHubRepo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_GitHubRepo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 23</value>
+    <value>160, 28</value>
   </data>
   <data name="Button_GitHubRepo.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -229,16 +241,19 @@
     <value>1</value>
   </data>
   <data name="Button_Telegram.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
+    <value>Top, Bottom, Left</value>
   </data>
   <data name="Button_Telegram.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="Button_Telegram.Location" type="System.Drawing.Point, System.Drawing">
-    <value>380, 235</value>
+    <value>507, 287</value>
+  </data>
+  <data name="Button_Telegram.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_Telegram.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 23</value>
+    <value>160, 28</value>
   </data>
   <data name="Button_Telegram.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -262,10 +277,10 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>8, 16</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>504, 261</value>
+    <value>669, 323</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -3781,11 +3796,14 @@
         UDuPdTjmAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
   <data name="$this.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>520, 300</value>
+    <value>687, 370</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>520, 300</value>
+    <value>687, 370</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>О программе</value>

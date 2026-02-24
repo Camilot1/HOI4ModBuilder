@@ -123,7 +123,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 34</value>
+    <value>7, 42</value>
+  </data>
+  <data name="splitContainer1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="GroupBox_Script.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -132,10 +135,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="RichTextBox_Script.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 19</value>
+    <value>9, 23</value>
+  </data>
+  <data name="RichTextBox_Script.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="RichTextBox_Script.Size" type="System.Drawing.Size, System.Drawing">
-    <value>369, 497</value>
+    <value>542, 669</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="RichTextBox_Script.TabIndex" type="System.Int32, mscorlib">
@@ -157,10 +163,16 @@
     <value>0</value>
   </data>
   <data name="GroupBox_Script.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>4, 4</value>
+  </data>
+  <data name="GroupBox_Script.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="GroupBox_Script.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="GroupBox_Script.Size" type="System.Drawing.Size, System.Drawing">
-    <value>382, 522</value>
+    <value>560, 700</value>
   </data>
   <data name="GroupBox_Script.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -198,6 +210,9 @@
   <data name="splitContainer2.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="splitContainer2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
   <data name="splitContainer2.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
   </data>
@@ -205,10 +220,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="Button_Debug_Terminate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>198, 19</value>
+    <value>264, 23</value>
+  </data>
+  <data name="Button_Debug_Terminate.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_Debug_Terminate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 23</value>
+    <value>120, 28</value>
   </data>
   <data name="Button_Debug_Terminate.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -232,10 +250,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="RichTextBox_Debug.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 48</value>
+    <value>8, 59</value>
+  </data>
+  <data name="RichTextBox_Debug.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="RichTextBox_Debug.Size" type="System.Drawing.Size, System.Drawing">
-    <value>392, 308</value>
+    <value>575, 418</value>
   </data>
   <data name="RichTextBox_Debug.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -256,10 +277,13 @@
     <value>1</value>
   </data>
   <data name="Button_Debug_NextStep.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 19</value>
+    <value>136, 23</value>
+  </data>
+  <data name="Button_Debug_NextStep.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_Debug_NextStep.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 23</value>
+    <value>120, 28</value>
   </data>
   <data name="Button_Debug_NextStep.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -280,10 +304,13 @@
     <value>2</value>
   </data>
   <data name="Button_Debug_Flip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 19</value>
+    <value>8, 23</value>
+  </data>
+  <data name="Button_Debug_Flip.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_Debug_Flip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 23</value>
+    <value>120, 28</value>
   </data>
   <data name="Button_Debug_Flip.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -304,10 +331,16 @@
     <value>3</value>
   </data>
   <data name="GroupBox_Debug.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>4, 4</value>
+  </data>
+  <data name="GroupBox_Debug.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="GroupBox_Debug.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="GroupBox_Debug.Size" type="System.Drawing.Size, System.Drawing">
-    <value>404, 362</value>
+    <value>593, 486</value>
   </data>
   <data name="GroupBox_Debug.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -343,10 +376,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="RichTextBox_Console.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 3</value>
+    <value>8, 4</value>
+  </data>
+  <data name="RichTextBox_Console.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="RichTextBox_Console.Size" type="System.Drawing.Size, System.Drawing">
-    <value>392, 144</value>
+    <value>575, 194</value>
   </data>
   <data name="RichTextBox_Console.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -379,10 +415,13 @@
     <value>1</value>
   </data>
   <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>405, 525</value>
+    <value>594, 704</value>
   </data>
   <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>368</value>
+    <value>493</value>
+  </data>
+  <data name="splitContainer2.SplitterWidth" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
   <data name="splitContainer2.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -412,10 +451,13 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>799, 528</value>
+    <value>1170, 708</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>388</value>
+    <value>568</value>
+  </data>
+  <data name="splitContainer1.SplitterWidth" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
   <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -433,10 +475,13 @@
     <value>0</value>
   </data>
   <data name="Button_ChooseFile.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 5</value>
+    <value>7, 6</value>
+  </data>
+  <data name="Button_ChooseFile.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_ChooseFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 23</value>
+    <value>120, 28</value>
   </data>
   <data name="Button_ChooseFile.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -463,10 +508,13 @@
     <value>False</value>
   </data>
   <data name="Button_Save.Location" type="System.Drawing.Point, System.Drawing">
-    <value>522, 5</value>
+    <value>801, 6</value>
+  </data>
+  <data name="Button_Save.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_Save.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 23</value>
+    <value>120, 28</value>
   </data>
   <data name="Button_Save.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -493,10 +541,13 @@
     <value>False</value>
   </data>
   <data name="Button_Load.Location" type="System.Drawing.Point, System.Drawing">
-    <value>618, 5</value>
+    <value>929, 6</value>
+  </data>
+  <data name="Button_Load.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_Load.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 23</value>
+    <value>120, 28</value>
   </data>
   <data name="Button_Load.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -520,10 +571,13 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="textBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>101, 6</value>
+    <value>135, 7</value>
+  </data>
+  <data name="textBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="textBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>415, 20</value>
+    <value>657, 22</value>
   </data>
   <data name="textBox1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -544,10 +598,13 @@
     <value>Top, Right</value>
   </data>
   <data name="Button_Execute.Location" type="System.Drawing.Point, System.Drawing">
-    <value>714, 5</value>
+    <value>1057, 6</value>
+  </data>
+  <data name="Button_Execute.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button_Execute.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 23</value>
+    <value>120, 28</value>
   </data>
   <data name="Button_Execute.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -571,10 +628,10 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>8, 16</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>808, 565</value>
+    <value>1182, 753</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -4090,8 +4147,11 @@
         UDuPdTjmAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>595, 450</value>
+    <value>1200, 800</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Скрипты</value>

@@ -157,7 +157,6 @@
             // 
             // CheckedListBox_ParamsToRecover
             // 
-            resources.ApplyResources(this.CheckedListBox_ParamsToRecover, "CheckedListBox_ParamsToRecover");
             this.CheckedListBox_ParamsToRecover.FormattingEnabled = true;
             this.CheckedListBox_ParamsToRecover.Items.AddRange(new object[] {
             resources.GetString("CheckedListBox_ParamsToRecover.Items"),
@@ -165,6 +164,7 @@
             resources.GetString("CheckedListBox_ParamsToRecover.Items2"),
             resources.GetString("CheckedListBox_ParamsToRecover.Items3"),
             resources.GetString("CheckedListBox_ParamsToRecover.Items4")});
+            resources.ApplyResources(this.CheckedListBox_ParamsToRecover, "CheckedListBox_ParamsToRecover");
             this.CheckedListBox_ParamsToRecover.Name = "CheckedListBox_ParamsToRecover";
             this.CheckedListBox_ParamsToRecover.MouseUp += new System.Windows.Forms.MouseEventHandler(this.CheckedListBox_ParamsToRecover_MouseUp);
             // 
