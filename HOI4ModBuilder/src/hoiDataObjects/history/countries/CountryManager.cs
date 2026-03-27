@@ -175,7 +175,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
                 string[] pair = result.Split('=');
                 if (pair.Length != 2)
                 {
-                    Logger.LogWarning(
+                    Logger.LogError(
                         EnumLocKey.WARNING_COUNTRY_TAGS_PARSING_INCORRECT_LINE,
                         new Dictionary<string, string> {
                             { "{line}", line },
@@ -186,9 +186,28 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.countries
                 }
 
                 string key = Regex.Replace(pair[0], @"\s+", " ").Trim();
-                if (key.Length != 3) continue;
+                if (key.Length != 3)
+                {
+                    continue;
+                }
 
-                string value = (pair[1].Replace('"', ' ').Trim()).Split('/')[1];
+                string value = "";
+
+                try
+                {
+                    value = (pair[1].Replace('"', ' ').Trim()).Split('/')[1];
+                }
+                catch (Exception e)
+                {
+                    Logger.LogError(
+                        EnumLocKey.WARNING_COUNTRY_TAGS_PARSING_INCORRECT_LINE,
+                        new Dictionary<string, string> {
+                            { "{line}", line },
+                            { "{filePath}", filePath }
+                        }
+                    );
+                    continue;
+                }
 
                 var country = new Country(key);
                 if (_countryGraphics.TryGetValue(value, out CountryGraphics graphics))
