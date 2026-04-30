@@ -507,11 +507,62 @@ namespace HOI4ModBuilder
             });
         }
 
+        private static long lastDrawnTick = 0;
+        private Queue<float> lastDrawnFramesMS = new Queue<float>(10);
+        private int last10AverageFPS = 0;
+        private long lastUpdatedMS_LabelFPS = 0;
+        public int GetLast10AverageFPS() => last10AverageFPS;
+
         private void GLControl_Paint(object sender, PaintEventArgs e)
         {
             if (!UpdateGLControl)
                 return;
 
+            long nowTick = Stopwatch.GetTimestamp();
+            long frameRenderDelayTicks = SettingsManager.Settings.GetFrameRenderDelayTicks();
+
+            if (lastDrawnTick == 0)
+                lastDrawnTick = nowTick - frameRenderDelayTicks;
+
+            if (nowTick - lastDrawnTick < frameRenderDelayTicks)
+            {
+                GLControl.Invalidate();
+                return;
+            }
+
+            float sinceLastDrawnMS = (nowTick - lastDrawnTick) * 1e-4f;
+            lastDrawnTick = nowTick;
+
+            Render();
+
+            GLControl.SwapBuffers();
+            GLControl.Invalidate();
+
+            bool displayFPS = SettingsManager.Settings.displayFPS;
+            Label_FPS.Visible = displayFPS;
+
+            if (!displayFPS)
+                return;
+
+            while (lastDrawnFramesMS.Count >= 10)
+                lastDrawnFramesMS.Dequeue();
+            lastDrawnFramesMS.Enqueue(sinceLastDrawnMS);
+
+            float msSum = 0;
+            foreach (var ms in lastDrawnFramesMS)
+                msSum += ms;
+            last10AverageFPS = (int)Math.Round(1000 / (msSum / lastDrawnFramesMS.Count));
+
+            int sinceLastUpdateMS = (int)(nowTick * 1e-4f - lastUpdatedMS_LabelFPS);
+            if (sinceLastUpdateMS < 500)
+                return;
+
+            lastUpdatedMS_LabelFPS = (long)(nowTick * 1e-4f);
+            Label_FPS.Text = last10AverageFPS + " FPS";
+        }
+
+        private void Render()
+        {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             GL.DepthFunc(DepthFunction.Lequal);
@@ -520,6 +571,7 @@ namespace HOI4ModBuilder
             GL.MatrixMode(MatrixMode.Projection);
 
             MapManager.Draw();
+
             if (Panel_ColorPicker.Visible)
                 ElementHost_ColorPicker.Invalidate();
 
@@ -527,11 +579,7 @@ namespace HOI4ModBuilder
                 Panel_Map.Cursor = Cursors.SizeAll;
             else
                 Panel_Map.Cursor = Cursors.Default;
-
-            GLControl.Invalidate();
-            GLControl.SwapBuffers();
         }
-
 
         private void Panel_FirstColor_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => FlipColorPickerVisibility());

@@ -31,6 +31,25 @@ namespace HOI4ModBuilder.src.managers.settings
         public byte textureOpacity = 180;
         public float MAP_VIEWPORT_HEIGHT = 1004;
         public int maxAdditionalTextureSize = 16384;
+        public int maxFPS = -1;
+        public bool displayFPS = false;
+
+        [JsonIgnore]
+        private int maxFPSCached = -1;
+        [JsonIgnore]
+        private long frameRenderDelayTicksCached = 0;
+        public long GetFrameRenderDelayTicks()
+        {
+            if (maxFPSCached != maxFPS)
+            {
+                maxFPSCached = maxFPS;
+                if (maxFPSCached <= 0)
+                    frameRenderDelayTicksCached = 0;
+                else
+                    frameRenderDelayTicksCached = (long)Math.Round(1000 / (float)maxFPSCached * 1e4);
+            }
+            return frameRenderDelayTicksCached;
+        }
 
         public bool ignoreUpdateChecks;
         public string ignoreUpdateCheckVersion;

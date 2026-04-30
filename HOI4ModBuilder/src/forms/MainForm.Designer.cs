@@ -164,6 +164,7 @@
             this.Panel_ColorPicker_Button_Save = new System.Windows.Forms.Button();
             this.ElementHost_ColorPicker = new System.Windows.Forms.Integration.ElementHost();
             this.standardColorPicker1 = new ColorPicker.StandardColorPicker();
+            this.Label_FPS = new System.Windows.Forms.Label();
             this.TabPage_Buildings = new System.Windows.Forms.TabPage();
             this.TabPage_Resources = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -688,6 +689,7 @@
             resources.ApplyResources(this.Panel_Map, "Panel_Map");
             this.Panel_Map.ContextMenuStrip = this.ContextMenuStrip_Map;
             this.Panel_Map.Controls.Add(this.Panel_ColorPicker);
+            this.Panel_Map.Controls.Add(this.Label_FPS);
             this.Panel_Map.Name = "Panel_Map";
             // 
             // ContextMenuStrip_Map
@@ -1291,6 +1293,11 @@
             resources.ApplyResources(this.ElementHost_ColorPicker, "ElementHost_ColorPicker");
             this.ElementHost_ColorPicker.Name = "ElementHost_ColorPicker";
             this.ElementHost_ColorPicker.Child = this.standardColorPicker1;
+            // 
+            // Label_FPS
+            // 
+            resources.ApplyResources(this.Label_FPS, "Label_FPS");
+            this.Label_FPS.Name = "Label_FPS";
             // 
             // TabPage_Buildings
             // 
@@ -2261,6 +2268,7 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Help_Logs;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Help_Logs_OpenFile;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Help_Logs_OpenFolder;
+        private System.Windows.Forms.Label Label_FPS;
     }
 }
 
