@@ -521,6 +521,16 @@ namespace HOI4ModBuilder
             long nowTick = Stopwatch.GetTimestamp();
             long frameRenderDelayTicks = SettingsManager.Settings.GetFrameRenderDelayTicks();
 
+            bool isMouseOverGLControl = GLControl != null &&
+                GLControl.ClientRectangle.Contains(GLControl.PointToClient(Cursor.Position));
+
+            if (!isMouseOverGLControl)
+            {
+                int fps = 1;
+                frameRenderDelayTicks = (long)Math.Round(1000 / (float)fps * 1e4);
+                lastDrawnFramesMS.Clear();
+            }
+
             if (lastDrawnTick == 0)
                 lastDrawnTick = nowTick - frameRenderDelayTicks;
 
