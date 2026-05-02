@@ -524,7 +524,7 @@ namespace HOI4ModBuilder
             bool isMouseOverGLControl = GLControl != null &&
                 GLControl.ClientRectangle.Contains(GLControl.PointToClient(Cursor.Position));
 
-            if (!isMouseOverGLControl)
+            if (!this.ContainsFocus && !isMouseOverGLControl)
             {
                 int fps = 1;
                 frameRenderDelayTicks = (long)Math.Round(1000 / (float)fps * 1e4);
