@@ -1071,8 +1071,8 @@
     <None Include="data\shaders\map\renderer\map_renderer_strategic_regions.comp.glsl" />
     <None Include="data\shaders\model.frag.glsl" />
     <None Include="data\shaders\model.vert.glsl" />
-    <None Include="data\shaders\simple.frag.glsl" />
-    <None Include="data\shaders\simple.vert.glsl" />
+    <None Include="data\shaders\text\simple.frag.glsl" />
+    <None Include="data\shaders\text\simple.vert.glsl" />
     <None Include="data\triggers.json" />
     <None Include="HOI4ModBuilder_TemporaryKey.pfx" />
     <None Include="localization\en.yml" />

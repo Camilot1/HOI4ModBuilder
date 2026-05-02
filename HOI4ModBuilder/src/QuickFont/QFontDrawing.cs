@@ -94,9 +94,9 @@ namespace QuickFont
             int vertCompileStatus;
             int fragCompileStatus;
 
-            GL.ShaderSource(vert, File.ReadAllText(@"data\shaders\simple.vert.glsl"));
+            GL.ShaderSource(vert, File.ReadAllText(@"data\shaders\text\simple.vert.glsl"));
             GL.CompileShader(vert);
-            GL.ShaderSource(frag, File.ReadAllText(@"data\shaders\simple.frag.glsl"));
+            GL.ShaderSource(frag, File.ReadAllText(@"data\shaders\text\simple.frag.glsl"));
             GL.CompileShader(frag);
 
             GL.GetShader(vert, ShaderParameter.CompileStatus, out vertCompileStatus);

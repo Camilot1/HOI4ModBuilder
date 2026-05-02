@@ -230,26 +230,37 @@ namespace HOI4ModBuilder.managers
             GL.Color3(1f, 1f, 1f);
             GL.PointSize(5f);
             if (displayLayers[(int)EnumAdditionalLayers.OVERLAY_TEXTURES])
-            {
-                foreach (TextureInfo info in additionalMapTextures)
-                {
-                    SegmentedTexturedPlane plane = info.plane;
-                    //TODO reimplement
-                    GL.Translate(plane.pos.x, -plane.pos.y, 0f);
-                    plane.Draw();
-                    GL.Translate(-plane.pos.x, plane.pos.y, 0f);
-                }
-            }
+                DrawAdditionalTextures();
 
             GL.Scale(1f, -1f, 1f);
             if (displayLayers[(int)EnumAdditionalLayers.WARNINGS])
                 WarningsManager.Instance.Draw();
             if (displayLayers[(int)EnumAdditionalLayers.ERRORS])
                 ErrorManager.Instance.Draw();
-            //DrawTest();
 
             MapPositionsManager.Draw();
 
+            DrawText();
+
+            GL.PopMatrix();
+
+            GL.Color3(1f, 1f, 1f);
+        }
+
+        private static void DrawAdditionalTextures()
+        {
+            foreach (TextureInfo info in additionalMapTextures)
+            {
+                SegmentedTexturedPlane plane = info.plane;
+                //TODO reimplement
+                GL.Translate(plane.pos.x, -plane.pos.y, 0f);
+                plane.Draw();
+                GL.Translate(-plane.pos.x, plane.pos.y, 0f);
+            }
+        }
+
+        private static void DrawText()
+        {
             if (SettingsManager.CheckDebugValue(EnumDebugValue.TEXT_RENDER_CHUNKS))
                 FontRenderController?.RenderDebug();
 
@@ -289,12 +300,9 @@ namespace HOI4ModBuilder.managers
             {
                 FontRenderController.TryPostLatestEvent();
             }
-
-            GL.PopMatrix();
-
-            GL.Color3(1f, 1f, 1f);
         }
-        public static void DrawPointer()
+
+        private static void DrawPointer()
         {
             double rawMapX = _mousePrevPoint.x / _mapSizeFactor.x;
             double rawMapY = _mousePrevPoint.y / _mapSizeFactor.y;
