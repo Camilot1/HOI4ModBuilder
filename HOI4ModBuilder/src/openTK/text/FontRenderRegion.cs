@@ -165,6 +165,8 @@ namespace HOI4ModBuilder.src.openTK.text
             {
                 Colour = color,
                 DropShadowActive = dropShadows,
+                DropShadowOffset = new Vector2(0.1f, 0.1f),
+                DropShadowColour = Color.FromArgb(208, Color.Black)
             });
             _primitiveCache.Add(id, dp);
 
