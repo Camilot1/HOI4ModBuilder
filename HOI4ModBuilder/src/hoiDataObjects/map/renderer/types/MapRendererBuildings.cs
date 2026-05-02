@@ -2,21 +2,14 @@
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
-using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.openTK;
-using QuickFont;
 using System;
-using System.Drawing;
-using System.Threading.Tasks;
+using HOI4ModBuilder.src.openTK.text;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 {
     public class MapRendererBuildings : IMapRenderer
     {
-        private static readonly float scaleProvince = 0.04f;
-        private static readonly float scaleState = 0.125f;
-        private static readonly Color color = Color.Yellow;
-
         public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter, string parameterValue)
         {
             if (!BuildingManager.TryGetBuilding(parameter, out Building building))
@@ -175,83 +168,21 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         }
 
         public bool TextRenderRecalculate(string parameter, string parameterValue)
-        {
-            MapManager.FontRenderController.TryStart(out var result)?
-                .SetEventsHandler((int)EnumMapRenderEvents.NONE, (flags, obj) => { })
-                .ClearAll()
-                .End();
-
-            return result;
-        }
+            => MapTextLayerDefinitions.None.Rebuild(
+                MapManager.FontRenderController,
+                new TextLayerContext(parameter, parameterValue)
+            );
 
         public bool TextRenderRecalculateProvinces(Building building, string parameterValue)
-        {
-            var scale = scaleProvince;
-            var controller = MapManager.FontRenderController;
-            controller.TryStart(out var result)?
-                .SetEventsHandler((int)EnumMapRenderEvents.BUILDINGS, (flags, objs) =>
-                {
-                    controller.TryStart(controller.EventsFlags, out var eventResult)?
-                    .ForEachProvince(objs, p => true, (fontRegion, p, pos) =>
-                    {
-                        var count = p.GetBuildingCount(building);
-                        if (count == 0)
-                            controller.PushAction(pos, r => r.RemoveTextMulti(p));
-                        else
-                            controller.PushAction(pos, r => r.SetTextMulti(
-                                p, TextRenderManager.Instance.FontData64, scale,
-                                count + "", pos, QFontAlignment.Centre, color, true
-                            ));
-                    })
-                    .EndAssembleParallelWithWait();
-                })
-                .SetScale(scale)
-                .ClearAllMulti()
-                .ForEachProvince(
-                    (p) => p.GetBuildingCount(building) > 0,
-                    (fontRegion, p, pos) => fontRegion.SetTextMulti(
-                        p, TextRenderManager.Instance.FontData64, scale,
-                        p.GetBuildingCount(building) + "", pos, QFontAlignment.Centre, color, true
-                    ))
-                .EndAssembleParallel();
-
-            return result;
-        }
+            => MapTextLayerDefinitions.BuildingProvinces.Rebuild(
+                MapManager.FontRenderController,
+                new TextLayerContext(building.Name, parameterValue)
+            );
 
         public bool TextRenderRecalculateStates(Building building, string parameterValue)
-        {
-            var scale = scaleState;
-            var controller = MapManager.FontRenderController;
-            controller.TryStart(out var result)?
-                .SetEventsHandler(
-                    (int)EnumMapRenderEvents.BUILDINGS | (int)EnumMapRenderEvents.PROVINCES | (int)EnumMapRenderEvents.STATES,
-                    (flags, objs) =>
-                {
-                    controller.TryStart(controller.EventsFlags, out var eventResult)?
-                    .ForEachState(objs, s => true, (fontRegion, s, pos) =>
-                    {
-                        var count = s.GetStateBuildingCount(building);
-                        if (count == 0)
-                            controller.PushAction(pos, r => r.RemoveTextMulti(s));
-                        else
-                            controller.PushAction(pos, r => r.SetTextMulti(
-                                s, TextRenderManager.Instance.FontData64, scale,
-                                count + "", pos, QFontAlignment.Centre, color, true
-                            ));
-                    })
-                    .EndAssembleParallelWithWait();
-                })
-                .SetScale(scale)
-                .ClearAllMulti()
-                .ForEachState(
-                    (s) => s.GetStateBuildingCount(building) > 0,
-                    (fontRegion, s, pos) => fontRegion.SetTextMulti(
-                        s, TextRenderManager.Instance.FontData64, scale,
-                        s.GetStateBuildingCount(building) + "", pos, QFontAlignment.Centre, color, true
-                    ))
-                .EndAssembleParallel();
-
-            return result;
-        }
+            => MapTextLayerDefinitions.BuildingStates.Rebuild(
+                MapManager.FontRenderController,
+                new TextLayerContext(building.Name, parameterValue)
+            );
     }
 }

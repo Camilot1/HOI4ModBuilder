@@ -102,7 +102,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                     (targetStrategicLocation.Name, EnumValueType.PROVINCE, province)
                 });
 
-                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STRATEGIC_LOCATIONS, province);
+                MapDomainEventsHandler.OnStrategicLocationsChanged(province);
 
                 province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
                 MapManager.HandleMapMainLayerChange(false);
@@ -132,7 +132,7 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
                     return false;
                 });
 
-                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STRATEGIC_LOCATIONS, province);
+                MapDomainEventsHandler.OnStrategicLocationsChanged(province);
 
                 province.State.UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
                 MapManager.HandleMapMainLayerChange(false);

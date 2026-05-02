@@ -62,10 +62,13 @@ namespace HOI4ModBuilder.managers
 
         public static bool[] displayLayers = new bool[Enum.GetValues(typeof(EnumAdditionalLayers)).Length];
 
-        public static float TextScale { get; set; } = 0.1f;
         public static double zoomFactor = 0.0004f;
         public static double mapDifX, mapDifY;
         public static Bounds4F viewportBounds;
+        private static readonly MapTextPass _mapTextPass = new MapTextPass();
+        public static bool EnableZoomInvariantTextScaling { get; set; } = true;
+        public static double ZoomInvariantTextScalingStartZoom { get; set; } = 0.01d;
+        public static float MinZoomInvariantTextScale { get; set; } = 0.05f;
 
         public static bool[] isHandlingMapMainLayerChange = new bool[1];
         public static bool[] isWaitingHandlingMapMainLayerChange = new bool[1];
@@ -247,6 +250,11 @@ namespace HOI4ModBuilder.managers
             GL.Color3(1f, 1f, 1f);
         }
 
+        public static void UpdateFrameState()
+        {
+            ProcessPendingTextUpdates();
+        }
+
         private static void DrawAdditionalTextures()
         {
             foreach (TextureInfo info in additionalMapTextures)
@@ -261,45 +269,20 @@ namespace HOI4ModBuilder.managers
 
         private static void DrawText()
         {
-            if (SettingsManager.CheckDebugValue(EnumDebugValue.TEXT_RENDER_CHUNKS))
-                FontRenderController?.RenderDebug();
-
-            var distanceTextCutoff = zoomFactor < (1 / TextScale * 0.00015f * (vpi.height / (float)vpi.max));
-            if (
-                displayLayers[(int)EnumAdditionalLayers.TEXT] && (
-                    SettingsManager.CheckDebugValue(EnumDebugValue.TEXT_DISABLE_DISTANCE_CUTOFF) ||
-                    !distanceTextCutoff && FontRenderController != null
-                )
-            )
-            {
-                var _projection = Matrix4.CreateOrthographicOffCenter(
-                    MainForm.Instance.ViewportInfo.x,
-                    -MainForm.Instance.ViewportInfo.x + MainForm.Instance.ViewportInfo.width,
-                    MainForm.Instance.ViewportInfo.y,
-                    -MainForm.Instance.ViewportInfo.y + MainForm.Instance.ViewportInfo.height,
-                    -1f, 1f
-                );
-
-                var scaleHalf = TextScale / 2f;
-                float factor = (float)(zoomFactor) * MainForm.Instance.ViewportInfo.max;
-
-                var viewMatrix =
-                    Matrix4.CreateScale(scaleHalf, scaleHalf, scaleHalf) *
-                    Matrix4.CreateScale(factor, factor, factor) *
-                    Matrix4.CreateTranslation(
-                        MainForm.Instance.ViewportInfo.width / 2f + (float)((mapDifX + 0.5f) * factor / 2f),
-                        MainForm.Instance.ViewportInfo.height / 2f + (float)(-mapDifY * factor / 2f),
-                        0f
-                    );
-
-                FontRenderController.Render(viewMatrix * _projection, viewportBounds);
-            }
-
-            if (displayLayers[(int)EnumAdditionalLayers.TEXT] &&
-                FontRenderController.GetEventPayload().Count > 0)
-            {
-                FontRenderController.TryPostLatestEvent();
-            }
+            _mapTextPass.Render(
+                FontRenderController,
+                MainForm.Instance.ViewportInfo,
+                viewportBounds,
+                zoomFactor,
+                mapDifX,
+                mapDifY,
+                displayLayers[(int)EnumAdditionalLayers.TEXT],
+                SettingsManager.CheckDebugValue(EnumDebugValue.TEXT_RENDER_CHUNKS),
+                SettingsManager.CheckDebugValue(EnumDebugValue.TEXT_DISABLE_DISTANCE_CUTOFF),
+                EnableZoomInvariantTextScaling,
+                ZoomInvariantTextScalingStartZoom,
+                MinZoomInvariantTextScale
+            );
         }
 
         private static void DrawPointer()
@@ -465,6 +448,7 @@ namespace HOI4ModBuilder.managers
             MapRendererResult result = _mapRenderers[(int)enumMainLayer]
                 .Execute(recalculateAllText, ref func, ref customFunc, parameter, parameterValue);
             MapRendererBuffersManager.FinishFrame();
+            ProcessPendingTextUpdates();
 
             if (result == MapRendererResult.ABORT)
                 return;
@@ -508,6 +492,9 @@ namespace HOI4ModBuilder.managers
                 assembleTask.Start();
             }
         }
+
+        public static bool ProcessPendingTextUpdates()
+            => FontRenderController?.ProcessPendingEvents() ?? false;
 
         public static byte[] AssembleBitmapBytes()
         {

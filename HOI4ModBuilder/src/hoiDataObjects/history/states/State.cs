@@ -42,7 +42,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 if (_color != value)
                 {
                     _color = value;
-                    MapRendererEventsHandler.OnStateColorChanged(this);
+                    MapDomainEventsHandler.OnStateColorChanged(this);
                 }
             } 
         }
@@ -88,7 +88,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 StateManager.Add(_id, state);
 
                 foreach (var province in state.Provinces)
-                    MapRendererEventsHandler.OnProvinceStateIdChanged(province);
+                    MapDomainEventsHandler.OnProvinceStateIdChanged(province);
 
                 return _id;
             });
@@ -103,7 +103,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 var stateCategory = (StateCategory)value;
                 var state = (State)((GameParameter<StateCategory>)o).GetParent();
                 state.CurrentStateCategory = stateCategory;
-                MapRendererEventsHandler.OnStateCategoryChanged(state);
+                MapDomainEventsHandler.OnStateCategoryChanged(state);
                 return stateCategory;
             });
         public StateCategory CurrentStateCategory { get; set; }
@@ -294,7 +294,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 IsCoastalStateCached = true;
 
             CalculateCenter();
-            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STATES, this);
+            MapDomainEventsHandler.OnStateChanged(this);
             SetNeedToSave(true);
         }
 
@@ -308,7 +308,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 if (IsCoastalStateCached && province.IsCoastal)
                     RecalculateIsCoastalState();
 
-                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.STATES, this);
+                MapDomainEventsHandler.OnStateChanged(this);
 
                 SetNeedToSave(true);
                 return true;
@@ -353,6 +353,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     Resources[resource] = count;
 
                 Resources.SetNeedToSave(true);
+                MapDomainEventsHandler.OnResourcesChanged(this);
                 return true;
             }
             else
@@ -362,6 +363,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
                 Resources[resource] = count;
                 Resources.SetNeedToSave(true);
+                MapDomainEventsHandler.OnResourcesChanged(this);
                 return true;
             }
         }
@@ -408,6 +410,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             {
                 SetNeedToSave(true);
                 UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
+                MapDomainEventsHandler.OnBuildingsChanged(province);
             }
         }
 
@@ -420,6 +423,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             {
                 SetNeedToSave(true);
                 UpdateByDateTimeStamp(DataManager.currentDateStamp[0]);
+                MapDomainEventsHandler.OnBuildingsChanged(this);
             }
         }
 

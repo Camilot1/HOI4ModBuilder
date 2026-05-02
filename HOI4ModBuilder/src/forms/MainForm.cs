@@ -580,6 +580,7 @@ namespace HOI4ModBuilder
 
             GL.MatrixMode(MatrixMode.Projection);
 
+            MapManager.UpdateFrameState();
             MapManager.Draw();
 
             if (Panel_ColorPicker.Visible)
@@ -1003,8 +1004,11 @@ namespace HOI4ModBuilder
 
                 Panel_Map.ContextMenuStrip = (SelectedTool != EnumTool.CURSOR) ? null : ContextMenuStrip_Map;
 
-                var shouldRecalculateAll = mainLayerChange;
-                if (!(mainLayerChange || toolChange))
+                // Parameter-driven layers capture the active parameter/value inside text rebuild delegates.
+                // If the selection changes, the text layer must be fully rebuilt even when map colors can
+                // be refreshed incrementally.
+                var shouldRecalculateAll = mainLayerChange || parameterChange || parameterValueChange;
+                if (!(mainLayerChange || toolChange || parameterChange || parameterValueChange))
                     shouldRecalculateAll = MapToolsManager.ShouldRecalculateAllText(SelectedMainLayer, SelectedTool);
 
                 if (actions == null || actions.isValidChecker == null || actions.isValidChecker.Invoke(GetParameter(), GetParameterValue()))
@@ -1792,7 +1796,6 @@ namespace HOI4ModBuilder
                 {
                     if (province.State.SetVictoryPoints(province, c))
                     {
-                        MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.VICTORY_POINTS, province);
                         Update_ToolStripMenuItem_Map_Province_Items(province);
                         MapManager.HandleMapMainLayerChange(false);
                     }

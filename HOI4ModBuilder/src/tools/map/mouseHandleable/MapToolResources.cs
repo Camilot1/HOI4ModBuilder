@@ -80,7 +80,6 @@ namespace HOI4ModBuilder.src.tools.map.mouseHandleable
             {
                 if (state.SetResourceCount(parameter, c))
                 {
-                    MapManager.FontRenderController.AddEventData(EnumMapRenderEvents.RESOURCES, state);
                     MapManager.HandleMapMainLayerChange(false);
                 }
             };

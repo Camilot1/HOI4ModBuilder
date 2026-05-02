@@ -367,3 +367,4 @@ tools/syncInfoAssemble/output/
 
 # Local dotnet CLI home created during sandboxed builds
 HOI4ModBuilder/.dotnet/
+.dotnet/

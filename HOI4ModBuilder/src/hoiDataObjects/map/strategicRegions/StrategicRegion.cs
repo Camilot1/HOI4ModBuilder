@@ -139,7 +139,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                 if (_color != value)
                 {
                     _color = value;
-                    MapRendererEventsHandler.OnStrategicRegionColorChanged(this);
+                    MapDomainEventsHandler.OnRegionColorChanged(this);
                 }
             }
         }
@@ -166,7 +166,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             Provinces.Sort((x, y) => x.Id.CompareTo(y.Id));
             province.Region = this;
             CalculateCenter();
-            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.REGIONS, this);
+            MapDomainEventsHandler.OnRegionChanged(this);
             needToSave = true;
         }
 
@@ -177,7 +177,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
                 province.Region = null;
                 needToSave = true;
                 CalculateCenter();
-                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.REGIONS, this);
+                MapDomainEventsHandler.OnRegionChanged(this);
                 return true;
             }
             return false;
@@ -404,7 +404,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             StrategicRegionManager.Add(Id, this);
 
             foreach (var province in Provinces)
-                MapRendererEventsHandler.OnProvinceRegionIdChanged(province);
+                MapDomainEventsHandler.OnProvinceRegionIdChanged(province);
         }
 
         public void ForEachProvince(Action<StrategicRegion, Province> action)

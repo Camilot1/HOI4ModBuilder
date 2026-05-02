@@ -3,6 +3,7 @@ using HOI4ModBuilder.hoiDataObjects.common.terrain;
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
@@ -381,7 +382,7 @@ namespace HOI4ModBuilder.managers
 
             OnIdUse(p.Id);
 
-            MapRendererEventsHandler.OnProvinceCreate(p);
+            MapDomainEventsHandler.OnProvinceCreate(p);
 
             NeedToSave = true;
             return true;
@@ -464,7 +465,7 @@ namespace HOI4ModBuilder.managers
             OnIdUse(toID);
             OnIdDeuse(fromID);
 
-            MapRendererEventsHandler.OnProvinceIDChange(p, fromID, toID);
+            MapDomainEventsHandler.OnProvinceIdChanged(p, fromID, toID);
 
             NeedToSave = true;
         }
@@ -493,7 +494,7 @@ namespace HOI4ModBuilder.managers
 
             OnIdDeuse(province.Id);
 
-            MapRendererEventsHandler.OnProvinceRemove(province);
+            MapDomainEventsHandler.OnProvinceRemove(province);
 
             NeedToSave = true;
             return true;

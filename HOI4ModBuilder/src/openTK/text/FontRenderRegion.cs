@@ -1,4 +1,7 @@
-﻿using HOI4ModBuilder.src.utils;
+using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.map;
+using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using OpenTK;
 using QuickFont;
@@ -10,17 +13,19 @@ namespace HOI4ModBuilder.src.openTK.text
 {
     public class FontRenderRegion : IDisposable
     {
+        private static readonly Vector2 TextDropShadowOffset = new Vector2(0.1f, 0.1f);
+        private static readonly Color TextDropShadowColor = Color.FromArgb(208, Color.Black);
         private readonly QFontDrawing _drawing;
         private bool _isDisposed;
 
-        private Dictionary<object, QFontDrawingPimitive> _primitiveCache = new Dictionary<object, QFontDrawingPimitive>(128);
+        private Dictionary<TextRenderKey, QFontDrawingPimitive> _primitiveCache = new Dictionary<TextRenderKey, QFontDrawingPimitive>(128);
         public int ChacheCount => _primitiveCache.Count;
-        public bool TryRemoveDrawingPrimitive(object id)
+        public bool TryRemoveDrawingPrimitive(TextRenderKey key)
         {
-            if (_primitiveCache.TryGetValue(id, out var dp))
+            if (_primitiveCache.TryGetValue(key, out var dp))
             {
                 _drawing.DrawingPimitiveses.Remove(dp);
-                _primitiveCache.Remove(id);
+                _primitiveCache.Remove(key);
                 IsDirtyPost = true;
                 return true;
             }
@@ -92,7 +97,6 @@ namespace HOI4ModBuilder.src.openTK.text
                 }
                 _drawing.RefreshBuffers_Step3_LoadVAO();
                 loadedVertexCount = _drawing.GetVAO().VertexCount;
-                //Logger.Log("Loaded: " + Bounds);
                 IsDirty = false;
             }
             else if (IsDirtyPost)
@@ -131,97 +135,155 @@ namespace HOI4ModBuilder.src.openTK.text
             _postActions.Clear();
         }
 
-        public void AddUpdateCachedRegionActionIfNeeded(object id)
+        public void AddUpdateCachedRegionActionIfNeeded(TextRenderKey key)
         {
-            var previousRegionById = Controller.GetCachedRegion(id);
+            var previousRegionById = Controller.GetCachedRegion(key);
+            if (ReferenceEquals(previousRegionById, this))
+                return;
+
             if (previousRegionById == null)
-                _postActions.Add(() => Controller.SetCachedRegion(id, this));
-            else if (previousRegionById != this)
+                _postActions.Add(() => Controller.SetCachedRegion(key, this));
+            else
                 _postActions.Add(() =>
                 {
-                    Controller.SetCachedRegion(id, this);
-                    previousRegionById.TryRemoveDrawingPrimitive(id);
+                    Controller.SetCachedRegion(key, this);
+                    previousRegionById.TryRemoveDrawingPrimitive(key);
                 });
         }
 
-        public SizeF SetText(object id, FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment, Color color, bool dropShadows)
+        private SizeF SetText(TextRenderKey key, FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment, Color color, bool dropShadows)
         {
-            var size = SetTextMulti(id, fontData, scale, text, pos, aligment, color, dropShadows);
+            var size = SetTextMulti(key, fontData, scale, text, pos, aligment, color, dropShadows);
             RefreshBuffers();
             return size;
         }
-        public SizeF SetTextMulti(object id, FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment, Color color, bool dropShadows)
+
+        private SizeF SetTextMulti(TextRenderKey key, FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment, Color color, bool dropShadows)
         {
-            if (_primitiveCache.TryGetValue(id, out var dp))
+            bool isNewPrimitive = !_primitiveCache.TryGetValue(key, out var dp) || !ReferenceEquals(dp.Font, fontData.Font);
+            if (isNewPrimitive)
             {
-                _drawing.DrawingPimitiveses.Remove(dp);
-                _primitiveCache.Remove(id);
+                if (dp != null)
+                    _drawing.DrawingPimitiveses.Remove(dp);
+
+                dp = new QFontDrawingPimitive(fontData.Font, new QFontRenderOptions());
+                _primitiveCache[key] = dp;
+                _drawing.DrawingPimitiveses.Add(dp);
             }
 
-            pos.X = pos.X / scale;
-            pos.Y = fontData.Size / 3f * 2f + pos.Y / scale;
+            Vector2 targetCenter = new Vector2(pos.X / scale, pos.Y / scale);
 
-            dp = new QFontDrawingPimitive(fontData.Font, new QFontRenderOptions
-            {
-                Colour = color,
-                DropShadowActive = dropShadows,
-                DropShadowOffset = new Vector2(0.1f, 0.1f),
-                DropShadowColour = Color.FromArgb(208, Color.Black)
-            });
-            _primitiveCache.Add(id, dp);
+            pos.X = targetCenter.X;
+            pos.Y = targetCenter.Y;
 
+            AddUpdateCachedRegionActionIfNeeded(key);
+
+            if (!isNewPrimitive && dp.MatchesCachedLayout(text, aligment, color, dropShadows, targetCenter))
+                return dp.LastSize;
+
+            dp.ResetGeometry();
+            dp.UpdateRenderOptions(color, dropShadows, TextDropShadowOffset, TextDropShadowColor);
             var size = dp.Print(text, pos, aligment);
-            _drawing.DrawingPimitiveses.Add(dp);
-
-            AddUpdateCachedRegionActionIfNeeded(id);
+            dp.RecenterGeometry(targetCenter);
+            dp.UpdateCachedLayout(text, aligment, color, dropShadows, targetCenter);
 
             IsDirty = true;
 
             return size;
         }
 
-        public bool RemoveText(object id)
+        private bool RemoveText(TextRenderKey key)
         {
-            if (!RemoveTextMulti(id))
+            if (!RemoveTextMulti(key))
                 return false;
 
             RefreshBuffers();
             return true;
         }
 
-
-        public bool RemoveTextMulti(object id)
+        private bool RemoveTextMulti(TextRenderKey key)
         {
-            if (!_primitiveCache.TryGetValue(id, out var dp))
+            if (!_primitiveCache.TryGetValue(key, out var dp))
             {
-                AddUpdateCachedRegionActionIfNeeded(id);
+                AddUpdateCachedRegionActionIfNeeded(key);
                 return false;
             }
 
             _drawing.DrawingPimitiveses.Remove(dp);
-            _primitiveCache.Remove(id);
+            _primitiveCache.Remove(key);
 
-            AddUpdateCachedRegionActionIfNeeded(id);
+            AddUpdateCachedRegionActionIfNeeded(key);
 
             IsDirty = true;
 
             return true;
         }
 
-        public bool RemoveTextsMulti(ICollection<object> ids)
+        public bool RemoveTextsMulti(ICollection<TextRenderKey> keys)
         {
             bool result = false;
-            foreach (var id in ids)
-                result |= RemoveTextMulti(id);
+            foreach (var key in keys)
+                result |= RemoveTextMulti(key);
             return result;
         }
 
-        public void Render(Matrix4 proj)
+        private SizeF SetEntityText<TEntity>(
+            TEntity entity, Func<TEntity, TextRenderKey> keyFactory,
+            FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment,
+            Color color, bool dropShadows, bool multi)
+            => multi
+                ? SetTextMulti(keyFactory(entity), fontData, scale, text, pos, aligment, color, dropShadows)
+                : SetText(keyFactory(entity), fontData, scale, text, pos, aligment, color, dropShadows);
+
+        private bool RemoveEntityText<TEntity>(
+            TEntity entity, Func<TEntity, TextRenderKey> keyFactory, bool multi)
+            => multi
+                ? RemoveTextMulti(keyFactory(entity))
+                : RemoveText(keyFactory(entity));
+
+        public SizeF SetProvinceText(Province province, FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment, Color color, bool dropShadows)
+            => SetEntityText(province, TextRenderKey.ForProvince, fontData, scale, text, pos, aligment, color, dropShadows, false);
+
+        public SizeF SetProvinceTextMulti(Province province, FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment, Color color, bool dropShadows)
+            => SetEntityText(province, TextRenderKey.ForProvince, fontData, scale, text, pos, aligment, color, dropShadows, true);
+
+        public bool RemoveProvinceText(Province province)
+            => RemoveEntityText(province, TextRenderKey.ForProvince, false);
+
+        public bool RemoveProvinceTextMulti(Province province)
+            => RemoveEntityText(province, TextRenderKey.ForProvince, true);
+
+        public SizeF SetStateText(State state, FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment, Color color, bool dropShadows)
+            => SetEntityText(state, TextRenderKey.ForState, fontData, scale, text, pos, aligment, color, dropShadows, false);
+
+        public SizeF SetStateTextMulti(State state, FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment, Color color, bool dropShadows)
+            => SetEntityText(state, TextRenderKey.ForState, fontData, scale, text, pos, aligment, color, dropShadows, true);
+
+        public bool RemoveStateText(State state)
+            => RemoveEntityText(state, TextRenderKey.ForState, false);
+
+        public bool RemoveStateTextMulti(State state)
+            => RemoveEntityText(state, TextRenderKey.ForState, true);
+
+        public SizeF SetRegionText(StrategicRegion region, FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment, Color color, bool dropShadows)
+            => SetEntityText(region, TextRenderKey.ForRegion, fontData, scale, text, pos, aligment, color, dropShadows, false);
+
+        public SizeF SetRegionTextMulti(StrategicRegion region, FontData fontData, float scale, string text, Vector3 pos, QFontAlignment aligment, Color color, bool dropShadows)
+            => SetEntityText(region, TextRenderKey.ForRegion, fontData, scale, text, pos, aligment, color, dropShadows, true);
+
+        public bool RemoveRegionText(StrategicRegion region)
+            => RemoveEntityText(region, TextRenderKey.ForRegion, false);
+
+        public bool RemoveRegionTextMulti(StrategicRegion region)
+            => RemoveEntityText(region, TextRenderKey.ForRegion, true);
+
+        public void Render(Matrix4 proj, float geometryScale)
         {
             if (_drawing.DrawingPimitiveses.Count == 0 || _drawing._vertexArrayObject == null)
                 return;
 
             _drawing.ProjectionMatrix = proj;
+            _drawing.GeometryScale = geometryScale;
             _drawing.Draw();
             _drawing.DisableShader();
         }

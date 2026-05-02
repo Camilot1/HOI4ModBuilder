@@ -1,5 +1,6 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.utils;
 using System;
@@ -167,9 +168,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.tools.advanced
             ProvinceManager.RemoveProvinceById(second.Id);
 
             //Отправляем ивент о удалении и обновлении
-            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES, main);
-            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES, second);
-            MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES, provinceToReplace);
+            MapDomainEventsHandler.OnProvinceChanged(main);
+            MapDomainEventsHandler.OnProvinceChanged(second);
+            MapDomainEventsHandler.OnProvinceChanged(provinceToReplace);
 
             //Заменяем id самой старшей провинции
             provinceToReplace.Id = second.Id;

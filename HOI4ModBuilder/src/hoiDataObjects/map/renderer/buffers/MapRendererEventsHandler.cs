@@ -43,24 +43,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer.buffers
             MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.ProvinceDataByIdKey);
         }
 
-        public static void OnProvinceTerrainChanged(Province p) => UpdateProvinceDataRecord(p);
-
-        public static void OnProvinceContinentChanged(Province p) => UpdateProvinceDataRecord(p);
-
-        public static void OnProvinceStateChanged(Province p) => UpdateProvinceDataRecord(p);
-
-        public static void OnProvinceStateIdChanged(Province p) => UpdateProvinceDataRecord(p);
-
-        public static void OnProvinceRegionChanged(Province p) => UpdateProvinceDataRecord(p);
-        public static void OnProvinceRegionIdChanged(Province p) => UpdateProvinceDataRecord(p);
-
-        public static void OnProvinceVictoryPointsChanged(Province p) => UpdateProvinceDataRecord(p);
-
-        public static void OnProvincePixelsCountChanged(Province p) => UpdateProvinceDataRecord(p);
-
-        public static void OnProvinceTypeFlagsChanged(Province p) => UpdateProvinceDataRecord(p);
-
-        private static void UpdateProvinceDataRecord(Province p)
+        public static void UpdateProvinceDataRecord(Province p)
         {
             if (!MainForm.UpdateGLControl)
                 return;
@@ -68,7 +51,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer.buffers
             UpdateProvinceDataRecord(p, MapRendererBuffersBuilder.BuildProvinceDataRecord(p));
         }
 
-        private static void UpdateProvinceDataRecord(Province p, ProvinceDataRecord provinceDataRecord)
+        public static void UpdateProvinceDataRecord(Province p, ProvinceDataRecord provinceDataRecord)
         {
             if (!MainForm.UpdateGLControl)
                 return;
@@ -80,11 +63,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer.buffers
             );
         }
 
-        public static void OnStateColorChanged(State s) => UpdateStateDataRecord(s);
-
-        public static void OnStateCategoryChanged(State s) => UpdateStateDataRecord(s);
-
-        private static void UpdateStateDataRecord(State s)
+        public static void UpdateStateDataRecord(State s)
         {
             if (!MainForm.UpdateGLControl)
                 return;
@@ -92,7 +71,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer.buffers
             UpdateStateDataRecord(s, MapRendererBuffersBuilder.BuildStateDataRecord(s));
         }
 
-        private static void UpdateStateDataRecord(State s, StateDataRecord stateDataRecord)
+        public static void UpdateStateDataRecord(State s, StateDataRecord stateDataRecord)
         {
             if (!MainForm.UpdateGLControl)
                 return;
@@ -105,17 +84,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer.buffers
         }
 
 
-        public static void OnStrategicRegionColorChanged(StrategicRegion r) => UpdateStrategicRegionDataRecord(r);
-
-        private static void UpdateStrategicRegionDataRecord(StrategicRegion r)
+        public static void UpdateRegionDataRecord(StrategicRegion r)
         {
             if (!MainForm.UpdateGLControl)
                 return;
 
-            UpdateStrategicRegionDataRecord(r, MapRendererBuffersBuilder.BuildStrategicRegionDataRecord(r));
+            UpdateRegionDataRecord(r, MapRendererBuffersBuilder.BuildStrategicRegionDataRecord(r));
         }
 
-        private static void UpdateStrategicRegionDataRecord(StrategicRegion r, StrategicRegionDataRecord strategicRegionDataRecord)
+        public static void UpdateRegionDataRecord(StrategicRegion r, StrategicRegionDataRecord strategicRegionDataRecord)
         {
             if (!MainForm.UpdateGLControl)
                 return;

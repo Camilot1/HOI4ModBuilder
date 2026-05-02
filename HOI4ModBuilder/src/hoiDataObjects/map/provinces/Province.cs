@@ -5,7 +5,6 @@ using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
-using HOI4ModBuilder.src.hoiDataObjects.map.renderer.buffers;
 using HOI4ModBuilder.src.hoiDataObjects.map.supply;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
@@ -85,7 +84,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             set => Utils.Setter(ref _type, ref value, v =>
             {
                 ProvinceManager.NeedToSave = v;
-                MapRendererEventsHandler.OnProvinceTypeFlagsChanged(this);
+                MapDomainEventsHandler.OnProvinceTypeFlagsChanged(this);
             });
         }
 
@@ -99,7 +98,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             {
                 State?.RecalculateIsCoastalState();
                 ProvinceManager.NeedToSave = v;
-                MapRendererEventsHandler.OnProvinceTypeFlagsChanged(this);
+                MapDomainEventsHandler.OnProvinceTypeFlagsChanged(this);
             });
         }
 
@@ -110,7 +109,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             set => Utils.Setter(ref _terrain, ref value, v =>
             {
                 ProvinceManager.NeedToSave = v;
-                MapRendererEventsHandler.OnProvinceTerrainChanged(this);
+                MapDomainEventsHandler.OnProvinceTerrainChanged(this);
             });
         }
 
@@ -121,7 +120,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             set => Utils.Setter(ref _continentId, ref value, v =>
             {
                 ProvinceManager.NeedToSave = v;
-                MapRendererEventsHandler.OnProvinceContinentChanged(this);
+                MapDomainEventsHandler.OnProvinceContinentChanged(this);
             });
         }
 
@@ -135,7 +134,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     return;
 
                 _victoryPoints = value;
-                MapRendererEventsHandler.OnProvinceVictoryPointsChanged(this);
+                MapDomainEventsHandler.OnProvinceVictoryPointsChanged(this);
             }
         }
 
@@ -149,7 +148,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     return;
 
                 _state = value;
-                MapRendererEventsHandler.OnProvinceStateChanged(this);
+                MapDomainEventsHandler.OnProvinceStateChanged(this);
             }
         }
 
@@ -163,7 +162,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     return;
 
                 _region = value;
-                MapRendererEventsHandler.OnProvinceRegionChanged(this);
+                MapDomainEventsHandler.OnProvinceRegionChanged(this);
             }
         }
 
@@ -187,7 +186,7 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                     return;
 
                 _pixelsCount = value;
-                MapRendererEventsHandler.OnProvincePixelsCountChanged(this);
+                MapDomainEventsHandler.OnProvincePixelsCountChanged(this);
             }
         }
         public bool dislayCenter;

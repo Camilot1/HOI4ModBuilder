@@ -1,7 +1,8 @@
-﻿using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.openTK;
+using HOI4ModBuilder.src.openTK.text;
 using System;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
@@ -16,7 +17,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 
             if (!AiAreaManager.TryGetAiArea(parameter, out AiArea aiArea))
             {
-                func = (p) => Utils.ArgbToInt(255, 0, 0, 0);
+                func = p => Utils.ArgbToInt(255, 0, 0, 0);
                 return MapRendererResult.CONTINUE;
             }
 
@@ -31,12 +32,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         }
 
         public bool TextRenderRecalculate(string parameter, string parameterValue)
-        {
-            MapManager.FontRenderController.TryStart(out var result)?
-                .ClearAll()
-                .End();
-
-            return result;
-        }
+            => MapTextLayerDefinitions.None.Rebuild(
+                MapManager.FontRenderController,
+                new TextLayerContext(parameter, parameterValue)
+            );
     }
 }

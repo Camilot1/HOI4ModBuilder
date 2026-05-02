@@ -139,7 +139,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 foreach (var region in _regions.Values)
                 {
                     if (region.dislayCenter)
-                        GL.Vertex2(region.center.x, region.center.y);
+                        GL.Vertex2(region.center.x + 0.5f, region.center.y + 0.5f);
                 }
                 GL.End();
             }

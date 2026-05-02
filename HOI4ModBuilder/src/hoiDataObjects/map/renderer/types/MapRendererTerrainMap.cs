@@ -1,7 +1,8 @@
-﻿using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.managers.texture;
 using HOI4ModBuilder.src.openTK;
+using HOI4ModBuilder.src.openTK.text;
 using System;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
@@ -20,12 +21,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         }
 
         public bool TextRenderRecalculate(string parameter, string parameterValue)
-        {
-            MapManager.FontRenderController.TryStart(out var result)?
-                .ClearAll()
-                .End();
-
-            return result;
-        }
+            => MapTextLayerDefinitions.None.Rebuild(
+                MapManager.FontRenderController,
+                new TextLayerContext(parameter, parameterValue)
+            );
     }
 }

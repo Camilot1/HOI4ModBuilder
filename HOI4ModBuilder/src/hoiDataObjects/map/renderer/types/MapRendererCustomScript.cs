@@ -1,9 +1,10 @@
-﻿using HOI4ModBuilder.hoiDataObjects.map;
-using HOI4ModBuilder.src.scripts.objects.interfaces;
-using HOI4ModBuilder.src.scripts.objects;
-using HOI4ModBuilder.src.scripts;
-using System;
+using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.openTK.text;
+using HOI4ModBuilder.src.scripts;
+using HOI4ModBuilder.src.scripts.objects;
+using HOI4ModBuilder.src.scripts.objects.interfaces;
+using System;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 {
@@ -26,9 +27,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
             customFunc = (p, idx) =>
             {
                 if (idx >= ScriptParser.MapMainLayerCustomScriptTasks)
-                {
                     return Utils.ArgbToInt(255, 0, 0, 0);
-                }
 
                 var action = ScriptParser.MapMainLayerCustomScriptActions[idx];
                 var varsScope = ScriptParser.MapMainLayerCustomScriptMainVarsScopes[idx];
@@ -56,12 +55,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         }
 
         public bool TextRenderRecalculate(string parameter, string parameterValue)
-        {
-            MapManager.FontRenderController.TryStart(out var result)?
-                .ClearAll()
-                .End();
-
-            return result;
-        }
+            => MapTextLayerDefinitions.None.Rebuild(
+                MapManager.FontRenderController,
+                new TextLayerContext(parameter, parameterValue)
+            );
     }
 }

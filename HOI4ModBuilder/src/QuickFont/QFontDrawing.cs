@@ -22,6 +22,7 @@ namespace QuickFont
         private readonly bool _useDefaultBlendFunction;
 
         private Matrix4 _projectionMatrix;
+        private float _geometryScale = 1f;
 
         public QFontDrawing(bool useDefaultBlendFunction = true)
         {
@@ -49,6 +50,12 @@ namespace QuickFont
         public List<QFontDrawingPimitive> DrawingPimitiveses
         {
             get { return _glFontDrawingPimitives; }
+        }
+
+        public float GeometryScale
+        {
+            get { return _geometryScale; }
+            set { _geometryScale = value; }
         }
 
         /// <summary>
@@ -136,12 +143,16 @@ namespace QuickFont
             //Retrieve shader attribute and uniform locations
             int mvpLoc = GL.GetUniformLocation(prog, "proj_matrix");
             int samplerLoc = GL.GetUniformLocation(prog, "tex_object");
+            int geometryScaleLoc = GL.GetUniformLocation(prog, "text_geometry_scale");
+            int geometryScalePivotLoc = GL.GetUniformLocation(prog, "text_geometry_scale_pivot");
             int posLoc = GL.GetAttribLocation(prog, "in_position");
             int tcLoc = GL.GetAttribLocation(prog, "in_tc");
             int colLoc = GL.GetAttribLocation(prog, "in_colour");
 
             //Now we have all the information, time to create the immutable shared state object
-            var shaderVariables = new ShaderVariables(prog, mvpLoc, tcLoc, posLoc, samplerLoc, colLoc);
+            var shaderVariables = new ShaderVariables(
+                prog, mvpLoc, tcLoc, posLoc, samplerLoc, colLoc, geometryScaleLoc, geometryScalePivotLoc
+            );
             var sharedState = new SharedState(TextureUnit.Texture0, shaderVariables);
 
             _QFontSharedState = sharedState;
@@ -156,7 +167,8 @@ namespace QuickFont
         /// </param>
         private void InitialiseState()
         {
-            if (QFontSharedState == null) InitialiseStaticState();
+            if (QFontSharedState == null)
+                InitialiseStaticState();
         }
 
         /// <summary>
@@ -201,6 +213,13 @@ namespace QuickFont
             _vertexArrayObject.Bind();
             foreach (var primitive in _glFontDrawingPimitives)
             {
+                GL.Uniform1(InstanceSharedState.ShaderVariables.GeometryScaleLocation, _geometryScale);
+                GL.Uniform2(
+                    InstanceSharedState.ShaderVariables.GeometryScalePivotLocation,
+                    primitive.GeometryScalePivot.X,
+                    primitive.GeometryScalePivot.Y
+                );
+
                 var dpt = PrimitiveType.Triangles;
                 GL.ActiveTexture(QFontSharedState.DefaultTextureUnit);
 
@@ -382,7 +401,15 @@ namespace QuickFont
 
     public class ShaderVariables
     {
-        public ShaderVariables(int shaderProgram, int mvpUniformLocation, int textureCoordAttribLocation, int positionCoordAttribLocation, int samplerLocation, int colorCoordAttribLocation)
+        public ShaderVariables(
+            int shaderProgram,
+            int mvpUniformLocation,
+            int textureCoordAttribLocation,
+            int positionCoordAttribLocation,
+            int samplerLocation,
+            int colorCoordAttribLocation,
+            int geometryScaleLocation,
+            int geometryScalePivotLocation)
         {
             ColorCoordAttribLocation = colorCoordAttribLocation;
             SamplerLocation = samplerLocation;
@@ -390,6 +417,8 @@ namespace QuickFont
             TextureCoordAttribLocation = textureCoordAttribLocation;
             MVPUniformLocation = mvpUniformLocation;
             ShaderProgram = shaderProgram;
+            GeometryScaleLocation = geometryScaleLocation;
+            GeometryScalePivotLocation = geometryScalePivotLocation;
         }
 
         public int ShaderProgram { get; private set; }
@@ -398,6 +427,8 @@ namespace QuickFont
         public int PositionCoordAttribLocation { get; private set; }
         public int SamplerLocation { get; private set; }
         public int ColorCoordAttribLocation { get; private set; }
+        public int GeometryScaleLocation { get; private set; }
+        public int GeometryScalePivotLocation { get; private set; }
     }
 
     public class SharedState

@@ -196,7 +196,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
 
                 foreach (var state in _statesById.Values)
                 {
-                    if (state.dislayCenter) GL.Vertex2(state.center.x, state.center.y);
+                    if (state.dislayCenter) GL.Vertex2(state.center.x + 0.5f, state.center.y + 0.5f);
                 }
                 GL.End();
             }

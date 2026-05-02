@@ -1,17 +1,13 @@
-﻿using HOI4ModBuilder.hoiDataObjects.map;
+using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
-using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.openTK;
-using QuickFont;
+using HOI4ModBuilder.src.openTK.text;
 using System;
-using System.Drawing;
 
 namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
 {
     public class MapRendererRegionsTerrains : IMapRenderer
     {
-        private static readonly float scale = 0.15f;
-        private static readonly Color color = Color.Yellow;
         public MapRendererResult Execute(bool recalculateAllText, ref Func<Province, int> func, ref Func<Province, int, int> customFunc, string parameter, string parameterValue)
         {
             if (recalculateAllText)
@@ -30,20 +26,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
         }
 
         public bool TextRenderRecalculate(string parameter, string parameterValue)
-        {
-            MapManager.FontRenderController.TryStart(out var result)?
-                .SetEventsHandlerRegionsIdsReinit(scale, color, QFontAlignment.Centre)
-                .SetScale(scale)
-                .ClearAllMulti()
-                .ForEachRegion(
-                    (r) => true,
-                    (fontRegion, r, pos) => fontRegion.SetTextMulti(
-                        r, TextRenderManager.Instance.FontData64, scale,
-                        r.Id + "", pos, QFontAlignment.Centre, color, true
-                    ))
-                .EndAssembleParallel();
-
-            return result;
-        }
+            => MapTextLayerDefinitions.RegionIds.Rebuild(
+                MapManager.FontRenderController,
+                new TextLayerContext(parameter, parameterValue)
+            );
     }
 }

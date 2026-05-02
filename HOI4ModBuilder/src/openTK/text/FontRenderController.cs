@@ -9,10 +9,8 @@ using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using QuickFont;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Threading.Tasks;
 using static HOI4ModBuilder.utils.Enums;
 
@@ -24,10 +22,11 @@ namespace HOI4ModBuilder.src.openTK.text
 
         private int _regionSize;
         public bool IsPerforming { get; private set; }
-        public int EventsFlags { get; private set; }
-        private Action<int, ICollection<object>> _eventHandler;
-        private List<object> _eventHandlerPayload = new List<object>();
-        private Dictionary<object, FontRenderRegion> _objectToRegionsCache = new Dictionary<object, FontRenderRegion>(256);
+        public TextLayerDependencies Dependencies { get; private set; } = TextLayerDependencies.None;
+        public float TextScale { get; private set; } = 0.1f;
+        private Action<TextLayerDependencies, TextRenderInvalidationBatch> _eventHandler;
+        private readonly TextRenderInvalidationQueue _pendingInvalidations = new TextRenderInvalidationQueue();
+        private Dictionary<TextRenderKey, FontRenderRegion> _objectToRegionsCache = new Dictionary<TextRenderKey, FontRenderRegion>(256);
 
         public FontRenderController(int regionSize, int capacity)
         {
@@ -43,9 +42,9 @@ namespace HOI4ModBuilder.src.openTK.text
                 r.DebugLog();
         }
 
-        public FontRenderController TryStart(out bool result) => TryStart(0, out result);
+        public FontRenderController TryStart(out bool result) => TryStart(TextLayerDependencies.None, out result);
 
-        public FontRenderController TryStart(int eventsFlags, out bool result)
+        public FontRenderController TryStart(TextLayerDependencies dependencies, out bool result)
         {
             if (IsPerforming)
             {
@@ -59,13 +58,13 @@ namespace HOI4ModBuilder.src.openTK.text
                 return null;
 
             IsPerforming = true;
-            EventsFlags = eventsFlags;
+            Dependencies = dependencies;
             return this;
         }
 
         public FontRenderController SetScale(float scale)
         {
-            MapManager.TextScale = scale;
+            TextScale = scale;
             return this;
         }
 
@@ -101,18 +100,16 @@ namespace HOI4ModBuilder.src.openTK.text
             return region;
         }
 
-        public FontRenderRegion GetCachedRegion(object id)
+        public FontRenderRegion GetCachedRegion(TextRenderKey key)
         {
-            //_objectToRegionsCache.TryGetValue(id, out var region);
-            //return region;
-            if (!_objectToRegionsCache.ContainsKey(id))
+            if (!_objectToRegionsCache.TryGetValue(key, out var region))
                 return null;
-            return _objectToRegionsCache[id];//, out var region);
-            //return region;
+
+            return region;
         }
 
-        public void SetCachedRegion(object id, FontRenderRegion region)
-            => _objectToRegionsCache[id] = region;
+        public void SetCachedRegion(TextRenderKey key, FontRenderRegion region)
+            => _objectToRegionsCache[key] = region;
 
         public FontRenderController ClearAllMulti()
         {
@@ -136,42 +133,57 @@ namespace HOI4ModBuilder.src.openTK.text
             return this;
         }
 
-        public FontRenderController SetEventsHandler(int eventsFlags, Action<int, ICollection<object>> eventHandler)
+        public FontRenderController SetEventsHandler(
+            TextLayerDependencies dependencies,
+            Action<TextLayerDependencies, TextRenderInvalidationBatch> eventHandler)
         {
-            EventsFlags = eventsFlags;
+            Dependencies = dependencies;
             _eventHandler = eventHandler;
+            ClearEventPayload();
             return this;
         }
 
-        public bool AddEventData(EnumMapRenderEvents eventFlag, object value)
-            => AddEventData((int)eventFlag, value);
-
-        public bool AddEventData(int eventFlags, object value)
+        public bool AddEventData(EnumMapRenderEvents eventFlag, Province province)
         {
-            if ((EventsFlags & eventFlags) == 0)
+            if (!Dependencies.Matches(eventFlag, EnumTextLayerDependencySource.Province))
                 return false;
 
-            if (value == null)
-                return false;
-
-            if (!_eventHandlerPayload.Contains(value))
-            {
-                _eventHandlerPayload.Add(value);
-                return true;
-            }
-            return false;
+            return _pendingInvalidations.Enqueue(eventFlag, province);
         }
-        public bool TryPostLatestEvent()
+
+        public bool AddEventData(EnumMapRenderEvents eventFlag, State state)
         {
-            if (_eventHandler == null || _eventHandlerPayload.Count == 0)
+            if (!Dependencies.Matches(eventFlag, EnumTextLayerDependencySource.State))
                 return false;
 
-            _eventHandler(EventsFlags, _eventHandlerPayload);
-            ClearEventPayload();
+            return _pendingInvalidations.Enqueue(eventFlag, state);
+        }
+
+        public bool AddEventData(EnumMapRenderEvents eventFlag, StrategicRegion region)
+        {
+            if (!Dependencies.Matches(eventFlag, EnumTextLayerDependencySource.Region))
+                return false;
+
+            return _pendingInvalidations.Enqueue(eventFlag, region);
+        }
+
+        public bool HasPendingEvents() => _pendingInvalidations.HasPendingEvents(Dependencies);
+
+        public bool ProcessPendingEvents()
+        {
+            if (IsPerforming || _eventHandler == null)
+                return false;
+
+            var invalidations = _pendingInvalidations.Drain();
+            if (invalidations == null || invalidations.IsEmpty || !invalidations.HasMatchingDependencies(Dependencies))
+                return false;
+
+            _eventHandler(Dependencies, invalidations);
             return true;
         }
-        public List<object> GetEventPayload() => _eventHandlerPayload;
-        public void ClearEventPayload() => _eventHandlerPayload.Clear();
+
+        public bool TryPostLatestEvent() => ProcessPendingEvents();
+        public void ClearEventPayload() => _pendingInvalidations.Clear();
 
         public void EndAssembleParallel()
         {
@@ -240,7 +252,7 @@ namespace HOI4ModBuilder.src.openTK.text
                 action(region);
         }
 
-        public void Render(Matrix4 proj, Bounds4F viewportBounds)
+        public void Render(Matrix4 proj, Bounds4F viewportBounds, float geometryScale = 1f)
         {
             if (_regions == null || _regions.Count == 0 || IsPerforming)
                 return;
@@ -250,7 +262,7 @@ namespace HOI4ModBuilder.src.openTK.text
                 if (SettingsManager.CheckDebugValue(EnumDebugValue.TEXT_DISABLE_VIEWPORT_CUTOFF) ||
                     region.ChacheCount > 0 && region.IsIntersectsWith(viewportBounds))
                 {
-                    region.Render(proj);
+                    region.Render(proj, geometryScale);
                 }
             }
         }
@@ -297,25 +309,26 @@ namespace HOI4ModBuilder.src.openTK.text
                 if (!checker(p))
                     return;
 
-                var pos = p.center.ToVec3(MapManager.MapSize.y);
-                MapManager.FontRenderController?.PushAction(pos, fontRegion => action(fontRegion, p, pos));
+                var pos = p.center.ToPixelCenterVec3(MapManager.MapSize.y);
+                PushAction(pos, fontRegion => action(fontRegion, p, pos));
             });
 
             return this;
         }
 
         public FontRenderController ForEachProvince(
-            ICollection<object> provinces,
+            TextRenderInvalidationBatch invalidations,
+            TextLayerDependencies dependencies,
             Func<Province, bool> checker,
             Action<FontRenderRegion, Province, Vector3> action)
         {
-            foreach (var obj in provinces)
+            foreach (var p in invalidations.CollectAffectedProvinces(dependencies))
             {
-                if (!(obj is Province p) || !checker(p))
+                if (!checker(p))
                     continue;
 
-                var pos = p.center.ToVec3(MapManager.MapSize.y);
-                MapManager.FontRenderController?.PushAction(pos, fontRegion => action(fontRegion, p, pos));
+                var pos = p.center.ToPixelCenterVec3(MapManager.MapSize.y);
+                PushAction(pos, fontRegion => action(fontRegion, p, pos));
             }
 
             return this;
@@ -330,25 +343,26 @@ namespace HOI4ModBuilder.src.openTK.text
                 if (!checker(s))
                     return;
 
-                var pos = s.center.ToVec3(MapManager.MapSize.y);
-                MapManager.FontRenderController?.PushAction(pos, fontRegion => action(fontRegion, s, pos));
+                var pos = s.center.ToPixelCenterVec3(MapManager.MapSize.y);
+                PushAction(pos, fontRegion => action(fontRegion, s, pos));
             });
 
             return this;
         }
 
         public FontRenderController ForEachState(
-            ICollection<object> states,
+            TextRenderInvalidationBatch invalidations,
+            TextLayerDependencies dependencies,
             Func<State, bool> checker,
             Action<FontRenderRegion, State, Vector3> action)
         {
-            foreach (var obj in states)
+            foreach (var s in invalidations.CollectAffectedStates(dependencies))
             {
-                if (!(obj is State s) || !checker(s))
+                if (!checker(s))
                     continue;
 
-                var pos = s.center.ToVec3(MapManager.MapSize.y);
-                MapManager.FontRenderController?.PushAction(pos, fontRegion => action(fontRegion, s, pos));
+                var pos = s.center.ToPixelCenterVec3(MapManager.MapSize.y);
+                PushAction(pos, fontRegion => action(fontRegion, s, pos));
             }
 
             return this;
@@ -363,84 +377,38 @@ namespace HOI4ModBuilder.src.openTK.text
                 if (!checker(r))
                     return;
 
-                var pos = r.center.ToVec3(MapManager.MapSize.y);
-                MapManager.FontRenderController?.PushAction(pos, fontRegion => action(fontRegion, r, pos));
+                var pos = r.center.ToPixelCenterVec3(MapManager.MapSize.y);
+                PushAction(pos, fontRegion => action(fontRegion, r, pos));
             });
 
             return this;
         }
         public FontRenderController ForEachRegion(
-            ICollection<object> regions,
+            TextRenderInvalidationBatch invalidations,
+            TextLayerDependencies dependencies,
             Func<StrategicRegion, bool> checker,
             Action<FontRenderRegion, StrategicRegion, Vector3> action)
         {
-            foreach (var obj in regions)
+            foreach (var r in invalidations.CollectAffectedRegions(dependencies))
             {
-                if (!(obj is StrategicRegion r) || !checker(r))
+                if (!checker(r))
                     continue;
 
-                var pos = r.center.ToVec3(MapManager.MapSize.y);
-                MapManager.FontRenderController?.PushAction(pos, fontRegion => action(fontRegion, r, pos));
+                var pos = r.center.ToPixelCenterVec3(MapManager.MapSize.y);
+                PushAction(pos, fontRegion => action(fontRegion, r, pos));
             }
 
             return this;
         }
 
-        public FontRenderController SetEventsHandlerProvincesIdsReinit(float scale, Color color, QFontAlignment alignment)
+        public bool ClearTextLayer()
         {
-            return SetEventsHandler((int)EnumMapRenderEvents.PROVINCES, (flags, objs) =>
-            {
-                TryStart(EventsFlags, out var eventResult)?
-                .ForEachProvince(objs, p => true, (fontRegion, p, pos) =>
-                {
-                    if (ProvinceManager.TryGet(p.Id, out var province) && province == p)
-                        PushAction(pos, r => r.SetTextMulti(
-                                p, TextRenderManager.Instance.FontData64, scale,
-                                p.Id + "", pos, alignment, color, true
-                            ));
-                    else
-                        PushAction(pos, r => r.RemoveTextMulti(p));
-                })
-                .EndAssembleParallelWithWait();
-            });
-        }
+            TryStart(out var result)?
+                .SetEventsHandler(TextLayerDependencies.None, (dependencies, invalidations) => { })
+                .ClearAll()
+                .End();
 
-        public FontRenderController SetEventsHandlerStatesIdsReinit(float scale, Color color, QFontAlignment alignment)
-        {
-            return SetEventsHandler((int)EnumMapRenderEvents.STATES, (flags, objs) =>
-            {
-                TryStart(EventsFlags, out var eventResult)?
-                .ForEachState(objs, p => true, (fontRegion, s, pos) =>
-                {
-                    if (StateManager.TryGet(s.Id.GetValue(), out var state) && state == s)
-                        PushAction(pos, r => r.SetTextMulti(
-                            s, TextRenderManager.Instance.FontData64, scale,
-                            s.Id.GetValue() + "", pos, alignment, color, true
-                        ));
-                    else
-                        PushAction(pos, r => r.RemoveTextMulti(s));
-                })
-                .EndAssembleParallelWithWait();
-            });
-        }
-
-        public FontRenderController SetEventsHandlerRegionsIdsReinit(float scale, Color color, QFontAlignment alignment)
-        {
-            return SetEventsHandler((int)EnumMapRenderEvents.REGIONS, (flags, objs) =>
-            {
-                TryStart(EventsFlags, out var eventResult)?
-                .ForEachRegion(objs, r => true, (fontRegion, r, pos) =>
-                {
-                    if (StrategicRegionManager.TryGet(r.Id, out var region) && region == r)
-                        PushAction(pos, fr => fontRegion.SetTextMulti(
-                            r, TextRenderManager.Instance.FontData64, scale,
-                            r.Id + "", pos, alignment, color, true
-                        ));
-                    else
-                        PushAction(pos, fr => fontRegion.RemoveTextMulti(r));
-                })
-                .EndAssembleParallelWithWait();
-            });
+            return result;
         }
     }
 }

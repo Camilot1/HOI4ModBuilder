@@ -9,6 +9,15 @@ namespace QuickFont
     public class QFontDrawingPimitive
     {
         private Vector3 _printOffset;
+        private Vector2 _geometryScalePivot;
+        private Vector2 _currentGeometryCenter;
+        private bool _hasCurrentGeometryCenter;
+        private string _lastPrintedText;
+        private QFontAlignment _lastAlignment;
+        private Color _lastColor;
+        private bool _lastDropShadows;
+        private Vector2 _lastTargetCenter;
+        private bool _hasCachedLayout;
         private readonly QFont _font;
         private readonly IList<QVertex> _currentVertexRepr = new List<QVertex>();
         private readonly IList<QVertex> _shadowVertexRepr = new List<QVertex>();
@@ -59,6 +68,8 @@ namespace QuickFont
             get { return _font; }
         }
 
+        public Vector2 GeometryScalePivot => _geometryScalePivot;
+
         public QFontRenderOptions Options { get; private set; }
 
         public SizeF LastSize { get; private set; }
@@ -69,6 +80,42 @@ namespace QuickFont
         }
 
         internal IList<QVertex> ShadowVertexRepr { get { return _shadowVertexRepr; } }
+
+        public void ResetGeometry()
+        {
+            _currentVertexRepr.Clear();
+            _shadowVertexRepr.Clear();
+            _hasCurrentGeometryCenter = false;
+            _geometryScalePivot = default;
+            LastSize = default;
+            _hasCachedLayout = false;
+        }
+
+        public void UpdateRenderOptions(Color color, bool dropShadows, Vector2 dropShadowOffset, Color dropShadowColor)
+        {
+            Options.Colour = color;
+            Options.DropShadowActive = dropShadows;
+            Options.DropShadowOffset = dropShadowOffset;
+            Options.DropShadowColour = dropShadowColor;
+        }
+
+        public bool MatchesCachedLayout(string text, QFontAlignment alignment, Color color, bool dropShadows, Vector2 targetCenter)
+            => _hasCachedLayout &&
+               _lastAlignment == alignment &&
+               _lastColor.ToArgb() == color.ToArgb() &&
+               _lastDropShadows == dropShadows &&
+               _lastTargetCenter == targetCenter &&
+               string.Equals(_lastPrintedText, text, StringComparison.Ordinal);
+
+        public void UpdateCachedLayout(string text, QFontAlignment alignment, Color color, bool dropShadows, Vector2 targetCenter)
+        {
+            _lastPrintedText = text;
+            _lastAlignment = alignment;
+            _lastColor = color;
+            _lastDropShadows = dropShadows;
+            _lastTargetCenter = targetCenter;
+            _hasCachedLayout = true;
+        }
 
         private void RenderDropShadow(float x, float y, char c, QFontGlyph nonShadowGlyph, QFont shadowFont, ref Rectangle clippingRectangle)
         {
@@ -324,17 +371,111 @@ namespace QuickFont
             return new Vector3(LockToPixel(TransformPositionToViewport(input.Xy))) {Z = input.Z};
         }
 
-        public SizeF Print(string text, Vector3 position, QFontAlignment alignment, Rectangle clippingRectangle = default(Rectangle))
+        private void UpdateGeometryScalePivot(QFontAlignment alignment, SizeF size)
+        {
+            if (_currentVertexRepr.Count > 0)
+            {
+                _geometryScalePivot = GetCurrentGeometryCenter();
+                return;
+            }
+
+            float pivotX = PrintOffset.X;
+            switch (alignment)
+            {
+                case QFontAlignment.Left:
+                case QFontAlignment.Justify:
+                    pivotX += size.Width * 0.5f;
+                    break;
+
+                case QFontAlignment.Right:
+                    pivotX -= size.Width * 0.5f;
+                    break;
+
+                case QFontAlignment.Centre:
+                default:
+                    break;
+            }
+
+            float pivotY = PrintOffset.Y - size.Height * 0.5f;
+            _geometryScalePivot = new Vector2(pivotX, pivotY);
+        }
+
+        public void RecenterGeometry(Vector2 targetCenter)
+        {
+            if (_currentVertexRepr.Count == 0)
+            {
+                _geometryScalePivot = targetCenter;
+                _currentGeometryCenter = targetCenter;
+                _hasCurrentGeometryCenter = true;
+                return;
+            }
+
+            Vector2 currentCenter = GetCurrentGeometryCenter();
+            Vector2 delta = targetCenter - currentCenter;
+            TranslateVertices(_currentVertexRepr, delta);
+            TranslateVertices(_shadowVertexRepr, delta);
+            _geometryScalePivot = targetCenter;
+            _currentGeometryCenter = targetCenter;
+            _hasCurrentGeometryCenter = true;
+        }
+
+        private Vector2 GetCurrentGeometryCenter()
+        {
+            if (_hasCurrentGeometryCenter)
+                return _currentGeometryCenter;
+
+            float minX = float.MaxValue;
+            float minY = float.MaxValue;
+            float maxX = float.MinValue;
+            float maxY = float.MinValue;
+
+            foreach (var vertex in _currentVertexRepr)
+            {
+                if (vertex.Position.X < minX) minX = vertex.Position.X;
+                if (vertex.Position.Y < minY) minY = vertex.Position.Y;
+                if (vertex.Position.X > maxX) maxX = vertex.Position.X;
+                if (vertex.Position.Y > maxY) maxY = vertex.Position.Y;
+            }
+
+            _currentGeometryCenter = new Vector2(
+                (minX + maxX) * 0.5f,
+                (minY + maxY) * 0.5f
+            );
+            _hasCurrentGeometryCenter = true;
+            return _currentGeometryCenter;
+        }
+
+        private static void TranslateVertices(IList<QVertex> vertices, Vector2 delta)
+        {
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                var vertex = vertices[i];
+                vertex.Position.X += delta.X;
+                vertex.Position.Y += delta.Y;
+                vertices[i] = vertex;
+            }
+        }
+
+        private void SetPrintAnchor(Vector3 position)
         {
             PrintOffset = TransformToViewport(position);
-            return PrintOrMeasure(text, alignment, false, clippingRectangle);
+        }
+
+        public SizeF Print(string text, Vector3 position, QFontAlignment alignment, Rectangle clippingRectangle = default(Rectangle))
+        {
+            SetPrintAnchor(position);
+            var size = PrintOrMeasure(text, alignment, false, clippingRectangle);
+            UpdateGeometryScalePivot(alignment, size);
+            return size;
         }
 
         public SizeF Print(string text, Vector3 position, QFontAlignment alignment, Color color, Rectangle clippingRectangle = default(Rectangle))
         {
             this.Options.Colour = color;
-            PrintOffset = TransformToViewport(position);
-            return PrintOrMeasure(text, alignment, false, clippingRectangle);
+            SetPrintAnchor(position);
+            var size = PrintOrMeasure(text, alignment, false, clippingRectangle);
+            UpdateGeometryScalePivot(alignment, size);
+            return size;
         }
 
         public SizeF Print(string text, Vector3 position, SizeF maxSize, QFontAlignment alignment, Rectangle clippingRectangle = default(Rectangle))
@@ -351,15 +492,19 @@ namespace QuickFont
 
         public SizeF Print(ProcessedText processedText, Vector3 position, Rectangle clippingRectangle = default(Rectangle))
         {
-            PrintOffset = TransformToViewport(position);
-            return PrintOrMeasure(processedText, false, clippingRectangle);
+            SetPrintAnchor(position);
+            var size = PrintOrMeasure(processedText, false, clippingRectangle);
+            UpdateGeometryScalePivot(processedText.alignment, size);
+            return size;
         }
 
         public SizeF Print(ProcessedText processedText, Vector3 position, Color colour, Rectangle clippingRectangle = default(Rectangle))
         {
             this.Options.Colour = colour;
-            PrintOffset = TransformToViewport(position);
-            return PrintOrMeasure(processedText, false, clippingRectangle);
+            SetPrintAnchor(position);
+            var size = PrintOrMeasure(processedText, false, clippingRectangle);
+            UpdateGeometryScalePivot(processedText.alignment, size);
+            return size;
         }
 
         public SizeF Measure(string text, QFontAlignment alignment = QFontAlignment.Left)
@@ -411,7 +556,7 @@ namespace QuickFont
             if (alignment == QFontAlignment.Right)
                 xOffset -= MeasureNextlineLength(text);
             else if (alignment == QFontAlignment.Centre)
-                xOffset -= (int) (0.5f*MeasureNextlineLength(text));
+                xOffset -= 0.5f * MeasureNextlineLength(text);
 
             for (int i = 0; i < text.Length; i++)
             {
@@ -426,7 +571,7 @@ namespace QuickFont
                     if (alignment == QFontAlignment.Right)
                         xOffset -= MeasureNextlineLength(text.Substring(i + 1));
                     else if (alignment == QFontAlignment.Centre)
-                        xOffset -= (int) (0.5f*MeasureNextlineLength(text.Substring(i + 1)));
+                        xOffset -= 0.5f * MeasureNextlineLength(text.Substring(i + 1));
                 }
                 else
                 {
@@ -497,7 +642,7 @@ namespace QuickFont
             if (alignment == QFontAlignment.Right)
                 xOffset -= (float) Math.Ceiling(TextNodeLineLength(nodeList.Head, maxWidth) - maxWidth);
             else if (alignment == QFontAlignment.Centre)
-                xOffset -= (float) Math.Ceiling(0.5f*TextNodeLineLength(nodeList.Head, maxWidth));
+                xOffset -= 0.5f * TextNodeLineLength(nodeList.Head, maxWidth);
             else if (alignment == QFontAlignment.Justify)
                 JustifyLine(nodeList.Head, maxWidth);
 
@@ -554,7 +699,7 @@ namespace QuickFont
                         if (alignment == QFontAlignment.Right)
                             xOffset -= (float) Math.Ceiling(TextNodeLineLength(node.Next, maxWidth) - maxWidth);
                         else if (alignment == QFontAlignment.Centre)
-                            xOffset -= (float) Math.Ceiling(0.5f*TextNodeLineLength(node.Next, maxWidth));
+                            xOffset -= 0.5f * TextNodeLineLength(node.Next, maxWidth);
                         else if (alignment == QFontAlignment.Justify)
                             JustifyLine(node.Next, maxWidth);
                     }

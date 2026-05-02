@@ -1,6 +1,7 @@
 ﻿
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.utils;
@@ -96,8 +97,8 @@ namespace HOI4ModBuilder.src.tools.autotools
                 ProvinceManager.RemoveProvinceById(p.Id);
 
                 //Отправляем ивент о удалении и обновлении
-                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES, p);
-                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES, provinceToReplace);
+                MapDomainEventsHandler.OnProvinceChanged(p);
+                MapDomainEventsHandler.OnProvinceChanged(provinceToReplace);
 
                 //Заменяем id самой старшей провинции
                 provinceToReplace.Id = p.Id;
@@ -108,7 +109,7 @@ namespace HOI4ModBuilder.src.tools.autotools
                 ProvinceManager.RemoveProvinceById(p.Id);
 
                 //Отправляем ивент о удалении и обновлении
-                MapManager.FontRenderController?.AddEventData(EnumMapRenderEvents.PROVINCES, p);
+                MapDomainEventsHandler.OnProvinceChanged(p);
             }
 
             // Если через провинцию идут дороги, то удаляем
