@@ -10,6 +10,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.renderer
     public enum MapRendererResult
     {
         CONTINUE,
+        GPU_COMPUTED,
         ABORT
     }
 

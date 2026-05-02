@@ -456,8 +456,11 @@ namespace HOI4ModBuilder.managers
 
             MapRendererResult result = _mapRenderers[(int)enumMainLayer]
                 .Execute(recalculateAllText, ref func, ref customFunc, parameter, parameterValue);
+            MapRendererBuffersManager.FinishFrame();
 
             if (result == MapRendererResult.ABORT)
+                return;
+            else if (result == MapRendererResult.GPU_COMPUTED)
                 return;
             else if (result != MapRendererResult.CONTINUE)
                 throw new Exception("Unknown MainLayer renderer: " + enumMainLayer.ToString());
@@ -620,6 +623,7 @@ namespace HOI4ModBuilder.managers
 
         public static void UpdateMapInfo()
         {
+            MapRendererBuffersManager.InvalidateAll();
             MainForm.PauseGLControl();
 
             MainForm.AddTask_LoadSaveUpdate(Task.Run(() =>

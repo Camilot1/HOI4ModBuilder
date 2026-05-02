@@ -1,0 +1,4 @@
+struct StrategicRegionData
+{
+    int color;
+};

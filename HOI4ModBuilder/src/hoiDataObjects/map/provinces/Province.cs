@@ -4,6 +4,8 @@ using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.map;
 using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.buffers;
 using HOI4ModBuilder.src.hoiDataObjects.map.supply;
 using HOI4ModBuilder.src.utils;
 using HOI4ModBuilder.src.utils.structs;
@@ -77,7 +79,15 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public void SetSilentColor(int color) => _color = color;
 
         private EnumProvinceType _type;
-        public EnumProvinceType Type { get => _type; set => Utils.Setter(ref _type, ref value, v => ProvinceManager.NeedToSave = v); }
+        public EnumProvinceType Type
+        {
+            get => _type;
+            set => Utils.Setter(ref _type, ref value, v =>
+            {
+                ProvinceManager.NeedToSave = v;
+                MapRendererEventsHandler.OnProvinceTypeFlagsChanged(this);
+            });
+        }
 
         public string GetTypeString() => _type.ToString().ToLower();
 
@@ -89,19 +99,73 @@ namespace HOI4ModBuilder.hoiDataObjects.map
             {
                 State?.RecalculateIsCoastalState();
                 ProvinceManager.NeedToSave = v;
+                MapRendererEventsHandler.OnProvinceTypeFlagsChanged(this);
             });
         }
 
         private ProvincialTerrain _terrain;
-        public ProvincialTerrain Terrain { get => _terrain; set => Utils.Setter(ref _terrain, ref value, v => ProvinceManager.NeedToSave = v); }
+        public ProvincialTerrain Terrain
+        {
+            get => _terrain;
+            set => Utils.Setter(ref _terrain, ref value, v =>
+            {
+                ProvinceManager.NeedToSave = v;
+                MapRendererEventsHandler.OnProvinceTerrainChanged(this);
+            });
+        }
 
         private int _continentId;
-        public int ContinentId { get => _continentId; set => Utils.Setter(ref _continentId, ref value, v => ProvinceManager.NeedToSave = v); }
+        public int ContinentId
+        {
+            get => _continentId;
+            set => Utils.Setter(ref _continentId, ref value, v =>
+            {
+                ProvinceManager.NeedToSave = v;
+                MapRendererEventsHandler.OnProvinceContinentChanged(this);
+            });
+        }
 
-        public uint victoryPoints;
+        private uint _victoryPoints;
+        public uint victoryPoints
+        {
+            get => _victoryPoints;
+            set
+            {
+                if (_victoryPoints == value)
+                    return;
 
-        public State State { get; set; }
-        public StrategicRegion Region { get; set; }
+                _victoryPoints = value;
+                MapRendererEventsHandler.OnProvinceVictoryPointsChanged(this);
+            }
+        }
+
+        private State _state;
+        public State State
+        {
+            get => _state;
+            set
+            {
+                if (_state == value)
+                    return;
+
+                _state = value;
+                MapRendererEventsHandler.OnProvinceStateChanged(this);
+            }
+        }
+
+        private StrategicRegion _region;
+        public StrategicRegion Region
+        {
+            get => _region;
+            set
+            {
+                if (_region == value)
+                    return;
+
+                _region = value;
+                MapRendererEventsHandler.OnProvinceRegionChanged(this);
+            }
+        }
 
         public SupplyNode SupplyNode { get; set; }
 
@@ -113,7 +177,19 @@ namespace HOI4ModBuilder.hoiDataObjects.map
 
         private Dictionary<Building, uint> _buildings;
 
-        public int pixelsCount;
+        private int _pixelsCount;
+        public int pixelsCount
+        {
+            get => _pixelsCount;
+            set
+            {
+                if (_pixelsCount == value)
+                    return;
+
+                _pixelsCount = value;
+                MapRendererEventsHandler.OnProvincePixelsCountChanged(this);
+            }
+        }
         public bool dislayCenter;
         public Point2F center;
         public Bounds4S bounds;

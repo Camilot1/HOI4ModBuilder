@@ -1,0 +1,4 @@
+struct StateCategoryData
+{
+    int color;
+};

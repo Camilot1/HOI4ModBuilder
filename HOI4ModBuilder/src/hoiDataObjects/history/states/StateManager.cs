@@ -2,6 +2,7 @@
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.map;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.settings;
@@ -93,6 +94,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 addAction();
             foreach (var state in _statesById.Values)
                 state.Validate(out var _);
+
+            MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.StateDataByIdKey);
         }
 
         public static void LoadFile(GameParser parser, StateGameFile stateFile)
@@ -313,6 +316,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
                 state.Color = newColor;
                 newColors.Add(newColor);
             }
+
             Logger.Log($"RegenerateStatesColors = {stopwatch.ElapsedMilliseconds} ms");
         }
 
@@ -496,6 +500,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
         {
             _statesById[id] = state;
             state.SetNeedToSave(true);
+            MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.StateDataByIdKey);
         }
 
         public static void Remove(ushort id)
@@ -505,6 +510,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.history.states
             {
                 _statesById.Remove(id);
                 state.SetNeedToSave(true);
+                MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.StateDataByIdKey);
             }
         }
 

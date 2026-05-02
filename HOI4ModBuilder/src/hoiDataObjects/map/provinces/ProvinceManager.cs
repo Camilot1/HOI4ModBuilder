@@ -5,6 +5,8 @@ using HOI4ModBuilder.src;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
 using HOI4ModBuilder.src.hoiDataObjects.map.adjacencies;
 using HOI4ModBuilder.src.hoiDataObjects.map.railways;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.buffers;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.settings;
@@ -66,6 +68,9 @@ namespace HOI4ModBuilder.managers
                 entry.Key.SetSilentColor(entry.Value);
                 _provincesByColor[entry.Value] = entry.Key;
             }
+
+            MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.PixelsToProvinceIdsKey);
+            MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.ProvinceDataByIdKey);
             NeedToSave = true;
         }
 
@@ -92,6 +97,8 @@ namespace HOI4ModBuilder.managers
 
             NeedToSave = fileInfo.needToSave;
             ProcessDefinitionFile(fileInfo.filePath);
+
+            MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.ProvinceDataByIdKey);
         }
         public static void Save(BaseSettings settings)
         {
@@ -374,6 +381,8 @@ namespace HOI4ModBuilder.managers
 
             OnIdUse(p.Id);
 
+            MapRendererEventsHandler.OnProvinceCreate(p);
+
             NeedToSave = true;
             return true;
         }
@@ -430,8 +439,12 @@ namespace HOI4ModBuilder.managers
                     EnumLocKey.EXCEPTION_PROVINCE_COLOR_UPDATE_VALUE_IS_USED,
                     new Dictionary<string, string> { { "{id}", $"{toColor}" } }
                 ));
-            _provincesByColor[toColor] = _provincesByColor[fromColor];
+
+            var p = _provincesByColor[fromColor];
+            _provincesByColor[toColor] = p;
             _provincesByColor[fromColor] = null;
+
+            MapRendererEventsHandler.OnProvinceColorChange(p, fromColor, toColor);
 
             NeedToSave = true;
         }
@@ -443,11 +456,15 @@ namespace HOI4ModBuilder.managers
                     EnumLocKey.EXCEPTION_PROVINCE_ID_UPDATE_VALUE_IS_USED,
                     new Dictionary<string, string> { { "{id}", $"{toID}" } }
                 ));
-            _provincesById[toID] = _provincesById[fromID];
+
+            var p = _provincesById[fromID];
+            _provincesById[toID] = p;
             _provincesById[fromID] = null;
 
             OnIdUse(toID);
             OnIdDeuse(fromID);
+
+            MapRendererEventsHandler.OnProvinceIDChange(p, fromID, toID);
 
             NeedToSave = true;
         }
@@ -475,6 +492,8 @@ namespace HOI4ModBuilder.managers
             StrategicRegionManager.RemoveProvinceData(province);
 
             OnIdDeuse(province.Id);
+
+            MapRendererEventsHandler.OnProvinceRemove(province);
 
             NeedToSave = true;
             return true;
@@ -899,6 +918,8 @@ namespace HOI4ModBuilder.managers
 
             StrategicRegionManager.CalculateCenters();
             CheckDisplayRegionsCenters(values, width);
+
+            MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.PixelsToProvinceIdsKey);
         }
 
         private static void CheckDisplayProvincesCenters(int[] values, int width)

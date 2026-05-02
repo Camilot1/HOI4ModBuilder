@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.managers.texture;
@@ -77,6 +78,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 addAction();
             foreach (var region in _regions.Values)
                 region.Validate(out var _);
+
+            MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.StrategicRegionDataByIdKey);
         }
 
         public static void LoadFile(FileInfo fileInfo)
@@ -248,7 +251,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
                 );
 
                 regeneratedRegionToColor[region] = newColor;
-                region.color = newColor;
+                region.Color = newColor;
                 newColors.Add(newColor);
             }
             Logger.Log($"RegenerateRegionsColors = {stopwatch.ElapsedMilliseconds} ms");
@@ -306,6 +309,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
         {
             _regions[id] = region;
             region.needToSave = true;
+            MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.StrategicRegionDataByIdKey);
         }
 
         public static void Remove(ushort id)
@@ -315,7 +319,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion
             {
                 _regions.Remove(id);
                 region.needToSave = true;
+                MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.StrategicRegionDataByIdKey);
             }
+        }
+
+        public static ushort GetMaxID()
+        {
+            var list = new List<ushort>(_regions.Keys);
+            list.Sort();
+            return list[list.Count - 1];
         }
 
         public static void CalculateCenters()

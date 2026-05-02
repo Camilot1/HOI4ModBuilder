@@ -1,4 +1,5 @@
 ﻿using HOI4ModBuilder.src;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.settings;
 using Pdoxcl2Sharp;
@@ -14,15 +15,16 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
 
         private static readonly string FOLDER_PATH = FileManager.AssembleFolderPath(new[] { "common", "terrain" });
         private static src.FileInfo _currentFile;
-        private static Dictionary<string, ProvincialTerrain> _provincialTerraings = new Dictionary<string, ProvincialTerrain>();
-        public static Dictionary<string, ProvincialTerrain>.KeyCollection GetAllTerrainKeys() => _provincialTerraings.Keys;
+        private static Dictionary<string, ProvincialTerrain> _provincialTerrains = new Dictionary<string, ProvincialTerrain>();
+        public static Dictionary<string, ProvincialTerrain>.KeyCollection GetAllTerrainKeys() => _provincialTerrains.Keys;
+        public static int GetTerrainsCount() => _provincialTerrains.Count;
 
         private static Action _guiReinitAction = null;
 
         public static int GetNavalTerrainsCount()
         {
             int counter = 0;
-            foreach (var terrain in _provincialTerraings.Values)
+            foreach (var terrain in _provincialTerrains.Values)
                 if (terrain.isNavalTerrain)
                     counter++;
             return counter;
@@ -30,7 +32,7 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
         public static int GetLandTerrainsCount()
         {
             int counter = 0;
-            foreach (var terrain in _provincialTerraings.Values)
+            foreach (var terrain in _provincialTerrains.Values)
                 if (!terrain.isNavalTerrain)
                     counter++;
             return counter;
@@ -39,7 +41,7 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
         public static void Load(BaseSettings settings)
         {
             Instance = new TerrainManager();
-            _provincialTerraings = new Dictionary<string, ProvincialTerrain>();
+            _provincialTerrains = new Dictionary<string, ProvincialTerrain>();
             var fileInfoPairs = FileManager.ReadFileInfos(settings, FOLDER_PATH, FileManager.TXT_FORMAT);
 
             MainForm.Instance.InvokeAction(() => MainForm.Instance.ToolStripComboBox_Map_Province_Terrain.Items.Clear());
@@ -61,25 +63,35 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
                 MainForm.SubscribeGuiReinitAction(_guiReinitAction);
             }
 
+            MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.TerrainIdsToColorsKey);
             MainForm.Instance.InvokeAction(() => _guiReinitAction());
         }
 
         public static bool TryGetProvincialTerrain(string tag, out ProvincialTerrain terrain)
-            => _provincialTerraings.TryGetValue(tag, out terrain);
+            => _provincialTerrains.TryGetValue(tag, out terrain);
 
         public static bool HasProvincialTerrain(string tag)
-            => _provincialTerraings.ContainsKey(tag);
+            => _provincialTerrains.ContainsKey(tag);
 
         public void TokenCallback(ParadoxParser parser, string token)
         {
             switch (token)
             {
                 case "categories":
-                    var provincialTerrains = new ProvincialTerrains(_provincialTerraings);
+                    var provincialTerrains = new ProvincialTerrains(_provincialTerrains);
                     parser.Parse(provincialTerrains);
                     break;
                 case "terrain": break;
             }
+        }
+        
+        public static void ForEach(Action<ProvincialTerrain> action)
+        {
+            if (action == null)
+                return;
+
+            foreach (var terrain in _provincialTerrains.Values)
+                action.Invoke(terrain);
         }
     }
 
@@ -95,7 +107,7 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
         public void TokenCallback(ParadoxParser parser, string token)
         {
             string name = token;
-            var provincialTerrain = new ProvincialTerrain(name);
+            var provincialTerrain = new ProvincialTerrain(_map.Count + 1, name);
             parser.Parse(provincialTerrain);
             _map[name] = provincialTerrain;
         }

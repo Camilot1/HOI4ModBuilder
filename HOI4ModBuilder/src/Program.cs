@@ -64,8 +64,8 @@ namespace HOI4ModBuilder
 
             CopyFiles(basePath, debugPath, releasePath, new[] { "data" });
             CopyFiles(basePath, debugPath, releasePath, new[] { "data", "fonts" });
-            CopyFiles(basePath, debugPath, releasePath, new[] { "data", "shaders" });
             CopyFiles(basePath, debugPath, releasePath, new[] { "localization" });
+            CopyDirectoryRecursive(basePath, debugPath, releasePath, new[] { "data", "shaders" });
             CopyDirectoryRecursive(basePath, debugPath, releasePath, new[] { "data", "savePatterns" });
             CopyDirectoryRecursive(basePath, debugPath, releasePath, new[] { "data", "scripts" });
         }

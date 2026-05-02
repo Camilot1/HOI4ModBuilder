@@ -1,7 +1,8 @@
-﻿using HOI4ModBuilder.hoiDataObjects.common.resources;
+using HOI4ModBuilder.hoiDataObjects.common.resources;
 using HOI4ModBuilder.src.hoiDataObjects.common.buildings;
 using HOI4ModBuilder.src.hoiDataObjects.common.ideologies;
 using HOI4ModBuilder.src.hoiDataObjects.history.states;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.settings;
 using HOI4ModBuilder.src.newParser;
@@ -39,6 +40,8 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
 
             if (raisedAnyException)
                 throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_WHILE_STATE_CATEGORY_LOADING));
+
+            MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.StateCategoryDataByIdKey);
         }
 
         private static void LoadFile(GameParser parser, StateCategoryGameFile file, out bool raisedException)
@@ -51,14 +54,14 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
                 if (file.StateCategory.Count == 0)
                     return;
 
-                //if (file.StateCategory.Count > 1)
-                //    throw new Exception(GuiLocManager.GetLoc(EnumLocKey.EXCEPTION_MORE_THAN_ONE_STATE_CATEGORY_IN_FILE));
-                // var category = file.StateCategory.Last().Value;
-
                 foreach (var category in file.StateCategory.Values)
                 {
+
                     if (!_allStateCategories.ContainsKey(category.name))
+                    {
                         _allStateCategories[category.name] = category;
+                        category.id = GetCount();
+                    }
                     else throw new Exception(GuiLocManager.GetLoc(
                         EnumLocKey.EXCEPTION_STATE_CATEGORY_DUPLICATE_NAME_IN_FILE,
                         new Dictionary<string, string>
@@ -68,8 +71,6 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
                         }
                     ));
                 }
-
-                
             }
             catch (Exception ex)
             {
@@ -90,6 +91,15 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
 
         public static Dictionary<string, StateCategory>.KeyCollection GetNames()
             => _allStateCategories.Keys;
+
+        public static void ForEach(Action<StateCategory> action)
+        {
+            foreach (var stateCategory in _allStateCategories.Values)
+                action(stateCategory);
+        }
+
+        public static int GetCount()
+            => _allStateCategories.Count;
 
         public static bool TryGet(string name, out StateCategory stateCategory)
             => _allStateCategories.TryGetValue(name, out stateCategory);

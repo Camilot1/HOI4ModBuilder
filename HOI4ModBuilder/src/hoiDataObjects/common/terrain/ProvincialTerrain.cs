@@ -15,13 +15,15 @@ namespace HOI4ModBuilder.hoiDataObjects.common.terrain
         private static int NextHashCode => _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
         public override int GetHashCode() => _hashCode;
 
+        public int id;
         public string name;
         public int color;
         public bool isWater;
         public bool isNavalTerrain;
 
-        public ProvincialTerrain(string name)
+        public ProvincialTerrain(int id, string name)
         {
+            this.id = id;
             this.name = name;
         }
 

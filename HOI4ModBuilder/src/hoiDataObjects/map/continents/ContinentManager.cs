@@ -1,4 +1,5 @@
-﻿using HOI4ModBuilder.src;
+using HOI4ModBuilder.src;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer;
 using HOI4ModBuilder.src.managers;
 using HOI4ModBuilder.src.managers.settings;
 using Pdoxcl2Sharp;
@@ -62,6 +63,8 @@ namespace HOI4ModBuilder.hoiDataObjects
                    );
                 }
             }
+
+            MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.ContinentIdsToColorsKey);
         }
 
         public static bool AddContinent(string name)
@@ -69,6 +72,7 @@ namespace HOI4ModBuilder.hoiDataObjects
             if (_continents.Contains(name)) return false;
 
             _continents.Add(name);
+            MapRendererBuffersManager.InvalidateBuffer(MapRendererBuffersManager.ContinentIdsToColorsKey);
             //TODO needToSave
             return true;
         }

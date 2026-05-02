@@ -1,6 +1,5 @@
 ﻿using HOI4ModBuilder.src.utils;
 using System;
-using System.IO;
 using OpenTK.Graphics.OpenGL;
 using OpenTK;
 
@@ -57,7 +56,7 @@ namespace HOI4ModBuilder.src.openTK
 
         private int CreateShader(ShaderType type, string file)
         {
-            string shaderText = File.ReadAllText(file);
+            string shaderText = ShaderSourceLoader.Load(file);
             int shaderID = GL.CreateShader(type);
             GL.ShaderSource(shaderID, shaderText);
             GL.CompileShader(shaderID);

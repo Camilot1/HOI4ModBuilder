@@ -19,6 +19,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.common.stateCategory
         private static int NextHashCode => _nextHashCode == int.MaxValue ? _nextHashCode = int.MinValue : _nextHashCode++;
         public override int GetHashCode() => _hashCode;
 
+        public int id;
         public string name;
 
         public int ColorInt { get; private set; }

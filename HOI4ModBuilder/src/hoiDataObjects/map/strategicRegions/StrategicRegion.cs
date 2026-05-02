@@ -1,6 +1,7 @@
 ﻿using HOI4ModBuilder.hoiDataObjects.common.terrain;
 using HOI4ModBuilder.hoiDataObjects.map;
 using HOI4ModBuilder.managers;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.buffers;
 using HOI4ModBuilder.src.hoiDataObjects.common.ai_areas;
 using HOI4ModBuilder.src.hoiDataObjects.map.renderer.enums;
 using HOI4ModBuilder.src.hoiDataObjects.map.strategicRegion;
@@ -129,7 +130,20 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             get => _aiAreas;
         }
 
-        public int color;
+        private int _color;
+        public int Color
+        {
+            get => _color;
+            set
+            {
+                if (_color != value)
+                {
+                    _color = value;
+                    MapRendererEventsHandler.OnStrategicRegionColorChanged(this);
+                }
+            }
+        }
+
         public Point2F center;
         public bool dislayCenter;
         public uint pixelsCount;
@@ -366,7 +380,7 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
         public void CalculateColor()
         {
             Random random = new Random(Id);
-            color = Utils.ArgbToInt(
+            Color = Utils.ArgbToInt(
                         255,
                         (byte)random.Next(0, 256),
                         (byte)random.Next(0, 256),
@@ -388,6 +402,9 @@ namespace HOI4ModBuilder.src.hoiDataObjects.map
             CalculateColor();
 
             StrategicRegionManager.Add(Id, this);
+
+            foreach (var province in Provinces)
+                MapRendererEventsHandler.OnProvinceRegionIdChanged(province);
         }
 
         public void ForEachProvince(Action<StrategicRegion, Province> action)

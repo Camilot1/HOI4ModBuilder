@@ -12,6 +12,7 @@ using HOI4ModBuilder.src.newParser;
 using HOI4ModBuilder.src.newParser.interfaces;
 using HOI4ModBuilder.src.newParser.objects;
 using HOI4ModBuilder.src.newParser.structs;
+using HOI4ModBuilder.src.hoiDataObjects.map.renderer.buffers;
 using HOI4ModBuilder.src.scripts.objects;
 using HOI4ModBuilder.src.scripts.objects.interfaces;
 using HOI4ModBuilder.src.utils;
@@ -34,7 +35,17 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public override bool Equals(object obj)
             => obj is State state && Id.GetValue() == state.Id.GetValue();
 
-        public int Color { get; set; }
+        private int _color;
+        public int Color {
+            get => _color;
+            set {
+                if (_color != value)
+                {
+                    _color = value;
+                    MapRendererEventsHandler.OnStateColorChanged(this);
+                }
+            } 
+        }
 
         public readonly GameParameter<ushort> Id = new GameParameter<ushort>()
             .INIT_SetValueParseAdapter((o, token) =>
@@ -76,6 +87,9 @@ namespace HOI4ModBuilder.hoiDataObjects.map
                 var state = (State)parameter.GetParent();
                 StateManager.Add(_id, state);
 
+                foreach (var province in state.Provinces)
+                    MapRendererEventsHandler.OnProvinceStateIdChanged(province);
+
                 return _id;
             });
 
@@ -83,7 +97,15 @@ namespace HOI4ModBuilder.hoiDataObjects.map
         public string CurrentName { get; set; }
 
         public readonly GameParameter<StateCategory> StateCategory = new GameParameter<StateCategory>()
-            .INIT_ForceValueInline(true);
+            .INIT_ForceValueInline(true)
+            .INIT_SetValueSetAdapter((o, value) =>
+            {
+                var stateCategory = (StateCategory)value;
+                var state = (State)((GameParameter<StateCategory>)o).GetParent();
+                state.CurrentStateCategory = stateCategory;
+                MapRendererEventsHandler.OnStateCategoryChanged(state);
+                return stateCategory;
+            });
         public StateCategory CurrentStateCategory { get; set; }
 
         public readonly GameParameter<int> Manpower = new GameParameter<int>();
