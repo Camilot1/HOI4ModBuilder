@@ -928,6 +928,7 @@
     <Compile Include="src\utils\classes\CommonCenter.cs" />
     <Compile Include="src\utils\ColorUtils.cs" />
     <Compile Include="src\utils\Constants.cs" />
+    <Compile Include="src\utils\DialogUtils.cs" />
     <Compile Include="src\utils\Enums.cs" />
     <Compile Include="src\utils\exceptions\CancelActionException.cs" />
     <Compile Include="src\utils\exceptions\CountryNotFoundException.cs" />

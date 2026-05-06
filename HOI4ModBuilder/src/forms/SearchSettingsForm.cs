@@ -19,6 +19,22 @@ namespace HOI4ModBuilder.src.forms
         public static bool isLoading = false;
         private readonly EnumSearchSettingsType _type;
 
+        public static void OpenOrFocus(EnumSearchSettingsType type)
+        {
+            if (instance != null)
+            {
+                if (instance._type == type)
+                {
+                    instance.Focus();
+                    return;
+                }
+
+                instance.Close();
+            }
+
+            new SearchSettingsForm(type).Show();
+        }
+
         public SearchSettingsForm(EnumSearchSettingsType type)
         {
             InitializeComponent();

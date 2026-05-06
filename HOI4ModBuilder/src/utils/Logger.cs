@@ -108,12 +108,11 @@ namespace HOI4ModBuilder.src.utils
 
         public static void LogSingleErrorMessage(string message)
         {
-            Task.Run(() => MessageBoxUtils.Show(
+            ShowMessageOnUiThread(
                 message,
                 GuiLocManager.GetLoc(EnumLocKey.ERROR_HAS_OCCURED),
-                MessageBoxButtons.OK,
                 MessageBoxIcon.Error
-            ));
+            );
             Log(message);
         }
 
@@ -125,54 +124,16 @@ namespace HOI4ModBuilder.src.utils
 
         public static void LogSingleInfoMessage(string message)
         {
-            Task.Run(() => MessageBoxUtils.Show(
+            ShowMessageOnUiThread(
                 message,
                 GuiLocManager.GetLoc(EnumLocKey.INFORMATION_MESSAGE_TITLE),
-                MessageBoxButtons.OK, MessageBoxIcon.Information
-            ));
+                MessageBoxIcon.Information
+            );
             Log(message);
         }
 
         public static void ShowMessageOnUiThread(string message, string caption, MessageBoxIcon icon)
-        {
-            void ShowBox()
-            {
-                MessageBoxUtils.Show(message, caption, MessageBoxButtons.OK, icon);
-            }
-
-            var mainForm = MainForm.Instance;
-            if (mainForm == null || mainForm.IsDisposed)
-            {
-                ShowBox();
-                return;
-            }
-
-            try
-            {
-                if (mainForm.InvokeRequired)
-                {
-                    if (!mainForm.IsHandleCreated)
-                    {
-                        ShowBox();
-                        return;
-                    }
-
-                    mainForm.BeginInvoke((MethodInvoker)(() => ShowBox()));
-                }
-                else
-                {
-                    ShowBox();
-                }
-            }
-            catch (ObjectDisposedException)
-            {
-                ShowBox();
-            }
-            catch (InvalidOperationException)
-            {
-                ShowBox();
-            }
-        }
+            => MessageBoxUtils.Show(message, caption, MessageBoxButtons.OK, icon);
 
         public static void CheckLayeredValueOverrideAndSet<T>(LinkedLayer prevLayer, string parameterName, ref T oldValue, T newValue)
         {
@@ -459,7 +420,7 @@ namespace HOI4ModBuilder.src.utils
                 }
             );
             string richText = string.Join("\n\n", _warnings);
-            Task.Run(() => TextBoxMessageForm.CreateTasked(title, mainText, richText, true, _textBoxMessageForms));
+            TextBoxMessageForm.CreateTasked(title, mainText, richText, true, _textBoxMessageForms);
             _warnings = new List<string>();
         }
 
@@ -476,7 +437,7 @@ namespace HOI4ModBuilder.src.utils
                 }
             );
             string richText = string.Join("\n\n", _errors);
-            Task.Run(() => TextBoxMessageForm.CreateTasked(title, mainText, richText, true, _textBoxMessageForms));
+            TextBoxMessageForm.CreateTasked(title, mainText, richText, true, _textBoxMessageForms);
             _errors = new List<string>();
         }
 
@@ -494,7 +455,7 @@ namespace HOI4ModBuilder.src.utils
                     }
                 );
             string richText = string.Join("\n\n", _exceptions);
-            Task.Run(() => TextBoxMessageForm.CreateTasked(title, mainText, richText, true, _textBoxMessageForms));
+            TextBoxMessageForm.CreateTasked(title, mainText, richText, true, _textBoxMessageForms);
             _exceptions = new List<string>();
         }
 
@@ -511,7 +472,7 @@ namespace HOI4ModBuilder.src.utils
                     }
                 );
             string richText = string.Join("\n\n", _additionalExceptions);
-            Task.Run(() => TextBoxMessageForm.CreateTasked(title, mainText, richText, true, _textBoxMessageForms));
+            TextBoxMessageForm.CreateTasked(title, mainText, richText, true, _textBoxMessageForms);
             _additionalExceptions = new List<string>();
         }
 

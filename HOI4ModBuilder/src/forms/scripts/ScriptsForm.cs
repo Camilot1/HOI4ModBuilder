@@ -21,6 +21,17 @@ namespace HOI4ModBuilder.src.forms.scripts
         private string[] _scriptLines;
         private static readonly string currentLineMark = ">>>";
 
+        public static void OpenOrFocus()
+        {
+            if (Instance != null)
+            {
+                Instance.Focus();
+                return;
+            }
+
+            new ScriptsForm().Show();
+        }
+
         public ScriptsForm()
         {
             InitializeComponent();
@@ -61,13 +72,13 @@ namespace HOI4ModBuilder.src.forms.scripts
         private void Button_ChooseFile_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() =>
             {
-                string filePath;
-                var fd = new OpenFileDialog();
                 var dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "scripts" });
-                Utils.PrepareFileDialog(fd, GuiLocManager.GetLoc(EnumLocKey.SCRIPTS_CHOOSE_FILE), dialogPath, "TXT files (*.txt)|*.txt");
-                if (fd.ShowDialog() == DialogResult.OK)
-                    filePath = fd.FileName;
-                else
+                var filePath = DialogUtils.ChooseOpenFile(
+                    GuiLocManager.GetLoc(EnumLocKey.SCRIPTS_CHOOSE_FILE),
+                    dialogPath,
+                    "TXT files (*.txt)|*.txt"
+                );
+                if (filePath == null)
                     return;
 
                 textBox1.Text = filePath;

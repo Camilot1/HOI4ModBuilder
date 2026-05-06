@@ -21,6 +21,17 @@ namespace HOI4ModBuilder.src.forms.dataForms
         private string _filterRegions = "";
         private string _filterCountries = "";
 
+        public static void OpenOrFocus()
+        {
+            if (Instance != null)
+            {
+                Instance.Focus();
+                return;
+            }
+
+            new StatisticsForm().Show();
+        }
+
         public StatisticsForm()
         {
             InitializeComponent();

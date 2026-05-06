@@ -20,33 +20,27 @@ namespace HOI4ModBuilder.src.tools.map.advanced
                 return;
 
             string bmpFilePath, definitionFilePath;
-            var fd = new OpenFileDialog();
             var dialogPath = FileManager.AssembleFolderPath(
                 new[] { Application.StartupPath, "data", "mapChanges" }
             );
 
-            Utils.PrepareFileDialog(
-                fd,
+            bmpFilePath = DialogUtils.ChooseOpenFile(
                 GuiLocManager.GetLoc(EnumLocKey.AUTOTOOLS_FIND_MAP_CHANGES_TITLE_CHOOSE_PROVINCES_BMP_FILE),
                 dialogPath,
                 "BMP files (*.bmp)|*.bmp"
             );
 
-            if (fd.ShowDialog() != DialogResult.OK)
+            if (bmpFilePath == null)
                 return;
-            bmpFilePath = fd.FileName;
 
-            fd = new OpenFileDialog();
-            Utils.PrepareFileDialog(
-                fd,
+            definitionFilePath = DialogUtils.ChooseOpenFile(
                 GuiLocManager.GetLoc(EnumLocKey.AUTOTOOLS_FIND_MAP_CHANGES_TITLE_CHOOSE_DEFINITION_CSV_FILE),
                 dialogPath,
                 "CSV files (*.csv)|*.csv"
             );
 
-            if (fd.ShowDialog() != DialogResult.OK)
+            if (definitionFilePath == null)
                 return;
-            definitionFilePath = fd.FileName;
 
             var provinceData = File.ReadAllLines(definitionFilePath);
             var provincesByColor = new Dictionary<int, ushort>(provinceData.Length);

@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
-using System.Net.Http;
-using System.Net.Sockets;
 using System.Net.NetworkInformation;
+using System.Net;
 using HOI4ModBuilder.src.utils;
 using Newtonsoft.Json;
 using HOI4ModBuilder.src.network;
@@ -11,6 +10,7 @@ using HOI4ModBuilder.src;
 using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
+using System.Text;
 using HOI4ModBuilder;
 
 public static class NetworkManager
@@ -36,16 +36,9 @@ public static class NetworkManager
     {
         Task.Run(() =>
         {
-            string data = null;
-
-            Logger.TryOrCatch(() =>
-            {
-                data = DownloadString("https://raw.githubusercontent.com/Camilot1/HOI4ModBuilder/master/sync_info.json\r\n");
-            }, ex =>
-            {
+            string data = DownloadString("https://raw.githubusercontent.com/Camilot1/HOI4ModBuilder/master/sync_info.json");
+            if (data == null)
                 Logger.LogSingleErrorMessage(EnumLocKey.EXCEPTION_NETWORK_UNABLE_TO_CHECK_FOR_UPDATE);
-                Logger.Log(ex.StackTrace);
-            });
 
             SyncInfo syncInfo = null;
 
@@ -93,33 +86,33 @@ public static class NetworkManager
     }
 
     // Currently is used ONLY for getting latest info from HOI4 Mod Builder public repository
-    private static async Task<string> DownloadStringAsync(string rawUrl, int timeoutSeconds = 5)
+    private static string DownloadString(string rawUrl, int timeoutSeconds = 5)
     {
         if (!HasNetwork)
-            throw new InvalidOperationException("No internet connection.");
+            return null;
 
-        using (var http = new HttpClient { Timeout = TimeSpan.FromSeconds(timeoutSeconds) })
+        try
         {
-            http.DefaultRequestHeaders.UserAgent.ParseAdd($"HOI4 Mod Builder");
+            var request = (HttpWebRequest)WebRequest.Create(rawUrl);
+            request.Method = "GET";
+            request.Timeout = timeoutSeconds * 1000;
+            request.ReadWriteTimeout = timeoutSeconds * 1000;
+            request.UserAgent = "HOI4 Mod Builder";
 
-            try
+            using (var response = (HttpWebResponse)request.GetResponse())
+            using (var responseStream = response.GetResponseStream())
             {
-                var response = await http.GetAsync(rawUrl, HttpCompletionOption.ResponseHeadersRead);
-                response.EnsureSuccessStatusCode();
+                if (responseStream == null)
+                    return null;
 
-                return await response.Content.ReadAsStringAsync();
-            }
-            catch (HttpRequestException ex) when (ex.InnerException is SocketException se &&
-                   (se.SocketErrorCode == SocketError.HostNotFound ||
-                    se.SocketErrorCode == SocketError.NetworkUnreachable ||
-                    se.SocketErrorCode == SocketError.TimedOut))
-            {
-                throw new InvalidOperationException("Failed to establish connection. Check your internet connection.", ex);
+                using (var reader = new StreamReader(responseStream, Encoding.UTF8))
+                    return reader.ReadToEnd();
             }
         }
+        catch (WebException ex)
+        {
+            Logger.Log($"Network update check failed: {ex}");
+            return null;
+        }
     }
-
-    private static string DownloadString(string rawUrl, int timeoutSeconds = 5)
-        => DownloadStringAsync(rawUrl, timeoutSeconds).GetAwaiter().GetResult();
 }
-

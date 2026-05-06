@@ -10,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.forms.recoveryForms
@@ -27,6 +26,17 @@ namespace HOI4ModBuilder.src.forms.recoveryForms
         private static string _filterText = "";
 
         private static readonly TransferInfo transferInfo = new TransferInfo();
+
+        public static void OpenOrFocus()
+        {
+            if (instance != null)
+            {
+                instance.Focus();
+                return;
+            }
+
+            new StrategicRegionsDataRecoveryForm().Show();
+        }
 
         public StrategicRegionsDataRecoveryForm()
         {
@@ -155,22 +165,15 @@ namespace HOI4ModBuilder.src.forms.recoveryForms
                         EnumLocKey.EXCEPTION_FORM_STRATEGIC_REGION_DATA_RECOVERY_CANT_EXECUTE_BECAUSE_NO_DATA_WAS_LOADED
                     ));
 
-                var thread = new Thread(() =>
-                {
-                    var dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "recovery", "strategic_regions" });
-                    var fd = Utils.PrepareFolderDialog(dialogPath);
-                    if (fd.ShowDialog() != DialogResult.OK) return;
+                var dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "recovery", "strategic_regions" });
+                var selectedPath = DialogUtils.ChooseFolder(GuiLocManager.GetLoc(EnumLocKey.CHOOSE_ACTION), dialogPath);
+                if (selectedPath == null)
+                    return;
 
-                    Invoke(new Action(() =>
-                    {
-                        _directoryPath = fd.SelectedPath;
-                        LoadOldData();
-                        FilterOldData();
-                        Utils.CleanUpMemory();
-                    }));
-                });
-                thread.SetApartmentState(ApartmentState.STA);
-                thread.Start();
+                _directoryPath = selectedPath;
+                LoadOldData();
+                FilterOldData();
+                Utils.CleanUpMemory();
             });
         }
 

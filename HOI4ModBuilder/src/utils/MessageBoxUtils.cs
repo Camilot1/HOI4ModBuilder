@@ -17,29 +17,6 @@ namespace HOI4ModBuilder.src.utils
             => Show(text, GuiLocManager.GetLoc(EnumLocKey.INFO_MESSAGE), buttons, MessageBoxIcon.Information);
 
         public static DialogResult Show(string text, string title, MessageBoxButtons buttons, MessageBoxIcon icon)
-        {
-            var result = MessageBox.Show(
-                text, title, buttons, icon,
-                MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly
-            );
-
-            if (MainForm.IsFirstInited)
-            {
-                MainForm.Instance.InvokeAction(() =>
-                {
-                    var mainForm = MainForm.Instance;
-                    var prevTopMost = mainForm.TopMost;
-
-                    mainForm.TopMost = true;
-                    mainForm.Activate();
-                    mainForm.BringToFront();
-                    mainForm.Focus();
-
-                    mainForm.TopMost = prevTopMost;
-                });
-            }
-
-            return result;
-        }
+            => DialogUtils.ShowMessageBox(text, title, buttons, icon);
     }
 }

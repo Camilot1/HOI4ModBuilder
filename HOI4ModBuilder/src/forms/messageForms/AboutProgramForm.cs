@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Media;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.forms.messageForms
@@ -34,10 +33,32 @@ namespace HOI4ModBuilder.src.forms.messageForms
 
         public static void CreateTasked()
         {
-            if (Instance != null)
-                return;
-            Task.Run(() => new AboutProgramForm().ShowDialog());
+            OpenOrFocus();
             SystemSounds.Exclamation.Play();
+        }
+
+        public static void OpenOrFocus()
+        {
+            if (Instance != null)
+            {
+                Instance.Focus();
+                return;
+            }
+
+            void showAction() => new AboutProgramForm().Show();
+
+            var mainForm = MainForm.Instance;
+            if (mainForm != null && !mainForm.IsDisposed && mainForm.IsHandleCreated)
+            {
+                if (mainForm.InvokeRequired)
+                    mainForm.BeginInvoke((MethodInvoker)(() => showAction()));
+                else
+                    showAction();
+            }
+            else
+            {
+                showAction();
+            }
         }
 
         public AboutProgramForm()

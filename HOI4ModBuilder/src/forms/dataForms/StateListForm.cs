@@ -20,6 +20,17 @@ namespace HOI4ModBuilder.src.forms
         public static State currentState;
         public static string text = null;
 
+        public static void OpenOrFocus()
+        {
+            if (Instance != null)
+            {
+                Instance.Focus();
+                return;
+            }
+
+            new StateListForm().Show();
+        }
+
         public StateListForm()
         {
             InitializeComponent();

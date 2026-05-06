@@ -9,7 +9,6 @@ using System.Drawing;
 using System.Linq;
 using System.Media;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.forms
@@ -26,12 +25,26 @@ namespace HOI4ModBuilder.src.forms
 
         public static void CreateTasked(string title, string mainText, string richText, bool hasSound, List<TextBoxMessageForm> listedForms)
         {
-            Task.Run(() =>
+            void showAction()
             {
                 var form = new TextBoxMessageForm(title, mainText, richText);
                 listedForms?.Add(form);
-                form.ShowDialog();
-            });
+                form.Show();
+            }
+
+            var mainForm = MainForm.Instance;
+            if (mainForm != null && !mainForm.IsDisposed && mainForm.IsHandleCreated)
+            {
+                if (mainForm.InvokeRequired)
+                    mainForm.BeginInvoke((MethodInvoker)(() => showAction()));
+                else
+                    showAction();
+            }
+            else
+            {
+                showAction();
+            }
+
             if (hasSound)
                 SystemSounds.Exclamation.Play();
         }

@@ -13,6 +13,17 @@ namespace HOI4ModBuilder.src.forms
         public static ProvinceListForm instance;
         public Province selectedProvince;
 
+        public static void OpenOrFocus()
+        {
+            if (instance != null)
+            {
+                instance.Focus();
+                return;
+            }
+
+            new ProvinceListForm().Show();
+        }
+
         public ProvinceListForm()
         {
             InitializeComponent();

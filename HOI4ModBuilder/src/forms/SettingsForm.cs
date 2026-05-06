@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 using static HOI4ModBuilder.src.managers.settings.ModSettings;
 
@@ -19,6 +18,17 @@ namespace HOI4ModBuilder.src.forms
         public static bool isLoading = false;
 
         private ModSettingsControlSet modSettingsControls;
+
+        public static void OpenOrFocus()
+        {
+            if (Instance != null)
+            {
+                Instance.Focus();
+                return;
+            }
+
+            new SettingsForm().Show();
+        }
 
         public SettingsForm()
         {
@@ -87,78 +97,53 @@ namespace HOI4ModBuilder.src.forms
         }
 
         private void Button_GameDirectory_Click(object sender, EventArgs e)
-        {
-            var thread = new Thread(() =>
-            {
-                var DirDialog = new FolderBrowserDialog
+            => OpenFolderBrowserDialog(
+                GuiLocManager.GetLoc(EnumLocKey.FOLDER_BROWSER_DIALOG_CHOOSE_GAME_DIRECTORY_TITLE),
+                TextBox_GameDirectory.Text,
+                selectedPath =>
                 {
-                    Description = GuiLocManager.GetLoc(EnumLocKey.FOLDER_BROWSER_DIALOG_CHOOSE_GAME_DIRECTORY_TITLE),
-                    SelectedPath = TextBox_GameDirectory.Text
-                };
-
-                if (DirDialog.ShowDialog() == DialogResult.OK)
-                {
-                    var path = FileManager.AssembleFolderPath(new[] { DirDialog.SelectedPath });
+                    var path = FileManager.AssembleFolderPath(new[] { selectedPath });
 
                     if (!IsValidGameDirectory(path))
                     {
                         Logger.LogSingleErrorMessage(EnumLocKey.SINGLE_MESSAGE_NO_HOI4EXE_FILE_IN_GAME_DIRECTORY, new Dictionary<string, string> { { "{fileName}", "hoi4.exe" } });
                         return;
                     }
-                    Invoke(new Action(() => TextBox_GameDirectory.Text = path));
-                }
-            });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-        }
+
+                    TextBox_GameDirectory.Text = path;
+                });
         public bool IsValidGameDirectory(string path)
             => File.Exists(path + "hoi4.exe");
 
         private void Button_GameTempDirectory_Click(object sender, EventArgs e)
-        {
-            var thread = new Thread(() =>
-            {
-                var DirDialog = new FolderBrowserDialog
+            => OpenFolderBrowserDialog(
+                GuiLocManager.GetLoc(EnumLocKey.FOLDER_BROWSER_DIALOG_CHOOSE_DIRECTORY_IN_DOCUMENTS_TITLE),
+                TextBox_GameTempDirectory.Text,
+                selectedPath =>
                 {
-                    Description = GuiLocManager.GetLoc(EnumLocKey.FOLDER_BROWSER_DIALOG_CHOOSE_DIRECTORY_IN_DOCUMENTS_TITLE),
-                    SelectedPath = TextBox_GameTempDirectory.Text
-                };
-
-                if (DirDialog.ShowDialog() == DialogResult.OK)
-                {
-                    var path = FileManager.AssembleFolderPath(new[] { DirDialog.SelectedPath });
+                    var path = FileManager.AssembleFolderPath(new[] { selectedPath });
 
                     if (!IsValidGameTempDirectory(path))
                     {
                         Logger.LogSingleErrorMessage(EnumLocKey.SINGLE_MESSAGE_NO_REQUIRED_FOLDER_IN_DIRECTORY_IN_DOCUMENTS, new Dictionary<string, string> { { "{directoryName}", "mod" } });
                         return;
                     }
-                    Invoke(new Action(() => TextBox_GameTempDirectory.Text = path));
-                }
-            });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-        }
+
+                    TextBox_GameTempDirectory.Text = path;
+                });
 
         public bool IsValidGameTempDirectory(string path)
             => Directory.Exists(path + "mod");
 
         private void Button_ModDirectory_Click(object sender, EventArgs e)
-        {
-            var thread = new Thread(() =>
-            {
-                var dialogPath = !string.IsNullOrEmpty(TextBox_ModDirectory.Text) ?
-                        TextBox_ModDirectory.Text :
-                        FileManager.AssembleFolderPath(new[] { FileManager.GetDocumentsFolderPath(), "Paradox Interactive", "Hearts of Iron IV", "mod" });
-                var DirDialog = new FolderBrowserDialog
+            => OpenFolderBrowserDialog(
+                GuiLocManager.GetLoc(EnumLocKey.FOLDER_BROWSER_DIALOG_CHOOSE_DIRECTORY_OF_MOD_TITLE),
+                !string.IsNullOrEmpty(TextBox_ModDirectory.Text)
+                    ? TextBox_ModDirectory.Text
+                    : FileManager.AssembleFolderPath(new[] { FileManager.GetDocumentsFolderPath(), "Paradox Interactive", "Hearts of Iron IV", "mod" }),
+                selectedPath =>
                 {
-                    Description = GuiLocManager.GetLoc(EnumLocKey.FOLDER_BROWSER_DIALOG_CHOOSE_DIRECTORY_OF_MOD_TITLE),
-                    SelectedPath = dialogPath
-                };
-
-                if (DirDialog.ShowDialog() == DialogResult.OK)
-                {
-                    var path = FileManager.AssembleFolderPath(new[] { DirDialog.SelectedPath });
+                    var path = FileManager.AssembleFolderPath(new[] { selectedPath });
 
                     string descriptorPath = null;
                     int descriptorCount = 0;
@@ -183,12 +168,16 @@ namespace HOI4ModBuilder.src.forms
                         return;
                     }
 
-                    Invoke(new Action(() => TextBox_ModDirectory.Text = path));
-                }
+                    TextBox_ModDirectory.Text = path;
+                });
+
+        private void OpenFolderBrowserDialog(string description, string selectedPath, Action<string> onSelected)
+            => Logger.TryOrLog(() =>
+            {
+                var selectedResultPath = DialogUtils.ChooseFolder(description, selectedPath);
+                if (selectedResultPath != null)
+                    onSelected?.Invoke(selectedResultPath);
             });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-        }
 
         private void Button_Save_Click(object sender, EventArgs e)
         {

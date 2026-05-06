@@ -3,7 +3,6 @@ using HOI4ModBuilder.src.utils;
 using System;
 using System.Collections.Generic;
 using System.Media;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HOI4ModBuilder.src.forms.messageForms
@@ -28,17 +27,37 @@ namespace HOI4ModBuilder.src.forms.messageForms
 
         public static void Create(SyncInfo syncInfo)
         {
-            if (Instance != null)
-                return;
             SystemSounds.Exclamation.Play();
-            new CheckUpdateForm(syncInfo).ShowDialog();
+            OpenOrFocus(syncInfo);
         }
         public static void CreateTasked(SyncInfo syncInfo)
         {
-            if (Instance != null)
-                return;
             SystemSounds.Exclamation.Play();
-            Task.Run(() => new CheckUpdateForm(syncInfo).ShowDialog());
+            OpenOrFocus(syncInfo);
+        }
+
+        public static void OpenOrFocus(SyncInfo syncInfo)
+        {
+            if (Instance != null)
+            {
+                Instance.Focus();
+                return;
+            }
+
+            void showAction() => new CheckUpdateForm(syncInfo).Show();
+
+            var mainForm = MainForm.Instance;
+            if (mainForm != null && !mainForm.IsDisposed && mainForm.IsHandleCreated)
+            {
+                if (mainForm.InvokeRequired)
+                    mainForm.BeginInvoke((MethodInvoker)(() => showAction()));
+                else
+                    showAction();
+            }
+            else
+            {
+                showAction();
+            }
         }
 
         public CheckUpdateForm(SyncInfo syncInfo)

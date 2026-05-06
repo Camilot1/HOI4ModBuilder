@@ -759,13 +759,11 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                var fd = new OpenFileDialog();
                 string dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "textures", "map" });
-                Utils.PrepareFileDialog(fd, dialogPath, "BMP files (*.bmp)|*.bmp");
+                string filePath = DialogUtils.ChooseOpenFile(null, dialogPath, "BMP files (*.bmp)|*.bmp");
 
-                if (fd.ShowDialog() == DialogResult.OK)
+                if (filePath != null)
                 {
-                    string filePath = fd.FileName;
                     Utils.GetFileNameAndFormat(filePath, out string fileName, out string fileFormat);
 
                     if (fileName == null)
@@ -842,13 +840,11 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                var fd = new SaveFileDialog();
                 string dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "textures", "map", "data" });
-                Utils.PrepareFileDialog(fd, dialogPath, "JSON files (*.json)|*.json");
+                string filePath = DialogUtils.ChooseSaveFile(null, dialogPath, "JSON files (*.json)|*.json");
 
-                if (fd.ShowDialog() == DialogResult.OK)
+                if (filePath != null)
                 {
-                    string filePath = fd.FileName;
                     string json = JsonConvert.SerializeObject(MapManager.additionalMapTextures, Formatting.Indented);
                     File.WriteAllText(filePath, json);
                 }
@@ -859,15 +855,13 @@ namespace HOI4ModBuilder
         {
             Logger.TryOrLog(() =>
             {
-                var fd = new OpenFileDialog();
                 string dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "textures", "map", "data" });
-                Utils.PrepareFileDialog(fd, dialogPath, "JSON files (*.json)|*.json");
+                string filePath = DialogUtils.ChooseOpenFile(null, dialogPath, "JSON files (*.json)|*.json");
 
-                if (fd.ShowDialog() == DialogResult.OK)
+                if (filePath != null)
                 {
                     MapManager.ClearAdditionalMapTextures();
                     ListBox_Textures.Items.Clear();
-                    string filePath = fd.FileName;
                     var tempDictionary = JsonConvert.DeserializeObject<Dictionary<string, TextureInfo>>(File.ReadAllText(filePath));
 
                     foreach (string key in tempDictionary.Keys)
@@ -1063,13 +1057,13 @@ namespace HOI4ModBuilder
         private void Button_MapMainLayer_Parameter_Click(object sender, EventArgs e)
                 => Logger.TryOrLog(() =>
                 {
-                    string filePath;
-                    var fd = new OpenFileDialog();
                     var dialogPath = FileManager.AssembleFolderPath(new[] { Application.StartupPath, "data", "scripts" });
-                    Utils.PrepareFileDialog(fd, GuiLocManager.GetLoc(EnumLocKey.SCRIPTS_CHOOSE_FILE), dialogPath, "MAP MODE TXT files (*.mm.txt)|*.mm.txt");
-                    if (fd.ShowDialog() == DialogResult.OK)
-                        filePath = fd.FileName;
-                    else
+                    var filePath = DialogUtils.ChooseOpenFile(
+                        GuiLocManager.GetLoc(EnumLocKey.SCRIPTS_CHOOSE_FILE),
+                        dialogPath,
+                        "MAP MODE TXT files (*.mm.txt)|*.mm.txt"
+                    );
+                    if (filePath == null)
                         return;
 
                     ScriptParser.CompileMapMainLayerCustomScript(filePath);
@@ -1186,7 +1180,7 @@ namespace HOI4ModBuilder
         }
 
         private void ToolStripMenuItem_Settings_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => new SettingsForm().ShowDialog());
+            => Logger.TryOrLog(() => SettingsForm.OpenOrFocus());
         private void ToolStripMenuItem_Map_SupplyHub_Create_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => SupplyHubsTool.AddNode(SupplyHubsTool.CreateNode(1, ProvinceManager.RMBProvince)));
         private void ToolStripMenuItem_Map_SupplyHub_Remove_Click(object sender, EventArgs e)
@@ -1457,16 +1451,10 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Edit_AutoTools_RegionsValidation_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => AutoToolValidateAllRegions.Execute(true));
         private void ToolStripMenuItem_Data_Provinces_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => Task.Run(() => new ProvinceListForm().ShowDialog()));
+            => Logger.TryOrLog(() => ProvinceListForm.OpenOrFocus());
 
         private void ToolStripMenuItem_Data_States_Click(object sender, EventArgs e)
-        {
-            Logger.TryOrLog(() =>
-            {
-                if (StateListForm.Instance == null)
-                    Task.Run(() => new StateListForm().ShowDialog());
-            });
-        }
+            => Logger.TryOrLog(() => StateListForm.OpenOrFocus());
 
         private void ToolStripMenuItem_UpdateAll_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => DataManager.UpdateAll());
@@ -1625,9 +1613,9 @@ namespace HOI4ModBuilder
         }
 
         private void Button_OpenSearchWarningsSettings_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => new SearchSettingsForm(EnumSearchSettingsType.WARNINGS).ShowDialog());
+            => Logger.TryOrLog(() => SearchSettingsForm.OpenOrFocus(EnumSearchSettingsType.WARNINGS));
         private void Button_OpenSearchErrorsSettings_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => new SearchSettingsForm(EnumSearchSettingsType.ERRORS).ShowDialog());
+            => Logger.TryOrLog(() => SearchSettingsForm.OpenOrFocus(EnumSearchSettingsType.ERRORS));
 
         private void ToolStripTextBox_Map_Adjacency_Comment_TextChanged(object sender, EventArgs e)
             => Logger.TryOrLog(() => AdjacenciesManager.GetSelectedSeaCross()?.SetComment(ToolStripTextBox_Map_Adjacency_Comment.Text));
@@ -1651,7 +1639,7 @@ namespace HOI4ModBuilder
         private void ToolStripMenuItem_Map_Railway_Join_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => RailwaysTool.JoinRailways(SupplyManager.SelectedRailway, SupplyManager.RMBRailway));
         private void ToolStripMenuItem_Data_Recovery_Regions_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => Task.Run(() => new StrategicRegionsDataRecoveryForm().ShowDialog()));
+            => Logger.TryOrLog(() => StrategicRegionsDataRecoveryForm.OpenOrFocus());
         private void ToolStripMenuItem_Map_Railway_AddProvince_Click(object sender, EventArgs e)
             => Logger.TryOrLog(() => RailwaysTool.AddProvinceToRailway(SupplyManager.SelectedRailway, ProvinceManager.RMBProvince));
         private void ToolStripMenuItem_Map_Railway_RemoveProvince_Click(object sender, EventArgs e)
@@ -1661,7 +1649,7 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() => AutoToolRemoveSeaProvincesFromStates.Execute(true));
 
         private void ToolStripMenuItem_Edit_Scripts_Click(object sender, EventArgs e)
-            => Logger.TryOrLog(() => new ScriptsForm().ShowDialog());
+            => Logger.TryOrLog(() => ScriptsForm.OpenOrFocus());
 
         private void ToolStripMenuItem_GitHub_Click(object sender, EventArgs e)
             => NetworkManager.OpenLink(NetworkManager.GitHubRepoURL);
@@ -1995,14 +1983,10 @@ namespace HOI4ModBuilder
                 if (state == null)
                     return;
 
-                StateListForm stateListForm;
-                if (StateListForm.Instance == null)
-                {
-                    stateListForm = new StateListForm();
-                    stateListForm.Show();
-                }
-                else stateListForm = StateListForm.Instance;
-
+                StateListForm.OpenOrFocus();
+                var stateListForm = StateListForm.Instance;
+                if (stateListForm == null)
+                    return;
                 stateListForm.Focus();
                 stateListForm.FindState(state.Id.GetValue());
             });
@@ -2123,21 +2107,15 @@ namespace HOI4ModBuilder
             => Logger.TryOrLog(() => AutoToolRegenerateProvincesColors.Execute(true, AutoToolRegenerateProvincesColors.EnumMode.BASED_ON_STATE_COLOR));
 
         private void ToolStripMenuItem_Edit_AutoTools_RegenerateProvincesColors_OpenPatternsSettings_Click(object sender, EventArgs e)
-            => OpenOrFocusSettingsForm();
+            => Logger.TryOrLog(() => OpenOrFocusSettingsForm());
         private void Button_GenerateColor_OpenSettings_Click(object sender, EventArgs e)
-            => OpenOrFocusSettingsForm();
+            => Logger.TryOrLog(() => OpenOrFocusSettingsForm());
 
         private void OpenOrFocusSettingsForm()
-            => Logger.TryOrLog(() =>
-            {
-                if (SettingsForm.Instance != null)
-                    SettingsForm.Instance.Focus();
-                else
-                    new SettingsForm().ShowDialog();
-            });
+            => Logger.TryOrLog(() => SettingsForm.OpenOrFocus());
 
         private void ToolStripMenuItem_Statistics_Click(object sender, EventArgs e)
-            => new StatisticsForm().Show();
+            => Logger.TryOrLog(() => StatisticsForm.OpenOrFocus());
 
         private void ToolStripMenuItem_Map_Search_Position_Game_Click(object sender, EventArgs e)
         {
