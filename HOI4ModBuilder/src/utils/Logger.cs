@@ -9,11 +9,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using YamlDotNet.Core.Tokens;
 
 namespace HOI4ModBuilder.src.utils
 {
@@ -24,39 +22,48 @@ namespace HOI4ModBuilder.src.utils
         public static readonly string version = "Alpha v0.2.9.3a";
         public static readonly int versionId = 16;
 
-        private static List<string> _warnings = new List<string>();
-        private static List<string> _errors = new List<string>();
-        private static List<string> _exceptions = new List<string>();
-        private static List<string> _additionalExceptions = new List<string>();
+        private static readonly object _warningsSync = new object();
+        private static readonly object _errorsSync = new object();
+        private static readonly object _exceptionsSync = new object();
+        private static readonly object _additionalExceptionsSync = new object();
+        private static readonly object _textBoxFormsSync = new object();
+        private static readonly object _flushingTaskSync = new object();
+
+        private static readonly List<string> _warnings = new List<string>();
+        private static readonly List<string> _errors = new List<string>();
+        private static readonly List<string> _exceptions = new List<string>();
+        private static readonly List<string> _additionalExceptions = new List<string>();
 
         private static readonly List<TextBoxMessageForm> _textBoxMessageForms = new List<TextBoxMessageForm>();
 
         private static readonly ConcurrentQueue<string> flushQueue = new ConcurrentQueue<string>();
-        private static readonly List<string> flushLines = new List<string>(64);
         private static Task flushingTask = null;
 
         public static void Init()
         {
             try
             {
-                RunFlushingTaskIfNeeded();
-
                 if (!Directory.Exists(logDirPath))
                     Directory.CreateDirectory(logDirPath);
 
                 File.Delete(logFilePath);
+                RunFlushingTaskIfNeeded();
                 Log($"Program version: {version}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to remove latels.log file: {ex}");
+                Console.WriteLine($"Failed to remove latest.log file: {ex}");
             }
         }
 
         private static void RunFlushingTaskIfNeeded()
         {
-            if (flushingTask == null)
-                Task.Run(() =>
+            lock (_flushingTaskSync)
+            {
+                if (flushingTask != null)
+                    return;
+
+                flushingTask = Task.Run(() =>
                 {
                     try
                     {
@@ -68,14 +75,15 @@ namespace HOI4ModBuilder.src.utils
                         Console.WriteLine(ex.ToString());
                     }
                 });
+            }
 
             void Cycle()
             {
-                while (flushQueue.Count > 0)
-                {
-                    if (flushQueue.TryDequeue(out var result))
-                        flushLines.Add(result);
-                }
+                var flushLines = new List<string>(64);
+
+                while (flushQueue.TryDequeue(out var result))
+                    flushLines.Add(result);
+
                 if (flushLines.Count > 0)
                 {
                     Console.WriteLine($"{DateTime.Now}: Flushing {flushLines.Count} lines to {logFilePath}");
@@ -236,76 +244,51 @@ namespace HOI4ModBuilder.src.utils
 
         public static void LogWarning(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
         {
-            _warnings.Add(GuiLocManager.GetLoc(enumLocKey, replaceValues));
+            AddWarningMessage(GuiLocManager.GetLoc(enumLocKey, replaceValues));
             Log($"WARNING: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}");
         }
 
         public static void LogWarning(string message)
         {
-            _warnings.Add(message);
+            AddWarningMessage(message);
             Log($"WARNING: {message}");
         }
 
         public static void LogError(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues)
         {
-            _errors.Add(GuiLocManager.GetLoc(enumLocKey, replaceValues));
+            AddErrorMessage(GuiLocManager.GetLoc(enumLocKey, replaceValues));
             Log($"ERROR: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}");
         }
 
         public static void LogError(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues, string additionalText)
         {
-            _errors.Add($"{GuiLocManager.GetLoc(enumLocKey, replaceValues)} {additionalText}");
+            AddErrorMessage($"{GuiLocManager.GetLoc(enumLocKey, replaceValues)} {additionalText}");
             Log($"ERROR: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}");
         }
         public static void LogWarning(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues, string additionalText)
         {
-            _warnings.Add($"{GuiLocManager.GetLoc(enumLocKey, replaceValues)} {additionalText}");
+            AddWarningMessage($"{GuiLocManager.GetLoc(enumLocKey, replaceValues)} {additionalText}");
             Log($"WARNING: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}");
         }
 
         public static void LogExceptionAsError(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues, Exception ex)
         {
-            string message = ex.Message;
-            var tempEx = ex.InnerException;
-
-            while (tempEx != null)
-            {
-                message += " " + tempEx.Message;
-                tempEx = tempEx.InnerException;
-            }
-
-            LogError(enumLocKey, replaceValues, message);
+            LogError(enumLocKey, replaceValues, BuildExceptionMessage(ex));
             Log($"EXCEPTION AS ERROR: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}, Exception: {ex}\n");
         }
 
         public static void LogExceptionAsWarning(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues, Exception ex)
         {
-            string message = ex.Message;
-            var tempEx = ex.InnerException;
-
-            while (tempEx != null)
-            {
-                message += " " + tempEx.Message;
-                tempEx = tempEx.InnerException;
-            }
-
-            LogWarning(enumLocKey, replaceValues, message);
+            LogWarning(enumLocKey, replaceValues, BuildExceptionMessage(ex));
             Log($"EXCEPTION AS WARNING: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}, Exception: {ex}\n");
         }
 
         public static void LogException(Exception ex)
         {
-            string message = ex.Message;
-            var tempEx = ex.InnerException;
-
-            while (tempEx != null)
-            {
-                message += " " + tempEx.Message;
-                tempEx = tempEx.InnerException;
-            }
+            string message = BuildExceptionMessage(ex);
 
             if (MainForm.IsLoadingSavingOrUpdating())
-                _exceptions.Add(message);
+                AddExceptionMessage(message);
             else
                 LogSingleErrorMessage(ex.ToString());
             Log($"EXCEPTION: {ex}\n");
@@ -313,17 +296,10 @@ namespace HOI4ModBuilder.src.utils
 
         public static void LogException(string message, Exception ex)
         {
-            string exMessage = message + ex.Message;
-            var tempEx = ex.InnerException;
-
-            while (tempEx != null)
-            {
-                exMessage += " " + tempEx.Message;
-                tempEx = tempEx.InnerException;
-            }
+            string exMessage = message + BuildExceptionMessage(ex);
 
             if (MainForm.IsLoadingSavingOrUpdating())
-                _exceptions.Add(message);
+                AddExceptionMessage(exMessage);
             else
                 LogSingleErrorMessage(ex.ToString());
             Log($"EXCEPTION: {ex}\n");
@@ -331,22 +307,15 @@ namespace HOI4ModBuilder.src.utils
 
         public static void LogAdditionalException(Exception ex)
         {
-            string message = ex.Message;
-            var tempEx = ex.InnerException;
+            string message = BuildExceptionMessage(ex);
 
-            while (tempEx != null)
-            {
-                message += " " + tempEx.Message;
-                tempEx = tempEx.InnerException;
-            }
-
-            _additionalExceptions.Add(message);
+            AddAdditionalExceptionMessage(message);
             Log($"ADDITIONAL EXCEPTION: {ex}\n");
         }
 
         public static void LogException(EnumLocKey enumLocKey, Dictionary<string, string> replaceValues, Exception ex)
         {
-            _exceptions.Add(GuiLocManager.GetLoc(enumLocKey, replaceValues));
+            AddExceptionMessage(GuiLocManager.GetLoc(enumLocKey, replaceValues));
             Log($"EXCEPTION: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}, Exception: {ex}\n");
         }
 
@@ -377,7 +346,7 @@ namespace HOI4ModBuilder.src.utils
         {
             string prefix = AssembleLayeredPrefix(EnumLocKey.WARNING_LAYERED_PREFIX, currentLayer, out Dictionary<string, string> prefixReplaceValues);
             string message = GuiLocManager.GetLoc(enumLocKey, replaceValues);
-            _warnings.Add(message + '\n' + prefix);
+            AddWarningMessage(message + '\n' + prefix);
             Log($"WARNING: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}; Prefix values: {Utils.DictionaryToString(prefixReplaceValues)}");
         }
         public static void LogLayeredError(LinkedLayer currentLayer, EnumLocKey enumLocKey)
@@ -392,99 +361,146 @@ namespace HOI4ModBuilder.src.utils
         {
             string prefix = AssembleLayeredPrefix(EnumLocKey.WARNING_LAYERED_PREFIX, currentLayer, out Dictionary<string, string> prefixReplaceValues);
             string message = GuiLocManager.GetLoc(enumLocKey, replaceValues);
-            _errors.Add(message + '\n' + prefix);
-            Log($"WARNING: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}; Prefix values: {Utils.DictionaryToString(prefixReplaceValues)}");
+            AddErrorMessage(message + '\n' + prefix);
+            Log($"ERROR: {enumLocKey}, Values: {Utils.DictionaryToString(replaceValues)}; Prefix values: {Utils.DictionaryToString(prefixReplaceValues)}");
         }
 
-        public static int WarningsCount => _warnings.Count;
-        public static int ErrorsCount => _errors.Count;
-        public static int ExceptionsCount => _exceptions.Count;
+        public static int WarningsCount
+        {
+            get
+            {
+                lock (_warningsSync)
+                    return _warnings.Count;
+            }
+        }
+
+        public static int ErrorsCount
+        {
+            get
+            {
+                lock (_errorsSync)
+                    return _errors.Count;
+            }
+        }
+
+        public static int ExceptionsCount
+        {
+            get
+            {
+                lock (_exceptionsSync)
+                    return _exceptions.Count;
+            }
+        }
 
         public static void ClearAllWarningsErrorsAndExceptions()
         {
-            _warnings = new List<string>();
-            _errors = new List<string>();
-            _exceptions = new List<string>();
+            lock (_warningsSync)
+                _warnings.Clear();
+
+            lock (_errorsSync)
+                _errors.Clear();
+
+            lock (_exceptionsSync)
+                _exceptions.Clear();
+
+            lock (_additionalExceptionsSync)
+                _additionalExceptions.Clear();
         }
 
         public static void DisplayWarnings()
         {
-            if (_warnings.Count == 0)
+            var warningsSnapshot = TakeSnapshotAndClear(_warningsSync, _warnings);
+            if (warningsSnapshot.Count == 0)
                 return;
 
             string title = GuiLocManager.GetLoc(EnumLocKey.FOUND_WARNINGS_FORM_TITLE);
             string mainText = GuiLocManager.GetLoc(
                 EnumLocKey.FOUND_WARNINGS_COUNT,
                 new Dictionary<string, string> {
-                    { "{count}", "" + _warnings.Count}
+                    { "{count}", "" + warningsSnapshot.Count}
                 }
             );
-            string richText = string.Join("\n\n", _warnings);
-            TextBoxMessageForm.CreateTasked(title, mainText, richText, true, _textBoxMessageForms);
-            _warnings = new List<string>();
+            string richText = string.Join("\n\n", warningsSnapshot);
+            CreateTextBoxMessageForm(title, mainText, richText);
         }
 
         public static void DisplayErrors()
         {
-            if (_errors.Count == 0)
+            var errorsSnapshot = TakeSnapshotAndClear(_errorsSync, _errors);
+            if (errorsSnapshot.Count == 0)
                 return;
 
             string title = GuiLocManager.GetLoc(EnumLocKey.FOUND_ERRORS_FORM_TITLE);
             string mainText = GuiLocManager.GetLoc(
                 EnumLocKey.FOUND_ERRORS_COUNT,
                 new Dictionary<string, string> {
-                    { "{count}", "" + _errors.Count}
+                    { "{count}", "" + errorsSnapshot.Count}
                 }
             );
-            string richText = string.Join("\n\n", _errors);
-            TextBoxMessageForm.CreateTasked(title, mainText, richText, true, _textBoxMessageForms);
-            _errors = new List<string>();
+            string richText = string.Join("\n\n", errorsSnapshot);
+            CreateTextBoxMessageForm(title, mainText, richText);
         }
 
         public static void DisplayExceptions()
         {
-            if (_exceptions.Count == 0)
+            var exceptionsSnapshot = TakeSnapshotAndClear(_exceptionsSync, _exceptions);
+            if (exceptionsSnapshot.Count == 0)
                 return;
 
             string title = GuiLocManager.GetLoc(EnumLocKey.FOUND_EXCEPTIONS_FORM_TITLE);
             string mainText = GuiLocManager.GetLoc(
                     EnumLocKey.FOUND_EXCEPTIONS_COUNT,
                     new Dictionary<string, string> {
-                        { "{count}", $"{_exceptions.Count}" },
+                        { "{count}", $"{exceptionsSnapshot.Count}" },
                         { "{logFilepath}", $"{logFilePath}" }
                     }
                 );
-            string richText = string.Join("\n\n", _exceptions);
-            TextBoxMessageForm.CreateTasked(title, mainText, richText, true, _textBoxMessageForms);
-            _exceptions = new List<string>();
+            string richText = string.Join("\n\n", exceptionsSnapshot);
+            CreateTextBoxMessageForm(title, mainText, richText);
         }
 
         public static void DisplayAdditionalExceptions()
         {
-            if (_additionalExceptions.Count == 0) return;
+            var additionalExceptionsSnapshot = TakeSnapshotAndClear(_additionalExceptionsSync, _additionalExceptions);
+            if (additionalExceptionsSnapshot.Count == 0)
+                return;
 
             string title = GuiLocManager.GetLoc(EnumLocKey.FOUND_ADDITIONAL_EXCEPTIONS_FORM_TITLE);
             string mainText = GuiLocManager.GetLoc(
                     EnumLocKey.FOUND_ADDITIONAL_EXCEPTIONS_COUNT,
                     new Dictionary<string, string> {
-                        { "{exceptionsCount}", $"{_additionalExceptions.Count}" },
+                        { "{exceptionsCount}", $"{additionalExceptionsSnapshot.Count}" },
                         { "{logFilepath}", $"{logFilePath}" }
                     }
                 );
-            string richText = string.Join("\n\n", _additionalExceptions);
-            TextBoxMessageForm.CreateTasked(title, mainText, richText, true, _textBoxMessageForms);
-            _additionalExceptions = new List<string>();
+            string richText = string.Join("\n\n", additionalExceptionsSnapshot);
+            CreateTextBoxMessageForm(title, mainText, richText);
+        }
+
+        private static void CreateTextBoxMessageForm(string title, string mainText, string richText)
+        {
+            TextBoxMessageForm.CreateTasked(title, mainText, richText, true, form =>
+            {
+                lock (_textBoxFormsSync)
+                    _textBoxMessageForms.Add(form);
+            });
         }
 
         public static void CloseAllTextBoxMessageForms()
         {
-            foreach (var form in _textBoxMessageForms)
+            List<TextBoxMessageForm> formsSnapshot;
+            lock (_textBoxFormsSync)
+            {
+                formsSnapshot = new List<TextBoxMessageForm>(_textBoxMessageForms);
+                _textBoxMessageForms.Clear();
+            }
+
+            foreach (var form in formsSnapshot)
                 TryOrLog(() =>
                 {
                     if (!form.IsClosed)
                         form.InvokeAction(() => form.Close());
                 });
-            _textBoxMessageForms.Clear();
         }
 
         public static void LogTime(string title, Action action)
@@ -565,6 +581,62 @@ namespace HOI4ModBuilder.src.utils
             action.Invoke();
             stopwatch.Stop();
             Logger.Log(prefix + stopwatch.ElapsedMilliseconds + " ms");
+        }
+
+        private static string BuildExceptionMessage(Exception ex)
+        {
+            if (ex == null)
+                return string.Empty;
+
+            var message = ex.Message ?? string.Empty;
+            var tempEx = ex.InnerException;
+
+            while (tempEx != null)
+            {
+                if (!string.IsNullOrWhiteSpace(tempEx.Message))
+                    message += " " + tempEx.Message;
+
+                tempEx = tempEx.InnerException;
+            }
+
+            return message.Trim();
+        }
+
+        private static void AddWarningMessage(string message)
+        {
+            lock (_warningsSync)
+                _warnings.Add(message);
+        }
+
+        private static void AddErrorMessage(string message)
+        {
+            lock (_errorsSync)
+                _errors.Add(message);
+        }
+
+        private static void AddExceptionMessage(string message)
+        {
+            lock (_exceptionsSync)
+                _exceptions.Add(message);
+        }
+
+        private static void AddAdditionalExceptionMessage(string message)
+        {
+            lock (_additionalExceptionsSync)
+                _additionalExceptions.Add(message);
+        }
+
+        private static List<string> TakeSnapshotAndClear(object syncRoot, List<string> source)
+        {
+            lock (syncRoot)
+            {
+                if (source.Count == 0)
+                    return new List<string>(0);
+
+                var snapshot = new List<string>(source);
+                source.Clear();
+                return snapshot;
+            }
         }
     }
 

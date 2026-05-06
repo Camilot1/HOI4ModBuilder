@@ -20,15 +20,15 @@ namespace HOI4ModBuilder.src.forms
 
         public bool IsClosed { get; private set; }
 
-        public static void CreateTasked(string title, string mainText, string richText) => CreateTasked(title, mainText, richText, false, null);
-        public static void CreateTasked(string title, string mainText, string richText, bool hasSound) => CreateTasked(title, mainText, richText, hasSound, null);
+        public static void CreateTasked(string title, string mainText, string richText) => CreateTasked(title, mainText, richText, false, (Action<TextBoxMessageForm>)null);
+        public static void CreateTasked(string title, string mainText, string richText, bool hasSound) => CreateTasked(title, mainText, richText, hasSound, (Action<TextBoxMessageForm>)null);
 
-        public static void CreateTasked(string title, string mainText, string richText, bool hasSound, List<TextBoxMessageForm> listedForms)
+        public static void CreateTasked(string title, string mainText, string richText, bool hasSound, Action<TextBoxMessageForm> onCreated)
         {
             void showAction()
             {
                 var form = new TextBoxMessageForm(title, mainText, richText);
-                listedForms?.Add(form);
+                onCreated?.Invoke(form);
                 form.Show();
             }
 
@@ -47,6 +47,11 @@ namespace HOI4ModBuilder.src.forms
 
             if (hasSound)
                 SystemSounds.Exclamation.Play();
+        }
+
+        public static void CreateTasked(string title, string mainText, string richText, bool hasSound, List<TextBoxMessageForm> listedForms)
+        {
+            CreateTasked(title, mainText, richText, hasSound, form => listedForms?.Add(form));
         }
 
 
