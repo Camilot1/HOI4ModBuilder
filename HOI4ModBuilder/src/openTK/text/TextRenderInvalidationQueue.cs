@@ -7,27 +7,50 @@ namespace HOI4ModBuilder.src.openTK.text
 {
     public class TextRenderInvalidationQueue
     {
+        private readonly object _syncRoot = new object();
         private readonly TextRenderInvalidationBatch _pending = new TextRenderInvalidationBatch();
 
-        public bool Enqueue(EnumMapRenderEvents eventFlag, Province province) => _pending.Add(eventFlag, province);
+        public bool Enqueue(EnumMapRenderEvents eventFlag, Province province)
+        {
+            lock (_syncRoot)
+                return _pending.Add(eventFlag, province);
+        }
 
-        public bool Enqueue(EnumMapRenderEvents eventFlag, State state) => _pending.Add(eventFlag, state);
+        public bool Enqueue(EnumMapRenderEvents eventFlag, State state)
+        {
+            lock (_syncRoot)
+                return _pending.Add(eventFlag, state);
+        }
 
-        public bool Enqueue(EnumMapRenderEvents eventFlag, StrategicRegion region) => _pending.Add(eventFlag, region);
+        public bool Enqueue(EnumMapRenderEvents eventFlag, StrategicRegion region)
+        {
+            lock (_syncRoot)
+                return _pending.Add(eventFlag, region);
+        }
 
         public bool HasPendingEvents(TextLayerDependencies dependencies)
-            => !_pending.IsEmpty && _pending.HasMatchingDependencies(dependencies);
+        {
+            lock (_syncRoot)
+                return !_pending.IsEmpty && _pending.HasMatchingDependencies(dependencies);
+        }
 
         public TextRenderInvalidationBatch Drain()
         {
-            if (_pending.IsEmpty)
-                return null;
+            lock (_syncRoot)
+            {
+                if (_pending.IsEmpty)
+                    return null;
 
-            var batch = new TextRenderInvalidationBatch(_pending);
-            _pending.Clear();
-            return batch;
+                var batch = new TextRenderInvalidationBatch(_pending);
+                _pending.Clear();
+                return batch;
+            }
         }
 
-        public void Clear() => _pending.Clear();
+        public void Clear()
+        {
+            lock (_syncRoot)
+                _pending.Clear();
+        }
     }
 }

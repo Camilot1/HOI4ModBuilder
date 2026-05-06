@@ -244,14 +244,14 @@ namespace HOI4ModBuilder.src.openTK.text
             Dictionary<EnumMapRenderEvents, HashSet<T>> dictionary,
             EnumMapRenderEvents eventFlag)
         {
-            return dictionary.TryGetValue(eventFlag, out var values) && values.Count > 0;
+            return dictionary.TryGetValue(eventFlag, out var values) && values != null && values.Count > 0;
         }
 
         private static HashSet<T> GetOrCreate<T>(
             Dictionary<EnumMapRenderEvents, HashSet<T>> dictionary,
             EnumMapRenderEvents eventFlag)
         {
-            if (!dictionary.TryGetValue(eventFlag, out var values))
+            if (!dictionary.TryGetValue(eventFlag, out var values) || values == null)
             {
                 values = new HashSet<T>();
                 dictionary[eventFlag] = values;
@@ -272,7 +272,7 @@ namespace HOI4ModBuilder.src.openTK.text
             Dictionary<EnumMapRenderEvents, HashSet<T>> target)
         {
             foreach (var pair in source)
-                target[pair.Key] = new HashSet<T>(pair.Value);
+                target[pair.Key] = pair.Value == null ? new HashSet<T>() : new HashSet<T>(pair.Value);
         }
 
         private static class Empty<T>
